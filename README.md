@@ -1,5 +1,5 @@
 # PUPSRC-AutomatedElectionSystem
-This project is for partial fulfillment of the subject System Analysis and Design.
+This project is for partial fulfillment of the subject COMP 20133:	Applications Development and Emerging Technologies.
 
 ****
 **BRANCHES:**
