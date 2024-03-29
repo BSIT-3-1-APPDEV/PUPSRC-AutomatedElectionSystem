@@ -1,0 +1,25 @@
+{
+  "name": "pupsrc-automatedelectionsystem",
+  "version": "0.0.0",
+  "description": "This project is for partial fulfillment of the subject COMP 20133:\tApplications Development and Emerging Technologies.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem.git"
+  },
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@semantic-release/commit-analyzer": "^12.0.0",
+    "@semantic-release/github": "^10.0.2",
+    "@semantic-release/npm": "^12.0.0",
+    "@semantic-release/release-notes-generator": "^13.0.0",
+    "semantic-release": "^23.0.6"
+  }
+}
