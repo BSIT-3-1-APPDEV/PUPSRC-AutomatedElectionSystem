@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "feather-icons": "^4.29.1"
+  }
+}
