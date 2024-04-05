@@ -1,0 +1,20 @@
+/*==============================================================
+	Color Scheme: ACAP
+==============================================================*/
+
+.main-color {
+    color: #F45B9B;
+}
+
+/* Lightest to Darkest */
+.accent-1 {
+    color: #FF8EBD;
+}
+
+.accent-2 {
+    color: #F45B9B;
+}
+
+.accent-3 {
+    color: #F0488F;
+}
