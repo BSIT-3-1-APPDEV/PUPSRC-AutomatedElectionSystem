@@ -1,4 +1,3 @@
-/* Specify font-family for specific elements */
 * {
   margin: 0;
   padding: 0;
@@ -195,4 +194,4 @@ body {
 .footer .footer-text {
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
-}/*# sourceMappingURL=style.css.map */
+}
