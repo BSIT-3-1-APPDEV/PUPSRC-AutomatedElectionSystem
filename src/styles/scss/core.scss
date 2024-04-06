@@ -1,0 +1,230 @@
+/*========================================
+                ROOT
+==========================================*/
+
+$primary-colors: (
+    acap: #592293,
+    aeces: #6610f2,
+    elite: #EE1C24,
+    give: #084A6F,
+    jehra: #A60000,
+    jmap: #FAD807,
+    jpia: #F45B9B,
+    piie: #026644,
+    sco: #000
+);
+
+$default-colors: (
+    black: #000,
+    white: #fff,
+    gray: #6c757d,
+    gray-dark: #343a40
+);
+
+$theme-colors: (
+    primary: #1b00ff,
+    secondary: #6c757d,
+    success: #41AE32,
+    info: #17a2b8,
+    warning: #ffc107,
+    danger: #dc3545,
+    light: #f8f9fa,
+    dark: #343a40
+);
+
+$breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px
+);
+
+$font-families: (
+    sans-serif: "Montserrat, sans-serif",
+    monospace: "Liberation Mono, 'Courier New', monospace"
+);
+
+
+:root {
+    @each $color, $value in $primary-colors {
+        --#{$color}: #{$value};
+    }
+
+    @each $color, $value in $default-colors {
+        --#{$color}: #{$value};
+    }
+
+    @each $color, $value in $theme-colors {
+        --#{$color}: #{$value};
+    }
+
+    @each $breakpoint, $value in $breakpoints {
+        --breakpoint-#{$breakpoint}: #{$value};
+    }
+
+    @each $font-family, $value in $font-families {
+        --font-family-#{$font-family}: #{$value};
+    }
+}
+
+// Mixins for padding and margin
+@mixin padding($top, $right: $top, $bottom: $top, $left: $right) {
+    padding: $top $right $bottom $left;
+  }
+  
+  @mixin margin($top, $right: $top, $bottom: $top, $left: $right) {
+    margin: $top $right $bottom $left;
+  }
+  
+  // Mixin for font styles
+  @mixin font($size, $weight, $line-height, $color) {
+    font-size: $size;
+    font-weight: $weight;
+    line-height: $line-height;
+    color: $color;
+  }
+  
+  // Mixin for max width
+  @mixin max-width($value) {
+    max-width: $value;
+  }
+  
+  // Mixin for max height
+  @mixin max-height($value) {
+    max-height: $value;
+  }
+  
+  // Mixin for height
+  @mixin height($value) {
+    height: $value;
+  }
+  
+  // Mixin for width
+  @mixin width($value) {
+    width: $value;
+  }
+  
+  // Main fonts + text color
+  $font-family: map-get($font-families, sans-serif);
+  $text-color: map-get($default-colors, black);
+  
+  // Line heights
+  $line-height-1: 1em;
+  $line-height-1-2: 1.2em;
+  $line-height-1-3: 1.3em;
+  $line-height-1-42: 1.42em;
+  $line-height-1-5: 1.5em;
+  $line-height-1-65: 1.65em;
+  $line-height-1-62: 1.62em;
+  $line-height-1-71: 1.71em;
+  $line-height-1-83: 1.83em;
+
+  // Font weights
+  $weight-300: 300;
+  $weight-400: 400;
+  $weight-500: 500;
+  $weight-600: 600;
+  $weight-700: 700;
+  $weight-800: 800;
+  
+  // Padding and margin values
+  $padding-5: 5px;
+  $padding-10: 10px;
+  $padding-15: 15px;
+  $padding-20: 20px;
+  $padding-30: 30px;
+  $margin-5: 5px;
+  $margin-10: 10px;
+  $margin-15: 15px;
+  $margin-20: 20px;
+  $margin-30: 30px;
+  
+  // Font sizes
+  $font-12: 12px;
+  $font-14: 14px;
+  $font-16: 16px;
+  $font-18: 18px;
+  $font-20: 20px;
+  $font-24: 24px;
+  $font-30: 30px;
+  $font-40: 40px;
+  
+  // Styles
+  .mx-w-150 { @include max-width(150px); }
+  .mx-h-300 { @include max-height(300px); }
+  .mx-h-350 { @include max-height(350px); }
+  .mx-h-380 { @include max-height(380px); }
+  .mx-h-400 { @include max-height(400px); }
+  .mx-h-450 { @include max-height(450px); }
+  .pd-0 { @include padding(0px); }
+  .padding-top-10 { @include padding($padding-10); }
+  .padding-top-30 { @include padding($padding-30); }
+  .padding-bottom-30 { @include padding(0, 0, $padding-30); }
+  .pd-5 { @include padding($padding-5); }
+  .pd-10 { @include padding($padding-10); }
+  .pd-20 { @include padding($padding-20); }
+  .pd-ltr-20 { @include padding($padding-20 $padding-20 0); }
+  .pd-30 { @include padding($padding-30); }
+  .pb-10 { @include padding(0, 0, $padding-10); }
+  .pb-15 { @include padding(0, 0, $padding-15); }
+  .pb-20 { @include padding(0, 0, $padding-20); }
+  .pb-30 { @include padding(0, 0, $padding-30); }
+  .pt-10 { @include padding($padding-10 0); }
+  .pt-15 { @include padding($padding-15 0); }
+  .pt-20 { @include padding($padding-20 0); }
+  .pt-30 { @include padding($padding-30 0); }
+  .pr-10 { @include padding(0, $padding-10); }
+  .pr-20 { @include padding(0, $padding-20); }
+  .pr-30 { @include padding(0, $padding-30); }
+  .pl-10 { @include padding(0, 0, 0, $padding-10); }
+  .pl-20 { @include padding(0, 0, 0, $padding-20); }
+  .pl-30 { @include padding(0, 0, 0, $padding-30); }
+  .margin-5 { @include margin($margin-5); }
+  .mt-15 { @include margin($margin-15); }
+  .mt-30 { @include margin($margin-30); }
+  .mb-30 { @include margin(0, 0, $margin-30); }
+  .mb-20 { @include margin(0, 0, $margin-20); }
+  .mb-15 { @include margin(0, 0, $margin-15); }
+  .mb-10 { @include margin(0, 0, $margin-10); }
+  .mb-5 { @include margin(0, 0, $margin-5); }
+  .mr-10 { @include margin(0, $margin-10); }
+  .mr-20 { @include margin(0, $margin-20); }
+  .font-30 { @include font($font-30, $weight-700, $line-height-1-3, $text-color); }
+  .font-24 { @include font($font-24, $weight-400, $line-height-1-42, $text-color); }
+  .font-20 { @include font($font-20, $weight-400, $line-height-1-5, $text-color); }
+  .font-18 { @include font($font-18, $weight-400, $line-height-1-65, $text-color); }
+  .font-16 { @include font($font-16, $weight-400, $line-height-1-62, $text-color); }
+  .font-14 { @include font($font-14, $weight-400, $line-height-1-71, $text-color); }
+  .font-12 { @include font($font-12, $weight-400, $line-height-1-83, $text-color); }
+  .h1 { @include font($font-40, $weight-700, 1.3, $text-color); }
+  .h2 { @include font($font-24, $weight-700, 1.35, $text-color); }
+  .h3 { @include font($font-20, $weight-700, 1.5, $text-color); }
+  .h4, .page-header h4 { @include font($font-20, $weight-700, 1.35, $text-color); }
+  .h5 { @include font($font-18, $weight-600, 1.35, $text-color); }
+  .line-height-1 { line-height: $line-height-1; }
+  .line-height-1-2 { line-height: $line-height-1-2; }
+  .line-height-1-3 { line-height: $line-height-1-3; }
+  .weight-300 { font-weight: $weight-300; }
+  .weight-400 { font-weight: $weight-400; }
+  .weight-500 { font-weight: $weight-500; }
+  .weight-600 { font-weight: $weight-600; }
+  .weight-700 { font-weight: $weight-700; }
+  .weight-800 { font-weight: $weight-800; }
+  .height-auto { height: auto; }
+  .height-100-p { height: 100%; }
+  .width-50-p { width: 50%; }
+  .width-box { width: 50px; height: 50px; }
+  .max-width-100 { @include max-width(100px); }
+  .max-width-150 { @include max-width(150px); }
+  .max-width-200 { @include max-width(200px); }
+  .max-width-300 { @include max-width(300px); }
+  .max-width-400 { @include max-width(400px); }
+  .max-width-500 { @include max-width(500px); }
+  .max-width-600 { @include max-width(600px); }
+  .max-width-700 { @include max-width(700px); }
+  .max-width-800 { @include max-width(800px); }
+  .max-width-900 { @include max-width(900px); }
+  .max-width-1000 { @include max-width(1000px); }
+  .min-height-200px { @include height(200px); }
+  
