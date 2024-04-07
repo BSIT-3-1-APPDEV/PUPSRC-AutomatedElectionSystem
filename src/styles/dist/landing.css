@@ -1,0 +1,311 @@
+body {
+    font-family: "Montserrat", sans-serif;
+    background-color: #F8F8F8;
+    height: 100vh;
+}
+
+.toggle-password:hover, #index-PUPSRC, #index-AES{
+    margin: 0%;
+    padding: 0%;
+}
+
+.pup-logo{
+    width: 150px;
+}
+
+#index-PUPSRC {
+    color: #fff;
+    padding-top: 10px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#index-AES{
+    color: #FFE545;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding-bottom: 2%;
+}
+
+.index-button{
+    background-color: #FFE721;
+    font-weight: bold;
+    color: #800000;
+    outline: none;
+    border: none;
+    font-size: large;
+    transition: ease-in-out all .3s;
+}
+
+.index-button:hover{
+    transform: scale(1.1);
+    background-color: #FFE721;
+    color: #800000;
+}
+
+.index-wave-footer {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+
+}
+
+.index-wave-footer svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 133px;
+    transform: rotateY(180deg);
+}
+
+.index-wave-footer .shape-fill {
+    fill: #F8F8F8;
+}
+
+.parallax {
+    background-image: url("../../images/resc/BG.png");
+    height: 100vh;
+    background-color: #F8F8F8;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    /* Center and align content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .parallax-text {
+    color: white;
+    font-size: 48px;
+    text-align: center;
+  }
+
+
+  .landing-organization-title{
+    text-align: center;
+    font-weight: bold;
+    padding-top: 3%;
+  }
+
+  .landing-organization-subtitle{
+    text-align: center;
+  }
+
+  .landing-page-logo-size{
+    width: 60%;
+  }
+
+  .landing-page-org-card{
+    padding: 5%;
+    margin: 5%;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  }
+  
+  #SCO-landing-logo:hover {
+    background-image: linear-gradient(to right, #070833, #03045E);
+    transition: ease-in-out all .3s;
+    transform: scale(1.1);
+    color: #F8F8F8;
+  }
+
+  #ACAP-landing-logo:hover {
+    background-image: linear-gradient(to right, #3E0480, #9C6EC6);
+    transition: ease-in-out all .3s;
+    transform: scale(1.1);
+    color: #F8F8F8;
+  }
+
+  #AECES-landing-logo:hover {
+    background-image: linear-gradient(to right, #EE1C24, #C36600);
+    transition: ease-in-out all .3s;
+    transform: scale(1.1);
+    color: #F8F8F8;
+  }
+
+  #ELITE-landing-logo:hover {
+    background-image: linear-gradient(to right, #101010, #232323);
+    transition: ease-in-out all .3s;
+    transform: scale(1.1);
+    color: #F8F8F8;
+  }
+
+  #GIVE-landing-logo:hover {
+    background-image: linear-gradient(to right, #133040, #005B8E);
+    transition: ease-in-out all .3s;
+    transform: scale(1.1);
+    color: #F8F8F8;
+  }
+
+  #JEHRA-landing-logo:hover {
+    background-image: linear-gradient(to right, #800000, #A60000);
+    transition: ease-in-out all .3s;
+    transform: scale(1.1);
+    color: #F8F8F8;
+  }
+
+  #JMAP-landing-logo:hover {
+    background-image: linear-gradient(to right, #C36600, #F9F000);
+    transition: ease-in-out all .3s;
+    transform: scale(1.1);
+    color: #F8F8F8;
+  }
+
+  #JPIA-landing-logo:hover {
+    background-image: linear-gradient(to right, #EB317F, #FF8FBE);
+    transition: ease-in-out all .3s;
+    transform: scale(1.1);
+    color: #F8F8F8;
+  }
+
+  #PIIE-landing-logo:hover {
+    background-image: linear-gradient(to right, #003B25, #045F42);
+    transition: ease-in-out all .3s;
+    transform: scale(1.1);
+    color: #F8F8F8;
+  }
+  
+  footer{
+    margin-top: 5%;
+  }
+  
+  a{
+    color: black;
+    text-decoration: none;
+  }
+
+  .copyright{
+    letter-spacing: 10px;
+  }
+
+
+  #login-AES, #login-account{
+    font-weight: bold;
+  }
+
+  #login-form{
+    background-color: #F0F0F0;
+    border-radius: 10px;
+    padding: 5%;
+    width: 50% ;
+  }
+
+  /* ELITE */
+  #ELITE-login-body{
+    background-image: linear-gradient(to bottom, #232323, #101010);
+    color:  white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0%;
+    padding: 0%;
+  }
+  
+  #ELITE-right-section{
+    height: 100vh;
+    margin: 0%;
+    padding: 0%;
+    background-color: #F0F0F0;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #ELITE-left-section{
+    height: 100vh;
+    margin: 0%;
+    padding: 0%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #login-ELITE-logo{
+    width:20%;
+  }
+
+  #ELITE-login-button{
+    background-color: #FF7900;
+    color: white;
+  }
+
+  #ELITE-login-button:hover{
+    background-color: black;
+    color: FF7900;
+    font-weight: bold;
+  }
+
+
+  .login-wave-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.login-wave-footer svg {
+    position: relative;
+    display: block;
+    width: calc(151% + 1.3px);
+    height: 167px;
+}
+
+.login-wave-footer .shape-fill {
+    fill: #F77F00;
+}
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+  #ELITE-right-section {
+    background-color: transparent;
+  }
+
+  #login-form{
+    width: 90% ;
+  }
+}
+
+/* Password Toggle */
+.toggle-password {
+  height: 20px;
+  border: none;
+  outline: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-password:focus {
+  outline: none;
+  border: none;
+}
+
+.toggle-password:hover {
+  background-color: transparent;
+  border: none;
+  color: black;
+}
+
+.toggle-password i {
+  pointer-events: none;
+  border: none;
+}
+
+.toggle-password i {
+  font-size: 1.2rem;
+}
