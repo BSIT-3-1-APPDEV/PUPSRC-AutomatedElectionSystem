@@ -44,7 +44,7 @@
         <div class="col-md-3">
           <div class="landing-page-org-card" id="SCO-landing-logo">
             <img src="src/images/logos/sco.png" alt="SCO Logo" class="landing-page-logo-size">
-            <h3 class="fw-bold pt-2">School Council Organization</h3>
+            <h3 class="fw-bold pt-2">Student Council Organization</h3>
           </div>
         </div> 
       </div>
@@ -124,7 +124,7 @@
 
 <footer class="bg-dark text-light text-center py-lg-2">
   <div class="container">
-    <p class="triwan">&copy; BSIT 3-1 | ALL RIGHTS RESERVE 2024</p>
+    <p class="copyright">&copy; BSIT 3-1 | ALL RIGHTS RESERVED 2024</p>
   </div>
 </footer>
 
