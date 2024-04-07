@@ -11,14 +11,17 @@ $background-color_1: #F45B9B; // Will be changed based on org
 	box-sizing: border-box;
 	font-family: $font-family_1;
 }
+
 body {
 	font-family: $font-family_1;
 
 }
+
 .sidebar {
 	.logo {
 		font-family: $font-family_1;
 	}
+
 	position: fixed;
 	height: 100%;
 	width: 260px;
@@ -29,24 +32,29 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+
 	a {
 		color: $color_1;
 		text-decoration: none;
 	}
+
 	.org-logo {
 		width: 100px;
 	}
+
 	h6 {
 		text-align: center;
 		color: $color_1;
 	}
 }
+
 .menu-title {
 	font-family: $font-family_1;
 	color: $color_1;
 	font-size: 14px;
 	padding: 15px 20px;
 }
+
 .item {
 	a {
 		font-family: $font-family_1;
@@ -54,14 +62,17 @@ body {
 		display: inline-block;
 		width: 100%;
 		border-radius: 12px;
+
 		&:hover {
 			background: rgba(255, 255, 255, 0.1);
 		}
 	}
+
 	i {
 		font-size: 12px;
 	}
 }
+
 .submenu-item {
 	font-family: $font-family_1;
 	padding: 16px;
@@ -73,51 +84,62 @@ body {
 	align-items: center;
 	color: $color_1;
 	cursor: pointer;
+
 	&:hover {
 		background: rgba(255, 255, 255, 0.1);
 	}
 }
+
 .navbar-text {
 	font-family: $font-family_1;
 	font-size: clamp(10px, 20px, 24px);
 	letter-spacing: 5px;
 }
+
 .logo {
 	font-size: 25px;
 	padding: 0 15px;
 }
+
 .menu-content {
 	position: relative;
 	height: 100%;
 	width: 100%;
 	margin-top: 40px;
 	overflow-y: scroll;
+
 	&::-webkit-scrollbar {
 		display: none;
 	}
 }
+
 .menu-items {
 	height: 100%;
 	width: 100%;
 	list-style: none;
 	transition: all 0.4s ease;
 }
+
 .submenu-active {
 	.menu-items {
 		transform: translateX(-56%);
 	}
 }
+
 .submenu {
 	.menu-title {
 		&:hover {
 			background: rgba(255, 255, 255, 0.1);
 		}
+
 		border-radius: 12px;
 		cursor: pointer;
+
 		i {
 			margin-right: 10px;
 		}
 	}
+
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -126,6 +148,7 @@ body {
 	height: calc(100% + 100vh);
 	display: none;
 }
+
 .show-submenu {
 	~ {
 		.submenu {
@@ -133,6 +156,7 @@ body {
 		}
 	}
 }
+
 .navbar {
 	left: 260px;
 	width: calc(100% - 260px);
@@ -144,13 +168,16 @@ body {
 	font-size: 25px;
 	background: #fff;
 	cursor: pointer;
+
 	#sidebar-close {
 		cursor: pointer;
 		color: $color_2;
 	}
 }
+
 .main {
 	left: 260px;
+	top: 55.98px;
 	width: calc(100% - 260px);
 	transition: all 0.5s ease;
 	z-index: 1000;
@@ -158,27 +185,31 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 100vh;
+	// height: 100vh;
 	z-index: 100;
 	background: #F5F5F5;
+
 	h1 {
 		color: $color_3;
 		font-size: 40px;
 		text-align: center;
 	}
 }
+
 .sidebar.close {
 	~ {
 		.navbar {
 			left: 0;
 			width: 100%;
 		}
+
 		.main {
 			left: 0;
 			width: 100%;
 		}
 	}
 }
+
 .footer {
 	position: fixed;
 	bottom: 0;
@@ -190,10 +221,12 @@ body {
 	text-align: center;
 	font-size: 14px;
 	z-index: 1001;
+
 	.container-fluid {
 		max-width: 1200px;
 		margin: 0 auto;
 	}
+
 	.footer-text {
 		font-family: $font-family_1;
 		font-size: 14px;
