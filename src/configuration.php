@@ -86,7 +86,7 @@ echo "
 
 <body>
 
-    <?php //include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php')
+    <?php include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php')
     ?>
 
     <?php
@@ -113,7 +113,8 @@ echo "
     <script>
         feather.replace();
     </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> -->
+    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <!-- Main Scripts -->
     <script src="src/scripts/script.js"></script>
     <!-- Page Scripts -->

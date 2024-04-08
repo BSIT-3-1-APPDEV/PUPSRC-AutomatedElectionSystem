@@ -2,6 +2,7 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "feather-icons": "^4.29.1",
+    "jquery": "^3.7.1",
     "sass": "^1.72.0"
   }
 }
