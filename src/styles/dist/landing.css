@@ -1,206 +1,214 @@
 body {
-    font-family: "Montserrat", sans-serif;
-    background-color: #F8F8F8;
-    height: 100vh;
+  font-family: "Montserrat", sans-serif;
+  background-color: #F8F8F8;
+  /* height: 100%; */
+  height: 100vh;
 }
 
 .toggle-password:hover, #index-PUPSRC, #index-AES{
-    margin: 0%;
-    padding: 0%;
+  margin: 0%;
+  padding: 0%;
 }
 
 .pup-logo{
-    width: 150px;
+  width: 150px;
 }
 
 #index-PUPSRC {
-    color: #fff;
-    padding-top: 10px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding-top: 10px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 #index-AES{
-    color: #FFE545;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    padding-bottom: 2%;
+  color: #FFE545;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding-bottom: 2%;
 }
 
 .index-button{
-    background-color: #FFE721;
-    font-weight: bold;
-    color: #800000;
-    outline: none;
-    border: none;
-    font-size: large;
-    transition: ease-in-out all .3s;
+  background-color: #FFE721;
+  font-weight: bold;
+  color: #800000;
+  outline: none;
+  border: none;
+  font-size: large;
+  transition: ease-in-out all .3s;
 }
 
 .index-button:hover{
-    transform: scale(1.1);
-    background-color: #FFE721;
-    color: #800000;
+  transform: scale(1.1);
+  background-color: #FFE721;
+  color: #800000;
 }
 
 .index-wave-footer {
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
 
 }
 
 .index-wave-footer svg {
-    position: relative;
-    display: block;
-    width: calc(100% + 1.3px);
-    height: 133px;
-    transform: rotateY(180deg);
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 133px;
+  transform: rotateY(180deg);
 }
 
 .index-wave-footer .shape-fill {
-    fill: #F8F8F8;
+  fill: #F8F8F8;
 }
 
 .parallax {
-    background-image: url("../../images/resc/BG.png");
-    height: 100vh;
-    background-color: #F8F8F8;
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  background-image: url("../../images/resc/BG.png");
+  height: 100vh;
+  background-color: #F8F8F8;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 
-    /* Center and align content */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  /* Center and align content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .parallax-text {
-    color: white;
-    font-size: 48px;
-    text-align: center;
-  }
-
-
-  .landing-organization-title{
-    text-align: center;
-    font-weight: bold;
-    padding-top: 3%;
-  }
-
-  .landing-organization-subtitle{
-    text-align: center;
-  }
-
-  .landing-page-logo-size{
-    width: 60%;
-  }
-
-  .landing-page-org-card{
-    padding: 5%;
-    margin: 5%;
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow */
-  }
-  
-  #SCO-landing-logo:hover {
-    background-image: linear-gradient(to right, #070833, #03045E);
-    transition: ease-in-out all .3s;
-    transform: scale(1.1);
-    color: #F8F8F8;
-  }
-
-  #ACAP-landing-logo:hover {
-    background-image: linear-gradient(to right, #3E0480, #9C6EC6);
-    transition: ease-in-out all .3s;
-    transform: scale(1.1);
-    color: #F8F8F8;
-  }
-
-  #AECES-landing-logo:hover {
-    background-image: linear-gradient(to right, #EE1C24, #C36600);
-    transition: ease-in-out all .3s;
-    transform: scale(1.1);
-    color: #F8F8F8;
-  }
-
-  #ELITE-landing-logo:hover {
-    background-image: linear-gradient(to right, #101010, #232323);
-    transition: ease-in-out all .3s;
-    transform: scale(1.1);
-    color: #F8F8F8;
-  }
-
-  #GIVE-landing-logo:hover {
-    background-image: linear-gradient(to right, #133040, #005B8E);
-    transition: ease-in-out all .3s;
-    transform: scale(1.1);
-    color: #F8F8F8;
-  }
-
-  #JEHRA-landing-logo:hover {
-    background-image: linear-gradient(to right, #800000, #A60000);
-    transition: ease-in-out all .3s;
-    transform: scale(1.1);
-    color: #F8F8F8;
-  }
-
-  #JMAP-landing-logo:hover {
-    background-image: linear-gradient(to right, #C36600, #F9F000);
-    transition: ease-in-out all .3s;
-    transform: scale(1.1);
-    color: #F8F8F8;
-  }
-
-  #JPIA-landing-logo:hover {
-    background-image: linear-gradient(to right, #EB317F, #FF8FBE);
-    transition: ease-in-out all .3s;
-    transform: scale(1.1);
-    color: #F8F8F8;
-  }
-
-  #PIIE-landing-logo:hover {
-    background-image: linear-gradient(to right, #003B25, #045F42);
-    transition: ease-in-out all .3s;
-    transform: scale(1.1);
-    color: #F8F8F8;
-  }
-  
-  footer{
-    margin-top: 5%;
-  }
-  
-  a{
-    color: black;
-    text-decoration: none;
-  }
-
-  .copyright{
-    letter-spacing: 10px;
-  }
+.parallax-text {
+  color: white;
+  font-size: 48px;
+  text-align: center;
+}
 
 
-  #login-AES, #login-account{
-    font-weight: bold;
-  }
+.landing-organization-title{
+  text-align: center;
+  font-weight: bold;
+  padding-top: 3%;
+}
 
-  #login-form{
-    background-color: #F0F0F0;
-    border-radius: 10px;
-    padding: 5%;
-    width: 50% ;
-  }
+.landing-organization-subtitle{
+  text-align: center;
+}
 
-  /* ELITE */
-  #ELITE-login-body{
-    background-image: linear-gradient(to bottom, #232323, #101010);
+.landing-page-logo-size{
+  width: 60%;
+}
+
+.landing-page-org-card{
+  padding: 5%;
+  /* margin: 5%; */
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow */
+}
+
+#SCO-landing-logo:hover {
+  background-image: linear-gradient(to right, #070833, #03045E);
+  transition: ease-in-out all .3s;
+  transform: scale(1.1);
+  color: #F8F8F8;
+}
+
+#ACAP-landing-logo:hover {
+  background-image: linear-gradient(to right, #3E0480, #9C6EC6);
+  transition: ease-in-out all .3s;
+  transform: scale(1.1);
+  color: #F8F8F8;
+}
+
+#AECES-landing-logo:hover {
+  background-image: linear-gradient(to right, #EE1C24, #C36600);
+  transition: ease-in-out all .3s;
+  transform: scale(1.1);
+  color: #F8F8F8;
+}
+
+#ELITE-landing-logo:hover {
+  background-image: linear-gradient(to right, #101010, #232323);
+  transition: ease-in-out all .3s;
+  transform: scale(1.1);
+  color: #F8F8F8;
+}
+
+#GIVE-landing-logo:hover {
+  background-image: linear-gradient(to right, #133040, #005B8E);
+  transition: ease-in-out all .3s;
+  transform: scale(1.1);
+  color: #F8F8F8;
+}
+
+#JEHRA-landing-logo:hover {
+  background-image: linear-gradient(to right, #800000, #A60000);
+  transition: ease-in-out all .3s;
+  transform: scale(1.1);
+  color: #F8F8F8;
+}
+
+#JMAP-landing-logo:hover {
+  background-image: linear-gradient(to right, #C36600, #F9F000);
+  transition: ease-in-out all .3s;
+  transform: scale(1.1);
+  color: #F8F8F8;
+}
+
+#JPIA-landing-logo:hover {
+  background-image: linear-gradient(to right, #EB317F, #FF8FBE);
+  transition: ease-in-out all .3s;
+  transform: scale(1.1);
+  color: #F8F8F8;
+}
+
+#PIIE-landing-logo:hover {
+  background-image: linear-gradient(to right, #003B25, #045F42);
+  transition: ease-in-out all .3s;
+  transform: scale(1.1);
+  color: #F8F8F8;
+}
+
+footer{
+  margin-top: 5%;
+}
+
+a{
+  color: black;
+  text-decoration: none;
+}
+
+.copyright{
+  letter-spacing: 10px;
+}
+
+
+.login-AES, #login-account{
+  font-weight: bold;
+  padding-bottom: 100px;
+}
+
+#login-form{
+  background-color: #F0F0F0;
+  border-radius: 10px;
+  padding: 5%;
+  width: 50% ;
+}
+
+.login-sign-in-button{
+  color: white !important;
+}
+
+.login-sign-in-button:hover{
+  font-weight: bold;
+}
+
+.login-body{
     color:  white;
     display: flex;
     justify-content: center;
@@ -208,104 +216,316 @@ body {
     text-align: center;
     margin: 0%;
     padding: 0%;
-  }
-  
-  #ELITE-right-section{
-    height: 100vh;
-    margin: 0%;
-    padding: 0%;
-    background-color: #F0F0F0;
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #ELITE-left-section{
-    height: 100vh;
-    margin: 0%;
-    padding: 0%;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #login-ELITE-logo{
-    width:20%;
-  }
-
-  #ELITE-login-button{
-    background-color: #FF7900;
-    color: white;
-  }
-
-  #ELITE-login-button:hover{
-    background-color: black;
-    color: FF7900;
-    font-weight: bold;
-  }
-
-
-  .login-wave-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-    transform: rotate(180deg);
+    height: 100%;
+    min-height: 100vh;
 }
 
-.login-wave-footer svg {
-    position: relative;
-    display: block;
-    width: calc(151% + 1.3px);
-    height: 167px;
-}
-
-.login-wave-footer .shape-fill {
-    fill: #F77F00;
-}
-
-/* Media query for small screens */
-@media (max-width: 768px) {
-  #ELITE-right-section {
-    background-color: transparent;
-  }
-
-  #login-form{
-    width: 90% ;
-  }
-}
-
-/* Password Toggle */
-.toggle-password {
-  height: 20px;
-  border: none;
-  outline: none;
-  padding: 0;
+.login-right-section{
+  margin: 0%;
+  padding: 0%;
+  color: black;
+  background-color: #F0F0F0;
   display: flex;
   justify-content: center;
   align-items: center;
+  /* background-color: #F0F0F0; */
+  /* min-height: 100vh; */
+  padding: 50px;
+  min-height: 100vh;
 }
 
-.toggle-password:focus {
-  outline: none;
+.login-left-section {
+  position: relative;
+  margin: 0%;
+  padding: 0%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.login-logo{
+  width:25%;
+}
+
+.login-form{
+  background-color: #F0F0F0;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.login-account{
+  font-weight: bold;
+  margin: 0%;
+  padding: 0%;
+}
+
+.form-control{
+  background-color: #DFDFDF;
   border: none;
 }
 
-.toggle-password:hover {
+.login-wave-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.login-wave-footer svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.login-wave-footer .shape-fill {
+  fill: #FFFFFF;
+}
+
+
+
+/* ELITE  Login*/
+#ELITE-body{
+  background-image: linear-gradient(to bottom, #232323, #101010);
+}
+
+#ELITE-login-button{
+  background-color: #FF7900;
+}
+
+#ELITE-login-button:hover{
+  background-color: black;
+}
+
+#eliteSignUP{
+  color: #FF7900;
+}
+
+#ELITE-wave .shape-fill {
+  fill: #FF7900;
+}
+/* End JPIA Login */
+
+
+/* JPIA Login */
+#JPIA-body{
+background-image: linear-gradient(to bottom, #FF8FBE, #EB317F);
+}
+
+#JPIA-wave .shape-fill {
+fill: #F0BEF7;
+}
+
+#JPIA-login-button{
+background-color: #F0488F;
+}
+
+#JPIA-login-button:hover{
+background-color: #b51557;
+}
+
+#jpiaSignUP{
+color: #F0488F;
+}
+/* End JPIA Login */
+
+/* SCO Login */
+#SCO-body{
+background-image: linear-gradient(to bottom, #03045E, #070833);
+}
+
+#SCO-wave .shape-fill {
+fill: #FBED13;
+}
+
+#SCO-login-button{
+background-color: #254a9b;
+color: white;
+}
+
+#SCO-login-button:hover{
+background-color: #0c3181;
+color: FF7900;
+font-weight: bold;
+}
+
+#scoSignUP{
+color: #4769B2;
+}
+/* End SCO Login */
+
+/* GIVE Login */
+#GIVE-body{
+background-image: linear-gradient(to bottom, #005B8E, #133040);
+}
+
+/* #GIVE-wave .shape-fill {
+fill: #FFFFFF;
+} */
+
+#GIVE-login-button{
+background-color: #0D3C55;
+}
+
+#GIVE-login-button:hover{
+background-color: #092839;
+}
+
+#giveSignUP{
+color: #0D3C55;
+}
+/* End GIVE Login */
+
+/* ACAP Login */
+#ACAP-body{
+background-image: linear-gradient(to bottom, #9C6EC6, #3E0480);
+}
+
+#ACAP-wave .shape-fill {
+fill: #85ACDF;
+}
+
+#ACAP-login-button{
+background-color: #592293;
+}
+
+#ACAP-login-button:hover{
+background-color: #38145e;
+}
+
+#acapSignUP{
+color: #592293;
+}
+/* End ACAP Login */
+
+/* AECES Login */
+#AECES-body{
+background-image: linear-gradient(to bottom, #C36600, #EE1C24);
+}
+
+/* #AECES-wave .shape-fill {
+fill: #fff;
+} */
+
+#AECES-login-button{
+background-color: #E42E1C;
+}
+
+#AECES-login-button:hover{
+background-color: #a21c0f;
+}
+
+#aecesSignUP{
+color: #E42E1C;
+}
+/* End AECES Login */
+
+/* JEHRA Login */
+#JEHRA-body{
+background-image: linear-gradient(to bottom, #A60000, #800000);
+}
+
+/* #JEHRA-wave .shape-fill {
+fill: #fff;
+} */
+
+#JEHRA-login-button{
+background-color: #800000;
+color: white;
+}
+
+#JEHRA-login-button:hover{
+background-color: #490000;
+}
+
+#jehraSignUP{
+color: #800000;
+}
+/* End JEHRA Login */
+
+/* JMAP Login */
+#JMAP-body{
+background-image: linear-gradient(to bottom, #F9F000, #C36600);
+}
+
+/* #JMAP-wave .shape-fill {
+fill: #fff;
+} */
+
+#JMAP-login-button{
+background-color: #efb400;
+}
+
+#JMAP-login-button:hover{
+background-color: #fd8607;
+}
+
+#jmapSignUP{
+color: #FDBE00;
+}
+/* End JMAP Login */
+
+/* PIIE Login */
+#PIIE-body{
+background-image: linear-gradient(to bottom, #045F42, #003B25);
+}
+
+#PIIE-wave .shape-fill {
+fill: #FFD22F;
+}
+
+#PIIE-login-button{
+background-color: #026644;
+}
+
+#PIIE-login-button:hover{
+background-color: #003B25;
+}
+
+#piieSignUP{
+color: #026644;
+}
+/* End PIIE Login */
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+.login-AES{
+  padding-bottom: 0%;
+}
+.login-form{
+  width: 100%;
+  border-radius: 40px;
+}
+
+.login-right-section{
   background-color: transparent;
-  border: none;
-  color: black;
+  min-height: 0vh;
 }
 
-.toggle-password i {
-  pointer-events: none;
-  border: none;
+.login-left-section{
+  min-height: 0vh;
 }
 
-.toggle-password i {
-  font-size: 1.2rem;
+.login-wave-footer {
+  position: fixed; /* Fixed position */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  z-index: -1; /* Move to the background */
+}
+
+
+}
+
+/* Password Toggle in different browsers*/
+::-ms-reveal {
+display: none !important;
 }
