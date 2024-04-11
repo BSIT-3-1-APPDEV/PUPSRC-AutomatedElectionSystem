@@ -1,0 +1,60 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: calc(1.45rem + 1.25vw);
+    }
+
+    h2 {
+        font-size: calc(1.18rem + 1.25vw);
+    }
+
+    h3 {
+        font-size: calc(1rem + 1.25vw);
+    }
+
+    h4 {
+        font-size: calc(1rem + 1vw);
+    }
+
+    h5 {
+        font-size: calc(1rem + 0.6575vw);
+    }
+
+    h6 {
+        font-size: calc(0.75rem + 0.6575vw);
+    }
+
+    .container-fluid .content-margin {
+        margin: 1.75rem calc(.25rem + 8vw);
+    }
+}
+
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    &.page-title {
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+}
+
+
+
+@media only screen and (min-width: 600px) {
+    .container-fluid .content-margin {
+        margin: 1.75rem calc(4rem + 5vw);
+    }
+}
