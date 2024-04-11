@@ -34,7 +34,7 @@ class PageRouter
     {
         // Sets the default page
         $this->Pages = [
-            '' => "'" . $this->sub_pages[0] . ".php'",
+            '' => "/" . $this->sub_pages[0] . ".php",
         ];
 
         foreach ($this->sub_pages as $sub_page) {
@@ -50,13 +50,32 @@ class PageRouter
      */
     public function handleRequest()
     {
-        $PageUri = basename($_SERVER['PATH_INFO']);
+        $PageUri = '';
+        if (isset($_SERVER['PATH_INFO'])) {
+            $PageUri = basename($_SERVER['PATH_INFO']);
+        }
+
 
         if (isset($this->Pages[$PageUri])) {
             require_once(Path::CONFIGURATION_VIEWS . $this->Pages[$PageUri]);
         } else {
             http_response_code(404);
             require_once(Path::CONFIGURATION_VIEWS . $this->Pages[$this->sub_pages[0]]);
+            // Will remove invalid page in the url address
+            echo "
+            <script>
+            window.addEventListener('load', function() {
+                var currentUrl = window.location.href;
+                var segmentToRemove = '" . $PageUri . "';
+            
+                if (currentUrl.includes(segmentToRemove)) {
+                    var newUrl = currentUrl.replace('/' + segmentToRemove, '/');
+                    window.history.replaceState({}, document.title, newUrl);
+                }
+            });
+            </script>
+            
+            ";
         }
     }
 }

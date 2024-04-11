@@ -5,18 +5,14 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-head
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/user.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-router.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-connector.php');
 
 $user = new User(1, 'Admin', 'jpia', 'Doe', 'John', 'Michael', 'Jr.', '12', 'A', 'john.doe@example.com', 'Active', 'Voted');
 
-// $user_id = $user->getUserId();
-// $user_type = $user->getUserType();
-
 $_SESSION['user'] = $user;
+$org_name = $_SESSION['organization'];
 
-
-// if (!(isset($user_id) && $user_type === 'Admin')) {
-//     die;
-// }
 if (!(isset($_SESSION['user']) && $_SESSION['user']->getUserType() === 'Admin')) {
     die;
 }
@@ -24,7 +20,7 @@ if (!(isset($_SESSION['user']) && $_SESSION['user']->getUserType() === 'Admin'))
 echo "
 <style>
     :root{
-        --primary-color: var(--{$user->getOrganization()});
+        --primary-color: var(--{$org_name});
     }
 </style>
 ";
@@ -79,6 +75,7 @@ echo "
     <!-- Main Style -->
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
+    <link rel="stylesheet" href="styles/<?php echo $org_name; ?>.css">
     <!-- Page Style -->
     <link rel="stylesheet" href="src/styles/configuration.css">
 
@@ -113,12 +110,15 @@ echo "
     <script>
         feather.replace();
     </script>
-    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> -->
     <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <!-- Main Scripts -->
     <script src="src/scripts/script.js"></script>
     <!-- Page Scripts -->
-    <script src="src/scripts/configuration.js"></script>
+    <script type="module" src="src/scripts/configuration.js" defer></script>
+    <?php if (isset($page_scripts)) {
+        echo $page_scripts;
+    }
+    ?>
 
 </body>
 
