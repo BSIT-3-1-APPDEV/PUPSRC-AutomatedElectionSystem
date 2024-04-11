@@ -1,20 +1,66 @@
 /*==========================
 	Color Scheme
 ============================*/
+body {
+    font-family: "Montserrat", sans-serif;
+  }
 
-.main-color {
+  .edit_navbar{
+    margin-left: 2%;
+  }
+
+  .title {
     color: #084A6F;
-}
+    background-color: white; 
+    border-radius: 10px; 
+    border: 2px solid #ccc;
+  }
+  .title-2 {
+    color: white;
+    background-color: #084A6F;
+    border-top-left-radius: 10px;  
+    border-top-right-radius: 10px;  
+    padding-top: 3%;
+    padding-bottom: 3%;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  .reminder {
+    background-color: white; 
+    border-radius: 10px; 
+    border: 2px solid #ccc;
+  }
+
+  .subtitle {
+    padding-left: 3% ;
+  }
+
+    .spacing {
+        letter-spacing: 2px;
+    }
+    .main-color {
+        color: #084A6F;
+        background-color: #084A6F;
+    }
+
+    .text-position {
+        color: #084A6F;
+        padding-top: 3%;
+        padding-left: 3%;
+    }
+
+    
 
 /* Lightest to Darkest */
 .accent-1 {
-
+    color: #005280;
 }
 
 .accent-2 {
-
+    color: #00253E;
 }
 
 .accent-3 {
-
+    color: #084A6F;
 }
