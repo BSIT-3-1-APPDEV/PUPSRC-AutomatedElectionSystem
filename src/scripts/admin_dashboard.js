@@ -7,7 +7,7 @@ const BACKGROUND_COLOR = DATA_POINTS.map((data, index) => {
   const BLUE = 160 + index * 5; // Adjust blue component for variation
   return `rgba(${RED},${GREEN},${BLUE}, 1)`; // Varying shades of pink
 });
-const data = {
+const DATA = {
   labels: DATA_POINTS.map(point => `${point} Votes`),
   datasets: [{
     label: '',
@@ -78,9 +78,9 @@ const MULTI_BAR_LOGO = {
 
 
 // Chart configuration
-const config = {
+const CONFIG = {
   type: 'bar',
-  data: data,
+  data: DATA,
   options: {
     indexAxis: 'y',
     responsive: true, // Make the chart responsive
@@ -114,7 +114,7 @@ const config = {
 };
 
 // Render the chart
-const MY_CHART = new Chart(document.getElementById('myChart'), config);
+const MY_CHART = new Chart(document.getElementById('myChart'), CONFIG);
 
 // Function to update chart size
 function updateChartSize() {
@@ -131,10 +131,10 @@ fetch('includes/fetch-positions.php')
     .then(data => {
         const POSITION_DROPDOWN = document.getElementById('positions');
         data.forEach(position => {
-            const option = document.createElement('option');
-            option.value = position;
-            option.textContent = position;
-            POSITION_DROPDOWN.appendChild(option);
+            const OPTION = document.createElement('option');
+            OPTION.value = position;
+            OPTION.textContent = position;
+            POSITION_DROPDOWN.appendChild(OPTION);
         });
 
         // Trigger the change event manually to fetch data for the first position
@@ -146,7 +146,7 @@ fetch('includes/fetch-positions.php')
 
     
     document.getElementById("positions").addEventListener("change", function() {
-      const selectedPosition = this.value;
+      const SELECTED_POSITION = this.value;
   
       // Fetch data for the selected position from the PHP script
       fetch('includes/fetch-data.php', {
@@ -154,7 +154,7 @@ fetch('includes/fetch-positions.php')
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ position: selectedPosition })
+          body: JSON.stringify({ position: SELECTED_POSITION })
       })
       .then(response => {
           if (!response.ok) {
