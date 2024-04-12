@@ -17,14 +17,14 @@
   <script src="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 
-  <link rel="stylesheet" href="../../src/styles/style.css" /> 
-  <link rel="stylesheet" href="../../src/styles/result.css">
+  <link rel="stylesheet" href="styles/style.css" /> 
+  <link rel="stylesheet" href="styles/result.css">
 </head>
 
 <body>
   <nav class="sidebar">
 
-    <img src="../../src/images/logos/jpia.png" alt="" class="org-logo">
+    <img src="images/logos/jpia.png" alt="" class="org-logo">
     <!-- REPLACE WITH: <img src="src/images/logos/jpia.png" alt="" class="org-logo"> -->
     
     <h6>JUNIOR PHILIPPINE INSTITUTE OF ACCOUNTANTS</h6>
@@ -93,7 +93,7 @@
       <div id="results-container" class="d-flex flex-column">
       <div class="results-report">
           <div class="candidate">
-              <img src="../../src/images/resc/mingkyu.jpg" alt="Candidate Image">
+              <img src="images/resc/mingkyu.jpg" alt="Candidate Image">
               <h4 class="candidate-name">EDAN, IVAN ANGELO P.</h4>
               <h5><span class="info">BSIT 3-1</span></h5>
               <h5>283 </h5>
@@ -102,7 +102,7 @@
       </div>
       <div class="results-report-runnerup">
           <div class="candidate">
-              <img src="../../src/images/resc/mingkyu.jpg" alt="Candidate Image">
+              <img src="images/resc/mingkyu.jpg" alt="Candidate Image">
               <h4 class="candidate-name">EDAN, IVAN ANGELO P.</h4>
               <p class="info">BSIT 3-1</p>
               <h5>283 </h5>
@@ -174,7 +174,7 @@
  }
 
     // Call the addCandidate function every time there is a new name
-    addCandidate('KIM, MINGKYU', '../../src/images/resc/mingkyu.jpg', 'Candidate Image', '283 Votes');
+    addCandidate('KIM, MINGKYU', 'images/resc/mingkyu.jpg', 'Candidate Image', '283 Votes');
    
     //JAVASCRIPT FOR DROPDOWN OPEN & CLOSE ONCLICK
         // dropdown content will show when button is clicked
@@ -210,7 +210,7 @@
   </footer>
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <script src="../../src/scripts/script.js"></script>
-  <script src="vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="scripts/script.js"></script>
+  <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
