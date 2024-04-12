@@ -1,0 +1,83 @@
+
+.position-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #myChart {
+    width: 58rem;
+    height: 15rem;
+  }
+  
+.positions-dropdown{
+    background-color: #f45b9b;
+    border-radius: 16px;
+    border: 0;
+    height: 2rem;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+ 
+    font-size: 11px;
+    
+}
+@media (max-width: 990px) {
+  .d-lg-block {
+    display: none !important;
+  }
+}
+
+.font-size-change{
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+.container-columns{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.main-text {
+    color:#f45b9b;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif; /* Set default font to Montserrat */
+  }
+  .chart-container{
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-left: 0px;
+  }
+  .card-edit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.pink{
+  color:#f45b9b !important;
+}
+.gray{
+  color: #949494;
+}
+  .line {
+    border-bottom: 2px solid #f45b9b;
+    width: 100%;
+
+  }
+.margin-add{
+  margin-right: 10px;
+  color: #f45b9b
+
+}
+.admin-link {
+  text-decoration: none;
+  color: #f45b9b;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
