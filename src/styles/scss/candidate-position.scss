@@ -1,0 +1,39 @@
+%fa-grip-lines-before {
+
+    &.fa-grip-lines::before {
+        color: #d9d9d9;
+    }
+}
+
+main {
+    .fa {
+        @extend %fa-grip-lines-before;
+    }
+
+    .fas {
+        @extend %fa-grip-lines-before;
+    }
+
+    input[type="text"].text-editable {
+        padding-left: calc(0.25rem + 0.2dvw);
+        margin-left: calc(0.5rem + 0.2dvw);
+        // margin-top: ;
+        outline: none;
+        background-color: transparent;
+        border: none;
+        max-width: calc(100% - 1px);
+
+        // add border while typing
+        &:focus-visible {
+            outline: 0.5px solid #0075FF;
+        }
+    }
+
+    table {
+        tbody tr {
+            &.selected {
+                outline: 0.5px solid #0075FF;
+            }
+        }
+    }
+}

@@ -4,18 +4,15 @@ require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/Path.php'
 include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-head-utils.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/user.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-router.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-connector.php');
 
 $user = new User(1, 'Admin', 'jpia', 'Doe', 'John', 'Michael', 'Jr.', '12', 'A', 'john.doe@example.com', 'Active', 'Voted');
 
-// $user_id = $user->getUserId();
-// $user_type = $user->getUserType();
-
 $_SESSION['user'] = $user;
+$org_name = $_SESSION['organization'];
 
-
-// if (!(isset($user_id) && $user_type === 'Admin')) {
-//     die;
-// }
 if (!(isset($_SESSION['user']) && $_SESSION['user']->getUserType() === 'Admin')) {
     die;
 }
@@ -23,7 +20,7 @@ if (!(isset($_SESSION['user']) && $_SESSION['user']->getUserType() === 'Admin'))
 echo "
 <style>
     :root{
-        --primary-color: var(--{$user->getOrganization()});
+        --primary-color: var(--{$org_name});
     }
 </style>
 ";
@@ -78,6 +75,7 @@ echo "
     <!-- Main Style -->
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
+    <link rel="stylesheet" href="styles/<?php echo $org_name; ?>.css">
     <!-- Page Style -->
     <link rel="stylesheet" href="src/styles/configuration.css">
 
@@ -89,29 +87,20 @@ echo "
     ?>
 
     <?php
-    $config1 = '/ballot-form';
-    $config2 = '/schedule';
-    $config3 = '/election-year';
-    $config4 = '/vote-guidelines';
-    $config5 = '/positions';
-
-    $Pages = [
-        '' => "'$config1'.php",
-        $config1 => "$config1.php",
-        $config2 => "$config2.php",
-        $config3 => "$config3.php",
-        $config4 => "$config4.php",
-        $config5 => "$config5.php",
+    $configuration_pages = [
+        'ballot-form',
+        'schedule',
+        'election-year',
+        'vote-guidelines',
+        'positions'
     ];
 
-    $PageUri = $_SERVER['PATH_INFO'];
-    if (isset($Pages[$PageUri])) {
-        require_once(Path::CONFIGURATION_VIEWS . $Pages[$PageUri]);
-    } else {
-        http_response_code(404);
-        require_once(Path::CONFIGURATION_VIEWS . "'$config1'.php");
-    }
+    // Create an instance of PageRouter with the sub_pages array
+    $pageRouter = new PageRouter($configuration_pages);
+    $pageRouter->handleRequest();
+
     ?>
+
 
     <?php include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/footer.php') ?>
 
@@ -121,11 +110,15 @@ echo "
     <script>
         feather.replace();
     </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <!-- Main Scripts -->
     <script src="src/scripts/script.js"></script>
     <!-- Page Scripts -->
-    <script src="src/scripts/configuration.js"></script>
+    <script type="module" src="src/scripts/configuration.js" defer></script>
+    <?php if (isset($page_scripts)) {
+        echo $page_scripts;
+    }
+    ?>
 
 </body>
 
