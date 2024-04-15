@@ -8,7 +8,7 @@
 
 <nav class="sidebar">
 	<div class="d-flex align-items-center">
-		<img src="../../src/images/logos/jpia.png" alt="" class="org-logo">
+		<img src="images/logos/jpia.png" alt="" class="org-logo">
 	</div>
 	<div class="org-sub-name text-center">
 		<div class="d-inline-block align-middle">JUNIOR PHILIPPINE INSTITUTE OF ACCOUNTANTS</div>
@@ -60,13 +60,13 @@
 		</div>
 
 		<div>
-			<img src="../../src/images/resc/ivote-logo.png" class="me-xl-3" style="height:35px">
+			<img src="images/resc/ivote-logo.png" class="me-xl-3" style="height:35px">
 		</div>
 
 		<div class="header-right">
 			<div class="dropdown">
 				<button class="btn" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-					<img src="../../src/images/logos/jpia.png" class="profile-icon me-xl-3"><i
+					<img src="images/logos/jpia.png" class="profile-icon me-xl-3"><i
 						class="fas fa-chevron-down main-color fs-6"></i>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
