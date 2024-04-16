@@ -48,7 +48,7 @@
                                         School Year
                                     </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                        <li><a class="dropdown-item" href="#">2022-2023</a></li>
+                                        <li><a class="dropdown-item" href="#">2022-2024</a></li>
                                         <li><a class="dropdown-item" href="#">2021-2022</a></li>
                                         <li><a class="dropdown-item" href="#">2020-2021</a></li>
                                     </ul>
