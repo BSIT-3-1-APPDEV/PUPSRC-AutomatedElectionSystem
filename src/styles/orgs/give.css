@@ -9,12 +9,71 @@ body {
     margin-left: 2%;
   }
 
+  .emoji {
+    filter: grayscale(100%);
+  }
+
+  .toggle-btn {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .toggle-btn button {
+    background-color: transparent;
+    border: none;
+    padding-bottom: 1.5rem;
+  }
+
+  .toggle-btn button:focus {
+    outline: none;
+  }
+
+  .emoji:hover,
+  .emoji:focus {
+    filter: none;
+  }
+
+  .emoji-size{
+    font-size: calc(1.5rem + 1.5vw);
+  }
+  
+  .candidate-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .candidate-info img {
+    margin-right: 10px; 
+    border-radius: 10px;
+    border: 2px solid #ccc;
+  }
+  
+  .candidate-info div {
+    display: block;
+  }
+  
+  .candidate-info div:nth-child(2) {
+    white-space: nowrap;
+  }
+  
+  .candidate-info div:nth-child(2)::after {
+    content: '\A';
+    white-space: pre;
+  }
+
   .title {
     color: #084A6F;
     background-color: white; 
     border-radius: 10px; 
     border: 2px solid #ccc;
   }
+
+  .border-frame {
+    background-color: white; 
+    border-radius: 10px; 
+    border: 2px solid #ccc;
+  }
+
   .title-2 {
     color: white;
     background-color: #084A6F;
@@ -32,6 +91,16 @@ body {
     border: 2px solid #ccc;
   }
 
+  .reminder button {
+    border: none; 
+    background-color: #fff; 
+    cursor: pointer;
+  }
+
+  .reminder button.selected {
+    background-color: #cce5ff; 
+  }
+
   .subtitle {
     padding-left: 3% ;
   }
@@ -43,12 +112,19 @@ body {
         color: #084A6F;
         background-color: #084A6F;
     }
-
     .text-position {
         color: #084A6F;
         padding-top: 3%;
         padding-left: 3%;
     }
+
+ .button-submit {
+  border: #084A6F;
+  border-radius: 10px;
+  background-color: #084A6F;
+  color: #fff;
+  font-size: medium;
+ }
 
     
 
