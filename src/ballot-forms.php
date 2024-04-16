@@ -1,3 +1,28 @@
+<?php
+require_once 'includes/classes/db-connector.php';
+require_once 'includes/session-handler.php';
+
+if(isset($_SESSION['voter_id'])) {
+
+  $connection = DatabaseConnection::connect();
+  // Assume $connection is your database connection
+  $voter_id = $_SESSION['voter_id'];
+  
+  // Prepare and execute a query to fetch the first name of the user
+  $stmt = $connection->prepare("SELECT first_name FROM voter WHERE voter_id = ?");
+  $stmt->bind_param('i', $voter_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  $row = $result->fetch_assoc();
+      
+  // Retrieve the first name from the fetched row
+  $first_name = $row['first_name'];
+
+  $stmt->close();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,15 +58,18 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item dropdown d-none d-lg-block">
+
+
+
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Hello, User
+            Hello,<?php echo ' ' . $first_name; ?>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Logout</a>
+            <a class="dropdown-item" href="voter-logout.php">Logout</a>
           </div>
         </li>
         <li class="nav-item d-lg-none">
-          <a class="nav-link" href="#">Logout</a>
+          <a class="nav-link" href="voter-logout.php">Logout</a>
         </li>
       </ul>
     </div>
@@ -219,3 +247,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
 </html>
+<?php
+} else {
+  header("Location: voter-login.php");
+}
+?>

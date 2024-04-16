@@ -1,18 +1,10 @@
 <?php
-session_start(); // Start the session if not already started
-$_SESSION['organization'] = 'jehra';
-// Include the necessary files
-require_once 'includes/classes/db-config.php';
 require_once 'includes/classes/db-connector.php';
+require_once 'includes/session-handler.php';
 
-// Establish the database connection
-$conn = DatabaseConnection::connect();
+if(isset($_SESSION['voter_id'])) {  
 
-// Now you can use $connection to execute database queries
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -180,3 +172,8 @@ $conn = DatabaseConnection::connect();
     </script>
 </body>
 </html>
+<?php
+} else {
+  header("Location: voter-login.php");
+}
+?>
