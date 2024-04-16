@@ -10,7 +10,7 @@
   }
   
 .positions-dropdown{
-    background-color: #f45b9b;
+  
     border-radius: 16px;
     border: 0;
     height: 2rem;
@@ -37,7 +37,7 @@
   justify-content: center;
 }
 .main-text {
-    color:#f45b9b;
+
     font-weight: 800;
     letter-spacing: 2px;
 }
@@ -65,19 +65,15 @@
 .gray{
   color: #949494;
 }
-  .line {
-    border-bottom: 2px solid #f45b9b;
-    width: 100%;
 
-  }
 .margin-add{
   margin-right: 10px;
-  color: #f45b9b
+
 
 }
 .admin-link {
   text-decoration: none;
-  color: #f45b9b;
+
   font-weight: bold;
   letter-spacing: 2px;
 }
