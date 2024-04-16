@@ -69,14 +69,13 @@ echo "
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-    <!-- <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script> -->
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="vendor/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- Main Style -->
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
-    <link rel="stylesheet" href="styles/<?php echo $org_name; ?>.css">
+    <link rel="stylesheet" href="src/styles/orgs/<?php echo $org_name; ?>.css">
     <link rel="icon" type="image/x-icon" href="src/images/resc/ivote-favicon.png">
     <!-- Page Style -->
     <link rel="stylesheet" href="src/styles/configuration.css">
@@ -171,14 +170,11 @@ echo "
 
     <!-- Vendor Scripts -->
     <script src="vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/node_modules/feather-icons/dist/feather.min.js"></script>
-    <script>
-        feather.replace();
-    </script>
     <!-- Main Scripts -->
     <script src="src/scripts/script.js"></script>
     <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="scripts/feather.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="src/scripts/feather.js"></script>
     <!-- Page Scripts -->
     <script type="module" src="src/scripts/configuration.js" defer></script>
     <?php if (isset($page_scripts)) {
