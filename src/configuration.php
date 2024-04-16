@@ -5,15 +5,15 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-head
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/user.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-router.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-secondary-nav.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-config.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-connector.php');
 
-$user = new User(1, 'Admin', 'jpia', 'Doe', 'John', 'Michael', 'Jr.', '12', 'A', 'john.doe@example.com', 'Active', 'Voted');
+$user = new User(1, 'admin', 'Doe', 'John', 'Michael', 'Jr.', '12', 'A', 'john.doe@example.com', 'Active', 'Voted');
 
-$_SESSION['user'] = $user;
-$org_name = $_SESSION['organization'];
+$org_name = $_SESSION['organization'] ?? '';
 
-if (!(isset($_SESSION['user']) && $_SESSION['user']->getUserType() === 'Admin')) {
+if (!isset($org_name)) {
     die;
 }
 
@@ -76,6 +76,7 @@ echo "
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
     <link rel="stylesheet" href="styles/<?php echo $org_name; ?>.css">
+    <link rel="icon" type="image/x-icon" href="src/images/resc/ivote-favicon.png">
     <!-- Page Style -->
     <link rel="stylesheet" href="src/styles/configuration.css">
 
@@ -86,7 +87,10 @@ echo "
     <?php include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php')
     ?>
 
+
+
     <?php
+    global $configuration_pages;
     $configuration_pages = [
         'ballot-form',
         'schedule',
@@ -95,9 +99,18 @@ echo "
         'positions'
     ];
 
+    global $link_name;
+    $link_name = [
+        'Ballot Form',
+        'Schedule',
+        'Election Year',
+        'Voting Guidelines',
+        'Candidate Positions'
+    ];
+
     // Create an instance of PageRouter with the sub_pages array
-    $pageRouter = new PageRouter($configuration_pages);
-    $pageRouter->handleRequest();
+    $page_router = new PageRouter($configuration_pages);
+    $page_router->handleRequest();
 
     ?>
 

@@ -1,6 +1,42 @@
 @import 'utilities';
 @import 'button-del';
 
-.custom-text-primary {
-    color: var(--primary-color);
+ul {
+    &.nav {
+
+        display: flex;
+        justify-content: space-between;
+        border-bottom: calc(1px + 0.01dvw) solid var(--primary-color);
+        margin-bottom: max(2dvw, 0.75rem);
+
+    }
+
+    & li.nav-item {
+
+        & a.secondary-nav {
+            color: var(--black);
+
+            &:hover {
+                color: var(--black);
+            }
+
+            font-size: calc(0.75rem + 0.4vw);
+            height: 100%;
+
+            &.active {
+                color: var(--primary-color);
+                font-weight: bold;
+                border-bottom: calc(1.5px + 0.25dvw) solid var(--primary-color);
+            }
+        }
+    }
+}
+
+main.main {
+    div.container div.row div.col-md-10 {
+        @media only screen and (min-width: 1400px) {
+            // width: min(calc(84vw + (10 * (100vw - 1400px) / 100)), 90vw);
+            // max-width: 90dvw;
+        }
+    }
 }
