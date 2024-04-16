@@ -67,8 +67,9 @@ echo "
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="src/styles/font-montserrat.css">
 
-    <!-- Fontawesome CDN Link -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <!-- <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script> -->
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="vendor/node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -84,7 +85,58 @@ echo "
 
 <body>
 
-    <?php include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php')
+    <?php // include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php')
+    ?>
+
+    <!-- Modify Sidebar relative paths affected by routing page requests -->
+    <?php
+    // Capture the output of including the sidebar file
+    ob_start();
+    include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php');
+    $sidebar_content = ob_get_clean();
+
+    $temporary_html = '<!DOCTYPE html>
+                   <html lang="en">
+                   <head>
+                       <meta charset="UTF-8">
+                       <title>Temporary Sidebar Content</title>
+                   </head>
+                   <body>' . $sidebar_content . '</body>
+                   </html>';
+
+
+    $img_src_prefix = 'src/'; // Prefix to prepend to img src attributes
+
+    // Use DOMDocument to manipulate the HTML
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $dom->loadHTML($temporary_html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    libxml_clear_errors();
+
+    // Find all img elements in the sidebar content
+    $images = $dom->getElementsByTagName('img');
+    foreach ($images as $img) {
+        // Get the current src attribute value
+        $current_src = $img->getAttribute('src');
+
+        // Prepend the prefix to the current src attribute value
+        $new_src = $img_src_prefix . $current_src;
+
+        // Update the src attribute of the img element
+        $img->setAttribute('src', $new_src);
+    }
+
+    // Get the updated HTML content
+    $updated_sidebar_content = '';
+    foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {
+        $updated_sidebar_content .= $dom->saveHTML($node);
+    }
+
+
+    // Output the modified sidebar content
+    // Output the modified sidebar content (extracted from wrapped HTML)
+    echo $updated_sidebar_content;
+
     ?>
 
 
@@ -123,9 +175,10 @@ echo "
     <script>
         feather.replace();
     </script>
-    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <!-- Main Scripts -->
     <script src="src/scripts/script.js"></script>
+    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="scripts/feather.js"></script>
     <!-- Page Scripts -->
     <script type="module" src="src/scripts/configuration.js" defer></script>
     <?php if (isset($page_scripts)) {
