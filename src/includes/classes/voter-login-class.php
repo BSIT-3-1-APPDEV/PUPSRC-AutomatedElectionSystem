@@ -23,11 +23,11 @@ class Login {
 
                     // Check the role of the user
                     if($row['role'] == 'Committee Member') {
-                        header("Location: ../../admindashboard.php");
+                        header("Location: admindashboard.php");
                         exit();
                     }
                     elseif($row['role'] == 'Student Voter') {
-                        header("Location: ../../ballot-forms.php");
+                        header("Location: ballot-forms.php");
                         exit();
                     }
                     else {
