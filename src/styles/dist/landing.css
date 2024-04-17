@@ -1,47 +1,61 @@
 body {
   font-family: "Montserrat", sans-serif;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   /* height: 100%; */
   height: 100vh;
 }
 
-.toggle-password:hover, #index-PUPSRC, #index-AES{
+.toggle-password:hover,
+#index-PUPSRC,
+#index-AES {
   margin: 0%;
   padding: 0%;
 }
 
-.pup-logo{
-  width: 150px;
+.ivote-logo {
+  width: 250px;
+}
+
+#ivote-logo-landing-header {
+  width: 80px;
+}
+
+.stroked-text {
+  -webkit-text-stroke: 1.5px white;
+  /* font-weight: bold; */
 }
 
 #index-PUPSRC {
-  color: #fff;
+  color: #c82d26;
+  -webkit-text-stroke: 1px white;
   padding-top: 10px;
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 1.5);
 }
 
-#index-AES{
-  color: #FFE545;
+#index-AES {
+  color: #5d83d3;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: -px;
   padding-bottom: 2%;
 }
 
-.index-button{
-  background-color: #FFE721;
+.index-button {
+  background-color: #c82d26;
   font-weight: bold;
-  color: #800000;
+  padding-left: 2%;
+  padding-right: 2%;
+  color: #fff;
   outline: none;
   border: none;
   font-size: large;
-  transition: ease-in-out all .3s;
+  transition: ease-in-out all 0.3s;
 }
 
-.index-button:hover{
+.index-button:hover {
   transform: scale(1.1);
-  background-color: #FFE721;
-  color: #800000;
+  background-color: #5d83d3 !important;
 }
 
 .index-wave-footer {
@@ -51,7 +65,6 @@ body {
   width: 100%;
   overflow: hidden;
   line-height: 0;
-
 }
 
 .index-wave-footer svg {
@@ -63,13 +76,13 @@ body {
 }
 
 .index-wave-footer .shape-fill {
-  fill: #F8F8F8;
+  fill: #f8f8f8;
 }
 
 .parallax {
-  background-image: url("../../images/resc/BG.png");
+  background-image: url("../../images/resc/landing-background.png");
   height: 100vh;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
   background-position: center;
@@ -88,144 +101,149 @@ body {
   text-align: center;
 }
 
-
-.landing-organization-title{
+.landing-organization-title {
+  color: #c82d26;
   text-align: center;
   font-weight: bold;
   padding-top: 3%;
 }
 
-.landing-organization-subtitle{
-  text-align: center;
+.hello-text {
+  color: #4870c4;
 }
 
-.landing-page-logo-size{
+.landing-organization-subtitle {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.landing-page-logo-size {
   width: 60%;
 }
 
-.landing-page-org-card{
-
+.landing-page-org-card {
   padding: 5%;
-  margin: 5%;
+  /* margin: 5%; */
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Soft shadow */
 }
 
 #SCO-landing-logo:hover {
-  background-image: linear-gradient(to right, #070833, #03045E);
-  transition: ease-in-out all .3s;
+  background-image: linear-gradient(to right, #070833, #03045e);
+  transition: ease-in-out all 0.3s;
   transform: scale(1.1);
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 #ACAP-landing-logo:hover {
-  background-image: linear-gradient(to right, #3E0480, #9C6EC6);
-  transition: ease-in-out all .3s;
+  background-image: linear-gradient(to right, #3e0480, #9c6ec6);
+  transition: ease-in-out all 0.3s;
   transform: scale(1.1);
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 #AECES-landing-logo:hover {
-  background-image: linear-gradient(to right, #EE1C24, #C36600);
-  transition: ease-in-out all .3s;
+  background-image: linear-gradient(to right, #ee1c24, #c36600);
+  transition: ease-in-out all 0.3s;
   transform: scale(1.1);
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 #ELITE-landing-logo:hover {
   background-image: linear-gradient(to right, #101010, #232323);
-  transition: ease-in-out all .3s;
+  transition: ease-in-out all 0.3s;
   transform: scale(1.1);
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 #GIVE-landing-logo:hover {
-  background-image: linear-gradient(to right, #133040, #005B8E);
-  transition: ease-in-out all .3s;
+  background-image: linear-gradient(to right, #133040, #005b8e);
+  transition: ease-in-out all 0.3s;
   transform: scale(1.1);
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 #JEHRA-landing-logo:hover {
-  background-image: linear-gradient(to right, #800000, #A60000);
-  transition: ease-in-out all .3s;
+  background-image: linear-gradient(to right, #800000, #a60000);
+  transition: ease-in-out all 0.3s;
   transform: scale(1.1);
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 #JMAP-landing-logo:hover {
-  background-image: linear-gradient(to right, #C36600, #F9F000);
-  transition: ease-in-out all .3s;
+  background-image: linear-gradient(to right, #c36600, #f9f000);
+  transition: ease-in-out all 0.3s;
   transform: scale(1.1);
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 #JPIA-landing-logo:hover {
-  background-image: linear-gradient(to right, #EB317F, #FF8FBE);
-  transition: ease-in-out all .3s;
+  background-image: linear-gradient(to right, #eb317f, #ff8fbe);
+  transition: ease-in-out all 0.3s;
   transform: scale(1.1);
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 #PIIE-landing-logo:hover {
-  background-image: linear-gradient(to right, #003B25, #045F42);
-  transition: ease-in-out all .3s;
+  background-image: linear-gradient(to right, #003b25, #045f42);
+  transition: ease-in-out all 0.3s;
   transform: scale(1.1);
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
-footer{
+footer {
   margin-top: 5%;
 }
 
-a{
+a {
   color: black;
   text-decoration: none;
 }
 
-.copyright{
+.copyright {
   letter-spacing: 10px;
 }
 
-
-.login-AES, #login-account{
+.login-AES,
+#login-account {
   font-weight: bold;
   padding-bottom: 100px;
 }
 
-#login-form{
-  background-color: #F0F0F0;
+#login-form {
+  background-color: #f0f0f0;
   border-radius: 10px;
   padding: 5%;
-  width: 50% ;
+  width: 50%;
 }
 
-.login-sign-in-button{
+.login-sign-in-button {
   color: white !important;
 }
 
-.login-sign-in-button:hover{
+.login-sign-in-button:hover {
   font-weight: bold;
 }
 
-.login-body{
-    color:  white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin: 0%;
-    padding: 0%;
-    height: 100%;
-    min-height: 100vh;
+.login-body {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0%;
+  padding: 0%;
+  height: 100%;
+  min-height: 100vh;
 }
 
-.login-right-section{
+.login-right-section {
   margin: 0%;
   padding: 0%;
   color: black;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -246,25 +264,25 @@ a{
   min-height: 100vh;
 }
 
-.login-logo{
-  width:25%;
+.login-logo {
+  width: 25%;
 }
 
-.login-form{
-  background-color: #F0F0F0;
+.login-form {
+  background-color: #f0f0f0;
   padding: 40px;
   border-radius: 10px;
 }
 
-.login-account{
+.login-account {
   font-weight: bold;
   margin: 0%;
   padding: 0%;
 }
 
-.form-control{
-  background-color: #DFDFDF;
-  border: none;
+.form-control {
+  background-color: #fff;
+  border: #101010;
 }
 
 .login-wave-footer {
@@ -285,246 +303,354 @@ a{
 }
 
 .login-wave-footer .shape-fill {
-  fill: #FFFFFF;
+  fill: #ffffff;
 }
 
-
-
 /* ELITE  Login*/
-#ELITE-body{
+#ELITE-body {
   background-image: linear-gradient(to bottom, #232323, #101010);
 }
 
-#ELITE-login-button{
-  background-color: #FF7900;
+#ELITE-login-button {
+  background-color: #ff7900;
 }
 
-#ELITE-login-button:hover{
+#ELITE-login-button:hover {
   background-color: black;
 }
 
-#eliteSignUP{
-  color: #FF7900;
+#eliteSignUP {
+  color: #ff7900;
 }
 
 #ELITE-wave .shape-fill {
-  fill: #FF7900;
+  fill: #ff7900;
 }
+
 /* End ELITE Login */
 
-
 /* JPIA Login */
-#JPIA-body{
-background-image: linear-gradient(to bottom, #FF8FBE, #EB317F);
+#JPIA-body {
+  background-image: linear-gradient(to bottom, #ff8fbe, #eb317f);
 }
 
 #JPIA-wave .shape-fill {
-fill: #F0BEF7;
+  fill: #f0bef7;
 }
 
-#JPIA-login-button{
-background-color: #F0488F;
+#JPIA-login-button {
+  background-color: #f0488f;
 }
 
-#JPIA-login-button:hover{
-background-color: #b51557;
+#JPIA-login-button:hover {
+  background-color: #b51557;
 }
 
-#jpiaSignUP{
-color: #F0488F;
+#jpiaSignUP {
+  color: #f0488f;
 }
+
 /* End JPIA Login */
 
 /* SCO Login */
-#SCO-body{
-background-image: linear-gradient(to bottom, #03045E, #070833);
+#SCO-body {
+  background-image: linear-gradient(to bottom, #03045e, #070833);
 }
 
 #SCO-wave .shape-fill {
-fill: #FBED13;
+  fill: #fbed13;
 }
 
-#SCO-login-button{
-background-color: #254a9b;
-color: white;
+#SCO-login-button {
+  background-color: #254a9b;
+  color: white;
 }
 
-#SCO-login-button:hover{
-background-color: #0c3181;
-color: FF7900;
-font-weight: bold;
+#SCO-login-button:hover {
+  background-color: #0c3181;
+  color: FF7900;
+  font-weight: bold;
 }
 
-#scoSignUP{
-color: #4769B2;
+#scoSignUP {
+  color: #4769b2;
 }
+
 /* End SCO Login */
 
 /* GIVE Login */
-#GIVE-body{
-background-image: linear-gradient(to bottom, #005B8E, #133040);
+#GIVE-body {
+  background-image: linear-gradient(to bottom, #005b8e, #133040);
 }
 
 /* #GIVE-wave .shape-fill {
-fill: #FFFFFF;
+  fill: #FFFFFF;
 } */
 
-#GIVE-login-button{
-background-color: #0D3C55;
+#GIVE-login-button {
+  background-color: #0d3c55;
 }
 
-#GIVE-login-button:hover{
-background-color: #092839;
+#GIVE-login-button:hover {
+  background-color: #092839;
 }
 
-#giveSignUP{
-color: #0D3C55;
+#giveSignUP {
+  color: #0d3c55;
 }
+
 /* End GIVE Login */
 
 /* ACAP Login */
-#ACAP-body{
-background-image: linear-gradient(to bottom, #9C6EC6, #3E0480);
+#ACAP-body {
+  background-image: linear-gradient(to bottom, #9c6ec6, #3e0480);
 }
 
 #ACAP-wave .shape-fill {
-fill: #85ACDF;
+  fill: #85acdf;
 }
 
-#ACAP-login-button{
-background-color: #592293;
+#ACAP-login-button {
+  background-color: #592293;
 }
 
-#ACAP-login-button:hover{
-background-color: #38145e;
+#ACAP-login-button:hover {
+  background-color: #38145e;
 }
 
-#acapSignUP{
-color: #592293;
+#acapSignUP {
+  color: #592293;
 }
+
 /* End ACAP Login */
 
 /* AECES Login */
-#AECES-body{
-background-image: linear-gradient(to bottom, #C36600, #EE1C24);
+#AECES-body {
+  background-image: linear-gradient(to bottom, #c36600, #ee1c24);
 }
 
 /* #AECES-wave .shape-fill {
-fill: #fff;
+  fill: #fff;
 } */
 
-#AECES-login-button{
-background-color: #E42E1C;
+#AECES-login-button {
+  background-color: #e42e1c;
 }
 
-#AECES-login-button:hover{
-background-color: #a21c0f;
+#AECES-login-button:hover {
+  background-color: #a21c0f;
 }
 
-#aecesSignUP{
-color: #E42E1C;
+#aecesSignUP {
+  color: #e42e1c;
 }
+
 /* End AECES Login */
 
 /* JEHRA Login */
-#JEHRA-body{
-background-image: linear-gradient(to bottom, #A60000, #800000);
+#JEHRA-body {
+  background-image: linear-gradient(to bottom, #a60000, #800000);
 }
 
 /* #JEHRA-wave .shape-fill {
-fill: #fff;
+  fill: #fff;
 } */
 
-#JEHRA-login-button{
-background-color: #800000;
-color: white;
+#JEHRA-login-button {
+  background-color: #800000;
+  color: white;
 }
 
-#JEHRA-login-button:hover{
-background-color: #490000;
+#JEHRA-login-button:hover {
+  background-color: #490000;
 }
 
-#jehraSignUP{
-color: #800000;
+#jehraSignUP {
+  color: #800000;
 }
+
 /* End JEHRA Login */
 
 /* JMAP Login */
-#JMAP-body{
-background-image: linear-gradient(to bottom, #F9F000, #C36600);
+#JMAP-body {
+  background-image: linear-gradient(to bottom, #f9f000, #c36600);
 }
 
 /* #JMAP-wave .shape-fill {
-fill: #fff;
+  fill: #fff;
 } */
 
-#JMAP-login-button{
-background-color: #efb400;
+#JMAP-login-button {
+  background-color: #efb400;
 }
 
-#JMAP-login-button:hover{
-background-color: #fd8607;
+#JMAP-login-button:hover {
+  background-color: #fd8607;
 }
 
-#jmapSignUP{
-color: #FDBE00;
+#jmapSignUP {
+  color: #fdbe00;
 }
+
 /* End JMAP Login */
 
 /* PIIE Login */
-#PIIE-body{
-background-image: linear-gradient(to bottom, #045F42, #003B25);
+#PIIE-body {
+  background-image: linear-gradient(to bottom, #045f42, #003b25);
 }
 
 #PIIE-wave .shape-fill {
-fill: #FFD22F;
+  fill: #ffd22f;
 }
 
-#PIIE-login-button{
-background-color: #026644;
+#PIIE-login-button {
+  background-color: #026644;
 }
 
-#PIIE-login-button:hover{
-background-color: #003B25;
+#PIIE-login-button:hover {
+  background-color: #003b25;
 }
 
-#piieSignUP{
-color: #026644;
+#piieSignUP {
+  color: #026644;
 }
+
 /* End PIIE Login */
 
 /* Media query for small screens */
 @media (max-width: 768px) {
-.login-AES{
-  padding-bottom: 0%;
-}
-.login-form{
-  width: 100%;
-  border-radius: 40px;
+  .login-body {
+    padding-top: 15%;
+  }
+
+  #index-AES {
+    font-size: 27px;
+  }
+
+  .login-AES {
+    padding-bottom: 0%;
+  }
+
+  .login-form {
+    width: 100%;
+    border-radius: 40px;
+  }
+
+  .login-right-section {
+    background-color: transparent;
+    min-height: 0vh;
+  }
+
+  .login-left-section {
+    min-height: 0vh;
+  }
+
+  .login-wave-footer {
+    position: fixed;
+    /* Fixed position */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    z-index: -1;
+    /* Move to the background */
+  }
 }
 
-.login-right-section{
-  background-color: transparent;
-  min-height: 0vh;
+/* Password Toggle in different browsers*/
+::-ms-reveal {
+  display: none !important;
 }
 
-.login-left-section{
-  min-height: 0vh;
+/* Icon for the alert message */
+.bi {
+  width: 1em;
+  height: 1em;
 }
 
-.login-wave-footer {
-  position: fixed; /* Fixed position */
+.custom-svg-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Header*/
+.navbar {
+  background-color: white;
+  min-height: 55px;
+}
+
+.navbar .nav-link {
+  color: #c82d26;
+}
+
+.active {
+  font-weight: bold;
+  color: #c82d26 !important;
+}
+
+.nav-item {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+/* End of Header */
+
+/* Landing Footer */
+button {
+  outline: none;
+  border: none;
+}
+
+footer {
+  margin-top: 100px; /* Adjust this margin as needed */
+  position: relative;
   bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.custom-shape-divider-top-1713266907 {
+  position: relative;
+  top: 0;
   left: 0;
   width: 100%;
   overflow: hidden;
   line-height: 0;
   transform: rotate(180deg);
-  z-index: -1; /* Move to the background */
-}
 }
 
-/* Password Toggle in different browsers*/
-::-ms-reveal {
-display: none !important;
+.custom-shape-divider-top-1713266907 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 172px; /* Adjust this height as needed */
+}
+
+.custom-shape-divider-top-1713266907 .shape-fill {
+  fill: #e7e7e7;
+}
+
+.footer-body {
+  background-color: #e7e7e7;
+  padding-left: 10%;
+}
+
+.ivote-logo#footer {
+  width: 200px;
+}
+
+.credits-footer {
+  color: #c82d26;
+  padding-top: 3%;
+  font-weight: bold;
+}
+
+.ivote-email {
+  font-weight: bold;
+}
+
+.hii {
+  color: #003b25;
 }
