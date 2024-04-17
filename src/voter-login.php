@@ -1,8 +1,32 @@
 <?php
+require_once 'includes/classes/db-connector.php'; 
 require_once 'includes/session-handler.php';
-require_once 'includes/classes/db-connector.php';
 
 $org_name = $_SESSION['organization'] ?? '';
+
+include 'includes/organization-list.php';
+
+$org_full_name = $org_full_names[$org_name];
+
+// Check if the user is already logged in
+if(isset($_SESSION['voter_id'])) {
+    // Check if the 'role' key exists in the session
+    if(isset($_SESSION['role'])) {
+        // Redirect based on role
+        if($_SESSION['role'] == 'Student Voter') {
+            header("Location: ballot-forms.php");
+        }
+        elseif($_SESSION['role'] == 'Committee Member') {
+            header("Location: admindashboard.php");
+        }
+        exit();
+    } else {
+        // If 'role' key does not exist, handle the error or redirect to an appropriate page
+        echo "Role not found in session.";
+        exit();
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -27,16 +51,16 @@ $org_name = $_SESSION['organization'] ?? '';
     <title>Login</title>
 </head>
 
-<body class="login-body" id="SCO-body">
+<body class="login-body" id="<?php echo strtoupper($org_name) ;?>-body">
     <div class="container-fluid">
         <div class="row">
             <div class="col login-left-section">
                 <div class="organization-names">
-                    <img src="images/logos/sco.png" class="img-fluid login-logo" alt="SCO Logo">
-                    <p>STUDENT COUNCIL ORGANIZATION</p>
+                    <img src="images/logos/<?php echo $org_name; ?>.png" class="img-fluid login-logo" alt="<?php echo strtoupper($org_name) . ' ' ; ?>Logo">
+                    <p><?php echo strtoupper($org_full_name); ?></p>
                     <h1 class="login-AES">AUTOMATED ELECTION SYSTEM</h1>
 
-                    <div class="login-wave-footer" id="SCO-wave">
+                    <div class="login-wave-footer" id="<?php echo strtoupper($org_name) ;?>-wave">
                         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                             <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
                             <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
@@ -47,31 +71,31 @@ $org_name = $_SESSION['organization'] ?? '';
             </div>
             <div class="col login-right-section">
                 <div>
-                    <form class="login-form needs-validation" novalidate>
+                    <form action="voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
                         <h1 class="login-account">Login Account</h1>
                         <p>Sign in your account</p>
                     
                         <div class="col-md-12 mt-4 mb-3">
-                            <input type="email" class="form-control" id="Email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
+                            <input type="email" class="form-control" id="Email" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
                         </div>
 
                     
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
-                                <input type="password" class="form-control" placeholder="Password" id="Password" required>
+                                <input type="password" class="form-control" name="password" placeholder="Password" id="Password" required>
                                 <button class="btn btn-secondary" type="button" id="password-toggle">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
                         </div>
                     
-                        <a href="">Forgot Password</a>
+                        <a href="#">Forgot Password</a>
                     
                         <div class="d-grid gap-2 mt-5 mb-4">
-                            <button class="btn btn-primary" type="submit">Sign In</button>
+                            <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button>
                         </div>
                     
-                        <p>Don’t have an account? <a href="#" id="scoSignUP">Sign Up</a></p>
+                        <p>Don't have an account? <a href="#" id="<?php echo strtolower($org_name) ;?>SignUP">Sign Up</a></p>
                     </form>
                 </div>
             </div>

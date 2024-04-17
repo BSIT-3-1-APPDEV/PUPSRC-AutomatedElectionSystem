@@ -1,43 +1,10 @@
 <?php
-session_start(); // Start the session if not already started
-$_SESSION['organization'] = 'acap';
-// Include the necessary files
-require_once 'includes/classes/db-config.php';
 require_once 'includes/classes/db-connector.php';
-$organization = $_SESSION['organization'];
+require_once 'includes/session-handler.php';
 
-$conn = DatabaseConnection::connect();
-
-$candidatesQuery = "SELECT * FROM candidate";
-$result = $conn->query($candidatesQuery);
-
-$candidates = array(); // Initialize an empty array to store candidate objects
-
-// Process the fetched rows into objects
-
-// Fetch positions from the database
-$positionsQuery = "SELECT DISTINCT title FROM position";
-$positionsResult = $conn->query($positionsQuery);
-
-$positions = array(); // Initialize an empty array to store positions
-
-// Process the fetched rows into an array of positions
-if ($positionsResult->num_rows > 0) {
-    while ($row = $positionsResult->fetch_assoc()) {
-        $positions[] = $row['title'];
-    }
-}
-
-// Close the database connection
-
-// Now $candidates array contains candidate objects with votes count included
-
-// Fetch votes count for each candidate and position
-
-
+if(isset($_SESSION['voter_id'])) {  
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +38,6 @@ if ($positionsResult->num_rows > 0) {
         // Output the CSS for the line with the dynamic color
         echo ".line { border-bottom: 2px solid var(--$organization); width: 100%; }";
         ?>
- 
 
     </style>
 </head>
@@ -197,3 +163,8 @@ if ($positionsResult->num_rows > 0) {
 </body>
 
 </html>
+<?php
+} else {
+  header("Location: voter-login.php");
+}
+?>
