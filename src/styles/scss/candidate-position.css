@@ -1,0 +1,18 @@
+main .fa-grip-lines.fas::before, main .fa-grip-lines.fa::before {
+  color: #d9d9d9;
+}
+
+main input[type=text].text-editable {
+  padding-left: calc(0.25rem + 0.2dvw);
+  margin-left: calc(0.5rem + 0.2dvw);
+  outline: none;
+  background-color: transparent;
+  border: none;
+  max-width: calc(100% - 1px);
+}
+main input[type=text].text-editable:focus-visible {
+  outline: 0.5px solid #0075FF;
+}
+main table tbody tr.selected {
+  outline: 0.5px solid #0075FF;
+}
