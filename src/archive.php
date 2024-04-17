@@ -59,7 +59,8 @@
                                                     <canvas id="myBarChart"></canvas>
                                     </div>
                                     </div>
-                                        <h3>Name and Number of Votes for this School Year</h3>
+                                    <h3>Name and Number of Votes for this School Year</h3>
+                                       
                         </div>
                                     <div class="d-flex justify-content-end">
                                         <button id="generate-report-btn" class="btn-generate mt-3">Generate Report</button>
@@ -107,6 +108,12 @@
                                         options: {
                                         responsive: true,
                                         maintainAspectRatio: false,
+
+                                        legend: {
+                                            display: false
+                                                },
+                                        
+
                                         scales: {
                                             yAxes: [{
                                             ticks: {
