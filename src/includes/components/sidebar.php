@@ -17,7 +17,7 @@
 	<div class="menu-content">
 		<ul class="menu-items ms-xl-1">
 			<li class="item">
-				<a href="src/admindashboard.php" class="active"><i data-feather="home" class="white me-xl-3 mb-xl-1"></i>Home</a>
+				<a href="admindashboard.php" class="active"><i data-feather="home" class="white me-xl-3 mb-xl-1"></i>Home</a>
 			</li>
 
 			<li class="item">
@@ -32,7 +32,7 @@
 				</div>
 				<ul class="menu-items submenu collapse" id="firstSubmenu">
 					<li class="item">
-						<a href="#">Voters</a>
+						<a href="manage-acc.php">Voters</a>
 					</li>
 				</ul>
 				<ul class="menu-items submenu collapse" id="firstSubmenu">
