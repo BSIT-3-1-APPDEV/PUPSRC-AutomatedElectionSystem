@@ -48,7 +48,7 @@ class PageRouter
      * If the requested page is not found, the default page is included.
      * The default page is the first string passed in the constructor
      */
-    public function handleRequest()
+    public function handleRequest($is_require = true)
     {
         $PageUri = '';
         if (isset($_SERVER['PATH_INFO'])) {
@@ -57,10 +57,13 @@ class PageRouter
 
 
         if (isset($this->Pages[$PageUri])) {
+
             require_once(Path::CONFIGURATION_VIEWS . $this->Pages[$PageUri]);
         } else {
             http_response_code(404);
+
             require_once(Path::CONFIGURATION_VIEWS . $this->Pages[$this->sub_pages[0]]);
+
             // Will remove invalid page in the url address
             echo "
             <script>
@@ -77,5 +80,10 @@ class PageRouter
             
             ";
         }
+    }
+
+    public static function sendRequest($page_name)
+    {
+        echo $_SERVER['SCRIPT_NAME'] . "/$page_name";
     }
 }

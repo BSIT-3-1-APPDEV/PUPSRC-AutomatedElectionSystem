@@ -16,10 +16,9 @@ class User
     private $email;
     private $status;
     private $vote_status;
-    private $type;
-    private $organization;
+    private $role;
 
-    public function __construct($id, $type, $organization, $last_name, $first_name, $middle_name, $suffix, $year_level, $section, $email, $status, $vote_status)
+    public function __construct($id, $role, $last_name, $first_name, $middle_name, $suffix, $year_level, $section, $email, $status, $vote_status)
     {
         $this->id = $id;
         $this->last_name = $last_name;
@@ -31,8 +30,7 @@ class User
         $this->email = $email;
         $this->status = $status;
         $this->vote_status = $vote_status;
-        $this->type = $type;
-        $this->organization = $organization;
+        $this->role = $role;
     }
 
     // Getter methods
@@ -88,12 +86,7 @@ class User
 
     public function getUserType()
     {
-        return $this->type;
-    }
-
-    public function getOrganization()
-    {
-        return $this->organization;
+        return $this->role;
     }
 
     // Setter methods
@@ -142,13 +135,8 @@ class User
         $this->vote_status = $vote_status;
     }
 
-    public function setUserType($type)
+    public function setUserType($role)
     {
-        $this->type = $type;
-    }
-
-    public function setOrganization($organization)
-    {
-        $this->organization = $organization;
+        $this->role = $role;
     }
 }

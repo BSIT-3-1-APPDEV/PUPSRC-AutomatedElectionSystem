@@ -1,5 +1,25 @@
 <?php
 require_once 'includes/session-handler.php';
+
+// Check if the user is already logged in
+if(isset($_SESSION['voter_id'])) {
+  // Check if the 'role' key exists in the session
+  if(isset($_SESSION['role'])) {
+      // Redirect based on role
+      if($_SESSION['role'] == 'Student Voter') {
+          header("Location: ballot-forms.php");
+      }
+      elseif($_SESSION['role'] == 'Committee Member') {
+          header("Location: admindashboard.php");
+      }
+      exit();
+  } else {
+      // If 'role' key does not exist, handle the error or redirect to an appropriate page
+      echo "Role not found in session.";
+      exit();
+  }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -48,10 +68,10 @@ require_once 'includes/session-handler.php';
         <div class="container-fluid mt-4">
           <div class="row justify-content-center text-center">
             <div class="col-md-3">
-              <a type="submit" name="submit_btn" value="sco"  class="landing-page-org-card" id="SCO-landing-logo">
+              <button type="submit" name="submit_btn" value="sco"  class="landing-page-org-card" id="SCO-landing-logo">
                 <img src="images/logos/sco.png" alt="SCO Logo" class="landing-page-logo-size">
                 <h3 class="fw-bold pt-2">Student Council Organization</h3>
-              </a>
+              </button>
             </div> 
           </div>
         </div>
@@ -60,24 +80,24 @@ require_once 'includes/session-handler.php';
         <div class="container-fluid mt-4">
           <div class="row justify-content-center text-center">
             <div class="col-md-3" id="index-ACAP">       
-              <a type="submit" name="submit_btn" value="acap" class="landing-page-org-card" id="ACAP-landing-logo">
+              <button type="submit" name="submit_btn" value="acap" class="landing-page-org-card" id="ACAP-landing-logo">
                 <img src="images/logos/acap.png" alt="ACAP Logo" class="landing-page-logo-size">
                 <h3 class="fw-bold pt-2">ACAP</h3>
-              </a>
+              </button>
             </div>
 
             <div class="col-md-3" id="index-AECES">
-              <a type="submit" name="submit_btn" value="aeces" class="landing-page-org-card" id="AECES-landing-logo">
+              <button type="submit" name="submit_btn" value="aeces" class="landing-page-org-card" id="AECES-landing-logo">
                 <img src="images/logos/aeces.png" alt="AECES Logo" class="landing-page-logo-size">
                 <h3 class="fw-bold pt-2">AECES</h3>
-              </a>
+              </button>
             </div>
 
             <div class="col-md-3" id="index-ELITE">
-              <a type="submit" name="submit_btn" value="elite" class="landing-page-org-card" id="ELITE-landing-logo">
+              <button type="submit" name="submit_btn" value="elite" class="landing-page-org-card" id="ELITE-landing-logo">
                 <img src="images/logos/elite.png" alt="ELITE Logo" class="landing-page-logo-size">
                 <h3 class="fw-bold pt-2">ELITE</h3>
-              </a>
+              </button>
             </div>  
           </div>
         </div>
@@ -85,23 +105,23 @@ require_once 'includes/session-handler.php';
         <div class="container-fluid mt-4">
           <div class="row justify-content-center text-center">
             <div class="col-md-3" id="index-ACAP">
-              <a type="submit" name="submit_btn" value="give" class="landing-page-org-card" id="GIVE-landing-logo">
+              <button type="submit" name="submit_btn" value="give" class="landing-page-org-card" id="GIVE-landing-logo">
                 <img src="images/logos/give.png" alt="GIVE Logo" class="landing-page-logo-size">
                 <h3 class="fw-bold pt-2">GIVE</h3>
-              </a>
+              </button>
             </div>
             <div class="col-md-3" id="index-JEHRA">
-              <a type="submit" name="submit_btn" value="jehra" class="landing-page-org-card" id="JEHRA-landing-logo">
+              <button type="submit" name="submit_btn" value="jehra" class="landing-page-org-card" id="JEHRA-landing-logo">
                 <img src="images/logos/jehra.png" alt="JEHRA Logo" class="landing-page-logo-size">
                 <h3 class="fw-bold pt-2">JEHRA</h3>
-              </a>
+              </button>
             </div>
 
             <div class="col-md-3" id="index-JMAP">
-              <a href="voters_login_page.php"button type="submit" name="submit_btn" value="jmap" class="landing-page-org-card" id="JMAP-landing-logo">
+              <button type="submit" name="submit_btn" value="jmap" class="landing-page-org-card" id="JMAP-landing-logo">
                 <img src="images/logos/jmap.png" alt="JMAP Logo" class="landing-page-logo-size">
                 <h3 class="fw-bold pt-2">JMAP</h3>
-              </a>
+              </button>
             </div>  
 
           </div>
@@ -110,16 +130,16 @@ require_once 'includes/session-handler.php';
         <div class="container-fluid mt-4">
           <div class="row justify-content-center text-center">
             <div class="col-md-3" id="index-JPIA">
-              <a type="submit" name="submit_btn" value="jpia" class="landing-page-org-card" id="JPIA-landing-logo">
+              <button type="submit" name="submit_btn" value="jpia" class="landing-page-org-card" id="JPIA-landing-logo">
                 <img src="images/logos/jpia.png" alt="JPIA Logo" class="landing-page-logo-size">
                 <h3 class="fw-bold pt-2">JPIA</h3>
-              </a>
+              </button>
             </div>
             <div class="col-md-3" id="index-PIIE">
-              <a type="submit" name="submit_btn" value="piie" class="landing-page-org-card" id="PIIE-landing-logo">
+              <button type="submit" name="submit_btn" value="piie" class="landing-page-org-card" id="PIIE-landing-logo">
                 <img src="images/logos/piie.png" alt="PIIE Logo" class="landing-page-logo-size">
                 <h3 class="fw-bold pt-2">PIIE</h3>
-              </a>
+              </button>
             </div>
             </div>  
           </div>

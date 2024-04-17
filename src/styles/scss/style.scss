@@ -10,23 +10,28 @@ $background-color_3: #F45B9B;
 $background-color_4: #f45b9b;
 
 @import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap";
+
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 	font-family: $font-family_1;
 }
+
 body {
 	position: relative;
 	background-color: $background-color_1 !important;
+
 	>* {
 		position: relative;
 		z-index: 10;
 	}
 }
+
 .profile-icon {
 	height: 40px !important;
 }
+
 .sidebar {
 	position: fixed;
 	top: 0;
@@ -43,27 +48,33 @@ body {
 	overflow-x: auto;
 	transition: opacity 0.3s ease, transform 0.3s ease;
 	opacity: 1;
+
 	.logo {
 		font-family: $font-family_1;
 	}
+
 	a {
 		color: $color_2;
 		text-decoration: none;
 	}
+
 	h6 {
 		text-align: center;
 		color: $color_3;
 	}
 }
+
 .main-color {
 	color: $color_1;
 }
+
 .menu-title {
 	font-family: $font-family_1;
 	color: $color_3;
 	font-size: 14px;
 	padding: 15px 20px;
 }
+
 .item {
 	a {
 		font-family: $font-family_1;
@@ -73,19 +84,23 @@ body {
 		width: 100%;
 		border-radius: 12px;
 		font-size: 0.9rem;
+
 		&:hover {
 			background: rgb(244, 91, 155, 0.1);
 		}
 	}
+
 	a.active {
 		background-color: $background-color_3;
 		color: $color_3;
+
 		&:hover {
 			background-color: $background-color_2;
 			color: $color_1;
 		}
 	}
 }
+
 .submenu-item {
 	font-family: $font-family_1;
 	padding: 14px;
@@ -97,55 +112,67 @@ body {
 	align-items: center;
 	color: $color_2;
 	cursor: pointer;
+
 	&:hover {
 		background: rgb(244, 91, 155, 0.1);
 	}
 }
+
 .navbar-text {
 	font-family: $font-family_1;
 	font-size: 20px;
 	letter-spacing: 5px;
 }
+
 .logo {
 	font-size: 25px;
 	padding: 0 15px;
 }
+
 .menu-content {
 	position: relative;
 	height: 100%;
 	width: 100%;
 	margin-top: 40px;
 	overflow-y: scroll;
+
 	&::-webkit-scrollbar {
 		display: none;
 	}
 }
+
 .menu-items {
 	padding: 0;
 	height: 100%;
 	width: 100%;
 	list-style: none;
 	transition: all 0.4s ease;
+
 	.item {
 		margin-bottom: 5px;
 	}
 }
+
 .submenu {
 	padding-left: 15px;
 	height: auto;
 	overflow: hidden;
 	transition: height 0.4s ease-out;
+
 	.menu-title {
 		border-radius: 12px;
 		cursor: pointer;
+
 		&:hover {
 			background: rgba(255, 255, 255, 0.1);
 		}
+
 		i {
 			margin-right: 12px;
 		}
 	}
 }
+
 .show-submenu {
 	~ {
 		.submenu {
@@ -153,6 +180,7 @@ body {
 		}
 	}
 }
+
 .navbar {
 	left: 260px;
 	width: calc(100% - 260px);
@@ -164,64 +192,108 @@ body {
 	font-size: 25px;
 	background: #fff;
 	cursor: pointer;
+
 	#sidebar-close {
 		cursor: pointer;
 		color: $color_4;
 	}
 }
-.main {
+
+main.main {
 	left: 260px;
 	top: 3rem;
 	width: calc(100% - 260px);
 	transition: all 0.4s ease;
+
 	h1 {
 		color: $color_5;
 		font-size: 40px;
 		text-align: center;
 	}
+
+	.btn {
+		color: var(--white);
+		box-shadow: var(--bs-box-shadow-sm);
+
+		&:active {
+			box-shadow: none !important;
+		}
+
+		&.btn-primary:not(:disabled) {
+			background-color: var(--primary-color);
+			border: calc(0.25rem + 0.2vw) solid var(--primary-color);
+
+			&:hover {}
+
+			&:active {}
+
+			&:focus {}
+		}
+
+		&.btn-secondary:not(:disabled) {
+			background-color: var(--secondary-color);
+			border: calc(0.25rem + 0.2vw) solid var(--secondary-color);
+
+			&:hover {}
+
+			&:active {}
+
+			&:focus {}
+		}
+	}
 }
+
 .sidebar.close {
 	~ {
 		.navbar {
 			left: 0;
 			width: 100%;
 		}
+
 		.main {
 			left: 0;
 			width: 100%;
 		}
 	}
+
 	opacity: 0;
-	transform: translateX( -260px );
+	transform: translateX(-260px);
 }
+
 .card-box {
 	background-color: $background-color_2;
 	border-radius: 6px;
 }
+
 .dropdown-menu {
 	max-height: 200px;
 	overflow-y: auto;
 }
+
 .header-right {
 	border: none !important;
 }
+
 .org-logo {
 	height: 100px;
 	border-radius: 50%;
 	margin-right: 10px;
 	border: 2px solid #f45b9b;
 }
+
 .org-name {
 	color: $color_4;
 	font-size: 1.6rem;
 	font-weight: 600;
 }
+
 .org-sub-name {
 	margin-top: 15px;
 	color: $color_4;
 	font-size: 0.7rem;
 	font-weight: 600;
 }
+
 .org-info {
 	background-color: $background-color_4;
 }
