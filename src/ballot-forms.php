@@ -34,15 +34,12 @@ if(isset($_SESSION['voter_id'])) {
   
   <!-- Montserrat Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark main-color">
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
   <div class="container">
     <a class="navbar-brand spacing" href="#">
-      <img src="../src/images/logos/give.png" alt="Logo" width="35" height="35">
-      <b>GIVE</b> Election Portal
       <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,53 +59,42 @@ if(isset($_SESSION['voter_id'])) {
 
 <div class="container mt-4">
   <div class="row">
-    <div class="col-lg-3 col-md-2 d-none d-md-block" >
-      <div class="reminder">
   <div class="col-lg-3 col-md-2 d-none d-md-block">
     <div class="reminder">
         <div class="title-2">
-        <b>Voting Guidelines</b>
             <b>Voting Guidelines</b>
         </div>
-       
+
         <div class="container p-xl-4">
-          <ul>
             <div class="container p-xl-2">
-              <li>Select only one (1) candidate each position.</li>
                 Select only one (1) candidate each position.
                 <hr>
             </div>
             <div class="container p-xl-2">
-              <li>Do not leave an empty selection.</li>
                 Do not leave an empty selection.
                 <hr>
             </div>
             <div class="container p-xl-2">
-              <li>Vote buying and intimidation are prohibited.</li>
                 Vote buying and intimidation are prohibited.
                 <hr>
             </div>
             <div class="container p-xl-2">
-              <li>Displaying your ballot or discussing your vote to another person's votes is prohibited.</li>
                 Displaying your ballot or discussing your vote to another person's votes is prohibited.
                 <hr>
             </div>
             <div class="container p-xl-2">
-              <li>Only registered voters are permitted to vote.</li>
                 Only registered voters are permitted to vote.
                 <hr>
             </div>
             <div class="container p-xl-2">
-              <li>After selecting one (1) candidate each position, click the Submit Vote button to successfully cast your vote.</li>
                 After selecting one (1) candidate each position, click the Submit Vote button to successfully cast your vote.
                 <hr>
             </div>
-          </ul>
         </div>
-      </div>
     </div>
 </div>
      <!-- Candidate Section -->
+
     <div class="col-lg-9 col-md-10">
       <div class="reminder">
         <div class="text-position">
@@ -130,7 +116,6 @@ if(isset($_SESSION['voter_id'])) {
           </div>
           <div class="col-lg-6 col-md-12 col-sm-12 p-xl-4">
             <label>
-
                   <input type="radio" name="secretary-candidate">
                   Candidate Name<br>
                   Section
@@ -154,6 +139,7 @@ if(isset($_SESSION['voter_id'])) {
       </div>
     </div>
   </div>
+
   <div class="text-center mt-3">
   <button type="button" class="btn button-reset"><u>Reset Form</u></button>
   <button type="button" class="btn button-submit">Submit Vote</button>
@@ -166,6 +152,7 @@ if(isset($_SESSION['voter_id'])) {
       <span class="navbar-text mx-auto fw-bold spacing accent-3">BSIT 3-1 | ALL RIGHTS RESERVED 2024</span>
     </div>
   </footer>
+
   <script src="../src/scripts/feather.js"></script>
   <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../src/scripts/script.js"></script>
