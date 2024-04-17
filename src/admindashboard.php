@@ -38,7 +38,6 @@ if(isset($_SESSION['voter_id'])) {
         // Output the CSS for the line with the dynamic color
         echo ".line { border-bottom: 2px solid var(--$organization); width: 100%; }";
         ?>
- 
 
     </style>
 </head>

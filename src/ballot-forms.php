@@ -34,7 +34,7 @@ if(isset($_SESSION['voter_id'])) {
   
   <!-- Montserrat Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-@@ -21,19 +22,18 @@
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark main-color">
@@ -59,7 +59,7 @@ if(isset($_SESSION['voter_id'])) {
             Hello, User
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-@@ -67,36 +67,40 @@
+
 <div class="container mt-4">
   <div class="row">
     <div class="col-lg-3 col-md-2 d-none d-md-block" >
@@ -130,7 +130,7 @@ if(isset($_SESSION['voter_id'])) {
           </div>
           <div class="col-lg-6 col-md-12 col-sm-12 p-xl-4">
             <label>
-@@ -182,26 +186,31 @@
+
                   <input type="radio" name="secretary-candidate">
                   Candidate Name<br>
                   Section
