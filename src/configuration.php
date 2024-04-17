@@ -1,21 +1,23 @@
 <?php
-include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/Path.php');
-include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-head-utils.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/user.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-router.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-secondary-nav.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-config.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-connector.php');
-
-$user = new User(1, 'admin', 'Doe', 'John', 'Michael', 'Jr.', '12', 'A', 'john.doe@example.com', 'Active', 'Voted');
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/Path.php');
+include_once FileUtils::normalizeFilePath('includes/classes/page-head-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/user.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/page-router.php');
+require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
 $org_name = $_SESSION['organization'] ?? '';
 
-if (!isset($org_name)) {
-    die;
-}
+include 'includes/organization-list.php';
+
+$org_full_name = $org_full_names[$org_name];
+
+// Check if voter_id and role is set in session
+SessionManager::checkUserRoleAndRedirect();
 
 echo "
 <style>
@@ -76,6 +78,7 @@ echo "
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
     <link rel="stylesheet" href="src/styles/orgs/<?php echo $org_name; ?>.css">
+    <link rel="icon" href="src/images/logos/<?php echo $org_name; ?>.png" type="image/x-icon">
     <link rel="icon" type="image/x-icon" href="src/images/resc/ivote-favicon.png">
     <!-- Page Style -->
     <link rel="stylesheet" href="src/styles/configuration.css">
@@ -104,7 +107,7 @@ echo "
                    </html>';
 
 
-    $img_src_prefix = 'src/'; // Prefix to prepend to img src attributes
+    $src_prefix = 'src/'; // Prefix to prepend to img src attributes
 
     // Use DOMDocument to manipulate the HTML
     $dom = new DOMDocument();
@@ -119,11 +122,40 @@ echo "
         $current_src = $img->getAttribute('src');
 
         // Prepend the prefix to the current src attribute value
-        $new_src = $img_src_prefix . $current_src;
+        $new_src = $src_prefix . $current_src;
 
         // Update the src attribute of the img element
         $img->setAttribute('src', $new_src);
     }
+
+    // Assuming $dom is your DOMDocument instance
+    $nav_links = $dom->getElementsByTagName('li'); // Get all <li> elements
+
+    if ($nav_links->length > 0) {
+        foreach ($nav_links as $li) {
+            $anchor = $li->getElementsByTagName('a')->item(0); // Get the first <a> tag within the <li>
+
+            if ($anchor) {
+                // Get the current href attribute value
+                $current_href = $anchor->getAttribute('href');
+
+                // Check if current href contains '#'
+                if (strpos($current_href, '#') !== false) {
+                    continue; // Skip if href contains '#'
+                }
+
+                // Prepend the prefix to the current href attribute value
+                $new_href = $src_prefix . $current_href;
+
+                // Update the href attribute of the <a> tag
+                $anchor->setAttribute('href', $new_href);
+            }
+        }
+    } else {
+        // Handle case where there are no <li> elements found
+        echo "No navigation links (<li>) found.";
+    }
+
 
     // Get the updated HTML content
     $updated_sidebar_content = '';
@@ -170,9 +202,9 @@ echo "
 
     <!-- Vendor Scripts -->
     <script src="vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <!-- Main Scripts -->
     <script src="src/scripts/script.js"></script>
-    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="src/scripts/feather.js"></script>
     <!-- Page Scripts -->

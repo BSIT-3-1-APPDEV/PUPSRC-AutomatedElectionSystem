@@ -1,1 +1,117 @@
-main .fa-grip-lines.fas::before,main .fa-grip-lines.fa::before{color:#d9d9d9;font-size:max(1vw,1rem)}.dt-rowReorder-float input[type=text].text-editable,main input[type=text].text-editable{padding-left:calc(.25rem + .2dvw);margin-left:calc(.5rem + .2dvw);outline:none;background-color:rgba(0,0,0,0);border:none;max-width:calc(100% - 1px);font-size:calc(.75rem + .6575vw)}.dt-rowReorder-float input[type=text].text-editable:focus-visible,main input[type=text].text-editable:focus-visible{outline:.5px solid #0075ff}button.add-new,main table.table tbody tr{min-height:calc(1rem + 3vw);height:calc(1rem + 3vw)}main{height:calc(100dvh - 104.95px)}main table.table{margin-bottom:0px;border:calc(.5px + .06dvw) solid #d9d9d9}main table.table tbody tr{cursor:pointer}main table.table tbody tr td{vertical-align:middle}main table.table tbody tr td.grab{cursor:-webkit-grab;cursor:grab}main table.table tbody tr.selected{border:calc(.5px + .1vw) solid #0075ff}.dt-rowReorder-float{vertical-align:middle;cursor:-webkit-grabbing;cursor:grabbing}.dt-rowReorder-float input[type=text].text-editable{font-weight:bold}tr.dt-rowReorder-moving{outline:calc(.5px + .06dvw) dotted #0075ff}tr.dt-rowReorder-moving input[type=text].text-editable{font-weight:bold}div.dt-rowReorder-float-parent{outline:calc(1px + .1dvw) solid var(--primary-color);border-radius:none}.dt-scroll-foot{display:none}div.dt-container div.row.mt-2.justify-content-md-center:last-child{margin-top:0 !important}.card-box+div.toolbar{display:flex;margin-top:max(1dvw,.75rem);align-items:center;justify-content:space-between}.card-box+div.toolbar button{font-weight:700;border-radius:15px;position:relative}.card-box+div.toolbar button[data-selected]:not([data-selected=""])::before{content:attr(data-selected);visibility:visible;position:absolute;top:-0.75em;right:-0.75em;width:1.5em;height:1.5em;display:flex;justify-content:center;align-items:center;border-radius:50%;background-color:red;color:var(--white)}.card-box+div.toolbar button::before{visibility:hidden}button.add-new{width:100%;border:calc(1px + .06dvw) solid #d9d9d9;background:#f5f5f5;font-size:calc(.75rem + .6575vw);font-weight:bold;color:#868686}button.add-new:hover{background:#ececec;font-weight:bolder;color:var(--black);cursor:crosshair}/*# sourceMappingURL=candidate-position.css.map */
+main .fa-grip-lines.fas::before, main .fa-grip-lines.fa::before {
+  color: #d9d9d9;
+  font-size: max(1vw, 1rem);
+}
+
+.dt-rowReorder-float input[type=text].text-editable, main input[type=text].text-editable {
+  padding-left: calc(0.25rem + 0.2dvw);
+  margin-left: calc(0.5rem + 0.2dvw);
+  outline: none;
+  background-color: transparent;
+  border: none;
+  max-width: calc(100% - 1px);
+  font-size: calc(0.75rem + 0.6575vw);
+}
+.dt-rowReorder-float input[type=text].text-editable:focus-visible, main input[type=text].text-editable:focus-visible {
+  outline: 0.5px solid #0075FF;
+}
+
+button.add-new, main table.table tbody tr {
+  min-height: calc(1rem + 3vw);
+  height: calc(1rem + 3vw);
+}
+
+main {
+  height: calc(100dvh - 104.95px);
+}
+main table.table {
+  margin-bottom: 0px;
+  border: calc(0.5px + 0.06dvw) solid rgb(217, 217, 217);
+}
+main table.table tbody tr {
+  cursor: pointer;
+}
+main table.table tbody tr td {
+  vertical-align: middle;
+}
+main table.table tbody tr td.grab {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+main table.table tbody tr.selected {
+  border: calc(0.5px + 0.1vw) solid #0075FF;
+}
+
+.dt-rowReorder-float {
+  vertical-align: middle;
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+.dt-rowReorder-float input[type=text].text-editable {
+  font-weight: bold;
+}
+
+tr.dt-rowReorder-moving {
+  outline: calc(0.5px + 0.06dvw) dotted #0075FF;
+}
+tr.dt-rowReorder-moving input[type=text].text-editable {
+  font-weight: bold;
+}
+
+div.dt-rowReorder-float-parent {
+  outline: calc(1px + 0.1dvw) solid var(--primary-color);
+  border-radius: none;
+}
+
+.dt-scroll-foot {
+  display: none;
+}
+
+div.dt-container div.row.mt-2.justify-content-md-center:last-child {
+  margin-top: 0 !important;
+}
+
+.card-box + div.toolbar {
+  display: flex;
+  margin-top: max(1dvw, 0.75rem);
+  align-items: center;
+  justify-content: space-between;
+}
+.card-box + div.toolbar button {
+  font-weight: 700;
+  border-radius: 15px;
+  position: relative;
+}
+.card-box + div.toolbar button[data-selected]:not([data-selected=""])::before {
+  content: attr(data-selected);
+  visibility: visible;
+  position: absolute;
+  top: -0.75em;
+  right: -0.75em;
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: red;
+  color: var(--white);
+}
+.card-box + div.toolbar button::before {
+  visibility: hidden;
+}
+
+button.add-new {
+  width: 100%;
+  border: calc(1px + 0.06dvw) solid rgb(217, 217, 217);
+  background: rgb(245, 245, 245);
+  font-size: calc(0.75rem + 0.6575vw);
+  font-weight: bold;
+  color: rgb(134, 134, 134);
+}
+button.add-new:hover {
+  background: rgb(236, 236, 236);
+  font-weight: bolder;
+  color: var(--black);
+  cursor: crosshair;
+}/*# sourceMappingURL=candidate-position.css.map */
