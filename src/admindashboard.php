@@ -6,46 +6,6 @@ if(isset($_SESSION['voter_id'])) {
 
 ?>
 
-session_start(); // Start the session if not already started
-$_SESSION['organization'] = 'acap';
-// Include the necessary files
-require_once 'includes/classes/db-config.php';
-require_once 'includes/classes/db-connector.php';
-$organization = $_SESSION['organization'];
-
-$conn = DatabaseConnection::connect();
-
-$candidatesQuery = "SELECT * FROM candidate";
-$result = $conn->query($candidatesQuery);
-
-$candidates = array(); // Initialize an empty array to store candidate objects
-
-// Process the fetched rows into objects
-
-// Fetch positions from the database
-$positionsQuery = "SELECT DISTINCT title FROM position";
-$positionsResult = $conn->query($positionsQuery);
-
-$positions = array(); // Initialize an empty array to store positions
-
-// Process the fetched rows into an array of positions
-if ($positionsResult->num_rows > 0) {
-    while ($row = $positionsResult->fetch_assoc()) {
-        $positions[] = $row['title'];
-    }
-}
-
-// Close the database connection
-
-// Now $candidates array contains candidate objects with votes count included
-
-// Fetch votes count for each candidate and position
-
-
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 

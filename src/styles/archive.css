@@ -1,0 +1,83 @@
+.container h5{
+    padding-top: 50px;
+    padding-bottom: 25px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #F45B9B;
+    @media (max-width: 768px) {
+        font-size: 25px;
+        letter-spacing: 1px;
+        text-align: center;
+      }
+      @media (max-width: 480px) {
+        text-align: center;
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
+}
+.container h3{
+    font-size: 19px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    @media (max-width: 768px) {
+        font-size: 17px;
+        letter-spacing: 1px;
+        text-align: center;
+      }
+      @media (max-width: 480px) {
+        text-align: center;
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
+}
+.card{
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+.btn {
+  width: 150px;
+  border: none;
+  border-radius: 20px !important;
+  background-color: #F45B9B !important; 
+  border-color: #F45B9B !important;
+  margin-top: 10px;
+  margin-right: 25px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+  #myBarChart {
+    width: 250px;
+    height: 450px;
+  }
+.btn-generate{
+    cursor: pointer;
+    background-color: #F45B9B;
+    color: #ffffff;
+    width: 250px;
+    height: 50px;
+    border: none;
+    border-radius: 20px;
+    position: relative;
+    padding-left: 5px;
+    margin-right: 50px;
+    margin-bottom: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#generate-report-btn::before {
+  content: "";
+  background-image: url('../../vendor/node_modules/feather-icons/dist/icons/upload.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  filter: brightness(0) invert(1);
+}
