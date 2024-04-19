@@ -2,8 +2,12 @@ body {
     font-family: "Montserrat", sans-serif;
     background-color: #f2f2f2 ;
   }
-  
-  
+
+  a {
+    text-decoration: none;
+    display: inline-block; 
+    color: white;
+}
   
   .toggle-btn {
     display: flex;
@@ -49,7 +53,6 @@ body {
   }
   
   .title {
-    color: #084A6F;
     background-color: white; 
     border-radius: 10px; 
     border: 2px solid #ccc;
@@ -63,7 +66,6 @@ body {
   
   .title-2 {
     color: white;
-    background-color: #084A6F;
     border-top-left-radius: 10px;  
     border-top-right-radius: 10px;  
     padding-top: 3%;
@@ -71,6 +73,8 @@ body {
     text-align: center;
     letter-spacing: 2px;
   }
+
+
   .reminder {
     background-color: white; 
     border-radius: 10px; 
@@ -90,38 +94,39 @@ body {
   .subtitle {
     padding-left: 3% ;
   }
+
+  .subtitle-2 {
+    padding-left: 12% ;
+  }
     .spacing {
         letter-spacing: 2px;
     }
-    .main-color {
-        color: #084A6F;
-        background-color: #084A6F;
-    }
+    
     .text-position {
-        color: #084A6F;
         padding-top: 3%;
         padding-left: 3%;
     }
   
     .button-submit {
-      border: #084A6F;
-      border-radius: 10px;
-      background-color: #084A6F;
+      border-radius: 5px;
+      border: none;
       color: #fff;
       font-weight: bold;
       font-size: medium;
-      padding-left: 50px;
-      padding-right: 50px;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-top: 7px;
+      padding-bottom: 7px;
      }
   
-     .button-submit:hover {
-      background-color: #005280; 
-    }
+  
   
      .button-reset {
+      border: none;
       color: #bbb;
       font-weight: bold;
       font-size: medium;
+      background-color: none;
      }
   
   
