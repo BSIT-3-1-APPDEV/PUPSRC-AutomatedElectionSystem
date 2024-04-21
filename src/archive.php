@@ -34,8 +34,9 @@
                         <div class="card mb-5">
                             <div class="card-body d-flex flex-column justify-content-between align-items-end">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" aria-expanded="false">
+                                    <button class="btn btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         Position
+                                        <i class="fas fa-chevron-down" id="dropdownIcon"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a class="dropdown-item" href="#">President</a></li>
@@ -44,10 +45,11 @@
                                     </ul>
                                 </div>
                                     <div class="dropdown mt-auto">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" aria-expanded="false">
+                                    <button class="btn btn-primary" type="button" id="yeardropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         School Year
+                                        <i class="fas fa-chevron-down" id="dropdownIcon2"></i>
                                     </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <ul class="dropdown-menu" aria-labelledby="year-dropdown">
                                         <li><a class="dropdown-item" href="#">2022-2024</a></li>
                                         <li><a class="dropdown-item" href="#">2021-2022</a></li>
                                         <li><a class="dropdown-item" href="#">2020-2021</a></li>
@@ -55,22 +57,73 @@
                                     </div>
                             </div>
                                     <div class="row justify-content-center">
-                                    <div class="col-md-11">
-                                                    <canvas id="myBarChart"></canvas>
-                                    </div>
+                                        <div class="col-md-11">
+                                            <canvas id="myBarChart"></canvas>
+                                        </div>
                                     </div>
                                     <h3>Name and Number of Votes for this School Year</h3>
                                        
                         </div>
-                                    <div class="d-flex justify-content-end">
-                                        <button id="generate-report-btn" class="btn-generate mt-3">Generate Report</button>
-                                    </div>
+                            <div class="d-flex justify-content-end">
+                            <div class="dropdown">
+                                <button class="btn btn-primary" type="button" id="generate-report-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Generate Report
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="generate-report-dropdown">
+                                    <li><a class="dropdown-item" href="#" id="generate-pdf">Export as PDF</a></li>
+                                    <li><a class="dropdown-item" href="#" id="generate-docx">Export as Word File</a></li>
+                                    <li><a class="dropdown-item" href="#" id="generate-excel">Export as Excel File</a></li>
+                                </ul>
+                            </div>
+                            </div>
                     </div>
                 </div>
-        </div>            
+        </div>
+    </div>            
                                     <!-- Chart.js -->
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
                                     <script>
+                                        // Function to adjust bar thickness based on screen width
+                                        function adjustBarThickness(chartInstance) {
+                                            var screenWidth = window.innerWidth;
+                                            var barThickness = screenWidth < 768 ? 20 : 50; // Define the desired thickness for smaller screens
+
+                                            chartInstance.options.scales.xAxes[0].barThickness = barThickness;
+                                            chartInstance.update(); // Update the chart with new options
+                                        }
+                                        // Changing of toggle icon of submenus for position
+                                        document.addEventListener('DOMContentLoaded', function () {
+                                        var dropdownMenuButton1 = document.getElementById('dropdownMenuButton1');
+                                        var dropdownIcon = document.getElementById('dropdownIcon');
+
+                                        dropdownMenuButton1.addEventListener('click', function () {
+                                            if (dropdownIcon.classList.contains('fa-chevron-down')) {
+                                                dropdownIcon.classList.remove('fa-chevron-down');
+                                                dropdownIcon.classList.add('fa-chevron-up');
+                                            } else {
+                                                dropdownIcon.classList.remove('fa-chevron-up');
+                                                dropdownIcon.classList.add('fa-chevron-down');
+                                            }
+                                            dropdownIcon.style.transition = 'transform 0.5s ease';
+                                        });
+                                        });
+                                        // Changing of toggle icon of submenus for year
+                                        document.addEventListener('DOMContentLoaded', function () {
+                                        var yeardropdown = document.getElementById('yeardropdown');
+                                        var dropdownIcon2 = document.getElementById('dropdownIcon2');
+
+                                        yeardropdown.addEventListener('click', function () {
+                                            if (dropdownIcon2.classList.contains('fa-chevron-down')) {
+                                                dropdownIcon2.classList.remove('fa-chevron-down');
+                                                dropdownIcon2.classList.add('fa-chevron-up');
+                                            } else {
+                                                dropdownIcon2.classList.remove('fa-chevron-up');
+                                                dropdownIcon2.classList.add('fa-chevron-down');
+                                            }
+                                            dropdownIcon2.style.transition = 'transform 0.5s ease';
+                                        });
+                                        });
                                     // Define a plugin to draw a horizontal line below the candidate names and vertical lines for each candidate
                                     Chart.plugins.register({
                                         afterDraw: function(chart) {
@@ -88,6 +141,31 @@
                                         ctx.lineWidth = 2; // Adjust line width as needed
                                         ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)'; // Adjust line color as needed
                                         ctx.stroke();
+
+                                        chart.data.labels.forEach(function(label, index) {
+                                        var image = new Image();
+                                        image.src = '../../src/images/resc/mingkyu.jpg'; // Replace with the correct image source
+                                        image.onload = function() {
+                                            var bar = chart.getDatasetMeta(0).data[index];
+                                            var img = new Image();
+                                            img.src = image.src;
+                                            img.className = 'candidate-image'; // Add a class to the img element
+                                            img.onload = function() {
+                                                var screenWidth = window.innerWidth;
+                                                var imageSize = screenWidth < 768? 20 : 50; // Define the desired image size for smaller screens
+                                                ctx.save(); // Save the current context state
+                                                ctx.beginPath();
+                                                ctx.arc(bar._model.x, bar._model.y - 29, imageSize / 2, 0, 2 * Math.PI); // Create a circular clipping path with a slightly higher position
+                                                ctx.closePath();
+                                                ctx.clip(); // Clip the region
+                                                ctx.drawImage(img, bar._model.x - imageSize / 2, bar._model.y - imageSize - (imageSize < 50? 20 : 0), imageSize, imageSize); // Adjust image position and size as needed
+                                                ctx.strokeStyle = '#F45B9B'; // Pink border color
+                                                ctx.lineWidth = imageSize / 10; // Border width
+                                                ctx.stroke(); // Draw the border
+                                                ctx.restore(); // Restore the context state
+                                            };
+                                        };
+                                    });
 
                                         ctx.restore();
                                         }
@@ -143,9 +221,16 @@
                                         }
                                         }
                                     });
-                                    </script>      
-        </div>
+                                    
+                                     // Call the function initially
+                                        adjustBarThickness(myBarChart);
 
+                                    // Call the function whenever the window is resized
+                                    window.addEventListener('resize', function() {
+                                        adjustBarThickness(myBarChart);
+                                    });
+                                    
+                                    </script>      
 
 	<!-- UPON USE, REMOVE/CHANGE THE '../../' -->
 	<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
