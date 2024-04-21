@@ -13,6 +13,7 @@ class CandidatePosition
     protected static function savePosition($data)
     {
         if (self::$connection = DatabaseConnection::connect()) {
+            $savedPositions = [];
 
             self::$connection->begin_transaction();
 
@@ -34,11 +35,12 @@ class CandidatePosition
                     }
                 } else {
                     // Data is blank
-                    self::addPosition($item);
+                    $savedPositions[] = self::addPosition($item);
                 }
             }
 
             self::$connection->commit();
+            return $savedPositions;
         }
     }
 
@@ -55,7 +57,16 @@ class CandidatePosition
 
             $stmt->bind_param("iss", $position['sequence'], $position['value'], $position['description']);
             $stmt->execute();
+            $inserted_id = self::$connection->insert_id;
+            $position = [
+                'input_id' => $position['input_id'],
+                'data_id' => $inserted_id,
+                'sequence' => $position['sequence'],
+                'value' => $position['value'],
+                'description' => $position['description']
+            ];
             $stmt->close();
+            return $position;
         } else {
             echo "Error preparing statement: " . self::$connection->error;
         }

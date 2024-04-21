@@ -12,22 +12,15 @@ class SecondaryNav
         } else {
             $this->base_page = "/";
         }
-        // echo "<br> base page " . $this->base_page . "<br> base page ";
     }
 
     private function initializePages($pages, $link_names)
     {
-        // Sets the default page
-        $this->pages = [
-            '' => $link_names[0],
-        ];
+
 
         for ($i = 0; $i < count($pages); $i++) {
             $this->pages[$pages[$i]] = "$link_names[$i]";
         }
-        // print_r($this->pages);
-
-        // var_dump($_SERVER);
     }
 
     public function getNavLink()
@@ -37,23 +30,21 @@ class SecondaryNav
             $page_uri = basename($_SERVER['PATH_INFO']);
         }
 
-        $active = '';
-        $firstIteration = true;
+        $prev = $active = '';
 
         $navLinks = '<div class="">
                         <ul class="nav" id="" role="tablist">';
 
         foreach ($this->pages as $key => $page) {
-            if ($page_uri === $key || $page_uri === '') {
+            if ($page_uri === '') {
+                $page_uri = $key;
+            }
+            if ($page_uri === $key) {
                 $active = ' active ';
             } else {
                 $active = '';
             }
 
-            if ($firstIteration) {
-                $firstIteration = false;
-                continue;
-            }
 
             $navLinks .= "
                             <li class=\"nav-item secondary-nav\" role=\"navigation\">

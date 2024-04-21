@@ -63,24 +63,6 @@ h6.page-title {
   background-color: var(--primary-color);
 }
 
-main.main button.btn {
-  color: var(--white);
-  box-shadow: var(--bs-box-shadow-sm);
-}
-main.main button.btn:active {
-  box-shadow: none !important;
-}
-main.main button.del {
-  font-weight: bold;
-  position: relative;
-}
-main.main button.del span.icon.trash {
-  padding: 1rem 0.25rem;
-}
-main.main button.del span.icon.trash svg {
-  transform: translateY(-8%);
-}
-
 ul.nav {
   display: flex;
   justify-content: space-between;

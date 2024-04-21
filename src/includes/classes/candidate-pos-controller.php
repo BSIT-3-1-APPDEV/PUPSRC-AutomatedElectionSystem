@@ -2,16 +2,8 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR,  'file-utils.php');
 require_once FileUtils::normalizeFilePath('../session-handler.php');
 require_once FileUtils::normalizeFilePath('../model/configuration/candidate-pos-model.php');
-trait EndpointResponse
-{
-    protected static function sendResponse($statusCode, $body, $terminate = false)
-    {
-        http_response_code($statusCode);
-        header('Content-Type: application/json');
-        echo json_encode($body);
-        $terminate && exit;
-    }
-}
+require_once FileUtils::normalizeFilePath('../model/configuration/endpoint-response.php');
+
 
 class CandidatePositionController extends CandidatePosition
 {
@@ -23,7 +15,7 @@ class CandidatePositionController extends CandidatePosition
 
         if ($validation_func) {
 
-            self::savePosition($data);
+            $data = self::savePosition($data);
 
             $response = [
                 'status' => 'success',

@@ -20,7 +20,7 @@
                         ?>
                     </div>
                     <div class="card-box">
-                        <table id="example" class="table table-striped table-hover" style="width:100%">
+                        <table id="example" class="table table-striped table-hover" style="width:100%; display: none;">
                             <thead>
                                 <tr class="d-none">
                                     <th>Seq</th>
@@ -30,38 +30,7 @@
                             </thead>
                             <tbody>
 
-                                <tr>
-                                    <td>
-                                        <span class="d-none">1</span>
-                                        <span class="fas fa-grip-lines"></span>
-                                    </td>
-                                    <td>
-                                        <input class="text-editable" type="text" name="1" id="1" value="Position" title="" data-bs-toggle="tooltip" data-bs-title="Default tooltip" data-bs-placement="right" placeholder="Enter a candidate position" pattern="[a-zA-Z .\-]{1,50}" required>
-                                    </td>
-                                    <td class="col-2">
-                                        <div class="text-truncate">Lorem </div>
-                                    </td>
-                                </tr>
 
-                                <?php
-                                for ($i = 2; $i < 25; $i++) {
-                                    echo "
-                                        <tr>
-                                        <td>
-                                            <span class=\"d-none\">{$i}</span>
-                                            <span class=\"fas fa-grip-lines\"></span>
-                                        </td>
-                                        <td>
-                                        <input class=\"text-editable\" type=\"text\" name=\"{$i}\" id=\"{$i}\" value=\"Position\" placeholder=\"Enter a candidate position\" pattern=\"[a-zA-Z .\-]{1,50}\" required>
-                                        </td>
-                                        <td class=\"\">
-                                        <div class=\"text-truncate\">Lorem.</div>
-                                    </td>
-                                    </tr>
-                                    ";
-                                }
-
-                                ?>
 
                             </tbody>
 
@@ -71,11 +40,9 @@
                     </div>
 
 
-                    <!-- <div id="edit-modal" class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
-                        hello
-                    </div> -->
 
-                    <div class="toolbar">
+
+                    <div class="toolbar" style="display : none;">
                         <div class="tools">
                             <button type="button" class="btn btn-primary del me-2 me-md-3" data-selected="" data-bs-toggle="tooltip" data-bs-title="Default tooltip" data-bs-placement="right">
                                 <span class="icon trash ">
@@ -112,4 +79,5 @@ $page_scripts = '
         <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
         <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
         <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.bootstrap5.js"></script>
+        <script type="module" src="src/scripts/candidate-position.js"></script>
     ';

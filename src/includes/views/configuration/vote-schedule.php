@@ -1,7 +1,7 @@
 <main class="main">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-12 pt-4">
+            <div class="col-md-12 pt-4 ">
                 <div class="container-fluid">
                     <div class="d-flex">
                         <h4 class="page-title text-truncate mx-auto">Configuration</h2>
