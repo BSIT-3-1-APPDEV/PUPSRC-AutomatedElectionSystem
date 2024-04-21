@@ -1,5 +1,4 @@
 .container h5{
-    padding-top: 50px;
     padding-bottom: 25px;
     font-size: 22px;
     font-weight: bold;
@@ -7,11 +6,13 @@
     @media (max-width: 768px) {
         font-size: 25px;
         letter-spacing: 1px;
+        font-weight: bold;
         text-align: center;
       }
       @media (max-width: 480px) {
         text-align: center;
-        font-size: 10px;
+        font-size: 23px;
+        font-weight: bold;
         letter-spacing: 1px;
       }
 }
@@ -19,16 +20,18 @@
     font-size: 19px;
     font-weight: bold;
     text-align: center;
-    padding-top: 5px;
+    padding-top: 15px;
     padding-bottom: 5px;
     @media (max-width: 768px) {
-        font-size: 17px;
+        font-size: 22px;
         letter-spacing: 1px;
+        padding-left: 10px;
         text-align: center;
       }
       @media (max-width: 480px) {
         text-align: center;
-        font-size: 10px;
+        font-size: 20px;
+        padding-left: 10px;
         letter-spacing: 1px;
       }
 }
@@ -38,46 +41,46 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
-.btn {
-  width: 150px;
-  border: none;
-  border-radius: 20px !important;
-  background-color: #F45B9B !important; 
-  border-color: #F45B9B !important;
-  margin-top: 10px;
-  margin-right: 25px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+
   #myBarChart {
     width: 250px;
-    height: 450px;
+    height: 625px;
   }
-.btn-generate{
-    cursor: pointer;
-    background-color: #F45B9B;
-    color: #ffffff;
-    width: 250px;
-    height: 50px;
-    border: none;
-    border-radius: 20px;
-    position: relative;
-    padding-left: 5px;
-    margin-right: 50px;
-    margin-bottom: 50px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  #dropdownMenuButton1, #yeardropdown {
+    background-color: #F45B9B; 
+    width: 160px;
+    height: 40px;
+    margin-bottom: 10px;
+    border-radius: 25px;
+    color: white; 
+    padding: 10px 15px;
+    border: none; 
+    cursor: pointer; 
 }
-#generate-report-btn::before {
-  content: "";
-  background-image: url('../../vendor/node_modules/feather-icons/dist/icons/upload.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 24px;
-  height: 24px;
-  display: inline-block;
-  vertical-align: middle;
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  filter: brightness(0) invert(1);
+
+#dropdownMenuButton1:hover, #yeardropdown:hover, #yeardropdown:focus,
+#dropdownMenuButton1:focus {
+    background-color: #f571a8;
+}
+#generate-report-dropdown{
+    background-color: #F45B9B; 
+    width: 200px;
+    height: 40px;
+    margin-bottom: 200px;
+    border-radius: 25px;
+    color: white; 
+    padding: 10px 15px; 
+    border: none; 
+    cursor: pointer;
+    margin-right: 50px;
+    @media (max-width: 768px) {
+      margin-right: 120px;
+    }
+    @media (max-width: 480px) {
+      margin-right: 100px;
+    }
+}
+.candidate-image {
+  max-width: 100%; /* Set maximum width to ensure image fits within container */
+  height: auto; /* Maintain aspect ratio */
 }
