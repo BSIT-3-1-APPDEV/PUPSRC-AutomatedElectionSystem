@@ -1,38 +1,78 @@
-<?php
-// require('./includes/session-handler.php');
-// require('./includes/classes/db-config.php');
-// require('./includes/classes/db-connector.php');
-?>
-<?php
-$servername="localhost";
-$username="root";
-$password="";
-$database_name="voters-registration";
 
-$conn = mysqli_connect($servername,$username,$password,$database_name);
+<?php
 
+ require('./includes/classes/db-connector.php');
+
+ if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  //database connection
+  $conn = DatabaseConnection::connect();
+
+  //retrieve data
+  $organization = $_POST["organization"];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+
+  //password encryption using argon2
+  $hashed_password = password_hash($password, PASSWORD_ARGON2I);
+
+  //file name
+  $pname = $_FILES["cor"]["name"];
+
+  //temporary file name to store file
+  $tname = $_FILES["cor"]["tmp_name"];
+
+  //upload directory path
+  $uploads_dir = 'file-cor';
+
+  //TO move the uploaded file to specific location
+  move_uploaded_file($tname, $uploads_dir.'/'.$pname);
+
+  //sql query to insert into database
+  $sql = "INSERT into voters(organization,email,password,cor) VALUES('$organization','$email','$hashed_password','$pname')";
+
+  //checking registration is successful or not
+  if(mysqli_query($conn,$sql)){
+
+      echo "Registration successful!";
+    }
+    else{
+      echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+  
+  $conn->close();
+}
 ?>
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <!-- stylesheets -->
     <link rel="stylesheet" href="./styles/registration.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"/>
+
+    <!-- Boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Fontawesome Link for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <title>Registration</title>
   </head>
   <body>
     <div class="registration-w-footer3">
       <header class="rectangle-parent16">
         <div class="header-logo">
-          <img class="logo-icon7" alt="" src="./styles/reg-images/i-Vote-PUPSRC-AES4.png" />
+          <img class="logo-icon7" alt="" src="./styles/reg-images/ivote-logo.png" />
         </div>
       </header>
       <section class="sign-up-call-to-action-wrapper">
         <div class="sign-up-call-to-action">
-          <form id="formId"class="email-input-parent" method="post" enctype="multipart/form-data">
+          <form id="formId" class="email-input-parent was-validated" method="post" enctype="multipart/form-data">
             <div class="email-input1">
               <div class="password-input-field">
                 <div class="get-started-parent2">
@@ -41,67 +81,71 @@ $conn = mysqli_connect($servername,$username,$password,$database_name);
                 </div>
               </div>
               <div class="sign-in-button">
-                <div class="frame-parent20">
-                  <select class="elite-parent" name="org">
-                    <option selected value="">Select your organization</option>
-                    <option value="ELITE">ELITE</option>
-                    <option value="GIVE">GIVE</option>
-                    <option value="AECES">AECES</option>
-                  </select>
-                  <input
+              <div class="frame-parent20">
+
+              <div class="col-md-12 mb-2">
+                   <input 
+                   class="form-control"
                     name="email"
-                    class="email"
                     placeholder="Email Address"
                     type="text"
+                    required
                   />
-                </div>
+                  <div class="invalid-feedback">you must enter your email or webmail</div>
               </div>
-              <input
-                id="password"
-                name="password"
-                class="password-input-child"
-                placeholder="Password"
-                type="password"
-              />
-              <input
-                id="retype-password"
-                name="retype-password"
-                class="retype-password-input-item"
-                placeholder="Re-type password"
-                type="password"
-              />
-              <!-- <label for="retype-password"><span id="password-error" style="color: red;"></span></label> -->
-            </div>
-            <div class="upload-cor">
-              <div class="upload-cor-child"></div>
-              <!-- <button id="file-btn" class="rectangle-parent17">
-                <div class="frame-child32"></div>
-                <div class="upload-file4">Upload File</div>
-              </button>
-              <div class="upload-your-cor-wrapper2">
-                <div class="upload-your-cor4">Upload your COR</div>
-              </div> -->
-              <input type="file" id="file" name="cor" class="upload-your-cor4">
+                
+        
+                  <div class="col-md-12 mb-2">
+
+                   <select class="form-select" name="organization" id="organization" required>
+                    <option selected value="">Select your organization</option>
+                    <option value="acap">ACAP</option>
+                    <option value="aeces">AECES</option>
+                    <option value="elite">ELITE</option>
+                    <option value="give">GIVE</option>
+                    <option value="jehra">JEHRA</option>
+                    <option value="jmap">JMAP</option>
+                    <option value="jpia">JPIA</option>
+                    <option value="piie">PIIE</option>
+                  </select>
+                  <div class="invalid-feedback">you must pick your organization</div>
+                  </div>
+                </div>
+                </div>
+              <div class="col-md-12 mb-2">
+    <div class="input-group">
+        <input type="password" class="form-control" name="password" placeholder="Password" id="password" required>
+        <button class="btn btn-secondary" type="button" id="password-toggle" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+            <i class="fas fa-eye"></i>
+        </button>
+        <div class="invalid-feedback">you must create your password</div>
+    </div>
+</div>
+<div class="col-md-12 mb-2">
+    <div class="input-group">
+        <input type="password" class="form-control" name="confirm_password" placeholder="Re-type Password" id="confirmPassword" required>
+        <button class="btn btn-secondary" type="button" id="password-toggle" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+            <i class="fas fa-eye"></i>
+        </button>
+        <div class="invalid-feedback">you must retype your password</div>
+    </div>
+    <div class="password-mismatch-message invalid-feedback" style="display: none;">Your password does not matched</div>
+</div>
+            <div class="mb-3">
+  <label for="cor" class="form-label">Upload your COR</label>
+  <input type="file" class="form-control form-control-lg" aria-label="file example" id="cor" accept="images/*, .pdf" required>
+  <div class="invalid-feedback">You must upload your COR</div>
+</div>
             </div>
             <div class="registration-form-container1">
-              <button class="signup-btn" value="Sign Up">
-                <img
-                  class="signup-btn-child"
-                  alt=""
-                  src="./styles/reg-images/rectangle-10.svg"
-                />
-
-                <div class="sign-up4" id="sign-up">Sign Up</div>
-              </button>
+              <button class="signup-btn" id="signup-button"><div class="sign-up4" id="sign-up">Sign Up</div></button>
               <input type="submit" id="submit" hidden>
-              <div class="privacy-policy-terms-condition">
+              </form>
                 <div class="contact-us-message">
-                  <div class="already-have-an4">Already have an account?</div>
-                  <a class="sign-in4" href="./index.php">i-Vote</a>
+                  <div class="already-have-an4">Already have an account? go to&nbsp;</div>
+                  <a class="sign-in4" href="_blank">i-Vote</a>
                 </div>
-              </div>
             </div>
-          </form>
           <div class="voting-wrapper1">
             <img
               class="voting-icon4"
@@ -111,6 +155,8 @@ $conn = mysqli_connect($servername,$username,$password,$database_name);
             />
           </div>
         </div>
+        </div>
+      </div>
       </section>
       <section class="wave-parent1">
         <img class="wave-icon3" loading="lazy" alt="" src="./styles/reg-images/wave.svg" />
@@ -205,95 +251,58 @@ $conn = mysqli_connect($servername,$username,$password,$database_name);
       </section>
     </div>
   </body>
+  <!--password mismatch-->
   <script>
-    const form = document.querySelector('formId'); 
-     form.addEventListener('submit', function(event) { 
-       event.preventDefault(); 
-     }); 
-   </script>
-  <script>
-  const passwordInput = document.getElementById('password');
-  const retypePasswordInput = document.getElementById('retype-password');
-  const passwordError = document.getElementById('password-error');
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const mismatchMessage = document.querySelector('.password-mismatch-message');
+        const signUpButton = document.getElementById('signup-button');
 
-  function validatePassword() {
-    if (passwordInput.value !== retypePasswordInput.value) {
-      passwordError.textContent = "Passwords do not match";
-    } else {
-      passwordError.textContent = "";
-    }
-  }
+        function validatePasswords() {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                mismatchMessage.style.display = 'block'; // Display mismatch message
+                signUpButton.disabled = true; // Disable sign-up button
+            } else {
+                mismatchMessage.style.display = 'none'; // Hide mismatch message
+                signUpButton.disabled = false; // Enable sign-up button
+            }
+        }
 
-  retypePasswordInput.addEventListener('input', validatePassword);
+        passwordInput.addEventListener('input', validatePasswords);
+        confirmPasswordInput.addEventListener('input', validatePasswords);
+    });
 </script>
-<script>
-  var password = document.getElementById("password")
-  , confirm_password = document.getElementById("retype-password");
-
-function validatePassword(){
-  if(password.value != confirm_password.value) {
-    confirm_password.setCustomValidity("Passwords Don't Match");
-  } else {
-    confirm_password.setCustomValidity('');
-  }
-}
-password.onchange = validatePassword;
-confirm_password.onkeyup = validatePassword;
-</script>
+  <!--toggle password-->
   <script>
-  const file = document.getElementById("file");
-  const fileBtn = document.getElementById("file-btn");
-  const fileTxt = document.getElementById("custom-txt");
-fileBtn.addEventListener("click", function() {
-  file.click();
-});
-// file.addEventListener("change", function() {
-//   if (file.value) {
-//     fileTxt.innerHTML = file.value.match(
-//       /[\/\\]([\w\d\s\.\-\(\)]+)$/
-//     )[1];
-//   } else {
-//     fileTxt.innerHTML = "No file chosen, yet.";
-//   }
-// });
-  </script>
-  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const toggleButtons = document.querySelectorAll('#password-toggle');
+
+        function togglePasswordVisibility(inputField, icon) {
+            const type = inputField.getAttribute('type') === 'password' ? 'text' : 'password';
+            inputField.setAttribute('type', type);
+            // Toggle eye icon classes
+            icon.classList.toggle("fa-eye-slash");
+            icon.classList.toggle("fa-eye");
+        }
+
+        toggleButtons.forEach(function(toggleButton) {
+            toggleButton.addEventListener('click', function() {
+                const targetInputId = this.previousElementSibling.getAttribute('id');
+                const targetInput = document.getElementById(targetInputId);
+                togglePasswordVisibility(targetInput, this.querySelector("i"));
+            });
+        });
+    });
+</script>
+  <!--submit button click-->
+  <script>
   const sign_up_btn = document.getElementById("sign-up");
   const submit = document.getElementById("submit");
 sign_up_btn.addEventListener("click", function() {
   submit.click();
 });
 </script>
-<?php
-if(($_SERVER["REQUEST_METHOD"] == "POST")){
-
-  //retrieve data
-  $organization = $_POST["org"];
-  $email = $_POST["email"];
-  $password = $_POST["password"];
-
-  //file name
-  $pname = $_FILES["cor"]["name"];
-
-  //temporary file name to store file
-  $tname = $_FILES["cor"]["tmp_name"];
-
-  //upload directory path
-  $uploads_dir = 'files';
-
-  //TO move the uploaded file to specific location
-  move_uploaded_file($tname, $uploads_dir.'/'.$pname);
-
-  #sql query to insert into database
-  $sql = "INSERT into voters(organization,email,password,cor) VALUES('$organization','$email','$password','$pname')";
-
-  if(mysqli_query($conn,$sql)){
-
-      echo "File Sucessfully uploaded";
-      }
-      else{
-          echo "Error";
-      }  
-}
-?>
 </html>

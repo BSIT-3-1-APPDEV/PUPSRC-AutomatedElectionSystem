@@ -101,7 +101,11 @@ body {
   max-width: 100%;
 }
 .logo-icon7 {
-  height: 46px;
+  max-height: 100%;
+  max-width: 100%;
+  display: block;
+  margin: auto;
+  height: 60px;
   width: 148px;
   object-fit: cover;
 }
@@ -136,8 +140,7 @@ body {
 }
 .rectangle-parent16 {
   align-self: stretch;
-  background-color: var(--color-whitesmoke);
-  border: 1px solid var(--color-gray-300);
+  background-color: var(--color-gainsboro-200);
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -148,8 +151,11 @@ body {
   top: 0;
   z-index: 99;
   max-width: 100%;
-  font-size: var(--font-size-4xs);
   color: var(--color-gray-400);
+}
+.rectangle-parent16 .header-logo{
+  flex: 1;
+  text-align: center;
 }
 .get-started4,
 .sign-up-to4 {
@@ -185,7 +191,7 @@ body {
   flex-direction: row;
   padding: 0 var(--padding-12xs);
 }
-.elite-parent,
+.select_your_organization,
 .email{
   border: 0;
   background-color: var(--color-gainsboro-200);
@@ -198,18 +204,22 @@ body {
   font-family: var(--font-montserrat);
   font-weight: 500;
   font-size: var(--font-size-mini);
-  color: var(--color-silver);
+  color: var(--color-dimgray);
 }
-.elite-parent {
+.select_your_organization {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 82px;
 }
+select{
+  cursor: pointer;
+}
 .email {
   width: 100%;
   outline: 0;
   min-width: 190px;
+  color: var(--color-dimgray);
 }
 .email,
 .frame-parent20,
@@ -241,7 +251,7 @@ body {
   font-family: var(--font-montserrat);
   font-weight: 500;
   font-size: var(--font-size-mini);
-  color: var(--color-silver);
+  color: var(--color-dimgray);
   min-width: 190px;
 }
 .password-input-child,
@@ -330,7 +340,7 @@ input::file-selector-button:hover{
   font-size: var(--font-size-mini);
   font-weight: 500;
   font-family: var(--font-montserrat);
-  color: var(--color-silver);
+  color: var(--color-dimgray);
   text-align: left;
   z-index: 1;
 }
@@ -407,9 +417,6 @@ input::file-selector-button:hover{
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-}
-.privacy-policy-terms-condition {
-  padding: 0 var(--padding-mid);
 }
 .email-input-parent,
 .registration-form-container1 {
