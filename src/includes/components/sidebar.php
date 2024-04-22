@@ -59,7 +59,7 @@
 					data-bs-toggle="collapse" href="#manageCandidates" id="submenuToggle" data-bs-parent="false">
 					<div class="submenu-content">
 						<i data-feather="user-plus" class="white mb-xl-1"></i>
-						<span style="padding-left: 0.7rem;">Manage Users</span>
+						<span style="padding-left: 0.7rem;">Candidates</span>
 					</div>
 					<i class="fas fa-chevron-right" id="submenuIcon"></i>
 				</div>
