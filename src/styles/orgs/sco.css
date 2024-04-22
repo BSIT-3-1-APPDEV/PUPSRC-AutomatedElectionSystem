@@ -2,19 +2,64 @@
 	Color Scheme
 ============================*/
 
-.main-color {
-    color: #4769B2;
+:root {
+  --main-color: #4769b2;
+  --sub-color-accent: rgb(71, 105, 178, 0.5);
 }
 
-/* Lightest to Darkest */
+.main-color {
+  color: #4769b2;
+}
+
+.main-bg-color {
+  background-color: #4769b2;
+}
+
+.item a.active {
+  background-color: #4769b2;
+  color: white;
+}
+
+.org-info {
+  background-color: #4769b2;
+}
+
+.org-logo {
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid #4769b2;
+}
+
+.item a:hover {
+  background: rgb(71, 105, 178, 0.1);
+}
+
+.submenu-item:hover {
+  background: rgb(71, 105, 178, 0.1);
+}
+
+.submenu .menu-title:hover {
+  background: rgb(71, 105, 178, 0.1);
+}
+
+.menu-items .item a.active-sub {
+  color: #4769b2;
+}
+
+
+/*==========================
+	ACCENT COLORS: L TO D
+============================*/
+
 .accent-1 {
-    color: #92B3FB;
+  color: #92b3fb;
 }
 
 .accent-2 {
-    color: #5385F0;
+  color: #5385f0;
 }
 
 .accent-3 {
-    color: #2058CF;
+  color: #2058cf;
 }
