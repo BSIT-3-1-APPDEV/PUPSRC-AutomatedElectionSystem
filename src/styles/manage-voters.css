@@ -7,7 +7,6 @@
 }
 .table-title {        
     padding-bottom: 15px;
-    background: #435d7d;
     color: #fff;
     padding: 16px 30px;
     margin: -20px -25px 10px;
@@ -103,7 +102,7 @@ table.table .avatar {
     color: #999;
     margin: 0 2px;
     line-height: 30px;
-    border-radius: 2px !important;
+    border-radius: 50%;
     text-align: center;
     padding: 0 6px;
 }
@@ -111,10 +110,10 @@ table.table .avatar {
     color: #666;
 }	
 .pagination li.active a, .pagination li.active a.page-link {
-    background: #03A9F4;
+    background: var(--main-color);
 }
 .pagination li.active a:hover {        
-    background: #0397d6;
+    background: var(--sub-color-accent);
 }
 .pagination li.disabled i {
     color: #ccc;
@@ -178,4 +177,18 @@ table.table .avatar {
     cursor: auto;
     box-shadow: none;
     background: #ddd;
+}
+
+
+/* --- VALIDATE ACCOUNT --- */
+
+.funcs p:hover, i:hover {
+    cursor: pointer;
+    color: var(--bs-gray-500) !important;
+}
+
+.cor {
+    border: 1.8px solid var(--bs-gray-300);
+    border-radius: .8%;
+    padding: .8%;
 }
