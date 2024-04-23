@@ -35,7 +35,7 @@ SessionManager::checkUserRoleAndRedirect();
             <a class="nav-link" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About Us</a>
+            <a class="nav-link" href="about-us.php">About Us</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="#">Register</a>
@@ -51,7 +51,7 @@ SessionManager::checkUserRoleAndRedirect();
       <div class="row">
         <div class="col text-center text-white">
           <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" alt="iVote Logo">
-          <h5 id="index-PUPSRC" class="text-truncate stroked-text">Polytechnic University of the Philippines -
+          <h5 id="index-PUPSRC" class="text-truncate">Polytechnic University of the Philippines -
             Santa Rosa Campus</h5>
           <h1 class="stroked-text" id="index-AES">AUTOMATED ELECTION SYSTEM</h1>
           <a href="#organizations" type="button" class="btn btn-primary fw-bold index-button" id="">Select

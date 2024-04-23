@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/classes/db-connector.php'; 
+require_once 'includes/classes/db-connector.php';
 require_once 'includes/session-handler.php';
 require_once 'includes/classes/session-manager.php';
 
@@ -11,6 +11,13 @@ $org_full_name = $org_full_names[$org_name];
 
 // Check if voter_id and role is set in session
 SessionManager::checkUserRoleAndRedirect();
+
+
+
+if (isset($_SESSION['error_message'])) {
+    $errorMessage = $_SESSION['error_message'];
+    unset($_SESSION['error_message']); // Unset the error message from the session once displayed
+}
 
 ?>
 
@@ -41,7 +48,7 @@ SessionManager::checkUserRoleAndRedirect();
 <body class="login-body" id="<?php echo strtoupper($org_name); ?>-body">
     <nav class="navbar navbar-expand-lg fixed-top" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
-            <img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo">
+            <a href="landing-page.php"><img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo"></a>
         </div>
     </nav>
 
@@ -69,10 +76,18 @@ SessionManager::checkUserRoleAndRedirect();
                         <h1 class="login-account">Login Account</h1>
                         <p>Sign in your account</p>
 
+                    <?php if (isset($errorMessage)) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $errorMessage; ?>
+                        </div>
+                    <?php endif; ?>
+                        
                         <div class="col-md-12 mt-4 mb-3">
                             <input type="email" class="form-control" id="Email" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
+                            <div class="invalid-feedback">
+                                Input field cannot be blank.
+                            </div>
                         </div>
-
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
@@ -83,14 +98,14 @@ SessionManager::checkUserRoleAndRedirect();
                             </div>
                         </div>
 
-                        <a href="#">Forgot Password</a>
+                        <a href="#" class="text-align-start" >Forgot Password</a>
 
                         <div class="d-grid gap-2 mt-5 mb-4">
-                            <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button>
+                            <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
+                            <button class="btn login-sign-in-button" id="<?php echo strtoupper($org_name); ?>-login-button"  name="sign_in" type="submit">Sign In</button>
                         </div>
 
-                        <p>Don't have an account? <a href="#" id="<?php echo strtolower($org_name); ?>SignUP">Sign
-                                Up</a></p>
+                        <p>Don't have an account? <a href="#" id="<?php echo strtolower($org_name); ?>SignUP">Sign Up</a></p>
                     </form>
                 </div>
             </div>
