@@ -163,52 +163,51 @@ function fetchCandidatesFullScreen() {
 }
 
 
-
 function updateChart(candidatesData) {
-  const IMG_URLS = candidatesData.map(candidate => `images/candidate-profile/${candidate.photoUrl}`);
-  const DATA_POINTS = candidatesData.map(candidate => candidate.votesCount);
-  const LABELS = candidatesData.map(candidate => `${candidate.firstName} ${candidate.lastName}`);
-
-  const CONFIG = {
-      type: 'bar',
-      data: {
-          labels: LABELS,
-          datasets: [{
-              label: '',
-              data: DATA_POINTS,
-              backgroundColor: LIGHTER_SHADES, 
-          }]
-      },
-      options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          maxBarThickness: 40,
-          
-          plugins: {
-              tooltip: {
-                 
-              },
-              legend: {
-                  display: false
-              }
-          },
-          scales: {
-              y: {
-                  beginAtZero: true,
-                  grid: {
-                      display: false
-                  }
-              },
-              x: {
-                  display: false,
-                  grace: '150%',
-                  grid: {
-                      display: false
-                  }
-              }
-          }
-      },
+    const IMG_URLS = candidatesData.map(candidate => `images/candidate-profile/${candidate.photoUrl}`);
+    const DATA_POINTS = candidatesData.map(candidate => candidate.votesCount);
+    const LABELS = candidatesData.map(candidate => `${candidate.firstName} ${candidate.lastName}`);
+  
+  
+    const CONFIG = {
+        type: 'bar',
+        data: {
+            labels: LABELS,
+            datasets: [{
+                label: '',
+                data: DATA_POINTS,
+                backgroundColor: LIGHTER_SHADES,
+                barThickness: 'flex',
+              
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false, // Ensure the chart is not confined to a fixed aspect ratio
+            maxBarThickness: 34,
+            plugins: {
+                tooltip: {},
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        display: false
+                    }
+                },
+                x: {
+                    display: false,
+                    grace: '200%%',
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        },
       plugins: [{
           id: 'multiBarLogo',
           afterDatasetDraw(chart, args, options) {
@@ -307,4 +306,9 @@ screenfull.on('change', () => {
     }
 });
 
+window.addEventListener('resize', () => {
+    if (myChart) {
+        myChart.resize();
+    }
+});
 

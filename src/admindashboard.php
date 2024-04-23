@@ -276,42 +276,43 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
                 
                  <div class="col-md-5 col-lg-5 justify-content-between d-flex flex-direct px-0">
                   
-                 <div class="card p-3 mt-sm-3 mt-md-0">
-                <div class="card-body p-3">
+                 <div class="card p-3 mt-3 mt-md-0">
+                 <div class="card-body d-flex d-md-block align-items-center justify-content-center p-3">
 
             
                 <div class="row ">
                     <div class="col-md-9">
-                        <div class="col-md-12">
+                    <div class="col-md-12 d-flex d-md-block justify-content-center">
                          <span class="secondary-metrics-header main-color">   Total count of </span>
                         </div>
-                        <div class="col-md-12 py-1 me-2">
+                        <div class="col-md-12 d-flex d-md-block justify-content-center">
                         <span class="secondary-metrics-content ">   VOTER ACCOUNTS </span>
                         </div>
                     </div>
                     <div class="col-md-3">
+                    <div class="col-md-12 d-flex d-md-block justify-content-center">
                     <div class="circle main-bg-color">
                     <span class="secondary-metrics-number"><?php echo $totalVotersCount; ?></span>
-</div>
+</div> </div>
                     </div>
                 </div>     
             </div>
             </div>
-            <div class="card p-3 mt-sm-3 mt-md-0">
-                <div class="card-body d-sm-flex d-md-block align-items-center justify-content-center p-3">
+            <div class="card p-3 mt-3 mt-md-0">
+                <div class="card-body d-flex d-md-block align-items-center justify-content-center p-3">
 
             
                 <div class="row">
-                    <div class="col-md-9 ">
-                        <div class="col-md-12 d-sm-flex d-md-block justify-content-center">
+                    <div class="col-md-9 justify-content-center d-flex d-md-block flex-direct">
+                        <div class="col-md-12 d-flex d-md-block justify-content-center">
                         <span class="secondary-metrics-header main-color">   Total count of </span>
                         </div>
-                        <div class="col-md-12 d-sm-flex d-md-block justify-content-center">
+                        <div class="col-md-12 d-flex d-md-block justify-content-center">
                         <span class="secondary-metrics-content py-1">   CANDIDATES </span>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                    <div class="col-md-12 d-sm-flex d-md-block justify-content-center">
+                    <div class="col-md-3 justify-content-center d-flex d-md-block flex-direct">
+                    <div class="col-md-12 d-flex d-md-block justify-content-center">
                     <div class="circle main-bg-color">
                     <span class="secondary-metrics-number"><?php echo $candidateCount; ?></span>
 </div>                  
