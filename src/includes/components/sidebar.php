@@ -99,7 +99,7 @@
 			<i class="fas fa-bars " id="sidebar-close"></i>
 		</div>
 
-		<div>
+		<div class="pe-none">
 			<img src="images/resc/ivote-logo.png" class="me-xl-3" style="height:35px">
 		</div>
 
@@ -111,8 +111,8 @@
 						class="fas fa-chevron-down main-color fs-6"></i>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end main-color" aria-labelledby="dropdownMenuButton">
-					<li><a class="dropdown-item" href="#">Profile</a></li>
-					<li><a class="dropdown-item" href="voter-logout.php">Log Out</a></li>
+					<li class="px-xl-2"><a class="dropdown-item" href="profile.php">Profile</a></li>
+					<li class="px-xl-2"><a class="dropdown-item" href="voter-logout.php">Log Out</a></li>
 				</ul>
 			</div>
 		</div>

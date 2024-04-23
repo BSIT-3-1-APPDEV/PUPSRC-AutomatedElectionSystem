@@ -269,8 +269,11 @@ body > * {
   padding: 5px 10px;
   font-size: 1.563rem;
   background: #fff;
-  cursor: pointer;
   max-height: 120px;
+}
+
+.navbar img {
+  cursor: pointer !important;
 }
 
 .main {
