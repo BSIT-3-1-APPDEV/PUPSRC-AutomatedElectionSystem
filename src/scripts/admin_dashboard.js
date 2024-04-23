@@ -1,3 +1,65 @@
+let originalCandidatesData; // Variable to store the original candidates data
+let candidatesData;
+let isDataReset = false; // Flag to track whether data is reset
+
+document.getElementById('reset-button').addEventListener('click', () => {
+    resetCandidatesData(candidatesData);
+});
+
+
+  
+document.getElementById('fullscreen-button').addEventListener('click', () => {
+    // Get a reference to the full-screen element
+    const ELEMENT = document.querySelector('.full-screen');
+    
+    // Check if full-screen mode is supported
+    if (screenfull.isEnabled) {
+        // Toggle full-screen mode for the element
+        screenfull.request(ELEMENT);
+    } else {
+        // If full-screen mode is not supported, handle it accordingly
+        alert("Full screen mode is not supported.");
+    }
+});
+
+function resizeChart() {
+    var canvas = document.getElementById('myChart');
+    canvas.style.width = '58rem'; // Set the new width
+    canvas.style.height = '30rem'; // Set the new height
+    myChart.resize(); // Resize the chart
+}
+
+// Function to restore the chart to its original size
+function restoreChart() {
+    var canvas = document.getElementById('myChart');
+    canvas.style.width = '58rem'; // Set the new width
+    canvas.style.height = '18rem'; // Set the new height
+    myChart.resize(); // Resize the chart
+}
+// Add event listener for changes in fullscreen mode
+screenfull.on('change', () => {
+    // Get a reference to the full-screen element
+    const ELEMENT = document.querySelector('.full-screen');
+    const ELEMENT2= document.querySelector('.full-screen-content');
+    const ELEMENT3= document.querySelector('.chart-container');
+
+    // Check if the element is in fullscreen mode
+    if (screenfull.isFullscreen) {
+        // Add your desired class to the element when in fullscreen mode
+        ELEMENT.classList.add('centered');
+        ELEMENT2.classList.add('centered');
+        ELEMENT3.classList.add('centered');
+        
+        resizeChart();
+    } else {
+        // Remove the class when exiting fullscreen mode
+        ELEMENT.classList.remove('centered');
+        ELEMENT2.classList.remove('centered');
+        ELEMENT3.classList.remove('centered');
+        restoreChart();
+        
+    }
+});
 
 function generateLighterShades(baseColor, steps) {
   const RGB_COLOR = baseColor.match(/\d+/g); // Extract RGB values from the base color
@@ -24,7 +86,7 @@ const COMPUTED_COLOR = getComputedStyle(document.querySelector('.main-bg-color')
 const LIGHTER_SHADES = generateLighterShades(COMPUTED_COLOR, 5); // Change 5 to the number of shades you want
 
 
-let MY_CHART;
+let myChart;
 
 function fetchCandidates(selectedPosition) {
   const XHR = new XMLHttpRequest();
@@ -34,9 +96,9 @@ function fetchCandidates(selectedPosition) {
   XHR.onreadystatechange = function() {
       if (XHR.readyState === XMLHttpRequest.DONE) {
           if (XHR.status === 200) {
-              const CANDIDATES_DATA = JSON.parse(XHR.responseText);
-              console.log('Candidates Data:', CANDIDATES_DATA);
-              updateChart(CANDIDATES_DATA);
+               candidatesData = JSON.parse(XHR.responseText);
+              console.log('Candidates Data:', candidatesData);
+              updateChart(candidatesData);
           } else {
               console.error('Error fetching candidates:', XHR.status);
           }
@@ -45,18 +107,68 @@ function fetchCandidates(selectedPosition) {
 
   XHR.send(`position=${selectedPosition}`);
 }
-
-function updateChart(CANDIDATES_DATA) {
-  const IMG_URLS = CANDIDATES_DATA.map(candidate => `images/candidate-profile/${candidate.photoUrl}`);
-  const DATA_POINTS = CANDIDATES_DATA.map(candidate => candidate.votesCount);
-  const LABELS = CANDIDATES_DATA.map(candidate => `${candidate.firstName} ${candidate.lastName}`);
-
- 
-
+function fetchCandidatesFullScreen() {
+    const XHR = new XMLHttpRequest();
+    XHR.open('GET', 'includes/fetch-all-candidates.php', true); // Modify URL as needed
+    XHR.setRequestHeader('Content-Type', 'application/json');
   
+    XHR.onreadystatechange = function() {
+        if (XHR.readyState === XMLHttpRequest.DONE) {
+            if (XHR.status === 200) {
+                candidatesData = JSON.parse(XHR.responseText);
+                console.log('Candidates Data (Full Screen):', candidatesData);
+                updateChart(candidatesData);
+            } else {
+                console.error('Error fetching candidates:', XHR.status);
+            }
+        }
+    };
   
+    XHR.send();
+  }
+  
+  function resetCandidatesData() {
+    const PLACEHOLDER_IMAGE_URL = 'placeholder.png';
+    const POSITION_COUNT = {};
+    if (!isDataReset) {
+        // Backup current data before resetting
+        originalCandidatesData = JSON.parse(JSON.stringify(candidatesData));
+        
+        // Replace candidate names with their positions
+        for (let i = 0; i < candidatesData.length; i++) {
+            const position = candidatesData[i].positionTitle;
+            
+            // Increment the count for this position
+            POSITION_COUNT[position] = (POSITION_COUNT[position] || 0) + 1;
+        
+            // Set the first name to the position title
+            candidatesData[i].firstName = position;
+        
+            // Set the last name to the count for this position
+            candidatesData[i].lastName = `#${POSITION_COUNT[position]}`;
+        
+            // Set the photo URL to the placeholder image
+            candidatesData[i].photoUrl = PLACEHOLDER_IMAGE_URL;
+        }
+        
+        isDataReset = true; // Update flag
+    } else {
+        // Restore original data
+        candidatesData = JSON.parse(JSON.stringify(originalCandidatesData));
+        isDataReset = false; // Update flag
+    }
 
- 
+    // Re-render the chart with updated data
+    updateChart(candidatesData);
+}
+
+
+
+function updateChart(candidatesData) {
+  const IMG_URLS = candidatesData.map(candidate => `images/candidate-profile/${candidate.photoUrl}`);
+  const DATA_POINTS = candidatesData.map(candidate => candidate.votesCount);
+  const LABELS = candidatesData.map(candidate => `${candidate.firstName} ${candidate.lastName}`);
+
   const CONFIG = {
       type: 'bar',
       data: {
@@ -71,7 +183,7 @@ function updateChart(CANDIDATES_DATA) {
           indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
-          maxBarThickness: 50,
+          maxBarThickness: 40,
           
           plugins: {
               tooltip: {
@@ -134,11 +246,11 @@ function updateChart(CANDIDATES_DATA) {
                       ctx.textAlign = 'start';
                       ctx.fillStyle = 'black';
                       ctx.font = `bold ${FONT_SIZE}px Montserrat`;
-                      ctx.fillText(CANDIDATES_DATA[i].firstName + ' ' + CANDIDATES_DATA[i].lastName, TEXT_X, TEXT_Y);
+                      ctx.fillText(candidatesData[i].firstName + ' ' + candidatesData[i].lastName, TEXT_X, TEXT_Y);
 
                       const SMALL_TEXT_Y = args.meta.data[i].y + FONT_SIZE - 1;
                       ctx.font = `bold ${FONT_SIZE - 5.3}px Montserrat`;
-                      ctx.fillText('Votes: ' + CANDIDATES_DATA[i].votesCount, TEXT_X, SMALL_TEXT_Y);
+                      ctx.fillText('Votes: ' + candidatesData[i].votesCount, TEXT_X, SMALL_TEXT_Y);
                   };
 
                   IMG.onerror = function() {
@@ -149,12 +261,50 @@ function updateChart(CANDIDATES_DATA) {
       }]
   };
 
-  if (MY_CHART) {
-      MY_CHART.destroy();
+  if (myChart) {
+      myChart.destroy();
   }
 
-  MY_CHART = new Chart(document.getElementById('myChart'), CONFIG);
-}
+  myChart = new Chart(document.getElementById('myChart'), CONFIG);
+   if (screenfull.isFullscreen) {
 
-// Trigger fetchCandidates function with a selected position
-fetchCandidates('President');
+        resizeChart();
+    } else {
+        // Apply normal size adjustments
+        restoreChart();
+    }
+}
+// Add an event listener to the select element
+document.getElementById('positions').addEventListener('change', function() {
+    const SELECTED_POSITION = this.value; // Get the selected position
+    if (!screenfull.isFullscreen) {
+        fetchCandidates(SELECTED_POSITION); // Fetch candidates based on selected position
+    }
+});
+
+// Add event listener for changes in fullscreen mode
+screenfull.on('change', () => {
+    // Get a reference to the full-screen element
+    
+    const CANDIDATES_DROPDOWN_BUTTON = document.getElementById('positions');
+    const HIDE_CANDIDATES_BUTTON = document.getElementById('reset-button');
+    const HIDE_FULL_SCREEN = document.getElementById('fullscreen-button');
+    // Check if the element is in fullscreen mode
+    if (screenfull.isFullscreen) {
+        fetchCandidatesFullScreen(); // Fetch all candidates when entering full-screen mode
+        CANDIDATES_DROPDOWN_BUTTON.classList.add('d-none');
+        HIDE_CANDIDATES_BUTTON.classList.remove('d-none');
+        HIDE_FULL_SCREEN.classList.add('d-none');
+        resizeChart();
+    } else {
+        // If exiting full-screen mode, fetch candidates based on the selected position
+        const SELECTED_POSITION = document.getElementById('positions').value;
+        HIDE_CANDIDATES_BUTTON.classList.add('d-none');
+        fetchCandidates(SELECTED_POSITION);
+        CANDIDATES_DROPDOWN_BUTTON.classList.remove('d-none');
+        HIDE_FULL_SCREEN.classList.remove('d-none');
+        restoreChart();
+    }
+});
+
+
