@@ -112,7 +112,7 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end main-color" aria-labelledby="dropdownMenuButton">
 					<li><a class="dropdown-item" href="#">Profile</a></li>
-					<li><a class="dropdown-item" href="voter-logout.php"">Log Out</a></li>
+					<li><a class="dropdown-item" href="voter-logout.php">Log Out</a></li>
 				</ul>
 			</div>
 		</div>
