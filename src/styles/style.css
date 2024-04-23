@@ -1,7 +1,6 @@
 @import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap";
 
-
- /* --- MEDIAS --- */
+/* --- MEDIAS --- */
 
 @media (max-width: 1200px) {
   .sidebar {
@@ -31,7 +30,6 @@
     padding-bottom: 5rem !important;
   }
 
-
   /* --- Containers states if sidebar is open */
   .sidebar.open {
     left: 0;
@@ -59,7 +57,6 @@
   }
   /* --- End: Containers states if sidebar is open  --- */
 
-
   /* --- Shadow effect */
   .main::before,
   .footer::before {
@@ -79,7 +76,6 @@
     display: block;
   }
   /* --- End: Shadow effect --- */
-
 
   /* --- Footer --- */
   .footer .col-md-6,
@@ -130,12 +126,12 @@
 
 /* ---- END OF MEDIAS ---- */
 
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
+  color: var(---main-black);
 }
 body {
   position: relative;
@@ -152,7 +148,7 @@ body > * {
 }
 
 .container-wrapper {
-  margin-bottom: 2rem!important;
+  margin-bottom: 2rem !important;
 }
 .sidebar {
   position: fixed;
@@ -272,7 +268,6 @@ body > * {
   max-height: 120px;
 }
 
-
 .navbar img {
   cursor: pointer !important;
 }
@@ -382,6 +377,12 @@ body > * {
   background-color: #e7e7e7;
 }
 
+.horizontal-line {
+  width: 80%;
+  height: 2px;
+  background-color: #e7e7e7;
+}
+
 .link:hover {
   color: #43abc8 !important;
 }
@@ -394,4 +395,13 @@ body > * {
 .soc-med-icons:hover {
   transform: translateY(-5px);
   cursor: pointer;
+}
+
+.check-perc {
+  height: 70% !important;
+  width: 50% !important;
+}
+
+.close-mark {
+  margin: 2.5rem 1rem 0rem 0rem !important;
 }
