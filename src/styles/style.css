@@ -272,6 +272,7 @@ body > * {
   max-height: 120px;
 }
 
+
 .navbar img {
   cursor: pointer !important;
 }
@@ -315,6 +316,11 @@ body > * {
   max-height: 200px;
   overflow-y: auto;
 }
+
+.header-left i {
+  cursor: pointer !important;
+}
+
 .header-right {
   border: none !important;
 }
@@ -324,6 +330,7 @@ body > * {
   font-size: 1.6rem;
   font-weight: 600;
 }
+
 .org-sub-name {
   margin-top: 15px;
   color: #f45b9b;
@@ -371,7 +378,7 @@ body > * {
   margin: auto;
   right: 0;
   width: 2.61px;
-  height: 80%; /* Changed height to 80% */
+  height: 80%;
   background-color: #e7e7e7;
 }
 
