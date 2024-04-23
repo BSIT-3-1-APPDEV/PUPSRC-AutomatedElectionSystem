@@ -81,3 +81,86 @@ fs-12 {
 }
 
 /*# sourceMappingURL=core.css.map */
+:root {
+  --acap: #592293;
+  --aeces: #6610f2;
+  --elite: #ee1c24;
+  --give: #084a6f;
+  --jehra: #a60000;
+  --jmap: #fad807;
+  --jpia: #f45b9b;
+  --piie: #026644;
+  --sco: #000;
+  --main-red: #ea423c;
+  --main-blue: #5d83d1;
+  --black: #000;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #4d4d4d;
+  --link-blue: #4169E1;
+  --primary: #1b00ff;
+  --secondary: #6c757d;
+  --success: #41ae32;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: Montserrat, sans-serif;
+  --font-family-monospace: Liberation Mono, "Courier New", monospace;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.main-red {
+  color: #ea423c !important;
+}
+
+.main-blue {
+  color: var(--main-blue) !important;
+}
+
+.dark-gray {
+  color: var(--gray-dark) !important;
+}
+
+.link-blue {
+  color: var(--link-blue);
+}
+
+.spacing-6 {
+  letter-spacing: 0.06rem !important;
+}
+
+.spacing-8 {
+  letter-spacing: 0.08rem !important;
+}
+
+.spacing-10 {
+  letter-spacing: 0.01rem !important;
+}
+
+.spacing-15 {
+  letter-spacing: 0.015rem !important;
+}
+
+fs-12 {
+  font-size: 0.5rem;
+}
+
+.w-35 {
+  width: 35% !important;
+}
+
+.link:hover {
+  color: #4169E1 !important;
+}
+
+/*# sourceMappingURL=core.css.map */
