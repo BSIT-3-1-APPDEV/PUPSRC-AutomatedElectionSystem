@@ -1,20 +1,61 @@
-/*==============================================================
-	Color Scheme: ACAP
-==============================================================*/
+/*==========================
+	Color Scheme
+============================*/
+
+:root {
+  --main-color: #f45b9b;
+  --sub-color-accent: rgb(244, 91, 155, 0.5);
+}
 
 .main-color {
-    color: #F45B9B;
+  color: #f45b9b;
+}
+
+.main-bg-color {
+  background-color: #f45b9b;
+}
+.item a.active,
+.submenu-item.active {
+    background-color: #f45b9b;
+    color: white;
+}
+
+.item a.active:hover,
+.submenu-item.active:hover {
+    background-color: #f45b9b;
+    color: white;
+}
+.org-info {
+  background-color: #f45b9b;
+}
+.org-logo {
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid #f45b9b;
+}
+.item a:hover {
+  background: rgb(244, 91, 155, 0.1);
+}
+.submenu-item:hover {
+  background: rgba(244, 91, 155, 0.1);
+}
+.submenu .menu-title:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.menu-items .item a.active-sub {
+  color: #f45b9b;
 }
 
 /* Lightest to Darkest */
 .accent-1 {
-    color: #FF8EBD;
+  color: #ff8ebd;
 }
 
 .accent-2 {
-    color: #F45B9B;
+  color: #f45b9b;
 }
 
 .accent-3 {
-    color: #F0488F;
+  color: #f0488f;
 }
