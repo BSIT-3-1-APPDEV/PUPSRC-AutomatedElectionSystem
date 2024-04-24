@@ -25,6 +25,6 @@ else {
 }
 
 function regenerateSessionId() {
-    session_regenerate_id();
+    session_regenerate_id(true);
     $_SESSION['last_regen'] = time();
 }
