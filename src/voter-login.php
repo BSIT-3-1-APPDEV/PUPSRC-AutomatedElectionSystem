@@ -1,22 +1,17 @@
 <?php
-require_once 'includes/classes/db-connector.php';
-require_once 'includes/session-handler.php';
-require_once 'includes/classes/session-manager.php';
-
-$org_name = $_SESSION['organization'] ?? '';
-
-include 'includes/organization-list.php';
-
-$org_full_name = $org_full_names[$org_name];
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/session-manager.php');
+include FileUtils::normalizeFilePath(__DIR__ . '/includes/session-exchange.php');
 
 // Check if voter_id and role is set in session
 SessionManager::checkUserRoleAndRedirect();
 
-
-
 if (isset($_SESSION['error_message'])) {
     $errorMessage = $_SESSION['error_message'];
-    unset($_SESSION['error_message']); // Unset the error message from the session once displayed
+    // Unset the error message from the session once displayed
+    unset($_SESSION['error_message']); 
 }
 
 ?>
@@ -70,23 +65,31 @@ if (isset($_SESSION['error_message'])) {
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-6 login-right-section">
-                <div>
-                    <form action="voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
-                        <h1 class="login-account">Login Account</h1>
-                        <p>Sign in your account</p>
 
-                    <?php if (isset($errorMessage)) : ?>
-                        <div class="alert alert-danger" role="alert">
-                            <?php echo $errorMessage; ?>
+                <div>
+                    <form action="voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>                
+                        <h1 class="login-account">Login Account</h1>
+                        <p>Sign in to your account</p>
+
+                        <!--Displays error message-->
+                        <?php if (isset($errorMessage)) : ?>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+                            <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            </symbol>
+                        </svg>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>                            
+                            <span class="pe-3"><?php echo $errorMessage; ?></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
                         </div>
-                    <?php endif; ?>
+                        <?php endif; ?>
                         
                         <div class="col-md-12 mt-4 mb-3">
                             <input type="email" class="form-control" id="Email" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
-                            <div class="invalid-feedback">
-                                Input field cannot be blank.
-                            </div>
                         </div>
 
                         <div class="col-md-12 mb-2">
@@ -112,27 +115,7 @@ if (isset($_SESSION['error_message'])) {
         </div>
     </div>
 
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (() => {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-    </script>
+    <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Updated script for password toggle -->
     <script>
