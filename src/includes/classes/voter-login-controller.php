@@ -12,12 +12,14 @@ class LoginController extends Login {
 
     public function loginUser() {
         if($this->isEmpty()) {
-            header("Location: ../../voter-login.php?Username-and-password-cannot-be-empty.");
+            $_SESSION['error_message'] = 'Input fields cannot be empty.';
+            header("Location: voter-login.php");           
             exit();
         }
         
         if(!$this->isInvalidEmail()) {
-            header("Location: ../../voter-login.php?Please-provide-a-valid-email-address");
+            $_SESSION['error_message'] = 'Please provide a valid email address';
+            header("Location: voter-login.php");          
             exit();
         }
 
