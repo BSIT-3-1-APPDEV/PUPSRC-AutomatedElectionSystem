@@ -1,6 +1,7 @@
 <?php
-require_once 'includes/session-handler.php';
-require_once 'includes/classes/session-manager.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/session-manager.php');
 
 // Check if voter_id and role is set in session
 SessionManager::checkUserRoleAndRedirect();

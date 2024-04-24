@@ -39,14 +39,14 @@ class Login
                 // If email and password mismatched
                 else {
                     // return 'Email and Password mismatched.';
-                    $_SESSION['error_message'] = 'Email and Password mismatched.';
+                    $_SESSION['error_message'] = 'Oops, Email and Password do not matched!';
                     header("Location: voter-login.php");
                     exit();
                 }
             }
             // If username does not find a match
             else {
-                $_SESSION['error_message'] = 'User with this email does not exist.';
+                $_SESSION['error_message'] = 'User with this email address does not exist.';
                 header("Location: voter-login.php");
                 exit();
             }
