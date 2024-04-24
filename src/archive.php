@@ -1,33 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+require_once 'includes/classes/db-connector.php';
+require_once 'includes/session-handler.php';
+require_once 'includes/classes/session-manager.php';
 
-<head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="icon" type="image/x-icon" href="../../src/images/resc/ivote-favicon.png">
-	<title>Archive</title>
+if (isset($_SESSION['voter_id'])) {
 
-	<!-- Icons -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    // ------ SESSION EXCHANGE
+    include 'includes/session-exchange.php';
+    // ------ END OF SESSION EXCHANGE
+    ?>
 
-	<!-- UPON USE, REMOVE/CHANGE THE '../../' -->
-	<link rel="stylesheet" href="../src/styles/style.css" />
-    <link rel="stylesheet" href="../src/styles/archive.css" />
-	<link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <!DOCTYPE html>
+    <html lang="en">
 
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
+        <title>Manage Account</title>
 
-<body>
+        <!-- Icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-	<!---------- SIDEBAR + HEADER START ------------>
-	<?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
-	<!---------- SIDEBAR + HEADER END ------------>
+        <!-- Styles -->
+        <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_name . '.css'; ?>" id="org-style">
+        <link rel="stylesheet" href="styles/style.css" />
+        <link rel="stylesheet" href="styles/core.css" />
+        <link rel="stylesheet" href="styles/archive.css" />
+        <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+    </head>
+
+    <body>
+
+        <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
 
 
-	<div class="main">
-         <div class="container">
+        <div class="main">
+
+        <div class="container">
             <h5>ARCHIVE PER SCHOOL YEAR</h5>
                 <div class="row">
                     <div class="col-12 col-md-12 col-lg-12 mx-auto">
@@ -80,11 +94,85 @@
                     </div>
                 </div>
         </div>
-    </div>            
-                                    <!-- Chart.js -->
-                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-                                    <script>
-                                        // Function to adjust bar thickness based on screen width
+    </div> 
+    <div class="popup">
+        <div class="row">
+            <div class="col-9 col-md-9 col-lg-9 mx-auto">
+                <div class="popup-content">
+                    <h2>Archive Preview</h2>
+                    <div class="popup-container">
+                        <img class="preview-logo" src="images/logos/jpia.png" alt= "Organization Logo">
+                        <h3>JUNIOR PHILIPPINE INSTITUTE OF ACCOUNTANTS</h3>
+                        <h2>PRESIDENT</h2>
+                        <h1>2021-2022</h1>
+                    <table>
+                    <tr>
+                        <th>Candidate Name</th>
+                        <th>Course, Year & Section</th>
+                        <th>Number of Votes</th>
+                    </tr>
+                    <tr>
+                        <td>Kim Mingyu</td>
+                        <td>BSIT 3-1</td>
+                        <td>349</td>
+                    </tr>
+                    <tr>
+                        <td>Kim Jennie</td>
+                        <td>BSIT 3-1</td>
+                        <td>287</td>
+                    </tr>
+                    <tr>
+                        <td>Park Jihoon</td>
+                        <td>BSIT 3-1</td>
+                        <td>108</td>
+                    </tr>
+                </table>
+                    </div>
+                    <div class="button-container">
+                        <button class="btn btn-primary" id="download-pdf">Download</button>
+                        <button class="btn btn-secondary" id="cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup2">
+        <div class="row">
+            <div class="col-9 col-md-9 col-lg-9 mx-auto">
+                <div class="popup-content">
+                <h2>Archive Preview</h2>
+                    <div class="popup-container">
+                    <canvas id="myBarChart"></canvas>
+                    </div>
+                    <div class="button-container">
+                        <button class="btn btn-primary" id="download-excel">Download</button>
+                        <button class="btn btn-secondary2" id="cancel">Cancel</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                                <script>
+                                    // Script for pdf preview pop-up
+                                    document.getElementById("generate-pdf").addEventListener("click", function(){
+                                        document.querySelector(".popup").style.display = "flex";
+                                    })
+                                    document.querySelector(".btn-secondary").addEventListener("click", function(){
+                                        document.querySelector(".popup").style.display = "none";
+                                    })
+                                    // Script for pdf preview pop-up
+                                    document.getElementById("generate-excel").addEventListener("click", function(){
+                                        document.querySelector(".popup2").style.display = "flex";
+                                    })
+                                    document.querySelector(".btn-secondary2").addEventListener("click", function(){
+                                        document.querySelector(".popup2").style.display = "none";
+                                    })
+                                </script>
+                                <!-- Chart.js -->
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+                                <script>
+                                    // Function to adjust bar thickness based on screen width
                                         function adjustBarThickness(chartInstance) {
                                             var screenWidth = window.innerWidth;
                                             var barThickness = screenWidth < 768 ? 20 : 50; // Define the desired thickness for smaller screens
@@ -144,7 +232,7 @@
 
                                         chart.data.labels.forEach(function(label, index) {
                                         var image = new Image();
-                                        image.src = '../../src/images/resc/mingkyu.jpg'; // Replace with the correct image source
+                                        image.src = '../src/images/resc/mingkyu.jpg'; // Replace with the correct image source
                                         image.onload = function() {
                                             var bar = chart.getDatasetMeta(0).data[index];
                                             var img = new Image();
@@ -229,13 +317,20 @@
                                     window.addEventListener('resize', function() {
                                         adjustBarThickness(myBarChart);
                                     });
-                                    
-                                    </script>      
+                                </script>
 
-	<!-- UPON USE, REMOVE/CHANGE THE '../../' -->
-	<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="scripts/script.js"></script>
-	<script src="scripts/feather.js"></script>
+        <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
 
-</body>
-</html>
+
+        <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="scripts/script.js"></script>
+        <script src="scripts/feather.js"></script>
+    </body>
+    </html>
+
+    <?php
+} else {
+    header("Location: landing-page.php");
+}
+?>
+
