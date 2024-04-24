@@ -19,6 +19,12 @@ SessionManager::checkUserRoleAndRedirect();
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>PUP Automated Election System</title>
+
+
+  <!-- Montserrat Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body id="index-body">
@@ -35,7 +41,7 @@ SessionManager::checkUserRoleAndRedirect();
             <a class="nav-link" href="landing-page.php">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About Us</a>
+            <a class="nav-link" href="about-us.php">About Us</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="#">Register</a>
@@ -65,11 +71,11 @@ SessionManager::checkUserRoleAndRedirect();
   </section>
 
   <!-- Normal section -->
-  <section>
+  <section id="normal-section">
     <div class="container-fluid ">
       <div class="row">
         <div class="col col-md-6 about-us">
-          <img src="images/resc/about us.png" alt="">
+          <img src="images/resc/icons/about us.png" alt="about us icon" class="about-us-icon">
         </div>
         <div class="col col-md-6 about-us-body">
           <h2 class="landing-organization-title"><span class="hello-text">About</span> iVote</h2>
@@ -150,6 +156,19 @@ SessionManager::checkUserRoleAndRedirect();
     window.addEventListener('load', updateText);
     window.addEventListener('resize', updateText);
   </script>
+
+
+  <script>
+    // Wait for the document to finish loading
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get the element to scroll to
+      var normalSection = document.getElementById("normal-section");
+      // Scroll to the element
+      normalSection.scrollIntoView();
+    });
+  </script>
+
+
 </body>
 
 </html>

@@ -19,6 +19,12 @@ SessionManager::checkUserRoleAndRedirect();
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>PUP Automated Election System</title>
+
+
+  <!-- Montserrat Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body id="index-body">
