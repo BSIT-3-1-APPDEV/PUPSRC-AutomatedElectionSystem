@@ -516,48 +516,6 @@ a {
 
 /* End PIIE Login */
 
-/* Media query for small screens */
-@media (max-width: 768px) {
-  .login-body {
-    padding-top: 15%;
-  }
-
-  #index-AES {
-    font-size: 27px;
-  }
-
-  .login-AES {
-    padding-bottom: 0%;
-  }
-
-  .login-form {
-    width: 100%;
-    border-radius: 40px;
-  }
-
-  .login-right-section {
-    background-color: transparent;
-    min-height: 0vh;
-  }
-
-  .login-left-section {
-    min-height: 0vh;
-  }
-
-  .login-wave-footer {
-    position: fixed;
-    /* Fixed position */
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-    transform: rotate(180deg);
-    z-index: -1;
-    /* Move to the background */
-  }
-}
-
 /* Password Toggle in different browsers*/
 ::-ms-reveal {
   display: none !important;
@@ -608,10 +566,6 @@ footer {
   left: 0;
   width: 100%;
   z-index: 1000;
-}
-
-.footer#about-us{
-  margin-top: 50px;
 }
 
 .custom-shape-divider-top-1713266907 {
@@ -674,4 +628,78 @@ footer {
 .connect-with-us{
   width: 25px;
   margin: 2%;
+}
+
+
+/* About Us */
+.about-us{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-us-body{
+  text-align: center;
+  padding: 5%;
+}
+
+.connect-with-us{
+  width: 25px;
+  margin: 2%;
+}
+
+.about-us-icon{
+  width: 80%;
+  /* width: 600px; */
+}
+
+
+
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+  .login-body {
+    padding-top: 15%;
+  }
+
+  #index-AES {
+    font-size: 27px;
+  }
+
+  .login-AES {
+    padding-bottom: 0%;
+  }
+
+  .login-form {
+    width: 100%;
+    border-radius: 40px;
+  }
+
+  .login-right-section {
+    background-color: transparent;
+    min-height: 0vh;
+  }
+
+  .login-left-section {
+    min-height: 0vh;
+  }
+
+  .login-wave-footer {
+    position: fixed;
+    /* Fixed position */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    z-index: -1;
+    /* Move to the background */
+  }
+
+  .about-us-icon{
+    /* width: 100%; */
+    width: 400px;
+  }
+  
 }
