@@ -4,10 +4,8 @@
     justify-content: space-between;
     align-items: center;
   }
-  #myChart {
-    width: 58rem;
-    height: 15rem;
-  }
+ 
+  
   
 .positions-dropdown{
   
@@ -30,6 +28,12 @@
 .font-size-change{
   font-size: 0.8rem;
   letter-spacing: 1px;
+}
+.vw-1{
+font-size: 0.8rem;
+}
+.no-break{
+  white-space: nowrap;
 }
 .container-columns{
   align-items: center;
@@ -58,6 +62,48 @@
     align-items: center;
     justify-content: center;
   }
+  .metrics-header{
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+.metrics-content{
+ letter-spacing: 1px;
+ font-size: 1.2rem;
+
+}
+.circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.secondary-metrics-header{
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.secondary-metrics-content{
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+.navigate-images{
+  width: 170px;
+  height: 130px;
+}
+.navigate-text{
+  font-size: 0.65rem;
+}
+.secondary-metrics-number {
+  font-size: 1rem;
+  font-weight: bold;
+  color:white;
+}
 
 .pink{
   color:#f45b9b !important;
@@ -71,6 +117,10 @@
 
 
 }
+.flex-direct{
+  flex-direction: column;
+}
+
 .admin-link {
   text-decoration: none;
 
