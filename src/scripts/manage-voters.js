@@ -1,3 +1,5 @@
+// ----- FORM SUBMISSIONS -----
+
 const fullscreenIcon = document.querySelector(".fullscreen-icon");
 const pdfContainer = document.querySelector(".cor");
 
@@ -34,7 +36,8 @@ fullscreenIcon.addEventListener("click", function () {
   }
 });
 
-// ----- FORM -----
+
+// ----- FORM SUBMISSIONS -----
 
 function redirectToPage(url) {
   window.location.href = url;
@@ -42,19 +45,61 @@ function redirectToPage(url) {
 
 $(document).ready(function () {
   $("#approve").click(function (event) {
-    event.preventDefault();
-    var voter_id = $("#voter_id").val();
-    $.ajax({
-      url: "submission_handlers/validate-acc.php",
-      type: "POST",
-      data: { voter_id: voter_id },
-      success: function (response) {
-        $("#approvalModal").modal("show");
-      },
-      error: function (xhr, status, error) {
-        console.error(xhr.responseText);
-      },
-    });
+      event.preventDefault();
+      var voter_id = $("#voter_id").val();
+      $.ajax({
+          url: "submission_handlers/validate-acc.php",
+          type: "POST",
+          data: { voter_id: voter_id, action: 'approve' },
+          success: function (response) {
+              $("#approvalModal").modal("show");
+          },
+          error: function (xhr, status, error) {
+              console.error(xhr.responseText);
+          },
+      });
   });
-  $("#reject").click(function () {});
+
+  $("#send-reject").click(function (event) {
+      event.preventDefault();
+      var voter_id = $("#voter_id").val();
+      $.ajax({
+          url: "submission_handlers/validate-acc.php",
+          type: "POST",
+          data: { voter_id: voter_id, action: 'reject' },
+          success: function (response) {
+              closeModal();
+              $("#rejectDone").modal("show");
+          },
+          error: function (xhr, status, error) {
+              console.error(xhr.responseText);
+          },
+      });
+  });
 });
+// ---- End of: FORM SUBMISSIONS ----
+
+
+
+// ----- MODALS -----
+$(document).ready(function () {
+  $("#reject-btn").click(function (event) {
+      $("#rejectModal").modal("show");
+  });
+});
+
+function closeModal() {
+  $('#rejectModal').modal('hide');
+}
+
+// Reject Modal
+document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
+  radio.addEventListener('change', function () {
+    if (this.value === 'others' && this.checked) {
+      document.getElementById('otherReason').style.display = 'block';
+    } else {
+      document.getElementById('otherReason').style.display = 'none';
+    }
+  });
+});
+// ---- End of: MODALS ----

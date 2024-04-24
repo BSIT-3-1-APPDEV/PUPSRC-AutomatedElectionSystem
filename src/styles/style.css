@@ -374,7 +374,7 @@ body > * {
   right: 0;
   width: 2.61px;
   height: 80%;
-  background-color: #e7e7e7;
+  background-color: #e7e7e7 !important;
 }
 
 .horizontal-line {

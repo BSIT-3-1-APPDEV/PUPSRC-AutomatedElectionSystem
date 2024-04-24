@@ -18,11 +18,14 @@
   --primary: #1b00ff;
   --secondary: #6c757d;
   --success: #27AE60;
-  --info: #17a2b8;
+  --light-green: #36CD76;
+  --info: #1A73E8;
   --warning: #ffc107;
   --danger: #dc3545;
+  --light-red: #F14950;
   --light: #f8f9fa;
   --dark: #343a40;
+  --empty-state-gray: #858585;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -34,17 +37,20 @@
 
 a {
   text-decoration: none !important;
-  color: #000 !important;
-}
-
-p {
-  margin-bottom: 0 !important;
+  color: #000;
 }
 
 .success-color {
   color: var(--success);
 }
 
+.danger {
+  color: var(--bs-danger);
+}
+
+.black {
+  color: var(--main-black);
+}
 .main-red {
   color: #ea423c !important;
 }
@@ -57,11 +63,24 @@ p {
 .light-gray {
   color: var(--bs-gray-400);
 }
+.empty-state-gray {
+  color: var(--empty-state-gray);
+}
+.light-gray-accent {
+  color: var(--bs-gray-250);
+}
 .link-blue {
   color: var(--link-blue);
 }
+.info {
+  color: var(--info);
+}
 
 /* --- LETTER SPACING --- */
+.spacing-3 {
+  letter-spacing: 0.03rem !important;
+}
+
 .spacing-4 {
   letter-spacing: 0.04rem !important;
 }
@@ -99,8 +118,22 @@ fs-12 {
   color: #4169E1 !important;
 }
 
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
 /* --- FEATHER ICONS SIZES --- */
 
+.im-cust-2 {
+  margin-bottom: 0.188rem !important;
+  margin-right: 0.1rem !important
+}
+
+.im-cust {
+  margin-bottom: 0.188rem !important;
+  margin-right: 0.5rem !important
+}
 .feather-2xs {
   width: 0.625em;
   height: 0.625em;
