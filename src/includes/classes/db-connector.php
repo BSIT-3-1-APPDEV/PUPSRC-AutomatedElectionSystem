@@ -1,5 +1,6 @@
 <?php
-require_once 'db-config.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/file-utils.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/db-config.php');
 
 class DatabaseConnection {
     private static $connection;

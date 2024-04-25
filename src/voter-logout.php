@@ -1,5 +1,6 @@
 <?php
-require_once 'includes/session-handler.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
 
 $referer = $_SERVER['HTTP_REFERER'];
 if ($referer && strpos($referer, $_SERVER['HTTP_HOST']) !== false) {
