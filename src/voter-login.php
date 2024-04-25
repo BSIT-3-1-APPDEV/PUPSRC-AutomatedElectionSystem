@@ -96,7 +96,7 @@ if (isset($_SESSION['error_message'])) {
                             <div class="input-group">
                                 <input type="password" class="form-control" name="password" placeholder="Password" id="Password" required>
                                 <button class="btn btn-secondary" type="button" id="password-toggle">
-                                    <i class="fas fa-eye"></i>
+                                    <i class="fas fa-eye-slash"></i>
                                 </button>
                             </div>
                         </div>
