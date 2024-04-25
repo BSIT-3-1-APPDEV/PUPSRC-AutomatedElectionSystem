@@ -402,6 +402,11 @@ body > * {
   width: 50% !important;
 }
 
+.warning-perc {
+  height: 50% !important;
+  width: 50% !important;
+}
+
 .close-mark {
   margin: 2.5rem 1rem 0rem 0rem !important;
 }
