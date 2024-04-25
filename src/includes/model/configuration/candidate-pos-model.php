@@ -8,23 +8,21 @@ $_SESSION['organization'] = 'acap';
 class CandidatePosition
 {
     private static $connection;
-    private static $update_sequence;
 
-    protected static function savePosition($data)
+    protected static function savePosition($data, $mode)
     {
+        // print_r($data);
+        // echo "<br>";
         if (self::$connection = DatabaseConnection::connect()) {
             $savedPositions = [];
 
             self::$connection->begin_transaction();
 
-            if (isset($data['update_sequence'])) {
-                $data = $data['update_sequence'];
-                self::$update_sequence = true;
-            }
-
             foreach ($data as $item) {
-                if (self::$update_sequence) {
-                    self::updateSequence($item);
+                if ($mode === 'sequence') {
+                    $savedPositions[] = self::updateSequence($item);
+                } else if ($mode === 'delete') {
+                    $savedPositions[] = self::deletePosition($item);
                 } else if (!empty($item['data_id'])) {
                     // Check if data is not blank
                     if (filter_var($item['data_id'], FILTER_VALIDATE_INT) !== false) {
@@ -44,32 +42,32 @@ class CandidatePosition
         }
     }
 
-    private static function addPosition($position)
+    private static function addPosition($data)
     {
 
         $sql = "INSERT INTO position (sequence, title, description) VALUES (?, ?, ?)";
 
         // Prepare the statement
         $stmt = self::$connection->prepare($sql);
-
+        $position = [];
         if ($stmt) {
 
 
-            $stmt->bind_param("iss", $position['sequence'], $position['value'], $position['description']);
+            $stmt->bind_param("iss", $data['sequence'], $data['value'], $data['description']);
             $stmt->execute();
             $inserted_id = self::$connection->insert_id;
             $position = [
-                'input_id' => $position['input_id'],
+                'input_id' => $data['input_id'],
                 'data_id' => $inserted_id,
-                'sequence' => $position['sequence'],
-                'value' => $position['value'],
-                'description' => $position['description']
+                'sequence' => $data['sequence'],
+                'value' => $data['value'],
+                'description' => $data['description']
             ];
-            $stmt->close();
-            return $position;
         } else {
             echo "Error preparing statement: " . self::$connection->error;
         }
+        $stmt->close();
+        return $position;
     }
 
     private static function updatePosition($position)
@@ -84,10 +82,24 @@ class CandidatePosition
 
             $stmt->bind_param("issi", $position['sequence'], $position['value'], $position['description'], $position['data_id']);
             $stmt->execute();
-            $stmt->close();
+            if ($stmt->affected_rows > 0) {
+                // Row was deleted successfully
+                $position = [
+                    'input_id' => $position['input_id'],
+                    'data_id' => $position['data_id'],
+                    'sequence' => $position['sequence'],
+                    'value' => $position['value'],
+                    'description' => $position['description']
+                ];
+            } else {
+                // No rows were affected (no matching data_id found)
+
+            }
         } else {
             echo "Error preparing statement: " . self::$connection->error;
         }
+        $stmt->close();
+        return $position;
     }
 
     protected static function updateSequence($seqeunce)
@@ -102,11 +114,48 @@ class CandidatePosition
 
             $stmt->bind_param("ii", $seqeunce['sequence'], $seqeunce['data_id']);
             $stmt->execute();
-            $stmt->close();
         } else {
             echo "Error preparing statement: " . self::$connection->error;
         }
+        $stmt->close();
     }
+
+    protected static function deletePosition($data)
+    {
+        $sql = "DELETE FROM position WHERE position_id = ?";
+
+        // Prepare the statement
+        $stmt = self::$connection->prepare($sql);
+        $position = [];
+        if ($stmt) {
+            // Bind parameters
+            $stmt->bind_param("i", $data['data_id']);
+
+            // Execute the statement
+            $stmt->execute();
+
+            // Check if any row was affected (deleted)
+            if ($stmt->affected_rows > 0) {
+                // Row was deleted successfully
+                $position = [
+                    'input_id' => $data['input_id'],
+                    'data_id' => $data['data_id'],
+                    'sequence' => $data['sequence'],
+                    'value' => $data['value'],
+                    'description' => $data['description']
+                ];
+            } else {
+                // No rows were affected (no matching data_id found)
+
+            }
+        } else {
+            // Error preparing statement
+            echo "Error preparing statement: " . self::$connection->error;
+        }
+        $stmt->close();
+        return $position;
+    }
+
 
     protected static function getPositions()
     {

@@ -8,14 +8,26 @@ require_once FileUtils::normalizeFilePath('../model/configuration/endpoint-respo
 class CandidatePositionController extends CandidatePosition
 {
     use EndpointResponse;
+    private $mode;
 
-    public function submit($data, $mode = 'data')
+    public function __construct($mode = 'data')
     {
-        $validation_func = $this->selectValidation($mode);
+        $this->mode = $mode;
+    }
+
+    public function decodeData()
+    {
+        $json_data = file_get_contents('php://input');
+        return json_decode($json_data, true);
+    }
+
+    public function submit($data)
+    {
+        $validation_func = $this->selectValidation();
 
         if ($validation_func) {
 
-            $data = self::savePosition($data);
+            $data = self::savePosition($data, $this->mode);
 
             $response = [
                 'status' => 'success',
@@ -31,13 +43,13 @@ class CandidatePositionController extends CandidatePosition
         }
     }
 
-    private function selectValidation($mode)
+    private function selectValidation()
     {
-        if ($mode === 'data') {
+        if ($this->mode === 'data' || $this->mode === 'delete') {
             return function ($data) {
                 return $this->validate($data);
             };
-        } elseif ($mode === 'sequence') {
+        } elseif ($this->mode === 'sequence') {
             return function ($data) {
                 return $this->validateSequence($data);
             };
@@ -89,7 +101,7 @@ class CandidatePositionController extends CandidatePosition
 
     public function validateSequence($data)
     {
-        foreach ($data['update_sequence'] as $item) {
+        foreach ($data as $item) {
 
             print_r($item);
             if (
@@ -116,21 +128,39 @@ class CandidatePositionController extends CandidatePosition
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $controller = new CandidatePositionController();
+if ($_SERVER['REQUEST_METHOD'] === 'UPDATE') {
+    $controller = new CandidatePositionController('sequence');
 
-    $json_data = file_get_contents('php://input');
-
-    $decoded_data = json_decode($json_data, true);
+    $decoded_data = $controller->decodeData();
 
     if (isset($decoded_data['update_sequence'])) {
-        $controller->submit($decoded_data, 'sequence');
-    } else {
-        $controller->submit($decoded_data);
+        $controller->submit($decoded_data['update_sequence']);
     }
 
     // echo json_encode($decoded_data);
-}
+} else
+
+if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    $controller = new CandidatePositionController();
+
+    $decoded_data = $controller->decodeData();
+
+    $controller->submit($decoded_data);
+
+    // echo json_encode($decoded_data);
+} else
+
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    $controller = new CandidatePositionController('delete');
+
+    $decoded_data = $controller->decodeData();
+
+    if (isset($decoded_data['delete_position'])) {
+        $controller->submit($decoded_data['delete_position']);
+    }
+
+    // echo json_encode($decoded_data);
+} else
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $controller  = new CandidatePositionController();

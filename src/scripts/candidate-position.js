@@ -302,6 +302,8 @@ function handleInput(event) {
         }
     }, 300);
 }
+const DELETE_BUTTON = document.getElementById('delete');
+const DELETE_LABEL = document.getElementById('delete-label');
 
 function handleTableRowClick(event) {
     const TABLE_BODY = document.querySelector(`#example tbody`);
@@ -317,9 +319,17 @@ function handleTableRowClick(event) {
     const TOOLBAR_BUTTON = document.querySelector('div.toolbar button');
     if (SELECTED_COUNT > 0) {
         TOOLBAR_BUTTON.setAttribute('data-selected', SELECTED_COUNT);
+        if (DELETE_BUTTON && DELETE_LABEL) {
+            handleDeleteLabel(false);
+            DELETE_BUTTON.addEventListener('click', handleDeleteBtn);
+        }
         TOOLBAR_BUTTON.disabled = false;
     } else {
         TOOLBAR_BUTTON.setAttribute('data-selected', '');
+        if (DELETE_BUTTON && DELETE_LABEL) {
+            handleDeleteLabel(true);
+            DELETE_BUTTON.removeEventListener('click', handleDeleteBtn);
+        }
         TOOLBAR_BUTTON.disabled = true;
     }
 }
@@ -361,7 +371,7 @@ let table = new DataTable('#example', {
         topEnd: null,
         bottom: function () {
             let toolbar = document.createElement('div');
-            toolbar.innerHTML = `<button class="add-new" id="add-new">
+            toolbar.innerHTML = `<button class="add-new text-uppercase" id="add-new">
                                     Add New Position
                                 </button>`;
 
@@ -438,6 +448,68 @@ table.on('draw', function () {
         $(this).parent().hide();
     }
 });
+
+
+
+function handleDeleteLabel(isDisabled) {
+    if (isDisabled) {
+        DELETE_LABEL.dataset.bsToggle = 'tooltip';
+        DELETE_LABEL.dataset.bsTitle = 'No items selected.';
+        DELETE_LABEL.dataset.bsPlacement = 'right';
+    } else {
+        DELETE_LABEL.dataset.bsToggle = 'tooltip';
+        DELETE_LABEL.dataset.bsTitle = '';
+        DELETE_LABEL.dataset.bsPlacement = 'right';
+    }
+
+}
+
+function handleDeleteBtn() {
+    const FORM = document.querySelectorAll(`table tbody tr.selected`);
+
+    let deleteData = {
+        'delete_position': []
+    };
+
+    const DATA = getForm(FORM, false);
+
+    for (const ITEM of DATA) {
+        deleteData.delete_position.push(ITEM);
+    }
+
+
+    postData(deleteData)
+        .then(function (result) {
+            const { data, success, error } = result;
+            deletePosition(data);
+            if (success) {
+                deletePosition(DATA);
+            } else {
+                console.error('POST request failed:', error);
+            }
+        })
+
+    console.log(JSON.stringify(DATA));
+}
+
+function deletePosition(DATA) {
+    if (DATA && DATA.data && Array.isArray(DATA.data)) {
+        DATA.data.forEach(item => {
+            const { data_id, input_id } = item;
+
+            let INPUT_ELEMENT = document.getElementById(input_id);
+            let DATA_ROW = INPUT_ELEMENT.closest(`tr`);
+            if (DATA_ROW) {
+                DATA_ROW.remove();
+            } else {
+
+                console.error(`Input element with ID not found.`);
+            }
+        });
+    } else {
+        // console.error('Invalid or missing DATA structure.');
+    }
+}
 
 function updatePostionID(DATA) {
     if (DATA && DATA.data && Array.isArray(DATA.data)) {
@@ -526,27 +598,28 @@ ViewportDimensions.listenWindowResize(() => {
     });
 });
 
-function getForm(form) {
+function getForm(form, search = true) {
     let all_rows = [];
+    if (!search) {
+        all_rows = form;
+    } else
+        if (form && form instanceof HTMLElement) {
+            // Convert form to an array if it's not already an array
+            form = Array.isArray(form) ? form : [form];
+            form.forEach(element => {
+                let parent = element.closest(`tr`);
 
-    if (form && form instanceof HTMLElement) {
-        // Convert form to an array if it's not already an array
-        form = Array.isArray(form) ? form : [form];
-
-        form.forEach(element => {
-            let parent = element.closest('tr');
-
-            if (parent) {
-                console.log('Parent <tr> found:', parent);
-                all_rows.push(parent);
-            } else {
-                console.warn('Parent <tr> not found for element:', element);
-            }
-        });
-    } else {
-        // Select all <tr> elements within the main table's tbody
-        all_rows = Array.from(document.querySelectorAll('main table tbody tr'));
-    }
+                if (parent) {
+                    console.log('Parent <tr> found:', parent);
+                    all_rows.push(parent);
+                } else {
+                    console.warn('Parent <tr> not found for element:', element);
+                }
+            });
+        } else {
+            // Select all <tr> elements within the main table's tbody
+            all_rows = Array.from(document.querySelectorAll('table tbody tr'));
+        }
 
     let form_data = [];
 
@@ -567,8 +640,7 @@ function getForm(form) {
                 'data_id': data_id,
                 'sequence': data_sequence,
                 'value': data_val,
-                'description': data_description
-
+                'description': data_description,
             };
 
             form_data.push(row_data);
@@ -583,10 +655,16 @@ function getForm(form) {
 
 function postData(post_data) {
     let url = 'src/includes/classes/candidate-pos-controller.php';
+    let method = 'PUT';
     let json_data = JSON.stringify(post_data);
-
+    console.log(json_data);
+    if ('update_sequence' in post_data) {
+        method = 'UPDATE';
+    } else if ('delete_position' in post_data) {
+        method = 'DELETE';
+    }
     return fetch(url, {
-        method: 'POST',
+        method: method,
         body: json_data,
         headers: {
             'Content-Type': 'application/json'

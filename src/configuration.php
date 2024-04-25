@@ -1,5 +1,6 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('../config.php');
 require_once FileUtils::normalizeFilePath('includes/classes/Path.php');
 include_once FileUtils::normalizeFilePath('includes/classes/page-head-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/user.php');
@@ -10,26 +11,37 @@ require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
-$org_name = $_SESSION['organization'] ?? '';
 
-include 'includes/organization-list.php';
 
-$org_full_name = $org_full_names[$org_name];
+$is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role']) && strtolower($_SESSION['role']) === 'committee member' && !empty($_SESSION['organization']);
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('../config.php');
+require_once FileUtils::normalizeFilePath('includes/classes/Path.php');
+include_once FileUtils::normalizeFilePath('includes/classes/page-head-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/user.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/page-router.php');
+require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
-// Check if voter_id and role is set in session
-// SessionManager::checkUserRoleAndRedirect();
-// if (!isset($_SESSION['voter_id'])) {
-//     http_response_code(401);
-//     header('location: ../landing-page.php');
-// }
 
-echo "
-<style>
-    :root{
-        --primary-color: var(--{$org_name});
-    }
-</style>
-";
+
+$is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role']) && strtolower($_SESSION['role']) === 'committee member' && !empty($_SESSION['organization']);
+
+if (!$is_page_accessible) {
+    header("location: ../landing-page.php");
+    exit();
+}
+regenerateSessionId();
+include 'includes/session-exchange.php';
+if (!$is_page_accessible) {
+    header("location: ../landing-page.php");
+    exit();
+}
+regenerateSessionId();
+include 'includes/session-exchange.php';
 
 ?>
 
@@ -75,6 +87,8 @@ echo "
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="vendor/node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -82,6 +96,7 @@ echo "
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
     <link rel="stylesheet" href="src/styles/orgs/<?php echo $org_name; ?>.css">
+    <link rel="icon" href="src/images/logos/<?php echo $org_name; ?>.png" type="image/x-icon">
     <link rel="icon" href="src/images/logos/<?php echo $org_name; ?>.png" type="image/x-icon">
     <link rel="icon" type="image/x-icon" href="src/images/resc/ivote-favicon.png">
     <!-- Page Style -->
@@ -93,12 +108,15 @@ echo "
 
     <?php include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-sidebar.php')
     ?>
+    <?php include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-sidebar.php')
+    ?>
 
 
     <?php
     global $configuration_pages;
     $configuration_pages = [
         'ballot-form',
+        'vote-schedule',
         'vote-schedule',
         'election-year',
         'vote-guidelines',
@@ -121,16 +139,23 @@ echo "
     ?>
 
 
-    <?php include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/footer.php') ?>
+    <?php //include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-footer.php')
+    ?>
+
+    <?php
+    include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php');
+    ?>
 
     <!-- Vendor Scripts -->
     <script src="vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <!-- Main Scripts -->
     <script src="src/scripts/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="src/scripts/feather.js"></script>
     <!-- Page Scripts -->
+    <script src="src/scripts/configuration.js"></script>
     <script src="src/scripts/configuration.js"></script>
     <?php if (isset($page_scripts)) {
         echo $page_scripts;

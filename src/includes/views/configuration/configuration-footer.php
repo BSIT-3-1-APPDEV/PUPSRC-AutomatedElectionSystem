@@ -2,8 +2,8 @@
 <?php
 // Capture the output of including the sidebar file
 ob_start();
-include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php');
-$sidebar_content = ob_get_clean();
+include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/footer.php');
+$footer_content = ob_get_clean();
 
 $temporary_html = '<!DOCTYPE html>
                    <html lang="en">
@@ -11,7 +11,7 @@ $temporary_html = '<!DOCTYPE html>
                        <meta charset="UTF-8">
                        <title>Temporary Sidebar Content</title>
                    </head>
-                   <body>' . $sidebar_content . '</body>
+                   <body>' . $footer_content . '</body>
                    </html>';
 
 
@@ -36,44 +36,16 @@ foreach ($images as $img) {
     $img->setAttribute('src', $new_src);
 }
 
-// Assuming $dom is your DOMDocument instance
-$nav_links = $dom->getElementsByTagName('li'); // Get all <li> elements
-
-if ($nav_links->length > 0) {
-    foreach ($nav_links as $li) {
-        $anchor = $li->getElementsByTagName('a')->item(0); // Get the first <a> tag within the <li>
-
-        if ($anchor) {
-            // Get the current href attribute value
-            $current_href = $anchor->getAttribute('href');
-
-            // Check if current href contains '#'
-            if (strpos($current_href, '#') !== false) {
-                continue; // Skip if href contains '#'
-            }
-            if (strpos($current_href, 'src') !== false) {
-                continue; // Skip if href contains 'src'
-            }
-
-            // Prepend the prefix to the current href attribute value
-            $new_href = $src_prefix . $current_href;
-
-            // Update the href attribute of the <a> tag
-            $anchor->setAttribute('href', $new_href);
-        }
-    }
-}
-
 
 // Get the updated HTML content
-$updated_sidebar_content = '';
+$updated_footer_content = '';
 foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {
-    $updated_sidebar_content .= $dom->saveHTML($node);
+    $updated_footer_content .= $dom->saveHTML($node);
 }
 
 
 // Output the modified sidebar content
 // Output the modified sidebar content (extracted from wrapped HTML)
-echo $updated_sidebar_content;
+echo $updated_footer_content;
 
 ?>

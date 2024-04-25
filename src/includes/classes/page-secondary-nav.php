@@ -32,7 +32,7 @@ class SecondaryNav
 
         $prev = $active = '';
 
-        $navLinks = '<div class="">
+        $navLinks = '<div class="secondary-nav-container">
                         <ul class="nav" id="" role="tablist">';
 
         foreach ($this->pages as $key => $page) {
@@ -48,7 +48,7 @@ class SecondaryNav
 
             $navLinks .= "
                             <li class=\"nav-item secondary-nav\" role=\"navigation\">
-                                <a class=\"nav-link $active secondary-nav px-0 pb-0 ml-4 mb-10\" id=\"\" data-toggle=\"tab\" href=\"$this->base_page/$key\" data-target=\"\" role=\"tab\" aria-controls=\"\" aria-selected=\"false\">$page</a>
+                                <a class=\"nav-link $active secondary-nav px-0 pb-0 mb-10\" id=\"\" data-toggle=\"tab\" href=\"$this->base_page/$key\" data-target=\"\" role=\"tab\" aria-controls=\"\" aria-selected=\"false\">$page</a>
                             </li>
         ";
         }
