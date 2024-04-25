@@ -70,39 +70,19 @@ div.secondary-nav-container {
 
 ul {
     &.nav {
+
         @media only screen and (min-width: 780px) {
             display: flex;
             justify-content: space-between;
 
-            & li.nav-item {
+            & li.nav-item:not(:last-child) {
                 margin-right: 0.75rem;
             }
 
         }
 
         @media only screen and (max-width: 780px) {
-            & li.nav-item {
-                margin-right: 1.5rem;
-            }
-
-        }
-
-        flex-wrap: nowrap;
-        text-wrap: nowrap;
-        border-bottom: calc(1px + 0.01dvw) solid var(--main-color);
-
-        @media only screen and (min-width: 780px) {
-            display: flex;
-            justify-content: space-between;
-
-            & li.nav-item {
-                margin-right: 0.75rem;
-            }
-
-        }
-
-        @media only screen and (max-width: 780px) {
-            & li.nav-item {
+            & li.nav-item:not(:last-child) {
                 margin-right: 1.5rem;
             }
 
@@ -182,4 +162,10 @@ div.datepickers-container {
         font-size: clamp(1rem, 0.75rem + 0.45vw, 24px);
     }
 
+}
+
+#example_wrapper.dt-container:first-child {
+    .mt-2 {
+        margin-top: 0 !important;
+    }
 }

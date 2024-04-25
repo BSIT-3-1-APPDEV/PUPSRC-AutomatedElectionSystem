@@ -1,5 +1,4 @@
 main .fa-grip-lines.fas::before, main .fa-grip-lines.fa::before {
-  color: #d9d9d9;
   font-size: max(1vw, 1rem);
 }
 
@@ -21,23 +20,14 @@ button.add-new, main table.table tbody tr {
   height: calc(1rem + 3vw);
 }
 
-body div.modal button.btn {
-  color: var(--white);
-  box-shadow: var(--bs-box-shadow-sm);
-}
-body div.modal button.btn:active {
-  box-shadow: none !important;
-}
-body div.modal button.btn-primary:not(:disabled) {
-  background-color: var(--primary-color);
-  border: calc(0.25rem + 0.2vw) solid var(--primary-color);
-}
-body div.modal button.btn-secondary:not(:disabled) {
-  background-color: var(--secondary-color);
-  border: calc(0.25rem + 0.2vw) solid var(--secondary-color);
-}
 main {
   height: calc(100dvh - 104.95px);
+}
+main .fa {
+  color: #d9d9d9;
+}
+main .fas {
+  color: #d9d9d9;
 }
 main button.del {
   font-weight: bold;
@@ -84,7 +74,7 @@ tr.dt-rowReorder-moving input[type=text].text-editable {
 }
 
 div.dt-rowReorder-float-parent {
-  outline: calc(1px + 0.1dvw) solid var(--primary-color);
+  outline: calc(1px + 0.1dvw) solid var(--main-color);
   border-radius: none;
 }
 

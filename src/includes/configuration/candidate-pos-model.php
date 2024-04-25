@@ -70,26 +70,26 @@ class CandidatePosition
         return $position;
     }
 
-    private static function updatePosition($data)
+    private static function updatePosition($position)
     {
         $sql = "UPDATE position SET sequence = ?, title = ?, description = ? WHERE position_id = ?";
 
         // Prepare the statement
         $stmt = self::$connection->prepare($sql);
-        $position = [];
+
         if ($stmt) {
 
 
-            $stmt->bind_param("issi", $data['sequence'], $data['value'], $data['description'], $data['data_id']);
+            $stmt->bind_param("issi", $position['sequence'], $position['value'], $position['description'], $position['data_id']);
             $stmt->execute();
             if ($stmt->affected_rows > 0) {
-
+                // Row was deleted successfully
                 $position = [
-                    'input_id' => $data['input_id'],
-                    'data_id' => $data['data_id'],
-                    'sequence' => $data['sequence'],
-                    'value' => $data['value'],
-                    'description' => $data['description']
+                    'input_id' => $position['input_id'],
+                    'data_id' => $position['data_id'],
+                    'sequence' => $position['sequence'],
+                    'value' => $position['value'],
+                    'description' => $position['description']
                 ];
             } else {
                 // No rows were affected (no matching data_id found)
@@ -102,31 +102,22 @@ class CandidatePosition
         return $position;
     }
 
-    protected static function updateSequence($data)
+    protected static function updateSequence($seqeunce)
     {
         $sql = "UPDATE position SET sequence = ? WHERE position_id = ?";
 
         // Prepare the statement
         $stmt = self::$connection->prepare($sql);
-        $position = [];
+
         if ($stmt) {
 
 
-            $stmt->bind_param("ii", $data['sequence'], $data['data_id']);
+            $stmt->bind_param("ii", $seqeunce['sequence'], $seqeunce['data_id']);
             $stmt->execute();
-            if ($stmt->affected_rows > 0) {
-
-                $position = [
-                    'input_id' => $data['input_id'],
-                    'data_id' => $data['data_id'],
-                    'sequence' => $data['sequence'],
-                ];
-            }
         } else {
             echo "Error preparing statement: " . self::$connection->error;
         }
         $stmt->close();
-        return $position;
     }
 
     protected static function deletePosition($data)

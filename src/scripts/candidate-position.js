@@ -408,12 +408,17 @@ table.on('row-reorder', function (e, diff, edit) {
     let data = {
         'update_sequence': []
     };
-
+    // let result = 'Reorder started on row: ' +  + '<br>';
     for (var i = 0, ien = diff.length; i < ien; i++) {
         let rowData = table.row(diff[i].node).data();
         let data_id = rowData[1].data_id;
+        if (!data_id) { continue }
         let new_sequence = diff[i].newData;
+        let position_input = $(diff[i].node).find('td input[type="text"].text-editable');
+        let position_input_id = position_input.attr('id');
+
         const NEW_DATA_SEQ = {
+            'input_id': position_input_id,
             'data_id': data_id,
             'sequence': new_sequence
         }
