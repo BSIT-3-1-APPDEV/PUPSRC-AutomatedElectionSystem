@@ -1,6 +1,7 @@
 <?php
-require_once 'includes/session-handler.php';
-require_once 'includes/classes/session-manager.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/session-manager.php');
 
 // Check if voter_id and role is set in session
 SessionManager::checkUserRoleAndRedirect();
@@ -19,6 +20,12 @@ SessionManager::checkUserRoleAndRedirect();
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>PUP Automated Election System</title>
+
+
+  <!-- Montserrat Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body id="index-body">
@@ -32,10 +39,10 @@ SessionManager::checkUserRoleAndRedirect();
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="landing-page.php">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About Us</a>
+            <a class="nav-link" href="about-us.php">About Us</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="#">Register</a>
@@ -51,7 +58,7 @@ SessionManager::checkUserRoleAndRedirect();
       <div class="row">
         <div class="col text-center text-white">
           <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" alt="iVote Logo">
-          <h5 id="index-PUPSRC" class="text-truncate stroked-text">Polytechnic University of the Philippines -
+          <h5 id="index-PUPSRC" class="text-truncate">Polytechnic University of the Philippines -
             Santa Rosa Campus</h5>
           <h1 class="stroked-text" id="index-AES">AUTOMATED ELECTION SYSTEM</h1>
           <a href="#organizations" type="button" class="btn btn-primary fw-bold index-button" id="">Select

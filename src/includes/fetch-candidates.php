@@ -1,12 +1,13 @@
 <?php
-// Include necessary files and start the session if not already started
-session_start();
-require_once '../includes/classes/db-config.php';
 require_once '../includes/classes/db-connector.php';
+require_once '../includes/session-handler.php';
 
-// Establish the database connection
+    $org_name = $_SESSION['organization'] ?? '';
+
+    include '../includes/organization-list.php';
+    
+    $org_full_name = $org_full_names[$org_name];
 $conn = DatabaseConnection::connect();
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['position'])) {
     // Get the selected position from the AJAX request
     $selectedPosition = $_POST['position'];
@@ -32,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['position'])) {
             
             // Fetch the position title based on the position ID
             $positionQuery = "SELECT title FROM position WHERE position_id = ?";
-            $stmt_pos = $conn->prepare($positionQuery);
-            $stmt_pos->bind_param('i', $candidate->positionId);
-            $stmt_pos->execute();
-            $positionResult = $stmt_pos->get_result();
+            $stmtPos = $conn->prepare($positionQuery);
+            $stmtPos->bind_param('i', $candidate->positionId);
+            $stmtPos->execute();
+            $positionResult = $stmtPos->get_result();
 
             // Check for errors in position query execution
             if (!$positionResult) {
@@ -52,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['position'])) {
                 $candidate->positionTitle = 'Unknown Position'; // Default title if position not found
             }
     
-            $stmt_pos->close();
+            $stmtPos->close();
     
             // Add the candidate object to the candidates array
             $candidatesData[] = $candidate; // Use [] to append to the array
@@ -66,10 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['position'])) {
 
     foreach ($candidatesData as $candidate) {
         $candidateVotesQuery = "SELECT COUNT(*) AS votes_count FROM vote WHERE candidate_id = ?";
-        $stmt_votes = $conn->prepare($candidateVotesQuery);
-        $stmt_votes->bind_param('i', $candidate->id);
-        $stmt_votes->execute();
-        $votesResult = $stmt_votes->get_result();
+        $stmtVotes = $conn->prepare($candidateVotesQuery);
+        $stmtVotes->bind_param('i', $candidate->id);
+        $stmtVotes->execute();
+        $votesResult = $stmtVotes->get_result();
 
         // Check for errors in votes query execution
         if (!$votesResult) {
@@ -86,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['position'])) {
             $candidate->votesCount = 0; // Default votes count if no votes found
         }
 
-        $stmt_votes->close();
+        $stmtVotes->close();
     }
 
     // Close the prepared statement

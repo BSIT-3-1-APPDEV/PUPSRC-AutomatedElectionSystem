@@ -1,8 +1,25 @@
 <?php
 require_once 'includes/session-handler.php';
 
-// Kill only the session of logged-in user
-// Retain the session of which database organization a user is connected to
-unset($_SESSION['voter_id']);
-header("Location: landing-page.php");
+$referer = $_SERVER['HTTP_REFERER'];
+if ($referer && strpos($referer, $_SERVER['HTTP_HOST']) !== false) {
+
+    // Kill only the session of logged-in user
+    // Retain the session of which database organization a user is connected
+    unset($_SESSION['voter_id']);
+    
+    // Redirect back to previously stored URL
+    if (isset($_SESSION['return_to'])) {
+        $return_to = $_SESSION['return_to'];
+        unset($_SESSION['return_to']);
+        header("Location: $return_to");
+    } else {
+        header("Location: landing-page.php");
+    }
+    exit;
+} 
+else {   
+    header("Location: landing-page.php");
+    exit;
+}
 ?>
