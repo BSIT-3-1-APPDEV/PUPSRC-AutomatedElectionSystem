@@ -560,7 +560,7 @@ button {
 }
 
 footer {
-  margin-top: 100px;
+  margin-top: 10px;
   position: relative;
   bottom: 0;
   left: 0;
@@ -612,30 +612,12 @@ footer {
   color: #003b25;
 }
 
-
 /* About Us */
 .about-us{
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.about-us-body{
-  text-align: center;
-  padding: 5%;
-}
-
-.connect-with-us{
-  width: 25px;
-  margin: 2%;
-}
-
-
-/* About Us */
-.about-us{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: #003b25;
 }
 
 .about-us-body{
@@ -653,7 +635,9 @@ footer {
   /* width: 600px; */
 }
 
-
+#password-toggle{
+  width: 45px;
+}
 
 
 /* Media query for small screens */
