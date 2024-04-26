@@ -20,6 +20,7 @@
   --success: #27AE60;
   --light-green: #36CD76;
   --info: #1A73E8;
+  --input-blue: rgb(71, 105, 177, 0.70);
   --warning: #ffc107;
   --danger: #dc3545;
   --light-red: #F14950;
@@ -40,6 +41,9 @@ a {
   color: #000;
 }
 
+.input-bg-color {
+  background-color: #EDEDED !important;
+}
 .success-color {
   color: var(--success);
 }
