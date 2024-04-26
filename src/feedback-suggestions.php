@@ -1,10 +1,13 @@
 <?php
 require_once 'includes/classes/db-connector.php';
 require_once 'includes/session-handler.php';
-require_once 'includes/classes/session-manager.php';
 
 
 if(isset($_SESSION['voter_id'])) {
+
+     // ------ SESSION EXCHANGE
+     include 'includes/session-exchange.php';
+     // ------ END OF SESSION EXCHANGE
 
   $connection = DatabaseConnection::connect();
   // Assume $connection is your database connection
@@ -22,11 +25,6 @@ if(isset($_SESSION['voter_id'])) {
   $first_name = $row['first_name'];
 
   $stmt->close();
-
-  if(isset($_SESSION['organization'])) {
-    // Retrieve the organization name
-    $org_name = $_SESSION['organization'];
-  }
 
 ?>
 
@@ -49,11 +47,9 @@ if(isset($_SESSION['voter_id'])) {
   <link type="text/css" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../src/styles/feedback-suggestions.css">
   <link rel="stylesheet" href="styles/core.css">
-  <link rel="stylesheet" href="<?php echo '../src/styles/orgs/' . $org_name . '.css'; ?>">
+  <link rel="stylesheet" href="<?php echo '../src/styles/orgs/' . $org_acronym . '.css'; ?>">
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
-  <style>
-       <?php echo ".bg-color { background-color: var(--$org_name); }"; ?>
-  </style>
 </head>
 
 <body>
@@ -62,7 +58,7 @@ if(isset($_SESSION['voter_id'])) {
   <div class="container">
     <div class="navbar-brand spacing" href="#">
       <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
-</div>
+    </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar dropdown-toggle"></span>
     </button>
@@ -70,7 +66,7 @@ if(isset($_SESSION['voter_id'])) {
       <ul class="navbar-nav">
         <li class="nav-item dropdown d-none d-lg-block">
           <a class="nav-link dropdown-toggle main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Hello,<?php echo ' ' . $first_name; ?>
+          <b>Hello, Iskolar</b> <i class='fas fa-user-circle main-color ps-2' style='font-size:23px;'></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="voter-logout.php">Logout</a>
@@ -179,7 +175,7 @@ if(isset($_SESSION['voter_id'])) {
     </div>
   </div>
 
-  <div class="container mt-4">
+  <div class="container mt-4 mb-4">
     <div class="border-frame">
       <div class="row">
         <div class="col">
@@ -190,14 +186,14 @@ if(isset($_SESSION['voter_id'])) {
       </div>
       <div class="row px-4 py-4">
         <div class="col">
-          <textarea name="feedback" id="feedback" class="form-control " rows="10" placeholder="Type your feedback here..." required></textarea>
+          <textarea name="feedback" id="feedback" class="form-control " rows="10" placeholder="Type your feedback here..."></textarea>
         </div>
       </div>
       
       <div class="row pe-4 pb-4">
         <div class="col">
           <div class="text-center mt-3 text-lg-end">
-            <button type="submit" id="submitFeedbackBtn" class="button-submit bg-color">Submit Feedback</button>
+            <button type="submit" id="submitFeedbackBtn" class="button-submit main-bg-color">Submit Feedback</button>
           </div>
         </div>
       </div>
@@ -205,13 +201,11 @@ if(isset($_SESSION['voter_id'])) {
   </div>
 </form>
 
-<footer class="navbar navbar-expand-lg navbar-light bg-light mt-5">
-    <div class="container-fluid">
-      <span class="navbar-text mx-auto fw-bold spacing accent-3">BSIT 3-1 | ALL RIGHTS RESERVED 2024</span>
-    </div>
-  </footer>
-
 </body>
+
+
+<?php include_once __DIR__ . '/includes/components/footer.php'; ?>
+
   
 <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -227,6 +221,8 @@ if(isset($_SESSION['voter_id'])) {
     e.preventDefault();
   }));
 
+
+  
   // Add value of the rating, corresponding with the emoji selected
   document.addEventListener("DOMContentLoaded", function() {
       var feedbackOptions = document.querySelectorAll(".feedback li");
@@ -239,58 +235,8 @@ if(isset($_SESSION['voter_id'])) {
       });
   });
 
-  function validateForm() {
-    var feedback = document.getElementById('feedback').value.trim();
-    // Check if any emoji option is selected
-    var emojiSelected = document.querySelector('.feedback li.active');
-
-    if (feedback !== '' && emojiSelected) {
-      // Enable the submit button
-      document.getElementById('submitFeedbackBtn').disabled = false;
-    } else {
-      // Disable the submit button
-      document.getElementById('submitFeedbackBtn').disabled = true;
-    }
-  }
-
-  // Call validateForm whenever either the rating, feedback, or emoji options change
-  document.getElementById('feedback').addEventListener('input', validateForm);
-  document.querySelectorAll('.feedback li').forEach(entry => entry.addEventListener('click', validateForm));
-
-  // Call validateForm initially
-  validateForm();
 
 
-
- 
-
-
-  // Function to check if the rating and feedback fields are filled out
-
-  // Contains bug, when feedback is filled out first then the rating, it does not enable the submit button
-
-  /*function validateForm() {
-    var rating = document.getElementById('rating').value.trim();
-    var feedback = document.getElementById('feedback').value.trim();
-
-    if (rating !== '' && feedback !== '') {
-      // Enable the submit button
-      document.getElementById('submitFeedbackBtn').disabled = false;
-    } else {
-      // Disable the submit button
-      document.getElementById('submitFeedbackBtn').disabled = true;
-    }
-  }
-
-  console.log('Rating:', rating);
-
-  // Call validateForm whenever either the rating or feedback fields change
-  document.getElementById('rating').addEventListener('input', validateForm);
-  document.getElementById('feedback').addEventListener('input', validateForm);
-
-  // Call validateForm initially
-  validateForm();
-*/
 </script>
 
 </html>

@@ -5,11 +5,17 @@ require_once '../includes/classes/db-connector.php';
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if all required fields are filled
-    if (isset($_POST["rating"]) && isset($_POST["feedback"])) {
+    // Check if the rating field is set
+    if (isset($_POST["rating"])) {
 
         $rating = htmlspecialchars($_POST["rating"]);
-        $feedback = htmlspecialchars($_POST["feedback"]);
+        
+        // Check if feedback field is set
+        if(isset($_POST["feedback"])){
+            $feedback = htmlspecialchars($_POST["feedback"]);
+        } else {
+            $feedback = ""; // If feedback is not set, assign an empty string
+        }
 
         // Establish the database connection
         $conn = DatabaseConnection::connect();
@@ -36,12 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->close();
 
     } else {
-        echo "Please fill in all required fields.";
+        $rating = ""; // If rating is not set, assign an empty string
     }
 } else {
     echo "Form submission error.";
 }
 ?>
-
-
-

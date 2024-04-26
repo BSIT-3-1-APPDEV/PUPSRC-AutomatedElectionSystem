@@ -3,6 +3,10 @@ body {
     background-color: #f2f2f2 ;
   }
   
+  a{
+    color: blue;
+    text-decoration: underline;
+  }
   
   .custom-radio input[type="radio"] {
     display: none; 
@@ -100,7 +104,7 @@ body {
   }
   
   .end-point img {
-    max-width: 100%;
+    max-width: 80%;
     margin: 0 auto; 
   }
   
@@ -495,4 +499,46 @@ html {
     }
 }
   
+   /* --- Footer --- */
+   .footer {
+    width: 100%;
+    background-color: #fff;
+    padding: 15px;
+    bottom: 0;
+    left: 0; /* Ensure the footer starts from the left edge */
+  }
   
+  
+  .footer-left, .footer-right {
+    flex: 1; /* Equal width for both sections */
+  }
+  
+  .footer-right {
+    margin-left: 20px; /* Add some spacing between sections */
+  }
+  
+  
+  .footer-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Align items in the center horizontally */
+    position: relative;
+  }
+  
+  .footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .soc-med-icons {
+    height: 22px;
+    transition: ease transform 0.2s;
+  }
+  
+  .soc-med-icons:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+  }
