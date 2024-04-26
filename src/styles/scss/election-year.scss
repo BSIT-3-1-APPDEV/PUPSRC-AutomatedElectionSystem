@@ -1,0 +1,34 @@
+main.main {
+    .card-box {
+        //55.98 + Footer
+        // 63.5 + Header
+        // 57.19 + NavList
+        // 61.49 + Page Head Title
+        // 16 + 16 top and bottom margin
+        // height: calc(100% - 151.48px);
+        height: 100%;
+    }
+
+    .card-body {
+        width: 100%;
+        height: 100%;
+    }
+
+    div.form {
+        display: grid;
+        place-items: center;
+
+        input[type=text] {
+            height: calc(1.2rem + 0.5dvw + 1.5dvh);
+            margin: calc(1rem + 0.97dvw) 0;
+            padding: calc(0.5rem + 0.1dvw) calc(0.5rem + 0.48dvw);
+            text-align: center;
+            border: calc(0.5px + 0.1vw) solid #000;
+        }
+
+        button.btn {
+            margin: calc(0.5rem + 0.05dvw);
+        }
+    }
+
+}
