@@ -56,7 +56,7 @@ if (isset($_SESSION['voter_id'])) {
 								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
 							</button>
 							<button type="button" class="btn-back spacing-8 fs-8"
-								onclick="redirectToPage('manage-voters.php')">ADD COMMITTEE</button>
+								onclick="redirectToPage('manage-voters.php')">VOTERS' ACCOUNTS</button>
 							<button type="button" class="btn btn-current rounded-pill spacing-8 fs-8">VALIDATE
 								ACCOUNT</button>
 						</div>
@@ -70,7 +70,7 @@ if (isset($_SESSION['voter_id'])) {
 						<div class="row justify-content-center">
 							<div class="col-md-11">
 								<div class="card-box manage-voters">
-									<div class="row">
+									<div class="row information">
 
 										<!-- FIRST COLUMN -->
 										<div class="col-md-7 p-sm-5">
