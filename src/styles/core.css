@@ -10,19 +10,22 @@
   --sco: #000;
   --main-red: #ea423c;
   --main-blue: #5d83d1;
-  --black: #000;
+  --main-black: #1F1D1B;
   --white: #fff;
   --gray: #6c757d;
   --gray-dark: #4d4d4d;
   --link-blue: #4169E1;
   --primary: #1b00ff;
   --secondary: #6c757d;
-  --success: #41ae32;
-  --info: #17a2b8;
+  --success: #27AE60;
+  --light-green: #36CD76;
+  --info: #1A73E8;
   --warning: #ffc107;
   --danger: #dc3545;
+  --light-red: #F14950;
   --light: #f8f9fa;
   --dark: #343a40;
+  --empty-state-gray: #858585;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -34,20 +37,37 @@
 
 a {
   text-decoration: none !important;
+  color: #000;
+}
+
+.success-color {
+  color: var(--success);
+}
+
+.danger {
+  color: var(--bs-danger);
+}
+
+.black {
+  color: var(--main-black);
 }
 
 .main-red {
   color: #ea423c !important;
 }
+
 .main-blue {
   color: var(--main-blue) !important;
 }
+
 .dark-gray {
   color: var(--gray-dark) !important;
 }
+
 .link-blue {
   color: var(--link-blue);
 }
+
 .spacing-6 {
   letter-spacing: 0.06rem !important;
 }
@@ -57,12 +77,14 @@ a {
 }
 
 .spacing-10 {
-  letter-spacing: 0.01rem !important;
+  letter-spacing: 0.11rem !important;
 }
 
 .spacing-15 {
-  letter-spacing: 0.015rem !important;
+  letter-spacing: 0.15rem !important;
 }
+
+/* --- FEATHER ICONS SIZES --- */
 
 fs-12 {
   font-size: 0.5rem;
@@ -74,6 +96,230 @@ fs-12 {
 
 .link:hover {
   color: #4169E1 !important;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* --- FEATHER ICONS SIZES --- */
+
+.im-cust-2 {
+  margin-bottom: 0.188rem !important;
+  margin-right: 0.1rem !important
+}
+
+.im-cust {
+  margin-bottom: 0.188rem !important;
+  margin-right: 0.5rem !important
+}
+
+.feather-2xs {
+  width: 0.625em;
+  height: 0.625em;
+}
+
+.feather-xs {
+  width: 0.875em;
+  height: 0.875em;
+}
+
+.feather-sm {
+  width: 1em;
+  height: 1em;
+}
+
+.feather-lg {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.feather-xl {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.feather-2xl {
+  width: 2em;
+  height: 2em;
+}
+
+/*# sourceMappingURL=core.css.map */
+:root {
+  --acap: #592293;
+  --aeces: #6610f2;
+  --elite: #ee1c24;
+  --give: #084a6f;
+  --jehra: #a60000;
+  --jmap: #fad807;
+  --jpia: #f45b9b;
+  --piie: #026644;
+  --sco: #000;
+  --main-red: #ea423c;
+  --main-blue: #5d83d1;
+  --main-black: #1F1D1B;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #4d4d4d;
+  --link-blue: #4169E1;
+  --primary: #1b00ff;
+  --secondary: #6c757d;
+  --success: #27AE60;
+  --light-green: #36CD76;
+  --info: #1A73E8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light-red: #F14950;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --empty-state-gray: #858585;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: Montserrat, sans-serif;
+  --font-family-monospace: Liberation Mono, "Courier New", monospace;
+}
+
+a {
+  text-decoration: none !important;
+  color: #000;
+}
+
+.success-color {
+  color: var(--success);
+}
+
+.danger {
+  color: var(--bs-danger);
+}
+
+.black {
+  color: var(--main-black);
+}
+
+.main-red {
+  color: #ea423c !important;
+}
+
+.main-blue {
+  color: var(--main-blue) !important;
+}
+
+.dark-gray {
+  color: var(--gray-dark) !important;
+}
+
+.light-gray {
+  color: var(--bs-gray-400);
+}
+
+.empty-state-gray {
+  color: var(--empty-state-gray);
+}
+
+.light-gray-accent {
+  color: var(--bs-gray-250);
+}
+
+.link-blue {
+  color: var(--link-blue);
+}
+
+.info {
+  color: var(--info);
+}
+
+/* --- LETTER SPACING --- */
+.spacing-3 {
+  letter-spacing: 0.03rem !important;
+}
+
+.spacing-4 {
+  letter-spacing: 0.04rem !important;
+}
+
+.spacing-5 {
+  letter-spacing: 0.05rem !important;
+}
+
+.spacing-6 {
+  letter-spacing: 0.06rem !important;
+}
+
+.spacing-8 {
+  letter-spacing: 0.08rem !important;
+}
+
+.spacing-10 {
+  letter-spacing: 0.11rem !important;
+}
+
+.spacing-15 {
+  letter-spacing: 0.15rem !important;
+}
+
+/* --- FEATHER ICONS SIZES --- */
+
+fs-12 {
+  font-size: 0.5rem;
+}
+
+.w-35 {
+  width: 35% !important;
+}
+
+.link:hover {
+  color: #4169E1 !important;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* --- FEATHER ICONS SIZES --- */
+
+.im-cust-2 {
+  margin-bottom: 0.188rem !important;
+  margin-right: 0.1rem !important
+}
+
+.im-cust {
+  margin-bottom: 0.188rem !important;
+  margin-right: 0.5rem !important
+}
+
+.feather-2xs {
+  width: 0.625em;
+  height: 0.625em;
+}
+
+.feather-xs {
+  width: 0.875em;
+  height: 0.875em;
+}
+
+.feather-sm {
+  width: 1em;
+  height: 1em;
+}
+
+.feather-lg {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.feather-xl {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.feather-2xl {
+  width: 2em;
+  height: 2em;
 }
 
 /*# sourceMappingURL=core.css.map */

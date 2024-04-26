@@ -5,6 +5,7 @@
 :root {
     --main-color: #EE1C24;
     --sub-color-accent: rgb(238, 28, 36, 0.5);
+    --hover-color-accent: rgb(238, 28, 36, 0.2);
 }
 
 .main-color {
