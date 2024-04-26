@@ -49,8 +49,7 @@ if (isset($_SESSION['voter_id'])) {
 							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
 								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
 							</button>
-							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">ADD
-								COMMITTEE</button>
+							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS' ACCOUNTS</button>
 						</div>
 					</div>
 				</div>
