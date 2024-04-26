@@ -11,7 +11,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['sign_in'])) {
     // Instantiates LoginController class
     $login = new LoginController($email, $password);
 
-    // Run error handlers
+    // Run error handlers and redirects to intended page
     $login->loginUser();
 }
 ?>
