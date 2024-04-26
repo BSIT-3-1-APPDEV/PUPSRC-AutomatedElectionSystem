@@ -1,11 +1,11 @@
-%fa-grip-lines-before {
+@import 'draggable-handle';
 
-    &.fa-grip-lines::before {
-        color: #d9d9d9;
-        font-size: max(1vw, 1rem);
+// @media (max-height: 499px) {
+//     .dt-scroll-body {
+//         max-height:100dvh -  63.13px + 86 84.66 !important;
+//     }
+// }
 
-    }
-}
 
 %input-text-editable {
     input[type="text"].text-editable {
@@ -29,19 +29,35 @@
     height: calc(1rem + 3vw);
 }
 
+
 main {
 
     height: calc(100dvh - (58.96px + 45.99px));
 
     .fa {
+        color: #d9d9d9;
         @extend %fa-grip-lines-before;
     }
 
     .fas {
+        color: #d9d9d9;
         @extend %fa-grip-lines-before;
     }
 
     @extend %input-text-editable;
+
+    & button.del {
+        font-weight: bold;
+        position: relative;
+
+        span.icon.trash {
+            padding: 1rem 0.25rem;
+
+            svg {
+                transform: translateY(-8%);
+            }
+        }
+    }
 
     table.table {
         margin-bottom: 0px;
@@ -61,9 +77,9 @@ main {
             }
 
             &.selected {
-                // --r: calc(var(--primary-color) / 65536);
-                // --g: calc((var(--primary-color) % 65536) / 256);
-                // --b: calc(var(--primary-color) % 256);
+                // --r: calc(var( --main-color) / 65536);
+                // --g: calc((var( --main-color) % 65536) / 256);
+                // --b: calc(var( --main-color) % 256);
                 // background-color: rgba(var(--r), var(--g), var(--b), 0.2);
                 border: calc(0.5px + 0.1vw) solid #0075FF;
             }
@@ -91,7 +107,7 @@ tr.dt-rowReorder-moving {
 }
 
 div.dt-rowReorder-float-parent {
-    outline: calc(1px + 0.1dvw) solid var(--primary-color);
+    outline: calc(1px + 0.1dvw) solid var(--main-color);
     border-radius: none;
 }
 
