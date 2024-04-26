@@ -1,29 +1,24 @@
 <?php
-include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/Path.php');
-include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-head-utils.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/user.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-router.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/page-secondary-nav.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-config.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-connector.php');
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('../config.php');
+require_once FileUtils::normalizeFilePath('includes/classes/Path.php');
+include_once FileUtils::normalizeFilePath('includes/classes/page-head-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/user.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/page-router.php');
+require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
-$user = new User(1, 'admin', 'Doe', 'John', 'Michael', 'Jr.', '12', 'A', 'john.doe@example.com', 'Active', 'Voted');
+$is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role']) && strtolower($_SESSION['role']) === 'committee member' && !empty($_SESSION['organization']);
 
-$org_name = $_SESSION['organization'] ?? '';
-
-if (!isset($org_name)) {
-    die;
+if (!$is_page_accessible) {
+    header("location: ../landing-page.php");
+    exit();
 }
-
-echo "
-<style>
-    :root{
-        --primary-color: var(--{$org_name});
-    }
-</style>
-";
+regenerateSessionId();
+include 'includes/session-exchange.php';
 
 ?>
 
@@ -69,6 +64,7 @@ echo "
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="vendor/node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -76,6 +72,7 @@ echo "
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
     <link rel="stylesheet" href="src/styles/orgs/<?php echo $org_name; ?>.css">
+    <link rel="icon" href="src/images/logos/<?php echo $org_name; ?>.png" type="image/x-icon">
     <link rel="icon" type="image/x-icon" href="src/images/resc/ivote-favicon.png">
     <!-- Page Style -->
     <link rel="stylesheet" href="src/styles/configuration.css">
@@ -84,67 +81,14 @@ echo "
 
 <body>
 
-    <?php // include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php')
+    <?php include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-sidebar.php')
     ?>
-
-    <!-- Modify Sidebar relative paths affected by routing page requests -->
-    <?php
-    // Capture the output of including the sidebar file
-    ob_start();
-    include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/sidebar.php');
-    $sidebar_content = ob_get_clean();
-
-    $temporary_html = '<!DOCTYPE html>
-                   <html lang="en">
-                   <head>
-                       <meta charset="UTF-8">
-                       <title>Temporary Sidebar Content</title>
-                   </head>
-                   <body>' . $sidebar_content . '</body>
-                   </html>';
-
-
-    $img_src_prefix = 'src/'; // Prefix to prepend to img src attributes
-
-    // Use DOMDocument to manipulate the HTML
-    $dom = new DOMDocument();
-    libxml_use_internal_errors(true);
-    $dom->loadHTML($temporary_html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    libxml_clear_errors();
-
-    // Find all img elements in the sidebar content
-    $images = $dom->getElementsByTagName('img');
-    foreach ($images as $img) {
-        // Get the current src attribute value
-        $current_src = $img->getAttribute('src');
-
-        // Prepend the prefix to the current src attribute value
-        $new_src = $img_src_prefix . $current_src;
-
-        // Update the src attribute of the img element
-        $img->setAttribute('src', $new_src);
-    }
-
-    // Get the updated HTML content
-    $updated_sidebar_content = '';
-    foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {
-        $updated_sidebar_content .= $dom->saveHTML($node);
-    }
-
-
-    // Output the modified sidebar content
-    // Output the modified sidebar content (extracted from wrapped HTML)
-    echo $updated_sidebar_content;
-
-    ?>
-
-
 
     <?php
     global $configuration_pages;
     $configuration_pages = [
         'ballot-form',
-        'schedule',
+        'vote-schedule',
         'election-year',
         'vote-guidelines',
         'positions'
@@ -166,17 +110,19 @@ echo "
     ?>
 
 
-    <?php include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/footer.php') ?>
+    <?php include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-footer.php')
+    ?>
+
 
     <!-- Vendor Scripts -->
     <script src="vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <!-- Main Scripts -->
     <script src="src/scripts/script.js"></script>
-    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="src/scripts/feather.js"></script>
     <!-- Page Scripts -->
-    <script type="module" src="src/scripts/configuration.js" defer></script>
+    <script src="src/scripts/configuration.js"></script>
     <?php if (isset($page_scripts)) {
         echo $page_scripts;
     }

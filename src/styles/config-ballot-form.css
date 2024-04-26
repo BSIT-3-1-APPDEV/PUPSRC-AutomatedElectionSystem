@@ -1,0 +1,137 @@
+main.main .handle .fa-grip-lines.fas::before, main.main .handle .fa-grip-lines.fa::before {
+  font-size: max(1vw, 1rem);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 600px) {
+  h1,
+  .fs-1 {
+    font-size: calc(1.45rem + 1.25vw);
+  }
+  h2,
+  .fs-2 {
+    font-size: calc(1.18rem + 1.25vw);
+  }
+  h3,
+  .fs-3 {
+    font-size: calc(1rem + 1.25vw);
+  }
+  h4,
+  .fs-4 {
+    font-size: calc(1rem + 1vw);
+  }
+  h5,
+  .fs-5 {
+    font-size: calc(1rem + 0.6575vw);
+  }
+  h6,
+  .fs-6 {
+    font-size: calc(0.75rem + 0.6575vw);
+  }
+  .container-fluid .content-margin {
+    margin: 1.75rem calc(0.25rem + 8vw);
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-shadow: 0.031px 0.031px #d9d9d9;
+}
+h1.page-title,
+h2.page-title,
+h3.page-title,
+h4.page-title,
+h5.page-title,
+h6.page-title {
+  color: var(--main-color);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: max(1dvw, 0.5rem);
+  margin-bottom: max(2dvw, 1rem);
+}
+
+@media only screen and (min-width: 600px) {
+  .container-fluid .content-margin {
+    margin: 1.75rem calc(4rem + 5vw);
+  }
+}
+.org-txt-primary {
+  color: var(--main-color);
+}
+
+.org-bg-primary {
+  background-color: var(--main-color);
+}
+
+main.main .list-group-item {
+  padding: 0;
+}
+main.main .list-group-item .field-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: space-between;
+  height: clamp(1.6rem, 1rem + 3.8vw, 5rem);
+  padding: 0 clamp(1.5rem, 0.75rem + 2.5vw, 4rem);
+  border: calc(0.5px + 0.06dvw) solid rgb(217, 217, 217);
+}
+main.main .list-group-item .field-item.add-item {
+  height: clamp(4rem, 1.4rem + 3.8vw, 5.5rem);
+}
+main.main .handle {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: calc(1.5rem + 0.01dvw + 1dvh);
+  color: #fff;
+  background-color: #d9d9d9;
+}
+main.main input:focus {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+main.main .form-check-input {
+  --dfault-color: #969696;
+  --dfault-color-semi-transparent: rgba(150, 150, 150, .25);
+  --dfault-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2.5' fill='%23fff'/%3e%3c/svg%3e");
+  --checked-color: var(--success);
+  --checked-color-semi-transparent: rgba(65, 174, 50, .25);
+  --checked-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2.8' fill='%23fff'/%3e%3c/svg%3e");
+  --box-shadow-size: 0 0 0 clamp(0.25rem, 0.25rem + 0.1vw, 1rem);
+  background-color: var(--dfault-color);
+  height: clamp(1rem, 0.5rem + 1.5vw, 3rem);
+  width: clamp(2rem, 1rem + 2.5vw, 4.5rem);
+}
+main.main .form-check-input:not(:checked) {
+  background-image: var(--dfault-switch-bg);
+  background-position: left center;
+}
+main.main .form-check-input:not(:checked):focus {
+  border-color: var(--dfault-color);
+  outline: 0;
+  box-shadow: var(--box-shadow-size) var(--dfault-color-semi-transparent);
+}
+main.main .form-check-input:checked {
+  background-image: var(--checked-switch-bg);
+  background-color: var(--checked-color);
+  border-color: var(--checked-color);
+}
+main.main .form-check-input:checked:focus {
+  border-color: var(--checked-color);
+  outline: 0;
+  box-shadow: var(--box-shadow-size) var(--checked-color-semi-transparent);
+}
+main.main .form-check-input:checked:focus-visible {
+  outline-color: color-mod(var(--checked-color), shade(10%));
+}/*# sourceMappingURL=config-ballot-form.css.map */
