@@ -1,5 +1,6 @@
 <?php
-require_once 'voter-login-class.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/file-utils.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/voter-login-class.php');
 
 class LoginController extends Login {
     private $email;
@@ -18,7 +19,7 @@ class LoginController extends Login {
         }
         
         if(!$this->isInvalidEmail()) {
-            $_SESSION['error_message'] = 'Please provide a valid email address';
+            $_SESSION['error_message'] = 'Please provide a valid email';
             header("Location: voter-login.php");          
             exit();
         }
