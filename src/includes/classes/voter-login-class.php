@@ -95,7 +95,7 @@ class Login {
 
     // Check mismatched email and password
     private function handleMismatchedCredentials() {
-        $_SESSION['error_message'] = 'Email and Password do not match!';
+        $_SESSION['error_message'] = 'Email and password do not match.';
         header("Location: voter-login.php");
         exit();
     }
