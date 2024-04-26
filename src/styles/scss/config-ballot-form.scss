@@ -1,0 +1,101 @@
+@import 'draggable-handle';
+@import 'utilities';
+
+
+main.main {
+
+    .list-group-item {
+        padding: 0;
+
+        .field-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: space-between;
+            // min-height: clamp(1.6rem, 1rem + 3.8vw, 5rem);
+            height: clamp(1.6rem, 1rem + 3.8vw, 5rem);
+            padding: 0 clamp(1.5rem, 0.75rem + 2.5vw, 4rem);
+            border: calc(0.5px + 0.06dvw) solid rgba(217, 217, 217, 1);
+
+            &.add-item {
+                // min-height: clamp(4rem, 1.4rem + 3.8vw, 5rem);
+                height: clamp(4rem, 1.4rem + 3.8vw, 5.5rem);
+            }
+        }
+
+    }
+
+    .handle {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: calc(1.5rem + 0.01dvw + 1dvh);
+        color: #fff;
+        background-color: #d9d9d9;
+
+        .fa {
+            @extend %fa-grip-lines-before;
+        }
+
+        .fas {
+            @extend %fa-grip-lines-before;
+        }
+    }
+
+    input:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, .25);
+    }
+
+
+    .form-check-input {
+        --dfault-color: #969696;
+        --dfault-color-semi-transparent: rgba(150, 150, 150, .25);
+        --dfault-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2.5' fill='%23fff'/%3e%3c/svg%3e");
+        --checked-color: var(--success);
+        --checked-color-semi-transparent: rgba(65, 174, 50, .25);
+        --checked-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2.8' fill='%23fff'/%3e%3c/svg%3e");
+        --box-shadow-size: 0 0 0 clamp(0.25rem, 0.25rem + 0.1vw, 1rem);
+
+        background-color: var(--dfault-color);
+        height: clamp(1rem, 0.5rem + 1.5vw, 3rem);
+        width: clamp(2rem, 1rem + 2.5vw, 4.5rem);
+
+        &:not(:checked) {
+
+
+            background-image: var(--dfault-switch-bg);
+            background-position: left center;
+
+            &:focus {
+                border-color: var(--dfault-color);
+                outline: 0;
+                box-shadow: var(--box-shadow-size) var(--dfault-color-semi-transparent);
+            }
+
+
+        }
+
+
+
+        &:checked {
+            background-image: var(--checked-switch-bg);
+            background-color: var(--checked-color);
+            border-color: var(--checked-color);
+
+            &:focus {
+                border-color: var(--checked-color);
+                outline: 0;
+                box-shadow: var(--box-shadow-size) var(--checked-color-semi-transparent);
+            }
+
+            &:focus-visible {
+                outline-color: color-mod(var(--checked-color), shade(10%));
+            }
+        }
+
+
+    }
+
+}
