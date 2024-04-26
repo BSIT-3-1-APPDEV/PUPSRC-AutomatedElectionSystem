@@ -1,95 +1,153 @@
 .card-report {
-  background-color: #F45B9B !important; 
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+}
+.card-text strong, .card-title{
+  text-transform: uppercase;
 }
 .card-report h5{
   font-size: 25px;
   font-weight: bold;
   color: white;
   padding-left: 50px;
-  letter-spacing: 5px;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  overflow: hidden;
   @media (max-width: 768px) {
-    padding-left: 20px;
+    padding-left: 2px;
     font-size: 25px;
     letter-spacing: 1px;
   }
   @media (max-width: 480px) {
-    padding-left: 20px;
-    font-size: 10px;
-    letter-spacing: 1px;
+    padding-left: 2px;
+    font-size: 20px;
   }
 }
 .card-report p{
   font-size: 18px;
-  font-weight: bold;
   color: white;
   padding-left: 50px;
+  text-transform: uppercase;
   @media (max-width: 768px) {
-    padding-left: 20px;
+    padding-left: 2px;
     font-size: 13px;
   }
   @media (max-width: 480px) {
-    padding-left: 20px;
+    padding-left: 2px;
     font-size: 10px;
   }
 }
 .btn {
-  width: 150px;
+  width: 160px;
   border: none !important;
   border-radius: 20px !important;
   position: relative;
-  margin-top: 10px;
+}
+.btn btn-primary dropdown-button{
+  margin-top: 15px !important;
 }
 .btn:hover, .btn {
-  background-color: #ffffff !important;
-  color: #F45B9B !important;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  background-color: white;
 }
 .card-candidate {
-  border: 3px solid #F45B9B !important;
   border-radius: 0.25rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   padding-left: 25px;
+  
 }
 .card-candidate img, .card-runnerup img{
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  border: 3px solid #F45B9B;
+  width: 60px;
+  height: 60px;
+  
+  @media (max-width: 768px) {
+    width: 55px;
+    height: 55px;
+  }
+  @media (max-width: 480px) {
+    width: 40px;
+    height: 40px;
+    margin-left: -20px;
+  }
 }
 .card-candidate h3, .card-runnerup h3{
   font-size: 20px;
-  font-weight: bold;
+  font-weight:bolder;
   @media (max-width: 768px) {
     font-size: 14px;
   }
   @media (max-width: 480px) {
-    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight:bolder;
   }
 }
 .card-candidate h5, .card-runnerup h5{
   font-size: 15px;
-  color: #F45B9B;
-  font-weight: bold;
+  font-weight: bolder;
   @media (max-width: 768px) {
     font-size: 10px;
   }
   @media (max-width: 480px) {
     font-size: 8px;
+    margin-top: -10px;
   }
 }
 .card-candidate p, .card-runnerup p{
   font-size: 20px;
-  color: #F45B9B;
-  font-weight: bold;
   margin-top: 20px;
-  margin-right: 10px;
+  margin-right: 40px;
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+  @media (max-width: 480px) {
+    font-size: 15px;
+    margin-right: 5px;
+    margin-top: 14px;
+  }
 }
 .card-runnerup{
   border-radius: 0.25rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   padding-left: 25px;
+}
+#dropdownMenuButton {
+  background-color: white;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  text-align:center;
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+    width: 110px;
+  }
+  @media (max-width: 480px) {
+    width: 110px;
+    font-size: 9px;
+    margin-top: 30px;
+    margin-left: -60px;
+  }
+}
+.card-body {
+  height: 100px !important; 
+  border-radius: 10px !important;
+}
+@media (max-width: 480px) {
+  .card-candidate,.card-runnerup, .card-body {
+      height: 70% !important;
+  }
+}
+.empty-text {
+  padding-top: 20px;
+  color: white !important;
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
+  @media (max-width: 480px) {
+    padding-top: 30px;
+    font-size: 10px;
+}
 }
