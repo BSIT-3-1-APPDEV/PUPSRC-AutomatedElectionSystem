@@ -1,11 +1,14 @@
 <?php
-require_once 'includes/classes/db-connector.php';
-require_once 'includes/session-handler.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
-if(isset($_SESSION['voter_id'])) {
+if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['vote_status'] == 'Voted')) {
 
     // ------ SESSION EXCHANGE
-    include 'includes/session-exchange.php';
+    include FileUtils::normalizeFilePath('includes/session-exchange.php');
     // ------ END OF SESSION EXCHANGE
 
   $connection = DatabaseConnection::connect();

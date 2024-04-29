@@ -1,12 +1,16 @@
 <?php
-require_once 'includes/classes/db-connector.php';
-require_once 'includes/session-handler.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
+//SessionManager::checkUserRoleAndRedirect();
 
-if(isset($_SESSION['voter_id'])) {
-
+if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['vote_status'] == NULL)) 
+{
     // ------ SESSION EXCHANGE
-    include 'includes/session-exchange.php';
+    include FileUtils::normalizeFilePath('includes/session-exchange.php');
     // ------ END OF SESSION EXCHANGE
 
   $connection = DatabaseConnection::connect();
@@ -22,6 +26,7 @@ if(isset($_SESSION['voter_id'])) {
   $stmt_candidates->execute();
   $result_candidates = $stmt_candidates->get_result();
 
+  $voter_id = $_SESSION['voter_id'];
   
 ?>
 
@@ -50,7 +55,6 @@ if(isset($_SESSION['voter_id'])) {
   <!-- Icons -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   
 
 </head>
@@ -63,7 +67,7 @@ if(isset($_SESSION['voter_id'])) {
       <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar dropdown-toggle"></span>
+      <span class="chevron-down"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
@@ -162,23 +166,22 @@ if(isset($_SESSION['voter_id'])) {
 
 
 <!-- Confirmation Modal -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-body">
         <div class="text-center pb-4">
           <div class="main-color pt-4">
             <h4><b>CANDIDATE PREVIEW</b></h4>
-        </div>
-             Kindly review and confirm selections.
+          </div> <!-- Closing tag for div with class "main-color pt-4" -->
+          Kindly review and confirm selections.
         </div>
         <div id="selectedCandidate"></div> <!-- Display selected candidate here -->
       </div>
-        <div class="text-center pb-4">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
-          <button type="submit" class="btn btn-success" id="submitModalButton">
-            Submit Vote</button>
-        </div>
+      <div class="text-center pb-4">
+        <button type="button" class="btn btn-secondary" id="cancelModalButton">Cancel</button>
+        <button type="submit" class="btn btn-success" id="submitModalButton">Submit Vote</button>
+      </div>
     </div>
   </div>
 </div>
@@ -319,7 +322,7 @@ if(isset($_SESSION['voter_id'])) {
                 </div>
 
                 <!-- Fetch candidates matching the position_id -->
-                <?php $result_candidates->data_seek(0);  ?>
+                <?php $result_candidates-> data_seek(0);  ?>
                 <?php $candidate_count = 0; ?>
                 <div class="row">
                     <?php while ($row_candidates = $result_candidates->fetch_assoc()): ?>
@@ -335,8 +338,8 @@ if(isset($_SESSION['voter_id'])) {
                                             <input type="hidden" name="position_id[<?php echo $row['position_id'] ?>][]" value="<?php echo $row['position_id'] ?>" >
                                             <input type="hidden" name="candidate_id[<?php echo $row_candidates['candidate_id'] ?>][]" value="<?php echo $row_candidates['candidate_id'] ?>" >
                                             <input type="radio" name="position[<?php echo $row['position_id'] ?>]" value="<?php echo $row_candidates['candidate_id'] ?>">
-                                            <?php echo $full_name ?><br>
-                                            <div class="undisplay main-color subtitle-2"><b><?php echo $row_candidates['section'] ?></b></div>
+                                              <?php echo $full_name ?><br>
+                                              <div class="undisplay main-color subtitle-2"><b><?php echo $row_candidates['section'] ?></b></div>
                                         </div>
                                     </div>
                                 </label>
@@ -365,6 +368,7 @@ if(isset($_SESSION['voter_id'])) {
             </div><!-- Close reminder -->
         <?php endwhile; ?>
     <?php endif; ?>
+    <input type="hidden" name="voter_id" value="<?php echo $voter_id ?>">
     <div class="text-center pb-4 mt-3">
         <button type="button" class="button-reset" onclick="resetForm()"><u>Reset Form</u></button>
         <button type="submit" class="button-submit main-bg-color" id="submitVoteBtn" onclick="validateForm()">
@@ -382,10 +386,10 @@ if(isset($_SESSION['voter_id'])) {
 
 
   <script src="../src/scripts/feather.js"></script>
+  <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.js"></script>
   <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
  
 
   <script>
@@ -431,7 +435,6 @@ if(isset($_SESSION['voter_id'])) {
     });
 
     var reminderError = reminder.querySelector('.text-danger');
-
 
             if (!radioButtonChecked) {
                 if (!reminderError) {
@@ -492,6 +495,15 @@ if(isset($_SESSION['voter_id'])) {
         document.getElementById('voteForm').submit();
 
     });
+
+  // Dismiss the modal when the "Cancel" button is clicked
+    document.getElementById('cancelModalButton').addEventListener('click', function() {
+    var modal = document.getElementById('confirmationModal');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+    });
+
 </script>
 
 

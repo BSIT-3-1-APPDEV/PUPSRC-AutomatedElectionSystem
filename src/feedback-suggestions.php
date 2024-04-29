@@ -1,30 +1,20 @@
 <?php
-require_once 'includes/classes/db-connector.php';
-require_once 'includes/session-handler.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
 
-if(isset($_SESSION['voter_id'])) {
+if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['vote_status'] == 'Voted')) {
 
      // ------ SESSION EXCHANGE
-     include 'includes/session-exchange.php';
+     include FileUtils::normalizeFilePath('includes/session-exchange.php');
      // ------ END OF SESSION EXCHANGE
 
   $connection = DatabaseConnection::connect();
   // Assume $connection is your database connection
-  $voter_id = $_SESSION['voter_id'];
   
-  // Prepare and execute a query to fetch the first name of the user
-  $stmt = $connection->prepare("SELECT first_name FROM voter WHERE voter_id = ?");
-  $stmt->bind_param('i', $voter_id);
-  $stmt->execute();
-  $result = $stmt->get_result();
-
-  $row = $result->fetch_assoc();
-      
-  // Retrieve the first name from the fetched row
-  $first_name = $row['first_name'];
-
-  $stmt->close();
 
 ?>
 
