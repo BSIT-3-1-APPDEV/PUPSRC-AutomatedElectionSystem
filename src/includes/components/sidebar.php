@@ -64,12 +64,12 @@
 					</li>
 
 					<li class="item">
-						<a href="admin-creation.php"
+						<a href="manage-committee.php"
 							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Committee</a>
 					</li>
 					<li class="item">
 						<a href="admin-creation.php"
-							class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-committee.php' ? 'active-sub fw-bold' : ''; ?>">Add
+							class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">Add
 							Committee</a>
 					</li>
 				</ul>
