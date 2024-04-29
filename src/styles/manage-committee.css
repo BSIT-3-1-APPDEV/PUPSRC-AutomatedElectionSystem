@@ -1,0 +1,130 @@
+.btn-lvl-current {
+    background-color: var(--main-color) !important;
+    color: white !important;
+    border-radius: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 1 !important;
+    cursor: default !important;
+  }
+  
+  .btn-lvl-white {
+    background-color: #fff !important;
+    color: grey !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+    cursor: default !important;
+    float: right !important;
+  }
+  
+  .btn-lvl-white-add {
+    background-color: #fff !important;
+    color: var(--main-color) !important;
+    border-radius: 10px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+    cursor: default !important;
+    cursor: pointer !important;
+  }
+  
+  .btn-lvl-white {
+    padding: 6px 30px !important;
+  }
+  
+  .btn-lvl-current {
+    padding: 6px 50px !important;
+  }
+  
+  .btn-lvl-white + .btn-lvl-current {
+    margin-left: -30px !important;
+  }
+  
+  
+  /* FOR 3 LEVELS */
+  .btn-back {
+    background-color: #fff !important;
+    color: grey !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+  }
+  
+  .btn-back:hover {
+    color: var(--bs-gray-300) !important;
+  }
+  .btn-current {
+    background-color: var(--main-color) !important;
+    color: white !important;
+    border: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 1 !important;
+    cursor: default !important;
+  }
+  
+  .btn-white {
+    background-color: #fff !important;
+    color: grey !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+    cursor: default !important;
+  }
+  
+  .no-border {
+    border: none !important;
+  }
+  
+  /* Horizontal padding */
+  
+  .btn-white {
+    padding: 6px 30px !important;
+  }
+  
+  .btn-back {
+    padding: 6px 50px !important; 
+  }
+  
+  .btn-current {
+    padding: 6px 50px !important;
+  }
+  
+  .btn-white + .btn-back {
+    margin-left: -30px !important;
+  }
+  
+  .btn-back + .btn-current {
+    margin-left: -30px !important;
+  }
+  
+  .breadcrumbs button {
+    border: none !important;
+  }
+  
+  .role-background {
+    padding: 0.2rem 1rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03rem
+  }
+  
+  .admin-member {
+    background-color: var(--primary) !important;
+    color: #fff;
+  }
+  
+  .committee-member {
+    background-color: var(--light-green) !important;
+    color: white !important; 
+  }
+  
+  
