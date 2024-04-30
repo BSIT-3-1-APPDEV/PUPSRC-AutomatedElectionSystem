@@ -1,0 +1,196 @@
+@import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap";
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #fff;
+  /* height: 100%; */
+  height: 100vh;
+}
+
+.ivote-logo {
+  width: 250px;
+}
+
+#ivote-logo-landing-header {
+  width: 80px;
+}
+
+footer {
+  margin-top: 5%;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.copyright {
+  letter-spacing: 10px;
+}
+
+/* Header*/
+.navbar {
+  background-color: #f9f9f9;
+  min-height: 55px;
+  border-bottom: 1.3px solid #ccc;
+}
+
+.navbar .nav-link {
+  color: #c82d26;
+}
+
+.active {
+  font-weight: bold;
+  color: #c82d26 !important;
+}
+
+.nav-item {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+/* End of Header */
+
+/* Landing Footer */
+button {
+  outline: none;
+  border: none;
+}
+
+footer {
+  margin-top: 100px;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.custom-shape-divider-top-1713266907 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.custom-shape-divider-top-1713266907 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 172px; /* Adjust this height as needed */
+}
+
+.custom-shape-divider-top-1713266907 .shape-fill {
+  fill: #e7e7e7;
+}
+
+.footer-body {
+  background-color: #e7e7e7;
+  padding-left: 10%;
+}
+
+.ivote-logo#footer {
+  width: 200px;
+}
+
+.credits-footer {
+  color: #c82d26;
+  padding-top: 3%;
+  font-weight: bold;
+}
+
+.ivote-email {
+  font-weight: bold;
+}
+
+.hii {
+  color: #003b25;
+}
+
+.connect-with-us {
+  width: 25px;
+  margin: 2%;
+}
+
+/* About Us */
+.about-us {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-us-body {
+  text-align: center;
+  padding: 5%;
+}
+
+.connect-with-us {
+  width: 25px;
+  margin: 2%;
+}
+
+.about-us-icon {
+  width: 80%;
+  /* width: 600px; */
+}
+
+@media (max-width: 700px) {
+  .header-register {
+    padding-left: 0 !important;
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack flex items vertically */
+    align-items: center; /* Center flex items horizontally */
+  }
+
+  .header-register p {
+    display: inline; /* Display <p> elements inline */
+    margin: 0 !important; /* Remove default margins */
+  }
+  .register-img-container {
+    display: none;
+  }
+  .d-flex.justify-content-end {
+    justify-content: center !important; /* Override justify-content-end with center */
+  }
+  .login-wave-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    z-index: -1;
+  }
+
+  .about-us-icon {
+    width: 400px;
+  }
+}
+
+.register-img {
+  width: 60%;
+  height: auto;
+  max-height: 100%;
+}
+
+.border {
+  border: 2px solid red;
+}
+
+.header-register {
+  padding-left: 42%;
+}
+
+p {
+  margin-bottom: 0 !important;
+}
+
+.underline {
+  text-decoration: underline !important;
+}
+
+.underline:hover {
+  color: var(--bs-gray-600) !important;
+}
