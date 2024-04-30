@@ -36,6 +36,9 @@
   --font-family-monospace: Liberation Mono, "Courier New", monospace;
 }
 
+.asterisk {
+  color: #EB0016;
+}
 a {
   text-decoration: none !important;
   color: #000;
@@ -62,6 +65,10 @@ a {
 
 .main-blue {
   color: var(--main-blue) !important;
+}
+
+.main-blue-200 {
+  color: #4769b1;
 }
 
 .dark-gray {
