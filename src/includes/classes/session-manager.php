@@ -22,17 +22,18 @@ class SessionManager {
                     elseif($_SESSION['vote_status'] == 'Voted') {
                         header("Location: end-point.php");
                     }
-                }
-
-                // Check if role is set to committee member
-                elseif($_SESSION['role'] == 'Committee Member') {
-                    header("Location: admindashboard.php");
-                }
+                }          
+            } 
+            // Check if role is set to committee member
+            elseif($_SESSION['role'] == 'Committee Member') {
+                header("Location: admindashboard.php");
                 exit();
-                
-            } else {
+            }
+                     
+            else {
                 // If 'role' key does not exist, display
                 echo "Role not found in session.";
+                header("Location: landing-page.php");
                 exit();
             }
         }
