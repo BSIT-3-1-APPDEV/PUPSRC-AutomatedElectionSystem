@@ -1,63 +1,74 @@
 .card-report {
-  border-radius: 10px;
+  margin-top: 30px;
   border-radius: 10px;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+  @media (max-width: 768px) {
+    margin-top: 5px;
+    border-radius: 5px;
+    }
+  @media (max-width: 480px) {
+    margin-top: 5px;
+    border-radius: 5px;
+    }
 }
 .card-text strong, .card-title{
   text-transform: uppercase;
 }
 .card-report h5{
-  font-size: 25px;
+  font-size: 28px;
   font-weight: bold;
   color: white;
+  padding-top: 24px;
   padding-left: 50px;
   letter-spacing: 2px;
   white-space: nowrap;
   overflow: hidden;
   @media (max-width: 768px) {
-    padding-left: 2px;
-    padding-left: 2px;
+    padding-left: 20px;
     font-size: 25px;
     letter-spacing: 1px;
   }
 
   @media (max-width: 480px) {
-    padding-left: 2px;
+    padding-left: 10px;
     font-size: 20px;
-    padding-left: 2px;
-    font-size: 20px;
+    padding-top: 20px;
   }
 
 }
 .card-report p{
-  font-size: 18px;
+  font-size: 13px;
   color: white;
   padding-left: 50px;
   text-transform: uppercase;
   @media (max-width: 768px) {
-    padding-left: 2px;
-    padding-left: 2px;
+    padding-left: 20px;
     font-size: 13px;
   }
 
   @media (max-width: 480px) {
-    padding-left: 2px;
-    padding-left: 2px;
+    padding-left: 10px;
     font-size: 10px;
   }
 }
 .card-candidate {
   border-radius: 0.25rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  padding-left: 25px;
-  
+  padding-left: 70px;
+  @media (max-width: 768px) {
+    padding-left: 15px;
+    }
+  @media (max-width: 480px) {
+    padding-left: 30px;
+    }
 }
 
 .card-candidate img, .card-runnerup img{
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  margin-top: 5px;
+  width: 50px;
+  height: 50px;
   
   @media (max-width: 768px) {
     width: 55px;
@@ -72,15 +83,12 @@
 .card-candidate h3, .card-runnerup h3{
   font-size: 20px;
   font-weight:bolder;
+  margin-top: -8px;
   @media (max-width: 768px) {
     font-size: 14px;
   }
 
   @media (max-width: 480px) {
-    margin-top: -10px;
-    margin-bottom: 12px;
-    font-size: 15px;
-    font-weight:bolder;
     margin-top: -10px;
     margin-bottom: 12px;
     font-size: 15px;
@@ -98,15 +106,16 @@
   @media (max-width: 480px) {
     font-size: 8px;
     margin-top: -10px;
-    margin-top: -10px;
   }
 
 }
 .card-candidate p, .card-runnerup p{
   font-size: 20px;
-  margin-top: 20px;
+  margin-top: 15px;
   margin-right: 40px;
   @media (max-width: 768px) {
+    margin-right: 15px;
+    margin-top: 14px;
     font-size: 20px;
   }
   @media (max-width: 480px) {
@@ -118,19 +127,28 @@
 .card-runnerup{
   border-radius: 0.25rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  padding-left: 25px;
+  padding-left: 70px;
+  @media (max-width: 768px) {
+    padding-left: 15px;
+    }
+  @media (max-width: 480px) {
+    padding-left: 30px;
+    }
 }
 .card-body {
-  height: 100px !important; 
+  height: 95px !important; 
   border-radius: 10px !important;
+  @media (max-width: 480px) {
+    height: 80px !important;
+    }
 }
 @media (max-width: 480px) {
-  .card-candidate,.card-runnerup, .card-body {
-      height: 70% !important;
+  .card-candidate,.card-runnerup, .card-report {
+      height: 80px !important;
   }
 }
 .empty-text {
-  padding-top: 20px;
+  padding-top: 40px;
   color: white !important;
   @media (max-width: 768px) {
     font-size: 10px;
@@ -139,4 +157,56 @@
     padding-top: 30px;
     font-size: 10px;
 }
+}
+.btn-election {
+  background-color: #ffffff;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
+  @media (max-width: 480px) {
+    font-size: 7px;
+    width: 75px !important;
+    height: 22px !important;
+    margin-left: 10px !important;
+  }
+  @media (max-width: 390px) {
+    font-size: 7px;
+    width: 75px !important;
+    height: 22px !important;
+    margin-top: 45px !important;
+    margin-left: -20px !important;
+  }
+  
+}
+
+@media (max-width: 480px) {
+  .dropdown-item {
+     width: 75px !important;
+   }
+ }
+
+.btn-election:hover {
+  color: #ffffff;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
+}
+.includes-components-footer {
+  margin-top: auto;
 }
