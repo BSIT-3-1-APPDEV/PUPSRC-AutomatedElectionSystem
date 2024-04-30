@@ -30,10 +30,10 @@ $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 $mail->Port = 587;
 
 // SMTP username
-$mail->Username = "carltabuso2275@gmail.com";
+$mail->Username = "ivotepupsrc@gmail.com";
 
 // SMTP password
-$mail->Password = "akgsezfmrlluxybg";
+$mail->Password = "xjetcezffvrqzocp";
 
 // Set email format to HTML
 $mail->isHtml(true);
