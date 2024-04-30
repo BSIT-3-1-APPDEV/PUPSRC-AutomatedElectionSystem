@@ -1,5 +1,6 @@
 .card-report {
   border-radius: 10px;
+  border-radius: 10px;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
@@ -16,13 +17,18 @@
   overflow: hidden;
   @media (max-width: 768px) {
     padding-left: 2px;
+    padding-left: 2px;
     font-size: 25px;
     letter-spacing: 1px;
   }
+
   @media (max-width: 480px) {
     padding-left: 2px;
     font-size: 20px;
+    padding-left: 2px;
+    font-size: 20px;
   }
+
 }
 .card-report p{
   font-size: 18px;
@@ -31,24 +37,15 @@
   text-transform: uppercase;
   @media (max-width: 768px) {
     padding-left: 2px;
+    padding-left: 2px;
     font-size: 13px;
   }
+
   @media (max-width: 480px) {
+    padding-left: 2px;
     padding-left: 2px;
     font-size: 10px;
   }
-}
-.btn {
-  width: 160px;
-  border: none !important;
-  border-radius: 20px !important;
-  position: relative;
-}
-.btn btn-primary dropdown-button{
-  margin-top: 15px !important;
-}
-.btn:hover, .btn {
-  background-color: white;
 }
 .card-candidate {
   border-radius: 0.25rem;
@@ -56,6 +53,7 @@
   padding-left: 25px;
   
 }
+
 .card-candidate img, .card-runnerup img{
   border-radius: 50%;
   width: 60px;
@@ -77,12 +75,18 @@
   @media (max-width: 768px) {
     font-size: 14px;
   }
+
   @media (max-width: 480px) {
     margin-top: -10px;
     margin-bottom: 12px;
     font-size: 15px;
     font-weight:bolder;
+    margin-top: -10px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight:bolder;
   }
+
 }
 .card-candidate h5, .card-runnerup h5{
   font-size: 15px;
@@ -90,10 +94,13 @@
   @media (max-width: 768px) {
     font-size: 10px;
   }
+
   @media (max-width: 480px) {
     font-size: 8px;
     margin-top: -10px;
+    margin-top: -10px;
   }
+
 }
 .card-candidate p, .card-runnerup p{
   font-size: 20px;
@@ -112,24 +119,6 @@
   border-radius: 0.25rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   padding-left: 25px;
-}
-#dropdownMenuButton {
-  background-color: white;
-  border: none;
-  font-size: 15px;
-  font-weight: bold;
-  text-align:center;
-
-  @media (max-width: 768px) {
-    font-size: 10px;
-    width: 110px;
-  }
-  @media (max-width: 480px) {
-    width: 110px;
-    font-size: 9px;
-    margin-top: 30px;
-    margin-left: -60px;
-  }
 }
 .card-body {
   height: 100px !important; 

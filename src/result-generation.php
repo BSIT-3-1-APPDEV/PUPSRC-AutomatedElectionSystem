@@ -1,12 +1,16 @@
 <?php
-require_once 'includes/classes/db-connector.php';
-require_once 'includes/session-handler.php';
-require_once 'includes/classes/session-manager.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
-if (isset($_SESSION['voter_id'])) {
+
+if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) {
 
         // ------ SESSION EXCHANGE
-        include 'includes/session-exchange.php';
+        include FileUtils::normalizeFilePath('includes/session-exchange.php');
+        // ------ END OF SESSION EXCHANGE
         $connection = DatabaseConnection::connect();
         // Assume $connection is your database connection
         $voter_id = $_SESSION['voter_id'];
@@ -56,7 +60,7 @@ if (isset($_SESSION['voter_id'])) {
             echo ".hover-color:hover { color: var(--$organization);}" ;
             
             ?>
-            .btn-with-margin { margin-top: 15px; }
+            .btn-with-margin { margin-top: 15px; width: 150px;height: 33px; margin-right: 20px;border-radius: 25px;}
             </style>
 
 
@@ -117,7 +121,7 @@ if (isset($_SESSION['voter_id'])) {
                                             }
                                         ?>
                                            <div class="dropdown">
-                                                <button class="btn btn-primary main-color hover-color dropdown-button btn-with-margin" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="btn-election main-color hover-color dropdown-button btn-with-margin" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <?php echo $selected_position_title;?>
                                                     <span class="ms-auto">
                                                         <i class="fas fa-chevron-down" id="dropdownIcon"></i>
