@@ -33,17 +33,16 @@ input[type='password'] {
 
 .stroked-text {
   -webkit-text-stroke: 1px white;
-  font-weight: 900;
 }
 
 #index-PUPSRC {
   color: #c82d26 !important;
   -webkit-text-stroke: 0.5px white;
   padding-top: 10px;
-  font-weight: 900;
+  font-weight: 800;
   text-shadow: 2px 2px 4px rgba(255, 255, 255, 1.5);
   font-family: "Montserrat", sans-serif;
-  letter-spacing: -1px;
+  /* letter-spacing: -1px; */
 }
 
 #index-AES {
@@ -51,7 +50,7 @@ input[type='password'] {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   letter-spacing: -1px;
   padding-bottom: 2%;
-  font-weight: 900 !important;
+  font-weight: 800;
 }
 
 .index-button {
@@ -863,5 +862,10 @@ span {
 
   .reset-password-form {
     width: 450px;
+  }
+
+  .index-button{
+    margin-top: 3%;
+    padding: 3%;
   }
 }
