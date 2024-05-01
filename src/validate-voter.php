@@ -1,7 +1,8 @@
 <?php
-require_once 'includes/classes/db-connector.php';
-require_once 'includes/session-handler.php';
-require_once 'includes/classes/session-manager.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
 if (isset($_SESSION['voter_id'])) {
 
@@ -193,8 +194,6 @@ if (isset($_SESSION['voter_id'])) {
 														</form>
 													</div>
 												</div>
-
-
 											</section>
 										</div>
 									</div>
@@ -245,11 +244,10 @@ if (isset($_SESSION['voter_id'])) {
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-body">
-
 						<div class="row p-4">
 							<div class="col-md-12 pb-3">
 								<p class="fw-bold fs-3 danger spacing-4">Reason for rejection</p>
-								<form action="#" method="post">
+								<form id="rejectForm" action="#" method="post">
 									<input type="radio" id="reason1" name="reason" value="reason1">
 									<label for="reason1" class="pt-2 fw-medium">Student is not part of the
 										organization</label><br>
@@ -262,11 +260,10 @@ if (isset($_SESSION['voter_id'])) {
 									<label for="others" class="pt-2 fw-medium">Others (Please specify)</label><br>
 
 									<div id="otherReason" style="display: none;">
-										<textarea class="form-control my-3" id="other" name="otherReason"
-											rows="3"></textarea>
-										<p class="fs-7">Note: Only up to 50 max words are allowed</p>
+										<textarea class="form-control bg-primary my-3 text-black" id="other" name="otherReason"
+											rows="3" maxlength="200"></textarea>
+										<p class="fs-7">Note: Only up to 200 characters are allowed</p>
 									</div>
-
 									<script>
 										document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
 											radio.addEventListener('change', function () {
@@ -278,26 +275,26 @@ if (isset($_SESSION['voter_id'])) {
 											});
 										});
 									</script>
+									<div class="col-md-12 pt-3 text-end">
+										<div class="d-inline-block">
+											<button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+												onClick="closeModal()" aria-label="Close">Cancel</button>
+										</div>
+										<div class="d-inline-block">
+											<input type="hidden" id="voter_id" name="voter_id"
+												value="<?php echo $voter_id; ?>">
+											<button class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+												type="submit" id="send-reject">Reject</button>
+										</div>
+									</div>
 								</form>
-							</div>
-							<div class="col-md-12 pt-3 text-end">
-								<div class="d-inline-block">
-									<button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-										onClick="closeModal()" aria-label="Close">Cancel</button>
-								</div>
-								<div class="d-inline-block">
-									<form class="d-inline-block">
-										<input type="hidden" id="voter_id" name="voter_id" value="<?php echo $voter_id; ?>">
-										<button class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-											type="submit" id="send-reject" value="reject">Reject</button>
-									</form>
-								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 
 		<!-- Rejected Successfully Modal -->
 		<div class="modal" id="rejectDone" tabindex="-1" role="dialog">

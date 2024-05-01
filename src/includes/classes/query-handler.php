@@ -28,4 +28,24 @@ class QueryExecutor {
         return $result;
     }
 }
+
+class Voter {
+    private $conn;
+
+    public function __construct() {
+        $this->conn = DatabaseConnection::connect();
+    }
+
+    public function getEmailById($voter_id) {
+        $sql = "SELECT email FROM voter WHERE voter_id = $voter_id";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['email'];
+        } else {
+            return null; // or handle error
+        }
+    }
+}
 ?>
