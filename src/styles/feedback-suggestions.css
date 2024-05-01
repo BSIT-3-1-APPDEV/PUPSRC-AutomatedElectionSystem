@@ -78,7 +78,6 @@ body {
 
     .text-position {
         padding-top: 3%;
-        padding-left: 3%;
     }
   
     .button-submit {
@@ -498,7 +497,31 @@ html {
         }
     }
 }
+
+.container-spacing {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.dark-gray a{
+    text-decoration: none;
+}
+
+.dark-gray{
+    color: #4d4d4d;
+}
   
+.main-red {
+    color: #ea423c !important;
+  }
+  
+  .main-blue {
+    color: #5d83d1 !important;
+  }
+  
+  .link-blue {
+    color: #4169E1;
+  }
    
        /* --- Footer --- */
     .footer {
@@ -562,6 +585,66 @@ html {
         cursor: pointer;
     }
     
+    /* --- FEATHER ICONS SIZES --- */
+
+fs-12 {
+    font-size: 0.5rem;
+  }
+  
+  .w-35 {
+    width: 35% !important;
+  }
+  
+  .link:hover {
+    color: #4169E1 !important;
+  }
+  
+  .flex-end {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  /* --- FEATHER ICONS SIZES --- */
+  
+  .im-cust-2 {
+    margin-bottom: 0.188rem !important;
+    margin-right: 0.1rem !important
+  }
+  
+  .im-cust {
+    margin-bottom: 0.188rem !important;
+    margin-right: 0.5rem !important
+  }
+  
+  .feather-2xs {
+    width: 0.625em;
+    height: 0.625em;
+  }
+  
+  .feather-xs {
+    width: 0.875em;
+    height: 0.875em;
+  }
+  
+  .feather-sm {
+    width: 1em;
+    height: 1em;
+  }
+  
+  .feather-lg {
+    width: 1.25em;
+    height: 1.25em;
+  }
+  
+  .feather-xl {
+    width: 1.5em;
+    height: 1.5em;
+  }
+  
+  .feather-2xl {
+    width: 2em;
+    height: 2em;
+  }
             
             
             /* --- End: Footer --- */

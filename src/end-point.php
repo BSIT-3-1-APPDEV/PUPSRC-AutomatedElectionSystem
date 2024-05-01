@@ -1,11 +1,11 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
-require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
-require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
-if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['vote_status'] == 'Voted')) {
+if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['status'] == 'Active')) {
+
+ // if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'Voted')){
 
     // ------ SESSION EXCHANGE
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
@@ -35,12 +35,10 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
   <!-- Bootstrap 5 code -->
   <link type="text/css" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../src/styles/feedback-suggestions.css">
-  <link rel="stylesheet" href="styles/core.css">
   <link rel="stylesheet" href="<?php echo '../src/styles/orgs/' . $org_acronym . '.css'; ?>">
   <!-- Icons -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
 
 </head>
@@ -53,27 +51,27 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
       <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar dropdown-toggle"></span>
+      <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item dropdown d-none d-lg-block">
-          <a class="nav-link dropdown-toggle main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Hello, Iskolar</b> <i class='fas fa-user-circle main-color ps-2' style='font-size:23px;'></i>
+          <a class="nav-link main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <b>Hello, Iskolar</b><i class="fas fa-user-circle main-color ps-3" style="font-size: 23px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-             <a class="dropdown-item" href="includes/voter-logout.php">Logout</a>
+            <a class="dropdown-item" href="includes/voter-logout.php">Logout</a>
           </div>
         </li>
         <li class="nav-item d-lg-none">
-           <a class="nav-link" href="includes/voter-logout.php">Logout</a>
+          <a class="nav-link" href="includes/voter-logout.php">Logout</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<div class="container mb-4">
+<div class="container mb-5">
     <div class="row justify-content-md-center align-items-center">
         <div class="col-lg-6 col-sm-12">
             <div class="end-point text-center">
@@ -117,8 +115,34 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
 
 </body>
 
-<?php include_once __DIR__ . '/includes/components/footer.php'; ?>
+<div id="footer-wrapper" style="position: fixed; bottom: 0; width: 100%;">
+    <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
+</div>
 
+<script>
+  // Stick the footer at the bottom
+
+    window.addEventListener('DOMContentLoaded', function() {
+        const footerWrapper = document.getElementById('footer-wrapper');
+
+        function checkZoomLevel() {
+            const zoomLevel = window.devicePixelRatio * 100;
+            if (zoomLevel >= 110) {
+                footerWrapper.style.position = 'static'; // Remove position fixed
+            } else {
+                footerWrapper.style.position = 'fixed';
+                footerWrapper.style.bottom = '0';
+                footerWrapper.style.width = '100%';
+            }
+        }
+
+        // Call the function on page load
+        checkZoomLevel();
+
+        // Listen for window resize events
+        window.addEventListener('resize', checkZoomLevel);
+    });
+</script>
 
   <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../src/scripts/script.js"></script>
@@ -127,8 +151,11 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
-<?php
+  <?php
+  //} else{
+   // header("Location: ballot-forms.php");
+ // }
 } else {
-  header("Location: voter-login.php");
+  header("Location: landing-page.php");
 }
 ?>
