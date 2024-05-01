@@ -1,0 +1,54 @@
+.information p {
+    margin-bottom: 0 !important;
+  }
+  
+  .confirm-delete p {
+    margin-bottom: 0 !important;
+  }
+  
+  select, select:focus, select:active, select:valid, select:checked {
+    border: none !important;
+    outline: 0 !important;
+  }
+
+  select option{
+    padding: 5px !important;
+}
+  
+  .status-background {
+    padding: 0.5rem 2rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03rem;
+    border-color: none !important;
+  }
+  
+  .active-status {
+    background-color: var(--light-green);
+    color: #fff;
+  }
+  
+  .inactive-status, .rejected-status {
+    background-color: var(--light-red);
+    color: white; 
+  }
+
+  .status-background option {
+    background-color: #fff !important;
+    color: var(--main-black);
+  }
+
+  .del-no-border {
+    font-size: 1rem;
+    background-color: #fff !important;
+    border: none !important;
+    color: var(--danger);
+    text-decoration: underline;
+  }
+
+  .del-no-border:hover {
+    color: var(--bs-gray-500);
+  }
+
+  

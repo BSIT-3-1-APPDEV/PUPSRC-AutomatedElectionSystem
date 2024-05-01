@@ -1,17 +1,26 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/session-manager.php');
 include FileUtils::normalizeFilePath(__DIR__ . '/includes/session-exchange.php');
 
-// Check if voter_id and role is set in session
 SessionManager::checkUserRoleAndRedirect();
 
-if (isset($_SESSION['error_message'])) {
-    $errorMessage = $_SESSION['error_message'];
+/* Generates hexadecimal token that expires in 30 minutes
+   to avoid Cross-Site Request Forgery */
+$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+$_SESSION['csrf_expiry'] = time() + (60 * 30);
+
+if(isset($_SESSION['error_message'])) {
+    $error_message = $_SESSION['error_message'];
     // Unset the error message from the session once displayed
     unset($_SESSION['error_message']); 
+}
+
+if(isset($_SESSION['info_message'])) {
+    $info_message = $_SESSION['info_message'];
+    // Unset the info message from the session once displayed
+    unset($_SESSION['info_message']); 
 }
 
 ?>
@@ -74,20 +83,33 @@ if (isset($_SESSION['error_message'])) {
                         <p>Sign in to your account</p>
 
                         <!--Displays error message-->
-                        <?php if (isset($errorMessage)) : ?>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-                            <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
-                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                            </symbol>
-                        </svg>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>                            
-                            <span class="pe-3"><?php echo $errorMessage; ?></span>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
+                        <?php if (isset($error_message)) : ?>
+                        <div class="fw-medium border border-danger bg-transparent text-danger alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 16">
+                                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
+                                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+                            </svg>
+                            <div>
+                                <span class="pe-1"><?php echo $error_message; ?></span>
+                                <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
                         </div>
                         <?php endif; ?>
-                        
+
+                        <!--Displays info message-->
+                        <?php if (isset($info_message)) : ?>
+                        <div class="fw-medium border border-primary bg-transparent text-primary alert alert-primary alert-dismissible fade show d-flex align-items-center" role="alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle flex-shrink-0 me-2" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                            </svg>                            
+                            <div>
+                                <span class="pe-1"><?php echo $info_message; ?></span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
                         <div class="col-md-12 mt-4 mb-3">
                             <input type="email" class="form-control" id="Email" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
                         </div>
@@ -100,15 +122,14 @@ if (isset($_SESSION['error_message'])) {
                                 </button>
                             </div>
                         </div>
-
-                        <a href="#" class="text-align-start" >Forgot Password</a>
+                        <a href="forgot-password.php" class="text-align-start" >Forgot Password</a>
 
                         <div class="d-grid gap-2 mt-5 mb-4">
                             <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
-                            <button class="btn login-sign-in-button" id="<?php echo strtoupper($org_name); ?>-login-button"  name="sign_in" type="submit">Sign In</button>
+                            <button class="btn login-sign-in-button" id="<?php echo strtoupper($org_name); ?>-login-button"  name="sign-in" type="submit">Sign In</button>
                         </div>
-
                         <p>Don't have an account? <a href="#" id="<?php echo strtolower($org_name); ?>SignUP">Sign Up</a></p>
+                        <input type="hidden" name="csrf_token" value="<?=$_SESSION['csrf_token'] ;?>">
                     </form>
                 </div>
             </div>

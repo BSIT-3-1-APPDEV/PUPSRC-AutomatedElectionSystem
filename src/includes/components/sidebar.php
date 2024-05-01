@@ -38,6 +38,7 @@
 						(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
 						basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
 						basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
+						basename($_SERVER['PHP_SELF']) == 'voter-details.php'||
 						basename($_SERVER['PHP_SELF']) == 'admin-creation.php')
 						? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" id="submenuToggle" data-bs-parent="false">
 					
@@ -55,7 +56,8 @@
 
 						# ---- VOTERS PAGES
 						(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
-						basename($_SERVER['PHP_SELF']) == 'validate-voter.php')
+						basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
+						basename($_SERVER['PHP_SELF']) == 'voter-details.php')
 						? 'active-sub fw-bold' : ''; ?>">
 						Voters</a>
 
