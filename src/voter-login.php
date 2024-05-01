@@ -12,14 +12,18 @@ $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 $_SESSION['csrf_expiry'] = time() + (60 * 30);
 
 if (isset($_SESSION['error_message'])) {
+if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
     // Unset the error message from the session once displayed
+    unset($_SESSION['error_message']);
     unset($_SESSION['error_message']);
 }
 
 if (isset($_SESSION['info_message'])) {
+if (isset($_SESSION['info_message'])) {
     $info_message = $_SESSION['info_message'];
     // Unset the info message from the session once displayed
+    unset($_SESSION['info_message']);
     unset($_SESSION['info_message']);
 }
 
@@ -75,32 +79,43 @@ if (isset($_SESSION['info_message'])) {
                 </div>
             </div>
 
+
             <div class="col-md-6 login-right-section">
 
                 <div>
-                    <form action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>                
+                    <form action="voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
                         <h1 class="login-account">Account Log In</h1>
                         <p>Sign in to your account</p>
 
-                        <div class="d-flex align-items-center justify-content-center mb-0 pb-0">
-    <!-- Displays error message -->
-    <?php if (isset($error_message)) : ?>
-        <div class="fw-medium border border-danger bg-transparent text-danger alert alert-danger alert-dismissible fade show d-flex align-items-center custom-alert" role="alert">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 16">
-                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
-                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
-            </svg>
-            <div class="d-flex align-items-center">
-                <span class="pe-1"><?php echo $error_message; ?></span>
-                <!-- <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"></button> -->
-            </div>
-        </div>
-    <?php endif; ?>
-</div>
+                        <div class="d-flex align-content-center justify-content-center mb-0 pb-0">
+                            <!--Displays error message-->
+                            <?php if (isset($error_message)) : ?>
+                                <div class="fw-medium border border-danger bg-transparent text-danger alert alert-danger alert-dismissible fade show d-flex align-items-center custom-alert" role="alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 16">
+                                        <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
+                                        <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                                    </svg>
+                                    <div>
+                                        <span class="pe-1"><?php echo $error_message; ?></span>
+                                        <!-- <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"></button> -->
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
 
 
                         <!--Displays info message-->
                         <?php if (isset($info_message)) : ?>
+                            <div class="fw-medium border border-primary bg-transparent text-primary alert alert-primary alert-dismissible fade show d-flex align-items-center" role="alert">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle flex-shrink-0 me-2" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                                </svg>
+                                <div>
+                                    <span class="pe-1"><?php echo $info_message; ?></span>
+                                    <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+                                </div>
+                            </div>
                             <div class="fw-medium border border-primary bg-transparent text-primary alert alert-primary alert-dismissible fade show d-flex align-items-center" role="alert">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle flex-shrink-0 me-2" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -119,18 +134,21 @@ if (isset($_SESSION['info_message'])) {
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
-                                <input type="password" class="form-control" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" value="<?php if (isset($_SESSION['password'])) echo $_SESSION['password']; ?>" id="Password" required>
+                                <input type="password" class="form-control" name="password" placeholder="Password" id="Password" required>
                                 <button class="btn" type="button" id="password-toggle">Show</button>
                             </div>
                         </div>
+                        <a href="forgot-password.php" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</a>
                         <a href="forgot-password.php" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</a>
 
                         <div class="d-grid gap-2 mt-5 mb-4">
                             <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
                             <button class="btn login-sign-in-button" id="<?php echo strtoupper($org_name); ?>-login-button" name="sign-in" type="submit">Sign
                                 In</button>
+                            <button class="btn login-sign-in-button" id="<?php echo strtoupper($org_name); ?>-login-button" name="sign-in" type="submit">Sign
+                                In</button>
                         </div>
-                        <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
+                        <p>Don't have an account? <a href="#" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                     </form>
                 </div>
@@ -180,6 +198,15 @@ if (isset($_SESSION['info_message'])) {
         }
     </script>
 
+
+
+
+
+
+
+
+
+
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Updated script for password toggle -->
@@ -195,6 +222,8 @@ if (isset($_SESSION['info_message'])) {
                     "password";
                 passwordInput.setAttribute("type", type);
 
+                // Change button text
+                togglePassword.textContent = type === "password" ? "Show" : "Hide";
                 // Change button text
                 togglePassword.textContent = type === "password" ? "Show" : "Hide";
             });
