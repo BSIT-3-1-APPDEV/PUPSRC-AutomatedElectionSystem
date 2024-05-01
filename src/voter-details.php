@@ -1,7 +1,8 @@
 <?php
-require_once 'includes/classes/db-connector.php';
-require_once 'includes/session-handler.php';
-require_once 'includes/classes/session-manager.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
 if (isset($_SESSION['voter_id'])) {
 
@@ -261,7 +262,7 @@ if (isset($_SESSION['voter_id'])) {
                             <div class="col-md-12 pb-3">
                                 <div class="text-center">
                                     <div class="col-md-12 p-3">
-                                        <img src="images/resc/warning.png" class="warning-perc" alt="iVote Logo">
+                                        <img src="images/resc/warning.png" alt="iVote Logo">
                                     </div>
 
                                     <div class="row">
