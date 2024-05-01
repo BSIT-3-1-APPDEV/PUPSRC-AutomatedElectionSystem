@@ -21,11 +21,13 @@ SessionManager::checkUserRoleAndRedirect();
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>PUP Automated Election System</title>
 
-
-  <!-- Montserrat Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- Montserrat Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+  <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
 </head>
 
 <body id="index-body">
@@ -61,8 +63,7 @@ SessionManager::checkUserRoleAndRedirect();
           <h5 id="index-PUPSRC" class="text-truncate">Polytechnic University of the Philippines -
             Santa Rosa Campus</h5>
           <h1 class="stroked-text" id="index-AES">AUTOMATED ELECTION SYSTEM</h1>
-          <a href="#organizations" type="button" class="btn btn-primary fw-bold index-button" id="">Select
-            Organization</a>
+          <a href="#organizations" type="button" class="btn btn-primary fw-bold index-button" id="">Select Organization</a>
         </div>
       </div>
       <div class="index-wave-footer">
@@ -85,33 +86,32 @@ SessionManager::checkUserRoleAndRedirect();
             <div class="col-md-3 mb-4">
               <button type="submit" name="submit_btn" value="sco" class="landing-page-org-card" id="SCO-landing-logo">
                 <img src="images/logos/sco.png" alt="SCO Logo" class="landing-page-logo-size">
-                <h3 class="fw-bold pt-2">Student Council Organization</h3>
+                <h5 class="fw-bold pt-2">Student Council Organization</h5>
               </button>
             </div>
           </div>
         </div>
-
 
         <div class="container-fluid">
           <div class="row justify-content-center text-center">
             <div class="col-md-3 mb-4" id="index-ACAP">
               <button type="submit" name="submit_btn" value="acap" class="landing-page-org-card" id="ACAP-landing-logo">
                 <img src="images/logos/acap.png" alt="ACAP Logo" class="landing-page-logo-size">
-                <h3 class="fw-bold pt-2">ACAP</h3>
+                <h5 class="fw-bold pt-2">ACAP</h5>
               </button>
             </div>
 
             <div class="col-md-3 mb-4" id="index-AECES">
               <button type="submit" name="submit_btn" value="aeces" class="landing-page-org-card" id="AECES-landing-logo">
                 <img src="images/logos/aeces.png" alt="AECES Logo" class="landing-page-logo-size">
-                <h3 class="fw-bold pt-2">AECES</h3>
+                <h5 class="fw-bold pt-2">AECES</h5>
               </button>
             </div>
 
             <div class="col-md-3 mb-4" id="index-ELITE">
               <button type="submit" name="submit_btn" value="elite" class="landing-page-org-card" id="ELITE-landing-logo">
                 <img src="images/logos/elite.png" alt="ELITE Logo" class="landing-page-logo-size">
-                <h3 class="fw-bold pt-2">ELITE</h3>
+                <h5 class="fw-bold pt-2">ELITE</h5>
               </button>
             </div>
           </div>
@@ -122,20 +122,20 @@ SessionManager::checkUserRoleAndRedirect();
             <div class="col-md-3 mb-4" id="index-ACAP">
               <button type="submit" name="submit_btn" value="give" class="landing-page-org-card" id="GIVE-landing-logo">
                 <img src="images/logos/give.png" alt="GIVE Logo" class="landing-page-logo-size">
-                <h3 class="fw-bold pt-2">GIVE</h3>
+                <h5 class="fw-bold pt-2">GIVE</h5>
               </button>
             </div>
             <div class="col-md-3 mb-4" id="index-JEHRA">
               <button type="submit" name="submit_btn" value="jehra" class="landing-page-org-card" id="JEHRA-landing-logo">
                 <img src="images/logos/jehra.png" alt="JEHRA Logo" class="landing-page-logo-size">
-                <h3 class="fw-bold pt-2">JEHRA</h3>
+                <h5 class="fw-bold pt-2">JEHRA</h5>
               </button>
             </div>
 
             <div class="col-md-3 mb-4" id="index-JMAP">
               <button type="submit" name="submit_btn" value="jmap" class="landing-page-org-card" id="JMAP-landing-logo">
                 <img src="images/logos/jmap.png" alt="JMAP Logo" class="landing-page-logo-size">
-                <h3 class="fw-bold pt-2">JMAP</h3>
+                <h5 class="fw-bold pt-2">JMAP</h5>
               </button>
             </div>
 
@@ -147,13 +147,13 @@ SessionManager::checkUserRoleAndRedirect();
             <div class="col-md-3 mb-4" id="index-JPIA">
               <button type="submit" name="submit_btn" value="jpia" class="landing-page-org-card" id="JPIA-landing-logo">
                 <img src="images/logos/jpia.png" alt="JPIA Logo" class="landing-page-logo-size">
-                <h3 class="fw-bold pt-2">JPIA</h3>
+                <h5 class="fw-bold pt-2">JPIA</h5>
               </button>
             </div>
             <div class="col-md-3 mb-4" id="index-PIIE">
               <button type="submit" name="submit_btn" value="piie" class="landing-page-org-card" id="PIIE-landing-logo">
                 <img src="images/logos/piie.png" alt="PIIE Logo" class="landing-page-logo-size">
-                <h3 class="fw-bold pt-2">PIIE</h3>
+                <h5 class="fw-bold pt-2">PIIE</h5>
               </button>
             </div>
           </div>
@@ -175,9 +175,8 @@ SessionManager::checkUserRoleAndRedirect();
       <div class="row">
         <div class="col-md-6">
           <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
-          <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.
-          </p>
-          <p class="credits-footer"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
+          <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.</p>
+          <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
 
         </div>
         <div class="col-md-3">
@@ -204,8 +203,7 @@ SessionManager::checkUserRoleAndRedirect();
           <p class="credits-footer">Contact Us</p>
           <p>Email us at <a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
 
-
-          <p><span class="ivote-email"><a href="#">About Us</a> | <a href="#">Our Story</a></span></p>
+          <p><span class="ivote-email"><a href="about-us.php">About Us</a> | <a href="#">Our Story</a></span></p>
         </div>
       </div>
     </div>

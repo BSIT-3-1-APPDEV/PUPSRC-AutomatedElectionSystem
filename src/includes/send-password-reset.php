@@ -9,13 +9,13 @@ SessionManager::checkUserRoleAndRedirect();
 
 if(!isset($_POST['send-email-btn'])) {
     $_SESSION['error_message'] = 'Something went wrong.';
-    header("Location: ../forgot-password.php");
+    header("Location: ../voter-login.php");
     exit();    
 }
 
 $email = $_POST['email'];
 if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header("Location: ../forgot-password.php");
+    header("Location: ../voter-login.php");
     exit();
 }
 
@@ -29,7 +29,7 @@ $stmt->execute();
 $row = $stmt->get_result();
 
 if($row->num_rows === 0) {
-    header("Location: ../forgot-password.php");
+    header("Location: ../voter-login.php");
     exit();
 }
 
@@ -58,7 +58,7 @@ if($connection->affected_rows) {
 
     try {
         $mail->send();
-        header("Location: ../forgot-password.php");
+        header("Location: ../voter-login.php");
         exit();
     }
     catch(Exception $e) {
@@ -66,6 +66,6 @@ if($connection->affected_rows) {
     }
 }
 
-header("Location: ../forgot-password.php");
+header("Location: ../voter-login.php");
 echo "Reset password URL is sent to your email. Please check.";
 exit();
