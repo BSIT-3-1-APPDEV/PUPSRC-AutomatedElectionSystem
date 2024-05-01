@@ -1,8 +1,8 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/session-manager.php');
-include FileUtils::normalizeFilePath(__DIR__ . '/includes/session-exchange.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
+include_once FileUtils::normalizeFilePath('includes/session-exchange.php');
 
 SessionManager::checkUserRoleAndRedirect();
 
@@ -78,7 +78,7 @@ if (isset($_SESSION['info_message'])) {
             <div class="col-md-6 login-right-section">
 
                 <div>
-                    <form action="voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
+                    <form action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>                
                         <h1 class="login-account">Account Log In</h1>
                         <p>Sign in to your account</p>
 
@@ -114,12 +114,12 @@ if (isset($_SESSION['info_message'])) {
                         <?php endif; ?>
 
                         <div class="col-md-12 mt-4 mb-3">
-                            <input type="email" class="form-control" id="Email" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
+                            <input type="email" class="form-control" id="Email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" value="<?php if (isset($_SESSION['email'])) echo $_SESSION['email']; ?>">
                         </div>
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
-                                <input type="password" class="form-control" name="password" placeholder="Password" id="Password" required>
+                                <input type="password" class="form-control" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" value="<?php if (isset($_SESSION['password'])) echo $_SESSION['password']; ?>" id="Password" required>
                                 <button class="btn" type="button" id="password-toggle">Show</button>
                             </div>
                         </div>
@@ -130,7 +130,7 @@ if (isset($_SESSION['info_message'])) {
                             <button class="btn login-sign-in-button" id="<?php echo strtoupper($org_name); ?>-login-button" name="sign-in" type="submit">Sign
                                 In</button>
                         </div>
-                        <p>Don't have an account? <a href="#" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
+                        <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                     </form>
                 </div>
@@ -180,15 +180,6 @@ if (isset($_SESSION['info_message'])) {
         }
     </script>
 
-
-
-
-
-
-
-
-
-
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Updated script for password toggle -->
@@ -208,6 +199,12 @@ if (isset($_SESSION['info_message'])) {
                 togglePassword.textContent = type === "password" ? "Show" : "Hide";
             });
         });
+
+        // Disallow whitespaces from input fields
+        function avoidSpace(event) {
+            var k = event ? event.which : window.event.keyCode;
+            if (k == 32) return false;
+        }
     </script>
 
 </body>
