@@ -19,7 +19,7 @@
   font-size: 28px;
   font-weight: bold;
   color: white;
-  padding-top: 24px;
+  padding-top: 20px;
   padding-left: 50px;
   letter-spacing: 2px;
   white-space: nowrap;
@@ -96,6 +96,23 @@
   }
 
 }
+.card-runnerup h2{
+  font-size: 20px;
+  font-weight:bolder;
+  margin-top: 1px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: -10px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight:bolder;
+  }
+
+}
+
 .card-candidate h5, .card-runnerup h5{
   font-size: 15px;
   font-weight: bolder;
@@ -148,13 +165,15 @@
   }
 }
 .empty-text {
-  padding-top: 40px;
+  padding-top: 35px;
+  padding-right: 25px;
   color: white !important;
   @media (max-width: 768px) {
     font-size: 10px;
   }
   @media (max-width: 480px) {
-    padding-top: 30px;
+    padding-top: 20px;
+    padding-left: 10px;
     font-size: 10px;
 }
 }

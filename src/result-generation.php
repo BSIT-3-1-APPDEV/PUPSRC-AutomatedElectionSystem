@@ -257,7 +257,7 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
                                         <div class="card card-runnerup mb-4">
                                             <div class="card-body d-flex justify-content-between">
                                                 <div class="card-body text-center">
-                                                    <h3 class="main-color">No Candidate Available for this Position</h3>
+                                                    <h2 class="main-color">No Candidate Available for this Position</h2>
                                                 </div>
                                             </div>
                                         </div>
@@ -281,7 +281,7 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
                             <div class="card card-runnerup mb-4">
                                 <div class="card-body d-flex justify-content-between">
                                     <div class="card-body text-center">
-                                        <h3 class="main-color">No Candidates Available for this Position</h3>
+                                        <h2 class="main-color">No Candidate Available for this Position</h2>
                                     </div>
                                 </div>
                             </div>
