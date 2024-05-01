@@ -143,7 +143,7 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end main-color" aria-labelledby="dropdownMenuButton">
 					<li class="px-xl-2"><a class="dropdown-item" href="profile.php">Profile</a></li>
-					<li class="px-xl-2"><a class="dropdown-item" href="voter-logout.php">Log Out</a></li>
+					<li class="px-xl-2"><a class="dropdown-item" href="includes/voter-logout.php">Log Out</a></li>
 				</ul>
 			</div>
 		</div>
