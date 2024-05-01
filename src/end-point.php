@@ -62,11 +62,11 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
           <b>Hello, Iskolar</b> <i class='fas fa-user-circle main-color ps-2' style='font-size:23px;'></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-             <a class="dropdown-item" href="voter-logout.php">Logout</a>
+             <a class="dropdown-item" href="includes/voter-logout.php">Logout</a>
           </div>
         </li>
         <li class="nav-item d-lg-none">
-           <a class="nav-link" href="voter-logout.php">Logout</a>
+           <a class="nav-link" href="includes/voter-logout.php">Logout</a>
         </li>
       </ul>
     </div>
