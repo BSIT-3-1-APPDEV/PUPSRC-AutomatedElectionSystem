@@ -1,6 +1,6 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/file-utils.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/voter-login-class.php');
+require_once FileUtils::normalizeFilePath('voter-login-class.php');
 
 class LoginController extends Login {
     private $email;
@@ -36,7 +36,7 @@ class LoginController extends Login {
     // Redirect to login page and display error message
     private function redirectToLoginPage($errorMessage) {
         $_SESSION['error_message'] = $errorMessage;
-        header("Location: voter-login.php");
+        header("Location: ../voter-login.php");
         exit();
     }
     

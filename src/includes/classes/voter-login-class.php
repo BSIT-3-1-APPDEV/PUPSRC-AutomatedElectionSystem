@@ -2,6 +2,7 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/file-utils.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/db-connector.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/../get-ip-address.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/../unset-email-password.php');
 
 class Login {
 
@@ -30,8 +31,8 @@ class Login {
 
         // If login attempts reached 5, redirects to login page and display error message
         if($total_count == self::LOGIN_ATTEMPT_COUNT) {
-            $_SESSION['error_message'] = 'To many failed login attempts.</br>Please wait for ' . self::LOGIN_BLOCK_TIME . ' seconds.';
-            header("Location: voter-login.php");
+            $_SESSION['error_message'] = 'Too many failed login attempts.</br>Please wait for ' . self::LOGIN_BLOCK_TIME . ' seconds.';
+            header("Location: ../voter-login.php");
             exit();
         }
 
@@ -77,56 +78,62 @@ class Login {
     // Check student-voter account and vote status
     private function handleStudentVoter($row, $connection, $ip_address) {
         if($row['status'] == 'For Verification') {
-            $_SESSION['info_message'] = 'This account is under verification.';
+            unsetSessionVar();    
             $this->deleteIPDetails($connection, $ip_address);
+            $_SESSION['info_message'] = 'This account is under verification.';
         } 
         elseif($row['status'] == 'Inactive') {
-            $_SESSION['error_message'] = 'This account has been disabled.';
+            unsetSessionVar();
             $this->deleteIPDetails($connection, $ip_address);
+            $_SESSION['error_message'] = 'This account has been disabled.';           
         } 
         elseif($row['status'] == 'Rejected') {
-            $_SESSION['info_message'] = 'This account has been validated. Kindly check your registered email.';
             $this->deleteIPDetails($connection, $ip_address);
+            $_SESSION['email'] =  $_POST['email'];
+            $_SESSION['password'] = $_POST['password'];
+            $_SESSION['error_message'] = 'This account was rejected.';        
         } 
         elseif($row['status'] == 'Active') {
             $_SESSION['voter_id'] = $row['voter_id'];
             $_SESSION['vote_status'] = $row['vote_status'];
 
             if ($row['vote_status'] == NULL) {
+                unsetSessionVar();
                 $this->deleteIPDetails($connection, $ip_address);
-                regenerateSessionId();
-                header("Location: ballot-forms.php");
+                $this->regenerateSessionId();
+                header("Location: ../ballot-forms.php");
                 exit();
             } elseif ($row['vote_status'] == 'Voted' || $row['vote_status'] == 'Abstained') {
+                unsetSessionVar();
                 $this->deleteIPDetails($connection, $ip_address);
-                regenerateSessionId();
-                header("Location: end-point.php");
+                $this->regenerateSessionId();
+                header("Location: ../end-point.php");
                 exit();
             } else {
-                header("Location: landing-page.php");
+                header("Location: ../landing-page.php");
                 exit();
             }
         } 
         else {
             $_SESSION['error_message'] = 'Something went wrong.';
         }
-        header("Location: voter-login.php");
+        header("Location: ../voter-login.php");
         exit();
     }
 
     // Redirects a committee member to the admin dashboard
     private function handleCommitteeMember($row, $connection, $ip_address) {
         $this->deleteIPDetails($connection, $ip_address);
-        regenerateSessionId();
+        $this->regenerateSessionId();
         $_SESSION['voter_id'] = $row['voter_id'];
-        header("Location: admindashboard.php");
+        header("Location: ../admindashboard.php");
         exit();
     }
 
     // If account role is not found, redirects/remains on the login page
     private function handleRoleNotFound() {
         $_SESSION['error_message'] = 'Role not found in session.';
-        header("Location: voter-login.php");
+        header("Location: ../voter-login.php");
         exit();
     }
 
@@ -140,12 +147,13 @@ class Login {
 
         if($remaining_attempt == 0) {
             $_SESSION['error_message'] = 'Too many login attempts.<br/>You are blocked for ' . self::LOGIN_BLOCK_TIME . ' seconds.';
-            header("Location: voter-login.php");
+            header("Location: ../voter-login.php");
             exit();
         }
         else {
+            unsetSessionVar();
             $_SESSION['error_message'] = 'Email and password do not match<br/>' . $remaining_attempt . ' remaining attempts.';
-            header("Location: voter-login.php");
+            header("Location: ../voter-login.php");
             exit();
         }
     }
@@ -153,7 +161,7 @@ class Login {
     // If email does not exist, redirects/remains on the login page
     private function handleUserNotFound() {
         $_SESSION['error_message'] = 'User with this email does not exist.';
-        header("Location: voter-login.php");
+        header("Location: ../voter-login.php");
         exit();
     }
 
@@ -165,10 +173,9 @@ class Login {
         $stmt->execute();
     }
 
-    private function regenerateSessionId() {
-        // Regenerate a stronger session
+    // Regenerate a stronger session
+    private function regenerateSessionId() {   
         session_regenerate_id(true);
     }
-
 }
 
