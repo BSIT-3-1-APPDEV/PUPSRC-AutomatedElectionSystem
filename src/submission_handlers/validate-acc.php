@@ -1,10 +1,11 @@
 <?php
-require_once '../includes/classes/db-connector.php';
-require_once '../includes/session-handler.php';
-require_once '../includes/classes/session-manager.php';
-require_once '../includes/classes/query-handler.php';
-require_once '../includes/mailer.php';
-require_once '../includes/classes/email-sender.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, '../includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('../includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('../includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('../includes/classes/session-manager.php');
+require_once FileUtils::normalizeFilePath('../includes/classes/query-handler.php');
+require_once FileUtils::normalizeFilePath('../includes/mailer.php');
+require_once FileUtils::normalizeFilePath('../includes/classes/email-sender.php');
 
 if (isset($_POST['voter_id'])) {
     $voterManager = new VoterManager();
