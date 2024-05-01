@@ -1,10 +1,13 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/session-manager.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
+require_once FileUtils::normalizeFilePath('includes/unset-email-password.php');
+include_once FileUtils::normalizeFilePath('includes/organization-list.php');
 
 // Check if voter_id and role is set in session
 SessionManager::checkUserRoleAndRedirect();
+unsetSessionVar();
 
 ?>
 
@@ -40,14 +43,14 @@ SessionManager::checkUserRoleAndRedirect();
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
+          <li class="nav-item fw-medium">
             <a class="nav-link" href="landing-page.php">Home</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item fw-medium">
             <a class="nav-link" href="about-us.php">About Us</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">Register</a>
+            <a class="nav-link active" href="register.php">Register</a>
           </li>
         </ul>
       </div>
@@ -84,9 +87,9 @@ SessionManager::checkUserRoleAndRedirect();
         <div class="container-fluid">
           <div class="row justify-content-center text-center">
             <div class="col-md-3 mb-4">
-              <button type="submit" name="submit_btn" value="sco" class="landing-page-org-card" id="SCO-landing-logo">
+              <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['sco']; ?>" class="landing-page-org-card" id="SCO-landing-logo">
                 <img src="images/logos/sco.png" alt="SCO Logo" class="landing-page-logo-size">
-                <h5 class="fw-bold pt-2">Student Council Organization</h5>
+                <h5 class="fw-bold pt-2 text-capitalize"><?php echo $org_full_names['sco']; ?></h5>
               </button>
             </div>
           </div>
@@ -95,23 +98,23 @@ SessionManager::checkUserRoleAndRedirect();
         <div class="container-fluid">
           <div class="row justify-content-center text-center">
             <div class="col-md-3 mb-4" id="index-ACAP">
-              <button type="submit" name="submit_btn" value="acap" class="landing-page-org-card" id="ACAP-landing-logo">
+              <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['acap']; ?>" class="landing-page-org-card" id="ACAP-landing-logo">
                 <img src="images/logos/acap.png" alt="ACAP Logo" class="landing-page-logo-size">
-                <h5 class="fw-bold pt-2">ACAP</h5>
+                <h5 class="fw-bold pt-2 text-uppercase"><?php echo $org_acronyms['acap']; ?></h5>
               </button>
             </div>
 
             <div class="col-md-3 mb-4" id="index-AECES">
-              <button type="submit" name="submit_btn" value="aeces" class="landing-page-org-card" id="AECES-landing-logo">
+              <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['aeces']; ?>" class="landing-page-org-card" id="AECES-landing-logo">
                 <img src="images/logos/aeces.png" alt="AECES Logo" class="landing-page-logo-size">
-                <h5 class="fw-bold pt-2">AECES</h5>
+                <h5 class="fw-bold pt-2 text-uppercase"><?php echo $org_acronyms['aeces']; ?></h5>
               </button>
             </div>
 
             <div class="col-md-3 mb-4" id="index-ELITE">
-              <button type="submit" name="submit_btn" value="elite" class="landing-page-org-card" id="ELITE-landing-logo">
+              <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['elite']; ?>" class="landing-page-org-card" id="ELITE-landing-logo">
                 <img src="images/logos/elite.png" alt="ELITE Logo" class="landing-page-logo-size">
-                <h5 class="fw-bold pt-2">ELITE</h5>
+                <h5 class="fw-bold pt-2 text-uppercase"><?php echo $org_acronyms['elite']; ?></h5>
               </button>
             </div>
           </div>
@@ -120,22 +123,22 @@ SessionManager::checkUserRoleAndRedirect();
         <div class="container-fluid">
           <div class="row justify-content-center text-center">
             <div class="col-md-3 mb-4" id="index-ACAP">
-              <button type="submit" name="submit_btn" value="give" class="landing-page-org-card" id="GIVE-landing-logo">
+              <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['give']; ?>" class="landing-page-org-card" id="GIVE-landing-logo">
                 <img src="images/logos/give.png" alt="GIVE Logo" class="landing-page-logo-size">
-                <h5 class="fw-bold pt-2">GIVE</h5>
+                <h5 class="fw-bold pt-2 text-uppercase"><?php echo $org_acronyms['give']; ?></h5>
               </button>
             </div>
             <div class="col-md-3 mb-4" id="index-JEHRA">
-              <button type="submit" name="submit_btn" value="jehra" class="landing-page-org-card" id="JEHRA-landing-logo">
+              <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['jehra']; ?>" class="landing-page-org-card" id="JEHRA-landing-logo">
                 <img src="images/logos/jehra.png" alt="JEHRA Logo" class="landing-page-logo-size">
-                <h5 class="fw-bold pt-2">JEHRA</h5>
+                <h5 class="fw-bold pt-2 text-uppercase"><?php echo $org_acronyms['jehra']; ?></h5>
               </button>
             </div>
 
             <div class="col-md-3 mb-4" id="index-JMAP">
-              <button type="submit" name="submit_btn" value="jmap" class="landing-page-org-card" id="JMAP-landing-logo">
+              <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['jmap']; ?>" class="landing-page-org-card" id="JMAP-landing-logo">
                 <img src="images/logos/jmap.png" alt="JMAP Logo" class="landing-page-logo-size">
-                <h5 class="fw-bold pt-2">JMAP</h5>
+                <h5 class="fw-bold pt-2 text-uppercase"><?php echo $org_acronyms['jmap']; ?></h5>
               </button>
             </div>
 
@@ -145,15 +148,15 @@ SessionManager::checkUserRoleAndRedirect();
         <div class="container-fluid ">
           <div class="row justify-content-center text-center">
             <div class="col-md-3 mb-4" id="index-JPIA">
-              <button type="submit" name="submit_btn" value="jpia" class="landing-page-org-card" id="JPIA-landing-logo">
+              <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['jpia']; ?>" class="landing-page-org-card" id="JPIA-landing-logo">
                 <img src="images/logos/jpia.png" alt="JPIA Logo" class="landing-page-logo-size">
-                <h5 class="fw-bold pt-2">JPIA</h5>
+                <h5 class="fw-bold pt-2 text-uppercase"><?php echo $org_acronyms['jpia']; ?></h5>
               </button>
             </div>
             <div class="col-md-3 mb-4" id="index-PIIE">
-              <button type="submit" name="submit_btn" value="piie" class="landing-page-org-card" id="PIIE-landing-logo">
+              <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['piie']; ?>" class="landing-page-org-card" id="PIIE-landing-logo">
                 <img src="images/logos/piie.png" alt="PIIE Logo" class="landing-page-logo-size">
-                <h5 class="fw-bold pt-2">PIIE</h5>
+                <h5 class="fw-bold pt-2 text-uppercase"><?php echo $org_acronyms['piie']; ?></h5>
               </button>
             </div>
           </div>
