@@ -1,10 +1,15 @@
 <?php
-
 $conn = DatabaseConnection::connect();
 
-$queryExecutor = new QueryExecutor($conn);
-$query = "SELECT * FROM voter WHERE status = 'For Verification'";
-$to_verify_tbl = $queryExecutor->executeQuery($query);
+// Query for verified voters with roles 'Committee Member' or 'Admin Member'
+$query = "SELECT * FROM voter WHERE status != ? AND role IN (?, ?)";
+$stmt = $conn->prepare($query);
+$status = "For Verification";
+$role1 = "Committee Member";
+$role2 = "Admin Member";
+$stmt->bind_param("sss", $status, $role1, $role2);
+$stmt->execute();
+$verified_tbl = $stmt->get_result();
+$stmt->close();
 
-$voter_query = "SELECT * FROM voter WHERE status != 'For Verification' AND role IN ('Committee Member', 'Admin Member')";
-$verified_tbl = $conn->query($voter_query);
+$conn->close();
