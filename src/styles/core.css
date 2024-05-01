@@ -1,7 +1,7 @@
 :root {
   --acap: #592293;
   --aeces: #6610f2;
-  --elite: #ee1c24;
+  --elite: #FF7900;
   --give: #084a6f;
   --jehra: #a60000;
   --jmap: #fad807;
@@ -20,6 +20,7 @@
   --success: #27AE60;
   --light-green: #36CD76;
   --info: #1A73E8;
+  --input-blue: rgb(71, 105, 177, 0.70);
   --warning: #ffc107;
   --danger: #dc3545;
   --light-red: #F14950;
@@ -35,11 +36,17 @@
   --font-family-monospace: Liberation Mono, "Courier New", monospace;
 }
 
+.asterisk {
+  color: #EB0016;
+}
 a {
   text-decoration: none !important;
   color: #000;
 }
 
+.input-bg-color {
+  background-color: #EDEDED !important;
+}
 .success-color {
   color: var(--success);
 }
@@ -58,6 +65,10 @@ a {
 
 .main-blue {
   color: var(--main-blue) !important;
+}
+
+.main-blue-200 {
+  color: #4769b1;
 }
 
 .dark-gray {

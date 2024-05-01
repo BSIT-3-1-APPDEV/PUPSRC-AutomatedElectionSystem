@@ -38,6 +38,7 @@
 						(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
 						basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
 						basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
+						basename($_SERVER['PHP_SELF']) == 'voter-details.php'||
 						basename($_SERVER['PHP_SELF']) == 'admin-creation.php')
 						? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" id="submenuToggle" data-bs-parent="false">
 					
@@ -55,7 +56,8 @@
 
 						# ---- VOTERS PAGES
 						(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
-						basename($_SERVER['PHP_SELF']) == 'validate-voter.php')
+						basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
+						basename($_SERVER['PHP_SELF']) == 'voter-details.php')
 						? 'active-sub fw-bold' : ''; ?>">
 						Voters</a>
 
@@ -141,7 +143,7 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end main-color" aria-labelledby="dropdownMenuButton">
 					<li class="px-xl-2"><a class="dropdown-item" href="profile.php">Profile</a></li>
-					<li class="px-xl-2"><a class="dropdown-item" href="voter-logout.php">Log Out</a></li>
+					<li class="px-xl-2"><a class="dropdown-item" href="includes/voter-logout.php">Log Out</a></li>
 				</ul>
 			</div>
 		</div>

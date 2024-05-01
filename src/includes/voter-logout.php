@@ -1,5 +1,6 @@
 <?php
-require_once 'includes/session-handler.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('session-handler.php');
 
 $referer = $_SERVER['HTTP_REFERER'];
 if ($referer && strpos($referer, $_SERVER['HTTP_HOST']) !== false) {
@@ -14,12 +15,12 @@ if ($referer && strpos($referer, $_SERVER['HTTP_HOST']) !== false) {
         unset($_SESSION['return_to']);
         header("Location: $return_to");
     } else {
-        header("Location: landing-page.php");
+        header("Location: ../landing-page.php");
     }
     exit;
 } 
 else {   
-    header("Location: landing-page.php");
+    header("Location: ../landing-page.php");
     exit;
 }
 ?>
