@@ -60,23 +60,65 @@ $(document).ready(function () {
     });
   });
 
-  // Reject Account Modal
-  $("#send-reject").click(function (event) {
-    event.preventDefault();
-    var voter_id = $("#voter_id").val();
-    $.ajax({
-      url: "submission_handlers/validate-acc.php",
-      type: "POST",
-      data: { voter_id: voter_id, action: "reject" },
-      success: function (response) {
-        closeModal();
-        $("#rejectDone").modal("show");
-      },
-      error: function (xhr, status, error) {
-        console.error(xhr.responseText);
-      },
+  $(document).ready(function () {
+    // Reject Account Modal
+    $("#rejectForm").submit(function (event) {
+        event.preventDefault();
+        var voter_id = $("#voter_id").val();
+        var reason = $("input[name='reason']:checked").val(); // Get the selected reason
+        var otherReason = $("#other").val(); // Get the specified other reason if applicable
+
+        console.log("Selected Reason:", reason); // Log the selected reason for debugging
+
+        // Create the data object including the reason
+        var data = {
+            voter_id: voter_id,
+            action: "reject",
+            reason: reason // Include the selected reason in the data
+        };
+
+        // If "Others" is selected, include the otherReason in the data
+        if (reason === 'others') {
+            data.otherReason = otherReason;
+        }
+
+        console.log("Data:", data); // Log the data object for debugging
+
+        $.ajax({
+            url: "submission_handlers/validate-acc.php",
+            type: "POST",
+            data: data, // Use the data object including the reason
+            success: function (response) {
+                closeModal();
+                $("#rejectDone").modal("show");
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            },
+        });
     });
+
+    // Toggle visibility of otherReason textarea based on radio button selection
+    $('input[type="radio"]').change(function () {
+        if (this.value === 'others' && this.checked) {
+            $("#otherReason").show();
+        } else {
+            $("#otherReason").hide();
+        }
+    });
+
+
+
+  // Toggle visibility of otherReason textarea based on radio button selection
+  $('input[type="radio"]').change(function () {
+      if (this.value === 'others' && this.checked) {
+          $("#otherReason").show();
+      } else {
+          $("#otherReason").hide();
+      }
   });
+});
+
 
   // Confirm Delete Modal
   $("#confirm-delete").click(function (event) {
