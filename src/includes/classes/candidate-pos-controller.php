@@ -26,7 +26,7 @@ class CandidatePositionController extends CandidatePosition
         $validation_func = $this->selectValidation();
 
         if ($validation_func) {
-
+            $data = $this->sanitizeData($data);
             $data = self::savePosition($data, $this->mode);
 
             $response = [
@@ -42,6 +42,30 @@ class CandidatePositionController extends CandidatePosition
             self::sendResponse(400, $response);
         }
     }
+
+    private function sanitizeData($data)
+    {
+        $sanitizedData = []; // Create an empty array to store sanitized data
+        // Loop through each object in the $data array
+        foreach ($data as $item) {
+            $sanitizedItem = []; // Create an empty array to store sanitized item
+            // Loop through each key-value pair in the object
+            foreach ($item as $key => $value) {
+                // If the value is a string, apply htmlspecialchars to it
+                if (is_string($value)) {
+                    $sanitizedItem[$key] = htmlspecialchars($value);
+                } else {
+                    // If not a string, keep the value as is
+                    $sanitizedItem[$key] = $value;
+                }
+            }
+            // Add the sanitized item to the sanitizedData array
+            $sanitizedData[] = $sanitizedItem;
+        }
+        // Return the sanitized data
+        return $sanitizedData;
+    }
+
 
     private function selectValidation()
     {

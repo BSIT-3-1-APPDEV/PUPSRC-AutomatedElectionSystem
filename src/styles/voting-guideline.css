@@ -1,4 +1,5 @@
-main .fa-grip-lines.fas::before, main .fa-grip-lines.fa::before {
+main .fa-grip-lines.fa::before,
+main .fa-grip-lines.fas::before {
   font-size: max(1vw, 1rem);
 }
 
@@ -20,29 +21,28 @@ button.add-new, main table.table tbody tr {
   height: calc(1rem + 3vw);
 }
 
-body div.modal button.btn {
-  color: var(--white);
-  box-shadow: var(--bs-box-shadow-sm);
-}
-body div.modal button.btn:active {
-  box-shadow: none !important;
-}
-body div.modal button.btn-primary:not(:disabled) {
-  background-color: var(--main-color);
-  border: calc(0.25rem + 0.2vw) solid var(--main-color);
-}
-body div.modal button.btn-secondary:not(:disabled) {
-  background-color: var(--secondary-color);
-  border: calc(0.25rem + 0.2vw) solid var(--secondary-color);
-}
 main {
   height: calc(100dvh - 104.95px);
 }
-main .fa {
-  color: #d9d9d9;
-}
+main .fa,
 main .fas {
-  color: #d9d9d9;
+  color: var(--border-gray);
+}
+main .btn:not(nav.navbar .btn):not(nav.sidebar .btn):active {
+  box-shadow: none !important;
+}
+main .btn:not(nav.navbar .btn):not(nav.sidebar .btn).btn-primary {
+  border: calc(0.25rem + 0.2vw) solid var(--main-color);
+}
+main .btn:not(nav.navbar .btn):not(nav.sidebar .btn).btn-primary:disabled {
+  opacity: 0.7;
+  filter: brightness(120%);
+}
+main .btn:not(nav.navbar .btn):not(nav.sidebar .btn).btn-secondary:not(:disabled) {
+  border: calc(0.25rem + 0.2vw) solid var(--secondary-color);
+}
+main .btn:not(nav.navbar .btn):not(nav.sidebar .btn).btn-success:not(:disabled) {
+  border: calc(0.25rem + 0.2vw) solid rgb(7, 136, 95);
 }
 main button.del {
   font-weight: bold;
@@ -53,6 +53,11 @@ main button.del span.icon.trash {
 }
 main button.del span.icon.trash svg {
   transform: translateY(-8%);
+}
+@media only screen and (max-height: 600px) {
+  main .dt-scroll-body {
+    height: clamp(4.5rem, 3rem + 45dvh, 70dvh);
+  }
 }
 main table.table {
   margin-bottom: 0px;
@@ -70,6 +75,70 @@ main table.table tbody tr td.grab {
 }
 main table.table tbody tr.selected {
   border: calc(0.5px + 0.1vw) solid #0075FF;
+}
+
+@media only screen and (max-width: 600px) {
+  body div.modal .modal-dialog .modal-header .modal-title {
+    font-size: calc(0.75rem + 0.6575vw);
+  }
+}
+body div.modal .modal-dialog label[for=positionInput] {
+  color: var(--main-color);
+  font-weight: 800;
+}
+body div.modal .modal-dialog #positionInput {
+  outline: none;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  border-bottom: clamp(1px, 1px + 0.01dvw, 5px) solid var(--main-color);
+  padding-left: 0;
+  padding-right: 0;
+}
+body div.modal .modal-dialog #positionInput.form-control:active, body div.modal .modal-dialog #positionInput.form-control:focus {
+  box-shadow: none;
+  border-bottom: clamp(2px, 1.5px + 0.01dvw, 5px) solid var(--main-color);
+}
+body div.modal .modal-dialog button.btn.btn-secondary {
+  box-shadow: none !important;
+  background-color: var(--bs-modal-bg) !important;
+}
+body div.modal .modal-dialog button.btn.btn-secondary:active, body div.modal .modal-dialog button.btn.btn-secondary:hover {
+  filter: grayscale(100%);
+  box-shadow: var(--bs-box-shadow-sm) !important;
+}
+body div.modal .modal-dialog button.modal-close {
+  color: var(--main-color);
+  background-color: var(--white);
+}
+body div.modal .modal-dialog button.modal-close svg circle {
+  color: transparent;
+}
+body div.modal .modal-dialog button.modal-close:hover {
+  background-color: var(--main-color);
+  filter: grayscale(100%);
+}
+body div.modal .modal-dialog button.modal-close:hover svg circle,
+body div.modal .modal-dialog button.modal-close:hover svg line {
+  stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
+  color: var(--white);
+}
+@media only screen and (max-height: 600px) {
+  body div.modal .modal-dialog .ql-container {
+    height: clamp(6rem, 3rem + 9dvh, 50dvh);
+  }
+  body div.modal .modal-dialog .ql-editor {
+    height: clamp(4.5rem, 1.5rem + 8.5dvh, 49.5dvh);
+  }
+}
+@media only screen and (min-height: 601px) {
+  body div.modal .modal-dialog .ql-container {
+    height: clamp(6.25rem, 3rem + 35dvh, 50dvh);
+  }
+  body div.modal .modal-dialog .ql-editor {
+    height: clamp(4.75rem, 1.5rem + 34dvh, 49.5dvh);
+  }
 }
 
 .dt-rowReorder-float {

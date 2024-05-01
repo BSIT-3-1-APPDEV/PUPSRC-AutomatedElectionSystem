@@ -14,7 +14,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php'
 $is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role']) && strtolower($_SESSION['role']) === 'committee member' && !empty($_SESSION['organization']);
 
 if (!$is_page_accessible) {
-    header("location: ../landing-page.php");
+    header("location: landing-page.php");
     exit();
 }
 regenerateSessionId();
@@ -34,12 +34,12 @@ include 'includes/session-exchange.php';
     ?>
 
 
-    <base href="<?php echo $pageHead->getBaseURL(); ?>/">
+    <base href="<?= $pageHead->getBaseURL(); ?>/">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $pageHead->getTitle(); ?></title>
+    <title><?= $pageHead->getTitle(); ?></title>
 
     <meta name="google" content="nositelinkssearchbox">
 
@@ -47,12 +47,12 @@ include 'includes/session-exchange.php';
 
     <meta name="twitter:card" content="summary_large_image">
 
-    <meta property="og:title" content="<?php echo $pageHead->getTitle(); ?>">
+    <meta property="og:title" content="<?= $pageHead->getTitle(); ?>">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="<?php echo $pageHead->getUrl(); ?>">
+    <meta property="og:url" content="<?= $pageHead->getUrl(); ?>">
     <meta property="og:image" content="http://example.com/image.jpg">
-    <meta property="og:description" content="<?php echo $pageHead->getDescription(); ?>">
-    <meta name="description" content="<?php echo $pageHead->getDescription(); ?>">
+    <meta property="og:description" content="<?= $pageHead->getDescription(); ?>">
+    <meta name="description" content="<?= $pageHead->getDescription(); ?>">
 
     <meta name="robots" content="noindex" />
 
@@ -71,8 +71,8 @@ include 'includes/session-exchange.php';
     <!-- Main Style -->
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
-    <link rel="stylesheet" href="src/styles/orgs/<?php echo $org_name; ?>.css">
-    <link rel="icon" href="src/images/logos/<?php echo $org_name; ?>.png" type="image/x-icon">
+    <link rel="stylesheet" href="src/styles/orgs/<?= $org_name ?? 'sco' ?>.css">
+    <link rel="icon" href="src/images/logos/<?= $org_name; ?>.png" type="image/x-icon">
     <link rel="icon" type="image/x-icon" href="src/images/resc/ivote-favicon.png">
     <!-- Page Style -->
     <link rel="stylesheet" href="src/styles/configuration.css">
@@ -120,13 +120,14 @@ include 'includes/session-exchange.php';
     <!-- Main Scripts -->
     <script src="src/scripts/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="src/scripts/feather.js"></script>
+
     <!-- Page Scripts -->
     <script src="src/scripts/configuration.js"></script>
     <?php if (isset($page_scripts)) {
         echo $page_scripts;
     }
     ?>
+    <script src="src/scripts/feather.js" defer></script>
 
 </body>
 

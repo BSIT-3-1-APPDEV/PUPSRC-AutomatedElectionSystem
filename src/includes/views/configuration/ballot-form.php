@@ -50,7 +50,7 @@
                     <div class="list-group-item ">
                         <div class="field-item add-item ">
                             <div class="">
-                                <button class="btn btn-primary btn-sm text-capitalize">
+                                <button class="btn btn-primary text-capitalize">
                                     Add input field
                                 </button>
                             </div>

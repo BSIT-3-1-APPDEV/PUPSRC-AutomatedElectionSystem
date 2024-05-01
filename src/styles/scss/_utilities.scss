@@ -52,7 +52,7 @@ h3,
 h4,
 h5,
 h6 {
-    text-shadow: 0.031px 0.031px #d9d9d9;
+    text-shadow: 0.031px 0.031px var(--border-gray);
 
     &.page-title {
         color: var(--main-color);

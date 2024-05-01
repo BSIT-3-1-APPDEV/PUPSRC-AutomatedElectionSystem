@@ -45,7 +45,7 @@ h3,
 h4,
 h5,
 h6 {
-  text-shadow: 0.031px 0.031px #d9d9d9;
+  text-shadow: 0.031px 0.031px var(--border-gray);
 }
 h1.page-title,
 h2.page-title,
@@ -94,7 +94,7 @@ main.main .handle {
   width: 100%;
   height: calc(1.5rem + 0.01dvw + 1dvh);
   color: #fff;
-  background-color: #d9d9d9;
+  background-color: var(--border-gray);
 }
 main.main input:focus {
   border-color: #86b7fe;
