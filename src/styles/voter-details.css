@@ -1,54 +1,108 @@
-.information p {
-    margin-bottom: 0 !important;
-  }
-  
-  .confirm-delete p {
-    margin-bottom: 0 !important;
-  }
-  
-  select, select:focus, select:active, select:valid, select:checked {
-    border: none !important;
-    outline: 0 !important;
+@media (max-width: 768px) {
+  .information p {
+    margin: 1rem !important;
   }
 
-  select option{
-    padding: 5px !important;
+  .status-acc .col-sm-5 {
+    width: 100%; /* Make each column full width on small screens */
+  }
+
+  .pdf-dtls .flex-row-reverse {
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+
+  }
+
+  .pdf-dtls {
+    padding: 1rem;
+  }
+
+  .fa-download {
+    padding-right: .5rem !important;
+  }
+
+  .fa-expand {
+    padding-left: 5rem !important;
+  }
+  .acc-status {
+    margin: 1.8rem !important;
+  }
+  .status-acc .p {
+    margin: 0 !important;
+  }
+
+  .status-update {
+    padding-top: 1rem !important;
+    padding-left: 1rem !important;
+  }
+
+  .del-btn button {
+    font-size: 0.7rem !important;
+    margin: 0 1rem 2rem 0 !important;
+  }
 }
-  
-  .status-background {
-    padding: 0.5rem 2rem;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.03rem;
-    border-color: none !important;
-  }
-  
-  .active-status {
-    background-color: var(--light-green);
-    color: #fff;
-  }
-  
-  .inactive-status, .rejected-status {
-    background-color: var(--light-red);
-    color: white; 
-  }
 
-  .status-background option {
-    background-color: #fff !important;
-    color: var(--main-black);
-  }
+.no-padding {
+  margin-bottom: 0 !important;
+}
+.information p {
+  margin-bottom: 0.2rem !important;
+}
 
-  .del-no-border {
-    font-size: 1rem;
-    background-color: #fff !important;
-    border: none !important;
-    color: var(--danger);
-    text-decoration: underline;
-  }
+.confirm-delete p {
+  margin-bottom: 0 !important;
+}
 
-  .del-no-border:hover {
-    color: var(--bs-gray-500);
-  }
+select,
+select:focus,
+select:active,
+select:valid,
+select:checked {
+  border: none !important;
+  outline: 0 !important;
+}
 
-  
+select option {
+  padding: 5px !important;
+}
+
+.status-background {
+  padding: 0.5rem 2rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03rem;
+  border-color: none !important;
+}
+
+.active-status {
+  background-color: var(--light-green);
+  color: #fff;
+}
+
+.inactive-status,
+.rejected-status {
+  background-color: var(--light-red);
+  color: white;
+}
+
+.status-background option {
+  background-color: #fff !important;
+  color: var(--main-black);
+}
+
+.del-no-border {
+  font-size: 1rem;
+  background-color: #fff !important;
+  border: none !important;
+  color: var(--danger);
+  text-decoration: underline;
+}
+
+.del-no-border:hover {
+  color: var(--bs-gray-500);
+}
+
+.fullscreen-icon {
+  padding-left: 3rem !important;
+}
