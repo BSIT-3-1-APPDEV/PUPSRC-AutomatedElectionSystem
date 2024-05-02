@@ -7,12 +7,12 @@ require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 
 if (isset($_SESSION['voter_id'])) {
 
-	include 'includes/session-exchange.php';
+	include FileUtils::normalizeFilePath('includes/session-exchange.php');
 
 	// Check if the user's role is either 'Committee Member' or 'Admin Member'
 	$allowedRoles = array('Committee Member', 'Admin Member');
 	if (in_array($_SESSION['role'], $allowedRoles)) {
-		include 'submission_handlers/manage-members.php';
+		include FileUtils::normalizeFilePath('submission_handlers/manage-members.php');
 		?>
 
 		<!DOCTYPE html>
@@ -334,8 +334,7 @@ if (isset($_SESSION['voter_id'])) {
 
 		<?php
 	} else {
-		// User is not authorized to access this page
-		echo "You don't have permission to access this page.";
+		header("Location: landing-page.php");
 	}
 } else {
 	header("Location: landing-page.php");
