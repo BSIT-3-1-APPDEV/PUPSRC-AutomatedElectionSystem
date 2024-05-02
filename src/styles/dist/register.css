@@ -194,3 +194,18 @@ p {
 .underline:hover {
   color: var(--bs-gray-600) !important;
 }
+.error-message {
+  color: red;
+  font-size: 0.5rem;
+  margin-top: 4px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+.error-border {
+  border-color: red !important;
+}
+#sign-up:disabled {
+  background-color: #CCCCCC;
+  border: none !important;
+}
