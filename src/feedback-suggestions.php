@@ -35,7 +35,6 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
   <link type="text/css" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../src/styles/feedback-suggestions.css">
   <link rel="stylesheet" href="<?php echo '../src/styles/orgs/' . $org_acronym . '.css'; ?>">
-  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
 </head>
 
@@ -166,7 +165,7 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
     <div class="border-frame">
       <div class="row container-spacing pb-4">
         <div class="col">
-          <div class="text-position main-color">
+          <div class="pt-lg-5 pt-3 main-color">
             <b>Please leave more of your feedback below:</b>
           </div>
         </div>

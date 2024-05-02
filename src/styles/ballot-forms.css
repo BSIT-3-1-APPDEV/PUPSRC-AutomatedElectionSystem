@@ -39,6 +39,12 @@ text-decoration: none;
   color: #4d4d4d;
 }
 
+@media (max-width: 768px) {
+  #modalDialog {
+    max-width: 83% !important;
+  }
+}
+
 
 .btn-close {
 position: relative;
@@ -101,6 +107,11 @@ align-items: center;
 margin-left: auto; 
 }
 
+.modal-backdrop {
+  opacity: 0.5; /* Adjust the opacity as needed */
+  background-color: #000; /* Adjust the color as needed */
+}
+
 .adjust-modal .modal-content {
 width: 100%; 
 }
@@ -108,6 +119,10 @@ width: 100%;
 .toggle-btn {
 display: flex;
 justify-content: flex-end;
+}
+
+.border-danger{
+  border-width: 3px !important;
 }
 
 .toggle-btn button {
@@ -236,8 +251,8 @@ input[type="radio"] {
 appearance: none;
 -webkit-appearance: none;
 -moz-appearance: none;
-width: 23px; /* Adjust the width as needed */
-height: 23px; /* Adjust the height as needed */
+width: 24px; /* Adjust the width as needed */
+height: 24px; /* Adjust the height as needed */
 border: 2px solid black;
 border-radius: 50%; /* Make it circular */
 position: relative; /* Ensure proper positioning of the ::before pseudo-element */
@@ -246,8 +261,8 @@ position: relative; /* Ensure proper positioning of the ::before pseudo-element 
 input[type="radio"]::before {
   content: "";
   display: inline-block;
-  width: 23px; /* Adjust the width of the outer circle */
-  height: 23px; /* Adjust the height of the outer circle */
+  width: 24px; /* Adjust the width of the outer circle */
+  height: 24px; /* Adjust the height of the outer circle */
   border-radius: 50%; /* Make it circular */
   position: absolute; /* Position the ::before pseudo-element relative to the radio button */
   top: 50%; /* Center vertically */
@@ -260,6 +275,8 @@ input[type="radio"]::before {
 input[type="radio"]:checked::before {
 width: 16px; /* Adjust the width of the inner circle when checked */
 height: 16px; /* Adjust the height of the inner circle when checked */
+top: 50%; /* Center vertically */
+left: 50%; /* Center horizontally */
 }
 
 /* --- Footer --- */

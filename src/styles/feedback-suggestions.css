@@ -99,12 +99,18 @@ body {
   
     .end-point {
       padding-top: 50px;
+      padding-bottom: 30px;
       text-align: center; 
   }
   
   .end-point img {
+    padding-top: 20px;
     max-width: 80%;
     margin: 0 auto; 
+  }
+
+  .font-weight{
+    font-weight: 400 !important;
   }
   
   .header {
@@ -583,6 +589,21 @@ html {
     .soc-med-icons:hover {
         transform: translateY(-5px);
         cursor: pointer;
+    }
+
+    @media (max-width: 767px) {
+        .footer .row {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .footer .col-md-5 {
+            margin-top: 20px; /* Adjust as needed */
+            text-align: center; /* Center text content */
+        }
+        .footer .vertical-line {
+            display: none;
+        }
     }
     
     /* --- FEATHER ICONS SIZES --- */

@@ -83,7 +83,7 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
                 <div class="header main-color text-center pb-2">
                     <b>Your ballot is securely cast!</b>
                 </div>
-                <div class="header-sub text-center">
+                <div class="header-sub text-center" style="font-weight: 400;">
                     Stay tuned for the upcoming announcement of the newly appointed committee members on 
                     <?php echo strtoupper($org_acronym); ?>'s
                       <?php if ($org_acronym == 'acap'){
@@ -145,7 +145,6 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
 </script>
 
   <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../src/scripts/script.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
