@@ -5,12 +5,22 @@ body {
   height: 100vh;
 }
 
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  src: url('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" media="all">')
+    format("Montserrat");
+}
+
+input[type='password'] {
+  font-family: 'Segoe UI' !important;
+}
+
 .toggle-password:hover,
 #index-PUPSRC,
 #index-AES {
   margin: 0%;
-  padding: 0%;
-  font-weight: 900;
 }
 
 .ivote-logo {
@@ -26,31 +36,37 @@ body {
 }
 
 #index-PUPSRC {
-  color: #c82d26;
+  color: #c82d26 !important;
   -webkit-text-stroke: 0.5px white;
   padding-top: 10px;
-  font-weight: bold;
+  font-weight: 800;
   text-shadow: 2px 2px 4px rgba(255, 255, 255, 1.5);
+  font-family: "Montserrat", sans-serif;
+  /* letter-spacing: -1px; */
 }
 
 #index-AES {
-  color: #5d83d3;
-  font-weight: bold;
+  color: #5d83d3 !important;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   letter-spacing: -1px;
   padding-bottom: 2%;
+  font-weight: 800;
 }
 
 .index-button {
   background-color: #c82d26;
   font-weight: bold;
-  padding-left: 2%;
-  padding-right: 2%;
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-top: 1%;
+  padding-bottom: 1%;
   color: #fff;
   outline: none;
   border: none;
   font-size: large;
   transition: ease-in-out all 0.3s;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .index-button:hover {
@@ -106,7 +122,7 @@ body {
   color: #c82d26;
   text-align: center;
   font-weight: bold;
-  padding-top: 3%;
+  padding-top: 5%;
 }
 
 .hello-text {
@@ -120,11 +136,14 @@ body {
 
 .landing-page-logo-size {
   width: 60%;
+  filter: drop-shadow(
+    0px 4px 4px rgba(0, 0, 0, 0.3)
+  ); /* Add soft drop shadow */
 }
 
 .landing-page-org-card {
   padding: 5%;
-  /* margin: 5%; */
+  margin: 5%;
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -271,6 +290,7 @@ a {
   background-color: #f0f0f0;
   padding: 40px;
   border-radius: 10px;
+  max-width: 500px;
 }
 
 .login-account {
@@ -560,7 +580,7 @@ button {
 }
 
 footer {
-  margin-top: 100px;
+  margin-top: 10px;
   position: relative;
   bottom: 0;
   left: 0;
@@ -582,7 +602,7 @@ footer {
   position: relative;
   display: block;
   width: calc(100% + 1.3px);
-  height: 172px; /* Adjust this height as needed */
+  height: 172px;
 }
 
 .custom-shape-divider-top-1713266907 .shape-fill {
@@ -612,47 +632,175 @@ footer {
   color: #003b25;
 }
 
-
 /* About Us */
-.about-us{
+.about-us {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.about-us-body{
+.about-us-body {
   text-align: center;
   padding: 5%;
 }
 
-.connect-with-us{
+.connect-with-us {
   width: 25px;
   margin: 2%;
 }
 
-
-/* About Us */
-.about-us{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.about-us-body{
-  text-align: center;
-  padding: 5%;
-}
-
-.connect-with-us{
-  width: 25px;
-  margin: 2%;
-}
-
-.about-us-icon{
+.about-us-icon {
   width: 80%;
   /* width: 600px; */
 }
 
+#password-toggle {
+  background-color: #fff;
+  width: 75px;
+  border-left: 2px solid gray;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* Forgot Password Modal */
+.modal-content {
+  color: black;
+  padding: 5%;
+  background-color: #003b25;
+}
+
+#email.form-control {
+  background-color: #dadada !important;
+}
+
+span {
+  color: red;
+}
+
+.modal-content {
+  background-color: #f0f0f0;
+}
+
+#forgot-password {
+  font-size: 13px;
+  color: gray;
+}
+
+.sign-up {
+  font-weight: 600;
+}
+
+.email-confirmation{
+  display: none;
+  font-size: 13px;
+  color: #1A73E8;
+  text-align: start;
+}
+
+/* Alert Messages */
+.custom-alert {
+  width: 100%;
+  max-width: 250px;
+  font-size: 11px;
+  padding: 3%;
+}
+
+/* Reset password page */
+.reset-password-body {
+  background-color: #f5f5f5;
+  color: black;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reset-password-form {
+  background-color: #fff;
+  width: 1000px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.reset-password-title{
+  font-weight: bold;
+  
+}
+
+.reset-password-subtitle{
+  font-weight: 500;
+}
+
+.reset-password-password {
+  background-color: transparent;
+  border-radius: 100px;
+  border: 2px solid #999999; /* Changed border declaration to shorthand */
+}
+
+#reset-password-toggle {
+  background-color: #fff;
+  width: 50px;
+  padding-right: 3%;
+  color: #999999;
+}
+
+.new-password {
+  position: absolute;
+  z-index: 1000;
+  background-color: white;
+  left: 8%;
+  padding-left: 1%;
+  padding-right: 1%;
+  font-size: 12px;
+}
+
+/* 
+.inputGroup {
+  margin: 1em 0 1em 0;
+  position: relative;
+}
+
+.inputGroup input {
+  font-size: 100%;
+  padding: 0.8em;
+  outline: none;
+  border: 2px solid rgb(200, 200, 200);
+  background-color: transparent;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.inputGroup label {
+  font-size: 100%;
+  position: absolute;
+  left: 0;
+  padding: 0.8em;
+  margin-left: 0.5em;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  color: rgb(100, 100, 100);
+}
+
+.inputGroup :is(input:focus, input:valid)~label {
+  transform: translateY(-50%) scale(.9);
+  margin: 0em;
+  margin-left: 1.3em;
+  padding: 0.4em;
+  background-color: #fff;
+}
+
+.inputGroup :is(input:focus, input:valid) {
+  border-color: rgb(150, 150, 200);
+}
+
+.inputGroup input:focus + label {
+  color: red;
+} */
+
+.new-password{
+  font-weight: bold;
+}
 
 
 
@@ -694,12 +842,30 @@ footer {
     line-height: 0;
     transform: rotate(180deg);
     z-index: -1;
-    /* Move to the background */
   }
 
-  .about-us-icon{
+  .about-us-icon {
     /* width: 100%; */
     width: 400px;
   }
-  
+
+  .footer {
+    position: relative;
+    text-align: center; 
+  }
+
+  .modal-content {
+    width: 74%;
+    max-width: none;
+    margin: auto;
+  }
+
+  .reset-password-form {
+    width: 450px;
+  }
+
+  .index-button{
+    margin-top: 3%;
+    padding: 3%;
+  }
 }
