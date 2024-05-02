@@ -194,3 +194,32 @@ p {
 .underline:hover {
   color: var(--bs-gray-600) !important;
 }
+.error-message {
+  color: red;
+  font-size: 0.5rem;
+  margin-top: 4px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+.error-border {
+  border-color: red !important;
+}
+#sign-up:disabled {
+  background-color: #CCCCCC;
+  border: none !important;
+}
+
+.check-perc {
+  height: 70% !important;
+  width: 50% !important;
+}
+
+.close-mark {
+  margin: 2.5rem 1rem 0rem 0rem !important;
+}
+
+.close-mark:hover {
+  cursor: pointer !important;
+  color: var(--bs-gray-200) !important;
+}
