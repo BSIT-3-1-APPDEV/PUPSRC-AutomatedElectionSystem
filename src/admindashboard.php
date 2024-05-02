@@ -1,109 +1,8 @@
 <?php
-require_once 'includes/classes/db-connector.php';
-require_once 'includes/session-handler.php';
-require_once 'includes/classes/session-manager.php';
-class Application {
-    private $db;
-
-    public function __construct(DatabaseConnection $db) {
-        $this->db = $db;
-    }
-    public function getCandidateCount() {
-        $connection = $this->db->connect();
-
-        // Fetch count of candidates from the candidate table
-        $candidateCountQuery = "SELECT COUNT(*) AS candidate_count FROM candidate";
-        $result = $connection->query($candidateCountQuery);
-        $candidateCount = $result->fetch_assoc()['candidate_count'];
-
-        return $candidateCount;
-    }
-    public function getPositions() {
-        $connection = $this->db->connect();
-
-        $positionsQuery = "SELECT DISTINCT title FROM position";
-        $result = $connection->query($positionsQuery);
-        $positions = array();
-
-        // Process the fetched rows into an array of positions
-        while ($row = $result->fetch_assoc()) {
-            $positions[] = $row['title'];
-        }
-
-        return $positions;
-    }
-
-    public function getFirstPosition() {
-        $connection = $this->db->connect();
-
-        $firstPositionQuery = "SELECT DISTINCT title FROM position LIMIT 1";
-        $result = $connection->query($firstPositionQuery);
-        $firstPosition = $result->num_rows > 0 ? $result->fetch_assoc()['title'] : "No positions available";
-        return $firstPosition;
-    }
-    public function getVoterCounts() {
-        $connection = $this->db->connect();
-    
-        // Fetch total count of voters
-        $totalVotersQuery = "SELECT COUNT(*) AS total_count FROM voter";
-        $totalVotersResult = $connection->query($totalVotersQuery);
-        $totalVotersCount = $totalVotersResult->fetch_assoc()['total_count'];
-    
-        // Fetch count of voters with voteStatus as 'voted'
-        $votedVotersQuery = "SELECT COUNT(*) AS voted_count FROM voter WHERE vote_status = 'Voted'";
-        $votedVotersResult = $connection->query($votedVotersQuery);
-        $votedVotersCount = $votedVotersResult->fetch_assoc()['voted_count'];
-        
-        $abstainedVotersQuery = "SELECT COUNT(*) AS abstained_count FROM voter WHERE vote_status = 'Abstained'";
-        $abstainedVotersResult = $connection->query($abstainedVotersQuery);
-        $abstainedVotersCount = $abstainedVotersResult->fetch_assoc()['abstained_count'];
-    
-        // Calculate percentages
-        $totalPercentage = ($totalVotersCount > 0) ? (($votedVotersCount / $totalVotersCount) * 100) : 0;
-        $votedPercentage = 100 - $totalPercentage;
-    
-        // Return the counts and percentages as an array
-        return [
-            'totalVotersCount' => $totalVotersCount,
-            'votedVotersCount' => $votedVotersCount,
-            'abstainedVotersCount' => $abstainedVotersCount,
-            'totalPercentage' => $totalPercentage,
-            'votedPercentage' => $votedPercentage,
-        ];
-    }
-    public function getYearLevelCounts() {
-        $connection = $this->db->connect();
-
-        $yearLevelQuery = "SELECT year_level, COUNT(*) AS count FROM voter GROUP BY year_level";
-        $result = $connection->query($yearLevelQuery);
-        $yearLevelCounts = array();
-
-        // Process the fetched rows and assign counts to corresponding variables
-        while ($row = $result->fetch_assoc()) {
-            $yearLevel = intval($row['year_level']); // Convert year level to integer
-            switch ($yearLevel) {
-                case 1:
-                    $yearLevelCounts['firstYearCount'] = $row['count'];
-                    break;
-                case 2:
-                    $yearLevelCounts['secondYearCount'] = $row['count'];
-                    break;
-                case 3:
-                    $yearLevelCounts['thirdYearCount'] = $row['count'];
-                    break;
-                case 4:
-                    $yearLevelCounts['fourthYearCount'] = $row['count'];
-                    break;
-                default:
-                    // Handle any other cases if needed
-                    break;
-            }
-            
-        }
-
-        return $yearLevelCounts;
-    }
-}
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/admin-dashboard-queries.php');
 
 // Create an instance of DatabaseConnection
 $dbConnection = new DatabaseConnection();
@@ -114,8 +13,8 @@ $app = new Application($dbConnection);
 if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
     $org_name = $_SESSION['organization'] ?? '';
 
-    include 'includes/organization-list.php';
-    include 'includes/session-exchange.php';
+    include FileUtils::normalizeFilePath('includes/organization-list.php');
+    include FileUtils::normalizeFilePath('includes/session-exchange.php');
     $org_full_name = $org_full_names[$org_name];
 
     // Fetch positions and year level counts using Application methods
@@ -129,6 +28,11 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
     $totalPercentage = number_format($voterCounts['totalPercentage'], 2);
     $votedPercentage = number_format($voterCounts['votedPercentage'], 2);
     $candidateCount = $app->getCandidateCount();
+    $voter_id = $_SESSION['voter_id'];
+    $first_name = $app->getFirstName($voter_id);
+
+
+  
 ?>
 
 <!DOCTYPE html>
@@ -141,14 +45,10 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
     <title>Admin Dashboard</title>
 
     <!-- Montserrat Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/admin_dashboard.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/core.css">
-    <link rel="stylesheet" href="styles/manage-acc.css" />
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.min.js"></script>
@@ -180,12 +80,22 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
 </head>
 
 <body>
-<?php  include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+    
+<?php     include FileUtils::normalizeFilePath('includes/components/sidebar.php'); ?>
 
     <main class="main">
 
-        <div class="container px-md-3 px-lg-5 px-sm-2 p-4 ">
+        <div class="container px-md-3 px-lg-5 px-sm-2 p-4 justify-content-center d-flex ">
+        <div class="col-md-12 my-3 p-0 mx-0">
+            <div class="card p-4 my-5">
+            <div class="card-body">
 
+           
+                    <h4 class="fw-700 ms-3">Hey there, <span class="main-color fw-700"> <?php echo $first_name . "!";?> </span> </h4>
+                    <small class="ms-3 fw-600">Welcome to your dashboard.</small>
+                    </div>
+                    </div>  
+                  
             <div id="button-container">
         <!-- Button will be appended here -->
     </div>
@@ -197,7 +107,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
             <div class="row justify-content-center">
                 
                         <div class="col-sm-12 col-md-6">
-                    <h4 class="main-color main-text ms-3">LIVE RESULTS</h4>
+                    <h4 class="main-color main-text ms-2">LIVE RESULTS</h4>
                     </div>
                     
                     <div class="col-sm-12 col-md-6 text-end ">
@@ -222,37 +132,44 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
                                 <i data-feather="maximize" class="main-color"></i>
                             </a>
 </div>
-    <div class="chart-container pb-3">
+    <div class="chart-container pb-3 px-5">
         <canvas id="myChart"></canvas>
     </div>
+    
+</div>
+<div class="justify-content-end d-flex mt-2" >
+<label class="switch d-none" id="switch">
+  <input type="checkbox">
+  <span class="slider round"></span>
+</label>
 </div>
 </div>
 
            
             </div>
-            <div class="row ">
-                <h4 class="main-text main-color mt-3 ms-3">METRICS</h4>
+            <div class="row mb-1 ">
+                <h4 class="main-text main-color mt-4 ms-2 ">METRICS</h4>
                     </div>
                 <div class="row m-0 p-0 justify-content-between">
-               <div class= "col-md-7 m-0  ps-0 pe-md-5 pe-md-0 pe-sm-0 pe-0">
+               <div class= "col-md-7 m-0  ps-0 pe-md-4 pe-md-0 pe-sm-0 pe-0">
                 <div class="card p-3 ">
                     <div class="card-body pr-5">
-                <div class="row justify-content-center">
-                <div class="col-md-12 col-lg-6">
+                <div class="row justify-content-center ">
+                <div class="col-md-12 col-lg-6 pe-lg-0 pe-xl-5">
                 <canvas id="chartProgress" width="300" height="200"></canvas>
 
                 </div>
                 
                 
-                <div class="col-md-12 col-lg-6 justify-content-center align-self-center">
+                <div class="col-md-12 col-lg-6 justify-content-center align-self-center border-left pb-4 ">
                     
                   
                  
                         <div class="col-md-12 metrics-header justify-content-center align-items-center d-flex d-sm-flex d-md-block mt-3 ">
-                       <span class="text-center ps-4"> Total Count of Voters </span>
+                       <small class="text-center ps-4 fw-700"> Total count of voters </small>
                         </div>
-                        <div class="col-md-12 metrics-content justify-content-center  align-items-center  main-color d-flex d-sm-flex d-md-block mb-3">
-                        <span class="text-center ps-4"> <b><?php echo $votedVotersCount; ?> out of <?php echo $totalVotersCount; ?></b>
+                        <div class="col-md-12 metrics-content justify-content-center  align-items-center  main-color d-flex d-sm-flex d-md-block mb-3 ">
+                        <span class="text-center ps-4 fw-700 fs-20"> <?php echo $votedVotersCount; ?> out of <?php echo $totalVotersCount; ?>
     </span></span>
                         </div>
                         
@@ -262,10 +179,10 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
                
                      
                         <div class="col-md-12 metrics-header justify-content-center  align-items-center  d-flex d-sm-flex d-md-block ">
-                        <span class="text-center ps-4"> Abstained</span>
+                        <small class="text-center ps-4 fw-700"> Abstained</small>
                         </div>
                         <div class="col-md-12 metrics-content justify-content-center  align-items-center  main-color d-flex d-sm-flex d-md-block">
-                        <span class="text-center ps-4"> <b>  <?php echo $abstainedVotersCount; ?> students</b></span>
+                        <span class="text-center ps-4 fw-700">   <?php echo $abstainedVotersCount; ?> students</span>
                         </div>
                         </div>
                    
@@ -277,57 +194,58 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
                  <div class="col-md-5 col-lg-5 justify-content-between d-flex flex-direct px-0">
                   
                  <div class="card p-3 mt-3 mt-md-0">
-                 <div class="card-body d-flex d-md-block align-items-center justify-content-center p-3">
-
+                     
+                     <div class="card-body d-flex   align-items-center justify-content-between p-3">
             
-                <div class="row ">
-                    <div class="col-md-9">
-                    <div class="col-md-12 d-flex d-md-block justify-content-center">
+                <div class="row w-100">
+                    <div class="col-9">
+                    <div class="col-12">
                          <span class="secondary-metrics-header main-color">   Total count of </span>
                         </div>
-                        <div class="col-md-12 d-flex d-md-block justify-content-center">
+                        <div class="col-12">
                         <span class="secondary-metrics-content ">   VOTER ACCOUNTS </span>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                    <div class="col-md-12 d-flex d-md-block justify-content-center">
+                    </div>
+                    <div class="col-3">
+                    <div class="col-12 ">
                     <div class="circle main-bg-color">
                     <span class="secondary-metrics-number"><?php echo $totalVotersCount; ?></span>
-</div> </div>
+</div> 
                     </div>
                 </div>     
             </div>
             </div>
             <div class="card p-3 mt-3 mt-md-0">
-                <div class="card-body d-flex d-md-block align-items-center justify-content-center p-3">
+                <div class="card-body d-flex align-items-center justify-content-between p-3">
 
             
-                <div class="row">
-                    <div class="col-md-9 justify-content-center d-flex d-md-block flex-direct">
-                        <div class="col-md-12 d-flex d-md-block justify-content-center">
-                        <span class="secondary-metrics-header main-color">   Total count of </span>
+                <div class="row w-100">
+                    <div class="col-9">
+                    <div class="col-12">
+                         <span class="secondary-metrics-header main-color">   Total count of </span>
                         </div>
-                        <div class="col-md-12 d-flex d-md-block justify-content-center">
-                        <span class="secondary-metrics-content py-1">   CANDIDATES </span>
+                        <div class="col-12">
+                        <span class="secondary-metrics-content ">   CANDIDATES </span>
                         </div>
                     </div>
-                    <div class="col-md-3 justify-content-center d-flex d-md-block flex-direct">
-                    <div class="col-md-12 d-flex d-md-block justify-content-center">
+                    </div>
+                    <div class="col-3">
+                    <div class="col-12 ">
                     <div class="circle main-bg-color">
                     <span class="secondary-metrics-number"><?php echo $candidateCount; ?></span>
-</div>                  
-</div>      
-  </div>
+ </div>
+                    </div>
                 </div>     
             </div>
             </div>
             </div>    
             </div>   
             <div class="row ">
-                <h4 class="main-text main-color mt-3 ms-3">NAVIGATE</h4>
+                <h4 class="main-text main-color mt-3 ms-3 mb-0">NAVIGATE</h4>
                     </div>
             <div class="row justify-content-start d-flex m-0 p-0">
-    <div class="col-lg-4 ml-5 py-4 ps-0 pe-1 ">
+    <div class="col-lg-4 ml-5 py-3 ps-0 pe-1 ">
         <div class="col-lg-11">
             <a href="result-generation.php" class="card admin-card admin-link px-5 pt-4 pb-5">
                 <div class="card-body d-flex align-items-center justify-content-center p-2">
@@ -345,7 +263,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
         </div>
     </div>
 
-    <div class="col-lg-4 ml-5 py-4 ps-0 pe-1 d-lg-flex d-md-block justify-content-center ">
+    <div class="col-lg-4 ml-5 py-3 ps-0 pe-1 d-lg-flex d-md-block justify-content-center ">
         <div class="col-lg-11">
             <a href="manage-acc.php" class="card admin-card admin-link px-5 pt-4 pb-5">
                 <div class="card-body d-flex align-items-center justify-content-center p-2">
@@ -363,7 +281,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
         </div>
     </div>
 
-    <div class="col-lg-4 ml-5 py-4 ps-0 pe-0 d-lg-flex d-md-block justify-content-end ">
+    <div class="col-lg-4 ml-5 py-3 ps-0 pe-0 d-lg-flex d-md-block justify-content-end ">
         <div class="col-lg-11">
             <a href="configuration.php" class="card admin-card admin-link px-5 pt-4 pb-5">
                 <div class="card-body d-flex align-items-center justify-content-center p-2">
@@ -385,17 +303,14 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
 
     </main>
   
-    <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
+    <?php     include FileUtils::normalizeFilePath('includes/components/footer.php');?>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/admin_dashboard.js"></script>
-    <script>
-        feather.replace();
-    </script>
+    <script src="scripts/feather.js"></script>
 
 <script>
-    fetchCandidates('<?php echo $firstPosition; ?>');
 
    
     </script>
@@ -487,6 +402,6 @@ var myChartCircle = new Chart('chartProgress', {
 </html>
 <?php
 } else {
-  header("Location: voter-login.php");
+  header("Location: landing-page.php");
 }
 ?>
