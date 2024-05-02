@@ -21,9 +21,14 @@
         $stmt->bind_param("ssssss", $lastName, $firstName, $middleName, $email, $hashedPassword, $role);
     
         if ($stmt->execute()) {
-            echo "Admin account created successfully.";
+            // Set session variable to indicate account creation
+            $_SESSION['account_created'] = true;
+    
+            // Redirect to admin-creation.php
+            header("Location: admin-creation.php");
+            exit;
         } else {
-            echo "Error creating admin account: " . $stmt->error;
+            
         }
     
         $stmt->close();

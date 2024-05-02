@@ -64,7 +64,7 @@ if (isset($_SESSION['voter_id'])) {
 
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-md-12 card-box card-box-larger mt-md-10">
+                        <div class="col-md-10 card-box mt-md-10">
                             <div class="container-fluid">
                                 <div class="card-box">
                                     <div class="row">
@@ -74,14 +74,17 @@ if (isset($_SESSION['voter_id'])) {
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <form action="" method="post">
+                                        <form action="" method="post" id="admin-form">
                                             <div class="row">
                                                 <div class="col-md-4 col-sm-4 mx-auto">
                                                     <div class="form-group local-forms">
                                                         <label for="last_name" class="login-danger">Last Name <span
                                                                 class="required"> * </span> </label>
                                                         <input type="text" id="last_name" name="last_name"
-                                                            placeholder="Enter Last Name" required>
+                                                            placeholder="Enter Last Name" required pattern="^[a-zA-Z]+$"
+                                                            maxlength="20"
+                                                            title="Last name can only contain alphabetic characters and should not exceed 20 characters">
+                                                        <span class="error-message" id="last_name_error"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 mx-auto">
@@ -89,7 +92,10 @@ if (isset($_SESSION['voter_id'])) {
                                                         <label for="first_name" class="login-danger">First Name<span
                                                                 class="required"> * </span> </label>
                                                         <input type="text" id="first_name" name="first_name"
-                                                            placeholder="Enter First Name" required>
+                                                            placeholder="Enter First Name" required pattern="^[a-zA-Z]+$"
+                                                            maxlength="20"
+                                                            title="First name can only contain alphabetic characters and should not exceed 20 characters">
+                                                        <span class="error-message" id="first_name_error"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-3 mx-auto">
@@ -97,7 +103,10 @@ if (isset($_SESSION['voter_id'])) {
                                                         <label for="middle_name" class="login-danger">Middle Name<span
                                                                 class="required"> * </span> </label>
                                                         <input type="text" id="middle_name" name="middle_name"
-                                                            placeholder="Enter Middle Name" required>
+                                                            placeholder="Enter Middle Name" required pattern="^[a-zA-Z]+$"
+                                                            maxlength="20"
+                                                            title="Middle name can only contain alphabetic characters and should not exceed 20 characters">
+                                                        <span class="error-message" id="middle_name_error"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -106,8 +115,10 @@ if (isset($_SESSION['voter_id'])) {
                                                     <div class="form-group local-forms">
                                                         <label for="email" class="login-danger">Email<span class="required"> *
                                                             </span> </label>
-                                                        <input type="email" id="email" name="email" placeholder="Email"
-                                                            required>
+                                                        <input type="email" id="email" name="email" placeholder="Email" required
+                                                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                                            title="Please enter a valid email address">
+                                                        <span class="error-message" id="email_error"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
@@ -141,15 +152,53 @@ if (isset($_SESSION['voter_id'])) {
             <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
             <script src="scripts/script.js"></script>
             <script src="scripts/feather.js"></script>
+            <script src="scripts/member-form-validation.js"></script>
 
-
-
-
+            <!-- Created Modal -->
+            <div class="modal" id="createdModal" tabindex="-1" role="dialog" <?php if (isset($_SESSION['account_created']) && $_SESSION['account_created'])
+                echo 'data-show="true"'; ?>>
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <div class="col-md-12">
+                                    <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 pb-3">
+                                        <p class="fw-bold fs-3 success-color spacing-4">Successfully Created!</p>
+                                        <p class="fw-medium spacing-5">An email containing the generated password will be sent
+                                            to their inbox shortly.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </body>
 
 
         </html>
 
+        <script>
+            $(document).ready(function () {
+                var createdModal = new bootstrap.Modal(document.getElementById('createdModal'), {});
+
+                <?php if (isset($_SESSION['account_created']) && $_SESSION['account_created']) { ?>
+                    // Show the created modal
+                    createdModal.show();
+
+                    // Reload the page after a short delay
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000); // 3 seconds
+
+                    // Reset the session variable
+                    <?php unset($_SESSION['account_created']); ?>
+                <?php } ?>
+            });
+        </script>
         <?php
     } else {
         // User is not authorized to access this page
