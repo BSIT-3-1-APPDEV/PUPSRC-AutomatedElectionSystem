@@ -197,7 +197,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
                      
                      <div class="card-body d-flex   align-items-center justify-content-between p-3">
             
-                <div class="row ">
+                <div class="row w-100">
                     <div class="col-9">
                     <div class="col-12">
                          <span class="secondary-metrics-header main-color">   Total count of </span>
@@ -220,7 +220,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
                 <div class="card-body d-flex align-items-center justify-content-between p-3">
 
             
-                <div class="row ">
+                <div class="row w-100">
                     <div class="col-9">
                     <div class="col-12">
                          <span class="secondary-metrics-header main-color">   Total count of </span>
