@@ -209,3 +209,17 @@ p {
   background-color: #CCCCCC;
   border: none !important;
 }
+
+.check-perc {
+  height: 70% !important;
+  width: 50% !important;
+}
+
+.close-mark {
+  margin: 2.5rem 1rem 0rem 0rem !important;
+}
+
+.close-mark:hover {
+  cursor: pointer !important;
+  color: var(--bs-gray-200) !important;
+}
