@@ -661,7 +661,13 @@ footer {
 
 .ivote-email {
   font-weight: bold;
+  color: #653f3f;
 }
+.footer-about-us{
+  color: #464646;
+  font-weight: 600;
+}
+
 
 .hii {
   color: #003b25;
@@ -685,6 +691,10 @@ footer {
 
 .connect-with-us {
   width: 25px;
+  margin: 2%;
+}
+.connect-with-us-footer {
+  width: 20px;
   margin: 2%;
 }
 
@@ -784,7 +794,7 @@ span {
 .custom-alert {
   width: 100%;
   max-width: 400px;
-  font-size: 14px;
+  font-size: 12px;
   padding: 3%;
   display: flex;
   align-items: center;
