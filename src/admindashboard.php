@@ -1,6 +1,7 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/classes/admin-dashboard-queries.php');
 
@@ -10,7 +11,7 @@ $dbConnection = new DatabaseConnection();
 // Create an instance of Application
 $app = new Application($dbConnection);
 
-if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
+if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'Committee Member' || $_SESSION['role'] == 'Admin Member')) {
     $org_name = $_SESSION['organization'] ?? '';
 
     include FileUtils::normalizeFilePath('includes/organization-list.php');
@@ -94,7 +95,8 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
             <div class="card-body">
 
            
-                    <h3 class="fw-700 ms-3">Hey there, <span class="main-color fw-700"> <?php echo $first_name . "!";?> </span> </h3>
+                    <h3 class="fw-700 ms-3">Hey there, <span class="main-color fw-700"> <?php echo isset($first_name) ? $first_name . "!" : "Admin!"; ?>
+ </span> </h3>
                     <small class="ms-3 fw-600">Welcome to your dashboard.</small>
                     </div>
                     </div>  
@@ -279,7 +281,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
 
     <div class="col-lg-4 ml-5 py-3 ps-0 pe-1 d-lg-flex d-md-block justify-content-center ">
         <div class="col-lg-11">
-            <a href="manage-acc.php" class="card admin-card admin-link px-5 pt-4 pb-5">
+            <a href="manage-voters.php" class="card admin-card admin-link px-5 pt-4 pb-5">
                 <div class="card-body d-flex align-items-center justify-content-center p-2">
                     <div class="icon-container">
                         <img src="images/resc/Dashboard/Manage Acc/<?php echo $org_name . '-manage-accs.png'; ?>" alt="Reports Image" class="navigate-images">
