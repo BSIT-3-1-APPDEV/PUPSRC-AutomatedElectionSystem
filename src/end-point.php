@@ -48,7 +48,6 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
   <div class="container">
-  <div class="container">
     <div class="navbar-brand spacing">
       <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
    </div>
