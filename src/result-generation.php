@@ -61,9 +61,9 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
 
             ?>.btn-with-margin {
                 margin-top: 30px;
-                width: 170px;
+                width: 180px;
                 height: 33px;
-                padding-left: 2px;
+                padding-left: 10px;
                 padding-right: -20px;
                 margin-right: 50px;
                 border-radius: 25px;
@@ -128,7 +128,7 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
                                     }
                                 ?>
                                     <div class="dropdown">
-                                        <button class="btn-election main-color hover-color dropdown-button btn-with-margin" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn-election main-color hover-color dropdown-button btn-with-margin text-truncate" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="ms-auto">
                                                 <?php echo $selected_position_title; ?>
                                                 <i data-feather="chevron-down" class="white im-cust feather-1xs"></i>
