@@ -19,6 +19,7 @@ SessionManager::checkUserRoleAndRedirect();
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>iVote</title>
+  <title>iVote</title>
 
   <!-- Montserrat Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,16 +102,16 @@ SessionManager::checkUserRoleAndRedirect();
     </div>
     <div class="container-fluid footer-body">
       <div class="row">
-      <div class="col-md-6 footer-left pt-xl-4 px-xl-5 d-flex justify-content-center flex-column d-flex">
-        <div>
-        <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
-          <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.</p>
-          <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
-          <div class="vertical-line"></div>
+        <div class="col-md-6 footer-left pt-xl-4 px-xl-5 d-flex justify-content-center flex-column d-flex">
+          <div>
+            <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
+            <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.</p>
+            <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
+            <div class="vertical-line"></div>
+          </div>
         </div>
-        </div>
-        
-        <div class="col-md-2 footer-middle">
+
+        <div class="col-md-3 footer-middle">
           <div class="row">
             <p class="credits-footer">Visit</p>
             <div class="col-md-3">
@@ -124,19 +125,19 @@ SessionManager::checkUserRoleAndRedirect();
               <a href="https://www.facebook.com/PUPSRCJEHRA">JEHRA</a>
             </div>
             <div class="col-md-3">
-            <a href="https://www.facebook.com/JMAPPUPSRCOfficial">JMAP</a>
-            <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA <br></a>
-            <a href="https://www.facebook.com/piiepup">PIIE</a>
+              <a href="https://www.facebook.com/JMAPPUPSRCOfficial">JMAP</a>
+              <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA <br></a>
+              <a href="https://www.facebook.com/piiepup">PIIE</a>
 
             </div>
           </div>
         </div>
         <div class="col-md-3 footer-right">
           <div>
-          <p class="credits-footer">Contact Us</p>
-          <p>Email us at <a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
+            <p class="credits-footer">Contact Us</p>
+            <p>Email us at <a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
 
-          <p><span class="ivote-email"><a href="#norma<p><span class="ivote-email"><a href="about-us.php">About Us | </a>  <a href="#">Our Story</a></span></p>
+            <p><span class="ivote-email"><a href="#normal-section">About Us | </a>  <a href="#">Our Story</a></span></p>
 
           </div>
         </div>
@@ -177,3 +178,4 @@ SessionManager::checkUserRoleAndRedirect();
 </body>
 
 </html>
+

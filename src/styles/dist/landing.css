@@ -608,7 +608,7 @@ footer {
 
 .footer-body {
   background-color: #e7e7e7;
-  padding-left: 5%;
+  padding-left: 0%;
   
 }
 
@@ -617,13 +617,15 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 0%;
 }
 
 .footer-middle{
-  padding-left: 2%;
+  padding-left: 3%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0%;
 }
 
 .footer-right {
@@ -631,6 +633,8 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0%;
+  padding: 0%;
 }
 
 

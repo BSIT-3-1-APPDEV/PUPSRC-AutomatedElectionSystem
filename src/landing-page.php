@@ -184,7 +184,7 @@ unsetSessionVar();
           </div>
         </div>
 
-        <div class="col-md-2 footer-middle">
+        <div class="col-md-3 footer-middle">
           <div class="row">
             <p class="credits-footer">Visit</p>
             <div class="col-md-3">

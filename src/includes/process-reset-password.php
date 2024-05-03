@@ -18,11 +18,15 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
 if ($row === NULL) {
-    die("Token not found.");
+    $_SESSION['error_message'] = 'Your password reset link was not found.';
+    header("Location: ../voter-login.php");
+    exit();
 }
 
 if (strtotime($row["reset_token_expires_at"]) <= time()) {
-    die("Token has expired");
+    $_SESSION['error_message'] = 'Your password reset link has expired.';
+    header("Location: ../voter-login.php");
+    exit();
 }
 
 // Put here Password field validation
@@ -33,7 +37,7 @@ if ($_POST['password'] !== $_POST['password_confirmation']) {
     die("Passwords must match");
 }
 
-$new_password = $_POST['password_confirmation'];
+$new_password = password_hash($_POST['password_confirmation'], PASSWORD_DEFAULT);
 
 // Updating password values in database
 $sql = "UPDATE voter SET password = ?, reset_token_hash = NULL, reset_token_expires_at = NULL WHERE voter_id = ?";

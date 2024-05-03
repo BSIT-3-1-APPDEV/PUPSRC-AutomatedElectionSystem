@@ -1,8 +1,9 @@
 .container h5{
+    padding-top: 30px;
     padding-bottom: 25px;
+    padding-left: 20px;
     font-size: 22px;
-    font-weight: bold;
-    color: #F45B9B;
+    font-weight: 800;
     @media (max-width: 768px) {
         font-size: 25px;
         letter-spacing: 1px;
@@ -20,8 +21,8 @@
     font-size: 19px;
     font-weight: bold;
     text-align: center;
-    padding-top: 15px;
-    padding-bottom: 5px;
+    padding-top: 30px;
+    padding-bottom: 25px;
     @media (max-width: 768px) {
         font-size: 22px;
         letter-spacing: 1px;
@@ -37,7 +38,7 @@
 }
 .card{
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 25px !important;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
@@ -46,40 +47,6 @@
     width: 250px;
     height: 625px;
   }
-  #dropdownMenuButton1, #yeardropdown {
-    background-color: #F45B9B; 
-    width: 160px;
-    height: 40px;
-    margin-bottom: 10px;
-    border-radius: 25px;
-    color: white; 
-    padding: 10px 15px;
-    border: none; 
-    cursor: pointer; 
-}
-
-#dropdownMenuButton1:hover, #yeardropdown:hover, #yeardropdown:focus,
-#dropdownMenuButton1:focus {
-    background-color: #f571a8;
-}
-#generate-report-dropdown{
-    background-color: #F45B9B; 
-    width: 200px;
-    height: 40px;
-    margin-bottom: 200px;
-    border-radius: 25px;
-    color: white; 
-    padding: 10px 15px; 
-    border: none; 
-    cursor: pointer;
-    margin-right: 50px;
-    @media (max-width: 768px) {
-      margin-right: 120px;
-    }
-    @media (max-width: 480px) {
-      margin-right: 100px;
-    }
-}
 .candidate-image {
   max-width: 100%; 
   height: auto; 
@@ -171,4 +138,53 @@ th {
   background-color: #7e7e7e !important;
   border-color: #7e7e7e !important;
   color: white !important;
+}
+.report-generator-btn, .position-btn, .year-btn{
+  width: 180px;
+  height: 35px;
+  font-size: 13px;
+  border-style: none;
+  border-radius: 25px;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 20px 15px rgba(0, 0, 0, 0.1);
+}
+.position-btn{
+  margin-right: 45px;
+}
+.year-btn{
+  margin-right: 45px;
+  margin-top: 10px;
+}
+.report-generator-btn{
+  margin-right: 70px;
+  padding-top: 2px;
+  padding-left: 4px !important;
+  font-size: 14px !important;
+}
+.no-avail{
+  text-align: center;
+  font-weight: 700;
+}
+.empty {
+  opacity: 0.7;
+  width: 30% !important;
+  height: 100% !important;
+  align-content: center !important;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
+}
+.includes-components-footer {
+  margin-top: auto;
 }
