@@ -258,7 +258,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'Committee Member' || 
             </div>    
             </div>   
             <div class="row ">
-                <h4 class="main-text main-color mt-3 ms-3 mb-0">NAVIGATE</h4>
+                <h4 class="main-text main-color mt-3 ms-3 mb-0 pt-3">NAVIGATE</h4>
                     </div>
             <div class="row justify-content-start d-flex m-0 p-0">
     <div class="col-lg-4 ml-5 py-3 ps-0 pe-1 ">
