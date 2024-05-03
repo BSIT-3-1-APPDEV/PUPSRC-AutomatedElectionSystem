@@ -3,9 +3,12 @@ include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 
+
 if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['status'] == 'Active')) 
 {
    if(($_SESSION['vote_status'] != 'Voted' )){
+
+   
 
     // ------ SESSION EXCHANGE
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
@@ -73,7 +76,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
       <ul class="navbar-nav">
         <li class="nav-item dropdown d-none d-lg-block">
           <a class="nav-link main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <b>Hello, Iskolar</b><i class="fas fa-user-circle main-color ps-3" style="font-size: 23px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
+            <b>Hello, Iskolar</b><i class="fas fa-user-circle main-color ps-3" style="font-size: 25px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="includes/voter-logout.php">Logout</a>
@@ -88,15 +91,61 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 </nav>
 
 <main>
+
 <div class="m-4">
   <div class="row">
     <div class="col-lg-12">
       <div class="p-4 title main-color text-center spacing">
-        BALLOT FORM
-      </div>
+      <span class="d-none d-sm-inline">BALLOT FORMS</span>
+        <!-- Toggle button for small screens -->
+        <button type="button" class="title main-color text-center spacing border-0 d-sm-block d-md-none" data-toggle="modal" data-target="#guidelinesModal">
+        BALLOT FORMS
+        </button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="guidelinesModal" tabindex="-1" role="dialog" aria-labelledby="guidelinesModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="title-2 main-bg-color">
+                    Voting Guidelines
+                </div>
+            <div class="pt-4"></div>
+                <div class="ps-4 pe-4 pb-2">
+                    Select only one (1) candidate each position.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    Do not leave an empty selection.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    Vote buying and intimidation are prohibited.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    Displaying your ballot or discussing your vote to another person's votes is prohibited.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    Only registered voters are permitted to vote.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    After selecting one (1) candidate each position, click the Submit Vote button to successfully cast your vote.
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Modal -->
+     
     </div>
   </div>
 </div>
+
+
 
 <!-- Modal for Introductory Greetings -->
 <div class="modal fade adjust-modal" id="greetModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
@@ -128,15 +177,15 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
     <div class="modal-content">
       <div class="modal-body">
         <div class="text-center pb-4">
-          <div class="main-color pt-4">
+          <div class="main-color" style="padding-top: 6%;">
             <h4><b>CANDIDATE PREVIEW</b></h4>
-          </div> <!-- Closing tag for div with class "main-color pt-4" -->
+          </div>
           Kindly review and confirm selections.
         </div>
         <div id="selectedCandidate"></div> <!-- Display selected candidate here -->
       </div>
       <div class="text-center pb-4">
-        <button type="button" class="btn btn-secondary pt-2 pb-2 px-4" id="cancelModalButton" style="margin-right: 12px;"><b>Cancel</b></button>
+        <button type="button" class="btn btn-gray pt-2 pb-2 px-4" id="cancelModalButton" style="margin-right: 12px;"><b>Cancel</b></button>
         <button type="submit" class="btn btn-success pt-2 pb-2 px-4" id="submitModalButton"><b>Submit Vote</b></button>
       </div>
     </div>
@@ -144,7 +193,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 </div>
 
 <!-- Modal for Vote Submitted -->
-<div class="modal fade adjust-submit-modal" id="voteSubmittedModal" tabindex="-1" aria-labelledby="voteSubmittedModalLabel" aria-hidden="false">
+<div class="modal fade adjust-submit-modal" id="voteSubmittedModal" tabindex="-1" aria-labelledby="voteSubmittedModalLabel" aria-hidden="false" data-backdrop="static">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content pb-4">
       <div class="modal-body text-center pb-2">
@@ -152,7 +201,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
         <h4 class="pb-4"><b>Vote Submitted!</b></h4>
         <button class="button-check main-bg-color text-white py-2 px-4" onclick="window.location.href='../src/feedback-suggestions.php';">
           <b>Give Feedback</b>
-      </button>
+        </button>
       </div>
     </div>
   </div>
@@ -160,41 +209,43 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 
 
 
+
+
 <div class="m-4">
   <div class="row">
-  <div class="col-lg-3 col-md-2 d-none d-md-block">
-    <div class="reminder">
-        <div class="title-2 main-bg-color">
-            Voting Guidelines
-        </div>
+    <div class="col-lg-3 col-md-2 d-none d-md-block">
+       <div class="reminder">
+          <div class="title-2 main-bg-color">
+              Voting Guidelines
+          </div>
         <div>
           <div class="font-weight1">
-          <div class="pt-4"></div>
-            <div class="ps-4 pe-4 pb-2">
-                Select only one (1) candidate each position.
-            </div>
-            <hr>
-            <div class="ps-4 pe-4 pb-2">
-                Do not leave an empty selection.
-            </div>
-            <hr>
-            <div class="ps-4 pe-4 pb-2">
-                Vote buying and intimidation are prohibited.
-            </div>
-            <hr>
-            <div class="ps-4 pe-4 pb-2">
-                Displaying your ballot or discussing your vote to another person's votes is prohibited.
-            </div>
-            <hr>
-            <div class="ps-4 pe-4 pb-2">
-                Only registered voters are permitted to vote.
-            </div>
-            <hr>
-            <div class="ps-4 pe-4 pb-2">
-                After selecting one (1) candidate each position, click the Submit Vote button to successfully cast your vote.
-            </div>
-            <br>
-</div>
+            <div class="pt-4"></div>
+                <div class="ps-4 pe-4 pb-2">
+                    Select only one (1) candidate each position.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    Do not leave an empty selection.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    Vote buying and intimidation are prohibited.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    Displaying your ballot or discussing your vote to another person's votes is prohibited.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    Only registered voters are permitted to vote.
+                </div>
+                <hr>
+                <div class="ps-4 pe-4 pb-2">
+                    After selecting one (1) candidate each position, click the Submit Vote button to successfully cast your vote.
+                </div>
+                <br>
+           </div>
         </div>
     </div>
 </div>
@@ -265,7 +316,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                                 <button type="button" class="btn-close me-2"  data-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="main-color pt-2 pb-2"><b>DUTIES AND RESPONSIBILITIES</b></div>
+                                <div class="main-color pt-4 pb-2"><b>DUTIES AND RESPONSIBILITIES</b></div>
                                 <ul>
                                     <li class="pb-2">The executive power shall be vested on the <?php echo strtoupper($org_acronym) ?> president alone.</li>
                                     <li class="pb-2">He shall be the official representative of the studentry of PUP-SRC to any event or organization.</li>
@@ -276,7 +327,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                                     <li class="pb-2">He shall be the official officer speaker in any assembly concerning his leadership.</li>
                                     <li class="pb-2">He shall have the right to approve and appoint officers as committee heads and members needed in case of events.</li>
                                     <li class="pb-2">He shall have the power to nominate or to appoint any student to any branch of the <?php echo strtoupper($org_acronym) ?> Officers.</li>
-                                    <li class="pb-2">He shall not be eligible for re-election.</li>
+                                    <li>He shall not be eligible for re-election.</li>
                                 </ul>
                             </div>
                         </div>
@@ -294,7 +345,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                             ?>
                             <div class="col-lg-6 col-md-6 col-sm-12 p-xl-4">
                                 <label>
-                                    <div class="candidate-info ps-4">
+                                    <div class="pe-5 candidate-info ps-5">
                                         <img src="images/candidate-profile/placeholder.png" alt="Candidate Image" width="100px" height="100px">
                                         <div>
                                             <input type="hidden" name="position_id[<?php echo $row['position_id'] ?>][]" value="<?php echo $row['position_id'] ?>">
