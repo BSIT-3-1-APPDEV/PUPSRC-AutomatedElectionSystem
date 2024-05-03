@@ -148,7 +148,7 @@ if (isset($_SESSION['voter_id'])) {
 															<?php while ($row = $to_verify_tbl->fetch_assoc()) { ?>
 																<tr>
 																	</td>
-																	<td class="col-md-6 text-center"><a
+																	<td class="col-md-6 text-center text-truncate"><a
 																			href="validate-voter.php?voter_id=<?php echo $row["voter_id"]; ?>"><?php echo $row["email"]; ?></a>
 																	</td>
 																	<td class="col-md-6 text-center">
@@ -344,7 +344,7 @@ if (isset($_SESSION['voter_id'])) {
 																<?php while ($row = $verified_tbl->fetch_assoc()) { ?>
 																	<tr>
 																		</td>
-																		<td class="col-md-3 text-center"><a
+																		<td class="col-md-3 text-center text-truncate"><a
 																				href="voter-details.php?voter_id=<?php echo $row["voter_id"]; ?>"><?php echo $row["email"]; ?></a>
 																		</td>
 																		<td class="col-md-3 text-center">
