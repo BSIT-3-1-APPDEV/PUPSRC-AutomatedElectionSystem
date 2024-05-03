@@ -4,18 +4,23 @@
     justify-content: space-between;
     align-items: center;
   }
- 
+ .anonymous-text{
+  font-weight: 700;
+  color: #949494;
+  font-size: small;
+ }
   
   
 .positions-dropdown{
   
     border-radius: 16px;
     border: 0;
-    height: 2rem;
+    height: 1.7rem;
     font-weight: bold;
     color: #FFFFFF;
     text-align: center;
- 
+    padding-right: 5px;
+    padding-left: 5px;
     font-size: 11px;
     
 }
@@ -50,6 +55,8 @@ font-size: 0.8rem;
     padding: 0;
     font-family: 'Montserrat', sans-serif; /* Set default font to Montserrat */
   }
+
+
   .chart-container{
 
     align-items: center;
@@ -57,6 +64,108 @@ font-size: 0.8rem;
     display: flex;
     margin-left: 0px;
   }
+  .fs-20{
+    font-size: 20px;
+  }
+  .card{
+    border-radius: 15px;
+    border: none;
+  }
+  @media screen and (max-width: 450px) {
+    /* Apply styles when the width is below 450 pixels */
+    .display-adjust {
+        display: block;
+    }
+}
+  .fw-600{
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .fw-700{
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .border-left {
+    border-left: 2px solid #D0D0D0; /* Default border style */
+}
+/* Hide the dropdown symbol when there are no positions */
+.no-positions {
+  appearance: none; /* Hide the default arrow */
+  padding-right: 20px;
+  padding-left: 20px;
+
+}
+
+
+@media (max-width: 1200px) {
+    .border-left {
+        border-top: 2px solid #D0D0D0; /* Change to border-top when screen width is less than 1200px */
+        border-left: none; /* Remove border-left */
+        margin-top: 40px;
+    }
+}
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #41AE32;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #41AE32;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
   .card-edit{
     display: flex;
     align-items: center;
@@ -103,6 +212,24 @@ font-size: 0.8rem;
   font-size: 1rem;
   font-weight: bold;
   color:white;
+}
+/* Custom classes for responsive display */
+@media (max-width: 420px) {
+  .d-cm-block {
+    display: block;
+  }
+  .d-cm-flex {
+    display: none; /* or any other desired styling */
+  }
+}
+
+@media (min-width: 421px) {
+  .d-cm-block {
+    display: none; /* or any other desired styling */
+  }
+  .d-cm-flex {
+    display: flex;
+  }
 }
 
 .pink{

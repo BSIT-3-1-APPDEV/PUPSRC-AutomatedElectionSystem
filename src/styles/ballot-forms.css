@@ -1,270 +1,419 @@
 body {
-    font-family: "Montserrat", sans-serif;
-    background-color: #f2f2f2 ;
-  }
+  font-family: "Montserrat", sans-serif;
+  background-color: #f2f2f2 ;
+}
 
 main {
-  margin-left: 5%;
-  margin-right: 5%;
+margin-left: 5%;
+margin-right: 5%;
 }
-  
-  a { 
-    color: gray;
-    text-decoration: underline;
-  }
 
-  .btn-close {
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
-    padding: 0;
-    line-height: 0;
-    font-size: 10px;
-  }
+.hover-color a {
+color: gray;
+}
 
-  .greetings-blue{
-    color: #4870C4;
-    font-size: 24px;
-    display: inline;
-  }
+.font-weight1{
+font-weight: 500;
+}
 
-  .greetings-red{
-    color: #C82D26;
-    font-size: 24px;
-    display: inline;
-  }
+.font-weight2{
+font-weight: 600;
+}
 
-  .modal-body p {
-    line-height: 1.6;
-    color: black;
-  }
+.font-weight3{
+font-weight: 700;
+}
 
-  .adjust-modal .modal-dialog {
-    max-width: 700px;
-    margin: 0 auto; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+.font-weight4{
+font-weight: 800;
+}
+
+.no-underline {
+text-decoration: none;
+}
+.dark-gray a{
+  text-decoration: none;
+}
+
+.dark-gray{
+  color: #4d4d4d;
+}
+
+@media (max-width: 768px) {
+  #modalDialog {
+    max-width: 83% !important;
+  }
+}
+
+
+.btn-close {
+position: relative;
+font-size: 10px;
+background-color: #ccc;
+color: #fff;
+font-weight: bold;
+border: none;
+width: 15px; 
+height: 15px;
+border-radius: 50%;
+}
+
+
+
+.greetings-blue{
+color: #4870C4;
+font-size: 24px;
+display: inline;
+}
+
+.greetings-red{
+color: #C82D26;
+font-size: 24px;
+display: inline;
+}
+
+.modal-body p {
+line-height: 1.6;
+color: black;
+}
+
+.adjust-modal .modal-dialog {
+max-width: 700px;
+margin: 0 auto; 
+display: flex;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
 }
 
 .adjust-submit-modal .modal-dialog {
-  max-width: 400px;
-  margin: 0 auto; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+max-width: 650px;
+margin: 0 auto; 
+display: flex;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
 }
 
-
-
 .modal-header .modal-title {
-  margin: 0; 
-  flex: 1; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+margin: 0; 
+flex: 1; 
+display: flex; 
+justify-content: center; 
+align-items: center; 
 }
 
 .modal-header .btn-close {
-  margin-left: auto; 
+margin-left: auto; 
 }
 
-  .adjust-modal .modal-content {
-    width: 100%; 
+.modal-backdrop {
+  opacity: 0.5; /* Adjust the opacity as needed */
+  background-color: #000; /* Adjust the color as needed */
 }
 
-  .toggle-btn {
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .toggle-btn button {
-    background-color: transparent;
-    border: none;
-    padding-bottom: 1.5rem;
-  }
-  
-  .toggle-btn button:focus {
-    outline: none;
-  }
-  
-  .emoji-size{
-    font-size: calc(1.5rem + 1.5vw);
-  }
-  
-  .candidate-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .candidate-info img {
-    margin-right: 10px; 
-    border-radius: 10px;
-    border: 2px solid #ccc;
-  }
-  
-  .candidate-info div {
-    display: block;
-  }
-  
-  .candidate-info div:nth-child(2) {
-    white-space: nowrap;
-  }
-  
-  .candidate-info div:nth-child(2)::after {
-    content: '\A';
-    white-space: pre;
-  }
-  
-  .title {
-    background-color: white; 
-    border-radius: 10px; 
-    border: 2px solid #ccc;
-  }
-  
-  .border-frame {
-    background-color: white; 
-    border-radius: 10px; 
-    border: 2px solid #ccc;
-  }
-  
-  .title-2 {
-    color: white;
-    border-top-left-radius: 10px;  
-    border-top-right-radius: 10px;  
-    padding-top: 3%;
-    padding-bottom: 3%;
-    text-align: center;
-    letter-spacing: 2px;
-  }
+.adjust-modal .modal-content {
+width: 100%; 
+}
+
+.toggle-btn {
+display: flex;
+justify-content: flex-end;
+}
+
+.border-danger{
+  border-width: 3px !important;
+}
+
+.toggle-btn button {
+background-color: transparent;
+border: none;
+padding-bottom: 1.5rem;
+}
+
+.toggle-btn button:focus {
+outline: none;
+}
+
+.emoji-size{
+font-size: calc(1.5rem + 1.5vw);
+}
+
+.candidate-info {
+display: flex;
+align-items: center;
+}
+
+.candidate-info img {
+margin-right: 10px; 
+border-radius: 10px;
+border: 2px solid #ccc;
+}
+
+.candidate-info div {
+display: block;
+}
+
+.candidate-info div:nth-child(2) {
+white-space: nowrap;
+}
+
+.candidate-info div:nth-child(2)::after {
+content: '\A';
+white-space: pre;
+}
+
+.title {
+background-color: white; 
+border-radius: 10px; 
+border: 2px solid #ccc;
+font-weight: 700;
+font-size: 30px;
+}
 
 
-  .reminder {
-    background-color: white; 
-    border-radius: 10px; 
-    border: 2px solid #ccc;
-  }
-  
-  .reminder button {
-    border: none; 
-    background-color: #fff; 
-    cursor: pointer;
-  }
-  
-  .reminder button.selected {
-    background-color: #cce5ff; 
-  }
-  
-  .subtitle {
-    padding-left: 3% ;
-  }
+.border-frame {
+background-color: white; 
+border-radius: 10px; 
+border: 2px solid #ccc;
+}
 
-  .subtitle-2 {
-    padding-left: 12% ;
-  }
-    
-  .spacing {
-    letter-spacing: 2px;
-  }
-    
-    .text-position {
-        padding-top: 3%;
-        padding-left: 3%;
-    }
+.title-2 {
+color: white;
+border-top-left-radius: 10px;  
+border-top-right-radius: 10px;  
+padding-top: 4%;
+padding-bottom: 4%;
+text-align: center;
+letter-spacing: 2px;
+font-weight: 800;
+font-size: 18px;
+}
 
-    .button-check {
-      border-radius: 5px;
-      border: none;
-  }
-  
-    .button-submit {
-      border-radius: 5px;
-      border: none;
-      color: #fff;
-      font-weight: bold;
-      font-size: medium;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 7px;
-      padding-bottom: 7px;
-     }
-  
-     .button-reset {
-      border: none;
-      color: #bbb;
-      font-weight: bold;
-      font-size: medium;
-      background-color: none;
-     }
 
-  
-     /* --- Footer --- */
+.reminder {
+background-color: white; 
+border-radius: 10px; 
+border: 2px solid #ccc;
+}
+
+.reminder button {
+border: none; 
+background-color: #fff; 
+cursor: pointer;
+}
+
+.reminder button.selected {
+background-color: #cce5ff; 
+}
+
+.subtitle {
+padding-left: 3% ;
+}
+
+
+.spacing {
+letter-spacing: 2px;
+}
+
+.text-position {
+  padding-top: 3%;
+  padding-left: 3%;
+}
+
+.button-check {
+border-radius: 5px;
+border: none;
+}
+
+.button-submit {
+border-radius: 5px;
+border: none;
+color: #fff;
+font-weight: bold;
+font-size: medium;
+padding-left: 30px;
+padding-right: 30px;
+padding-top: 7px;
+padding-bottom: 7px;
+}
+
+.button-reset {
+border: none;
+color: #bbb;
+font-weight: bold;
+font-size: medium;
+background-color: none;
+}
+
+/* Hide the default radio button */
+input[type="radio"] {
+appearance: none;
+-webkit-appearance: none;
+-moz-appearance: none;
+width: 24px; /* Adjust the width as needed */
+height: 24px; /* Adjust the height as needed */
+border: 2px solid black;
+border-radius: 50%; /* Make it circular */
+position: relative; /* Ensure proper positioning of the ::before pseudo-element */
+}
+
+input[type="radio"]::before {
+  content: "";
+  display: inline-block;
+  width: 24px; /* Adjust the width of the outer circle */
+  height: 24px; /* Adjust the height of the outer circle */
+  border-radius: 50%; /* Make it circular */
+  position: absolute; /* Position the ::before pseudo-element relative to the radio button */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Move it back by half its size */
+}
+
+
+/* Styling when radio button is checked */
+input[type="radio"]:checked::before {
+width: 16px; /* Adjust the width of the inner circle when checked */
+height: 16px; /* Adjust the height of the inner circle when checked */
+top: 50%; /* Center vertically */
+left: 50%; /* Center horizontally */
+}
+
+/* --- Footer --- */
 .footer {
-  width: 100%;
-  background-color: #fff;
-  padding: 15px;
-  position: relative;
-  bottom: 0;
-  max-width: 100%;
-  left: 0;
+width: 100%;
+background-color: #fff;
+padding: 15px;
+position: relative;
+bottom: 0;
+max-width: 100%;
+left: 0;
 }
 
 .footer-left {
-  margin-left: 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+margin-left: 5%;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
 }
 
 .footer-right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
 }
 
 .vertical-line {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0; 
-  right: 0;
-  margin: auto;
-  width: 2.61px;
-  height: 70%;
-  background-color: #e7e7e7 !important;
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0; 
+right: 0;
+margin: auto;
+width: 2.61px;
+height: 70%;
+background-color: #e7e7e7 !important;
 }
 
 .horizontal-line {
-  width: 80%;
-  height: 2px;
-  background-color: #e7e7e7;
+width: 80%;
+height: 2px;
+background-color: #e7e7e7;
 }
 
 .footer-left, .footer-right {
-  flex: 1; /* Equal width for both sections */
+flex: 1; /* Equal width for both sections */
 }
 
 .footer-right {
-  margin-left: 20px; /* Add some spacing between sections */
+margin-left: 20px; /* Add some spacing between sections */
 }
 
 .soc-med-icons {
-  height: 22px;
-  transition: ease transform 0.2s;
+height: 22px;
+transition: ease transform 0.2s;
 }
 
 .soc-med-icons:hover {
-  transform: translateY(-5px);
-  cursor: pointer;
+transform: translateY(-5px);
+cursor: pointer;
 }
 
-      
-      
-      /* --- End: Footer --- */
+/* --- FEATHER ICONS SIZES --- */
 
-  
-  
+fs-12 {
+font-size: 0.5rem;
+}
+
+.w-35 {
+width: 35% !important;
+}
+
+.link:hover {
+color: #4169E1 !important;
+}
+
+.flex-end {
+display: flex;
+justify-content: flex-end;
+}
+
+/* --- FEATHER ICONS SIZES --- */
+
+.im-cust-2 {
+margin-bottom: 0.188rem !important;
+margin-right: 0.1rem !important
+}
+
+.im-cust {
+margin-bottom: 0.188rem !important;
+margin-right: 0.5rem !important
+}
+
+.feather-2xs {
+width: 0.625em;
+height: 0.625em;
+}
+
+.feather-xs {
+width: 0.875em;
+height: 0.875em;
+}
+
+.feather-sm {
+width: 1em;
+height: 1em;
+}
+
+.feather-lg {
+width: 1.25em;
+height: 1.25em;
+}
+
+.feather-xl {
+width: 1.5em;
+height: 1.5em;
+}
+
+.feather-2xl {
+width: 2em;
+height: 2em;
+}
+
+.main-red {
+color: #ea423c !important;
+}
+
+.main-blue {
+color: #5d83d1 !important;
+}
+
+.link-blue {
+color: #4169E1;
+}
+
+/* --- End: Footer --- */
+
+
