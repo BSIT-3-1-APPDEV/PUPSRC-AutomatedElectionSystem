@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="src/styles/election-schedule.css">
+<?php require_once FileUtils::normalizeFilePath('includes/error-reporting.php'); ?>
 
 <main class="main">
     <div class="container px-md-3 px-lg-5 px-sm-2 p-4 ">

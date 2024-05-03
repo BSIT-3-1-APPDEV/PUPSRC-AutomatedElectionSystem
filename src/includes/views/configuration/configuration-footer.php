@@ -1,5 +1,6 @@
 <!-- Modify Sidebar relative paths affected by routing page requests -->
 <?php
+require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 // Capture the output of including the sidebar file
 ob_start();
 include_once FileUtils::normalizeFilePath(Path::COMPONENTS_PATH . '/footer.php');

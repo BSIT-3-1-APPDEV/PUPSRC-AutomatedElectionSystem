@@ -3,6 +3,7 @@ include_once str_replace('/', DIRECTORY_SEPARATOR,  'file-utils.php');
 require_once FileUtils::normalizeFilePath('../session-handler.php');
 require_once FileUtils::normalizeFilePath('../model/configuration/candidate-pos-model.php');
 require_once FileUtils::normalizeFilePath('../model/configuration/endpoint-response.php');
+require_once FileUtils::normalizeFilePath('../error-reporting.php');
 
 
 class CandidatePositionController extends CandidatePosition

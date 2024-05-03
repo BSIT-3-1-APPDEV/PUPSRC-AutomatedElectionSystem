@@ -1,3 +1,5 @@
+<?php require_once FileUtils::normalizeFilePath('includes/error-reporting.php'); ?>
+
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.bootstrap5.css">
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet" />
 <link rel="stylesheet" href="src/styles/candidate-position.css">

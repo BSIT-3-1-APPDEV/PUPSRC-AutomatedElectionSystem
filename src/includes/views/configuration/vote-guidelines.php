@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.bootstrap5.css">
 <link rel="stylesheet" href="src/styles/candidate-position.css">
 <link rel="stylesheet" href="src/styles/voting-guideline.css">
+<?php require_once FileUtils::normalizeFilePath('includes/error-reporting.php'); ?>
 
 <main class="main">
     <div class="container px-md-3 px-lg-5 px-sm-2 p-4 ">

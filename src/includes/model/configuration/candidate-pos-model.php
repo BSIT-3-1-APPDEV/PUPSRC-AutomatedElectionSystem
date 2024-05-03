@@ -2,6 +2,7 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR,  '../classes/file-utils.php');
 require_once '../classes/db-config.php';
 require_once '../classes/db-connector.php';
+require_once FileUtils::normalizeFilePath('../error-reporting.php');
 
 
 class CandidatePosition

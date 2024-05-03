@@ -1,3 +1,5 @@
+<?php require_once FileUtils::normalizeFilePath('includes/error-reporting.php'); ?>
+
 <link rel="stylesheet" href="src/styles/configuration.css">
 <link rel="stylesheet" href="src/styles/config-ballot-form.css">
 <link rel="stylesheet" href="src/styles/configuration.css">

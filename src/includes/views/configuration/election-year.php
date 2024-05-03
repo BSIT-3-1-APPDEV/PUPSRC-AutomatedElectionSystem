@@ -1,3 +1,5 @@
+<?php require_once FileUtils::normalizeFilePath('includes/error-reporting.php'); ?>
+
 <link rel="stylesheet" href="vendor/plugin/air-datepicker/dist/css/datepicker.min.css">
 <link rel="stylesheet" href="src/styles/election-year.css">
 
