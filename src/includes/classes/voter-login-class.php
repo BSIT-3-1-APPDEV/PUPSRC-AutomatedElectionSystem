@@ -85,17 +85,20 @@ class Login{
         if($row['status'] == 'For Verification') {
             unsetSessionVar();    
             $_SESSION['info_message'] = 'This account is under verification.';
+            header("Location: ../voter-login.php");
             exit();
         } 
         elseif($row['status'] == 'Inactive') {
             unsetSessionVar();
             $_SESSION['error_message'] = 'This account has been disabled.'; 
+            header("Location: ../voter-login.php");
             exit();          
         } 
         elseif($row['status'] == 'Rejected') {
             $_SESSION['email'] =  $_POST['email'];
             $_SESSION['password'] = $_POST['password'];
             $_SESSION['error_message'] = 'This account was rejected.';  
+            header("Location: ../voter-login.php");
             exit();      
         } 
         elseif($row['status'] == 'Active') {
@@ -146,10 +149,12 @@ class Login{
         }
         elseif($row['status'] == 'Inactive') { 
             $_SESSION['error_message'] = 'This account has been disabled.';  
+            header("Location: ../admindashboard.php");
             exit();         
         } 
         else {
             $_SESSION['error_message'] = 'Something went wrong.';
+            header("Location: ../admindashboard.php");
             exit();
         }
         header("Location: ../voter-login.php");
