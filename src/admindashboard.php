@@ -91,7 +91,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'Committee Member' || 
 
         <div class="container px-md-3 px-lg-5 px-sm-2 p-4 justify-content-center d-flex ">
         <div class="col-md-12 my-3 p-0 mx-0">
-            <div class="card p-4 my-5">
+            <div class="card p-4 mb-5 mt-3">
             <div class="card-body">
 
            
