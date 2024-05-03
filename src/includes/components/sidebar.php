@@ -137,46 +137,20 @@
 				<a href="archive.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'archive.php' ? 'active' : ''; ?>"><i data-feather="archive" class="white mb-xl-1"></i><span style="padding-left: 1rem">Archive</span></a>
 			</li>
 
-			<!-- <li class="item">
-				<a href="configuration.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'configuration.php' ? 'active' : ''; ?>"><i data-feather="settings" class="white mb-xl-1"></i><span style="padding-left: 1rem">Configuration</span></a>
-			</li> -->
-
 			<li class="item">
-				<div class="submenu-item <?=
+				<a href="configuration.php" class="<?=
 
-											# ---- MANAGE CANDIDATES PAGES
-											(basename($_SERVER['PHP_SELF']) == 'configuration.php' ||
-												basename($_SERVER['PHP_SELF']) == 'ballot-form' ||
-												basename($_SERVER['PHP_SELF']) == 'vote-schedule' ||
-												basename($_SERVER['PHP_SELF']) == 'election-year' ||
-												basename($_SERVER['PHP_SELF']) == 'vote-guidelines' ||
-												basename($_SERVER['PHP_SELF']) == 'positions')
-												? 'active' : ''; ?>" data-bs-toggle="collapse" href="#configurations" id="submenuToggle" data-bs-parent="false">
-
-					<div class="submenu-content">
-						<i data-feather="settings" class="white mb-xl-1"></i>
-						<span style="padding-left: 0.7rem;">Configurations</span>
-					</div>
-
-					<i class="fas fa-chevron-right" id="submenuIcon"></i>
-				</div>
-				<ul class="menu-items submenu collapse" id="configurations">
-					<li class="item">
-						<a href="configuration.php/ballot-form" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['configuration.php', 'ballot-form']) ? 'active-sub fw-bold' : ''; ?>">Ballot Form</a>
-					</li>
-					<li class="item">
-						<a href="configuration.php/vote-schedule" class="<?= basename($_SERVER['PHP_SELF']) == 'vote-schedule' ? 'active-sub fw-bold' : ''; ?>">Schedule</a>
-					</li>
-					<li class="item">
-						<a href="configuration.php/election-year" class="<?= basename($_SERVER['PHP_SELF']) == 'election-year' ? 'active-sub fw-bold' : ''; ?>">Election Year</a>
-					</li>
-					<li class="item">
-						<a href="configuration.php/vote-guidelines" class="<?= basename($_SERVER['PHP_SELF']) == 'vote-guidelines' ? 'active-sub fw-bold' : ''; ?>">Voting Guidelines</a>
-					</li>
-					<li class="item">
-						<a href="configuration.php/positions" class="<?= basename($_SERVER['PHP_SELF']) == 'positions' ? 'active-sub fw-bold' : ''; ?>">Candidate Positions</a>
-					</li>
-				</ul>
+													# ---- CONFIGURATION PAGES
+													(basename($_SERVER['PHP_SELF']) == 'configuration.php' ||
+														basename($_SERVER['PHP_SELF']) == 'ballot-form' ||
+														basename($_SERVER['PHP_SELF']) == 'vote-schedule' ||
+														basename($_SERVER['PHP_SELF']) == 'election-year' ||
+														basename($_SERVER['PHP_SELF']) == 'vote-guidelines' ||
+														basename($_SERVER['PHP_SELF']) == 'positions')
+														? 'active' : ''; ?>
+				">
+					<i data-feather="settings" class="white mb-xl-1"></i><span style="padding-left: 1rem">Configuration</span>
+				</a>
 			</li>
 		</ul>
 	</div>
