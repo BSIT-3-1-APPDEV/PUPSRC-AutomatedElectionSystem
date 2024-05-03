@@ -37,14 +37,14 @@ SessionManager::checkUserRoleAndRedirect();
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
+          <li class="nav-item fw-medium">
             <a class="nav-link" href="landing-page.php">Home</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item fw-medium">
             <a class="nav-link" href="about-us.php">About Us</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">Register</a>
+            <a class="nav-link active" href="register.php">Register</a>
           </li>
         </ul>
       </div>

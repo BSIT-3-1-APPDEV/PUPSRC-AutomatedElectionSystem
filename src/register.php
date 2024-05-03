@@ -45,7 +45,7 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 
     <link rel="stylesheet" href="styles/dist/register.css">
-    <title>Login</title>
+    <title>Register</title>
 </head>
 
 <body>
