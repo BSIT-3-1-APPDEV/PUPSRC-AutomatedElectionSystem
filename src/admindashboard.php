@@ -71,6 +71,8 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
     .full-screen-content.centered{
      
         margin-top: 20vh !important;
+        margin-left: 100px !important;
+        margin-right: 100px !important;
    
    
     }
@@ -91,7 +93,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
             <div class="card-body">
 
            
-                    <h4 class="fw-700 ms-3">Hey there, <span class="main-color fw-700"> <?php echo $first_name . "!";?> </span> </h4>
+                    <h3 class="fw-700 ms-3">Hey there, <span class="main-color fw-700"> <?php echo $first_name . "!";?> </span> </h3>
                     <small class="ms-3 fw-600">Welcome to your dashboard.</small>
                     </div>
                     </div>  
@@ -104,22 +106,29 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
             <button id="reset-button" class="d-none">Hide Candidates</button>
                 <div class="full-screen-content">
             <div class="live-results-container">
-            <div class="row justify-content-center">
+         
                 
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12  justify-content-between d-flex mb-2">
                     <h4 class="main-color main-text ms-2">LIVE RESULTS</h4>
-                    </div>
-                    
-                    <div class="col-sm-12 col-md-6 text-end ">
-                    <select id="positions" class="positions-dropdown main-bg-color mb-2 mt-2">
+               
+                    <select id="positions" class="positions-dropdown main-bg-color<?php if (empty($positions)) echo ' no-positions'; ?>">
     <?php
-    // Loop through positions array to generate options
-    foreach ($positions as $position) {
-        echo "<option value=\"$position\">$position</option>";
+    // Check if there are positions available
+    if (empty($positions)) {
+        echo "<option value='' disabled selected>No positions available</option>";
+    } else {
+        // Loop through positions array to generate options
+        foreach ($positions as $position) {
+            echo "<option value=\"$position\">$position</option>";
+        }
     }
     ?>
 </select>
-                    </div>
+
+                  
+                  
+                    
+                   
                     </div>
               
             </div>
