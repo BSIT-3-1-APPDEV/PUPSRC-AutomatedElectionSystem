@@ -77,7 +77,8 @@
   @media (max-width: 480px) {
     width: 40px;
     height: 40px;
-    margin-left: -20px;
+    margin-top: 1px;
+    margin-left: -30px;
   }
 }
 .card-candidate h3, .card-runnerup h3{
@@ -138,7 +139,7 @@
   @media (max-width: 480px) {
     font-size: 15px;
     margin-right: 5px;
-    margin-top: 14px;
+    margin-top: 11px;
   }
 }
 .card-runnerup{
@@ -212,6 +213,10 @@
 
 .btn-election:hover {
   color: #ffffff;
+}
+.no-avail-candidate{
+  color: black;
+  font-weight: 500;
 }
 body {
   display: flex;
