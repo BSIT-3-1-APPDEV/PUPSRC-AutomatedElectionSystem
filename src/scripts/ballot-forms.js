@@ -109,13 +109,7 @@ document.getElementById('submitModalButton').addEventListener('click', function(
 
 });
 
-// Dismiss the modal when the "Cancel" button is clicked
-document.getElementById('cancelModalButton').addEventListener('click', function() {
-var modal = document.getElementById('confirmationModal');
-modal.setAttribute('aria-hidden', 'true');
-modal.style.display = 'none';
-document.body.classList.remove('modal-open');
-});
+
 
 
 
