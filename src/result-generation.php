@@ -3,6 +3,7 @@ include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
+include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 
 if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) {
