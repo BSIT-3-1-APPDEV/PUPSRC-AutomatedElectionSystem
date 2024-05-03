@@ -204,7 +204,7 @@ function updateChart(candidatesData) {
 
                 ctx.restore();
 
-                const TEXT_X = args.meta.data[i].x + IMG_WIDTH + (0.05 * IMG_WIDTH);
+                const TEXT_X = args.meta.data[i].x + IMG_WIDTH + (0.30 * IMG_WIDTH);
                 const TEXT_Y = args.meta.data[i].y;
 
                 ctx.textAlign = 'start';
@@ -302,7 +302,7 @@ function createChart(labels, dataPoints, imgUrls) {
 
                         ctx.restore();
 
-                        const TEXT_X = args.meta.data[i].x + IMG_WIDTH + (0.05 * IMG_WIDTH);
+                        const TEXT_X = args.meta.data[i].x + 60;
                         const TEXT_Y = args.meta.data[i].y;
 
                         ctx.textAlign = 'start';

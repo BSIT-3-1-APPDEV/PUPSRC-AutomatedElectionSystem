@@ -22,8 +22,9 @@ function validateForm(event) {
                     candidateName = radioButton.parentNode.querySelector('div.ps-4 > div.font-weight2').textContent.trim(); // Get only the full name
                 }
 
+                
                 var candidateHTML = candidateName ? '<div>' + candidateName + '</div>' : ''; // Check if candidate name is not empty
-                var imageSrc = reminder.parentNode.querySelector('img').getAttribute('src'); // Get candidate image source
+                var imageSrc = reminder.querySelector('img').getAttribute('src'); // Get candidate image source
 
                 // Wrap each pair in a row
                 if (pairCounter % 2 === 0) {
