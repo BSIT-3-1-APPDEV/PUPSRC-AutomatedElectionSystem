@@ -57,7 +57,6 @@ if (isset($_SESSION['voter_id'])) {
                                     COMMITTEE</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -68,7 +67,7 @@ if (isset($_SESSION['voter_id'])) {
                             <div class="container-fluid">
                                 <div class="card-box">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-10">
                                             <h2 class="form-title">Create Admin Account</h2>
                                         </div>
                                     </div>
@@ -82,8 +81,7 @@ if (isset($_SESSION['voter_id'])) {
                                                                 class="required"> * </span> </label>
                                                         <input type="text" id="last_name" name="last_name"
                                                             placeholder="Enter Last Name" required pattern="^[a-zA-Z]+$"
-                                                            maxlength="20"
-                                                            title="Last name can only contain alphabetic characters and should not exceed 20 characters">
+                                                            maxlength="20">
                                                         <span class="error-message" id="last_name_error"></span>
                                                     </div>
                                                 </div>
@@ -93,8 +91,7 @@ if (isset($_SESSION['voter_id'])) {
                                                                 class="required"> * </span> </label>
                                                         <input type="text" id="first_name" name="first_name"
                                                             placeholder="Enter First Name" required pattern="^[a-zA-Z]+$"
-                                                            maxlength="20"
-                                                            title="First name can only contain alphabetic characters and should not exceed 20 characters">
+                                                            maxlength="50">
                                                         <span class="error-message" id="first_name_error"></span>
                                                     </div>
                                                 </div>
@@ -104,8 +101,7 @@ if (isset($_SESSION['voter_id'])) {
                                                                 class="required"> * </span> </label>
                                                         <input type="text" id="middle_name" name="middle_name"
                                                             placeholder="Enter Middle Name" required pattern="^[a-zA-Z]+$"
-                                                            maxlength="20"
-                                                            title="Middle name can only contain alphabetic characters and should not exceed 20 characters">
+                                                            maxlength="20">
                                                         <span class="error-message" id="middle_name_error"></span>
                                                     </div>
                                                 </div>
@@ -116,8 +112,7 @@ if (isset($_SESSION['voter_id'])) {
                                                         <label for="email" class="login-danger">Email<span class="required"> *
                                                             </span> </label>
                                                         <input type="email" id="email" name="email" placeholder="Email" required
-                                                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-                                                            title="Please enter a valid email address">
+                                                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
                                                         <span class="error-message" id="email_error"></span>
                                                     </div>
                                                 </div>
@@ -132,12 +127,10 @@ if (isset($_SESSION['voter_id'])) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="d-flex justify-content-end">
-                                                <div class="d-flex flex-row">
-                                                    <button type="reset" class="reset-button">Reset Form</button>
-                                                    <button type="submit" value="Submit" class="button-create">Create
-                                                        Account</button>
-                                                </div>
+                                            <div class="d-flex flex-md-row flex-column justify-content-end align-items-center">
+                                                <button type="reset" class="reset-button">Reset Form</button>
+                                                <button type="submit" value="Submit" class="button-create mb-2 mb-md-0">Create
+                                                    Account</button>
                                             </div>
                                         </form>
                                     </div>
@@ -198,7 +191,10 @@ if (isset($_SESSION['voter_id'])) {
                     <?php unset($_SESSION['account_created']); ?>
                 <?php } ?>
             });
+
+           
         </script>
+
         <?php
     } else {
         // User is not authorized to access this page
