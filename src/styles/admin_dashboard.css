@@ -4,7 +4,11 @@
     justify-content: space-between;
     align-items: center;
   }
- 
+ .anonymous-text{
+  font-weight: 700;
+  color: #949494;
+  font-size: small;
+ }
   
   
 .positions-dropdown{

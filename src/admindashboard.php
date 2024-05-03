@@ -42,6 +42,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
     <title>Admin Dashboard</title>
 
     <!-- Montserrat Font -->
@@ -146,11 +147,15 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
     </div>
     
 </div>
+<div class="row">
 <div class="justify-content-end d-flex mt-2" >
+<span class="me-2 mt-2 anonymous-text d-none">Anonymous</span>
+
 <label class="switch d-none" id="switch">
   <input type="checkbox">
   <span class="slider round"></span>
 </label>
+</div>
 </div>
 </div>
 

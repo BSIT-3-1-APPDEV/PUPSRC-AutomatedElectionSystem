@@ -19,6 +19,7 @@ SessionManager::checkUserRoleAndRedirect();
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>iVote</title>
+  <title>iVote</title>
 
   <!-- Montserrat Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,6 +30,8 @@ SessionManager::checkUserRoleAndRedirect();
 <body id="index-body">
 <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
   <div class="container">
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container">
       <!-- <a class="navbar-brand" href="#">Your Brand</a> -->
       <img src="images/resc/ivote-icon-2.png" id="ivote-logo-landing-header" alt="ivote-logo">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,12 +40,15 @@ SessionManager::checkUserRoleAndRedirect();
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item fw-medium">
+          <li class="nav-item fw-medium">
             <a class="nav-link" href="landing-page.php">Home</a>
           </li>
+          <li class="nav-item fw-medium">
           <li class="nav-item fw-medium">
             <a class="nav-link" href="about-us.php">About Us</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link active" href="register.php">Register</a>
             <a class="nav-link active" href="register.php">Register</a>
           </li>
         </ul>
@@ -92,6 +98,7 @@ SessionManager::checkUserRoleAndRedirect();
   </section>
 
   <footer class="footer">
+  <footer class="footer">
     <div class="custom-shape-divider-top-1713266907">
       <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
         <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
@@ -99,6 +106,7 @@ SessionManager::checkUserRoleAndRedirect();
         <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
       </svg>
     </div>
+    <div class="container-fluid footer-body">
     <div class="container-fluid footer-body">
       <div class="row">
       <div class="col-md-6 footer-left pt-xl-4 px-xl-5 d-flex justify-content-center flex-column d-flex">
@@ -108,7 +116,16 @@ SessionManager::checkUserRoleAndRedirect();
           <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
           <div class="vertical-line"></div>
         </div>
+      <div class="col-md-6 footer-left pt-xl-4 px-xl-5 d-flex justify-content-center flex-column d-flex">
+        <div>
+        <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
+          <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.</p>
+          <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
+          <div class="vertical-line"></div>
         </div>
+        </div>
+        
+        <div class="col-md-2 footer-middle">
         
         <div class="col-md-2 footer-middle">
           <div class="row">
@@ -122,8 +139,12 @@ SessionManager::checkUserRoleAndRedirect();
               <a href="https://www.facebook.com/ELITE.PUPSRC">ELITE</a>
               <a href="https://www.facebook.com/educgive">GIVE<br></a>
               <a href="https://www.facebook.com/PUPSRCJEHRA">JEHRA</a>
+              <a href="https://www.facebook.com/PUPSRCJEHRA">JEHRA</a>
             </div>
             <div class="col-md-3">
+            <a href="https://www.facebook.com/JMAPPUPSRCOfficial">JMAP</a>
+            <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA <br></a>
+            <a href="https://www.facebook.com/piiepup">PIIE</a>
             <a href="https://www.facebook.com/JMAPPUPSRCOfficial">JMAP</a>
             <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA <br></a>
             <a href="https://www.facebook.com/piiepup">PIIE</a>
@@ -131,6 +152,8 @@ SessionManager::checkUserRoleAndRedirect();
             </div>
           </div>
         </div>
+        <div class="col-md-3 footer-right">
+          <div>
         <div class="col-md-3 footer-right">
           <div>
           <p class="credits-footer">Contact Us</p>
@@ -177,3 +200,4 @@ SessionManager::checkUserRoleAndRedirect();
 </body>
 
 </html>
+

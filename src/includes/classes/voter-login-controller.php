@@ -5,8 +5,10 @@ require_once FileUtils::normalizeFilePath('voter-login-class.php');
 class LoginController extends Login {
     private $email;
     private $password;
+    private $login;
 
     public function __construct($email, $password) {
+        $this->login = new Login();
         $this->email = $email;
         $this->password = $password;
     }
@@ -25,7 +27,7 @@ class LoginController extends Login {
         }
     
         // Proceed with user login process
-        $this->getUser($this->email, $this->password);
+        $this->login->getUser($this->email, $this->password);
     }
     
     // Check for empty email and password
