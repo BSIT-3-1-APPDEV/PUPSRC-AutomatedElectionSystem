@@ -32,53 +32,34 @@
 			</li>
 
 			<li class="item">
-				<div id="submenuToggle" class="submenu-item <?php echo
+				<div class="submenu-item <?php echo
 
 						# ---- MANAGE ACCOUNTS PAGES
-					(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
+						(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
 						basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
 						basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
-						basename($_SERVER['PHP_SELF']) == 'voter-details.php' ||
+						basename($_SERVER['PHP_SELF']) == 'voter-details.php'||
 						basename($_SERVER['PHP_SELF']) == 'admin-creation.php')
-					? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" data-bs-parent="false">
-
+						? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" id="submenuToggle" data-bs-parent="false">
+					
 					<div class="submenu-content">
 						<i data-feather="users" class="white mb-xl-1"></i>
 						<span style="padding-left: 0.7rem;">Manage Users</span>
 					</div>
 
 					<i class="fas fa-chevron-right" id="submenuIcon"></i>
-
-					<script>
-						document.addEventListener("DOMContentLoaded", function () {
-							var submenuToggle = document.getElementById("submenuToggle");
-							var submenuIcon = document.getElementById("submenuIcon");
-
-							submenuToggle.addEventListener("click", function () {
-								if (submenuIcon.classList.contains("fa-chevron-right")) {
-									submenuIcon.classList.remove("fa-chevron-right");
-									submenuIcon.classList.add("fa-chevron-down");
-								} else {
-									submenuIcon.classList.remove("fa-chevron-down");
-									submenuIcon.classList.add("fa-chevron-right");
-								}
-								submenuIcon.style.transition = "transform 0.5s ease";
-							});
-						});
-					</script>
-
 				</div>
 				<ul class="menu-items submenu collapse" id="manageAccounts">
 
 					<li class="item">
 						<a href="manage-voters.php" class="<?php echo
 
-								# ---- VOTERS PAGES
-							(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
-								basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
-								basename($_SERVER['PHP_SELF']) == 'voter-details.php')
-							? 'active-sub fw-bold' : ''; ?>">
-							Voters</a>
+						# ---- VOTERS PAGES
+						(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
+						basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
+						basename($_SERVER['PHP_SELF']) == 'voter-details.php')
+						? 'active-sub fw-bold' : ''; ?>">
+						Voters</a>
 
 					</li>
 
@@ -95,38 +76,21 @@
 			</li>
 
 			<li class="item">
-				<div id="submenuToggle2" class="submenu-item <?php echo
+				<div class="submenu-item <?php echo
 
 						# ---- MANAGE CANDIDATES PAGES
-					(basename($_SERVER['PHP_SELF']) == 'manage-candidates.php' ||
+						(basename($_SERVER['PHP_SELF']) == 'manage-candidates.php' ||
 						basename($_SERVER['PHP_SELF']) == 'add-candidate.php')
-					? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageCandidates" data-bs-parent="false">
+						? 'active' : ''; ?>"
+						
+					data-bs-toggle="collapse" href="#manageCandidates" id="submenuToggle" data-bs-parent="false">
 
 					<div class="submenu-content">
 						<i data-feather="user-plus" class="white mb-xl-1"></i>
 						<span style="padding-left: 0.7rem;">Candidates</span>
 					</div>
 
-					<i class="fas fa-chevron-right" id="submenuIcon2"></i>
-
-					<script>
-						document.addEventListener("DOMContentLoaded", function () {
-							var submenuToggle = document.getElementById("submenuToggle2");
-							var submenuIcon = document.getElementById("submenuIcon2");
-
-							submenuToggle.addEventListener("click", function () {
-								if (submenuIcon.classList.contains("fa-chevron-right")) {
-									submenuIcon.classList.remove("fa-chevron-right");
-									submenuIcon.classList.add("fa-chevron-down");
-								} else {
-									submenuIcon.classList.remove("fa-chevron-down");
-									submenuIcon.classList.add("fa-chevron-right");
-								}
-								submenuIcon.style.transition = "transform 0.5s ease";
-							});
-						});
-					</script>
-
+					<i class="fas fa-chevron-right" id="submenuIcon"></i>
 				</div>
 				<ul class="menu-items submenu collapse" id="manageCandidates">
 					<li class="item">
