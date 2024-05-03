@@ -2,8 +2,9 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
-if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['status'] == 'Active')) {
+if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['status'] == 'Active'))  {
 
  // if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'Voted')){
 
@@ -47,9 +48,10 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
   <div class="container">
-    <a class="navbar-brand spacing" href="#">
+  <div class="container">
+    <div class="navbar-brand spacing">
       <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
-    </a>
+   </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
