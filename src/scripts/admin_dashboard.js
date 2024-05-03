@@ -21,8 +21,9 @@ XHR.onreadystatechange = function() {
                     
                 });
                 fetchedCandidatesData.forEach((candidate, index) => {
-                    candidate.lastName = index + 1; // Adding 1 to start numbering from 1
+                    candidate.lastName = '#' + (index + 1); // Adding '#' before the number
                 });
+                
                 fetchedCandidatesData.forEach((candidate, index) => {
                     candidate.photoUrl = 'placeholder.png'; // Adding 1 to start numbering from 1
                 });
@@ -185,7 +186,7 @@ function updateChart(candidatesData) {
 
                 ctx.beginPath();
                 ctx.arc(args.meta.data[i].x + (IMG_WIDTH / 1.7), args.meta.data[i].y, args.meta.data[i].height / 2, 0, Math.PI * 2);
-                ctx.strokeStyle = '#F45B9b';
+                ctx.strokeStyle = LIGHTER_SHADES;
                 ctx.lineWidth = 1;
                 ctx.stroke();
                 ctx.closePath();
@@ -206,11 +207,15 @@ function updateChart(candidatesData) {
                 ctx.textAlign = 'start';
                 ctx.fillStyle = 'black';
                 ctx.font = `bold ${FONT_SIZE}px Montserrat`;
-                ctx.fillText(candidatesData[i].firstName + ' ' + candidatesData[i].lastName, TEXT_X, TEXT_Y);
-
+                if (shouldSwapNames) {
+                ctx.fillText(candidatesData[i].firstName.toUpperCase() + ' ' + candidatesData[i].lastName.toUpperCase(), TEXT_X, TEXT_Y);
+            } else {
+                ctx.fillText(candidatesData[i].firstName.toUpperCase() + ', ' + candidatesData[i].lastName.toUpperCase(), TEXT_X, TEXT_Y);
+            }
+                ctx.fillStyle = LIGHTER_SHADES;
                 const SMALL_TEXT_Y = args.meta.data[i].y + FONT_SIZE - 1;
                 ctx.font = `bold ${FONT_SIZE - 5.3}px Montserrat`;
-                ctx.fillText('Votes: ' + candidatesData[i].votesCount, TEXT_X, SMALL_TEXT_Y);
+                ctx.fillText(candidatesData[i].votesCount + ' votes ' , TEXT_X, SMALL_TEXT_Y);
             };
 
             IMG.onerror = function() {
@@ -253,8 +258,10 @@ function createChart(labels, dataPoints, imgUrls) {
                     }
                 },
                 x: {
+                    
                     display: false,
-                    grace: '200%%',
+                    grace: '200%',
+                    
                     grid: {
                         display: false
                     }
@@ -277,7 +284,7 @@ function createChart(labels, dataPoints, imgUrls) {
 
                         ctx.beginPath();
                         ctx.arc(args.meta.data[i].x + (IMG_WIDTH / 1.7), args.meta.data[i].y, args.meta.data[i].height / 2, 0, Math.PI * 2);
-                        ctx.strokeStyle = '#F45B9b';
+                        ctx.strokeStyle = LIGHTER_SHADES;
                         ctx.lineWidth = 1;
                         ctx.stroke();
                         ctx.closePath();
@@ -298,11 +305,17 @@ function createChart(labels, dataPoints, imgUrls) {
                         ctx.textAlign = 'start';
                         ctx.fillStyle = 'black';
                         ctx.font = `bold ${FONT_SIZE}px Montserrat`;
-                        ctx.fillText(labels[i][0] + ' ' + labels[i][1], TEXT_X, TEXT_Y);
+                         if (shouldSwapNames) {
+                    ctx.fillText(labels[i][0].toUpperCase() + ' ' + labels[i][1].toUpperCase(), TEXT_X, TEXT_Y);
+                } else {
+                    ctx.fillText(labels[i][0].toUpperCase() + ', ' + labels[i][1].toUpperCase(), TEXT_X, TEXT_Y);
+                }
 
+
+                        ctx.fillStyle = LIGHTER_SHADES;
                         const SMALL_TEXT_Y = args.meta.data[i].y + FONT_SIZE - 1;
                         ctx.font = `bold ${FONT_SIZE - 5.3}px Montserrat`;
-                        ctx.fillText('Votes: ' + dataPoints[i], TEXT_X, SMALL_TEXT_Y);
+                        ctx.fillText( dataPoints[i] + ' votes' , TEXT_X, SMALL_TEXT_Y);
                     };
 
                     IMG.onerror = function() {
