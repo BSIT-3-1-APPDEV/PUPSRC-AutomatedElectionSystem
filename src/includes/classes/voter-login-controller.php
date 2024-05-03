@@ -1,6 +1,7 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/file-utils.php');
-require_once FileUtils::normalizeFilePath('voter-login-class.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/voter-login-class.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/../error-reporting.php');
 
 class LoginController extends Login {
     private $email;

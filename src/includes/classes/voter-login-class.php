@@ -3,6 +3,7 @@ include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/file-utils.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/db-connector.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/../get-ip-address.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/../unset-email-password.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/../error-reporting.php');
 
 class Login{
 

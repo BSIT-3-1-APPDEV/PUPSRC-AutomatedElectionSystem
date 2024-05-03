@@ -1,7 +1,8 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/file-utils.php');
-require_once FileUtils::normalizeFilePath('../session-handler.php');
-require_once FileUtils::normalizeFilePath('db-config.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/../session-handler.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/db-config.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/../error-reporting.php');
 
 class LandingPageController {
     public function processSelectedOrg(){
