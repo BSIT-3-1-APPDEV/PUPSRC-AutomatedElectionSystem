@@ -702,10 +702,16 @@ footer {
 .connect-with-us {
   width: 25px;
   margin: 2%;
+  transition: transform 0.3s ease;
 }
+
 .connect-with-us-footer {
   width: 20px;
   margin: 2%;
+}
+
+.connect-with-us:hover, .connect-with-us-footer:hover {
+  transform: scale(1.1); 
 }
 
 .about-us-icon {
