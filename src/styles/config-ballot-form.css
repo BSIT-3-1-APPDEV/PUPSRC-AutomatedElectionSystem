@@ -10,6 +10,10 @@ main.main .handle .fa-grip-lines.fas::before, main.main .handle .fa-grip-lines.f
   box-sizing: border-box;
 }
 
+main.main {
+  min-height: 100dvh;
+}
+
 @media only screen and (max-width: 600px) {
   h1,
   .fs-1 {

@@ -195,6 +195,10 @@ class CandidatePosition {
         // console.log(JSON.stringify(DATA));
         if (isAdd) {
             edit_position_modal.querySelector('.modal-title').textContent = 'Add New Position';
+        } else {
+
+            edit_position_modal.querySelector('.modal-title').textContent = 'Edit a Candidate Position';
+
         }
 
 
@@ -410,21 +414,6 @@ class EditPositionModal {
 }
 
 
-// if (longPressHandlers.has(element)) {
-//     const { touchStart, cancelTouch } = longPressHandlers.get(element);
-//     element.removeEventListener('touchstart', touchStart);
-//     element.removeEventListener('touchend', cancelTouch);
-//     element.removeEventListener('touchmove', cancelTouch);
-// }
-
-// // Create new longPressHandlers
-// const touchStart = touchStartHandler(callback);
-// longPressHandlers.set(element, { touchStart, cancelTouch: cancelTouch });
-
-// // Add new longPressHandlers
-// element.addEventListener('touchstart', touchStart);
-// element.addEventListener('touchend', cancelTouch);
-// element.addEventListener('touchmove', cancelTouch);
 
 function onSavePosition(INPUT_ELEMENT, TEXT_EDITOR) {
     console.log('saving');
@@ -464,7 +453,6 @@ let edit_position_modal = CandidatePosition.createModal(POSITION_MODAL_ID,
     });
 
 
-console.log("edit_position_modal " + JSON.stringify(edit_position_modal));
 
 function handleTableRowLongPress(event) {
     console.log('hold event ' + JSON.stringify(event.target));
@@ -555,7 +543,7 @@ function handleInput(event) {
     typingTimeout = setTimeout(() => {
         try {
             console.log('typed');
-            if (position_validate.validate(inputElement)) {
+            if (position_validate.validate(inputElement, setTextEditableWidth)) {
                 inputElement.style.outline = '';
                 let form_data = getForm(inputElement);
                 postData(form_data)
@@ -673,8 +661,20 @@ let table = new DataTable('#example', {
         CandidatePosition.addTableListener('example');
 
         document.getElementById('add-new').addEventListener('click', function () {
-            let rowData = DTableUtil.AddRowData('example');
-            table.row.add(rowData).draw(false);
+            let blankRowData = DTableUtil.AddRowData('example');
+            table.row.add(blankRowData).draw(false);
+            console.log("new row blank " + blankRowData);
+            console.log("new row blank " + JSON.stringify(blankRowData));
+
+            let rowData = [
+                {
+                    'input_id': 'text-editable-' + blankRowData[1].sequence,
+                    'data_id': blankRowData[1].data_id,
+                    'sequence': blankRowData[1].sequence,
+                    'value': blankRowData[1].value,
+                    'description': blankRowData[2]
+                }
+            ];
 
             quill = new Quill('#posDescrptn', {
                 modules: {
@@ -743,6 +743,7 @@ table.on('row-reorder', function (e, diff, edit) {
 
 table.on('draw', function () {
     if (table.data().any()) {
+        CandidatePosition.addTableListener('example');
         const textEditableElements = getAllTextEditable();
         textEditableElements.forEach(function (element) {
             setTextEditableWidth(element);

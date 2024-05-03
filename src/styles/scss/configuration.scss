@@ -4,6 +4,17 @@
     --border-gray: #d9d9d9;
 }
 
+html,
+body {
+    margin: 0;
+    height: 100%;
+}
+
+%table-row-height {
+    min-height: calc(1rem + 3vw);
+    height: calc(1rem + 3vw);
+}
+
 body {
     scrollbar-gutter: stable;
 
@@ -158,14 +169,6 @@ body {
     }
 }
 
-
-nav.navbar {
-    top: 0;
-}
-
-div.footer {
-    bottom: 0;
-}
 
 div.secondary-nav-container {
     @media only screen and (max-width: 780px) {

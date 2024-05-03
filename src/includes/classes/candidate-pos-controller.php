@@ -45,26 +45,60 @@ class CandidatePositionController extends CandidatePosition
 
     private function sanitizeData($data)
     {
-        $sanitizedData = []; // Create an empty array to store sanitized data
-        // Loop through each object in the $data array
+        $sanitizedData = [];
         foreach ($data as $item) {
-            $sanitizedItem = []; // Create an empty array to store sanitized item
-            // Loop through each key-value pair in the object
+            $sanitizedItem = [];
             foreach ($item as $key => $value) {
-                // If the value is a string, apply htmlspecialchars to it
+
                 if (is_string($value)) {
                     $sanitizedItem[$key] = htmlspecialchars($value);
+                } elseif (is_array($value)) {
+                    // quick fix for sanitation
+                    $sanitizedItem[$key] = $this->sanitizeArray($value);
                 } else {
-                    // If not a string, keep the value as is
                     $sanitizedItem[$key] = $value;
                 }
             }
-            // Add the sanitized item to the sanitizedData array
+
             $sanitizedData[] = $sanitizedItem;
         }
-        // Return the sanitized data
         return $sanitizedData;
     }
+
+    private function sanitizeArray($array)
+    {
+        $sanitizedArray = [];
+
+        if (array_key_exists('ops', $array)) {
+            $data = $array['ops'];
+
+            $sanitizedString = [];
+            foreach ($data as $key => $element) {
+                $sanitizedString[$key] = $element;
+                if (is_array($element) && array_key_exists('insert', $element)) {
+                    $sanitizedString[$key]['insert'] = htmlspecialchars($element['insert']);
+                }
+            }
+
+            $sanitizedArray = [
+                'ops' => $sanitizedString
+            ];
+        } else {
+            foreach ($array as $element) {
+                if (is_array($element)) {
+                    // If it's an array, sanitize each element recursively
+                    $sanitizedArray[] = $this->sanitizeArray($element);
+                } elseif (is_string($element)) {
+                    $sanitizedArray[] = htmlspecialchars($element);
+                } else {
+                    // If not a string or array, keep the value as is
+                    $sanitizedArray[] = $element;
+                }
+            }
+        }
+        return $sanitizedArray;
+    }
+
 
 
     private function selectValidation()

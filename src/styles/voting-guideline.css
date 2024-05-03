@@ -1,216 +1,74 @@
-main .fa-grip-lines.fa::before,
-main .fa-grip-lines.fas::before {
-  font-size: max(1vw, 1rem);
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.dt-rowReorder-float input[type=text].text-editable, main input[type=text].text-editable {
-  padding-left: calc(0.25rem + 0.2dvw);
-  margin-left: calc(0.5rem + 0.2dvw);
-  outline: none;
-  background-color: transparent;
-  border: none;
-  max-width: calc(100% - 1px);
-  font-size: calc(0.75rem + 0.6575vw);
-}
-.dt-rowReorder-float input[type=text].text-editable:focus-visible, main input[type=text].text-editable:focus-visible {
-  outline: 0.5px solid #0075FF;
-}
-
-button.add-new, main table.table tbody tr {
-  min-height: calc(1rem + 3vw);
-  height: calc(1rem + 3vw);
-}
-
-main {
-  height: calc(100dvh - 104.95px);
-}
-main .fa,
-main .fas {
-  color: var(--border-gray);
-}
-main .btn:not(nav.navbar .btn):not(nav.sidebar .btn):active {
-  box-shadow: none !important;
-}
-main .btn:not(nav.navbar .btn):not(nav.sidebar .btn).btn-primary {
-  border: calc(0.25rem + 0.2vw) solid var(--main-color);
-}
-main .btn:not(nav.navbar .btn):not(nav.sidebar .btn).btn-primary:disabled {
-  opacity: 0.7;
-  filter: brightness(120%);
-}
-main .btn:not(nav.navbar .btn):not(nav.sidebar .btn).btn-secondary:not(:disabled) {
-  border: calc(0.25rem + 0.2vw) solid var(--secondary-color);
-}
-main .btn:not(nav.navbar .btn):not(nav.sidebar .btn).btn-success:not(:disabled) {
-  border: calc(0.25rem + 0.2vw) solid rgb(7, 136, 95);
-}
-main button.del {
-  font-weight: bold;
-  position: relative;
-}
-main button.del span.icon.trash {
-  padding: 1rem 0.25rem;
-}
-main button.del span.icon.trash svg {
-  transform: translateY(-8%);
-}
-@media only screen and (max-height: 600px) {
-  main .dt-scroll-body {
-    height: clamp(4.5rem, 3rem + 45dvh, 70dvh);
-  }
-}
-main table.table {
-  margin-bottom: 0px;
-  border: calc(0.5px + 0.06dvw) solid rgb(217, 217, 217);
-}
-main table.table tbody tr {
-  cursor: pointer;
-}
-main table.table tbody tr td {
-  vertical-align: middle;
-}
-main table.table tbody tr td.grab {
-  cursor: -webkit-grab;
-  cursor: grab;
-}
-main table.table tbody tr.selected {
-  border: calc(0.5px + 0.1vw) solid #0075FF;
+main.main {
+  min-height: 100dvh;
 }
 
 @media only screen and (max-width: 600px) {
-  body div.modal .modal-dialog .modal-header .modal-title {
+  h1,
+  .fs-1 {
+    font-size: calc(1.45rem + 1.25vw);
+  }
+  h2,
+  .fs-2 {
+    font-size: calc(1.18rem + 1.25vw);
+  }
+  h3,
+  .fs-3 {
+    font-size: calc(1rem + 1.25vw);
+  }
+  h4,
+  .fs-4 {
+    font-size: calc(1rem + 1vw);
+  }
+  h5,
+  .fs-5 {
+    font-size: calc(1rem + 0.6575vw);
+  }
+  h6,
+  .fs-6 {
     font-size: calc(0.75rem + 0.6575vw);
   }
+  .container-fluid .content-margin {
+    margin: 1.75rem calc(0.25rem + 8vw);
+  }
 }
-body div.modal .modal-dialog label[for=positionInput] {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-shadow: 0.031px 0.031px var(--border-gray);
+}
+h1.page-title,
+h2.page-title,
+h3.page-title,
+h4.page-title,
+h5.page-title,
+h6.page-title {
   color: var(--main-color);
-  font-weight: 800;
-}
-body div.modal .modal-dialog #positionInput {
-  outline: none;
-  border-top: 0;
-  border-right: 0;
-  border-left: 0;
-  border-radius: 0;
-  border-bottom: clamp(1px, 1px + 0.01dvw, 5px) solid var(--main-color);
-  padding-left: 0;
-  padding-right: 0;
-}
-body div.modal .modal-dialog #positionInput.form-control:active, body div.modal .modal-dialog #positionInput.form-control:focus {
-  box-shadow: none;
-  border-bottom: clamp(2px, 1.5px + 0.01dvw, 5px) solid var(--main-color);
-}
-body div.modal .modal-dialog button.btn.btn-secondary {
-  box-shadow: none !important;
-  background-color: var(--bs-modal-bg) !important;
-}
-body div.modal .modal-dialog button.btn.btn-secondary:active, body div.modal .modal-dialog button.btn.btn-secondary:hover {
-  filter: grayscale(100%);
-  box-shadow: var(--bs-box-shadow-sm) !important;
-}
-body div.modal .modal-dialog button.modal-close {
-  color: var(--main-color);
-  background-color: var(--white);
-}
-body div.modal .modal-dialog button.modal-close svg circle {
-  color: transparent;
-}
-body div.modal .modal-dialog button.modal-close:hover {
-  background-color: var(--main-color);
-  filter: grayscale(100%);
-}
-body div.modal .modal-dialog button.modal-close:hover svg circle,
-body div.modal .modal-dialog button.modal-close:hover svg line {
-  stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
-  color: var(--white);
-}
-@media only screen and (max-height: 600px) {
-  body div.modal .modal-dialog .ql-container {
-    height: clamp(6rem, 3rem + 9dvh, 50dvh);
-  }
-  body div.modal .modal-dialog .ql-editor {
-    height: clamp(4.5rem, 1.5rem + 8.5dvh, 49.5dvh);
-  }
-}
-@media only screen and (min-height: 601px) {
-  body div.modal .modal-dialog .ql-container {
-    height: clamp(6.25rem, 3rem + 35dvh, 50dvh);
-  }
-  body div.modal .modal-dialog .ql-editor {
-    height: clamp(4.75rem, 1.5rem + 34dvh, 49.5dvh);
-  }
-}
-
-.dt-rowReorder-float {
-  vertical-align: middle;
-  cursor: -webkit-grabbing;
-  cursor: grabbing;
-}
-.dt-rowReorder-float input[type=text].text-editable {
-  font-weight: bold;
-}
-
-tr.dt-rowReorder-moving {
-  outline: calc(0.5px + 0.06dvw) dotted #0075FF;
-}
-tr.dt-rowReorder-moving input[type=text].text-editable {
-  font-weight: bold;
-}
-
-div.dt-rowReorder-float-parent {
-  outline: calc(1px + 0.1dvw) solid var(--main-color);
-  border-radius: none;
-}
-
-.dt-scroll-foot {
-  display: none;
-}
-
-div.dt-container div.row.mt-2.justify-content-md-center:last-child {
-  margin-top: 0 !important;
-}
-
-.card-box + div.toolbar {
-  display: flex;
-  margin-top: max(1dvw, 0.75rem);
-  align-items: center;
-  justify-content: space-between;
-}
-.card-box + div.toolbar button {
+  text-transform: uppercase;
   font-weight: 700;
-  border-radius: 15px;
-  position: relative;
-}
-.card-box + div.toolbar button[data-selected]:not([data-selected=""])::before {
-  content: attr(data-selected);
-  visibility: visible;
-  position: absolute;
-  top: -0.75em;
-  right: -0.75em;
-  width: 1.5em;
-  height: 1.5em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: red;
-  color: var(--white);
-}
-.card-box + div.toolbar button::before {
-  visibility: hidden;
+  margin-top: max(1dvw, 0.5rem);
+  margin-bottom: max(2dvw, 1rem);
 }
 
-button.add-new {
-  width: 100%;
-  border: calc(1px + 0.06dvw) solid rgb(217, 217, 217);
-  background: rgb(245, 245, 245);
-  font-size: calc(0.75rem + 0.6575vw);
-  font-weight: bold;
-  color: rgb(134, 134, 134);
+@media only screen and (min-width: 600px) {
+  .container-fluid .content-margin {
+    margin: 1.75rem calc(4rem + 5vw);
+  }
 }
-button.add-new:hover {
-  background: rgb(236, 236, 236);
-  font-weight: bolder;
-  color: var(--black);
-  cursor: crosshair;
+.org-txt-primary {
+  color: var(--main-color);
+}
+
+.org-bg-primary {
+  background-color: var(--main-color);
 }/*# sourceMappingURL=voting-guideline.css.map */

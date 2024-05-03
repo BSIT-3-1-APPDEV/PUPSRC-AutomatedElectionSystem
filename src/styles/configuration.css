@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+main.main {
+  min-height: 100dvh;
+}
+
 @media only screen and (max-width: 600px) {
   h1,
   .fs-1 {
@@ -71,6 +75,12 @@ h6.page-title {
 
 :root {
   --border-gray: #d9d9d9;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
 }
 
 body {
@@ -171,14 +181,6 @@ body .ql-toolbar {
 body .ql-editor {
   transform: translateY(-1%);
   margin-top: 0;
-}
-
-nav.navbar {
-  top: 0;
-}
-
-div.footer {
-  bottom: 0;
 }
 
 @media only screen and (max-width: 780px) {

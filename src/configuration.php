@@ -14,7 +14,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php'
 $is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role']) && strtolower($_SESSION['role']) === 'committee member' && !empty($_SESSION['organization']);
 
 if (!$is_page_accessible) {
-    header("location: landing-page.php");
+    header("location: ../landing-page.php");
     exit();
 }
 regenerateSessionId();
@@ -50,7 +50,7 @@ include 'includes/session-exchange.php';
     <meta property="og:title" content="<?= $pageHead->getTitle(); ?>">
     <meta property="og:type" content="article">
     <meta property="og:url" content="<?= $pageHead->getUrl(); ?>">
-    <meta property="og:image" content="http://example.com/image.jpg">
+    <meta property="og:image" content="src/images/resc/ivote-logo.png">
     <meta property="og:description" content="<?= $pageHead->getDescription(); ?>">
     <meta name="description" content="<?= $pageHead->getDescription(); ?>">
 
