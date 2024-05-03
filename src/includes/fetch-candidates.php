@@ -1,6 +1,8 @@
 <?php
-require_once '../includes/classes/db-connector.php';
-require_once '../includes/session-handler.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('session-handler.php');
+require_once FileUtils::normalizeFilePath('classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('error-reporting.php');
 
     $org_name = $_SESSION['organization'] ?? '';
 
