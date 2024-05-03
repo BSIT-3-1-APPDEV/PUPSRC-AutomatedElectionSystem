@@ -75,12 +75,14 @@ var reminderError = reminder.querySelector('.text-danger');
         // If all fields are valid, display the modal with form preview
         event.preventDefault(); // Prevent form submission
 
-        document.getElementById('confirmationModal').classList.add('show');
+        $('#confirmationModal').modal('show');
+
+        /*document.getElementById('confirmationModal').classList.add('show');
         document.getElementById('confirmationModal').style.display = 'block';
         document.body.classList.add('modal-open');
         document.getElementById('confirmationModal').setAttribute('aria-modal', true);
         document.getElementById('confirmationModal').setAttribute('aria-hidden', false);
-        document.getElementById('confirmationModal').setAttribute('role', 'dialog');
+        document.getElementById('confirmationModal').setAttribute('role', 'dialog'); */
 
         document.getElementById('selectedCandidate').innerHTML = selectedCandidateHTML;
     }
@@ -107,13 +109,7 @@ document.getElementById('submitModalButton').addEventListener('click', function(
 
 });
 
-// Dismiss the modal when the "Cancel" button is clicked
-document.getElementById('cancelModalButton').addEventListener('click', function() {
-var modal = document.getElementById('confirmationModal');
-modal.setAttribute('aria-hidden', 'true');
-modal.style.display = 'none';
-document.body.classList.remove('modal-open');
-});
+
 
 
 
@@ -130,7 +126,20 @@ document.querySelectorAll('input[type="text"]').forEach((textInput) => {
 
 // Function to show the vote submitted modal
 function showVoteSubmittedModal() {
-$('#voteSubmittedModal').modal('show');
+    // First, create the backdrop element
+var backdrop = document.createElement('div');
+backdrop.classList.add('modal-backdrop');
+document.body.appendChild(backdrop);
+
+// Then, add classes and attributes to the modal
+var modal = document.getElementById('voteSubmittedModal');
+modal.classList.add('show');
+modal.style.display = 'block';
+document.body.classList.add('modal-open');
+modal.setAttribute('aria-modal', true);
+modal.setAttribute('aria-hidden', false);
+modal.setAttribute('role', 'dialog');
+//$('#voteSubmittedModal').modal('show');
 }
 
 // Close modals when clicking on the close button
@@ -153,24 +162,3 @@ if (urlParams.has('success')) {
     }); 
 }
 };
-
-
-  // Prevent modal from being dismissed
-  $('#voteSubmittedModal').modal({
-    backdrop: 'static',
-    keyboard: false
-  });
-
-  // Prevent modal from being dismissed by clicking on backdrop
-  $('#voteSubmittedModal').on('click', function(event) {
-    if ($(event.target).hasClass('modal')) {
-      return false;
-    }
-  });
-
-  // Prevent modal from being dismissed by pressing ESC key
-  $(document).on('keydown', function(event) {
-    if (event.keyCode === 27 && $('#voteSubmittedModal').is(':visible')) {
-      return false;
-    }
-  });
