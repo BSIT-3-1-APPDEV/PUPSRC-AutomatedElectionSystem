@@ -156,6 +156,8 @@ if (isset($_SESSION['info_message'])) {
                                 Please enter a valid email address.
                             </div>
                         </div>
+                        <div id="email-sent-message" class="email-confirmation mt-2">Kindly check your email. An email has
+                        been sent.</div>
                         <div class="col-md-12 ">
                             <div class="row reset-pass">
                                 <div class="col-4">
@@ -167,8 +169,7 @@ if (isset($_SESSION['info_message'])) {
                             </div>
                         </div>
                     </form>
-                    <div id="email-sent-message" class="email-confirmation mt-2">Kindly check your email. An email has
-                        been sent.</div>
+
                 </div>
             </div>
         </div>
