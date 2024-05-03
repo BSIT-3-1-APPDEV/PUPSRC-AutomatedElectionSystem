@@ -344,7 +344,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                             <div class="col-lg-6 col-md-6 col-sm-12 p-xl-4">
                                 <label>
                                     <div class="pe-5 candidate-info ps-5">
-                                        <img src="images/candidate-profile/placeholder.png" alt="Candidate Image" width="100px" height="100px">
+                                        <img src="images/candidate-profile/<?php echo $row_candidates['photo_url'] ?>" alt="Candidate Image" width="100px" height="100px">
                                         <div>
                                             <input type="hidden" name="position_id[<?php echo $row['position_id'] ?>][]" value="<?php echo $row['position_id'] ?>">
                                             <input type="hidden" name="candidate_id[<?php echo $row_candidates['candidate_id'] ?>][]" value="<?php echo $row_candidates['candidate_id'] ?>">
@@ -404,6 +404,11 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 
 <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
 
+
+<?php
+// PHP code to fetch $row_candidates['photo_url']
+$imageSrc = 'images/candidate-profile/' . $row_candidates['photo_url'];
+?>
 
   <script src="../src/scripts/feather.js"></script>
   <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.js"></script>
