@@ -46,7 +46,7 @@ if (isset($_SESSION['info_message'])) {
 
     <link rel="stylesheet" href="styles/dist/landing.css">
     <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
-      <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
+    <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
     <title>Login</title>
 </head>
 
@@ -79,28 +79,26 @@ if (isset($_SESSION['info_message'])) {
             <div class="col-md-6 login-right-section">
 
                 <div>
-                    <form action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>                
+                    <form action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
                         <h1 class="login-account">Account Log In</h1>
                         <p>Sign in to your account</p>
 
                         <div class="d-flex align-items-center justify-content-center mb-0 pb-0">
-    <!-- Displays error message -->
-    <?php if (isset($error_message)) : ?>
-        <div class="fw-medium border border-danger bg-transparent text-danger alert alert-danger alert-dismissible fade show d-flex align-items-center custom-alert" role="alert">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 16">
-                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
-                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
-            </svg>
-            <div class="d-flex align-items-center">
-                <span class="pe-1"><?php echo $error_message; ?></span>
-                <!-- <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"></button> -->
-            </div>
-        </div>
-    <?php endif; ?>
-</div>
+                            <!-- Displays error message -->
+                            <?php if (isset($error_message)) : ?>
+                                <div class="fw-medium border border-danger text-danger alert alert-danger alert-dismissible fade show  custom-alert" role="alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 16">
+                                        <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
+                                        <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                                    </svg>
+                                    <div class="d-flex align-items-center">
+                                        <span class="pe-1"><?php echo $error_message; ?></span>
+                                        <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
 
-
-                        <!--Displays info message-->
                         <?php if (isset($info_message)) : ?>
                             <div class="fw-medium border border-primary bg-transparent text-primary alert alert-primary alert-dismissible fade show d-flex align-items-center" role="alert">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle flex-shrink-0 me-2" viewBox="0 0 16 16">
@@ -114,7 +112,7 @@ if (isset($_SESSION['info_message'])) {
                             </div>
                         <?php endif; ?>
 
-                        <div class="col-md-12 mt-4 mb-3">
+                        <div class="col-md-12 mt-0 mb-3">
                             <input type="email" class="form-control" id="Email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" value="<?php if (isset($_SESSION['email'])) echo $_SESSION['email']; ?>">
                         </div>
 
@@ -140,7 +138,7 @@ if (isset($_SESSION['info_message'])) {
     </div>
 
     <!-- Modals -->
-    <div class="modal fade" id="forgot-password-modal"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="forgot-password-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="m justify-content-center">
@@ -148,7 +146,7 @@ if (isset($_SESSION['info_message'])) {
                     </h1>
                 </div>
                 <div class="modal-body">
-                    <form action="includes/send-password-reset.php" method="post" class="needs-validation" id="add-new-profile-form" novalidate enctype="multipart/form-data">
+                    <form action="includes/send-password-reset.php" method="post" class="needs-validation" id="forgot-password-form" name="forgot-password-form" novalidate enctype="multipart/form-data">
                         <div class="col-12 col-md-12">
                             <div class="d-flex align-items-start">
                                 <label for="email" class="form-label">Email Address</label>
@@ -159,22 +157,45 @@ if (isset($_SESSION['info_message'])) {
                                 Please enter a valid email address.
                             </div>
                         </div>
-                        <!-- <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" name="send-email-btn" type="submit" onclick="showEmailSentMessage()">Send Email</button> -->
-                        <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn" onclick="showEmailSentMessage()">Send</button>
-
+                        <div id="email-sent-message" class="email-confirmation mt-2">Kindly check your email. An email has
+                        been sent.</div>
+                        <div class="col-md-12 ">
+                            <div class="row reset-pass">
+                                <div class="col-4">
+                                    <button  type="button" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn" onclick="showEmailSentMessage()">Send</button>
+                                </div>
+                            </div>
+                        </div>
                     </form>
 
-                    <!-- Message will appear oncec clicked the send email -->
-                    <div id="email-sent-message" class="email-confirmation mt-2">Kindly check your email. An email has
-                        been sent.</div>
                 </div>
-                <!-- <div class="col-12 col-md-12">
-                <button class="btn login-sign-in-button w-100" id="<?php echo strtoupper($org_name); ?>-login-button" name="send-email" type="submit" onclick="showEmailSentMessage()">Send Email</button>
-            </div> -->
             </div>
         </div>
     </div>
 
+
+    <!-- Disabled and enables the send button -->
+    <script>
+        const form = document.querySelector('form[name="forgot-password-form"]');
+        const submitBtn = form.querySelector('button[name="send-email-btn"]');
+
+        submitBtn.disabled = true;
+
+    
+        form.addEventListener('input', function() {
+            if (form.checkValidity()) {
+
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        });
+    </script>
+
+        <!-- Message when clicking the send button -->
     <script>
         function showEmailSentMessage() {
             document.getElementById("email-sent-message").style.display = "block";
