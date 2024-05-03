@@ -20,11 +20,15 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if ($user === NULL) {
-    die("Token not found.");
+    $_SESSION['error_message'] = 'Reset link was not found.';
+    header("Location: voter-login.php");
+    exit();
 }
 
 if (strtotime($user["reset_token_expires_at"]) <= time()) {
-    die("Token has expired");
+    $_SESSION['error_message'] = 'Reset link has expired.';
+    header("Location: voter-login.php");
+    exit();
 }
 
 ?>
