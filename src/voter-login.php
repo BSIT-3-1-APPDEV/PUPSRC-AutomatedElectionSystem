@@ -159,7 +159,7 @@ if (isset($_SESSION['info_message'])) {
                         <div class="col-md-12 ">
                             <div class="row reset-pass">
                                 <div class="col-4">
-                                    <button class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
+                                    <button  type="button" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                                 <div class="col-4">
                                     <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn" onclick="showEmailSentMessage()">Send</button>
