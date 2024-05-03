@@ -23,10 +23,7 @@ unsetSessionVar();
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>iVote</title>
-  <title>iVote</title>
 
-  <!-- Montserrat Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <!-- Montserrat Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +33,6 @@ unsetSessionVar();
 </head>
 
 <body id="index-body">
-  <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
   <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
       <!-- <a class="navbar-brand" href="#">Your Brand</a> -->
@@ -73,7 +69,6 @@ unsetSessionVar();
         </div>
       </div>
       <div class="index-wave-footer" id="organizations">
-      <div class="index-wave-footer" id="organizations">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
           <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
         </svg>
@@ -83,11 +78,9 @@ unsetSessionVar();
 
   <!-- Normal section -->
   <section class="organizations">
-  <section class="organizations">
     <form action="includes/classes/landing-page-controller.php" method="post">
       <div class="container-fluid">
         <h2 class="landing-organization-title"><span class="hello-text">Hello,</span> Isko’t Iska!</h2>
-        <p class="landing-organization-subtitle">- Select your Organization - </p>
         <p class="landing-organization-subtitle">- Select your Organization - </p>
 
         <div class="container-fluid">
@@ -117,7 +110,6 @@ unsetSessionVar();
               </button>
             </div>
 
-            <div class="col-md-3 mb-4" id="index-AECES">
             <div class="col-md-3 mb-4" id="index-AECES">
               <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['elite']; ?>" class="landing-page-org-card" id="ELITE-landing-logo">
                 <img src="images/logos/elite.png" alt="ELITE Logo" class="landing-page-logo-size">
@@ -182,15 +174,7 @@ unsetSessionVar();
       </svg>
     </div>
     <div class="container-fluid footer-body">
-    <div class="container-fluid footer-body">
       <div class="row">
-        <div class="col-md-6 footer-left pt-xl-4 px-xl-5 d-flex justify-content-center flex-column d-flex">
-          <div>
-            <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
-            <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.</p>
-            <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
-            <div class="vertical-line"></div>
-          </div>
         <div class="col-md-6 footer-left pt-xl-4 px-xl-5 d-flex justify-content-center flex-column d-flex">
           <div>
             <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
@@ -200,7 +184,7 @@ unsetSessionVar();
           </div>
         </div>
 
-        <div class="col-md-3 footer-middle">
+        <div class="col-md-2 footer-middle">
           <div class="row">
             <p class="credits-footer">Visit</p>
             <div class="col-md-3">
@@ -212,11 +196,8 @@ unsetSessionVar();
               <a href="https://www.facebook.com/ELITE.PUPSRC">ELITE</a>
               <a href="https://www.facebook.com/educgive">GIVE<br></a>
               <a href="https://www.facebook.com/PUPSRCJEHRA">JEHRA</a>
-              <a href="https://www.facebook.com/PUPSRCJEHRA">JEHRA</a>
             </div>
             <div class="col-md-3">
-              <a href="https://www.facebook.com/JMAPPUPSRCOfficial">JMAP</a>
-              <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA <br></a>
               <a href="https://www.facebook.com/JMAPPUPSRCOfficial">JMAP</a>
               <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA <br></a>
               <a href="https://www.facebook.com/piiepup">PIIE</a>
@@ -224,10 +205,6 @@ unsetSessionVar();
             </div>
           </div>
         </div>
-        <div class="col-md-3 footer-right">
-          <div>
-            <p class="credits-footer">Contact Us</p>
-            <p>Email us at <a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
         <div class="col-md-3 footer-right">
           <div>
             <p class="credits-footer">Contact Us</p>
