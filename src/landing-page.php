@@ -22,19 +22,18 @@ unsetSessionVar();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
-  <title>PUP Automated Election System</title>
+  <title>iVote</title>
 
-<!-- Montserrat Font -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- Montserrat Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
 
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
 </head>
 
 <body id="index-body">
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
       <!-- <a class="navbar-brand" href="#">Your Brand</a> -->
       <img src="images/resc/ivote-icon-2.png" id="ivote-logo-landing-header" alt="ivote-logo">
@@ -69,7 +68,7 @@ unsetSessionVar();
           <a href="#organizations" type="button" class="btn btn-primary fw-bold index-button" id="">Select Organization</a>
         </div>
       </div>
-      <div class="index-wave-footer">
+      <div class="index-wave-footer" id="organizations">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
           <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
         </svg>
@@ -78,11 +77,11 @@ unsetSessionVar();
   </section>
 
   <!-- Normal section -->
-  <section id="organizations" class="organizations">
+  <section class="organizations">
     <form action="includes/classes/landing-page-controller.php" method="post">
       <div class="container-fluid">
         <h2 class="landing-organization-title"><span class="hello-text">Hello,</span> Isko’t Iska!</h2>
-        <p class="landing-organization-subtitle">- Select your organization - </p>
+        <p class="landing-organization-subtitle">- Select your Organization - </p>
 
         <div class="container-fluid">
           <div class="row justify-content-center text-center">
@@ -111,7 +110,7 @@ unsetSessionVar();
               </button>
             </div>
 
-            <div class="col-md-3 mb-4" id="index-ELITE">
+            <div class="col-md-3 mb-4" id="index-AECES">
               <button type="submit" name="submit_btn" value="<?php echo $org_acronyms['elite']; ?>" class="landing-page-org-card" id="ELITE-landing-logo">
                 <img src="images/logos/elite.png" alt="ELITE Logo" class="landing-page-logo-size">
                 <h5 class="fw-bold pt-2 text-uppercase"><?php echo $org_acronyms['elite']; ?></h5>
@@ -174,15 +173,18 @@ unsetSessionVar();
         <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
       </svg>
     </div>
-    <div class="container-fluid mt-auto py-3 footer-body">
+    <div class="container-fluid footer-body">
       <div class="row">
-        <div class="col-md-6">
-          <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
-          <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.</p>
-          <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
-
+        <div class="col-md-6 footer-left pt-xl-4 px-xl-5 d-flex justify-content-center flex-column d-flex">
+          <div>
+            <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
+            <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.</p>
+            <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
+            <div class="vertical-line"></div>
+          </div>
         </div>
-        <div class="col-md-3">
+
+        <div class="col-md-2 footer-middle">
           <div class="row">
             <p class="credits-footer">Visit</p>
             <div class="col-md-3">
@@ -193,20 +195,24 @@ unsetSessionVar();
             <div class="col-md-3">
               <a href="https://www.facebook.com/ELITE.PUPSRC">ELITE</a>
               <a href="https://www.facebook.com/educgive">GIVE<br></a>
-              <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA</a>
+              <a href="https://www.facebook.com/PUPSRCJEHRA">JEHRA</a>
             </div>
             <div class="col-md-3">
-              <a href="https://www.facebook.com/PUPSRCJEHRA">JEHRA</a>
+              <a href="https://www.facebook.com/JMAPPUPSRCOfficial">JMAP</a>
+              <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA <br></a>
               <a href="https://www.facebook.com/piiepup">PIIE</a>
 
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <p class="credits-footer">Contact Us</p>
-          <p>Email us at <a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
+        <div class="col-md-3 footer-right">
+          <div>
+            <p class="credits-footer">Contact Us</p>
+            <p>Email us at <a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
 
-          <p><span class="ivote-email"><a href="about-us.php">About Us</a> | <a href="#">Our Story</a></span></p>
+            <p><span class="ivote-email"><a href="about-us.php">About Us | </a>  <a href="#">Our Story</a></span></p>
+
+          </div>
         </div>
       </div>
     </div>

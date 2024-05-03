@@ -26,7 +26,7 @@ input[type='password'] {
 #index-PUPSRC {
   color: #c82d26 !important;
   text-shadow: 
-    -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white,
+    -2px -1px 0 white, 2px -1px 0 white, -2px 1px 0 white, 2px 1px 0 white,
     -1px 0 0 white, 1px 0 0 white, 0 -1px 0 white, 0 1px 0 white,
     2px 2px 4px rgba(255, 255, 255, 0.5); /* Adjust text shadow for the specific element */
   padding-top: 10px;
@@ -36,7 +36,7 @@ input[type='password'] {
 #index-AES {
   color: #5d83d3 !important;
   text-shadow: 
-    -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white,
+    -2px -1px 0 white, 2px -1px 0 white, -2px 1px 0 white, 2px 1px 0 white,
     -1px 0 0 white, 1px 0 0 white, 0 -1px 0 white, 0 1px 0 white,
     2px 2px 4px rgba(0, 0, 0, 0.5); /* Adjust text shadow for the specific element */
   padding-bottom: 2%;
@@ -99,7 +99,7 @@ input[type='password'] {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 5%;
+  margin-bottom: 0%;
 }
 
 .parallax-text {
@@ -112,7 +112,8 @@ input[type='password'] {
   color: #c82d26;
   text-align: center;
   font-weight: bold;
-  padding-top: 5%;
+  padding-top: 0%;
+  margin: 0%;
 }
 
 .hello-text {
@@ -543,7 +544,13 @@ a {
 }
 
 /* Header*/
-.navbar {
+#mainNav {
+  background-color: white;
+  opacity: 95%;
+  min-height: 55px;
+}
+
+#login-navbar {
   background-color: white;
   min-height: 55px;
 }
@@ -601,8 +608,42 @@ footer {
 
 .footer-body {
   background-color: #e7e7e7;
-  padding-left: 10%;
+  padding-left: 5%;
+  
 }
+
+.footer-left {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-middle{
+  padding-left: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-right {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.vertical-line {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  height: 40%; /* Adjust the height of the vertical line as needed */
+  width: 3px; /* Adjust the width of the vertical line as needed */
+  background-color: white !important; /* Color of the vertical line */
+}
+
 
 .ivote-logo#footer {
   width: 200px;
@@ -663,6 +704,11 @@ footer {
   z-index: 1000;
 }
 
+
+.input-group#reset-password::after {
+display: none;
+}
+
 #password-toggle {
   background-color: #fff;
   width: 75px;
@@ -670,8 +716,11 @@ footer {
   font-size: 13px;
 }
 
-
-
+.reset-pass{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
 /* Forgot Password Modal */
@@ -714,17 +763,39 @@ span {
   text-align: start;
 }
 
+.cancel-button{
+  background-color: #CDCDCD  !important;
+  font-weight: bold;
+  color: #515050;
+}
+
+.cancel-button:hover{
+  background-color: #9c9c9c  !important;
+  font-weight: bold;
+  color: #292929;
+}
+
+
 /* Alert Messages */
 .custom-alert {
   width: 100%;
-  max-width: 250px;
-  font-size: 11px;
+  max-width: 400px;
+  font-size: 14px;
   padding: 3%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  height: 48px;
+  background-color: rgba(238, 28, 35, 0.03); /* Background color with 80% opacity */
 }
+
+.btn-close {
+ padding: 0%;
+ margin: 0%;
+ height: 10%;
+}
+
 
 /* Reset password page */
 .reset-password-body {
@@ -756,14 +827,18 @@ span {
 .reset-password-password {
   background-color: transparent;
   border-radius: 100px;
-  border: 2px solid #999999; /* Changed border declaration to shorthand */
+  border: 2px solid #999999;
+  border-right: none;
+  padding: 2%;
 }
 
-#reset-password-toggle {
+#reset-password-toggle-1, #reset-password-toggle-2 {
   background-color: #fff;
-  width: 50px;
+  width: 75px;
   padding-right: 3%;
   color: #999999;
+  border: 2px solid #999999;
+  border-left: none;
 }
 
 .new-password {
@@ -774,55 +849,8 @@ span {
   padding-left: 1%;
   padding-right: 1%;
   font-size: 12px;
-}
-
-/* 
-.inputGroup {
-  margin: 1em 0 1em 0;
-  position: relative;
-}
-
-.inputGroup input {
-  font-size: 100%;
-  padding: 0.8em;
-  outline: none;
-  border: 2px solid rgb(200, 200, 200);
-  background-color: transparent;
-  border-radius: 20px;
-  width: 100%;
-}
-
-.inputGroup label {
-  font-size: 100%;
-  position: absolute;
-  left: 0;
-  padding: 0.8em;
-  margin-left: 0.5em;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  color: rgb(100, 100, 100);
-}
-
-.inputGroup :is(input:focus, input:valid)~label {
-  transform: translateY(-50%) scale(.9);
-  margin: 0em;
-  margin-left: 1.3em;
-  padding: 0.4em;
-  background-color: #fff;
-}
-
-.inputGroup :is(input:focus, input:valid) {
-  border-color: rgb(150, 150, 200);
-}
-
-.inputGroup input:focus + label {
-  color: red;
-} */
-
-.new-password{
   font-weight: bold;
 }
-
 
 
 /* Media query for small screens */
@@ -890,3 +918,5 @@ span {
     padding: 3%;
   }
 }
+
+
