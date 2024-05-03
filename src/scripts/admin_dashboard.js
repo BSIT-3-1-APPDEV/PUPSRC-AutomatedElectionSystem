@@ -21,7 +21,7 @@ XHR.onreadystatechange = function() {
                     
                 });
                 fetchedCandidatesData.forEach((candidate, index) => {
-                    candidate.lastName = '#' + (index + 1); // Adding '#' before the number
+                    candidate.lastName = ''; // Adding '#' before the number
                 });
                 
                 fetchedCandidatesData.forEach((candidate, index) => {
@@ -211,9 +211,9 @@ function updateChart(candidatesData) {
                 ctx.fillStyle = 'black';
                 ctx.font = `bold ${FONT_SIZE}px Montserrat`;
                 if (shouldSwapNames) {
-                ctx.fillText(candidatesData[i].firstName.toUpperCase() + ' ' + candidatesData[i].lastName.toUpperCase(), TEXT_X, TEXT_Y);
+                ctx.fillText( candidatesData[i].lastName.toUpperCase() + '' + candidatesData[i].firstName.toUpperCase(), TEXT_X, TEXT_Y);
             } else {
-                ctx.fillText(candidatesData[i].firstName.toUpperCase() + ', ' + candidatesData[i].lastName.toUpperCase(), TEXT_X, TEXT_Y);
+                ctx.fillText( candidatesData[i].lastName.toUpperCase() + ', ' + candidatesData[i].firstName.toUpperCase(), TEXT_X, TEXT_Y);
             }
                 ctx.fillStyle = LIGHTER_SHADES;
                 const SMALL_TEXT_Y = args.meta.data[i].y + FONT_SIZE - 1;
@@ -309,9 +309,9 @@ function createChart(labels, dataPoints, imgUrls) {
                         ctx.fillStyle = 'black';
                         ctx.font = `bold ${FONT_SIZE}px Montserrat`;
                          if (shouldSwapNames) {
-                    ctx.fillText(labels[i][0].toUpperCase() + ' ' + labels[i][1].toUpperCase(), TEXT_X, TEXT_Y);
+                    ctx.fillText( labels[i][1].toUpperCase() + '' + labels[i][0].toUpperCase(), TEXT_X, TEXT_Y);
                 } else {
-                    ctx.fillText(labels[i][0].toUpperCase() + ', ' + labels[i][1].toUpperCase(), TEXT_X, TEXT_Y);
+                    ctx.fillText( labels[i][1].toUpperCase()+ ', ' + labels[i][0].toUpperCase(), TEXT_X, TEXT_Y);
                 }
 
 
