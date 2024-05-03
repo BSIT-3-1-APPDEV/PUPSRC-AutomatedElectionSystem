@@ -18,8 +18,8 @@ SessionManager::checkUserRoleAndRedirect();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
-  <title>PUP Automated Election System</title>
-
+  <title>iVote</title>
+  <title>iVote</title>
 
   <!-- Montserrat Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@ SessionManager::checkUserRoleAndRedirect();
 </head>
 
 <body id="index-body">
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
       <!-- <a class="navbar-brand" href="#">Your Brand</a> -->
       <img src="images/resc/ivote-icon-2.png" id="ivote-logo-landing-header" alt="ivote-logo">
@@ -41,10 +41,10 @@ SessionManager::checkUserRoleAndRedirect();
             <a class="nav-link" href="landing-page.php">Home</a>
           </li>
           <li class="nav-item fw-medium">
-            <a class="nav-link" href="about-us.php">About Us</a>
+            <a class="nav-link" href="#normal-section"">About Us</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="register.php">Register</a>
+          <li class=" nav-item">
+              <a class="nav-link active" href="register.php">Register</a>
           </li>
         </ul>
       </div>
@@ -81,18 +81,15 @@ SessionManager::checkUserRoleAndRedirect();
           <h2 class="landing-organization-title"><span class="hello-text">About</span> iVote</h2>
           <p class="about-us-body">Introducing iVote, the Automated Election System for Polytechnic University of the Philippines Santa Rosa Campus (PUPSRC). Say goodbye to the old manual process and hello to a modern, hassle-free voting experience! No more long queues or paper ballots – just a straightforward, efficient system designed to make your voice heard. Trust iVote to bring accuracy, ease, and transparency to campus and student organizations elections. </p>
           <p class="landing-organization-title">Connect with the team</p>
-          <a href="https://twitter.com/iVOTEpupsrchttps://twitter.com/iVOTEpupsrchttps://twitter.com/iVOTEpupsrc"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADw0lEQVR4nO2ZXYgURxDHW+NXjBqN8cFPJCQvCUIwoijIIQgBFX1Ilng33XtJ1HsIEUEFUYRmqsZvQyKC5lDwKS8GjaAoKvEDQhDZ3LlVc55KiDFRk5D4rZh46kqvu+uonNO3N7M7hP3BwjLb2zX/nqrq6hohatSoUeP/QS7XQwEdUMi5F36AHiqgGVGbl8jzijYk8PGFm871LXuytNc6UgFfDRWDdGme9l+LSoRy+X2F3FEQ0d6whoZ0e1IJnA4XwjmJ/E0UItLQ9o4Cvl5YoL+l9t8UUSGRvrURo5A/6o4dxzs9XCJdeLwwdFe5NFlESb0+87pE+sPiqVxzdHZUOTZS2h8gkVqKceegXy/iwAF/tpWLAR00iaJLInbufEkC7wksyFIRJwp5h52L+Qu6OO/mQOLYJuLG0ecGKaBfw1My37YNUoW0OJDKD9Tpo71EJXDc7FSJ9CA8XugH4zIvFAE8SwHfL4z3U2szr1ZEROkGkL6ycjGgJZ3N0Qj0nnlyxX3oY+TRFRWRvwl9vp9ZQYvA/7cBsuOe/3/rWAX8Z0HErUbPf1dUC8fLjpfA9yxcrCWl/T5PxRkyFWLpvsmGotpIYNdy1wczvqk501sCHy5dd+lzkQTq9NFeCumkhZgO6bZNksBfB8RtFEnCWeW/nS8nwuPl5pPvvFvrXE+RNBTQEstazDyJjNxw6hWRRLTO9ZTIx2yEpMH/UCSZRpNSkW6EuxhfjOR8EScO8HxLF9shko5E2msVKx5/IJLMXN0+QiH9ZyHmr09WtQwTSUUhr7XOYMB7RBJR6C8IpNk7lmLSIkmkXZ5WdCkJ9LM5j0ig30LFmEaD9seI5OzufK0g4p96aHvLXFdI0/N9r/By//uuHo8j59nOh0SeEvxdAW2xixlaKKpF6osfX1ZIJwqr+lAiOc+OadKZ/hL4bHjpQndNT6sqZYlC/i5QFC7rbKzpTxWPtGF1WFNzpndFhSjgTQEf3x42XgKvsSwqV1ayFFkUcIkjwRNgZ5gxCumUhZgO5dGE+EV4NLPkJkBtjbp1sO1/TQzYnF1Uft7z/WIUkR1f6nwAXS4n/0ug5XYuRutjEZF/xYD8e3HXTnv+xLLPLsDHLYQ8UC7VRSrCdD4kcLZkwMvO6c58DZreMG0gi13/l0/XtQ+MRIRJhwr5UNQbl3L5M8visjmqV2BbA3vFlyIqcrkeEni/jRjHo5ndsuUgrwg85n1hvdxyzi4S6YpFFrusVp8eWpYR5VGq1KwG/imuzocpayyz2K447NeoUaOGqAqPAOgfysMaeqR8AAAAAElFTkSuQmCC" class="connect-with-us"></a>
-          <a href="https://www.facebook.com/profile.php?id=61558930417110">
-  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADaklEQVR4nO2Yv08UURDHF39Q+CPGWFn4I1FLbew1ahTFwiieRm7eoRbE+A/YaJabOQGVRguNiQ2xUNAGFWPUxNgZQwI3s4D2doKCioAFa94ChnC3x+7tu9s14ZtMcsXezPvsvDc7byxrWctKtlK2s04h1yuSdiB+rkg+KZRvgPJH29zvYYX8DFDaMtn8Mf0fKxFy3Rq9IIXSDchTisQNY0A8qUi6gJyj2pcVh1SOU4qEwy7e33hAoZyqGsA5HNylSN6aAyiw12A7OysKATlpUChjFYRwvS2H/ENhvtE8gevWKJKWSgOoQms3d3ZctwZI7sUA4XqGfNcIjC6VsUHQPxiKBKFIzsYOQXPnhjgdoTrxT0OLmFTID3TJ9vy2Dm1KtfdtaGzjjU12//ZGzO8Gko7Sfng8Q7KjnGwYKbGA8iadG9q8VDwgvhDghbwKBZFB57SZTEjvfvvdqiAxg4AoEjeT45NhSm3kLzYgj+gtFPTlBQUB5P5AVczrncwc0NagEGFAlLas1C3pUDeAJkAy13mPX4wm5L2AcseLNW/EH4P750clIS7eGF5fThdbJNB4qrt7pR+EIp6O5B/ld7Pdt6ZENrz7hIFtxQO+MYg7jWSc5Ig/CEm7iSCA8t4vBqB8qfgZhNmbnQmQl759m74tmsl6jz8IymcjICS9xfynbKfWUDZcfW0ulZHR/wVEEX/1BYlcTaqaEZ4yCqJbBt38LbRS05HFz84bEN8MmZHpEltLvod+M1k+bBkQID8OmZERX2feLCo+kP5QsZEH/Z2R9MYBYtvuCiCZMFZ+9UcmDpBGGtxm9PqbzvHx0A6zcln3TwvNdy7lujWLn/V6ryxfKiNunS+IbsQUyq/QTqtcfoFkAm4NrC2ZZiB+knQQRdJlLSXdVSYdJJ3NHwo4kGMnuSDse0UokMrlTyQWBLk+MEjUcVClQCDsOEhLD868qXhSQFDGlO1stcqRbggV8kzsIMgzaeQzVhQBCcYOQtJimZBCuR0XCJB0WCYFyFeCbjMjIOjFMpOJApicNAS5s0QFAeLR4DPeKJ0qyovKgXDPeZItVrU02ykXH3OWB8If9NzZiksZyu8Dkod6TBoWZPY7xZ3ah5UUpWynFsg5CCRXdWEo9kzz/b7VCvmpQr6WycoB/Z/qr3RZy7LC6C+bcabimCLC+AAAAABJRU5ErkJggg==" class="connect-with-us" alt="Connect with us">
-</a>
-
+          <a href="https://twitter.com/iVOTEpupsrc"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADw0lEQVR4nO2ZXYgURxDHW+NXjBqN8cFPJCQvCUIwoijIIQgBFX1Ilng33XtJ1HsIEUEFUYRmqsZvQyKC5lDwKS8GjaAoKvEDQhDZ3LlVc55KiDFRk5D4rZh46kqvu+uonNO3N7M7hP3BwjLb2zX/nqrq6hohatSoUeP/QS7XQwEdUMi5F36AHiqgGVGbl8jzijYk8PGFm871LXuytNc6UgFfDRWDdGme9l+LSoRy+X2F3FEQ0d6whoZ0e1IJnA4XwjmJ/E0UItLQ9o4Cvl5YoL+l9t8UUSGRvrURo5A/6o4dxzs9XCJdeLwwdFe5NFlESb0+87pE+sPiqVxzdHZUOTZS2h8gkVqKceegXy/iwAF/tpWLAR00iaJLInbufEkC7wksyFIRJwp5h52L+Qu6OO/mQOLYJuLG0ecGKaBfw1My37YNUoW0OJDKD9Tpo71EJXDc7FSJ9CA8XugH4zIvFAE8SwHfL4z3U2szr1ZEROkGkL6ycjGgJZ3N0Qj0nnlyxX3oY+TRFRWRvwl9vp9ZQYvA/7cBsuOe/3/rWAX8Z0HErUbPf1dUC8fLjpfA9yxcrCWl/T5PxRkyFWLpvsmGotpIYNdy1wczvqk501sCHy5dd+lzkQTq9NFeCumkhZgO6bZNksBfB8RtFEnCWeW/nS8nwuPl5pPvvFvrXE+RNBTQEstazDyJjNxw6hWRRLTO9ZTIx2yEpMH/UCSZRpNSkW6EuxhfjOR8EScO8HxLF9shko5E2msVKx5/IJLMXN0+QiH9ZyHmr09WtQwTSUUhr7XOYMB7RBJR6C8IpNk7lmLSIkmkXZ5WdCkJ9LM5j0ig30LFmEaD9seI5OzufK0g4p96aHvLXFdI0/N9r/By//uuHo8j59nOh0SeEvxdAW2xixlaKKpF6osfX1ZIJwqr+lAiOc+OadKZ/hL4bHjpQndNT6sqZYlC/i5QFC7rbKzpTxWPtGF1WFNzpndFhSjgTQEf3x42XgKvsSwqV1ayFFkUcIkjwRNgZ5gxCumUhZgO5dGE+EV4NLPkJkBtjbp1sO1/TQzYnF1Uft7z/WIUkR1f6nwAXS4n/0ug5XYuRutjEZF/xYD8e3HXTnv+xLLPLsDHLYQ8UC7VRSrCdD4kcLZkwMvO6c58DZreMG0gi13/l0/XtQ+MRIRJhwr5UNQbl3L5M8visjmqV2BbA3vFlyIqcrkeEni/jRjHo5ndsuUgrwg85n1hvdxyzi4S6YpFFrusVp8eWpYR5VGq1KwG/imuzocpayyz2K447NeoUaOGqAqPAOgfysMaeqR8AAAAAElFTkSuQmCC" class="connect-with-us"></a>
+          <a href="https://www.facebook.com/profile.php?id=61558930417110"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADaklEQVR4nO2Yv08UURDHF39Q+CPGWFn4I1FLbew1ahTFwiieRm7eoRbE+A/YaJabOQGVRguNiQ2xUNAGFWPUxNgZQwI3s4D2doKCioAFa94ChnC3x+7tu9s14ZtMcsXezPvsvDc7byxrWctKtlK2s04h1yuSdiB+rkg+KZRvgPJH29zvYYX8DFDaMtn8Mf0fKxFy3Rq9IIXSDchTisQNY0A8qUi6gJyj2pcVh1SOU4qEwy7e33hAoZyqGsA5HNylSN6aAyiw12A7OysKATlpUChjFYRwvS2H/ENhvtE8gevWKJKWSgOoQms3d3ZctwZI7sUA4XqGfNcIjC6VsUHQPxiKBKFIzsYOQXPnhjgdoTrxT0OLmFTID3TJ9vy2Dm1KtfdtaGzjjU12//ZGzO8Gko7Sfng8Q7KjnGwYKbGA8iadG9q8VDwgvhDghbwKBZFB57SZTEjvfvvdqiAxg4AoEjeT45NhSm3kLzYgj+gtFPTlBQUB5P5AVczrncwc0NagEGFAlLas1C3pUDeAJkAy13mPX4wm5L2AcseLNW/EH4P750clIS7eGF5fThdbJNB4qrt7pR+EIp6O5B/ld7Pdt6ZENrz7hIFtxQO+MYg7jWSc5Ig/CEm7iSCA8t4vBqB8qfgZhNmbnQmQl759m74tmsl6jz8IymcjICS9xfynbKfWUDZcfW0ulZHR/wVEEX/1BYlcTaqaEZ4yCqJbBt38LbRS05HFz84bEN8MmZHpEltLvod+M1k+bBkQID8OmZERX2feLCo+kP5QsZEH/Z2R9MYBYtvuCiCZMFZ+9UcmDpBGGtxm9PqbzvHx0A6zcln3TwvNdy7lujWLn/V6ryxfKiNunS+IbsQUyq/QTqtcfoFkAm4NrC2ZZiB+knQQRdJlLSXdVSYdJJ3NHwo4kGMnuSDse0UokMrlTyQWBLk+MEjUcVClQCDsOEhLD868qXhSQFDGlO1stcqRbggV8kzsIMgzaeQzVhQBCcYOQtJimZBCuR0XCJB0WCYFyFeCbjMjIOjFMpOJApicNAS5s0QFAeLR4DPeKJ0qyovKgXDPeZItVrU02ykXH3OWB8If9NzZiksZyu8Dkod6TBoWZPY7xZ3ah5UUpWynFsg5CCRXdWEo9kzz/b7VCvmpQr6WycoB/Z/qr3RZy7LC6C+bcabimCLC+AAAAABJRU5ErkJggg==" class="connect-with-us" alt="Connect with us"></a>
           <a href="https://www.instagram.com/ivotepupsrc/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADoElEQVR4nO2aS08UQRCA56BeJD7ueDAqmngxCh6MaKJ4Bk046HbvevIPKHicbPXwiifEg2gA/4MRo8simHgjcadqUeSMJ18RCHoRTM3OLASZ2Xm5DQmVVEII3V1f16NrujGMXdkV/ZIB+6QAvC8VTQigjxJoWSpaS0WBlnlOAVQQirp5rdQBpIXNErCYmtGh4fCdUHQhMcCd4Zm9EvCRBFytO4SqwvDaQ5fNN3tiQdzqw8NC4aQ2APUPUJFtiuOJ+oeSqqlvO83yvtAgTjjpN3ptKxVAD6Mktr6cUDVDbDUHeC6MN7ZjSK1t8kohEIJrt1YDFb3ImHYjqwAaD/rbmzB7whfEPey0gWRMu9Gz5baiI8EhRl0BIFTYMSCKXgeBfEoeHvhNKBqRlt3utDQPSvtZ3famQwKNSqDvW44FGmcABwLwZY215oJCazE2BNCKUGhlzPkDgYloGEZn/8xBCdjDY2JvGOCi7wLxJ6WFjSVR5PGaVPiUd81pLKsNIT6RCtuq61nYzGPjrmukCcKGeLEte0tNAmi6dvjRlFd13Aq1oBcEaMXzRFbZl/xi3y+XMnm71YHJU4tQ+EsbCOeE54koEBthhFk+7q7drwWEjeCkdXIiRDgFzDPJc+TM94eibkZKIDSyntjxIDzN5O2r7vpj9Q8ty26vjHGqUyIQqWjYyTMLr9cfpLfU5I6ZSwrCpTlOr2ekAdJplhtcjywl9wgu8VydZrlhp4P8dDxizh/Y2aGl8IO20BKAHTym0nYkBAF67KwPdKP+HgEadUOrLblHylfcTXmm90BUNBUbBLDoHYhC0Y/6e6RiRE8FpHRUKvySqEUBHIg6PjUQp9GzsNlJ1LzdyoaFHgv4VaryRR6btcrntTaNclMbz7sb6nYSsJhVdGz9kxY/x1nbSBOkCpOnFm8e7p247eCyWjlncEkCznJ18hLb80RcCBkEkuRTl0NDAPVx0ho1pNLp4oAA/P1fPnVFCpcPbis+xg1grgdPcQfAyj/z77jERq1OMvrlg97rIBnNI6/8QRR16zZQhvY83vUF4QsB7QaqaL2er/D7oHYjVU31v2X0JGeVzwiFf7aBsWtbKdsW6lnB9cqQboOlnwINGmGFHx63Y4gJoOlIT28s/PC4zR59JsIctr6e4Tc7nU9xgvMVaDD28/RGycLsaaHwuYZQKmQs+6yRtjjnDFAXlz/nXzhSuXjwFJe4yeQTWyi6F/i0tiu7YtRN/gIfvSaMXEnrtwAAAABJRU5ErkJggg==" class="connect-with-us"></a>
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="footer" id="about-us">
+  <footer class="footer">
     <div class="custom-shape-divider-top-1713266907">
       <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
         <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
@@ -100,41 +97,47 @@ SessionManager::checkUserRoleAndRedirect();
         <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
       </svg>
     </div>
-    <div class="container-fluid mt-auto py-3 footer-body">
+    <div class="container-fluid footer-body">
       <div class="row">
-        <div class="col-md-6">
-          <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
-          <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.
-          </p>
-          <p class="credits-footer"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
-
+        <div class="col-md-6 footer-left pt-xl-4 px-xl-5 d-flex justify-content-center flex-column d-flex">
+          <div>
+            <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
+            <p>iVOTE is an Automated Election System (AES) for the student<br>organizations of the PUP Santa Rosa Campus.</p>
+            <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
+            <div class="vertical-line"></div>
+          </div>
         </div>
-        <div class="col-md-3">
+
+        <div class="col-md-3 footer-middle">
           <div class="row">
             <p class="credits-footer">Visit</p>
             <div class="col-md-3">
               <a href="https://www.facebook.com/thepupsrcstudentcouncil">SCO</a>
-              <a href="https://www.facebook.com/ACAPpage">ACAP</a>
+              <a href="https://www.facebook.com/ACAPpage">ACAP <br></a>
               <a href="https://www.facebook.com/OfficialAECES">AECES</a>
             </div>
             <div class="col-md-3">
               <a href="https://www.facebook.com/ELITE.PUPSRC">ELITE</a>
               <a href="https://www.facebook.com/educgive">GIVE<br></a>
-              <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA</a>
+              <a href="https://www.facebook.com/PUPSRCJEHRA">JEHRA</a>
             </div>
             <div class="col-md-3">
-              <a href="https://www.facebook.com/PUPSRCJEHRA">JEHRA</a>
+              <a href="https://www.facebook.com/JMAPPUPSRCOfficial">JMAP</a>
+              <a href="https://www.facebook.com/JPIA.PUPSRC">JPIA <br></a>
               <a href="https://www.facebook.com/piiepup">PIIE</a>
 
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <p class="credits-footer">Contact Us</p>
-          <p>Email us at <a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
-
-
-          <p><span class="ivote-email"><a href="#normal-section">About Us</a> | <a href="#">Our Story</a></span></p>
+        <div class="col-md-3 footer-right">
+          <div>
+            <p class="credits-footer">Contact Us</p>
+            <p>Email us at <a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
+            <p><a href="#normal-section"" class=" footer-about-us"> About Us | </a><a href="#" class="footer-about-us">Our Story</a></p>
+            <a href="https://twitter.com/iVOTEpupsrc"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADw0lEQVR4nO2ZXYgURxDHW+NXjBqN8cFPJCQvCUIwoijIIQgBFX1Ilng33XtJ1HsIEUEFUYRmqsZvQyKC5lDwKS8GjaAoKvEDQhDZ3LlVc55KiDFRk5D4rZh46kqvu+uonNO3N7M7hP3BwjLb2zX/nqrq6hohatSoUeP/QS7XQwEdUMi5F36AHiqgGVGbl8jzijYk8PGFm871LXuytNc6UgFfDRWDdGme9l+LSoRy+X2F3FEQ0d6whoZ0e1IJnA4XwjmJ/E0UItLQ9o4Cvl5YoL+l9t8UUSGRvrURo5A/6o4dxzs9XCJdeLwwdFe5NFlESb0+87pE+sPiqVxzdHZUOTZS2h8gkVqKceegXy/iwAF/tpWLAR00iaJLInbufEkC7wksyFIRJwp5h52L+Qu6OO/mQOLYJuLG0ecGKaBfw1My37YNUoW0OJDKD9Tpo71EJXDc7FSJ9CA8XugH4zIvFAE8SwHfL4z3U2szr1ZEROkGkL6ycjGgJZ3N0Qj0nnlyxX3oY+TRFRWRvwl9vp9ZQYvA/7cBsuOe/3/rWAX8Z0HErUbPf1dUC8fLjpfA9yxcrCWl/T5PxRkyFWLpvsmGotpIYNdy1wczvqk501sCHy5dd+lzkQTq9NFeCumkhZgO6bZNksBfB8RtFEnCWeW/nS8nwuPl5pPvvFvrXE+RNBTQEstazDyJjNxw6hWRRLTO9ZTIx2yEpMH/UCSZRpNSkW6EuxhfjOR8EScO8HxLF9shko5E2msVKx5/IJLMXN0+QiH9ZyHmr09WtQwTSUUhr7XOYMB7RBJR6C8IpNk7lmLSIkmkXZ5WdCkJ9LM5j0ig30LFmEaD9seI5OzufK0g4p96aHvLXFdI0/N9r/By//uuHo8j59nOh0SeEvxdAW2xixlaKKpF6osfX1ZIJwqr+lAiOc+OadKZ/hL4bHjpQndNT6sqZYlC/i5QFC7rbKzpTxWPtGF1WFNzpndFhSjgTQEf3x42XgKvsSwqV1ayFFkUcIkjwRNgZ5gxCumUhZgO5dGE+EV4NLPkJkBtjbp1sO1/TQzYnF1Uft7z/WIUkR1f6nwAXS4n/0ug5XYuRutjEZF/xYD8e3HXTnv+xLLPLsDHLYQ8UC7VRSrCdD4kcLZkwMvO6c58DZreMG0gi13/l0/XtQ+MRIRJhwr5UNQbl3L5M8visjmqV2BbA3vFlyIqcrkeEni/jRjHo5ndsuUgrwg85n1hvdxyzi4S6YpFFrusVp8eWpYR5VGq1KwG/imuzocpayyz2K447NeoUaOGqAqPAOgfysMaeqR8AAAAAElFTkSuQmCC" class="connect-with-us-footer"></a>
+            <a href="https://www.facebook.com/profile.php?id=61558930417110"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADaklEQVR4nO2Yv08UURDHF39Q+CPGWFn4I1FLbew1ahTFwiieRm7eoRbE+A/YaJabOQGVRguNiQ2xUNAGFWPUxNgZQwI3s4D2doKCioAFa94ChnC3x+7tu9s14ZtMcsXezPvsvDc7byxrWctKtlK2s04h1yuSdiB+rkg+KZRvgPJH29zvYYX8DFDaMtn8Mf0fKxFy3Rq9IIXSDchTisQNY0A8qUi6gJyj2pcVh1SOU4qEwy7e33hAoZyqGsA5HNylSN6aAyiw12A7OysKATlpUChjFYRwvS2H/ENhvtE8gevWKJKWSgOoQms3d3ZctwZI7sUA4XqGfNcIjC6VsUHQPxiKBKFIzsYOQXPnhjgdoTrxT0OLmFTID3TJ9vy2Dm1KtfdtaGzjjU12//ZGzO8Gko7Sfng8Q7KjnGwYKbGA8iadG9q8VDwgvhDghbwKBZFB57SZTEjvfvvdqiAxg4AoEjeT45NhSm3kLzYgj+gtFPTlBQUB5P5AVczrncwc0NagEGFAlLas1C3pUDeAJkAy13mPX4wm5L2AcseLNW/EH4P750clIS7eGF5fThdbJNB4qrt7pR+EIp6O5B/ld7Pdt6ZENrz7hIFtxQO+MYg7jWSc5Ig/CEm7iSCA8t4vBqB8qfgZhNmbnQmQl759m74tmsl6jz8IymcjICS9xfynbKfWUDZcfW0ulZHR/wVEEX/1BYlcTaqaEZ4yCqJbBt38LbRS05HFz84bEN8MmZHpEltLvod+M1k+bBkQID8OmZERX2feLCo+kP5QsZEH/Z2R9MYBYtvuCiCZMFZ+9UcmDpBGGtxm9PqbzvHx0A6zcln3TwvNdy7lujWLn/V6ryxfKiNunS+IbsQUyq/QTqtcfoFkAm4NrC2ZZiB+knQQRdJlLSXdVSYdJJ3NHwo4kGMnuSDse0UokMrlTyQWBLk+MEjUcVClQCDsOEhLD868qXhSQFDGlO1stcqRbggV8kzsIMgzaeQzVhQBCcYOQtJimZBCuR0XCJB0WCYFyFeCbjMjIOjFMpOJApicNAS5s0QFAeLR4DPeKJ0qyovKgXDPeZItVrU02ykXH3OWB8If9NzZiksZyu8Dkod6TBoWZPY7xZ3ah5UUpWynFsg5CCRXdWEo9kzz/b7VCvmpQr6WycoB/Z/qr3RZy7LC6C+bcabimCLC+AAAAABJRU5ErkJggg==" class="connect-with-us-footer" alt="Connect with us"></a>
+            <a href="https://www.instagram.com/ivotepupsrc/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADoElEQVR4nO2aS08UQRCA56BeJD7ueDAqmngxCh6MaKJ4Bk046HbvevIPKHicbPXwiifEg2gA/4MRo8simHgjcadqUeSMJ18RCHoRTM3OLASZ2Xm5DQmVVEII3V1f16NrujGMXdkV/ZIB+6QAvC8VTQigjxJoWSpaS0WBlnlOAVQQirp5rdQBpIXNErCYmtGh4fCdUHQhMcCd4Zm9EvCRBFytO4SqwvDaQ5fNN3tiQdzqw8NC4aQ2APUPUJFtiuOJ+oeSqqlvO83yvtAgTjjpN3ptKxVAD6Mktr6cUDVDbDUHeC6MN7ZjSK1t8kohEIJrt1YDFb3ImHYjqwAaD/rbmzB7whfEPey0gWRMu9Gz5baiI8EhRl0BIFTYMSCKXgeBfEoeHvhNKBqRlt3utDQPSvtZ3famQwKNSqDvW44FGmcABwLwZY215oJCazE2BNCKUGhlzPkDgYloGEZn/8xBCdjDY2JvGOCi7wLxJ6WFjSVR5PGaVPiUd81pLKsNIT6RCtuq61nYzGPjrmukCcKGeLEte0tNAmi6dvjRlFd13Aq1oBcEaMXzRFbZl/xi3y+XMnm71YHJU4tQ+EsbCOeE54koEBthhFk+7q7drwWEjeCkdXIiRDgFzDPJc+TM94eibkZKIDSyntjxIDzN5O2r7vpj9Q8ty26vjHGqUyIQqWjYyTMLr9cfpLfU5I6ZSwrCpTlOr2ekAdJplhtcjywl9wgu8VydZrlhp4P8dDxizh/Y2aGl8IO20BKAHTym0nYkBAF67KwPdKP+HgEadUOrLblHylfcTXmm90BUNBUbBLDoHYhC0Y/6e6RiRE8FpHRUKvySqEUBHIg6PjUQp9GzsNlJ1LzdyoaFHgv4VaryRR6btcrntTaNclMbz7sb6nYSsJhVdGz9kxY/x1nbSBOkCpOnFm8e7p247eCyWjlncEkCznJ18hLb80RcCBkEkuRTl0NDAPVx0ho1pNLp4oAA/P1fPnVFCpcPbis+xg1grgdPcQfAyj/z77jERq1OMvrlg97rIBnNI6/8QRR16zZQhvY83vUF4QsB7QaqaL2er/D7oHYjVU31v2X0JGeVzwiFf7aBsWtbKdsW6lnB9cqQboOlnwINGmGFHx63Y4gJoOlIT28s/PC4zR59JsIctr6e4Tc7nU9xgvMVaDD28/RGycLsaaHwuYZQKmQs+6yRtjjnDFAXlz/nXzhSuXjwFJe4yeQTWyi6F/i0tiu7YtRN/gIfvSaMXEnrtwAAAABJRU5ErkJggg==" class="connect-with-us-footer"></a>
+          </div>
         </div>
       </div>
     </div>
@@ -160,7 +163,6 @@ SessionManager::checkUserRoleAndRedirect();
     window.addEventListener('resize', updateText);
   </script>
 
-
   <script>
     // Wait for the document to finish loading
     document.addEventListener("DOMContentLoaded", function() {
@@ -170,7 +172,6 @@ SessionManager::checkUserRoleAndRedirect();
       normalSection.scrollIntoView();
     });
   </script>
-
 
 </body>
 
