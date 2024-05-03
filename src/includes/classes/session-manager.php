@@ -25,14 +25,17 @@ class SessionManager {
                 }          
             } 
             // Check if role is set to committee member
-            elseif($_SESSION['role'] == 'Committee Member') {
-                header("Location: admindashboard.php");
-                exit();
+            elseif($_SESSION['role'] == 'Committee Member' || $_SESSION['role'] == 'Admin Member') {
+
+                // Check the account status if set to active
+                if($_SESSION['status'] == 'Active') {
+                    header("Location: admindashboard.php");
+                    exit();                    
+                }
             }
                      
             else {
-                // If 'role' key does not exist, display
-                echo "Role not found in session.";
+                // If 'role' key does not exist, redirects to landing page
                 header("Location: landing-page.php");
                 exit();
             }
