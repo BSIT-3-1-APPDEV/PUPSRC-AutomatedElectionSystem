@@ -144,7 +144,7 @@ if (isset($_SESSION['voter_id'])) {
                                                     <div class="col-md-12">
                                                         <!-- Email -->
                                                         <p class="fw-bold fs-6 main-color spacing-4">Email Address</p>
-                                                        <p class="fw-medium fs-6 pt-sm-2"><?php echo $row["email"] ?>
+                                                        <p class="fw-medium fs-6 pt-sm-2 text-truncate"><?php echo $row["email"] ?>
                                                         </p>
                                                     </div>
                                                 </div>
