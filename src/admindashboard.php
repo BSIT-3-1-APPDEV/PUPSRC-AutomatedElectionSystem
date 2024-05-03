@@ -1,6 +1,7 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/classes/admin-dashboard-queries.php');
 
@@ -10,7 +11,7 @@ $dbConnection = new DatabaseConnection();
 // Create an instance of Application
 $app = new Application($dbConnection);
 
-if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
+if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'Committee Member' || $_SESSION['role'] == 'Admin Member')) {
     $org_name = $_SESSION['organization'] ?? '';
 
     include FileUtils::normalizeFilePath('includes/organization-list.php');
@@ -42,6 +43,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
     <title>Admin Dashboard</title>
 
     <!-- Montserrat Font -->
@@ -71,6 +73,8 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
     .full-screen-content.centered{
      
         margin-top: 20vh !important;
+        margin-left: 100px !important;
+        margin-right: 100px !important;
    
    
     }
@@ -91,7 +95,8 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
             <div class="card-body">
 
            
-                    <h4 class="fw-700 ms-3">Hey there, <span class="main-color fw-700"> <?php echo $first_name . "!";?> </span> </h4>
+                    <h3 class="fw-700 ms-3">Hey there, <span class="main-color fw-700"> <?php echo isset($first_name) ? $first_name . "!" : "Admin!"; ?>
+ </span> </h3>
                     <small class="ms-3 fw-600">Welcome to your dashboard.</small>
                     </div>
                     </div>  
@@ -104,22 +109,29 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
             <button id="reset-button" class="d-none">Hide Candidates</button>
                 <div class="full-screen-content">
             <div class="live-results-container">
-            <div class="row justify-content-center">
+         
                 
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12  justify-content-between d-flex mb-2">
                     <h4 class="main-color main-text ms-2">LIVE RESULTS</h4>
-                    </div>
-                    
-                    <div class="col-sm-12 col-md-6 text-end ">
-                    <select id="positions" class="positions-dropdown main-bg-color mb-2 mt-2">
+               
+                    <select id="positions" class="positions-dropdown main-bg-color<?php if (empty($positions)) echo ' no-positions'; ?>">
     <?php
-    // Loop through positions array to generate options
-    foreach ($positions as $position) {
-        echo "<option value=\"$position\">$position</option>";
+    // Check if there are positions available
+    if (empty($positions)) {
+        echo "<option value='' disabled selected>No positions available</option>";
+    } else {
+        // Loop through positions array to generate options
+        foreach ($positions as $position) {
+            echo "<option value=\"$position\">$position</option>";
+        }
     }
     ?>
 </select>
-                    </div>
+
+                  
+                  
+                    
+                   
                     </div>
               
             </div>
@@ -137,11 +149,15 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
     </div>
     
 </div>
+<div class="row">
 <div class="justify-content-end d-flex mt-2" >
+<span class="me-2 mt-2 anonymous-text d-none">Anonymous</span>
+
 <label class="switch d-none" id="switch">
   <input type="checkbox">
   <span class="slider round"></span>
 </label>
+</div>
 </div>
 </div>
 
@@ -197,7 +213,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
                      
                      <div class="card-body d-flex   align-items-center justify-content-between p-3">
             
-                <div class="row ">
+                <div class="row w-100">
                     <div class="col-9">
                     <div class="col-12">
                          <span class="secondary-metrics-header main-color">   Total count of </span>
@@ -220,7 +236,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
                 <div class="card-body d-flex align-items-center justify-content-between p-3">
 
             
-                <div class="row ">
+                <div class="row w-100">
                     <div class="col-9">
                     <div class="col-12">
                          <span class="secondary-metrics-header main-color">   Total count of </span>
@@ -265,7 +281,7 @@ if (isset($_SESSION['voter_id']) && $_SESSION['role'] == 'Committee Member') {
 
     <div class="col-lg-4 ml-5 py-3 ps-0 pe-1 d-lg-flex d-md-block justify-content-center ">
         <div class="col-lg-11">
-            <a href="manage-acc.php" class="card admin-card admin-link px-5 pt-4 pb-5">
+            <a href="manage-voters.php" class="card admin-card admin-link px-5 pt-4 pb-5">
                 <div class="card-body d-flex align-items-center justify-content-center p-2">
                     <div class="icon-container">
                         <img src="images/resc/Dashboard/Manage Acc/<?php echo $org_name . '-manage-accs.png'; ?>" alt="Reports Image" class="navigate-images">

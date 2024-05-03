@@ -7,12 +7,12 @@ require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 
 if (isset($_SESSION['voter_id'])) {
 
-	include 'includes/session-exchange.php';
+	include FileUtils::normalizeFilePath('includes/session-exchange.php');
 
 	// Check if the user's role is either 'Committee Member' or 'Admin Member'
 	$allowedRoles = array('Committee Member', 'Admin Member');
 	if (in_array($_SESSION['role'], $allowedRoles)) {
-		include 'submission_handlers/manage-members.php';
+		include FileUtils::normalizeFilePath('submission_handlers/manage-members.php');
 		?>
 
 		<!DOCTYPE html>
@@ -112,7 +112,7 @@ if (isset($_SESSION['voter_id'])) {
 																		</div>
 																		<!-- Filters -->
 																		<div class="d-inline-block ps-3">
-																			<form class="d-inline-block">
+																			<form class="d-inline-block" method="get">
 																				<div class="dropdown sort-by">
 																					<button
 																						class="sortby-tbn fs-7 spacing-6 fw-medium"
@@ -122,7 +122,7 @@ if (isset($_SESSION['voter_id'])) {
 																						aria-expanded="false">
 																						<i data-feather="filter"
 																							class="feather-xs im-cust-2"></i>
-																						Filters
+																						Filter
 																					</button>
 																					<div class="dropdown-menu dropdown-menu-end"
 																						aria-labelledby="dropdownMenuButton"
@@ -130,11 +130,27 @@ if (isset($_SESSION['voter_id'])) {
 																						<!-- Checklist Items -->
 																						<li
 																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Member</li>
+																							<label>
+																								<input type="checkbox"
+																									name="filter[]"
+																									value="committee_member"
+																									<?php if (isset($_GET['filter']) && in_array('committee_member', $_GET['filter']))
+																										echo 'checked'; ?>
+																									onchange="this.form.submit()">
+																								Committee Member
+																							</label>
+																						</li>
 																						<li
 																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Admin Member</li>
-
+																							<label>
+																								<input type="checkbox"
+																									name="filter[]"
+																									value="admin_member" <?php if (isset($_GET['filter']) && in_array('admin_member', $_GET['filter']))
+																										echo 'checked'; ?>
+																									onchange="this.form.submit()">
+																								Admin Member
+																							</label>
+																						</li>
 																					</div>
 																				</div>
 																			</form>
@@ -160,16 +176,28 @@ if (isset($_SESSION['voter_id'])) {
 																						<!-- Dropdown items -->
 																						<li
 																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Newest to Oldest</li>
+																							<a
+																								href="?sort=acc_created&order=desc">Newest
+																								to Oldest</a>
+																						</li>
 																						<li
 																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Oldest to Newest</li>
+																							<a
+																								href="?sort=acc_created&order=asc">Oldest
+																								to Newest</a>
+																						</li>
 																						<li
 																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							A to Z (Ascending)</li>
+																							<a
+																								href="?sort=first_name&order=asc">A
+																								to Z (Ascending)</a>
+																						</li>
 																						<li
 																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Z to A (Descending)</li>
+																							<a
+																								href="?sort=first_name&order=desc">Z
+																								to A (Descending)</a>
+																						</li>
 																					</div>
 																				</div>
 																			</form>
@@ -250,17 +278,37 @@ if (isset($_SESSION['voter_id'])) {
 															</table>
 
 															<!-- Pagination -->
+
 															<div class="clearfix col-xs-12">
 																<ul class="pagination">
-																	<li class="fas fa-chevron-left black"><a href="#"></a></li>
-																	<li class="page-item"><a href="#" class="page-link">1</a></li>
-																	<li class="page-item"><a href="#" class="page-link">2</a></li>
-																	<li class="page-item active"><a href="#" class="page-link">3</a>
-																	</li>
-																	<li class="page-item"><a href="#" class="page-link">4</a></li>
-																	<li class="page-item"><a href="#" class="page-link">5</a></li>
-																	<li class="fas fa-chevron-right ps-xl-3 black"><a href="#"></a>
-																	</li>
+																	<?php
+																	// Generate the filter parameters for the link
+																	$filterParams = '';
+																	if (!empty($filter)) {
+																		foreach ($filter as $f) {
+																			$filterParams .= '&filter[]=' . urlencode($f);
+																		}
+																	}
+
+																	if ($current_page > 1) { ?>
+																		<li class="fas fa-chevron-left black"><a
+																				href="?page=<?php echo $current_page - 1 . $filterParams; ?>"></a>
+																		</li>
+																	<?php } ?>
+
+																	<?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+																		<li
+																			class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
+																			<a href="?page=<?php echo $i . $filterParams; ?>"
+																				class="page-link"><?php echo $i; ?></a>
+																		</li>
+																	<?php } ?>
+
+																	<?php if ($current_page < $total_pages) { ?>
+																		<li class="fas fa-chevron-right ps-xl-3 black"><a
+																				href="?page=<?php echo $current_page + 1 . $filterParams; ?>"></a>
+																		</li>
+																	<?php } ?>
 																</ul>
 															</div>
 
@@ -334,8 +382,7 @@ if (isset($_SESSION['voter_id'])) {
 
 		<?php
 	} else {
-		// User is not authorized to access this page
-		echo "You don't have permission to access this page.";
+		header("Location: landing-page.php");
 	}
 } else {
 	header("Location: landing-page.php");

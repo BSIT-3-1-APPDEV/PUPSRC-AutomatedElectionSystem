@@ -3,6 +3,7 @@ include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
+include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 
 if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) {
@@ -34,8 +35,8 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/x-icon" href="../../src/images/resc/ivote-favicon.png">
-        <title>Result Generation</title>
+        <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
+        <title>Reports</title>
 
         <!-- Icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
@@ -60,9 +61,11 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
 
             ?>.btn-with-margin {
                 margin-top: 30px;
-                width: 160px;
+                width: 170px;
                 height: 33px;
-                margin-right: 20px;
+                padding-left: 2px;
+                padding-right: -20px;
+                margin-right: 50px;
                 border-radius: 25px;
             }
         </style>
@@ -84,7 +87,7 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
                         <div class="card-report main-bg-color mb-4">
                             <div class="card-body main-bg-color d-flex justify-content-between">
                                 <div>
-                                    <h5 class="card-title">ELECTION RESULTS</h5>
+                                    <h5 class="card-title">Election Results</h5>
                                     <p class="card-text" id="selectedPosition">
                                         <?php
                                         if ($result_position && $result_position->num_rows > 0) {
@@ -126,9 +129,9 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
                                 ?>
                                     <div class="dropdown">
                                         <button class="btn-election main-color hover-color dropdown-button btn-with-margin" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <?php echo $selected_position_title; ?>
                                             <span class="ms-auto">
-                                                <i class="fas fa-chevron-down" id="dropdownIcon"></i>
+                                                <?php echo $selected_position_title; ?>
+                                                <i data-feather="chevron-down" class="white im-cust feather-1xs"></i>
                                             </span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -257,7 +260,7 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
                                         <div class="card card-runnerup mb-4">
                                             <div class="card-body d-flex justify-content-between">
                                                 <div class="card-body text-center">
-                                                    <h2 class="main-color">No Candidate Available for this Position</h2>
+                                                    <h2 class="no-avail-candidate">No Candidate Available for this Position</h2>
                                                 </div>
                                             </div>
                                         </div>
@@ -281,7 +284,7 @@ if (isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Committee Member')) 
                             <div class="card card-runnerup mb-4">
                                 <div class="card-body d-flex justify-content-between">
                                     <div class="card-body text-center">
-                                        <h2 class="main-color">No Candidate Available for this Position</h2>
+                                        <h2 class="no-avail-candidate">No Candidate Available for this Position</h2>
                                     </div>
                                 </div>
                             </div>

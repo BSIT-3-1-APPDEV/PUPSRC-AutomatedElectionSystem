@@ -39,6 +39,7 @@ if (isset($_SESSION['voter_id'])) {
 		<link rel="stylesheet" href="styles/style.css" />
 		<link rel="stylesheet" href="styles/core.css" />
 		<link rel="stylesheet" href="styles/manage-voters.css" />
+		<link rel="stylesheet" href="styles/validate-voter.css" />
 		<link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
 
 	</head>
@@ -49,8 +50,8 @@ if (isset($_SESSION['voter_id'])) {
 
 		<div class="main">
 			<!-- Breadcrumbs -->
-			<div class="container mb-5 ml-10">
-				<div class="row justify-content-center">
+			<div class="container navigation">
+				<div class="row justify-content-center mb-5 ml-10">
 					<div class="col-md-11">
 						<div class="breadcrumbs d-flex">
 							<button type="button" class=" btn-white d-flex align-items-center spacing-8 fs-8">
@@ -78,16 +79,16 @@ if (isset($_SESSION['voter_id'])) {
 											<!-- Header of Left Column -->
 											<div class="row">
 												<!-- COR Name -->
-												<div class="col-md-6 d-flex flex-row">
+												<div class="col-6 d-flex flex-row">
 													<p class="fw-bold fs-7">
 														<i class="fas fa-paperclip fa-sm"></i>
 														<span class="ps-sm-1 spacing-5"><?php echo $row["cor"] ?></span>
 													</p>
 												</div>
 												<!-- Download + Full Screen Name -->
-												<div class="col-md-6 d-flex flex-row-reverse">
+												<div class="col-6 d-flex flex-row-reverse">
 													<div class="row funcs">
-														<div class="col-md-10">
+														<div class="col-9">
 															<!-- Download -->
 															<a href="<?php echo "user_data/$org_name/cor/" . $row['cor']; ?>"
 																download>
@@ -98,7 +99,7 @@ if (isset($_SESSION['voter_id'])) {
 																</p>
 															</a>
 														</div>
-														<div class="col-md-2">
+														<div class="col-1">
 															<!-- Full Screen -->
 															<div class="fullscreen-icon">
 																<i class="fa-solid fa-expand fa-sm"></i>
@@ -122,7 +123,7 @@ if (isset($_SESSION['voter_id'])) {
 												<div class="row">
 													<div class="col-md-12 text-center">
 														<!-- Title -->
-														<p class="fw-bold fs-3 main-color spacing-4">Validate Account
+														<p class="fw-bold fs-3 main-color spacing-4 title">Validate Account
 														</p>
 														</p>
 													</div>
@@ -138,7 +139,7 @@ if (isset($_SESSION['voter_id'])) {
 												<div class="row">
 													<div class="col-md-12 pt-sm-4">
 														<!-- Description -->
-														<p class="fw-medium fs-7 spacing-6">Please review the provided
+														<p class="fw-medium fs-7 spacing-6 sub-title">Please review the provided
 															information before validating the account registration.</p>
 													</div>
 												</div>
@@ -150,7 +151,7 @@ if (isset($_SESSION['voter_id'])) {
 													<div class="col-md-12">
 														<!-- Email -->
 														<p class="fw-bold fs-6 main-color spacing-4">Email Address</p>
-														<p class="fw-medium fs-6 pt-sm-2"><?php echo $row["email"] ?>
+														<p class="fw-medium fs-6 pt-sm-2 text-truncate"><?php echo $row["email"] ?>
 														</p>
 													</div>
 												</div>
@@ -176,20 +177,20 @@ if (isset($_SESSION['voter_id'])) {
 											</section>
 											<!-- Buttons -->
 											<section>
-												<div class="row pt-sm-5">
-													<div class="col-md-6 text-end">
+												<div class="row pt-sm-5 buttons-cont">
+													<div class="col-6 text-end buttons">
 														<button
-															class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+															class="btn btn-danger px-5 btn-sm fw-bold fs-6 spacing-6"
 															id="reject-btn" data-toggle="modal"
 															data-target="#rejectModal">Reject</button>
 													</div>
 
-													<div class="col-md-6 text-start">
+													<div class="col-6 text-start buttons">
 														<form id="validateAcc">
 															<input type="hidden" id="voter_id" name="voter_id"
 																value="<?php echo $voter_id; ?>">
 															<button
-																class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+																class="btn btn-success px-5 btn-sm px-2 fw-bold fs-6 spacing-6"
 																type="submit" id="approve" value="approve">Approve</button>
 														</form>
 													</div>

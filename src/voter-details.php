@@ -40,6 +40,7 @@ if (isset($_SESSION['voter_id'])) {
         <link rel="stylesheet" href="styles/core.css" />
         <link rel="stylesheet" href="styles/manage-voters.css" />
         <link rel="stylesheet" href="styles/voter-details.css" />
+        <link rel="stylesheet" href="styles/validate-voter.css" />
         <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
 
     </head>
@@ -50,8 +51,8 @@ if (isset($_SESSION['voter_id'])) {
 
         <div class="main">
             <!-- Breadcrumbs -->
-            <div class="container mb-5 ml-10">
-                <div class="row justify-content-center">
+            <div class="container navigation">
+                <div class="row justify-content-center mb-5 ml-10">
                     <div class="col-md-11">
                         <div class="breadcrumbs d-flex">
                             <button type="button" class=" btn-white d-flex align-items-center spacing-8 fs-8">
@@ -71,40 +72,34 @@ if (isset($_SESSION['voter_id'])) {
                         <div class="row justify-content-center">
                             <div class="col-md-11">
                                 <div class="card-box manage-voters">
-                                    <div class="row information">
+                                    <div class="row">
                                         <!-- FIRST COLUMN -->
                                         <div class="col-md-7 p-sm-5">
                                             <!-- Header of Left Column -->
-                                            <div class="row">
+                                            <div class="row pdf-dtls">
                                                 <!-- COR Name -->
-                                                <div class="col-md-6 d-flex flex-row">
+                                                <div class="col-sm-6 col-12 d-flex flex-row">
                                                     <p class="fw-bold fs-7">
                                                         <i class="fas fa-paperclip fa-sm"></i>
                                                         <span class="ps-sm-1 spacing-5"><?php echo $row["cor"] ?></span>
                                                     </p>
                                                 </div>
                                                 <!-- Download + Full Screen Name -->
-                                                <div class="col-md-6 d-flex flex-row-reverse">
+                                                <div class="col-sm-6 col-12 d-flex flex-row-reverse">
                                                     <div class="row funcs">
-                                                        <div class="col-md-10">
+                                                        <div class="col-12 col-sm-12"> <!-- Adjusted column size -->
                                                             <!-- Download -->
                                                             <a href="<?php echo "user_data/$org_name/cor/" . $row['cor']; ?>"
-                                                                download>
-                                                                <p class="fs-7 d-flex align-items-center">
-                                                                    <i data-feather="download" class="feather-sm"></i>
-                                                                    <span
-                                                                        class="ps-sm-2 spacing-5 fw-medium">Download</span>
-                                                                </p>
+                                                                download class="d-inline-flex align-items-center">
+                                                                <i class="fas fa-download fa-sm"></i>
+                                                                <span
+                                                                    class="fs-7 ps-sm-2 spacing-5 fw-medium">Download</span>
                                                             </a>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <!-- Full Screen -->
-                                                            <div class="fullscreen-icon">
-                                                                <i class="fa-solid fa-expand fa-sm"></i>
-                                                            </div>
+                                                            <i class="fa-solid fa-expand fa-sm fullscreen-icon"></i>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
 
                                             <!-- PDF Container -->
@@ -118,7 +113,7 @@ if (isset($_SESSION['voter_id'])) {
                                         <div class="col-md-5 p-sm-5">
                                             <!-- Header -->
                                             <section>
-                                                <div class="row">
+                                                <div class="row information">
                                                     <div class="col-md-12 text-center">
                                                         <!-- Title -->
                                                         <p class="fw-bold fs-3 main-color spacing-4">Voter Details
@@ -134,36 +129,38 @@ if (isset($_SESSION['voter_id'])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="row">
+                                                <div class="row information">
                                                     <div class="col-md-12 pt-sm-4">
                                                         <!-- Description -->
-                                                        <p class="fw-medium fs-7 spacing-6">The following are the voter's provided information.</p>
+                                                        <p class="fw-medium fs-7 spacing-6">The following are the voter's
+                                                            provided information.</p>
                                                     </div>
                                                 </div>
                                             </section>
 
                                             <!-- Student Information -->
                                             <section>
-                                                <div class="row pt-sm-4">
+                                                <div class="row pt-sm-4 information">
                                                     <div class="col-md-12">
                                                         <!-- Email -->
                                                         <p class="fw-bold fs-6 main-color spacing-4">Email Address</p>
-                                                        <p class="fw-medium fs-6 pt-sm-2"><?php echo $row["email"] ?>
+                                                        <p class="fw-medium fs-6 pt-sm-2 text-truncate"><?php echo $row["email"] ?>
                                                         </p>
                                                     </div>
                                                 </div>
 
-                                                <div class="row pt-sm-4">
+                                                <div class="row pt-sm-4 information">
                                                     <div class="col-md-12">
                                                         <!-- Status -->
                                                         <p class="fw-bold fs-6 main-color spacing-4">Date Registered</p>
-                                                        <p class="fw-medium fs-6 pt-sm-2"><?php echo $row["acc_created"] ?>
+                                                        <p class="fw-medium fs-6 pt-sm-2">
+                                                            <?php echo date("F j, Y", strtotime($row["acc_created"])); ?>
                                                         </p>
                                                     </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-12 pt-sm-4">
+                                                <div class="row pt-sm-4 information">
+                                                    <div class="col-md-12">
                                                         <!-- Date -->
                                                         <p class="fw-bold fs-6 main-color spacing-4">Date Verified</p>
                                                         <p class="fw-medium fs-6 pt-sm-2">
@@ -173,11 +170,11 @@ if (isset($_SESSION['voter_id'])) {
                                                 </div>
 
                                                 <div class="row pt-sm-4">
-                                                    <div class="col-md-12">
+                                                    <div class="col-12 acc-status">
                                                         <!-- Status -->
                                                         <p class="fw-bold fs-6 main-color spacing-4">Account Status</p>
-                                                        <div class="row pt-sm-4">
-                                                            <div class="col-md-5">
+                                                        <div class="row pt-sm-4 status-acc">
+                                                            <div class="col-sm-5 col-12">
 
                                                                 <form id="status-form" action="update-status.php"
                                                                     method="post">
@@ -216,10 +213,11 @@ if (isset($_SESSION['voter_id'])) {
                                                                     </select>
                                                                 </form>
                                                             </div>
-                                                            <div class="col-md-5">
+                                                            <div class="col-sm-5 col-12 status-update">
                                                                 <!-- Status -->
-                                                                <p class="fw-bold fs-8 spacing-4">Last update on:</p>
-                                                                <p class="fw-medium fs-8 ">
+                                                                <p class="fw-bold fs-8 spacing-4 no-padding">Last update on:
+                                                                </p>
+                                                                <p class="fw-medium fs-8 no-padding">
                                                                     <?php echo date("F j, Y", strtotime($row["status_updated"])); ?>
                                                                 </p>
                                                             </div>
@@ -228,7 +226,7 @@ if (isset($_SESSION['voter_id'])) {
                                             </section>
                                             <!-- Buttons -->
                                             <section>
-                                                <div class="row pt-sm-5">
+                                                <div class="row pt-sm-5 del-btn">
                                                     <div class="col-md-12 text-end">
                                                         <button
                                                             class="del-no-border px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"

@@ -37,7 +37,7 @@ unsetSessionVar();
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
       <!-- <a class="navbar-brand" href="#">Your Brand</a> -->
-      <img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo">
+      <img src="images/resc/ivote-icon-2.png" id="ivote-logo-landing-header" alt="ivote-logo">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -63,9 +63,9 @@ unsetSessionVar();
       <div class="row">
         <div class="col text-center text-white">
           <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" alt="iVote Logo">
-          <h5 id="index-PUPSRC" class="text-truncate">Polytechnic University of the Philippines -
+          <h5 id="index-PUPSRC" class="text-truncate mt-3">Polytechnic University of the Philippines -
             Santa Rosa Campus</h5>
-          <h1 class="stroked-text" id="index-AES">AUTOMATED ELECTION SYSTEM</h1>
+          <h1 class="" id="index-AES">AUTOMATED ELECTION SYSTEM</h1>
           <a href="#organizations" type="button" class="btn btn-primary fw-bold index-button" id="">Select Organization</a>
         </div>
       </div>

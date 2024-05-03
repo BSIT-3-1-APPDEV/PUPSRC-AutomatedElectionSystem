@@ -1,4 +1,12 @@
 <?php
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
+require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
+require_once FileUtils::normalizeFilePath('includes/mailer.php');
+require_once FileUtils::normalizeFilePath('includes/classes/email-sender.php');
+
     $conn = DatabaseConnection::connect();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -21,11 +29,20 @@
         $stmt->bind_param("ssssss", $lastName, $firstName, $middleName, $email, $hashedPassword, $role);
     
         if ($stmt->execute()) {
-            echo "Admin account created successfully.";
+            // Set session variable to indicate account creation
+            $_SESSION['account_created'] = true;
+        
+            // Send email with password
+            $emailSender = new EmailSender($mail);
+            $emailSender->sendPasswordEmail($email, $password);
+        
+            // Redirect to admin-creation.php
+            header("Location: admin-creation.php");
+            exit;
         } else {
-            echo "Error creating admin account: " . $stmt->error;
+            // Handle error
         }
-    
+        
         $stmt->close();
     }
 ?>

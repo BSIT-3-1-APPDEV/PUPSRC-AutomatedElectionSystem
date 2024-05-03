@@ -1,12 +1,12 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
-require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
-require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
+include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
+if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['status'] == 'Active')) {
 
-if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['vote_status'] == 'Voted')) {
+  // if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'Voted')){
 
      // ------ SESSION EXCHANGE
      include FileUtils::normalizeFilePath('includes/session-exchange.php');
@@ -15,7 +15,6 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
   $connection = DatabaseConnection::connect();
   // Assume $connection is your database connection
   
-
 ?>
 
 <!DOCTYPE html>
@@ -36,9 +35,7 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
   <!-- Bootstrap 5 code -->
   <link type="text/css" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../src/styles/feedback-suggestions.css">
-  <link rel="stylesheet" href="styles/core.css">
   <link rel="stylesheet" href="<?php echo '../src/styles/orgs/' . $org_acronym . '.css'; ?>">
-  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
 </head>
 
@@ -46,17 +43,17 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
   
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
   <div class="container">
-    <div class="navbar-brand spacing" href="#">
+    <div class="navbar-brand spacing">
       <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
-    </div>
+   </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar dropdown-toggle"></span>
+      <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item dropdown d-none d-lg-block">
-          <a class="nav-link dropdown-toggle main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <b>Hello, Iskolar</b> <i class='fas fa-user-circle main-color ps-2' style='font-size:23px;'></i>
+          <a class="nav-link main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <b>Hello, Iskolar</b><i class="fas fa-user-circle main-color ps-3" style="font-size: 23px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="includes/voter-logout.php">Logout</a>
@@ -167,14 +164,14 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
 
   <div class="container mt-4 mb-4">
     <div class="border-frame">
-      <div class="row">
+      <div class="row container-spacing pb-4">
         <div class="col">
-          <div class="text-position main-color">
+          <div class="pt-lg-5 pt-3 main-color">
             <b>Please leave more of your feedback below:</b>
           </div>
         </div>
       </div>
-      <div class="row px-4 py-4">
+      <div class="row container-spacing pb-2">
         <div class="col">
           <textarea name="feedback" id="feedback" class="form-control " rows="10" placeholder="Type your feedback here..."></textarea>
         </div>
@@ -183,14 +180,13 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
       <div class="row pe-4 pb-4">
         <div class="col">
           <div class="text-center mt-3 text-lg-end">
-            <button type="submit" id="submitFeedbackBtn" class="button-submit main-bg-color">Submit Feedback</button>
+            <button type="submit" id="submitFeedbackBtn" class="button-submit main-bg-color">Skip Feedback</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </form>
-
 </body>
 
 
@@ -198,40 +194,15 @@ if(isset($_SESSION['voter_id'])  && ($_SESSION['role'] == 'Student Voter') && ($
 
   
 <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script>
+<script src="../src/scripts/feedback-suggestions.js"></script>
 
-  // Selecting emoji, no initial selected emoji
-  document.querySelectorAll('.feedback li').forEach(entry => entry.addEventListener('click', e => {
-    if (entry.classList.contains('active')) {
-        entry.classList.remove('active');
-    } else {
-        document.querySelector('.feedback li.active')?.classList.remove('active');
-        entry.classList.add('active');
-    }
-    e.preventDefault();
-  }));
-
-
-  
-  // Add value of the rating, corresponding with the emoji selected
-  document.addEventListener("DOMContentLoaded", function() {
-      var feedbackOptions = document.querySelectorAll(".feedback li");
-
-      feedbackOptions.forEach(function(option) {
-          option.addEventListener("click", function() {
-              var value = this.getAttribute("data-value");
-              document.getElementById("rating").value = value;
-          });
-      });
-  });
-
-
-
-</script>
 
 </html>
 <?php
+  //} else{
+   // header("Location: ballot-forms.php");
+ // }
 } else {
-  header("Location: voter-login.php");
+  header("Location: landing-page.php");
 }
 ?>

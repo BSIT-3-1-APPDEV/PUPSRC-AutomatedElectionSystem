@@ -191,15 +191,14 @@ input::placeholder {
 }
 
 .button-create {
-  background-color: var(--main-color); 
+  background-color: var(--main-color);
   color: white;
-  padding: 15px 32px;
+  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
   font-size: 16px;
-  width: 200px;
-  border-radius: 10px !important; 
+  width: auto;
+  border-radius: 10px !important;
   font-weight: bold;
   border: none;
 }
@@ -230,4 +229,12 @@ input::placeholder {
   color: red;
 }
 
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+
+.input-error {
+    border: 1px solid red !important;
+}
 /*# sourceMappingURL=style.css.map */
