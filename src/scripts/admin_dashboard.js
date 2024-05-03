@@ -104,6 +104,7 @@ screenfull.on('change', () => {
     const ELEMENT2= document.querySelector('.full-screen-content');
     const ELEMENT3= document.querySelector('.chart-container');
     const ELEMENT4= document.querySelector('.switch');
+    const ELEMENT5= document.querySelector('.anonymous-text');
     const HIDE_FULL_SCREEN = document.getElementById('fullscreen-button');
 
     // Check if the element is in fullscreen mode
@@ -113,6 +114,7 @@ screenfull.on('change', () => {
         ELEMENT2.classList.add('centered');
         ELEMENT3.classList.add('centered');
         ELEMENT4.classList.remove('d-none');
+        ELEMENT5.classList.remove('d-none');
         HIDE_FULL_SCREEN.classList.add('d-none');
         resizeChart();
     } else {
@@ -121,6 +123,7 @@ screenfull.on('change', () => {
         ELEMENT2.classList.remove('centered');
         ELEMENT3.classList.remove('centered');
         ELEMENT4.classList.add('d-none');
+        ELEMENT5.classList.add('d-none');
         HIDE_FULL_SCREEN.classList.remove('d-none');
         restoreChart();
         
