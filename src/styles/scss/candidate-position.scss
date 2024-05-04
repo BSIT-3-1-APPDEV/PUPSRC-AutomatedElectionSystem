@@ -1,3 +1,4 @@
+@import 'utilities';
 @import 'draggable-handle';
 
 // @media (max-height: 499px) {
@@ -32,19 +33,42 @@
 
 main {
 
-    height: calc(100dvh - (58.96px + 45.99px));
-
-    .fa {
-        color: #d9d9d9;
-        @extend %fa-grip-lines-before;
-    }
-
+    .fa,
     .fas {
-        color: #d9d9d9;
+        color: var(--border-gray);
         @extend %fa-grip-lines-before;
     }
 
     @extend %input-text-editable;
+
+    .btn {
+        &:not(nav.navbar .btn):not(nav.sidebar .btn) {
+
+            &:active {
+                box-shadow: none !important;
+            }
+
+            &.btn-primary {
+                border: calc(0.25rem + 0.2vw) solid var(--main-color);
+
+                &:disabled {
+                    opacity: 0.7;
+                    filter: brightness(120%);
+                }
+
+            }
+
+            &.btn-secondary:not(:disabled) {
+                border: calc(0.25rem + 0.2vw) solid var(--secondary-color);
+
+            }
+
+            &.btn-success:not(:disabled) {
+                border: calc(0.25rem + 0.2vw) solid rgba(7, 136, 95, 1);
+
+            }
+        }
+    }
 
     & button.del {
         font-weight: bold;
@@ -56,6 +80,18 @@ main {
             svg {
                 transform: translateY(-8%);
             }
+        }
+    }
+
+    @media only screen and (max-height: 600px) {
+        .dt-scroll-body {
+            max-height: clamp(4.5rem, 2rem + 25dvh, 45dvh) !important;
+        }
+    }
+
+    @media only screen and (min-height: 601px) {
+        .dt-scroll-body {
+            max-height: clamp(4.5rem, 2rem + 45dvh, 70dvh) !important;
         }
     }
 
@@ -83,6 +119,110 @@ main {
                 // background-color: rgba(var(--r), var(--g), var(--b), 0.2);
                 border: calc(0.5px + 0.1vw) solid #0075FF;
             }
+        }
+    }
+}
+
+body div.modal {
+
+    .modal-dialog {
+        .modal-header {
+            .modal-title {
+                @media only screen and (max-width: 600px) {
+                    font-size: calc(0.75rem + 0.6575vw);
+                }
+            }
+        }
+
+        label[for="positionInput"] {
+            color: var(--main-color);
+            font-weight: 800;
+        }
+
+        #positionInput {
+            outline: none;
+            border-top: 0;
+            border-right: 0;
+            border-left: 0;
+            border-radius: 0;
+            border-bottom: clamp(1px, 1px + 0.01dvw, 5px) solid var(--main-color);
+            padding-left: 0;
+            padding-right: 0;
+
+            &.form-control {
+
+                &:active,
+                &:focus {
+                    box-shadow: none;
+                    border-bottom: clamp(2px, 1.5px + 0.01dvw, 5px) solid var(--main-color);
+                }
+            }
+        }
+
+        button.btn.btn-secondary {
+            box-shadow: none !important;
+            background-color: var(--bs-modal-bg) !important;
+
+            &:active,
+            &:hover {
+                filter: grayscale(100%);
+                box-shadow: var(--bs-box-shadow-sm) !important;
+            }
+
+
+        }
+
+        button.modal-close {
+            color: var(--main-color);
+            background-color: var(--white);
+
+            svg circle {
+                color: transparent;
+            }
+
+            &:hover {
+
+                svg circle,
+                svg line {
+                    stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
+                    color: var(--white)
+                }
+
+                background-color: var(--main-color);
+                filter: grayscale(100%);
+            }
+        }
+
+        @media only screen and (max-height: 600px) {
+            .ql-container {
+                // height: 100px;
+                height: clamp(6rem, 3rem + 9dvh, 50dvh);
+            }
+
+            .ql-editor {
+                height: clamp(4.5rem, 1.5rem + 8.5dvh, 49.5dvh);
+            }
+        }
+
+        @media only screen and (min-height: 601px) {
+            .ql-container {
+                // height: 100px;
+                height: clamp(6.25rem, 3rem + 35dvh, 50dvh);
+            }
+
+            .ql-editor {
+                height: clamp(4.75rem, 1.5rem + 34dvh, 49.5dvh);
+            }
+        }
+
+    }
+
+    .form-control {
+        color: var(--main-black);
+
+        &:focus {
+            // color: var(--main-black);
+            background-color: var(--white);
         }
     }
 }

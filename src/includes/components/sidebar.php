@@ -19,28 +19,23 @@
 	<div class="menu-content">
 		<ul class="menu-items ms-xl-1">
 			<li class="item">
-				<a href="admindashboard.php"
-					class="<?php echo basename($_SERVER['PHP_SELF']) == 'admindashboard.php' ? 'active' : ''; ?>"><i
-						data-feather="home" class="white mb-xl-1"></i><span style="padding-left: 1rem">Home</span></a>
+				<a href="admindashboard.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admindashboard.php' ? 'active' : ''; ?>"><i data-feather="home" class="white mb-xl-1"></i><span style="padding-left: 1rem">Home</span></a>
 			</li>
 
 			<li class="item">
-				<a href="result-generation.php"
-					class="<?php echo basename($_SERVER['PHP_SELF']) == 'result-generation.php' ? 'active' : ''; ?>"><i
-						data-feather="bar-chart-2" class="white mb-xl-1"></i><span
-						style="padding-left: 0.7rem;">Reports</span></a>
+				<a href="result-generation.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'result-generation.php' ? 'active' : ''; ?>"><i data-feather="bar-chart-2" class="white mb-xl-1"></i><span style="padding-left: 0.7rem;">Reports</span></a>
 			</li>
 
 			<li class="item">
 				<div id="submenuToggle" class="submenu-item <?php echo
 
-						# ---- MANAGE ACCOUNTS PAGES
-					(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
-						basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
-						basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
-						basename($_SERVER['PHP_SELF']) == 'voter-details.php' ||
-						basename($_SERVER['PHP_SELF']) == 'admin-creation.php')
-					? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" data-bs-parent="false">
+															# ---- MANAGE ACCOUNTS PAGES
+															(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
+																basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
+																basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
+																basename($_SERVER['PHP_SELF']) == 'voter-details.php' ||
+																basename($_SERVER['PHP_SELF']) == 'admin-creation.php')
+																? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" data-bs-parent="false">
 
 					<div class="submenu-content">
 						<i data-feather="users" class="white mb-xl-1"></i>
@@ -50,11 +45,11 @@
 					<i class="fas fa-chevron-right" id="submenuIcon"></i>
 
 					<script>
-						document.addEventListener("DOMContentLoaded", function () {
+						document.addEventListener("DOMContentLoaded", function() {
 							var submenuToggle = document.getElementById("submenuToggle");
 							var submenuIcon = document.getElementById("submenuIcon");
 
-							submenuToggle.addEventListener("click", function () {
+							submenuToggle.addEventListener("click", function() {
 								if (submenuIcon.classList.contains("fa-chevron-right")) {
 									submenuIcon.classList.remove("fa-chevron-right");
 									submenuIcon.classList.add("fa-chevron-down");
@@ -73,22 +68,20 @@
 					<li class="item">
 						<a href="manage-voters.php" class="<?php echo
 
-								# ---- VOTERS PAGES
-							(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
-								basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
-								basename($_SERVER['PHP_SELF']) == 'voter-details.php')
-							? 'active-sub fw-bold' : ''; ?>">
+															# ---- VOTERS PAGES
+															(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
+																basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
+																basename($_SERVER['PHP_SELF']) == 'voter-details.php')
+																? 'active-sub fw-bold' : ''; ?>">
 							Voters</a>
 
 					</li>
 
 					<li class="item">
-						<a href="manage-committee.php"
-							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Committee</a>
+						<a href="manage-committee.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Committee</a>
 					</li>
 					<li class="item">
-						<a href="admin-creation.php"
-							class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">Add
+						<a href="admin-creation.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">Add
 							Committee</a>
 					</li>
 				</ul>
@@ -97,10 +90,10 @@
 			<li class="item">
 				<div id="submenuToggle2" class="submenu-item <?php echo
 
-						# ---- MANAGE CANDIDATES PAGES
-					(basename($_SERVER['PHP_SELF']) == 'manage-candidates.php' ||
-						basename($_SERVER['PHP_SELF']) == 'add-candidate.php')
-					? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageCandidates" data-bs-parent="false">
+																# ---- MANAGE CANDIDATES PAGES
+																(basename($_SERVER['PHP_SELF']) == 'manage-candidates.php' ||
+																	basename($_SERVER['PHP_SELF']) == 'add-candidate.php')
+																	? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageCandidates" data-bs-parent="false">
 
 					<div class="submenu-content">
 						<i data-feather="user-plus" class="white mb-xl-1"></i>
@@ -110,11 +103,11 @@
 					<i class="fas fa-chevron-right" id="submenuIcon2"></i>
 
 					<script>
-						document.addEventListener("DOMContentLoaded", function () {
+						document.addEventListener("DOMContentLoaded", function() {
 							var submenuToggle = document.getElementById("submenuToggle2");
 							var submenuIcon = document.getElementById("submenuIcon2");
 
-							submenuToggle.addEventListener("click", function () {
+							submenuToggle.addEventListener("click", function() {
 								if (submenuIcon.classList.contains("fa-chevron-right")) {
 									submenuIcon.classList.remove("fa-chevron-right");
 									submenuIcon.classList.add("fa-chevron-down");
@@ -130,30 +123,34 @@
 				</div>
 				<ul class="menu-items submenu collapse" id="manageCandidates">
 					<li class="item">
-						<a href="manage-voters.php"
-							class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Add
+						<a href="manage-voters.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Add
 							Candidate</a>
 					</li>
 					<li class="item">
-						<a href="admin-creation.php"
-							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Manage
+						<a href="admin-creation.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Manage
 							Candidates</a>
 					</li>
 				</ul>
 			</li>
 
 			<li class="item">
-				<a href="archive.php"
-					class="<?php echo basename($_SERVER['PHP_SELF']) == 'archive.php' ? 'active' : ''; ?>"><i
-						data-feather="archive" class="white mb-xl-1"></i><span
-						style="padding-left: 1rem">Archive</span></a>
+				<a href="archive.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'archive.php' ? 'active' : ''; ?>"><i data-feather="archive" class="white mb-xl-1"></i><span style="padding-left: 1rem">Archive</span></a>
 			</li>
 
 			<li class="item">
-				<a href="configuration.php"
-					class="<?php echo basename($_SERVER['PHP_SELF']) == 'configuration.php' ? 'active' : ''; ?>"><i
-						data-feather="settings" class="white mb-xl-1"></i><span
-						style="padding-left: 1rem">Configuration</span></a>
+				<a href="configuration.php" class="<?=
+
+													# ---- CONFIGURATION PAGES
+													(basename($_SERVER['PHP_SELF']) == 'configuration.php' ||
+														basename($_SERVER['PHP_SELF']) == 'ballot-form' ||
+														basename($_SERVER['PHP_SELF']) == 'vote-schedule' ||
+														basename($_SERVER['PHP_SELF']) == 'election-year' ||
+														basename($_SERVER['PHP_SELF']) == 'vote-guidelines' ||
+														basename($_SERVER['PHP_SELF']) == 'positions')
+														? 'active' : ''; ?>
+				">
+					<i data-feather="settings" class="white mb-xl-1"></i><span style="padding-left: 1rem">Configuration</span>
+				</a>
 			</li>
 		</ul>
 	</div>
@@ -174,8 +171,7 @@
 			<div class="dropdown user-profile">
 
 				<button class="btn" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-					<img src="images/logos/<?php echo $org_name ?>.png" class="profile-icon me-xl-3"><i
-						class="fas fa-chevron-down main-color fs-6"></i>
+					<img src="images/logos/<?php echo $org_name ?>.png" class="profile-icon me-xl-3"><i class="fas fa-chevron-down main-color fs-6"></i>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end main-color" aria-labelledby="dropdownMenuButton">
 					<li class="px-xl-2"><a class="dropdown-item" href="profile.php">Profile</a></li>

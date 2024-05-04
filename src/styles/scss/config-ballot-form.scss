@@ -31,7 +31,7 @@ main.main {
         width: 100%;
         height: calc(1.5rem + 0.01dvw + 1dvh);
         color: #fff;
-        background-color: #d9d9d9;
+        background-color: var(--border-gray);
 
         .fa {
             @extend %fa-grip-lines-before;

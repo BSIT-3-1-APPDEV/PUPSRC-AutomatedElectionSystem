@@ -7,7 +7,7 @@ export default class InputValidator {
         this.#validations = validations;
     }
 
-    validate(input_obj) {
+    validate(input_obj, callback) {
 
         if (!(input_obj instanceof Element)) {
             throw new Error('Invalid input element provided.');
@@ -28,7 +28,9 @@ export default class InputValidator {
         if (this.#validations.attributes.required) {
             if (input_element.validity.valueMissing || original_value.trim() === '') {
                 input_element.value = original_value.trim();
-                setTextEditableWidth(input_element);
+                if (typeof callback === 'function') {
+                    callback(input_element);
+                }
                 return false;
             }
         }
@@ -45,7 +47,9 @@ export default class InputValidator {
                 }
 
                 input_element.value = trimmed_value;
-                setTextEditableWidth(input_element);
+                if (typeof callback === 'function') {
+                    callback(input_element);
+                }
 
                 return false;
             }

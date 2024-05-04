@@ -22,6 +22,7 @@
             <div class="card-body">
                 <div class="form">
                     <input type="text" class="col-8 col-sm-6 col-md-5 col-lg-4 col-xxl-3" id="year-picker" readonly>
+                    <!-- <cds-icon shape="calendar" solid="true"></cds-icon> -->
                     <button type="button" class="btn btn-success btn-lg mx-auto">Save Changes</button>
                 </div>
 

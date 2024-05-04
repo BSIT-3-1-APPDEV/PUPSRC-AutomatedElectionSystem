@@ -26,7 +26,7 @@ export default function setTextEditableWidth(input_element) {
     document.body.appendChild(tempElement);
 
     // Get the measured width of the text content
-    const textWidth = tempElement.offsetWidth + (ViewportDimensions.getViewportWidth() * 0.005);
+    const textWidth = tempElement.offsetWidth + (ViewportDimensions.getViewportWidth() * 0.009);
 
     // Set the width of the input element based on the text width
     input.style.width = textWidth + 'px';

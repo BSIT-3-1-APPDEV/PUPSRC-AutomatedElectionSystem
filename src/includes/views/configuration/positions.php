@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.bootstrap5.css">
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet" />
 <link rel="stylesheet" href="src/styles/candidate-position.css">
+
 
 <main class="main">
     <div class="container px-md-3 px-lg-5 px-sm-2 p-4 ">
@@ -57,7 +59,7 @@
                 <b class="item-count d-none"><span class="count"></span> items selected</b>
 
             </div>
-            <span class="save-status">
+            <span class="save-status d-none">
                 <span class="text-uppercase weight-700 save-icon d-none d-md-inline">Note: </span>
                 <span class="save-msg text-truncate d-none d-md-inline">Your changes are saved automatically.</span>
             </span>
@@ -73,5 +75,6 @@ $page_scripts = '
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.bootstrap5.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
 <script type="module" src="src/scripts/candidate-position.js"></script>
     ';

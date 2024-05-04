@@ -7,6 +7,14 @@ oneYearAhead.setFullYear(oneYearAhead.getFullYear() + 1);
 oneYearAhead.setMonth(oneYearAhead.getMonth() + 1, 0);
 oneYearAhead.setHours(23, 59, 59, 999);
 
+let fiveYearsAhead = new Date();
+fiveYearsAhead.setFullYear(fiveYearsAhead.getFullYear() + 5);
+fiveYearsAhead.setMonth(fiveYearsAhead.getMonth() + 1, 0);
+fiveYearsAhead.setHours(23, 59, 59, 999);
+
+
+
+
 function isElementInViewport(el) {
     var rect = el.getBoundingClientRect();
     var fitsLeft = (rect.left >= 0 && rect.left <= $(window).width());
@@ -29,7 +37,7 @@ let datePickerInst = $(`#year-picker`).datepicker({
     view: 'years',
     minView: 'years',
     minDate: today,
-    maxDate: oneYearAhead,
+    maxDate: fiveYearsAhead,
     clearButton: true,
     isMobile: true,
     autoClose: false,
