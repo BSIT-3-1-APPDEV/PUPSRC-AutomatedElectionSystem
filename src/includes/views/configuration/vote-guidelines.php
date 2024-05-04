@@ -9,9 +9,16 @@
 
             <?php
 
+            global $requested_basepage;
+            $route_link;
+            if (isset($requested_basepage) && !empty($requested_basepage)) {
+                $route_link = $requested_basepage;
+            } else {
+                $route_link = true;
+            }
             global $configuration_pages;
             global $link_name;
-            $secondary_nav = new SecondaryNav($configuration_pages, $link_name, true);
+            $secondary_nav = new SecondaryNav($configuration_pages, $link_name,  $route_link);
             $secondary_nav->getNavLink();
             ?>
         </div>
@@ -75,9 +82,11 @@
 <?php
 global $page_scripts;
 $page_scripts = '
-<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
-<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
-<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.bootstrap5.js"></script>
-<script src="src/scripts/config-vote-guidelines.js"></script>
+<script  type="text/javascript" src="src/scripts/config-page-loader.js?v=2"></script>
+<script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.js?v=2"></script>
+<script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js?v=2"></script>
+<script  type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js?v=2"></script>
+<script  type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.bootstrap5.js?v=2"></script>
+<script  type="text/javascript" src="src/scripts/config-vote-guidelines.js?v=2"></script>
+<script  type="text/javascript" src="src/scripts/feather.js?v=2" defer></script>
     ';

@@ -7,10 +7,12 @@ class SecondaryNav
     public function __construct($pages, $link_names, $is_routed = false)
     {
         $this->initializePages($pages, $link_names);
-        if ($is_routed) {
+        if ($is_routed === true) {
             $this->base_page = $_SERVER['SCRIPT_NAME'];
+        } else if ($is_routed !== false) {
+            $this->base_page = $is_routed;
         } else {
-            $this->base_page = "/";
+            $this->base_page = "";
         }
     }
 

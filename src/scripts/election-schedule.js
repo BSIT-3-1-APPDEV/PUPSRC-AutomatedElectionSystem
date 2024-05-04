@@ -86,18 +86,44 @@ let table = new DataTable('#example', {
         // searchContainer.classList.add('col-12', 'col-md-10');
         // let searchInput = document.querySelector('div.dt-search input');
         // searchInput.classList.add('w-100');
+        addCheckboxLabel();
 
     }
 });
 
-// Select all input elements with the class "dt-select-checkbox"
-const checkboxes = document.querySelectorAll('input.dt-select-checkbox');
+function addCheckboxLabel() {
+    const CHECKBOXES = document.querySelectorAll('input.dt-select-checkbox');
 
-// Iterate over each checkbox
-checkboxes.forEach((checkbox) => {
-    // Create a new label element
-    const label = document.createElement('label');
+    CHECKBOXES.forEach((checkbox) => {
+        let existingLabel = checkbox.nextElementSibling;
 
-    // Insert the label after the checkbox
-    checkbox.insertAdjacentElement('afterend', label);
+        if (!existingLabel || existingLabel.tagName !== 'LABEL') {
+            // Create a new label element
+            let newLabel = document.createElement('label');
+
+            checkbox.insertAdjacentElement('afterend', newLabel);
+        }
+    });
+}
+
+table.on('draw', function () {
+    if (table.data().any()) {
+        // $('div.toolbar').show();
+        addCheckboxLabel();
+        $('table#example').show();
+        $(this).parent().show();
+    } else {
+        // $('div.toolbar').hide();
+        $('table#example').hide();
+        $(this).parent().hide();
+    }
+});
+
+$('#example').on('click', 'tbody tr', function () {
+    if (table.row(this, { selected: true }).any()) {
+        table.row(this).deselect();
+    }
+    else {
+        table.row(this).select();
+    }
 });

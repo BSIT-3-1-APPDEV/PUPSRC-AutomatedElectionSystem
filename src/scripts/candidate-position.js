@@ -2,6 +2,9 @@ import ViewportDimensions from './viewport.js';
 import InputValidator from './input-validator.js';
 import setTextEditableWidth from './configuration-set-text-editable-width.js';
 
+// (function () {
+
+
 /**
  * Utility class for Datatable.
  */
@@ -522,7 +525,6 @@ function handleModalInput(event) {
 
 function handleInput(event) {
     setTextEditableWidth(event.target);
-
     const inputElement = event.target;
 
     clearTimeout(typingTimeout);
@@ -537,7 +539,7 @@ function handleInput(event) {
                         const { data, success, error } = result;
 
                         if (success) {
-                            updatePostion(data);
+                            updatePostion(data, false);
                         } else {
                             console.error('POST request failed:', error);
                         }
@@ -737,10 +739,10 @@ table.on('row-reorder', function (e, diff, edit) {
 table.on('draw', function () {
     if (table.data().any()) {
         CandidatePosition.addTableListener('example');
-        const textEditableElements = getAllTextEditable();
-        textEditableElements.forEach(function (element) {
-            setTextEditableWidth(element);
-        });
+        setTimeout(() => {
+            const textEditableElements = getAllTextEditable();
+            textEditableElements.forEach(element => setTextEditableWidth(element));
+        }, 50);
         $('div.toolbar').show();
         $('table#example').show();
         $(this).parent().show();
@@ -813,29 +815,41 @@ function deletePosition(DATA) {
     }
 }
 
-function updatePostion(DATA) {
+function updatePostion(DATA, draw = true) {
 
     if (DATA && DATA.data && Array.isArray(DATA.data)) {
         DATA.data.forEach(item => {
             console.log("each pos update " + JSON.stringify(item));
             let { sequence, data_id, input_id, value, description } = item;
-            let rowData = {
-                0: sequence,
-                1: {
-                    data_id: data_id,
-                    sequence: sequence,
-                    value: value
-                },
-                2: description
-            }
-            console.log('row ' + JSON.stringify(rowData));
-            let INPUT_ELEMENT = document.getElementById(input_id);
-            let DATA_ROW = INPUT_ELEMENT.closest(`tr`);
-            if (DATA_ROW) {
-                table.row(DATA_ROW).data(rowData).draw(false);
+            if (draw) {
+                let rowData = {
+                    0: sequence,
+                    1: {
+                        data_id: data_id,
+                        sequence: sequence,
+                        value: value
+                    },
+                    2: description
+                }
+                console.log('row ' + JSON.stringify(rowData));
+                let INPUT_ELEMENT = document.getElementById(input_id);
+                let DATA_ROW = INPUT_ELEMENT.closest(`tr`);
+                if (DATA_ROW) {
+                    table.row(DATA_ROW).data(rowData).draw(false);
+                } else {
+
+                    console.error(`Input element with ID not found.`);
+                }
             } else {
 
-                console.error(`Input element with ID not found.`);
+
+                // let INPUT_ELEMENT = document.getElementById(input_id);
+                // if (INPUT_ELEMENT) {
+                //     INPUT_ELEMENT.name = data_id;
+                // } else {
+
+                //     console.error(`Input element with ID not found.`);
+                // }
             }
         });
     } else {
@@ -1019,9 +1033,12 @@ function processData(data) {
 
 function insertData(TABLE_DATA, TABLE) {
 
-    console.log('To be inserted TABLE_DATA:', TABLE_DATA);
     TABLE.clear();
-    TABLE.rows.add(TABLE_DATA);
-    TABLE.draw();
+    TABLE.rows.add(TABLE_DATA).draw(true);
+
     CandidatePosition.addTableListener('example');
+
 }
+
+
+// })();

@@ -9,10 +9,11 @@ require_once FileUtils::normalizeFilePath('includes/classes/page-router.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
-require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
-$is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role']) && strtolower($_SESSION['role']) === 'committee member'  || strtolower($_SESSION['role']) == 'admin member' && !empty($_SESSION['organization']);
+$is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role'], $_SESSION['organization']) &&
+    (strtolower($_SESSION['role']) === 'committee member'  || strtolower($_SESSION['role']) == 'admin member') &&
+    !empty($_SESSION['organization']);
 
 if (!$is_page_accessible) {
     header("location: ../landing-page.php");
@@ -30,6 +31,7 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
     define("TITLE", "Configuration");
     define("DESCRIPTION", "Change election configuration.");
 
+    global $pageHead;
     $pageHead = new PageHeadUtils(TITLE, DESCRIPTION, true);
     ?>
 
@@ -77,6 +79,16 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
     <!-- Page Style -->
     <link rel="stylesheet" href="src/styles/configuration.css">
 
+    <!-- Vendor Scripts -->
+    <script src="vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
+    <!-- Main Scripts -->
+    <script src="src/scripts/script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <!-- Page Scripts -->
+    <script src="src/scripts/configuration.js"></script>
+
 </head>
 
 <body>
@@ -114,20 +126,11 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
     ?>
 
 
-    <!-- Vendor Scripts -->
-    <script src="vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
-    <!-- Main Scripts -->
-    <script src="src/scripts/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
-    <!-- Page Scripts -->
-    <script src="src/scripts/configuration.js"></script>
     <?php if (isset($page_scripts)) {
         echo $page_scripts;
     }
     ?>
-    <script src="src/scripts/feather.js" defer></script>
 
 </body>
 
