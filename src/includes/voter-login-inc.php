@@ -3,6 +3,7 @@ include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/classes/file-util
 require_once FileUtils::normalizeFilePath('session-handler.php');
 require_once FileUtils::normalizeFilePath('classes/voter-login-controller.php');
 require_once FileUtils::normalizeFilePath('classes/voter-login-class.php');
+require_once FileUtils::normalizeFilePath('error-reporting.php');
 
 // Check if CSRF token isn't both set and submitted thru POST method
 if(!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token'])) {

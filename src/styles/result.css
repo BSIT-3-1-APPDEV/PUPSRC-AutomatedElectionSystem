@@ -184,7 +184,7 @@
   border: none;
   border-radius: 0.25rem;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 12px;
   cursor: pointer;
   @media (max-width: 768px) {
     font-size: 10px;
@@ -204,7 +204,6 @@
   }
   
 }
-
 @media (max-width: 480px) {
   .dropdown-item {
      width: 75px !important;

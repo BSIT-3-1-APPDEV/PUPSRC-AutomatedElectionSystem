@@ -13,7 +13,7 @@
 }
 
 .main-bg-color {
-  background-color: #4769b2;
+  background-color: #4769b2 !important;
 }
 
 .item a.active {
