@@ -12,7 +12,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
-$is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role']) && strtolower($_SESSION['role']) === 'committee member'  || strtolower($_SESSION['role']) == 'Admin Member' && !empty($_SESSION['organization']);
+$is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role']) && strtolower($_SESSION['role']) === 'committee member'  || strtolower($_SESSION['role']) == 'admin member' && !empty($_SESSION['organization']);
 
 if (!$is_page_accessible) {
     header("location: ../landing-page.php");

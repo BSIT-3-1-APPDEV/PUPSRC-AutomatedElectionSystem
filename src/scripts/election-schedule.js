@@ -43,20 +43,19 @@ let table = new DataTable('#example', {
     columnDefs: [
         {
             targets: 0,
-            className: 'custom-checkbox',
+            className: 'custom-checkbox col-3',
             render: DataTable.render.select(),
 
         },
         {
-            targets: 1, className: `text-left`,
+            targets: 1, className: `text-left col-3`,
             className: ``,
             // render: function (data) {
             //     return `Section`;
             // }
         },
         {
-            targets: 1, className: `text-left`,
-            className: ``,
+            targets: 2, className: `text-center col-6`,
             // render: function (data) {
             //     return `Date`;
             // }
@@ -70,14 +69,23 @@ let table = new DataTable('#example', {
             toolbar = toolbarDiv;
 
             return toolbar;
-        }
+        },
+        topEnd: {
+
+            search: {
+                placeholder: 'Search'
+            }
+        },
 
     },
     language: {
-        "search": "",
+        "search": `<i data-feather="search" width="calc(0.75rem + 0.25vw)" height="calc(0.75rem + 0.25vw)"></i>`,
     },
     initComplete: function (settings, json) {
-
+        // let searchContainer = document.querySelector('col-md-auto ms-auto');
+        // searchContainer.classList.add('col-12', 'col-md-10');
+        // let searchInput = document.querySelector('div.dt-search input');
+        // searchInput.classList.add('w-100');
 
     }
 });

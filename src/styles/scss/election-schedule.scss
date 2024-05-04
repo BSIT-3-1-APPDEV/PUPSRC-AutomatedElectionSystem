@@ -7,6 +7,33 @@
 
 main.main {
     div.dt-container {
+        >.row.mt-2.justify-content-between {
+
+            :first-child {
+
+                @media (max-width: 576px) {
+                    order: 1;
+                }
+
+                @media (min-width: 576px) {
+                    order: 0;
+                }
+            }
+
+            :nth-child(2) {
+
+                @media (max-width: 576px) {
+                    order: 0;
+                }
+
+                @media (min-width: 576px) {
+                    order: 1;
+                }
+            }
+        }
+
+
+
         table {
             thead {
                 background-color: var(--border-gray);
@@ -23,10 +50,16 @@ main.main {
                         align-items: end;
                     }
                 }
+
+                td:nth-child(2) {
+                    border-right: clamp(0.063rem, 0.031rem + 0.01vw, 0.05vw) solid var(--border-gray);
+                    ;
+                }
             }
         }
 
         .toolbar {
+
             button.btn-primary {
                 border-radius: 50%;
                 padding: clamp(0.5rem, 0.25rem + 0.01vw, 1.5dvw) clamp(1rem, 0.5rem + 0.02vw, 3dvw);
@@ -38,19 +71,57 @@ main.main {
 
         }
 
+        .toolbar,
+        .dt-search input[type="search"] {
+            @media (max-width: 576px) {
+                margin-bottom: 1.5rem;
+            }
+
+            @media (min-width: 576px) {
+                margin: clamp(2.125rem, 1.75rem + 1dvh, 20dvh) 0;
+            }
+        }
+
+
         .dt-search {
+            display: flex;
+            align-items: center;
+
             input[type="search"] {
+                color: var(--main-color);
                 border: clamp(0.063rem, 0.031rem + 0.01vw, 0.05vw) solid var(--main-color);
-                height: clamp(2rem, 1.5rem + 0.2vw, 2vw);
+                height: clamp(3rem, 2rem + 0.5vw, 2vw);
+
+                padding-left: calc(1.75rem + 0.5vw);
+
+                @media (max-width: 576px) {
+                    margin-top: 1.5rem;
+                    width: 100%;
+                }
+
+                @media (min-width: 576px) {
+                    width: clamp(280px, 140px + 10vw, 20vw);
+                }
+
+                &::placeholder {
+                    color: var(--main-color);
+                    font-weight: 300;
+                }
 
                 &:focus {
                     background-color: var(--white);
                 }
 
-                // min-height: calc(1.5em + 0.5rem + calc(var(--bs-border-width) * 2));
-                // padding: 0.25rem 0.5rem;
-                // font-size: 0.875rem;
-                // border-radius: var(--bs-border-radius-sm);
+            }
+
+            label svg {
+                position: absolute;
+                transform: translateY(-50%) translateX(70%);
+
+                @media (max-width: 576px) {
+                    left: calc(20% - 3vw);
+                    transform: translateY(-50%);
+                }
             }
         }
     }
