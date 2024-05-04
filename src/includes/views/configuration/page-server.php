@@ -2,7 +2,7 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, '../../classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('../../classes/page-router.php');
 require_once FileUtils::normalizeFilePath('../../classes/page-secondary-nav.php');
-// require_once FileUtils::normalizeFilePath('../../error-reporting.php');
+require_once FileUtils::normalizeFilePath('../../error-reporting.php');
 header('Content-Type: text/html');
 
 $page_request = $_SERVER['REQUEST_URI'];

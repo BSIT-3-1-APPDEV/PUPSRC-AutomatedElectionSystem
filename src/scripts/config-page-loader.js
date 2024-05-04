@@ -34,46 +34,24 @@ function fetchAndReplaceContent(url) {
 
             // Add new scripts
             let scripts = newDocument.querySelectorAll('script');
-            let loadPromises = [];
-
-            for (let i = 0; i < scripts.length; i++) {
-                let script = scripts[i];
+            for (let script of scripts) {
                 console.log(script);
-
                 if (script.src) {
                     let srcWithoutPrefix = script.src.replace('src/', '');
 
                     let newScript = document.createElement('script');
                     newScript.src = srcWithoutPrefix;
 
-                    if (i + 1 < scripts.length && scripts[i + 1].type === 'module') {
-                        setTimeout(function () {
-                            Promise.all(loadPromises)
-                                .then(() => console.log('All scripts loaded!'))
-                                .catch(() => console.error('Some scripts failed to load.'));
-                        }, 100);
-
-                    } else if (script.type !== 'module') {
-                        let loadPromise = loadScript(newScript.src, script.type, script.defer)
-                            .then(() => console.log('Script loaded successfully!'))
-                            .catch(error => console.error(`Error loading script: ${error}`));
-
-                        loadPromises.push(loadPromise);
-                    } else {
-                        try {
-                            await loadScript(newScript.src, script.type, script.defer);
-                            console.log('Script loaded successfully!');
-                        } catch (error) {
-                            console.error(`Error loading script: ${error}`);
-                        }
+                    try {
+                        await loadScript(newScript.src, script.type, script.defer);
+                        console.log('Script loaded successfully!');
+                    } catch (error) {
+                        console.error(`Error loading script: ${error}`);
                     }
                 } else {
                     // Execute inline scripts
                     eval(script.textContent);
                 }
-
-                // If you need to access the next script in the array, you can do so like this:
-                // let nextScript = scripts[i + 1];
             }
 
 
