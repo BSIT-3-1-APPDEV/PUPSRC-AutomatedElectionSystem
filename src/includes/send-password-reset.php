@@ -1,11 +1,10 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/session-handler.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/classes/session-manager.php');
-include_once FileUtils::normalizeFilePath(__DIR__ . '/session-exchange.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/classes/db-connector.php');
-
-SessionManager::checkUserRoleAndRedirect();
+require_once FileUtils::normalizeFilePath(__DIR__ . '/mailer.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/classes/email-sender.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/error-reporting.php');
 
 if(!isset($_POST['send-email-btn'])) {
     $_SESSION['error_message'] = 'Something went wrong.';
@@ -15,6 +14,7 @@ if(!isset($_POST['send-email-btn'])) {
 
 $email = $_POST['email'];
 if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION['error_message'] = 'Please provide a valid email';
     header("Location: ../voter-login.php");
     exit();
 }
@@ -29,6 +29,7 @@ $stmt->execute();
 $row = $stmt->get_result();
 
 if($row->num_rows === 0) {
+    $_SESSION['notice_message'] = 'User with this email does not exist.';
     header("Location: ../voter-login.php");
     exit();
 }
@@ -43,29 +44,9 @@ $stmt->bind_param('sss', $token_hash, $expiry, $email);
 $stmt->execute();
 
 if($connection->affected_rows) {
-    $mail = require FileUtils::normalizeFilePath(__DIR__ . '/mailer.php');
-
-    // For now we set the url to localhost. This will be change
-    $mail->setFrom("noreply@example.com");
-    $mail->addAddress($email);
-    $mail->Subject = "Password Reset";  // To change
-    $mail->Body = <<<END
-
-    Click <a href="http://localhost/PUPSRC-AutomatedElectionSystem/src/reset-password.php?token=$token">here</a> 
-    to reset your password.
-
-    END;
-
-    try {
-        $mail->send();
-        header("Location: ../voter-login.php");
-        exit();
-    }
-    catch(Exception $e) {
-        echo "Mailer error: {$mail->ErrorInfo}";
-    }
+    $send_email = new EmailSender($mail);
+    $send_email->sendPasswordResetEmail($email, $token); 
 }
 
 header("Location: ../voter-login.php");
-echo "Reset password URL is sent to your email. Please check.";
 exit();
