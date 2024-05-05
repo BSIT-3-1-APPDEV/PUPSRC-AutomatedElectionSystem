@@ -14,14 +14,12 @@ $_SESSION['csrf_expiry'] = time() + (60 * 30);
 
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
-    // Unset the error message from the session once displayed
-    unset($_SESSION['error_message']);
+    unset($_SESSION['error_message']); // Unset the error message from the session once displayed
 }
 
 if (isset($_SESSION['info_message'])) {
-    $info_message = $_SESSION['info_message'];
-    // Unset the info message from the session once displayed
-    unset($_SESSION['info_message']);
+    $info_message = $_SESSION['info_message'];    
+    unset($_SESSION['info_message']); // Unset the info message from the session once displayed
 }
 
 ?>
