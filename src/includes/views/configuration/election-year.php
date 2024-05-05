@@ -42,9 +42,8 @@
 <?php
 global $page_scripts;
 $page_scripts = '
-<script src="src/scripts/config-page-loader.js?v=2"></script>
-<script src="vendor/plugin/air-datepicker/dist/js/datepicker.min.js?v=2"></script>
-<script src="vendor/plugin/air-datepicker/dist/js/i18n/datepicker.en.js?v=2"></script>
+<script src="vendor/plugin/air-datepicker/dist/js/datepicker.min.js"></script>
+<script src="vendor/plugin/air-datepicker/dist/js/i18n/datepicker.en.js"></script>
 <script src="src/scripts/election-year.js?v=2"></script>
-<script  type="text/javascript"src="src/scripts/feather.js?v=2" defer></script>
+<script  type="text/javascript"src="src/scripts/feather.js" defer></script>
     ';

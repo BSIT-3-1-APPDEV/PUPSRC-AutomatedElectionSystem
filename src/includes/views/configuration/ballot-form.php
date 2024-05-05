@@ -69,7 +69,6 @@
 <?php
 global $page_scripts;
 $page_scripts = '
-<script  type="text/javascript" src="src/scripts/config-page-loader.js?v=2"></script>
 <script  type="module" src="src/scripts/config-ballot-form.js?v=2"></script>
-<script  type="text/javascript" src="src/scripts/feather.js?v=2" defer></script>
+<script  type="text/javascript" src="src/scripts/feather.js" defer></script>
     ';

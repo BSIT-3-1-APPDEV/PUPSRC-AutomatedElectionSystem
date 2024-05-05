@@ -78,12 +78,11 @@
 <?php
 global $page_scripts;
 $page_scripts = '
-<script src="src/scripts/config-page-loader.js?v=2"></script>
-<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js?v=2"></script>
-<script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js?v=2"></script>
-<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js?v=2"></script>
-<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.bootstrap5.js?v=2" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js?v=2"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.bootstrap5.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
 <script type="module" src="src/scripts/candidate-position.js?v=2" defer></script>
-<script  type="text/javascript"src="src/scripts/feather.js?v=2" defer></script>
+<script  type="text/javascript"src="src/scripts/feather.js" defer></script>
     ';

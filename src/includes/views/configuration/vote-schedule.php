@@ -58,11 +58,10 @@
 <?php
 global $page_scripts;
 $page_scripts = '
-<script  type="text/javascript" src="src/scripts/config-page-loader.js?v=2"></script>
-<script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.js?v=2"></script>
-<script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js?v=2"></script>
-<script  type="text/javascript" src="https://cdn.datatables.net/select/2.0.1/js/dataTables.select.js?v=2"></script>
-<script  type="text/javascript" src=" https://cdn.datatables.net/select/2.0.1/js/select.bootstrap5.js?v=2"></script>
+<script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+<script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
+<script  type="text/javascript" src="https://cdn.datatables.net/select/2.0.1/js/dataTables.select.js"></script>
+<script  type="text/javascript" src=" https://cdn.datatables.net/select/2.0.1/js/select.bootstrap5.js"></script>
 <script  type="module" src="src/scripts/election-schedule.js?v=2"></script>
-<script  type="text/javascript"src="src/scripts/feather.js?v=2" defer></script>
+<script  type="text/javascript"src="src/scripts/feather.js" defer></script>
     ';
