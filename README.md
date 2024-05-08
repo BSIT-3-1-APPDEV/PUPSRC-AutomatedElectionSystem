@@ -23,7 +23,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-
+[![Pull requests][pull-requests-shield]][pull-requests-url]
 
 
 <!-- PROJECT LOGO -->
@@ -84,35 +84,35 @@
 
 <!-- GETTING STARTED -->
 ## Features
-
+<a name="features"></a>
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 
 
 <!-- INSTALLATION -->
 ## Installation
-
+<a name="installation"></a>
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 
 
 <!-- ROLE ACCESS -->
 ## Role Accesss
-
+<a name="role"></a>
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 
 
 <!-- CONTRIBUTE -->
 ## How to Contribute
-
+<a name="contribute"></a>
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 
 
 <!-- CONTRIBUTING -->
 ## UI Snippets
-
+<a name="snippets"></a>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -120,7 +120,7 @@
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-
+<a name="acknowledgments"></a>
 * []()
 * []()
 * []()
@@ -139,6 +139,8 @@
 [stars-url]: https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem/stargazers
 [issues-shield]: https://img.shields.io/github/issues/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem.svg?style=for-the-badge
 [issues-url]: https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem/issues
+[pull-requests-shield]: https://img.shields.io/github/issues-pr/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem.svg?style=for-the-badge
+[pull-requests-url]: https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem/pulls
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [PHP-url]: https://www.php.net
