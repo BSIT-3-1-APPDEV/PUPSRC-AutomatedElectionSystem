@@ -1,23 +1,8 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
 
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
+<div align="start">
+  <h1>iVOTE: PUPSRC Online Election System :ballot_box: :bar_chart:</h1>
+</div>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -30,7 +15,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem">
-    <img src="src/images/resc/iVOTE4.png" alt="Logo" width="400" height="150">
+    <img src="src/images/resc/iVOTE4.png" alt="Logo" width="300" height="120">
   </a>
 
   <div align="start">
@@ -40,34 +25,31 @@
         <li>This project is for partial fulfillment of the subject COMP 20133: Applications Development and Emerging Technologies.</li>
       </ul>
   </div>
-<!--     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a> -->
 </div>
 
 
 
 <!-- TABLE OF CONTENTS -->
-
 <h2>Table of Contents</h2>
 <ol>
-  <li><a href="#stack">Tech Stack</a></li>
+  <li><a href="#tech-stack">Tech Stack</a></li>
   <li><a href="#features">Features</a></li>
-  <li><a href="#installation">Installation</a></li>
-  <li><a href="#role">Role Access</a></li>
-  <li><a href="#contribute">Contributors/Collaborators</a></li>
+  <li>
+    <a href="#installation">Installation</a>
+    <ul>
+      <li><a href="#prerequisites">Prerequisites</a></li>
+    </ul>
+  </li>
+  <li><a href="#role-access">Role Access</a></li>
+  <li><a href="#for-collaborators">For Collaborators</a></li>
   <li><a href="#acknowledgments">Acknowledgments</a></li>
+  <li><a href="#contributors">Contributors</a></li>
+  <li><a href="#ui-snippets">UI Snippets</a></li>
+  <li><a href="#recommendation">Recommendation</a></li>
 </ol>
 
 
 ## Tech Stack
-
 Tech stack and frameworks used to build iVOTE web-application
 
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
@@ -78,53 +60,56 @@ Tech stack and frameworks used to build iVOTE web-application
 * [![SCSS](https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white)][SCSS-url]
 * [![JQuery][JQuery.com]][JQuery-url]
 
-<p align="right"><a href="#readme-top">back to top</a></p>
-
 
 
 <!-- GETTING STARTED -->
 ## Features
 
+<details><summary>Features Offered:</summary>
 <ol>
-  <li>One-time use of vote account</li>
-  <li>Live counting of vote results</li>
-  <li>Responsive on mobile</li>
+  <li>Electronic Ballot Form</li>
+  <li>Live Counting of Results</li>
   <li>
     Election configuration
     <ul>
-      <li>Ballot form optional inclusion of student personal information</li>
-      <li>Scheduling of opening and closing of voting period</li>
-      <li>Voting guidelines modification</li>
-      <li>Arrangement and position of candidates on ballot forms</li>
+      <li>Add Ballot Form Input Field</li>
+      <li>Vote Scheduling</li>
+      <li>Dynamic Voting Guidelines</li>
+      <li>Candidates Sequence on Ballot Form</li>
     </ul>
   </li>
-  <li>Archiving of previous election results</li>
-  <li>Downloadable reports in PDF, XLSX, CSV, and DOCX extension</li>
-  <li>Adding of candidates</li>
-  <li>Approval and validation of voters account</li>
-  <li>Password reset through email</li>
-  <li>Account blocking after 5 consecutive login attempts</li>
-</ol>
+  <li>Archive of Election Results</li>
+  <li>Exportable Reports (pdf, xlsx, csv, and docx)</li>
+  <li>Candidates Information Management</li>
+  <li>Voters Account Mangagement</li>
+  <li>Password Recovery</li>
+  <li>Login Attempts Lockout</li>
+</ol></details>
 
-
-<p align="right"><a href="#readme-top">back to top</a></p>
+<details><summary>Other Features:</summary>
+<ol>  
+  <li>Mobile Responsive</li>
+  <li>Full Screen Toggle of Live Results</li>
+  <li>Anonymous Toggle of Live Results</li>
+  <li>Email Notification about Account Approval or Rejection</li>
+</ol></details>
 
 
 
 <!-- INSTALLATION -->
 ## Installation
 
-Prerequesites
+### Prerequisites
 - You must have installed PHP and [Git](https://git-scm.com/downloads) on your machine.
 - To access the phpMyAdmin, you need [XAMPP](http://localhost/phpmyadmin/index.php) installed also
 
-1. Clone the repository
+1. Clone the repository by running this git command.
+  * git
   ```sh
   git clone --single-branch --branch main https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem
   ```
 _Note: Change the branch name as you see fit. In this case, the name of the checked out branch is main._
 
-<p align="right"><a href="#readme-top">back to top</a></p>
 
 
 
@@ -137,12 +122,11 @@ _Note: Change the branch name as you see fit. In this case, the name of the chec
 | Admin | Validation of voter account, and access to live counting of results | 
 | Head Admin | Similar to admin, with only the additional privilege of adding new admin accounts |
 
-<p align="right"><a href="#readme-top">back to top</a></p>
 
 
 
 <!-- CONTRIBUTE -->
-## Contributors/Collaborators
+## For Collaborators
 1. Clone this repository and checkout the `development` branch on your computer
  ```sh
   git clone --single-branch --branch development https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem
@@ -167,15 +151,14 @@ _Note: Change the branch name as you see fit. In this case, the name of the chec
   git pull origin development
 ```
 
-
 _Important Note: Keep in mind the issue key of your Team's Project in Jira and proper conventional commit message._
-<p align="right"><a href="#readme-top">back to top</a></p>
+
 
 
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-The project team would like to thank the student academic organizations below:
+The project team would like to thank the student academic organizations of PUPSRC below for their unwavering and continuous support and guidance for the success of this endeavor:
 * [Student Council Organization](https://www.facebook.com/thepupsrcstudentcouncil)
 * [Association of Competent and Aspiring Psychologists](https://www.facebook.com/ACAPpage)
 * [Association of Electronics and Communications Engineering](https://www.facebook.com/OfficialAECES)
@@ -186,22 +169,19 @@ The project team would like to thank the student academic organizations below:
 * [Junior Philippine Institute of Accountants](https://www.facebook.com/JPIA.PUPSRC)
 * [Philippine Institute of Industrial Engineers](https://www.facebook.com/piiepup)
 
-<!-- COLLABORATORS -->
-### Collaborators
+<!-- CONTRIBUTORS -->
+## Contributors
 
-[<img src="https://github.com/Andrea-Villalobos.png" width="100px" height="100px">](https://github.com/Andrea-Villalobos)
-[<img src="https://github.com/biellamariscotes.png" width="100px" height="100px">](https://github.com/biellamariscotes)
-[<img src="https://github.com/Andrei-Matibag.png" width="100px" height="100px">](https://github.com/Andrei-Matibag)
-[<img src="https://github.com/AraojoBenedict.png" width="100px" height="100px">](https://github.com/AraojoBenedict)
-[<img src="https://github.com/C-Ivan-Bandilla.png" width="100px" height="100px">](https://github.com/C-Ivan-Bandilla)
-[<img src="https://github.com/hatdogguldo.png" width="100px" height="100px">](https://github.com/hatdogguldo)
-[<img src="https://github.com/Ivan-Edan.png" width="100px" height="100px">](https://github.com/Ivan-Edan)
-[<img src="https://github.com/Jeremie-Legrama.png" width="100px" height="100px">](https://github.com/Jeremie-Legrama)
-[<img src="https://github.com/Peter-Escueta.png" width="100px" height="100px">](https://github.com/Peter-Escueta)
-[<img src="https://github.com/yojibeans.png" width="100px" height="100px">](https://github.com/yojibeans)
-[<img src="https://github.com/Yoro-Izumi.png" width="100px" height="100px">](https://github.com/Yoro-Izumi)
+<div align="center">
+  <a href="https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem" />
+  </a>
+</div>
 
-<p align="right"><a href="#readme-top">back to top</a></p>
+Made with [contrib.rocks](https://contrib.rocks).
+
+## UI Snippets
+- To follow
 
 
 <!-- RECOMMENDATIONS -->
@@ -211,7 +191,8 @@ You can read more about:
 **Conventional Commits:** www.conventionalcommits.org/en/v1.0.0/#summary <br/>
 **Semantic Versioning:** https://semver.org/
 
-<p align="right"><a href="#readme-top">back to top</a></p>
+
+<p align="right"><a href="#readme-top">Back to Top</a></p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
