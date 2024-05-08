@@ -9,6 +9,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![Pull requests][pull-requests-shield]][pull-requests-url]
+[![GitHub Release][release-shield]][release-url]
 
 
 <!-- PROJECT LOGO -->
@@ -38,6 +39,7 @@
     <a href="#installation">Installation</a>
     <ul>
       <li><a href="#prerequisites">Prerequisites</a></li>
+      <li><a href="#steps">Steps</a></li>
     </ul>
   </li>
   <li><a href="#role-access">Role Access</a></li>
@@ -101,16 +103,44 @@ Tech stack and frameworks used to build iVOTE web-application
 
 ### Prerequisites
 - You must have installed PHP and [Git](https://git-scm.com/downloads) on your machine.
-- To access the phpMyAdmin, you need [XAMPP](http://localhost/phpmyadmin/index.php) installed also
+- To access the [phpMyAdmin](http://localhost/phpmyadmin/index.php), you need [XAMPP](https://www.apachefriends.org/download.html) installed also.
 
-1. Clone the repository by running this git command.
-  * git
+### Steps:
+1. Clone this repository by running this git command.
+
   ```sh
-  git clone --single-branch --branch main https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem
+  git clone https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem
   ```
+or if you need to checkout a specific branch only
+
+```sh
+git clone --single-branch --branch main https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem
+```
 _Note: Change the branch name as you see fit. In this case, the name of the checked out branch is main._
 
+2. Download the necessary files on your root folder to create the databases of 9 orgs. 
+These are the only files needed.
+* `create-db.php`
+* `env.php`
+* `create-org-tbl.sql`
+#### Access them [here.](https://drive.google.com/drive/u/1/folders/1Ke1F_vxh0vj1zzWkpMjmeKA96uUizTsT)
 
+3. Run the PHP script on your terminal
+   
+  ```sh
+  php create-db.php
+  ```
+
+  or thru directory listing
+  
+   ```sh
+  localhost/path_to_file/create-db.php
+  ```
+
+4. Open the website locally on your machine. The URL may look something like this:
+  ```sh
+  http://localhost/PUPSRC-AutomatedElectionSystem/src/landing-page.php
+  ```
 
 
 <!-- ROLE ACCESS -->
@@ -172,13 +202,14 @@ The project team would like to thank the student academic organizations of PUPSR
 <!-- CONTRIBUTORS -->
 ## Contributors
 
+Made with [contrib.rocks](https://contrib.rocks).
 <div align="center">
   <a href="https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem/graphs/contributors">
     <img src="https://contrib.rocks/image?repo=BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem" />
   </a>
 </div>
 
-Made with [contrib.rocks](https://contrib.rocks).
+
 
 ## UI Snippets
 - To follow
@@ -188,9 +219,8 @@ Made with [contrib.rocks](https://contrib.rocks).
 ## Recommendation
 You can read more about:
 
-**Conventional Commits:** www.conventionalcommits.org/en/v1.0.0/#summary <br/>
-**Semantic Versioning:** https://semver.org/
-
+[Conventional Commits](www.conventionalcommits.org/en/v1.0.0/#summary)<br/>
+[Semantic Versioning](https://semver.org/)
 
 <p align="right"><a href="#readme-top">Back to Top</a></p>
 
@@ -206,6 +236,8 @@ You can read more about:
 [issues-url]: https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem/issues
 [pull-requests-shield]: https://img.shields.io/github/issues-pr/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem.svg?style=for-the-badge
 [pull-requests-url]: https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem/pulls
+[release-shield]: https://img.shields.io/github/release/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem.svg?style=for-the-badge
+[release-url]: https://github.com/BSIT-3-1-APPDEV/PUPSRC-AutomatedElectionSystem/releases
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [PHP-url]: https://www.php.net
