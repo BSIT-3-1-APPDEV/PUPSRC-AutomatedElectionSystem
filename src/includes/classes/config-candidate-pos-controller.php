@@ -1,9 +1,10 @@
 <?php
-include_once str_replace('/', DIRECTORY_SEPARATOR,  'file-utils.php');
+include_once 'file-utils.php';
+require_once FileUtils::normalizeFilePath('../error-reporting.php');
 require_once FileUtils::normalizeFilePath('../session-handler.php');
 require_once FileUtils::normalizeFilePath('../model/configuration/candidate-pos-model.php');
 require_once FileUtils::normalizeFilePath('../model/configuration/endpoint-response.php');
-require_once FileUtils::normalizeFilePath('../error-reporting.php');
+
 
 
 class CandidatePositionController extends CandidatePosition
@@ -192,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'UPDATE') {
 
     $decoded_data = $controller->decodeData();
 
-    if (isset($decoded_data['update_sequence'])) {
+    if (isset($decoded_data['update_sequence']) && json_last_error() === JSON_ERROR_NONE) {
         $controller->submit($decoded_data['update_sequence']);
     }
 
@@ -204,7 +205,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
     $decoded_data = $controller->decodeData();
 
-    $controller->submit($decoded_data);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        $controller->submit($decoded_data);
+    }
 
     // echo json_encode($decoded_data);
 } else

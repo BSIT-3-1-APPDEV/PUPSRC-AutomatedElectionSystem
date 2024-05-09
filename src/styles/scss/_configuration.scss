@@ -2,6 +2,19 @@
 
 :root {
     --border-gray: #d9d9d9;
+    --dark-gray: #969696;
+    --box-shadow-size: 0 0 0 clamp(0.25rem, 0.25rem + 0.1vw, 1rem);
+
+}
+
+input.input-invalid {
+    border: clamp(1px, 1px + 0.1vw, 5px) solid var(--danger) !important;
+
+    &:focus-visible {
+        box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--danger) 25%, transparent) !important;
+        outline: clamp(1px, 1px + 0.05vw, 5px) color-mix(in srgb, var(--danger) 25%, transparent) !important;
+        border: clamp(1px, 1px + 0.1vw, 5px) solid var(--danger) !important;
+    }
 }
 
 html,
@@ -38,7 +51,6 @@ body {
             &.btn-primary {
                 color: var(--white);
                 background-color: var(--main-color);
-                // border: calc(0.25rem + 0.2vw) solid var(--main-color);
 
                 &:disabled {
                     opacity: 0.7;
@@ -47,11 +59,18 @@ body {
 
                 &:hover {
                     filter: brightness(120%);
+
+                    svg {
+                        stroke-width: clamp(2px, 1px + 0.08dvw, 5px);
+                    }
+
                 }
 
                 &:active {}
 
-                &:focus {}
+                &:focus-visible {
+                    box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--main-color) 25%, transparent);
+                }
             }
 
             &.btn-secondary:not(:disabled) {
@@ -59,24 +78,25 @@ body {
                 background-color: transparent;
                 border: none;
 
-                // border: calc(0.25rem + 0.2vw) solid var(--secondary-color);
-
                 &:hover {}
 
                 &:active {}
 
-                &:focus {}
+                // &:focus-visible {
+                //     box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--success) 25%, transparent);
+                // }
             }
 
             &.btn-success:not(:disabled) {
                 background-color: rgba(7, 136, 95, 1);
-                // border: calc(0.25rem + 0.2vw) solid rgba(7, 136, 95, 1);
 
                 &:hover {}
 
                 &:active {}
 
-                &:focus {}
+                &:focus-visible {
+                    box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--success) 25%, transparent);
+                }
             }
         }
     }
@@ -156,7 +176,7 @@ body {
     .ql-toolbar,
     .ql-editor {
 
-        border: clamp(1px, 1px + 0.01dvw, 5px) solid var(--border-gray);
+        border: clamp(1px, 1px + 0.01vw, 5px) solid var(--border-gray);
     }
 
     .ql-toolbar {
@@ -230,21 +250,17 @@ ul {
 
 main.main {
     overflow: visible;
+    height: max-content;
 
+    @media only screen and (min-width: 768px) {
+        // quick fix to put footer to bottom
 
-    @media only screen and (max-height: 600px) {
-        height: calc(121dvh - (58.96px + 45.99px));
+        min-height: 100dvh;
     }
+
 
     @media only screen and (min-height: 601px) and (hover: none) {
-        height: calc(70dvh - (58.96px + 45.99px));
-    }
-
-    div.container div.row div.col-md-10 {
-        @media only screen and (min-width: 1400px) {
-            // width: min(calc(84vw + (10 * (100vw - 1400px) / 100)), 90vw);
-            // max-width: 90dvw;
-        }
+        padding: 50px 20px 35px 20px;
     }
 
     .card-box {
@@ -261,11 +277,7 @@ main.main {
         }
 
         .card-body {
-            padding: 2rem;
-
-            @media only screen and (max-width: 600px) {
-                padding: 0.5rem;
-            }
+            padding: clamp(1rem, 0.5rem + 1dvw + 2dvh, 3rem);
         }
     }
 }
@@ -279,7 +291,7 @@ div.datepickers-container {
 
 }
 
-#example_wrapper.dt-container:first-child {
+dt-container:first-child {
     .mt-2 {
         margin-top: 0 !important;
     }

@@ -1,3 +1,4 @@
+import { initializeConfigurationJS as ConfigJS } from './configuration.js';
 
 class datatableObjects {
 
@@ -45,11 +46,13 @@ let table = new DataTable('#example', {
             targets: 0,
             className: 'custom-checkbox col-3',
             render: DataTable.render.select(),
+            // orderable: false,
 
         },
         {
-            targets: 1, className: `text-left col-3`,
-            className: ``,
+            targets: 1,
+            className: `text-left col-3`,
+            // orderable: false,
             // render: function (data) {
             //     return `Section`;
             // }
@@ -86,7 +89,10 @@ let table = new DataTable('#example', {
         // searchContainer.classList.add('col-12', 'col-md-10');
         // let searchInput = document.querySelector('div.dt-search input');
         // searchInput.classList.add('w-100');
-        addCheckboxLabel();
+        setTimeout(function () {
+            addCheckboxLabel();
+        }, 0);
+
 
     }
 });

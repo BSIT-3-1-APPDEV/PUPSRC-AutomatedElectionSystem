@@ -1,8 +1,7 @@
-<link rel="stylesheet" href="src/styles/configuration.css">
-<link rel="stylesheet" href="src/styles/config-ballot-form.css">
+<link rel="stylesheet" href="src/styles/config-ballot-form.css?v=2">
 
 <main class="main">
-    <div class="container px-md-3 px-lg-5 px-sm-2 p-4 ">
+    <div class="container px-md-3 px-lg-5 px-sm-2">
         <?php include_once 'configuration-page-title.php'; ?>
         <div class=" ">
 

@@ -1,6 +1,17 @@
+import { initializeConfigurationJS as ConfigJS } from './configuration.js';
 import ViewportDimensions from './viewport.js';
 import InputValidator from './input-validator.js';
 import setTextEditableWidth from './configuration-set-text-editable-width.js';
+
+var ConfigPage = {};
+
+ConfigPage = {
+    configJs: function () {
+        ConfigJS();
+    }
+}
+
+ConfigPage.configJs();
 
 // (function () {
 
@@ -580,13 +591,15 @@ function countSelectedRows() {
 function updateToolbarButton(SELECTED_COUNT) {
     if (SELECTED_COUNT > 0) {
         DELETE_BUTTON.setAttribute('data-selected', SELECTED_COUNT);
+
         if (DELETE_BUTTON && DELETE_LABEL) {
-            handleDeleteLabel(false);
+            handleDeleteLabel(false, SELECTED_COUNT);
             DELETE_BUTTON.addEventListener('click', handleDeleteBtn);
         }
         DELETE_BUTTON.disabled = false;
     } else {
         DELETE_BUTTON.setAttribute('data-selected', '');
+
         if (DELETE_BUTTON && DELETE_LABEL) {
             handleDeleteLabel(true);
             DELETE_BUTTON.removeEventListener('click', handleDeleteBtn);
@@ -755,17 +768,22 @@ table.on('draw', function () {
 
 
 
-function handleDeleteLabel(isDisabled) {
-    if (isDisabled) {
-        DELETE_LABEL.dataset.bsToggle = 'tooltip';
-        DELETE_LABEL.dataset.bsTitle = 'No items selected.';
-        DELETE_LABEL.dataset.bsPlacement = 'right';
-    } else {
-        DELETE_LABEL.dataset.bsToggle = 'tooltip';
-        DELETE_LABEL.dataset.bsTitle = '';
-        DELETE_LABEL.dataset.bsPlacement = 'right';
-    }
+function handleDeleteLabel(isDisabled, SELECTED_COUNT = 0) {
 
+    let tooltip = bootstrap.Tooltip.getInstance("#delete-label");
+
+    if (isDisabled) {
+        tooltip._config.title = 'No item selected.';
+
+    } else {
+        if (SELECTED_COUNT > 1) {
+            tooltip._config.title = `${SELECTED_COUNT} items selected.`;
+        } else {
+            tooltip._config.title = `${SELECTED_COUNT} item selected.`;
+        }
+
+    }
+    tooltip.update();
 }
 
 function handleDeleteBtn() {
@@ -955,7 +973,7 @@ function getForm(form, search = true) {
 
 
 function postData(post_data) {
-    let url = 'src/includes/classes/candidate-pos-controller.php';
+    let url = 'src/includes/classes/config-candidate-pos-controller.php';
     let method = 'PUT';
     let json_data = JSON.stringify(post_data);
 
@@ -991,7 +1009,7 @@ function postData(post_data) {
 fetchData();
 
 function fetchData() {
-    var url = 'src/includes/classes/candidate-pos-controller.php';
+    var url = 'src/includes/classes/config-candidate-pos-controller.php';
 
     fetch(url)
         .then(function (response) {

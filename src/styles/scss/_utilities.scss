@@ -6,10 +6,29 @@
     box-sizing: border-box;
 }
 
-// quick fix to put footer to bottom
-main.main {
-    min-height: 100dvh;
+%general-responsive-base-font-size {
+    font-size: clamp(0.8rem, 0.5rem + 0.5vw, 1vw);
 }
+
+%table-row-height {
+    min-height: calc(1rem + 1vw + 3.5vh);
+    height: calc(1rem + 1vw + 3.5vh);
+}
+
+body {
+    @extend %general-responsive-base-font-size;
+
+    *::placeholder {
+        @extend %general-responsive-base-font-size;
+    }
+}
+
+input:focus-visible,
+input:focus-visible::placeholder {
+    font-size: clamp(1rem, 0.75rem + 0.5vw, 1.5vw);
+}
+
+
 
 @media only screen and (max-width: 600px) {
 
@@ -48,8 +67,6 @@ main.main {
     }
 }
 
-
-
 h1,
 h2,
 h3,
@@ -62,23 +79,32 @@ h6 {
         color: var(--main-color);
         text-transform: uppercase;
         font-weight: 700;
-        margin-top: max(1dvw, 0.5rem);
-        margin-bottom: max(2dvw, 1rem);
+        margin-top: clamp(2rem, 3.2dvw, 4rem);
+        margin-bottom: clamp(2rem, 2.4dvw, 3rem);
     }
 }
 
 
+div.secondary-nav-container {
+    ul.nav li a.nav-link {
+        &:not(.active) {
 
-@media only screen and (min-width: 600px) {
-    .container-fluid .content-margin {
-        margin: 1.75rem calc(4rem + 5vw);
+            &:focus-visible,
+            &:hover {
+                font-weight: 500;
+                color: var(--main-color);
+                text-decoration-color: var(--main-color) !important;
+                text-decoration: underline !important;
+            }
+        }
+
+        &.active {
+            pointer-events: none;
+        }
+
     }
 }
 
-.org-txt-primary {
-    color: var(--main-color);
-}
-
-.org-bg-primary {
-    background-color: var(--main-color);
+input[type="checkbox"]:not(disabled) {
+    cursor: pointer;
 }

@@ -1,9 +1,8 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.bootstrap5.css">
-<link rel="stylesheet" href="src/styles/candidate-position.css">
-<link rel="stylesheet" href="src/styles/voting-guideline.css">
+<link rel="stylesheet" href="src/styles/config-voting-guideline.css?v=2">
 
 <main class="main">
-    <div class="container px-md-3 px-lg-5 px-sm-2 p-4 ">
+    <div class="container px-md-3 px-lg-5 px-sm-2">
         <?php include_once 'configuration-page-title.php'; ?>
         <div class="">
 
@@ -86,6 +85,6 @@ $page_scripts = '
 <script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
 <script  type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 <script  type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.bootstrap5.js"></script>
-<script  type="text/javascript" src="src/scripts/config-vote-guidelines.js?v=2"></script>
+<script  type="module" src="src/scripts/config-vote-guidelines.js?v=2"></script>
 <script  type="text/javascript" src="src/scripts/feather.js" defer></script>
     ';

@@ -1,3 +1,4 @@
+import { initializeConfigurationJS as ConfigJS } from './configuration.js';
 import Sortable from '../../vendor/node_modules/sortablejs/modular/sortable.complete.esm.js';
 // import { MultiDrag, Swap } from '../../vendor/node_modules/sortablejs';
 

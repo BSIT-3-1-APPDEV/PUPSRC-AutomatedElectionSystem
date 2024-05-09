@@ -1,3 +1,5 @@
+import { initializeConfigurationJS as ConfigJS } from './configuration.js';
+
 let table = new DataTable('#example', {
     rowReorder: true,
     columnDefs: [

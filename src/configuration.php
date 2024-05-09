@@ -1,5 +1,6 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 require_once FileUtils::normalizeFilePath('../config.php');
 require_once FileUtils::normalizeFilePath('includes/classes/Path.php');
 include_once FileUtils::normalizeFilePath('includes/classes/page-head-utils.php');
@@ -7,9 +8,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/user.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-router.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.php');
-require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
-require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
-require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
+
 
 $is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role'], $_SESSION['organization']) &&
     (strtolower($_SESSION['role']) === 'committee member'  || strtolower($_SESSION['role']) == 'admin member') &&
@@ -58,6 +57,93 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
 
     <meta name="robots" content="noindex" />
 
+    <script>
+        class ResourceLoader {
+            constructor(localSrc, cdnSrc, type, integrity = null, crossorigin = null) {
+                this.localSrc = localSrc;
+                this.cdnSrc = cdnSrc;
+                this.type = type; // 'css' or 'script'
+                this.integrity = integrity;
+                this.crossorigin = crossorigin;
+                this.loadResource();
+            }
+
+            loadResource() {
+                if (this.type === 'css') {
+                    this.loadCSS();
+                } else if (this.type === 'script') {
+                    this.loadScript();
+                } else {
+                    console.error('Invalid resource type. Supported types are "css" and "script".');
+                }
+            }
+
+            loadCSS() {
+                // Load resource (CSS) from CDN
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = this.cdnSrc;
+                if (this.integrity) {
+                    link.integrity = this.integrity;
+                }
+                if (this.crossorigin) {
+                    link.crossOrigin = this.crossorigin;
+                }
+                document.head.appendChild(link);
+
+                // Check if resource from CDN is loaded
+                link.addEventListener('load', () => {
+                    console.log('CSS resource loaded from CDN');
+                });
+
+                // Handle CDN load error
+                link.addEventListener('error', () => {
+                    console.log('CSS resource failed to load from CDN, loading from local');
+                    this.loadLocalResource();
+                });
+            }
+
+            loadScript() {
+                // Load resource (script) from CDN
+                var script = document.createElement('script');
+                script.src = this.cdnSrc;
+                if (this.integrity) {
+                    script.integrity = this.integrity;
+                }
+                if (this.crossorigin) {
+                    script.crossOrigin = this.crossorigin;
+                }
+                document.head.appendChild(script);
+
+                // Check if resource from CDN is loaded
+                script.addEventListener('load', () => {
+                    console.log('Script resource loaded from CDN');
+                });
+
+                // Handle CDN load error
+                script.addEventListener('error', () => {
+                    console.log('Script resource failed to load from CDN, loading from local');
+                    this.loadLocalResource();
+                });
+            }
+
+            loadLocalResource() {
+                if (this.type === 'css') {
+                    // Load CSS resource from local fallback
+                    var link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = this.localSrc;
+                    document.head.appendChild(link);
+                } else if (this.type === 'script') {
+                    // Load script resource from local fallback
+                    var script = document.createElement('script');
+                    script.src = this.localSrc;
+                    document.head.appendChild(script);
+                }
+            }
+        }
+    </script>
+
     <!-- Montserrat Font -->
     <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,24 +156,31 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="vendor/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- <script>
+        new ResourceLoader('vendor/node_modules/bootstrap/dist/css/bootstrap.min.css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', 'css');
+    </script> -->
+
+
     <!-- Main Style -->
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
     <link rel="stylesheet" href="src/styles/orgs/<?= $org_name ?? 'sco' ?>.css">
     <link rel="icon" href="src/images/logos/<?= $org_name; ?>.png" type="image/x-icon">
     <link rel="icon" type="image/x-icon" href="src/images/resc/ivote-favicon.png">
-    <!-- Page Style -->
-    <link rel="stylesheet" href="src/styles/configuration.css">
 
     <!-- Vendor Scripts -->
     <script src="vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/node_modules/jquery/dist/jquery.min.js"></script>
+    <!-- <script>
+        new ResourceLoader('vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', 'script', "sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz", 'anonymous');
+    </script>
+    <script>
+        new ResourceLoader('vendor/node_modules/jquery/dist/jquery.min.js', 'https://code.jquery.com/jquery-3.7.1.slim.min.js', 'script', "sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=", 'anonymous');
+    </script> -->
     <!-- Main Scripts -->
     <script src="src/scripts/script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
-    <!-- Page Scripts -->
-    <script src="src/scripts/configuration.js"></script>
 
 </head>
 

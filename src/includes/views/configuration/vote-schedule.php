@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="src/styles/election-schedule.css">
+<link rel="stylesheet" href="src/styles/config-election-schedule.css?v=2">
 
 <main class="main">
-    <div class="container px-md-3 px-lg-5 px-sm-2 p-4 ">
+    <div class="container px-md-3 px-lg-5 px-sm-2">
         <?php include_once 'configuration-page-title.php'; ?>
         <div class=" ">
 
@@ -19,7 +19,7 @@
             $secondary_nav->getNavLink();
             ?>
         </div>
-        <table id="example" class="table table-hover" style="width: 100%;">
+        <table id="example" class="table table-hover card-box" style="width: 100%;">
             <thead>
                 <tr class="">
                     <th></th>
@@ -38,7 +38,7 @@
                             <td>
                             " . (isset($org_name) ? $org_name : "Section") . rand(1, 5) . "-" . rand(1, 3) . "
                             </td>
-                            <td>Schedule</td>
+                            <td>Schedule$i</td>
                         </tr>
                     ";
                 }
@@ -62,6 +62,6 @@ $page_scripts = '
 <script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
 <script  type="text/javascript" src="https://cdn.datatables.net/select/2.0.1/js/dataTables.select.js"></script>
 <script  type="text/javascript" src=" https://cdn.datatables.net/select/2.0.1/js/select.bootstrap5.js"></script>
-<script  type="module" src="src/scripts/election-schedule.js?v=2"></script>
+<script  type="module" src="src/scripts/config-election-schedule.js?v=2"></script>
 <script  type="text/javascript"src="src/scripts/feather.js" defer></script>
     ';
