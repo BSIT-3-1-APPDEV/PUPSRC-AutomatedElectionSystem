@@ -59,7 +59,8 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
   
   <style>.hover-color a:hover {color: var(--<?php echo "main-color"; ?>); } 
   input[type="radio"]:checked::before {background-color: var(--main-color);}
-  input[type="radio"]:checked { border-color: var(--main-color); }</style>
+  input[type="radio"]:checked { border-color: var(--main-color); }
+  .clicked {background-color: var(--main-color);color: white;}</style>
 
 </head>
 
@@ -96,22 +97,26 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 <div class="m-4">
   <div class="row">
     <div class="col-lg-12">
-      <div class="p-4 title main-color text-center spacing">
-      <span class="d-none d-sm-inline">BALLOT FORMS</span>
+      <div class="p-4 title main-color text-center spacing" id="title">
         <!-- Toggle button for small screens -->
-        <button type="button" class="title main-color text-center spacing border-0 d-sm-block d-md-none" data-toggle="modal" data-target="#guidelinesModal">
-        BALLOT FORMS
-        </button>
+        <div class="m-0">
+        <button id="toggleButton" type="button" class="title main-color spacing border-0 d-md-none d-lg-none" data-toggle="modal" data-target="#guidelinesModal" style="white-space: nowrap;">
+          <span class="d-md-inline d-lg-inline">BALLOT FORM</span>
+      </button>
         </div>
+       <!-- Text for medium and large screens -->
+      <span class="d-none d-md-inline d-lg-inline">BALLOT FORM</span>
+    </div>
+
         <!-- Modal -->
         <div class="modal fade" id="guidelinesModal" tabindex="-1" role="dialog" aria-labelledby="guidelinesModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-body">
+          <div class="modal-content" style="margin: 0;">
+            <div class="modal-body" style="padding: 0;">
                 <div class="title-2 main-bg-color">
                     Voting Guidelines
                 </div>
-            <div class="pt-4"></div>
+                <div class="pt-4"></div>
                 <div class="ps-4 pe-4 pb-2">
                     Select only one (1) candidate each position.
                 </div>
@@ -185,7 +190,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
         </div>
         <div id="selectedCandidate"></div> <!-- Display selected candidate here -->
       </div>
-      <div class="text-center pb-4">
+      <div class="text-center" style="padding-bottom: 6%;">
         <button type="button" class="btn btn-gray pt-2 pb-2 px-4" id="cancelModalButton" style="margin-right: 12px;"  data-bs-dismiss="modal" aria-label="Close"><b>Cancel</b></button>
         <button type="submit" class="btn btn-success pt-2 pb-2 px-4" id="submitModalButton"><b>Submit Vote</b></button>
       </div>
@@ -281,7 +286,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
         </div>
       </div> <div class="pb-4"></div> -->
 
-      <form id="voteForm" method="post" action="../src/includes/insert-vote.php">
+  <form id="voteForm" method="post" action="../src/includes/insert-vote.php">
     <?php if ($result_positions->num_rows == 0 || $result_candidates->num_rows == 0): ?>
         <div class="reminder">
             <div class="main-color py-4 px-4">
@@ -295,21 +300,30 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
             $modal_id = 'duties-modal-' . $modal_counter;
             $modal_counter++;
             ?>
-            <div class="reminder mb-4" data-position-title="<?php echo htmlspecialchars($row['title']); ?>">
-                <div class="text-position main-color">
-                    <b><?php echo strtoupper($row['title']) ?></b>
-                </div>
-                <div class="subtitle">
-                    <div class="hover-color">
-                        <a href="#<?php echo $modal_id ?>" data-toggle="modal">Duties and Responsibilities</a>
-                    </div>
-                </div>
-                
+            <?php
+            // Fetch candidates matching the position_id
+            $result_candidates->data_seek(0);
+            $candidate_count = 0;
+            $hasCandidates = false;
+            ?>
+            <?php while ($row_candidates = $result_candidates->fetch_assoc()): ?>
+                <?php if ($row_candidates['position_id'] == $row['position_id']): ?>
+                    <?php
+                    $hasCandidates = true;
+                    $candidate_count++;
+                    ?>
+                    <div class="reminder mb-4" data-position-title="<?php echo htmlspecialchars($row['title']); ?>">
+                        <div class="text-position main-color ps-5">
+                            <b><?php echo strtoupper($row['title']) ?></b>
+                        </div>
+                        <div class="hover-color ps-5 pb-4">
+                            <a href="#<?php echo $modal_id ?>" data-toggle="modal">Duties and Responsibilities</a>
+                        </div>
                <!-- Modal for Duties and Responsibilities -->
                <div class="modal fade adjust-modal" id="<?php echo $modal_id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <div class="modal-header main-bg-color text-white d-flex justify-content-between align-items-center">
+                            <div class="modal-header main-bg-color text-white d-flex justify-content-between align-items-center" style="border-top-right-radius: 18px; border-top-left-radius:18px">
                                 <h4 class="modal-title mb-0"><b><?php echo strtoupper($row['title']) ?></b></h4>
                                 <button type="button" class="btn-close me-2"  data-dismiss="modal" aria-label="Close"></button>
                             </div>
@@ -341,16 +355,16 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                             <?php
                             $full_name = $row_candidates['last_name'] . ", " . $row_candidates['first_name'];
                             ?>
-                            <div class="col-lg-6 col-md-6 col-sm-12 p-xl-4">
-                                <label>
-                                    <div class="pe-5 candidate-info ps-5">
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="px-5">
+                                    <div class="candidate-info pb-4">
                                         <img src="images/candidate-profile/<?php echo $row_candidates['photo_url'] ?>" alt="Candidate Image" width="100px" height="100px">
                                         <div>
                                             <input type="hidden" name="position_id[<?php echo $row['position_id'] ?>][]" value="<?php echo $row['position_id'] ?>">
                                             <input type="hidden" name="candidate_id[<?php echo $row_candidates['candidate_id'] ?>][]" value="<?php echo $row_candidates['candidate_id'] ?>">
                                             <div style="display: flex; align-items: center;" class="ps-3">
-                                                <input type="radio" name="position[<?php echo $row['position_id'] ?>]" value="<?php echo $row_candidates['candidate_id'] ?>">
-                                                <label style="display: flex; flex-direction: column; align-items: left; font-size: 15px">
+                                                <input type="radio" id="<?php echo $row_candidates['candidate_id'] ?>" name="position[<?php echo $row['position_id'] ?>]" value="<?php echo $row_candidates['candidate_id'] ?>">
+                                                <label for="<?php echo $row_candidates['candidate_id'] ?>" style="display: flex; flex-direction: column; align-items: left; font-size: 15px">
                                                     <div class="ps-4">
                                                         <div class="font-weight2"> <?php echo $full_name ?> </div>
                                                         <div class="font-weight3 undisplay main-color"><?php echo $row_candidates['section'] ?></div>
@@ -359,7 +373,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                                             </div>
                                         </div>
                                     </div>
-                                </label>
+                                </div>
                             </div>
                             <?php $candidate_count++; ?>
                             <?php if ($candidate_count % 2 == 0): ?>
@@ -377,12 +391,14 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                 <div class="row justify-content-center">
                     <div class="col-lg-12 col-md-12 col-sm-12 text-center pt-2 pb-4">
                         <div class="text-muted">
-                            <input type="radio" name="position[<?php echo $row['position_id'] ?>]" value="" style="vertical-align: middle;">
-                            <label style="vertical-align: middle;"><b>&nbsp;&nbsp;ABSTAIN</b></label><br>
+                            <input type="radio" id="abstain_<?php echo $row['position_id'] ?>" name="position[<?php echo $row['position_id'] ?>]" value="" style="vertical-align: middle;">
+                            <label for="abstain_<?php echo $row['position_id'] ?>" style="vertical-align: middle;"><b>&nbsp;&nbsp;ABSTAIN</b></label><br>
                         </div>
                     </div>
                 </div>
             </div><!-- Close reminder -->
+                <?php endif; ?>
+            <?php endwhile; ?>
         <?php endwhile; ?>
     <?php endif; ?>
     <!-- Voter ID Input -->
