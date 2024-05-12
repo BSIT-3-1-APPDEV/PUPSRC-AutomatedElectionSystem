@@ -60,7 +60,10 @@ ConfigPage = {
                 inst.el.dispatchEvent(new Event('input', { bubbles: true }));
             },
             onShow: function (inst, animationComplete) {
-
+                let thisPicker = document.getElementsByClassName('datepicker');
+                let input = document.getElementById('year-picker');
+                let inputWidth = input.offsetWidth;
+                let inputVal = input.value;
                 if (!animationComplete) {
                     var iFits = false;
                     // Loop through a few possible position and see which one fits
@@ -73,10 +76,10 @@ ConfigPage = {
                             }
                         }
                     });
+
+                    input.value = inputVal;
                 }
-                let thisPicker = document.getElementsByClassName('datepicker');
-                let input = document.getElementById('year-picker');
-                let inputWidth = input.offsetWidth;
+
                 for (let i = 0; i < thisPicker.length; i++) {
                     let element = thisPicker[i];
                     if (inputWidth > 250) {
@@ -113,6 +116,7 @@ ConfigPage.initPage = function () {
 
 
     ConfigPage.customValidation = {
+        clear_invalid: true,
         attributes: {
             type: 'text',
             pattern: patternString,
@@ -157,37 +161,38 @@ ConfigPage.handleDatepickerChange = function (event) {
         let yearVal = ConfigPage.yearInput.value.trim();
 
         let isValidDate;
-        if (event) {
-            isValidDate = ConfigPage.yearValidate.validate(event.target);
-        }
+
         let yearIsBlank = yearVal === '' || yearVal === undefined;
-        let sameYear = yearVal === ConfigPage.currentYear;
+        let sameYear = yearVal == ConfigPage.currentYear;
         let tooltip = bootstrap.Tooltip.getInstance("#save-button-label");
 
         yearSubmit.disabled = true;
 
+        if (event) {
+            isValidDate = ConfigPage.yearValidate.validate(event.target);
 
-        switch (true) {
-            case yearIsBlank:
-                tooltip._config.title = 'Year is blank.';
-                event.target.classList.toggle('input-invalid', true);
-                break;
+            switch (true) {
+                case yearIsBlank:
+                    tooltip._config.title = 'Year is blank.';
+                    event.target.classList.toggle('input-invalid', true);
+                    break;
 
-            case !isValidDate:
-                tooltip._config.title = 'Invalid Year';
-                event.target.classList.toggle('input-invalid', true);
-                break;
+                case !isValidDate:
+                    tooltip._config.title = 'Invalid Year';
+                    event.target.classList.toggle('input-invalid', true);
+                    break;
 
-            case sameYear:
-                tooltip._config.title = 'Year is not changed.';
-                event.target.classList.toggle('input-invalid', true);
-                break;
+                case sameYear:
+                    tooltip._config.title = 'Year is not changed.';
+                    event.target.classList.toggle('input-invalid', true);
+                    break;
 
-            default:
-                yearSubmit.disabled = false;
-                tooltip._config.title = '';
-                event.target.classList.toggle('input-invalid', false);
-                break;
+                default:
+                    yearSubmit.disabled = false;
+                    tooltip._config.title = '';
+                    event.target.classList.toggle('input-invalid', false);
+                    break;
+            }
         }
 
         tooltip.update();
@@ -199,11 +204,5 @@ ConfigPage.handleDatepickerChange();
 
 ConfigPage.typingTimeout;
 // ConfigPage.yearInputListener();
-
-
-
-
-
-
 
 

@@ -8,9 +8,11 @@ import setTextEditableWidth from './configuration-set-text-editable-width.js';
  */
 export default class InputValidator {
     #validations;
+    #isClearInvalidBool;
 
     /**
      * @typedef {Object} ValidationCriteria
+     * @property {boolean} [clear_invalid] - Flags to clear invalid input
      * @property {Object} attributes - Attributes for input validation.
      * @property {string} attributes.type - The type of input element.
      * @property {number} [attributes.max_length] - The maximum length of the input.
@@ -28,6 +30,19 @@ export default class InputValidator {
     /**
     * Constructs an InputValidator object with the specified validation criteria.
     * @param {ValidationCriteria} validations - Validation criteria for input elements.
+    * @property {boolean} [clear_invalid] - Flags to clear invalid input
+    * @property {Object} attributes - Attributes for input validation.
+    * @property {string} attributes.type - The type of input element.
+    * @property {number} [attributes.max_length] - The maximum length of the input.
+    * @property {number} [attributes.min] - The minimum value allowed for numeric input.
+    * @property {number} [attributes.max] - The maximum value allowed for numeric input.
+    * @property {number} [attributes.size] - The size attribute for input elements.
+    * @property {string} [attributes.pattern] - The pattern for input validation.
+    * @property {boolean} [attributes.required] - Whether the input is required.
+    * @property {boolean} [attributes.disabled] - Whether the input is disabled.
+    * @property {boolean} [attributes.read_only] - Whether the input is read-only.
+    * @property {boolean} [attributes.multiple] - Whether the input allows multiple selections (for select elements).
+    * @property {Object.<string, string>} [trailing] - Trailing operations to be applied to the input value.
     */
     constructor(validations) {
         this.#validations = validations;
@@ -44,6 +59,10 @@ export default class InputValidator {
 
         if (!(input_obj instanceof Element)) {
             throw new Error('Invalid input element provided.');
+        }
+
+        if (this.#validations.clear_invalid) {
+            this.#isClearInvalidBool = typeof this.#validations.clear_invalid === 'boolean';
         }
 
         let input_element = input_obj;
@@ -72,14 +91,18 @@ export default class InputValidator {
             let trimmed_value = '';
             const regex = new RegExp(this.#validations.attributes.pattern);
             if (input_element.validity.patternMismatch) {
-                for (let i = 0; i < original_value.length; i++) {
-                    const char = original_value[i];
-                    if (regex.test(char)) {
-                        trimmed_value += char;
+
+                if (this.#isClearInvalidBool && this.#validations.clear_invalid) {
+
+                    for (let i = 0; i < original_value.length; i++) {
+                        const char = original_value[i];
+                        if (regex.test(char)) {
+                            trimmed_value += char;
+                        }
                     }
+                    input_element.value = trimmed_value;
                 }
 
-                input_element.value = trimmed_value;
                 if (typeof callback === 'function') {
                     callback(input_element);
                 }
@@ -90,7 +113,10 @@ export default class InputValidator {
 
 
         if (this.#validations.attributes.max_length && input_element.validity.tooLong) {
-            trimmed_value = trimmed_value.slice(0, this.#validations.attributes.max_length);
+            if (this.#isClearInvalidBool && this.#validations.clear_invalid) {
+
+                trimmed_value = trimmed_value.slice(0, this.#validations.attributes.max_length);
+            }
             return false;
         }
 
@@ -99,27 +125,29 @@ export default class InputValidator {
         }
 
         if (this.#validations.attributes.max && input_element.validity.rangeOverflow) {
-            trimmed_value = trimmed_value.slice(0, validations.max);
             return false;
         }
 
         if (this.#validations.trailing && Object.keys(this.#validations.trailing).length > 0) {
-            Object.keys(this.#validations.trailing).forEach(pattern => {
-                let replacementValue = this.#validations.trailing[pattern];
-                try {
-                    const regex = new RegExp(pattern, 'g');
-                    trimmed_value = trimmed_value.replace(regex, replacementValue);
+            if (this.#isClearInvalidBool && this.#validations.clear_invalid) {
 
-                    if (original_value !== trimmed_value) {
-                        input_element.value = trimmed_value;
+                Object.keys(this.#validations.trailing).forEach(pattern => {
+                    let replacementValue = this.#validations.trailing[pattern];
+                    try {
+                        const regex = new RegExp(pattern, 'g');
+                        trimmed_value = trimmed_value.replace(regex, replacementValue);
 
-                        return false;
+                        if (original_value !== trimmed_value) {
+                            input_element.value = trimmed_value;
+
+                            return false;
+                        }
+                    } catch (error) {
+                        console.error(`Invalid regex pattern '${pattern}' specified:`, error);
+
                     }
-                } catch (error) {
-                    console.error(`Invalid regex pattern '${pattern}' specified:`, error);
-                }
-
-            });
+                });
+            }
 
         }
 
@@ -191,11 +219,20 @@ export default class InputValidator {
     }
 
     setPattern(input_obj, attributes) {
-        if (attributes.pattern.trim() !== '') {
+        if (attributes.pattern && typeof attributes.pattern === 'string' && attributes.pattern.trim() !== '') {
             try {
 
                 const regex = new RegExp(attributes.pattern);
                 input_obj.pattern = regex.source;
+            } catch (error) {
+                console.error(`Invalid pattern '${attributes.pattern}' specified:`, error);
+
+            }
+        } else if (attributes.pattern) {
+            try {
+
+                const regex = attributes.pattern.toString().slice(1, -1);
+                input_obj.pattern = regex;
             } catch (error) {
                 console.error(`Invalid pattern '${attributes.pattern}' specified:`, error);
 

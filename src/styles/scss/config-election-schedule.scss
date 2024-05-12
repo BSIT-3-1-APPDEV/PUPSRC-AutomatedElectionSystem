@@ -4,7 +4,75 @@ main.main {
 
     div.dt-container {
 
-        .row.mt-2.justify-content-between {
+        .row.mt-2 {
+
+            // &:has(.dt-buttons) {
+            //     // hide datables utility buttons
+            //     display: none;
+            // }
+
+            .dt-buttons {
+                transform: translateY(-10%);
+
+                button.btn.btn-primary:has(span svg) {
+                    color: var(--white);
+                    background-color: var(--main-color);
+
+                    border-radius: 50%;
+                    // height: clamp(2rem, 1.5rem + 1.75vw, 5rem);
+                    padding: clamp(0.5rem, 0.625rem + 0.4vw, 5rem) clamp(1rem, 0.625rem + 0.4vw, 5rem);
+
+                    &:not(:last-child) {
+                        margin-right: clamp(1.5rem, 0.5rem + 0.01vw, 1.5dvw);
+                    }
+
+                    &:focus-visible {
+                        box-shadow: 0 0 0 clamp(0.25rem, 0.25rem + 0.1vw, 1rem) color-mix(in srgb, var(--main-color) 25%, transparent);
+
+                    }
+
+                    svg {
+                        &.feather {
+                            height: calc(1rem + 0.25vw);
+                            width: calc(1rem + 0.25vw);
+                        }
+
+                        &.feather-user-plus {
+                            transform: translateY(-10%);
+                        }
+
+                        &.feather-edit-2 {
+                            transform: translateY(-10%) translateX(5%);
+                        }
+
+                        &.feather-trash-2 {
+                            transform: translateY(-10%);
+                        }
+                    }
+
+
+                }
+            }
+
+            & div:has(.dt-buttons.btn-group) {
+                @media (max-width: 576px) {
+                    order: 1;
+                }
+
+                @media (min-width: 576px) {
+                    order: 0;
+                }
+            }
+
+            &:has(.toolbar) {
+                background-color: whitesmoke;
+                position: -webkit-sticky;
+                position: sticky;
+                align-self: flex-start;
+                top: 62px;
+                z-index: 1005;
+            }
+
             & div:has(.toolbar) {
                 @media (max-width: 576px) {
                     order: 1;
@@ -27,7 +95,7 @@ main.main {
 
         }
 
-        .toolbar,
+        .dt-buttons,
         .dt-search input[type="search"] {
             @media (max-width: 576px) {
                 margin-bottom: 1.5rem;
@@ -39,7 +107,7 @@ main.main {
         }
 
         .toolbar {
-            transform: translateY(20%);
+            // transform: translateY(20%);
 
             button.btn-primary {
                 border-radius: 50%;
@@ -58,6 +126,11 @@ main.main {
             }
 
             svg {
+                &.feather {
+                    height: calc(1rem + 0.25vw);
+                    width: calc(1rem + 0.25vw);
+                }
+
                 &.feather-user-plus {
                     transform: translateY(-10%);
                 }

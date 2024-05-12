@@ -61,7 +61,7 @@ body {
                     filter: brightness(120%);
 
                     svg {
-                        stroke-width: clamp(2px, 1px + 0.08dvw, 5px);
+                        stroke-width: clamp(2px, 1.5px + 0.05dvw, 4px);
                     }
 
                 }

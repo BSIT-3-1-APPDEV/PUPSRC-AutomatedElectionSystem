@@ -1,38 +1,62 @@
 import { initializeConfigurationJS as ConfigJS } from './configuration.js';
 
-class datatableObjects {
 
+var ConfigPage = {};
+
+ConfigPage.dtbleObjects = class dtblObjects {
+    static toolbarDiv;
+
+    static addToolbar() {
+        this.toolbarDiv = document.createElement("div");
+        this.toolbarDiv.className = "toolbar";
+
+        // Create the add button element
+        let button1 = document.createElement("button");
+        button1.type = "button";
+        button1.className = "btn btn-primary";
+        button1.innerHTML = `<i data-feather="user-plus"></i>`;
+
+        // Create the edit button element
+        let button2 = document.createElement("button");
+        button2.type = "button";
+        button2.className = "btn btn-primary";
+        button2.innerHTML = `<i data-feather="edit-2"></i>`;
+
+        // Create the delete button element
+        let button3 = document.createElement("button");
+        button3.type = "button";
+        button3.className = "btn btn-primary";
+        button3.innerHTML = `<i data-feather="trash-2" ></i>`;
+
+        this.toolbarDiv.appendChild(button1);
+        this.toolbarDiv.appendChild(button2);
+        this.toolbarDiv.appendChild(button3);
+        console.log('before');
+    }
+
+    static getToolbar() {
+        return this.toolbarDiv;
+    }
+
+    static addCheckboxLabel() {
+        const CHECKBOXES = document.querySelectorAll('input.dt-select-checkbox');
+
+        CHECKBOXES.forEach((checkbox) => {
+            let existingLabel = checkbox.nextElementSibling;
+
+            if (!existingLabel || existingLabel.tagName !== 'LABEL') {
+                // Create a new label element
+                let newLabel = document.createElement('label');
+
+                checkbox.insertAdjacentElement('afterend', newLabel);
+            }
+        });
+    }
 }
-// Create the toolbar div element
-var toolbarDiv = document.createElement("div");
-toolbarDiv.className = "toolbar";
 
-// Create the first button element
-var button1 = document.createElement("button");
-button1.type = "button";
-button1.className = "btn btn-primary";
-button1.innerHTML = `<i data-feather="user-plus" width="calc(1rem + 0.25vw)" height="calc(1rem + 0.25vw)"></i>`;
+ConfigPage.dtbleObjects.addToolbar();
 
-// Create the second button element
-var button2 = document.createElement("button");
-button2.type = "button";
-button2.className = "btn btn-primary";
-button2.innerHTML = `<i data-feather="edit-2" width="calc(1rem + 0.25vw)" height="calc(1rem + 0.25vw)"></i>`;
-
-// Create the third button element
-var button3 = document.createElement("button");
-button3.type = "button";
-button3.className = "btn btn-primary";
-button3.innerHTML = `<i data-feather="trash-2" width="calc(1rem + 0.25vw)" height="calc(1rem + 0.25vw)"></i>`;
-
-// Append the buttons to the toolbar div
-toolbarDiv.appendChild(button1);
-toolbarDiv.appendChild(button2);
-toolbarDiv.appendChild(button3);
-
-
-
-let table = new DataTable('#example', {
+ConfigPage.table = new DataTable('#example', {
     rowReorder: true,
     paging: false,
     select: {
@@ -67,17 +91,49 @@ let table = new DataTable('#example', {
     layout: {
         bottomStart: null,
         bottomEnd: null,
-        topStart: function () {
+        // topStart: function () {
 
-            toolbar = toolbarDiv;
+        //     toolbar = ConfigPage.dtbleObjects.getToolbar();
 
-            return toolbar;
-        },
+        //     return toolbar;
+        // },
         topEnd: {
 
             search: {
                 placeholder: 'Search'
             }
+        },
+        topStart: {
+            buttons: [
+                {
+                    text: '<i data-feather="user-plus"></i>',
+                    className: 'btn-primary',
+                    action: function () {
+                        let count = ConfigPage.table.rows({ selected: true }).count();
+                        console.log(ConfigPage.table.rows({ selected: true }).data());
+
+                        console.log(count + ' row(s) selected');
+                    }
+                },
+                {
+                    text: '<i data-feather="edit-2"></i>',
+                    className: 'btn-primary',
+                    action: function () {
+                        let count = ConfigPage.table.rows({ selected: true }).count();
+
+                        console.log(count + ' row(s) selected');
+                    }
+                },
+                {
+                    text: '<i data-feather="trash-2" ></i>',
+                    className: 'btn-primary',
+                    action: function () {
+                        let count = ConfigPage.table.rows({ selected: true }).count();
+
+                        console.log(count + ' row(s) selected');
+                    }
+                },
+            ]
         },
 
     },
@@ -85,51 +141,39 @@ let table = new DataTable('#example', {
         "search": `<i data-feather="search" width="calc(0.75rem + 0.25vw)" height="calc(0.75rem + 0.25vw)"></i>`,
     },
     initComplete: function (settings, json) {
-        // let searchContainer = document.querySelector('col-md-auto ms-auto');
-        // searchContainer.classList.add('col-12', 'col-md-10');
-        // let searchInput = document.querySelector('div.dt-search input');
-        // searchInput.classList.add('w-100');
         setTimeout(function () {
-            addCheckboxLabel();
+            ConfigPage.dtbleObjects.addCheckboxLabel();
         }, 0);
 
 
     }
 });
 
-function addCheckboxLabel() {
-    const CHECKBOXES = document.querySelectorAll('input.dt-select-checkbox');
 
-    CHECKBOXES.forEach((checkbox) => {
-        let existingLabel = checkbox.nextElementSibling;
+ConfigPage.AddTableListener = function () {
+    ConfigPage.table.on('draw', function () {
+        if (table.data().any()) {
+            // $('div.toolbar').show();
+            ConfigPage.dtbleObjects.addCheckboxLabel();
+            $('table#example').show();
+            $(this).parent().show();
+        } else {
+            // $('div.toolbar').hide();
+            $('table#example').hide();
+            $(this).parent().hide();
+        }
+    });
 
-        if (!existingLabel || existingLabel.tagName !== 'LABEL') {
-            // Create a new label element
-            let newLabel = document.createElement('label');
-
-            checkbox.insertAdjacentElement('afterend', newLabel);
+    $('#example').on('click', 'tbody tr', function () {
+        if (ConfigPage.table.row(this, { selected: true }).any()) {
+            ConfigPage.table.row(this).deselect();
+        }
+        else {
+            ConfigPage.table.row(this).select();
         }
     });
 }
 
-table.on('draw', function () {
-    if (table.data().any()) {
-        // $('div.toolbar').show();
-        addCheckboxLabel();
-        $('table#example').show();
-        $(this).parent().show();
-    } else {
-        // $('div.toolbar').hide();
-        $('table#example').hide();
-        $(this).parent().hide();
-    }
-});
 
-$('#example').on('click', 'tbody tr', function () {
-    if (table.row(this, { selected: true }).any()) {
-        table.row(this).deselect();
-    }
-    else {
-        table.row(this).select();
-    }
-});
+ConfigPage.AddTableListener();
+

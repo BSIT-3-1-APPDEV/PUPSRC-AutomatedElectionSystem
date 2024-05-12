@@ -884,6 +884,7 @@ function getAllTextEditable() {
 }
 
 const customValidation = {
+    clear_invalid: true,
     trailing: {
         '-+': '-',    // Replace consecutive dashes with a single dash
         '\\.+': '.',  // Replace consecutive periods with a single period
@@ -891,7 +892,7 @@ const customValidation = {
     },
     attributes: {
         type: 'text',
-        pattern: /[a-zA-Z .\\-]{1,50}/,
+        pattern: /[a-zA-Z .\-]{1,50}/,
         required: true,
         max_length: 50,
     }
