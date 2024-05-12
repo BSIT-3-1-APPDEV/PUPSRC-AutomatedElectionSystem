@@ -177,3 +177,38 @@ ConfigPage.AddTableListener = function () {
 
 ConfigPage.AddTableListener();
 
+// Function to handle the intersection
+
+
+// Create an Intersection Observer
+var notstuck = new IntersectionObserver(
+    entries => {
+        entries.forEach(entry => {
+            entry.target.classList.toggle('stuck', !entry.isIntersecting)
+            if (!entry.isIntersecting) notstuck.unobserve(entry.target);
+            stuck.observe(targetElement);
+        })
+    },
+    {
+        threshold: 1,
+    }
+);
+
+var stuck = new IntersectionObserver(
+    entries => {
+        entries.forEach(entry => {
+            entry.target.classList.toggle('stuck', entry.isIntersecting)
+            if (entry.isIntersecting) stuck.unobserve(entry.target);
+        })
+    },
+    {
+        threshold: 1,
+        rootMargin: '-62px',
+    }
+);
+
+// Target the element you want to observe
+var targetElement = document.querySelector('.row.mt-2:has(.dt-buttons)');
+
+// Start observing the target element
+notstuck.observe(targetElement);

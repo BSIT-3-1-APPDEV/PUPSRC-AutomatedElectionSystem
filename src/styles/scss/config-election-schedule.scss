@@ -7,9 +7,27 @@ main.main {
         .row.mt-2 {
 
             // &:has(.dt-buttons) {
-            //     // hide datables utility buttons
-            //     display: none;
+            //     background-color: whitesmoke;
+            //     position: -webkit-sticky;
+            //     position: sticky;
+            //     align-self: flex-start;
+            //     top: 62px;
+            //     z-index: 1005;
             // }
+
+            &.stuck {
+                background-color: whitesmoke;
+                position: -webkit-sticky;
+                position: sticky;
+                align-self: flex-start;
+                top: 62px;
+                z-index: 1005;
+
+                .dt-buttons,
+                .dt-search input[type="search"] {
+                    margin: 1rem 0;
+                }
+            }
 
             .dt-buttons {
                 transform: translateY(-10%);
