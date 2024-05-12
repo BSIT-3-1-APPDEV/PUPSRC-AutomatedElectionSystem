@@ -143,6 +143,7 @@ ConfigPage.table = new DataTable('#example', {
     initComplete: function (settings, json) {
         setTimeout(function () {
             ConfigPage.dtbleObjects.addCheckboxLabel();
+            ConfigPage.toggleStickyToolbar();
         }, 0);
 
 
@@ -177,38 +178,63 @@ ConfigPage.AddTableListener = function () {
 
 ConfigPage.AddTableListener();
 
-// Function to handle the intersection
+
+ConfigPage.toggleStickyToolbar = function () {
+    ConfigPage.toolbarContainer = document.querySelector('.row.mt-2:has(.dt-buttons)');
+
+    var notStuck = new IntersectionObserver(
+        entries => {
+            // setTimeout(() => {
+            entries.forEach(entry => {
+                entry.target.classList.toggle('stuck', !entry.isIntersecting);
+
+                if (!entry.isIntersecting) {
+                    // setTimeout(() => {
+                    notStuck.unobserve(entry.target);
+                    stuck.observe(entry.target);
+                    // }, 0);
+                }
+            });
+            // }, 500);
+
+        },
+        {
+            threshold: 1,
+        }
+    );
+
+    var stuck = new IntersectionObserver(
+        entries => {
+            // setTimeout(() => {
+            entries.forEach(entry => {
+                entry.target.classList.toggle('stuck', entry.isIntersecting);
+
+                if (entry.isIntersecting) {
+                    // setTimeout(() => {
+                    stuck.unobserve(entry.target);
+                    notStuck.observe(entry.target);
+                    // }, 0);
+                }
+            });
+            // }, 500);
+
+        },
+        {
+            threshold: 1,
+            rootMargin: '-63px',
+        }
+    );
 
 
-// Create an Intersection Observer
-var notstuck = new IntersectionObserver(
-    entries => {
-        entries.forEach(entry => {
-            entry.target.classList.toggle('stuck', !entry.isIntersecting)
-            if (!entry.isIntersecting) notstuck.unobserve(entry.target);
-            stuck.observe(targetElement);
-        })
-    },
-    {
-        threshold: 1,
-    }
-);
+    // Start observing the target element
+    notStuck.observe(ConfigPage.toolbarContainer);
 
-var stuck = new IntersectionObserver(
-    entries => {
-        entries.forEach(entry => {
-            entry.target.classList.toggle('stuck', entry.isIntersecting)
-            if (entry.isIntersecting) stuck.unobserve(entry.target);
-        })
-    },
-    {
-        threshold: 1,
-        rootMargin: '-62px',
-    }
-);
+    // Revert changes when scrolling to the top
+    window.addEventListener('scroll', function () {
+        if (window.scrollY === 0) {
+            notStuck.observe(ConfigPage.toolbarContainer);
+        }
+    });
+}
 
-// Target the element you want to observe
-var targetElement = document.querySelector('.row.mt-2:has(.dt-buttons)');
 
-// Start observing the target element
-notstuck.observe(targetElement);
