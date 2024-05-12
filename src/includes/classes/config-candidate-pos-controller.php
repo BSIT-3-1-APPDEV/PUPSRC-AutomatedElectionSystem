@@ -70,19 +70,19 @@ class CandidatePositionController extends CandidatePosition
     private function sanitizeArray($array)
     {
         $sanitizedArray = [];
-        echo " \n</br> starting description array ";
-        print_r($array);
-        echo "\n</br>";
+        // echo " \n</br> starting description array ";
+        // print_r($array);
+        // echo "\n</br>";
 
         if (array_key_exists('ops', $array)) {
             $data = $array['ops'];
 
             $sanitizedString = [];
             foreach ($data as $key => $element) {
-                echo " \n</br> acessing ops array ";
-                print_r($key);
-                print_r($element);
-                echo "\n</br>";
+                // echo " \n</br> acessing ops array ";
+                // print_r($key);
+                // print_r($element);
+                // echo "\n</br>";
                 $sanitizedString[$key] = $element;
                 if (is_array($element) && array_key_exists('insert', $element)) {
                     $sanitizedString[$key]['insert'] = htmlspecialchars($element['insert']);
@@ -94,9 +94,9 @@ class CandidatePositionController extends CandidatePosition
             ];
         } else {
             foreach ($array as $element) {
-                echo " \n</br> acessing array ";
-                print_r($element);
-                echo "\n</br>";
+                // echo " \n</br> acessing array ";
+                // print_r($element);
+                // echo "\n</br>";
                 if (is_array($element)) {
                     // If it's an array, sanitize each element recursively
                     $sanitizedArray[] = $this->sanitizeArray($element);
