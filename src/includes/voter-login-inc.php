@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['sign-in'])) {
 }
 
 function displayUnsetToken() {
-    $_SESSION['error_message'] = 'Something went wrong. Please reload the page.';
+    $_SESSION['error_message'] = 'Something went wrong.<br/>Please reload the page.';
     header("Location: ../voter-login.php");
     exit();
 }

@@ -17,9 +17,16 @@ class LandingPageController {
                 exit();
             }
             else {
+                if(isset($_SESSION['organization'])) {
+                    if($clicked_org != $_SESSION['organization']) {
+                        $_SESSION['error_message'] = 'Your session is already set to ' . strtoupper($_SESSION['organization']) . '.';
+                        header("Location: ../../voter-login.php");
+                        exit();                        
+                    }
+                }
                 $_SESSION['organization'] = $clicked_org;
                 header("Location: ../../voter-login.php");
-                exit();       
+                exit();                        
             }
         }
         else {

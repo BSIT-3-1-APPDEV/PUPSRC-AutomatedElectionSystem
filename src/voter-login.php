@@ -14,14 +14,12 @@ $_SESSION['csrf_expiry'] = time() + (60 * 30);
 
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
-    // Unset the error message from the session once displayed
-    unset($_SESSION['error_message']);
+    unset($_SESSION['error_message']); // Unset the error message from the session once displayed
 }
 
 if (isset($_SESSION['info_message'])) {
-    $info_message = $_SESSION['info_message'];
-    // Unset the info message from the session once displayed
-    unset($_SESSION['info_message']);
+    $info_message = $_SESSION['info_message'];    
+    unset($_SESSION['info_message']); // Unset the info message from the session once displayed
 }
 
 ?>
@@ -114,14 +112,21 @@ if (isset($_SESSION['info_message'])) {
 
                         <div class="col-md-12 mt-0 mb-3">
                             <input type="email" class="form-control" id="Email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" value="<?php if (isset($_SESSION['email'])) echo $_SESSION['email']; ?>">
+                            <div class="ps-2 text-start invalid-feedback">
+                                Please provide a valid email.
+                            </div>
                         </div>
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
                                 <input type="password" class="form-control" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" value="<?php if (isset($_SESSION['password'])) echo $_SESSION['password']; ?>" id="Password" required>
                                 <button class="btn" type="button" id="password-toggle">Show</button>
+                                <!-- <div class="ps-2 text-start invalid-feedback">
+                                    Please provide a valid password.
+                                </div> -->
                             </div>
                         </div>
+                        
                         <a href="forgot-password.php" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</a>
 
                         <div class="d-grid gap-2 mt-5 mb-4">
@@ -227,6 +232,26 @@ if (isset($_SESSION['info_message'])) {
             var k = event ? event.which : window.event.keyCode;
             if (k == 32) return false;
         }
+
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+            }, false)
+        })
+        })()
     </script>
 
 </body>
