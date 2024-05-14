@@ -122,11 +122,11 @@ class Login{
             }
         } 
         else {
+            unsetSessionVar();
             $_SESSION['error_message'] = 'Something went wrong.';
+            header("Location: ../voter-login.php");
             exit();
         }
-        header("Location: ../voter-login.php");
-        exit();
     }
 
     // Redirects a committee member to the admin dashboard

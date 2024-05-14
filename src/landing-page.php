@@ -8,6 +8,7 @@ include_once FileUtils::normalizeFilePath('includes/organization-list.php');
 // Check if voter_id and role is set in session
 SessionManager::checkUserRoleAndRedirect();
 unsetSessionVar();
+unset($_SESSION['organization']);
 
 ?>
 
