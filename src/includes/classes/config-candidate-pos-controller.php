@@ -1,8 +1,10 @@
 <?php
-include_once str_replace('/', DIRECTORY_SEPARATOR,  'file-utils.php');
+include_once 'file-utils.php';
+require_once FileUtils::normalizeFilePath('../error-reporting.php');
 require_once FileUtils::normalizeFilePath('../session-handler.php');
 require_once FileUtils::normalizeFilePath('../model/configuration/candidate-pos-model.php');
 require_once FileUtils::normalizeFilePath('../model/configuration/endpoint-response.php');
+
 
 
 class CandidatePositionController extends CandidatePosition
@@ -26,7 +28,7 @@ class CandidatePositionController extends CandidatePosition
         $validation_func = $this->selectValidation();
 
         if ($validation_func) {
-
+            $data = $this->sanitizeData($data);
             $data = self::savePosition($data, $this->mode);
 
             $response = [
@@ -42,6 +44,64 @@ class CandidatePositionController extends CandidatePosition
             self::sendResponse(400, $response);
         }
     }
+
+    private function sanitizeData($data)
+    {
+        $sanitizedData = [];
+        foreach ($data as $item) {
+            $sanitizedItem = [];
+            foreach ($item as $key => $value) {
+
+                if (is_string($value)) {
+                    $sanitizedItem[$key] = htmlspecialchars($value);
+                } elseif (is_array($value)) {
+                    // quick fix for sanitation
+                    $sanitizedItem[$key] = $this->sanitizeArray($value);
+                } else {
+                    $sanitizedItem[$key] = $value;
+                }
+            }
+
+            $sanitizedData[] = $sanitizedItem;
+        }
+        return $sanitizedData;
+    }
+
+    private function sanitizeArray($array)
+    {
+        $sanitizedArray = [];
+
+        if (array_key_exists('ops', $array)) {
+            $data = $array['ops'];
+
+            $sanitizedString = [];
+            foreach ($data as $key => $element) {
+                $sanitizedString[$key] = $element;
+                if (is_array($element) && array_key_exists('insert', $element)) {
+                    $sanitizedString[$key]['insert'] = htmlspecialchars($element['insert']);
+                }
+            }
+
+            $sanitizedArray = [
+                'ops' => $sanitizedString
+            ];
+        } else {
+            foreach ($array as $element) {
+                if (is_array($element)) {
+                    // If it's an array, sanitize each element recursively
+                    $sanitizedArray[] = $this->sanitizeArray($element);
+                } elseif (is_string($element)) {
+                    $sanitizedArray[] = htmlspecialchars($element);
+                } else {
+                    // If not a string or array, keep the value as is
+                    $sanitizedArray[] = $element;
+                }
+            }
+        }
+        return $sanitizedArray;
+    }
+
+
 
     private function selectValidation()
     {
@@ -133,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'UPDATE') {
 
     $decoded_data = $controller->decodeData();
 
-    if (isset($decoded_data['update_sequence'])) {
+    if (isset($decoded_data['update_sequence']) && json_last_error() === JSON_ERROR_NONE) {
         $controller->submit($decoded_data['update_sequence']);
     }
 
@@ -145,7 +205,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
     $decoded_data = $controller->decodeData();
 
-    $controller->submit($decoded_data);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        $controller->submit($decoded_data);
+    }
 
     // echo json_encode($decoded_data);
 } else

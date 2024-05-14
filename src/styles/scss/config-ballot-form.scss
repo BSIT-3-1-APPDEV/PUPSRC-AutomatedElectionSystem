@@ -1,11 +1,17 @@
 @import 'draggable-handle';
-@import 'utilities';
+@import 'configuration';
 
 
 main.main {
 
     .list-group-item {
         padding: 0;
+
+        &:has(:focus-within) {
+            // filter: brightness(96%);
+            border-radius: 0;
+            border: calc(0.75px + 0.06dvw) solid rgba(217, 217, 217, 1);
+        }
 
         .field-item {
             display: flex;
@@ -21,6 +27,11 @@ main.main {
                 // min-height: clamp(4rem, 1.4rem + 3.8vw, 5rem);
                 height: clamp(4rem, 1.4rem + 3.8vw, 5.5rem);
             }
+
+            &:not(.add-item):has(:focus-within) {
+                background-color: color-mix(in srgb, var(--main-color) 5%, transparent);
+
+            }
         }
 
     }
@@ -31,7 +42,7 @@ main.main {
         width: 100%;
         height: calc(1.5rem + 0.01dvw + 1dvh);
         color: #fff;
-        background-color: #d9d9d9;
+        background-color: var(--border-gray);
 
         .fa {
             @extend %fa-grip-lines-before;
@@ -42,25 +53,21 @@ main.main {
         }
     }
 
-    input:focus {
-        border-color: #86b7fe;
-        outline: 0;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, .25);
-    }
-
-
     .form-check-input {
-        --dfault-color: #969696;
-        --dfault-color-semi-transparent: rgba(150, 150, 150, .25);
+        --dfault-color: var(--dark-gray);
+        --dfault-color-semi-transparent: color-mix(in srgb, var(--dfault-color) 25%, transparent);
         --dfault-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2.5' fill='%23fff'/%3e%3c/svg%3e");
         --checked-color: var(--success);
-        --checked-color-semi-transparent: rgba(65, 174, 50, .25);
+        --checked-color-semi-transparent: color-mix(in srgb, var(--success) 25%, transparent);
         --checked-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2.8' fill='%23fff'/%3e%3c/svg%3e");
-        --box-shadow-size: 0 0 0 clamp(0.25rem, 0.25rem + 0.1vw, 1rem);
 
         background-color: var(--dfault-color);
         height: clamp(1rem, 0.5rem + 1.5vw, 3rem);
         width: clamp(2rem, 1rem + 2.5vw, 4.5rem);
+
+        &:hover {
+            filter: brightness(120%);
+        }
 
         &:not(:checked) {
 

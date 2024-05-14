@@ -1,9 +1,9 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR,  '../classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('../error-reporting.php');
 require_once '../classes/db-config.php';
 require_once '../classes/db-connector.php';
 
-$_SESSION['organization'] = 'acap';
 
 class CandidatePosition
 {
@@ -19,6 +19,10 @@ class CandidatePosition
             self::$connection->begin_transaction();
 
             foreach ($data as $item) {
+
+                $item['description'] = json_encode($item['description']);
+
+
                 if ($mode === 'sequence') {
                     $savedPositions[] = self::updateSequence($item);
                 } else if ($mode === 'delete') {
@@ -27,7 +31,7 @@ class CandidatePosition
                     // Check if data is not blank
                     if (filter_var($item['data_id'], FILTER_VALIDATE_INT) !== false) {
                         $item['data_id'] = (int) $item['data_id'];
-                        self::updatePosition($item);
+                        $savedPositions[] = self::updatePosition($item);
                     } else {
                         // Data is not an integer
                     }
@@ -51,7 +55,6 @@ class CandidatePosition
         $stmt = self::$connection->prepare($sql);
         $position = [];
         if ($stmt) {
-
 
             $stmt->bind_param("iss", $data['sequence'], $data['value'], $data['description']);
             $stmt->execute();
@@ -120,6 +123,8 @@ class CandidatePosition
                     'input_id' => $data['input_id'],
                     'data_id' => $data['data_id'],
                     'sequence' => $data['sequence'],
+                    'value' => $data['value'],
+                    'description' => $data['description']
                 ];
             }
         } else {

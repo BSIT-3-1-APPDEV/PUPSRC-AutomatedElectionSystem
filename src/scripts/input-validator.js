@@ -1,13 +1,46 @@
 import setTextEditableWidth from './configuration-set-text-editable-width.js';
 
+/**
+ * A utility class for validating input based on constructed criteria.
+ * 
+ * Has @function validate which returns true in invalid input.
+ * @class
+ */
 export default class InputValidator {
     #validations;
 
+    /**
+     * @typedef {Object} ValidationCriteria
+     * @property {Object} attributes - Attributes for input validation.
+     * @property {string} attributes.type - The type of input element.
+     * @property {number} [attributes.max_length] - The maximum length of the input.
+     * @property {number} [attributes.min] - The minimum value allowed for numeric input.
+     * @property {number} [attributes.max] - The maximum value allowed for numeric input.
+     * @property {number} [attributes.size] - The size attribute for input elements.
+     * @property {string} [attributes.pattern] - The pattern for input validation.
+     * @property {boolean} [attributes.required] - Whether the input is required.
+     * @property {boolean} [attributes.disabled] - Whether the input is disabled.
+     * @property {boolean} [attributes.read_only] - Whether the input is read-only.
+     * @property {boolean} [attributes.multiple] - Whether the input allows multiple selections (for select elements).
+     * @property {Object.<string, string>} [trailing] - Trailing operations to be applied to the input value.
+     */
+
+    /**
+    * Constructs an InputValidator object with the specified validation criteria.
+    * @param {ValidationCriteria} validations - Validation criteria for input elements.
+    */
     constructor(validations) {
         this.#validations = validations;
     }
 
-    validate(input_obj) {
+    /**
+     * Validates the input element based on the specified criteria.
+     * @param {Element} input_obj - The input element to validate.
+     * @param {Function} [callback] - Optional callback function to execute after validation.
+     * @returns {boolean} - Returns true if the input is valid, otherwise false.
+     * @throws {Error} - Throws an error if the provided input element is invalid.
+     */
+    validate(input_obj, callback) {
 
         if (!(input_obj instanceof Element)) {
             throw new Error('Invalid input element provided.');
@@ -28,7 +61,9 @@ export default class InputValidator {
         if (this.#validations.attributes.required) {
             if (input_element.validity.valueMissing || original_value.trim() === '') {
                 input_element.value = original_value.trim();
-                setTextEditableWidth(input_element);
+                if (typeof callback === 'function') {
+                    callback(input_element);
+                }
                 return false;
             }
         }
@@ -45,7 +80,9 @@ export default class InputValidator {
                 }
 
                 input_element.value = trimmed_value;
-                setTextEditableWidth(input_element);
+                if (typeof callback === 'function') {
+                    callback(input_element);
+                }
 
                 return false;
             }
@@ -86,7 +123,7 @@ export default class InputValidator {
 
         }
 
-        return true;
+        return input_element.checkValidity();
 
     }
 
@@ -95,6 +132,8 @@ export default class InputValidator {
         input_obj.type = this.#validations.attributes.type;
 
         this.setMaxLength(input_obj, this.#validations.attributes);
+
+        this.setMinLength(input_obj, this.#validations.attributes);
 
         this.setMin(input_obj, this.#validations.attributes);
 
@@ -120,6 +159,18 @@ export default class InputValidator {
         }
     }
 
+    /**
+     * Sets the minimum length attribute on the input element.
+     * @param {Element} input_obj - The input element to set the minimum length attribute on.
+     * @param {Object} attributes - Attributes containing the minimum length value.
+     */
+    setMinLength(input_obj, attributes) {
+        if (typeof attributes.min_length === 'number' && !isNaN(attributes.min_length)) {
+            input_obj.minLength = attributes.min_length;
+        }
+    }
+
+
     setMin(input_obj, attributes) {
         if (typeof attributes.min === 'number' && !isNaN(attributes.min)) {
             input_obj.min = attributes.min;
@@ -140,7 +191,7 @@ export default class InputValidator {
     }
 
     setPattern(input_obj, attributes) {
-        if (attributes.pattern && typeof attributes.pattern === 'string' && attributes.pattern.trim() !== '') {
+        if (attributes.pattern.trim() !== '') {
             try {
 
                 const regex = new RegExp(attributes.pattern);
