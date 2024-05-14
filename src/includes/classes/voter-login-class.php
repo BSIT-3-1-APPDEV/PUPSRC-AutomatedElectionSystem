@@ -12,195 +12,192 @@ class Login{
     private $connection;
     private $ip_address;
 
+    // Creates connection to the database and gets user ip address
     public function __construct() {
         $this->connection = DatabaseConnection::connect();
         $this->ip_address = getIPAddress();
     }
 
+    // Authenticates the user submitted email
     protected function getUser($email, $password) {
 
         // If db connection is not established, terminate execution
         if(!$this->connection) {
-            $_SESSION['error_message'] = 'A problem has occured. Try reloading the page.';
-            header("Location: ../voter-login.php");
-            exit();
+            $this->redirectWithError('A problem has occured. Try reloading the page.');
         }
 
-        $time = time() - self::LOGIN_BLOCK_TIME;
-        $sql = "SELECT COUNT(*) AS total_count from login_logs WHERE login_time > ? AND ip_address = ?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param('is', $time, $this->ip_address);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $check_login = $result->fetch_assoc();
-        $total_count = $check_login['total_count'];
-
-        // If login attempts reached 5, redirects to login page and display error message
-        if($total_count == self::LOGIN_ATTEMPT_COUNT) {
-            $_SESSION['error_message'] = 'Too many failed login attempts.</br>Please wait for ' . self::LOGIN_BLOCK_TIME . ' seconds.';
-            header("Location: ../voter-login.php");
-            exit();
+        if($this->isBlocked()) {
+            $this->redirectWithError('Too many failed login attempts.</br>Please wait for ' . self::LOGIN_BLOCK_TIME . ' seconds.');
         }
 
         // Verify user in the voter table
-        $stmt = $this->connection->prepare("SELECT voter_id, email, password, role, status, vote_status FROM voter WHERE email = ?");
+        $stmt = $this->connection->prepare("SELECT 
+                                                voter_id, email, password, role, account_status, voter_status, vote_status 
+                                            FROM 
+                                                voter 
+                                            WHERE 
+                                                BINARY email = ?");
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
 
         // Check if email exists
-        if($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-
-            // Verify if password matches the hashed password
-            if(password_verify($password, $row['password']))  {
-
-                $_SESSION['role'] = $row['role'];
-                $_SESSION['status'] = $row['status'];
-
-                if ($row['role'] == 'Student Voter') {
-                    $this->handleStudentVoter($row);
-                } 
-                elseif ($row['role'] == 'Committee Member' || $row['role'] == 'Admin Member') {
-                    $this->handleCommitteeOrAdminMember($row);
-                } 
-                else {
-                    $this->handleRoleNotFound();
-                }
-            } 
-            else {
-                $this->handleMismatchedCredentials($total_count);
-            }
-        } 
-        else {
+        if ($result->num_rows === 0) {
             $this->handleUserNotFound();
+        } else {
+            $row = $result->fetch_assoc();
+            $this->handlePasswordVerification($row, $password);
         }
 
         $stmt->close();
+    }
+
+    // Check login attempts and if is blocked
+    private function isBlocked() {
+        $time = time() - self::LOGIN_BLOCK_TIME;
+        $stmt = $this->connection->prepare("SELECT COUNT(*) AS total_count FROM login_logs WHERE login_time > ? AND ip_address = ?");
+        $stmt->bind_param('is', $time, $this->ip_address);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $check_login = $result->fetch_assoc();
+        return $check_login['total_count'] >= self::LOGIN_ATTEMPT_COUNT;
+    }
+
+    // Check if password matches the hashed password
+    private function handlePasswordVerification($row, $password) {
+        if (password_verify($password, $row['password'])) {
+            $_SESSION['role'] = $row['role'];
+            $_SESSION['account_status'] = $row['account_status'];
+            $this->handleUserRole($row);
+        } else {
+            $this->handleMismatchedCredentials();
+        }       
+    }
+
+    // Check user role
+    private function handleUserRole($row) {
+        switch ($row['role']) {
+            case 'student_voter':
+                $this->handleStudentVoter($row);
+                break;
+            case 'admin':
+            case 'head_admin':
+                $this->handleAdminOrHead($row);
+                break;
+            default:
+                $this->redirectWithError('Role not found in session.');
+                break;
+        }
     }
 
     // Check student-voter account and vote status
     private function handleStudentVoter($row) {
         $this->deleteIPDetails();
 
-        if($row['status'] == 'For Verification') {
-            unsetSessionVar();    
-            $_SESSION['info_message'] = 'This account is under verification.';
-            header("Location: ../voter-login.php");
-            exit();
-        } 
-        elseif($row['status'] == 'Inactive') {
-            unsetSessionVar();
-            $_SESSION['error_message'] = 'This account has been disabled.'; 
-            header("Location: ../voter-login.php");
-            exit();          
-        } 
-        elseif($row['status'] == 'Rejected') {
-            $_SESSION['email'] =  $_POST['email'];
-            $_SESSION['password'] = $_POST['password'];
-            $_SESSION['error_message'] = 'This account was rejected.';  
-            header("Location: ../voter-login.php");
-            exit();      
-        } 
-        elseif($row['status'] == 'Active') {
-            $_SESSION['voter_id'] = $row['voter_id'];
-            $_SESSION['vote_status'] = $row['vote_status'];
-
-            if ($row['vote_status'] == NULL) {
-                unsetSessionVar();
-                $this->regenerateSessionId();
-                header("Location: ../ballot-forms.php");
-                exit();
-            } elseif ($row['vote_status'] == 'Voted' || $row['vote_status'] == 'Abstained') {
-                unsetSessionVar();
-                $this->regenerateSessionId();
-                header("Location: ../end-point.php");
-                exit();
-            } else {
-                header("Location: ../landing-page.php");
-                exit();
-            }
-        } 
-        else {
-            unsetSessionVar();
-            $_SESSION['error_message'] = 'Something went wrong.';
-            header("Location: ../voter-login.php");
-            exit();
+        switch ($row['account_status']) {
+            case 'for_verification':
+                $this->redirectWithMessage('info_message', 'This account is under verification.');
+                break;
+            case 'invalid':
+                $this->setUserSession($row['email'], $row['password'], 'This account was rejected.');
+                break;
+            case 'verified':
+                $this->handleVerifiedStudentVoter($row);
+                break;
+            default:
+                $this->redirectWithError('Something went wrong.');
+                break;
         }
     }
 
-    // Redirects a committee member to the admin dashboard
-    private function handleCommitteeOrAdminMember($row) {
-        $this->deleteIPDetails();
-        unsetSessionVar();
-        
-        if ($row['role'] == 'Committee Member') {
-            $_SESSION['role'] = 'Committee Member';
-        }
-        elseif ($row['role'] == 'Admin Member') {
-            $_SESSION['role'] = 'Admin Member';
-        }
+    // Check voter status of a verified account
+    private function handleVerifiedStudentVoter($row) {
+        $_SESSION['voter_id'] = $row['voter_id'];
+        $_SESSION['voter_status'] = $row['voter_status'];
+        $_SESSION['vote_status'] = $row['vote_status'];
 
-        // Check the account status
-        if($row['status'] == 'Active') {
-            $this->regenerateSessionId();
-            $_SESSION['voter_id'] = $row['voter_id'];
-            header("Location: ../admindashboard.php");
-            exit();            
+        if ($row['voter_status'] === 'inactive') {
+            $this->redirectWithMessage('info_message', 'This account is inactive.');
+        } else {
+            $this->redirectBasedOnVoteStatus($row['vote_status']);
         }
-        elseif($row['status'] == 'Inactive') { 
-            $_SESSION['error_message'] = 'This account has been disabled.';  
-            header("Location: ../admindashboard.php");
-            exit();         
-        } 
-        else {
-            $_SESSION['error_message'] = 'Something went wrong.';
-            header("Location: ../admindashboard.php");
-            exit();
+    }
+
+    // Check voter's vote status (e.g., if the user has voted already or no)
+    private function redirectBasedOnVoteStatus($vote_status) {
+        unsetSessionVar();
+        $this->regenerateSessionId();
+
+        switch ($vote_status) {
+            case NULL:
+                header("Location: ../ballot-forms.php");
+                break;
+            case 'voted':
+            case 'abstained':
+                header("Location: ../end-point.php");
+                break;
+            default:
+                header("Location: ../landing-page.php");
+                break;
         }
-        header("Location: ../voter-login.php");
         exit();
     }
 
-    // If account role is not found, redirects/remains on the login page
-    private function handleRoleNotFound() {
-        $_SESSION['error_message'] = 'Role not found in session.';
-        header("Location: ../voter-login.php");
+    // Redirects a committee member to the admin dashboard
+    private function handleAdminOrHead($row) {
+        $this->deleteIPDetails();
+        unsetSessionVar();
+
+        if ($row['account_status'] === 'verified') {
+            $this->regenerateSessionId();
+            $_SESSION['voter_id'] = $row['voter_id'];
+            header("Location: ../admindashboard.php");
+        } else {
+            $this->redirectWithError('This account has been disabled.');
+        }
         exit();
     }
 
     // Check mismatched email and password
-    private function handleMismatchedCredentials($total_count) {
-        $total_count++;
-        $remaining_attempt = self::LOGIN_ATTEMPT_COUNT - $total_count;
-        $try_time = time();
-        $insert_query = "INSERT INTO login_logs (ip_address, login_time) VALUES ('$this->ip_address', '$try_time')";
-        $this->connection->query($insert_query);  
+    private function handleMismatchedCredentials() {
+        $this->logFailedAttempt();
 
-        if($remaining_attempt == 0) {
-            $_SESSION['error_message'] = 'Too many login attempts.<br/>You are blocked for ' . self::LOGIN_BLOCK_TIME . ' seconds.';
-            header("Location: ../voter-login.php");
-            exit();
-        }
-        else {
-            unsetSessionVar();
-            $_SESSION['error_message'] = 'Email and password do not match<br/>' . $remaining_attempt . ' remaining attempts.';
-            header("Location: ../voter-login.php");
-            exit();
+        $remaining_attempt = self::LOGIN_ATTEMPT_COUNT - $this->getFailedAttemptsCount();
+        if ($remaining_attempt <= 0) {
+            $this->redirectWithError('Too many login attempts.<br/>You are blocked for ' . self::LOGIN_BLOCK_TIME . ' seconds.');
+        } else {
+            $this->redirectWithMessage('error_message', 'Email and password do not match<br/>' . $remaining_attempt . ' remaining attempts.');
         }
     }
 
     // If email does not exist, redirects/remains on the login page
     private function handleUserNotFound() {
-        $_SESSION['error_message'] = 'User with this email does not exist.';
-        header("Location: ../voter-login.php");
-        exit();
+        $this->redirectWithError('User with this email does not exist.');
+    }
+
+    // Insert user ip address to login logs table
+    private function logFailedAttempt() {
+        $try_time = time();
+        $insert_query = "INSERT INTO login_logs (ip_address, login_time) VALUES (?, ?)";
+        $stmt = $this->connection->prepare($insert_query);
+        $stmt->bind_param('si', $this->ip_address, $try_time);
+        $stmt->execute();
+    }
+
+    // Counts user failed login attempts
+    private function getFailedAttemptsCount() {
+        $time = time() - self::LOGIN_BLOCK_TIME;
+        $stmt = $this->connection->prepare("SELECT COUNT(*) AS total_count FROM login_logs WHERE login_time > ? AND ip_address = ?");
+        $stmt->bind_param('is', $time, $this->ip_address);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $check_login = $result->fetch_assoc();
+        return $check_login['total_count'];
     }
 
     // Delete user ip address, if user log in successfully
     private function deleteIPDetails() {
-        $delete_ip_address = "DELETE FROM login_logs WHERE ip_address = ?";
-        $stmt = $this->connection->prepare($delete_ip_address);
+        $stmt = $this->connection->prepare("DELETE FROM login_logs WHERE ip_address = ?");
         $stmt->bind_param('s', $this->ip_address);
         $stmt->execute();
     }
@@ -208,6 +205,29 @@ class Login{
     // Regenerate a stronger session
     private function regenerateSessionId() {   
         session_regenerate_id(true);
+    }
+
+    // Sets the error messages to be displayed
+    private function redirectWithError($message) {
+        $_SESSION['error_message'] = $message;
+        header("Location: ../voter-login.php");
+        exit();
+    }
+
+    // Handles different types of messages
+    private function redirectWithMessage($type, $message) {
+        unsetSessionVar();
+        $_SESSION[$type] = $message;
+        header("Location: ../voter-login.php");
+        exit();
+    }
+
+    private function setUserSession($email, $password, $message) {
+        $_SESSION['email'] = $email;
+        $_SESSION['password'] = $password;
+        $_SESSION['error_message'] = $message;
+        header("Location: ../voter-login.php");
+        exit();
     }
 }
 

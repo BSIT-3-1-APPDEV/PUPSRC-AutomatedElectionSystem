@@ -5,7 +5,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php'
 include_once FileUtils::normalizeFilePath('includes/session-exchange.php');
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
-SessionManager::checkUserRoleAndRedirect();
+// SessionManager::checkUserRoleAndRedirect();
 
 /* Generates hexadecimal token that expires in 30 minutes
    to avoid Cross-Site Request Forgery */
@@ -112,6 +112,7 @@ if (isset($_SESSION['info_message'])) {
 
                         <div class="col-md-12 mt-0 mb-3">
                             <input type="email" class="form-control" id="Email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" value="<?php if (isset($_SESSION['email'])) echo $_SESSION['email']; ?>">
+                            <div class="valid-feedback text-start">Looks good!</div>
                             <div class="ps-2 text-start invalid-feedback">
                                 Please provide a valid email.
                             </div>
@@ -121,7 +122,8 @@ if (isset($_SESSION['info_message'])) {
                             <div class="input-group">
                                 <input type="password" class="form-control" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" value="<?php if (isset($_SESSION['password'])) echo $_SESSION['password']; ?>" id="Password" required>
                                 <button class="btn" type="button" id="password-toggle">Show</button>
-                                <!-- <div class="ps-2 text-start invalid-feedback">
+                                <!-- <div class="valid-feedback text-start">Looks good!</div>
+                                <div class="ps-2 text-start invalid-feedback">
                                     Please provide a valid password.
                                 </div> -->
                             </div>
@@ -157,7 +159,7 @@ if (isset($_SESSION['info_message'])) {
                                 <label for="email" class="form-label">Email Address</label>
                             </div>
                             <input type="text" class="form-control" name="email" id="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" oninvalid="this.setCustomValidity('Please enter a valid email address')" oninput="this.setCustomValidity('')" />
-                            <div class="valid-feedback">Looks good!</div>
+                            <div class="valid-feedback text-start">Looks good!</div>
                             <div class="invalid-feedback">
                                 Please enter a valid email address.
                             </div>

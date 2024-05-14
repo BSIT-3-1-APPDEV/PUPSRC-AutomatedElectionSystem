@@ -5,9 +5,9 @@ require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 
-if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['status'] == 'Active')) 
+if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'student_voter')) 
 {
-   if(($_SESSION['vote_status'] != 'Voted' )){
+   if(($_SESSION['vote_status'] != 'voted' )){
 
    
 
