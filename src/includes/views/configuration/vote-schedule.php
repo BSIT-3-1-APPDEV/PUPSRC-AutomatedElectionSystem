@@ -1,4 +1,7 @@
+<link href="vendor/plugin/mdbootstrap4/docs-app/css/dist/mdb5/standard/modules/mdb.css" rel="stylesheet">
 <link rel="stylesheet" href="src/styles/config-election-schedule.css?v=2">
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" /> -->
+
 
 <main class="main">
     <div class="container px-md-3 px-lg-5 px-sm-2">
@@ -51,6 +54,8 @@
 
         </table>
 
+        <div id="chips" class="chips chips-placeholder" data-mdb-editable="true"></div>
+
 
 
     </div>
@@ -59,11 +64,19 @@
 global $page_scripts;
 $page_scripts = '
 <script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.3.1/luxon.min.js"></script>
 <script  type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
 <script  type="text/javascript" src="https://cdn.datatables.net/select/2.0.1/js/dataTables.select.js"></script>
 <script  type="text/javascript" src=" https://cdn.datatables.net/select/2.0.1/js/select.bootstrap5.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.bootstrap5.js"></script>
+<script type="text/javascript" src="vendor/plugin/mdbootstrap4/docs-app/js/dist/mdb5/standard/modules/mdb.min.js"></script>
 <script  type="module" src="src/scripts/config-election-schedule.js?v=2"></script>
 <script  type="text/javascript"src="src/scripts/feather.js" defer></script>
+
+
     ';
+// <script
+//   type="text/javascript"
+//   src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"
+// ></script>

@@ -15,7 +15,13 @@ $is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role'], $_SESSION[
     !empty($_SESSION['organization']);
 
 if (!$is_page_accessible) {
-    header("location: ../landing-page.php");
+    $page = basename($_SERVER['PHP_SELF']);
+
+    if ($page === 'configuration.php') {
+        header("Location: landing-page.php");
+    } else {
+        header("Location: ../landing-page.php");
+    }
     exit();
 }
 require_once FileUtils::normalizeFilePath('includes/session-exchange.php');

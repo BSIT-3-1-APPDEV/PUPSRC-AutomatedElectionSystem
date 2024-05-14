@@ -109,6 +109,7 @@ body {
                 text-transform: uppercase;
                 color: var(--white);
                 background-color: var(--main-color);
+                padding: clamp(1rem, 0.5rem + 0.8dvw, 2vw) clamp(1rem, 0.5rem + 0.8dvw, 2vw);
 
                 .modal-title {
                     letter-spacing: 0.20rem;
@@ -118,14 +119,14 @@ body {
                 }
 
                 button.modal-close {
-                    height: calc(1rem + 0.5vw);
-                    width: calc(1rem + 0.5vw);
                     border: none;
-                    border-radius: 2rem;
+                    border-radius: 50%;
                     color: var(--main-color);
                     background-color: var(--white);
 
                     svg {
+                        height: calc(1rem + 0.5vw);
+                        width: calc(1rem + 0.5vw);
                         display: flex;
                         align-items: center;
                         justify-content: center;

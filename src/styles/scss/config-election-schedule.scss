@@ -1,5 +1,136 @@
 @import 'configuration';
 
+body {
+    .modal {
+
+        .modal-dialog {
+            min-width: clamp(18.75rem, 40dvw, var(--bs-breakpoint-xl));
+
+            .modal-content {
+                border: clamp(0.063rem, 0.031rem + 0.1vw, 0.219rem) solid var(--main-color);
+                border-radius: calc(0.5rem + 0.4dvw + 0.5dvh);
+            }
+
+            .modal-header {
+                flex-direction: row-reverse;
+                background-color: transparent;
+                color: var(--main-color);
+
+                button.modal-close {
+                    color: var(--white);
+                    background-color: transparent;
+                    border: none;
+
+                    svg {
+                        background-color: var(--main-color);
+                        border-radius: 50%;
+
+                        circle {
+                            color: transparent;
+                        }
+
+                        line {
+                            stroke-width: clamp(2px, 1px + 0.15dvw, 5px);
+                        }
+                    }
+
+                    &:hover {
+                        svg {
+                            background-color: transparent;
+
+                            circle,
+                            line {
+                                stroke-width: clamp(1px, 1px + 0.2dvw, 5px);
+                                color: var(--main-color)
+                            }
+                        }
+
+                        background-color: var(--white);
+                        filter: brightness(130%);
+                    }
+
+                    &:active {
+
+                        svg {
+                            transform: translateX(-5%) translateY(5%);
+
+                            @media (min-height: var(--bs-breakpoint-xl)) {
+                                transform: translateX(-20%) translateY(-20%);
+                            }
+
+                            height: calc(0.9rem + 0.4vw);
+                            width: calc(0.9rem + 0.4vw);
+
+                            circle,
+                            line {
+                                stroke-width: clamp(1px, 1.1px + 0.2dvw, 5px);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .modal-body {
+
+                min-height: max-content;
+                max-height: calc(150px + 30dvh);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .course-section {
+                    margin-bottom: 0;
+                    text-align: center;
+                    font-size: clamp(0.8rem, calc(1.325rem + 0.9vw), 4rem);
+                    overflow: visible;
+                    text-wrap: nowrap;
+                }
+
+                @media (max-height: 550px) {
+                    min-height: 60dvh;
+                    display: grid;
+                    place-items: end center;
+                    margin: 0;
+
+                    button.btn-success {
+                        align-self: start;
+                    }
+                }
+
+                label[for="save-button"] {
+                    // bottom: anchor(--save-btn center);
+                    // left: anchor(--save-btn center);
+                }
+
+                input[type=text] {
+                    height: calc(1.2rem + 0.5dvw + 1.5dvh);
+                    margin: clamp(0.5rem, 0.1rem + 0.9dvh, 3rem) 0;
+                    padding: calc(0.5rem + 0.1dvw) calc(0.5rem + 0.48dvw);
+                    text-align: center;
+                    border: calc(0.5px + 0.1vw) solid #000;
+
+                    // &::placeholder,
+                    // &::-webkit-input-placeholder,
+                    // &::-moz-placeholder,
+                    // &::-ms-input-placeholder {
+                    //     text-align: left;
+                    // }
+
+                    &::placeholder {
+                        text-align: left;
+                    }
+                }
+
+                .save-button {
+                    // anchor-name: --save-btn;
+                    margin: calc(0.5rem + 0.05dvw);
+                }
+
+            }
+        }
+    }
+}
+
 main.main {
 
     div.dt-container {
@@ -22,10 +153,20 @@ main.main {
                 align-self: flex-start;
                 top: 62px;
                 z-index: 1005;
+                // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+                // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                // box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+
 
                 .dt-buttons,
                 .dt-search input[type="search"] {
-                    margin: 1rem 0;
+                    @media (max-width: 576px) {
+                        margin: 1.5rem !important;
+                    }
+
+                    @media (min-width: 576px) {
+                        margin: clamp(1rem, 0.5rem + 1dvh, 20dvh) 0 !important;
+                    }
                 }
             }
 
