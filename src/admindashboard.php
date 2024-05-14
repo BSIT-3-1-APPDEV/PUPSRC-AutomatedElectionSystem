@@ -11,7 +11,7 @@ $dbConnection = new DatabaseConnection();
 // Create an instance of Application
 $app = new Application($dbConnection);
 
-if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'Committee Member' || $_SESSION['role'] == 'Admin Member')) {
+if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
     $org_name = $_SESSION['organization'] ?? '';
 
     include FileUtils::normalizeFilePath('includes/organization-list.php');

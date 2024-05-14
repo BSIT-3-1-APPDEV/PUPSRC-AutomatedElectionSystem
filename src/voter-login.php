@@ -5,7 +5,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php'
 include_once FileUtils::normalizeFilePath('includes/session-exchange.php');
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
-SessionManager::checkUserRoleAndRedirect();
+// SessionManager::checkUserRoleAndRedirect();
 
 /* Generates hexadecimal token that expires in 30 minutes
    to avoid Cross-Site Request Forgery */
