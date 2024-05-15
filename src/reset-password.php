@@ -2,30 +2,39 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-handler.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/session-manager.php');
-include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-exchange.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/includes/classes/db-connector.php');
 
-SessionManager::checkUserRoleAndRedirect();
+// SessionManager::checkUserRoleAndRedirect();
+
+$token = $_GET['token'];
+$token_hash = hash('sha256', $token);
+
+// Get the org name from the URL
+$url_org_name = $_GET['orgName'];
+$org_name = $url_org_name;
+$_SESSION['organization'] = $org_name;
+
+include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/session-exchange.php');
 
 $token = $_GET['token'];
 $token_hash = hash('sha256', $token);
 
 $connection = DatabaseConnection::connect();
 
-$sql = "SELECT * FROM voter WHERE reset_token_hash = ?";
+$sql = "SELECT reset_token_hash, reset_token_expires_at FROM voter WHERE reset_token_hash = ?";
 $stmt = $connection->prepare($sql);
 $stmt->bind_param("s", $token_hash);
 $stmt->execute();
 $result = $stmt->get_result();
-$user = $result->fetch_assoc();
+$row = $result->fetch_assoc();
 
-if ($user === NULL) {
+if ($row['reset_token_hash'] == NULL) {
     $_SESSION['error_message'] = 'Reset link was not found.';
     header("Location: voter-login.php");
     exit();
 }
 
-if (strtotime($user["reset_token_expires_at"]) <= time()) {
+if (strtotime($row["reset_token_expires_at"]) <= time()) {
     $_SESSION['error_message'] = 'Reset link has expired.';
     header("Location: voter-login.php");
     exit();
@@ -99,7 +108,7 @@ if (strtotime($user["reset_token_expires_at"]) <= time()) {
 
                         </div>
                         <div class="col-md-12 reset-pass">
-                            <button class="btn login-sign-in-button mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="" id="reset-password-submit">Set Password</button>
+                            <button class="btn login-sign-in-button mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="reset-password-submit" id="reset-password-submit">Set Password</button>
                         </div>
                     </div>
 
@@ -108,46 +117,8 @@ if (strtotime($user["reset_token_expires_at"]) <= time()) {
         </div>
     </div>
 
-
-
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Updated script for password toggle -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const togglePassword1 = document.querySelector("#reset-password-toggle-1");
-            const togglePassword2 = document.querySelector("#reset-password-toggle-2");
-            const passwordInput1 = document.querySelector("#password");
-            const passwordInput2 = document.querySelector("#password_confirmation");
-            const eyeIcon1 = togglePassword1.querySelector("i");
-            const eyeIcon2 = togglePassword2.querySelector("i");
-
-            togglePassword1.addEventListener("click", function() {
-                const type =
-                    passwordInput1.getAttribute("type") === "password" ?
-                    "text" :
-                    "password";
-                passwordInput1.setAttribute("type", type);
-
-                // Toggle eye icon classes
-                eyeIcon1.classList.toggle("fa-eye-slash");
-                eyeIcon1.classList.toggle("fa-eye");
-            });
-
-            togglePassword2.addEventListener("click", function() {
-                const type =
-                    passwordInput2.getAttribute("type") === "password" ?
-                    "text" :
-                    "password";
-                passwordInput2.setAttribute("type", type);
-
-                // Toggle eye icon classes
-                eyeIcon2.classList.toggle("fa-eye-slash");
-                eyeIcon2.classList.toggle("fa-eye");
-            });
-        });
-    </script>
+    <script src="scripts/reset-password.js"></script>
 
 </body>
-
 </html>

@@ -55,8 +55,9 @@ class EmailSender
         return $this->sendEmail($recipientEmail, $subject, $mailBody);
     }
 
-    public function sendPasswordResetEmail($recipientEmail, $token) {
+    public function sendPasswordResetEmail($recipientEmail, $token, $orgName) {
         $subject = 'iVOTE Password Reset Request';
+        $resetPasswordLink = "http://localhost/PUPSRC-AutomatedElectionSystem/src/reset-password.php?token=$token&orgName=$orgName";
         $mailBody = <<<EOT
         <!DOCTYPE html>
         <html lang="en">
@@ -70,7 +71,7 @@ class EmailSender
             <p>We have received a request to reset the password associated with your account. To complete the process, 
             please follow the instructions below:</p>
             <ul style="padding-left: 20px;">
-                <li>Click on the following link to reset your password: <a href="http://localhost/PUPSRC-AutomatedElectionSystem/src/reset-password.php?token=$token">Reset Password Link</a></li>
+                <li>Click on the following link to reset your password: <a href="$resetPasswordLink">Reset Password Link</a></li>
                 <li>The password reset link is only available for 30 minutes.</li>
                 <li>If you are unable to click the link above, please copy and paste it into your browser's address bar.</li>
                 <li>Once the link opens, you will be prompted to enter a new password for your account. Please choose a strong and secure password to ensure the safety of your account.</li>
