@@ -1,10 +1,11 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/classes/file-utils.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/session-handler.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/session-handler.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/mailer.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/classes/email-sender.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/error-reporting.php');
+include_once FileUtils::normalizeFilePath(__DIR__ . '/error-reporting.php');
+include_once FileUtils::normalizeFilePath(__DIR__. '/session-exchange.php');
 
 if(!isset($_POST['send-email-btn'])) {
     $_SESSION['error_message'] = 'Something went wrong.';
@@ -22,16 +23,23 @@ if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $connection = DatabaseConnection::connect();
 
 // Check if email exists
-$sql = "SELECT email FROM voter WHERE email = ?";
+$sql = "SELECT email, account_status FROM voter WHERE email = ?";
 $stmt = $connection->prepare($sql);
 $stmt->bind_param('s', $email);
 $stmt->execute();
-$row = $stmt->get_result();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
 
-if($row->num_rows === 0) {
-    $_SESSION['notice_message'] = 'User with this email does not exist.';
+if($row === NULL) {
+    $_SESSION['error_message'] = 'User with this email does not exist.';
     header("Location: ../voter-login.php");
     exit();
+}
+
+if($row['account_status'] == 'invalid') {
+    $_SESSION['error_message'] = 'This account has been rejected';
+    header("Location: ../voter-login.php");
+    exit();   
 }
 
 $token = bin2hex(random_bytes(16));
@@ -45,7 +53,7 @@ $stmt->execute();
 
 if($connection->affected_rows) {
     $send_email = new EmailSender($mail);
-    $send_email->sendPasswordResetEmail($email, $token); 
+    $send_email->sendPasswordResetEmail($email, $token, $org_name); 
 }
 
 header("Location: ../voter-login.php");
