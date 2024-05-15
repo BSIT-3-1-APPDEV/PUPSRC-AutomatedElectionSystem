@@ -129,6 +129,12 @@ body {
             }
         }
     }
+
+    .select2-container--open {
+        &:has(.select2-dropdown) {
+            z-index: 1100;
+        }
+    }
 }
 
 main.main {
@@ -399,6 +405,8 @@ main.main {
                 }
             }
         }
+
+
 
 
     }

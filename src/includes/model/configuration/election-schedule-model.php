@@ -43,4 +43,43 @@ class ElectionScheduleModel
 
         return $election_schedules;
     }
+
+    public static function fetchVoterYearSection()
+    {
+        self::$connection = DatabaseConnection::connect();
+
+        $voterYearSections = [];
+
+        $sql = "SELECT year_level, section, COUNT(*) as voter_count 
+                FROM voter 
+                GROUP BY year_level, section 
+                ORDER BY section, year_level";
+
+        $stmt = self::$connection->prepare($sql);
+
+        if ($stmt) {
+            $stmt->execute();
+
+            $voter_count = $year_level = $section = '';
+
+            $stmt->bind_result($year_level, $section, $voter_count);
+
+            while ($stmt->fetch()) {
+                $voterYearSection = [
+                    'data_id' => $year_level . $section,
+                    'year_level' => $year_level,
+                    'section' => $section,
+                    'voter_count' => $voter_count
+                ];
+
+                $voterYearSections[] = $voterYearSection;
+            }
+
+            $stmt->close();
+        } else {
+            echo "Error preparing statement: " . self::$connection->error;
+        }
+
+        return $voterYearSections;
+    }
 }

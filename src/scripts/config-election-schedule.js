@@ -28,51 +28,10 @@ ConfigPage.removeEventListeners = function () {
 
 ConfigPage.removeEventListeners();
 
-var ConfigPage = {};
+ConfigPage = {};
 
 const NOW = new Date();
 
-/**
- * A Map that stores event listeners associated with elements.
- * This used to avoid duplicate event listeners.
- * @type {Map<Element, { event: string, handler: function }>}
- */
-ConfigPage.eventListeners = new Map();
-
-/**
- * Adds an event listener to the specified element and stores it in the ConfigPage.eventListeners Map.
- * @function
- * @name ConfigPage.addEventListenerAndStore
- * @memberof ConfigPage
- * @param {Element} element - The DOM element to which the event listener is added.
- * @param {string} event - The name of the event to listen for.
- * @param {function} handler - The function to be executed when the event is triggered.
- */
-ConfigPage.addEventListenerAndStore = function (element, event, handler) {
-    element.addEventListener(event, handler);
-    ConfigPage.eventListeners.set(element, { event, handler });
-}
-
-/**
- * Removes the event listener associated with the specified element and deletes its entry from the ConfigPage.eventListeners Map.
- * @function
- * @name ConfigPage.delEventListener
- * @memberof ConfigPage
- * @param {Element} element - The DOM element from which the event listener is removed.
- */
-ConfigPage.delEventListener = function (element) {
-    // Check if the element has an associated event listener stored in the map
-    if (ConfigPage.eventListeners.has(element)) {
-        // Retrieve the event listener information from the map
-        const listener = ConfigPage.eventListeners.get(element);
-
-        // Remove
-        element.removeEventListener(listener.event, listener.handler);
-
-        // Delete 
-        ConfigPage.eventListeners.delete(element);
-    }
-}
 
 
 ConfigPage = {
@@ -124,10 +83,78 @@ ConfigPage = {
     insertData: function (TABLE_DATA, TABLE) {
         TABLE.clear();
         TABLE.rows.add(TABLE_DATA).draw(true);
+    },
+    fetchYearSectionList: function () {
+        var url = 'src/includes/classes/config-election-sched-controller.php?getVoterCount=true';
+
+        fetch(url)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function (responseData) {
+                let data = [];
+                responseData.forEach(item => {
+                    // console.log(item);
+                    const id = parseInt(item.data_id);
+                    const text = `ACAP ${item.year_level}-${item.section}`;
+                    data.push({ id, text });
+                });
+
+                ConfigPage.yearSectionList = data;
+            })
+            .catch(function (error) {
+                console.error('GET request error:', error);
+            });
+    }
+}
+
+/**
+ * A Map that stores event listeners associated with elements.
+ * This used to avoid duplicate event listeners.
+ * @type {Map<Element, { event: string, handler: function }>}
+ */
+ConfigPage.eventListeners = new Map();
+
+/**
+ * Adds an event listener to the specified element and stores it in the ConfigPage.eventListeners Map.
+ * @function
+ * @name ConfigPage.addEventListenerAndStore
+ * @memberof ConfigPage
+ * @param {Element} element - The DOM element to which the event listener is added.
+ * @param {string} event - The name of the event to listen for.
+ * @param {function} handler - The function to be executed when the event is triggered.
+ */
+ConfigPage.addEventListenerAndStore = function (element, event, handler) {
+    element.addEventListener(event, handler);
+    ConfigPage.eventListeners.set(element, { event, handler });
+}
+
+/**
+ * Removes the event listener associated with the specified element and deletes its entry from the ConfigPage.eventListeners Map.
+ * @function
+ * @name ConfigPage.delEventListener
+ * @memberof ConfigPage
+ * @param {Element} element - The DOM element from which the event listener is removed.
+ */
+ConfigPage.delEventListener = function (element) {
+    // Check if the element has an associated event listener stored in the map
+    if (ConfigPage.eventListeners.has(element)) {
+        // Retrieve the event listener information from the map
+        const listener = ConfigPage.eventListeners.get(element);
+
+        // Remove
+        element.removeEventListener(listener.event, listener.handler);
+
+        // Delete 
+        ConfigPage.eventListeners.delete(element);
     }
 }
 
 ConfigPage.fetchData();
+ConfigPage.fetchYearSectionList();
 
 ConfigPage.dtbleObjects = class dtblObjects {
 
@@ -210,7 +237,7 @@ ConfigPage.table = new DataTable('#example', {
                         let count = ConfigPage.table.rows({ selected: true }).count();
                         console.log(ConfigPage.table.rows({ selected: true }).data());
 
-                        ConfigPage.ActionModal.show(ConfigPage.actionModalObj);
+                        ConfigPage.ActionModal.show(ConfigPage.actionModalObj, ConfigPage.objs.getModalId(), 'add');
 
                         console.log(count + ' row(s) selected');
                     }
@@ -221,7 +248,7 @@ ConfigPage.table = new DataTable('#example', {
                     action: function () {
                         let count = ConfigPage.table.rows({ selected: true }).count();
 
-                        ConfigPage.ActionModal.show(ConfigPage.actionModalObj);
+                        ConfigPage.ActionModal.show(ConfigPage.actionModalObj, ConfigPage.objs.getModalId(), 'update');
 
                         console.log(count + ' row(s) selected');
                     }
@@ -232,7 +259,7 @@ ConfigPage.table = new DataTable('#example', {
                     action: function () {
                         let count = ConfigPage.table.rows({ selected: true }).count();
 
-                        ConfigPage.ActionModal.show(ConfigPage.actionModalObj);
+                        ConfigPage.ActionModal.show(ConfigPage.actionModalObj, ConfigPage.objs.getModalId(), 'delete');
 
                         console.log(count + ' row(s) selected');
                     }
@@ -340,37 +367,72 @@ ConfigPage.toggleStickyToolbar = function () {
 
 ConfigPage.AddSectionOverflowListener = function () {
     const text = document.querySelector('.modal-body .course-section');
-    const container = text.parentNode.clientWidth - parseFloat(getComputedStyle(text.parentNode).paddingLeft) - parseFloat(getComputedStyle(text.parentNode).paddingRight);
-    const textLength = text.getBoundingClientRect().width;
 
+    if (!text) { return; }
+
+    text.style.fontSize = '';
     text.style.maxWidth = '';
     text.style.overflow = '';
     text.style.whiteSpace = '';
     text.style.textOverflow = '';
 
+    const container = text.parentNode.clientWidth - parseFloat(getComputedStyle(text.parentNode).paddingLeft) - parseFloat(getComputedStyle(text.parentNode).paddingRight);
+    const textLength = text.getBoundingClientRect().width;
+
     if (textLength > container) {
         // If the text overflows, set the font size using clamp with a calculated value
         text.style.fontSize = `clamp(0.8rem, calc(1.325rem + 0.9vw - ${(textLength - container) * 0.1}px), 4rem)`;
+        setTimeout(() => {
+            const container = text.parentNode.clientWidth - parseFloat(getComputedStyle(text.parentNode).paddingLeft) - parseFloat(getComputedStyle(text.parentNode).paddingRight);
+            const textLength = text.getBoundingClientRect().width;
+            console.log(textLength + ` text length after ` + container + " container length");
+            if (textLength > container) {
+                text.style.maxWidth = `${container}px`;
+                text.style.overflow = 'hidden';
+                text.style.whiteSpace = 'nowrap';
+                text.style.textOverflow = 'ellipsis';
+            } else {
+                text.style.maxWidth = '';
+                text.style.overflow = '';
+                text.style.whiteSpace = '';
+                text.style.textOverflow = '';
+            }
+        }, 0);
     } else {
         text.style.fontSize = '';
     }
 
-    setTimeout(() => {
-        const container = text.parentNode.clientWidth - parseFloat(getComputedStyle(text.parentNode).paddingLeft) - parseFloat(getComputedStyle(text.parentNode).paddingRight);
-        const textLength = text.getBoundingClientRect().width;
-        console.log(textLength + ` text length after ` + container + " container length");
-        if (textLength > container) {
-            text.style.maxWidth = `${container}px`;
-            text.style.overflow = 'hidden';
-            text.style.whiteSpace = 'nowrap';
-            text.style.textOverflow = 'ellipsis';
-        } else {
-            text.style.maxWidth = '';
-            text.style.overflow = '';
-            text.style.whiteSpace = '';
-            text.style.textOverflow = '';
-        }
-    }, 0);
+}
+
+ConfigPage.Select2Matcher = function (params, data) {
+    // If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+        return data;
+    }
+
+    // Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+        return null;
+    }
+
+    // Extracting individual components from the search term
+    const searchTerm = params.term.toLowerCase();
+    const searchParts = searchTerm.split(' ');
+
+    // Check if any part of the search term matches any part of the data.text
+    const isMatch = searchParts.every(part => data.text.toLowerCase().includes(part));
+
+    if (isMatch) {
+        var modifiedData = $.extend({}, data, true);
+        modifiedData.text += ' (matched)';
+
+        // You can return modified objects from here
+        // This includes matching the `children` how you want in nested data sets
+        return modifiedData;
+    }
+
+    // Return `null` if the term should not be displayed
+    return null;
 }
 
 
@@ -416,18 +478,7 @@ ConfigPage.ActionModal = class ActionModal {
 
     }
 
-    static createContent() {
-        let title = document.createElement('h2');
-        title.classList = 'course-section';
-        title.textContent = ' BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1';
-
-        let dateInput = document.createElement('input')
-        dateInput.setAttribute('type', 'text');
-        dateInput.classList = 'course-section col-10 col-md-5 col-xl-4';
-        dateInput.setAttribute('id', 'positionInput');
-        dateInput.setAttribute('placeholder', 'dd/mm/yy');
-        dateInput.setAttribute('pattern', '');
-        dateInput.setAttribute('required', '');
+    static createSaveButton() {
 
         let saveButtonLabel = document.createElement('label')
         saveButtonLabel.setAttribute("for", "save-button");
@@ -443,36 +494,147 @@ ConfigPage.ActionModal = class ActionModal {
         saveButton.setAttribute("disabled", true);
         saveButton.textContent = "Save Changes";
 
-        let tempContainer = document.createElement('div');
-        tempContainer.appendChild(title);
-        tempContainer.appendChild(dateInput);
-        tempContainer.appendChild(saveButtonLabel);
-        tempContainer.appendChild(saveButton);
-
-        return tempContainer.innerHTML;
+        return {
+            saveButtonLabel: saveButtonLabel,
+            saveButton: saveButton
+        };
     }
 
-    static updateContent(DATA, isAdd = false) {
+    static clearModalBody(modal) {
+        console.log('clearing');
+        console.log(modal);
+        while (modal.firstChild) {
+            modal.removeChild(modal.firstChild);
+        }
+    }
 
-        let actionModal = document.getElementById(ACTION_MODAL_ID);
-        let modalInput = actionModal.querySelector('.modal-body input[type="text"]');
-        let modalTitle = actionModal.querySelector('.modal-body .course-section');
+    static setAddContent(modalId) {
 
-        if (modalTitle) {
-            modalTitle.value = DATA[0].value ?? '';
+        if (modalId) {
+            let modalBody = document.querySelector(`#${modalId} .modal-body`);
+            this.clearModalBody(modalBody);
+
+            let selectElem = document.createElement("select");
+            selectElem.setAttribute("id", "add-section-schedule");
+
+            let dateInput = document.createElement('input')
+            dateInput.setAttribute('type', 'text');
+            dateInput.classList = 'course-section col-10 col-md-5 col-xl-4';
+            dateInput.setAttribute('id', 'scheduleInput');
+            dateInput.setAttribute('placeholder', 'dd/mm/yy');
+            dateInput.setAttribute('pattern', '');
+            dateInput.setAttribute('required', '');
+
+            modalBody.insertBefore(dateInput, modalBody.firstChild);
+            modalBody.insertBefore(selectElem, modalBody.firstChild);
+
+            // if ($('#add-section-schedule').hasClass("select2-hidden-accessible")) {
+            //     // Select2 has been initialized
+            // } else {
+
+
+            // if ($('#mySelect2').find("option[value='" + data.id + "']").length) {
+            // } else { 
+            //     // Create a DOM Option and pre-select by default
+            //     var newOption = new Option(data.text, data.id, true, true);
+
+            // } 
+            // }
+
+            $("#add-section-schedule").select2({
+                data: ConfigPage.yearSectionList,
+                multiple: true,
+                placeholder: 'Select a Section.',
+            });
+
+
+            const SAVE_BUTTON_LABEL = document.getElementById("save-button-label");
+            const SAVE_BUTTON = document.getElementById("save-button");
+
+            if (!SAVE_BUTTON_LABEL && !SAVE_BUTTON) {
+                const { saveButtonLabel, saveButton } = this.createSaveButton();
+                modalBody.appendChild(saveButtonLabel);
+                modalBody.appendChild(saveButton);
+            }
         }
 
-        if (modalInput) {
-            modalInput.setAttribute('data-data-id', DATA[0].data_id);
-            modalInput.setAttribute('data-target-input', DATA[0].input_id);
-            modalInput.value = DATA[0].value ?? '';
+    }
+
+    static setUpdateContent(modalId, data) {
+        if (modalId) {
+            let modalBody = document.querySelector(`#${modalId} .modal-body`);
+            this.clearModalBody(modalBody);
+
+            let title = document.createElement('h2');
+            title.classList = 'course-section modal-temp';
+            title.textContent = ' BSIT 3-1';
+
+            let dateInput = document.createElement('input')
+            dateInput.setAttribute('type', 'text');
+            dateInput.classList = 'modal-temp col-10 col-md-5 col-xl-4';
+            dateInput.setAttribute('id', 'scheduleInput');
+            dateInput.setAttribute('placeholder', 'dd/mm/yy');
+            dateInput.setAttribute('pattern', '');
+            dateInput.setAttribute('required', '');
+
+            modalBody.insertBefore(dateInput, modalBody.firstChild);
+            modalBody.insertBefore(title, modalBody.firstChild);
+
+            const SAVE_BUTTON_LABEL = document.getElementById("save-button-label");
+            const SAVE_BUTTON = document.getElementById("save-button");
+
+            if (!SAVE_BUTTON_LABEL && !SAVE_BUTTON) {
+                const { saveButtonLabel, saveButton } = this.createSaveButton();
+                modalBody.appendChild(saveButtonLabel);
+                modalBody.appendChild(saveButton);
+            }
+
+        }
+    }
+
+    static setDeleteContent(modalId) {
+
+        if (modalId) {
+            let modalBody = document.querySelector(`#${modalId} .modal-body`);
+            this.clearModalBody(modalBody);
+
+            const SAVE_BUTTON_LABEL = document.getElementById("save-button-label");
+            const SAVE_BUTTON = document.getElementById("save-button");
+
+            if (!SAVE_BUTTON_LABEL && !SAVE_BUTTON) {
+                const { saveButtonLabel, saveButton } = this.createSaveButton();
+                modalBody.appendChild(saveButtonLabel);
+                modalBody.appendChild(saveButton);
+            }
+
+        }
+    }
+
+
+    static updateContent(modalId, mode, data) {
+
+
+        switch (mode) {
+            case 'add':
+                this.setAddContent(modalId);
+                break;
+            case 'update':
+                this.setUpdateContent(modalId, data)
+                break;
+            case 'delete':
+                this.setDeleteContent()
+                break;
+            default:
+                throw new Error(`Mode '${mode}' is not supported.`);
         }
 
 
     }
 
-    static show(ACTION_MODAL) {
+    static show(ACTION_MODAL, modalId, mode, data = '') {
         if (ACTION_MODAL) {
+
+            ConfigPage.ActionModal.updateContent(modalId, mode, data);
             ACTION_MODAL.show();
 
             ConfigPage.delEventListener(ConfigPage.actionModalE);
@@ -487,7 +649,7 @@ ConfigPage.actionModalObj = ConfigPage.ActionModal.create(ConfigPage.objs.getMod
     'modal-dialog modal-lg modal-dialog-centered modal-fullscreen-sm-down',
     {
         header: { className: '', innerHTML: '<button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><i data-feather="x-circle" ></i></button>' },
-        body: { className: '', innerHTML: ConfigPage.ActionModal.createContent() },
+        body: { className: '', innerHTML: '' },
     });
 
 
@@ -495,36 +657,4 @@ ConfigPage.AddTableListener();
 
 
 
-const chipsInitialNew = document.querySelector('#chips');
-
-const newChipsNew = new mdb.ChipsInput(chipsInitialNew, {
-    initialValues: [
-        {
-            tag: 'MDBReact',
-        },
-        {
-            tag: 'MDBAngular',
-        },
-        {
-            tag: 'MDBVue',
-        },
-        {
-            tag: 'MDB5',
-        },
-        {
-            tag: 'MDB',
-        },
-    ],
-});
-
-// const basicAutocomplete = document.querySelector('#chips');
-// const data = ['One', 'Two', 'Three', 'Four', 'Five'];
-// const dataFilter = (value) => {
-//     return data.filter((item) => {
-//         return item.toLowerCase().startsWith(value.toLowerCase());
-//     });
-// };
-
-// new mdb.Autocomplete(basicAutocomplete, {
-//     filter: dataFilter
-// });
+console.log(ConfigPage);

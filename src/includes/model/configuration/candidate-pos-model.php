@@ -57,7 +57,7 @@ class CandidatePosition
         if ($stmt) {
             // $encoded_description = json_encode($data['description']);
             // $stmt->bind_param("iss", $data['sequence'], $data['value'], $encoded_description);
-            $stmt->bind_param("issi", $data['sequence'], $data['value'], $data['description'], $data['data_id']);
+            $stmt->bind_param("iss", $data['sequence'], $data['value'], $data['description']);
             $stmt->execute();
             $inserted_id = self::$connection->insert_id;
             $position = [

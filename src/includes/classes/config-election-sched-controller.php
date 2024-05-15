@@ -70,20 +70,31 @@ class ElectionScheduleController extends ElectionScheduleModel
 
 // if ($_SERVER['REQUEST_METHOD'] === 'UPDATE') {
 
-$decoded_data = ElectionScheduleController::fetchData();
+
 
 // if (isset($decoded_data)) {
-echo json_encode($decoded_data);
+
 // }
 // }
 
 // if ($_SERVER['REQUEST_METHOD'] === 'UPDATE') {
 
-    // $controller = new ElectionYearController();
+// $controller = new ElectionYearController();
 
-    // $decoded_data = $controller->getData();
-    
-    // if (isset($decoded_data) && json_last_error() === JSON_ERROR_NONE) {
-    //     echo json_encode($decoded_data);
-    // }
-    // }
+// $decoded_data = $controller->getData();
+
+// if (isset($decoded_data) && json_last_error() === JSON_ERROR_NONE) {
+//     echo json_encode($decoded_data);
+// }
+// }
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (isset($_GET['getVoterCount']) && $_GET['getVoterCount'] === 'true') {
+        $decoded_data = ElectionScheduleController::fetchVoterYearSection();
+        echo json_encode($decoded_data);
+    } else {
+        $decoded_data = ElectionScheduleController::fetchData();
+        echo json_encode($decoded_data);
+    }
+}

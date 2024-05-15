@@ -11,7 +11,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.p
 
 
 $is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role'], $_SESSION['organization']) &&
-    (strtolower($_SESSION['role']) === 'committee member'  || strtolower($_SESSION['role']) == 'admin member') &&
+    ($_SESSION['role'] === 'admin'  || $_SESSION['role'] == 'head_admin ') &&
     !empty($_SESSION['organization']);
 
 if (!$is_page_accessible) {
@@ -157,11 +157,14 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
     <link rel="stylesheet" href="src/styles/font-montserrat.css">
 
     <!-- Icons -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" as="style" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="vendor/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <!-- <script>
         new ResourceLoader('vendor/node_modules/bootstrap/dist/css/bootstrap.min.css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', 'css');
     </script> -->
@@ -185,6 +188,7 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
     </script> -->
     <!-- Main Scripts -->
     <script src="src/scripts/script.js" defer></script>
+    <script rel="preload" src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" as="script"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
 
