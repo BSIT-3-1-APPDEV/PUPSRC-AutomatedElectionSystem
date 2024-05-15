@@ -65,7 +65,30 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 </head>
 
 <body>
-  
+
+<?php 
+      $personality = '';
+      if ($org_acronym == 'acap'){
+          $personality = "Psychmates";
+      } else if ($org_acronym == 'aeces'){
+          $personality = "AECES";
+      } else if ($org_acronym == 'elite'){
+          $personality = "Enthusiasts";       
+      } else if ($org_acronym == 'give'){
+          $personality = "Educators";      
+      } else if ($org_acronym == 'jehra'){
+          $personality = "JEHRA";    
+      } else if ($org_acronym == 'jpia'){
+          $personality = "JPIANs";   
+      } else if ($org_acronym == 'piie'){
+          $personality = "IEhinyero";  
+      } else if ($org_acronym == 'jmap'){
+          $personality = "Marketista"; 
+      } else if ($org_acronym == 'sco'){
+          $personality = "Iskolar"; 
+      }
+?>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
   <div class="container">
     <div class="navbar-brand spacing">
@@ -78,7 +101,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
       <ul class="navbar-nav">
         <li class="nav-item dropdown d-none d-lg-block">
           <a class="nav-link main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <b>Hello, Iskolar</b><i class="fas fa-user-circle main-color ps-3" style="font-size: 25px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
+            <b>Hello, <?php echo $personality ?></b><i class="fas fa-user-circle main-color ps-3" style="font-size: 25px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="includes/voter-logout.php">Logout</a>
@@ -146,11 +169,9 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
           </div>
         </div>
         <!-- End Modal -->
-     
     </div>
   </div>
 </div>
-
 
 
 <!-- Modal for Introductory Greetings -->
@@ -161,7 +182,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
         <div class="d-flex justify-content-end"> 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <b><div class="greetings-blue">Hello </div><div class="greetings-red">Isko't Iska!</div></b>
+        <b><div class="greetings-blue">Hello </div><div class="greetings-red"><?php echo $personality ?>!</div></b>
         <p class="pt-3">Voting just got even better at the Polytechnic University of the Philippines – Santa Rosa Campus, all thanks to technology! 
         With iVOTE Automated Election System (AES), you can now cast your vote electronically. 
         Make sure to carefully review the voting guidelines for an enhanced experience. 
@@ -173,8 +194,6 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
     </div>
   </div>
 </div>
-
-
 
 
 <!-- Confirmation Modal -->
@@ -327,20 +346,19 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                                 <h4 class="modal-title mb-0"><b><?php echo strtoupper($row['title']) ?></b></h4>
                                 <button type="button" class="btn-close me-2"  data-dismiss="modal" aria-label="Close"></button>
                             </div>
+                            <?php $lines = explode("\n", $row['description']);
+                                  $count = count($lines); ?>
                             <div class="modal-body">
-                                <div class="main-color pt-4 pb-2"><b>DUTIES AND RESPONSIBILITIES</b></div>
+                              <div class="main-color pt-4 pb-3"><b>DUTIES AND RESPONSIBILITIES</b></div>
                                 <ul>
-                                    <li class="pb-2">The executive power shall be vested on the <?php echo strtoupper($org_acronym) ?> president alone.</li>
-                                    <li class="pb-2">He shall be the official representative of the studentry of PUP-SRC to any event or organization.</li>
-                                    <li class="pb-2">He shall be the official representative alone of the University Board of Discipline.</li>
-                                    <li class="pb-2">He shall have the responsibility of promoting the vision and mission and the philosophy of the institution to the whole studentry.</li>
-                                    <li class="pb-2">He shall promote worthy projects for the interest of the students.</li>
-                                    <li class="pb-2">He shall promote honesty and integrity in every dealing in and out his jurisdiction.</li>
-                                    <li class="pb-2">He shall be the official officer speaker in any assembly concerning his leadership.</li>
-                                    <li class="pb-2">He shall have the right to approve and appoint officers as committee heads and members needed in case of events.</li>
-                                    <li class="pb-2">He shall have the power to nominate or to appoint any student to any branch of the <?php echo strtoupper($org_acronym) ?> Officers.</li>
-                                    <li>He shall not be eligible for re-election.</li>
-                                </ul>
+                                <?php foreach ($lines as $key => $line): ?>
+                                    <?php if ($key === $count - 1): ?>
+                                        <li><?php echo htmlspecialchars($line); ?></li>
+                                    <?php else: ?>
+                                        <li class="pb-2"><?php echo htmlspecialchars($line); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                               </ul>
                             </div>
                         </div>
                     </div>
@@ -358,7 +376,9 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                             <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="px-5">
                                     <div class="candidate-info pb-4">
+                                    <label for="<?php echo $row_candidates['candidate_id'] ?>">
                                         <img src="images/candidate-profile/<?php echo $row_candidates['photo_url'] ?>" alt="Candidate Image" width="100px" height="100px">
+                                    </label>
                                         <div>
                                             <input type="hidden" name="position_id[<?php echo $row['position_id'] ?>][]" value="<?php echo $row['position_id'] ?>">
                                             <input type="hidden" name="candidate_id[<?php echo $row_candidates['candidate_id'] ?>][]" value="<?php echo $row_candidates['candidate_id'] ?>">
@@ -367,7 +387,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                                                 <label for="<?php echo $row_candidates['candidate_id'] ?>" style="display: flex; flex-direction: column; align-items: left; font-size: 15px">
                                                     <div class="ps-4">
                                                         <div class="font-weight2"> <?php echo $full_name ?> </div>
-                                                        <div class="font-weight3 undisplay main-color"><?php echo $row_candidates['section'] ?></div>
+                                                        <div class="font-weight3 undisplay main-color"><?php echo $row_candidates['program'] ?> <?php echo $row_candidates['year_level'] ?>-<?php echo $row_candidates['section']?></div>
                                                     </div>
                                                 </label>
                                             </div>
