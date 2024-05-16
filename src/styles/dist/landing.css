@@ -647,7 +647,6 @@ footer {
   padding: 0%;
 }
 
-
 .vertical-line {
   position: absolute;
   top: 50%;
@@ -657,7 +656,6 @@ footer {
   width: 3px; /* Adjust the width of the vertical line as needed */
   background-color: white !important; /* Color of the vertical line */
 }
-
 
 .ivote-logo#footer {
   width: 200px;
@@ -677,7 +675,6 @@ footer {
   color: #464646;
   font-weight: 600;
 }
-
 
 .hii {
   color: #003b25;
@@ -734,7 +731,6 @@ footer {
   z-index: 1000;
 }
 
-
 .input-group#reset-password::after {
 display: none;
 }
@@ -751,7 +747,6 @@ display: none;
   justify-content: center;
   align-items: center;
 }
-
 
 /* Forgot Password Modal */
 .modal-content {
@@ -805,7 +800,6 @@ span {
   color: #292929;
 }
 
-
 /* Alert Messages */
 .custom-alert {
   width: 100%;
@@ -826,7 +820,6 @@ span {
  height: 10%;
 }
 
-
 /* Reset password page */
 .reset-password-body {
   background-color: #f5f5f5;
@@ -838,6 +831,7 @@ span {
 }
 
 .reset-password-form {
+  margin-top: 100px;
   background-color: #fff;
   width: 1000px;
   padding: 20px;
@@ -880,6 +874,71 @@ span {
   padding-right: 1%;
   font-size: 12px;
   font-weight: bold;
+}
+
+.forgot-password-icon{
+  width: 40%; 
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  top: -130px; /* Adjust this value to overlap the top line as desired */
+  z-index: 1;
+}
+
+.img-container {
+  text-align: center;
+  margin-bottom: -110px; /* Adjust this value to bring the image closer to the form */
+}
+
+.password-requirements {
+  display: none; /* Hide the element and its space */
+  justify-content: center;
+  text-align: left; /* Keeps text left-aligned within the centered container */
+  margin-top: 5px; /* Adjust the top margin as needed */
+}
+
+.password-requirements.show {
+  display: flex; /* Show the element when needed */
+}
+
+.password-requirements-list {
+  list-style-type: none; /* Removes default bullet points */
+  padding-left: 0; /* Removes default left padding */
+  margin-top: 10px; /* Adjust as needed */
+}
+
+.requirement {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.requirement-circle {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid #000; /* Default color */
+  outline: 1px solid transparent; /* Transparent outline */
+  border-color: white;
+  outline-color: gray; /* Outline color when requirement is met */
+}
+
+.requirement.met .requirement-circle {
+  background-color: green;
+}
+
+.requirement.unmet .requirement-circle {
+  background-color: red;
+}
+
+.reset-pass-title {
+  font-size: 12px;
+  font-weight: bold;
+  position: relative;
+  left: -50px;
 }
 
 
@@ -947,6 +1006,17 @@ span {
     margin-top: 3%;
     padding: 3%;
   }
+
+  .forgot-password-icon{
+    width: 70%; 
+
+  }
+
+  .img-container {
+    text-align: center;
+    margin-bottom: -110px;
+  }
 }
+
 
 
