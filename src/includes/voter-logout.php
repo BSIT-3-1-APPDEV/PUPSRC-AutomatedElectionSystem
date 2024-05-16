@@ -5,10 +5,8 @@ require_once FileUtils::normalizeFilePath('error-reporting.php');
 
 $referer = $_SERVER['HTTP_REFERER'];
 if ($referer && strpos($referer, $_SERVER['HTTP_HOST']) !== false) {
-
-    // Kill only the session of logged-in user
-    // Retain the session of which database organization a user is connected
-    unset($_SESSION['voter_id']);
+    
+    session_destroy();
     
     // Redirect back to previously stored URL
     if (isset($_SESSION['return_to'])) {

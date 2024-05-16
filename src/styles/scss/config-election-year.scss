@@ -1,0 +1,92 @@
+@import 'configuration';
+
+main.main {
+    .card-box {
+
+        //55.98 + Footer
+        // 63.5 + Header
+        // 57.19 + NavList
+        // 61.49 + Page Head Title
+        // 16 + 16 top and bottom margin
+        // height: calc(100% - 151.48px);
+        // @media only screen and (max-width: 576px) {
+
+        //     height: 60dvh;
+        // }
+
+        // @media only screen and (min-width: 576px) {
+        //     height: clamp(min(300px, 55dvh), 9.375rem + 50dvh, 900px);
+
+        // }
+
+
+    }
+
+    .card-header {
+
+        h3.text-capitalize {
+            font-size: clamp(0.8rem, 1rem + 0.5vw, 3rem);
+        }
+    }
+
+    .card-body {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        width: 100%;
+        height: auto;
+
+        &>*:first-child {
+            align-self: start;
+        }
+
+        &*:not(:first-child) {
+            align-self: center;
+            justify-self: center;
+        }
+    }
+
+    div#curr-year-container {
+        h4 {
+            display: flex;
+            justify-content: center;
+            margin-bottom: max(1rem, 0.5rem + 0.5vw);
+
+            span {
+                font-weight: 600;
+                color: var(--main-color);
+            }
+        }
+    }
+
+    div.form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        input[type=text] {
+            height: calc(1.2rem + 0.5dvw + 1.5dvh);
+            margin: clamp(0.5rem, 0.1rem + 0.9dvh, 3rem) 0;
+            padding: calc(0.5rem + 0.1dvw) calc(0.5rem + 0.48dvw);
+            text-align: center;
+            border: calc(0.5px + 0.1vw) solid #000;
+
+            // &::placeholder,
+            // &::-webkit-input-placeholder,
+            // &::-moz-placeholder,
+            // &::-ms-input-placeholder {
+            //     text-align: left;
+            // }
+
+            &::placeholder {
+                text-align: left;
+            }
+        }
+
+        button.btn {
+            margin: calc(0.5rem + 0.05dvw);
+        }
+    }
+
+}

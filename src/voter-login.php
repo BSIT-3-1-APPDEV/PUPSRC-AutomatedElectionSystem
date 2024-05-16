@@ -5,7 +5,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php'
 include_once FileUtils::normalizeFilePath('includes/session-exchange.php');
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
-SessionManager::checkUserRoleAndRedirect();
+// SessionManager::checkUserRoleAndRedirect();
 
 /* Generates hexadecimal token that expires in 30 minutes
    to avoid Cross-Site Request Forgery */
@@ -14,14 +14,12 @@ $_SESSION['csrf_expiry'] = time() + (60 * 30);
 
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
-    // Unset the error message from the session once displayed
-    unset($_SESSION['error_message']);
+    unset($_SESSION['error_message']); // Unset the error message from the session once displayed
 }
 
 if (isset($_SESSION['info_message'])) {
     $info_message = $_SESSION['info_message'];
-    // Unset the info message from the session once displayed
-    unset($_SESSION['info_message']);
+    unset($_SESSION['info_message']); // Unset the info message from the session once displayed
 }
 
 ?>
@@ -114,14 +112,23 @@ if (isset($_SESSION['info_message'])) {
 
                         <div class="col-md-12 mt-0 mb-3">
                             <input type="email" class="form-control" id="Email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" value="<?php if (isset($_SESSION['email'])) echo $_SESSION['email']; ?>">
+                            <div class="valid-feedback text-start">Looks good!</div>
+                            <div class="ps-2 text-start invalid-feedback">
+                                Please provide a valid email.
+                            </div>
                         </div>
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
                                 <input type="password" class="form-control" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" value="<?php if (isset($_SESSION['password'])) echo $_SESSION['password']; ?>" id="Password" required>
                                 <button class="btn" type="button" id="password-toggle">Show</button>
+                                <!-- <div class="valid-feedback text-start">Looks good!</div>
+                                <div class="ps-2 text-start invalid-feedback">
+                                    Please provide a valid password.
+                                </div> -->
                             </div>
                         </div>
+
                         <a href="forgot-password.php" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</a>
 
                         <div class="d-grid gap-2 mt-5 mb-4">
@@ -142,30 +149,28 @@ if (isset($_SESSION['info_message'])) {
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="m justify-content-center">
-                    <h1 class="modal-title fs-5 fw-bold" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
-                    </h1>
+                    <h1 class="modal-title fs-5 fw-bold mb-2" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
+                        <!-- </h1><hr> -->
                 </div>
                 <div class="modal-body">
                     <form action="includes/send-password-reset.php" method="post" class="needs-validation" id="forgot-password-form" name="forgot-password-form" novalidate enctype="multipart/form-data">
                         <div class="col-12 col-md-12">
-                            <div class="d-flex align-items-start">
-                                <label for="email" class="form-label">Email Address</label>
+                            <div class="d-flex align-items-start mb-0 pb-0">
+                                <!-- <p for="email" class="form-label text-start ps-1">We will send a password reset link to your registered email address.</p> -->
+                                <p>Email Address</p>
                             </div>
-                            <input type="text" class="form-control" name="email" id="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" oninvalid="this.setCustomValidity('Please enter a valid email address')" oninput="this.setCustomValidity('')" />
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">
-                                Please enter a valid email address.
+                            <input type="email" class="form-control" id="email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
+                            <div class="invalid-feedback text-start">
+                                Please provide a valid email.
                             </div>
                         </div>
-                        <div id="email-sent-message" class="email-confirmation mt-2">Kindly check your email. An email has
-                        been sent.</div>
                         <div class="col-md-12 ">
                             <div class="row reset-pass">
                                 <div class="col-4">
-                                    <button  type="button" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" id="sendPasswordResetLink" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                                 <div class="col-4">
-                                    <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn" onclick="showEmailSentMessage()">Send</button>
+                                    <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send</button>
                                 </div>
                             </div>
                         </div>
@@ -176,58 +181,8 @@ if (isset($_SESSION['info_message'])) {
         </div>
     </div>
 
-
-    <!-- Disabled and enables the send button -->
-    <script>
-        const form = document.querySelector('form[name="forgot-password-form"]');
-        const submitBtn = form.querySelector('button[name="send-email-btn"]');
-
-        submitBtn.disabled = true;
-
-    
-        form.addEventListener('input', function() {
-            if (form.checkValidity()) {
-
-                submitBtn.disabled = false;
-            } else {
-                submitBtn.disabled = true;
-            }
-        });
-    </script>
-
-        <!-- Message when clicking the send button -->
-    <script>
-        function showEmailSentMessage() {
-            document.getElementById("email-sent-message").style.display = "block";
-        }
-    </script>
-
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Updated script for password toggle -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const togglePassword = document.querySelector("#password-toggle");
-            const passwordInput = document.querySelector("#Password");
-
-            togglePassword.addEventListener("click", function() {
-                const type =
-                    passwordInput.getAttribute("type") === "password" ?
-                    "text" :
-                    "password";
-                passwordInput.setAttribute("type", type);
-
-                // Change button text
-                togglePassword.textContent = type === "password" ? "Show" : "Hide";
-            });
-        });
-
-        // Disallow whitespaces from input fields
-        function avoidSpace(event) {
-            var k = event ? event.which : window.event.keyCode;
-            if (k == 32) return false;
-        }
-    </script>
+    <script src="scripts/voter-login.js"></script>
 
 </body>
 

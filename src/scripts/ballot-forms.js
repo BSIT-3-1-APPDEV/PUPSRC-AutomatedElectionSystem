@@ -7,11 +7,11 @@ function validateForm(event) {
     var selectedCandidateHTML = '';
 
     var pairCounter = 0;
-    reminders.forEach(function(reminder) {
+    reminders.forEach(function (reminder) {
         var radioButtons = reminder.querySelectorAll('input[type="radio"]');
         var radioButtonChecked = false;
 
-        radioButtons.forEach(function(radioButton) {
+        radioButtons.forEach(function (radioButton) {
             if (radioButton.checked) {
                 radioButtonChecked = true;
                 // get the selected position and candidates
@@ -22,7 +22,7 @@ function validateForm(event) {
                     candidateName = radioButton.parentNode.querySelector('div.ps-4 > div.font-weight2').textContent.trim(); // Get only the full name
                 }
 
-                
+
                 var candidateHTML = candidateName ? '<div>' + candidateName + '</div>' : ''; // Check if candidate name is not empty
                 var imageSrc = reminder.querySelector('img').getAttribute('src'); // Get candidate image source
 
@@ -39,14 +39,14 @@ function validateForm(event) {
                 pairCounter++;
 
 
-        // Close the row after every second pair
-        if (pairCounter % 2 === 0) {
-            selectedCandidateHTML += '</div><br>'; // Close the row
-        }
-    }
-});
+                // Close the row after every second pair
+                if (pairCounter % 2 === 0) {
+                    selectedCandidateHTML += '</div><br>'; // Close the row
+                }
+            }
+        });
 
-var reminderError = reminder.querySelector('.text-danger');
+        var reminderError = reminder.querySelector('.text-danger');
 
         if (!radioButtonChecked) {
             if (!reminderError) {
@@ -76,14 +76,12 @@ var reminderError = reminder.querySelector('.text-danger');
         // If all fields are valid, display the modal with form preview
         event.preventDefault(); // Prevent form submission
 
-        $('#confirmationModal').modal('show');
-
-        /*document.getElementById('confirmationModal').classList.add('show');
+        document.getElementById('confirmationModal').classList.add('show');
         document.getElementById('confirmationModal').style.display = 'block';
         document.body.classList.add('modal-open');
         document.getElementById('confirmationModal').setAttribute('aria-modal', true);
         document.getElementById('confirmationModal').setAttribute('aria-hidden', false);
-        document.getElementById('confirmationModal').setAttribute('role', 'dialog'); */
+        document.getElementById('confirmationModal').setAttribute('role', 'dialog');
 
         document.getElementById('selectedCandidate').innerHTML = selectedCandidateHTML;
     }
@@ -93,8 +91,8 @@ document.getElementById('voteForm').addEventListener('submit', validateForm);
 
 // Dynamically remove the error message if a radio button is once selected
 var radioButtons = document.querySelectorAll('input[type="radio"]');
-radioButtons.forEach(function(radioButton) {
-    radioButton.addEventListener('change', function() {
+radioButtons.forEach(function (radioButton) {
+    radioButton.addEventListener('change', function () {
         var reminder = this.closest('.reminder');
         var reminderError = reminder.querySelector('.text-danger');
         if (reminderError) {
@@ -105,61 +103,75 @@ radioButtons.forEach(function(radioButton) {
 });
 
 // Submit the form when the "Submit Vote" button is clicked
-document.getElementById('submitModalButton').addEventListener('click', function() {
+document.getElementById('submitModalButton').addEventListener('click', function () {
     document.getElementById('voteForm').submit();
 
 });
 
-
+// Dismiss the modal when the "Cancel" button is clicked
+document.getElementById('cancelModalButton').addEventListener('click', function () {
+    var modal = document.getElementById('confirmationModal');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+});
 
 
 
 
 function resetForm() {
-document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-  radio.checked = false;
-});
-document.querySelectorAll('input[type="text"]').forEach((textInput) => {
-  textInput.value = '';
-});
+    document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+        radio.checked = false;
+    });
+    document.querySelectorAll('input[type="text"]').forEach((textInput) => {
+        textInput.value = '';
+    });
 }
 
 
 // Function to show the vote submitted modal
 function showVoteSubmittedModal() {
-    // First, create the backdrop element
-var backdrop = document.createElement('div');
-backdrop.classList.add('modal-backdrop');
-document.body.appendChild(backdrop);
-
-// Then, add classes and attributes to the modal
-var modal = document.getElementById('voteSubmittedModal');
-modal.classList.add('show');
-modal.style.display = 'block';
-document.body.classList.add('modal-open');
-modal.setAttribute('aria-modal', true);
-modal.setAttribute('aria-hidden', false);
-modal.setAttribute('role', 'dialog');
-//$('#voteSubmittedModal').modal('show');
+    $('#voteSubmittedModal').modal('show');
 }
 
 // Close modals when clicking on the close button
 var closeButtons = document.getElementsByClassName('btn-close');
 for (var i = 0; i < closeButtons.length; i++) {
-closeButtons[i].addEventListener('click', function() {
-    var modal = this.closest('.modal');
-    $(modal).modal('hide');
-});
+    closeButtons[i].addEventListener('click', function () {
+        var modal = this.closest('.modal');
+        $(modal).modal('hide');
+    });
 }
 
 // Show the vote submitted modal when the page loads (if redirected with success parameter)
-window.onload = function() {
-var urlParams = new URLSearchParams(window.location.search);
-if (urlParams.has('success')) {
-    showVoteSubmittedModal();
-} else {
-    $(document).ready(() => {
-        $('#greetModal').modal('show');
-    }); 
-}
+window.onload = function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('success')) {
+        showVoteSubmittedModal();
+    } else {
+        $(document).ready(() => {
+            $('#greetModal').modal('show');
+        });
+    }
 };
+
+
+// Prevent modal from being dismissed
+$('#voteSubmittedModal').modal({
+    backdrop: 'static',
+    keyboard: false
+});
+
+// Prevent modal from being dismissed by clicking on backdrop
+$('#voteSubmittedModal').on('click', function (event) {
+    if ($(event.target).hasClass('modal')) {
+        return false;
+    }
+});
+
+// Prevent modal from being dismissed by pressing ESC key
+$(document).on('keydown', function (event) {
+    if (event.keyCode === 27 && $('#voteSubmittedModal').is(':visible')) {
+        return false;
+    }
+});

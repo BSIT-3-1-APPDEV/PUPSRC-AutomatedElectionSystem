@@ -6,8 +6,9 @@ require_once FileUtils::normalizeFilePath('includes/unset-email-password.php');
 include_once FileUtils::normalizeFilePath('includes/organization-list.php');
 
 // Check if voter_id and role is set in session
-SessionManager::checkUserRoleAndRedirect();
+// SessionManager::checkUserRoleAndRedirect();
 unsetSessionVar();
+unset($_SESSION['organization']);
 
 ?>
 

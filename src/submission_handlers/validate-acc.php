@@ -23,7 +23,6 @@ if (isset($_POST['voter_id'])) {
         // Sending of email
         $recipientEmail = $voter->getEmailById($voter_id);
         $emailSender->sendApprovalEmail($recipientEmail);
-        $conn->close();
 
     } elseif ($action == 'reject') {
 
@@ -36,7 +35,6 @@ if (isset($_POST['voter_id'])) {
         $reason = isset($_POST['reason']) ? $_POST['reason'] : '';
         $otherReason = isset($_POST['otherReason']) ? $_POST['otherReason'] : '';
         $emailSender->sendRejectionEmail($recipientEmail, $reason, $otherReason);
-        $conn->close();
     }
 
     echo json_encode(['success' => true]);

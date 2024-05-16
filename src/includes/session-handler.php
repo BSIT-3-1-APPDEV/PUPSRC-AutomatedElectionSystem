@@ -13,19 +13,15 @@ session_set_cookie_params([
 
 session_start();
 
-if (!isset($_SESSION['last_regeneration'])) {
-    regenerateSessionId();
-} else {
-    $interval = 1800;
-    if (time() - $_SESSION['last_regeneration'] >= $interval) {
-        regenerateSessionId();
-    }
+// Regenerate session ID every 30 minutes
+$interval = 1800;
+
+if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] >= $interval) {
+    session_regenerate_id(true);
+    
+    // Update last activity time
+    $_SESSION['last_activity'] = time();
 }
 
-function regenerateSessionId() {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-    session_regenerate_id(true);
-    $_SESSION['last_regeneration'] = time();
-}
+// Update last activity time on every page load
+$_SESSION['last_activity'] = time();
