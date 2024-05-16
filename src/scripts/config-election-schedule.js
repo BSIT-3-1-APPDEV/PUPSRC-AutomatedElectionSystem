@@ -1,4 +1,5 @@
 import { initializeConfigurationJS as ConfigJS, shortFnv1a as hashName } from './configuration.js';
+import InputValidator from './input-validator.js';
 
 /**
  * The ConfigPage object holds variables classes and function of the current page.
@@ -32,8 +33,6 @@ ConfigPage = {};
 
 const NOW = new Date();
 
-
-
 ConfigPage = {
     configJs: function () {
         ConfigJS();
@@ -51,9 +50,6 @@ ConfigPage = {
             .then(function (data) {
                 console.log('GET request successful:', data);
                 const TABLE_DATA = ConfigPage.processData(data);
-                // ConfigPage.displayCurrentYear(ConfigPage.electionYears.currentYear);
-                // ConfigPage.startDatePicker();
-                // ConfigPage.initPage();
                 ConfigPage.insertData(TABLE_DATA, ConfigPage.table);
             })
             .catch(function (error) {
@@ -64,6 +60,10 @@ ConfigPage = {
     electionYears: { currentYear: '', previousYears: [] },
     processData: function (DATA) {
         let tableData = [];
+
+        if (!Array.isArray(DATA)) {
+            DATA = [DATA];
+        }
         DATA.forEach(element => {
             const tableItem = {
                 0: element.data_id,
@@ -97,7 +97,6 @@ ConfigPage = {
             .then(function (responseData) {
                 let data = [];
                 responseData.forEach(item => {
-                    // console.log(item);
                     const id = parseInt(item.data_id);
                     const text = `ACAP ${item.year_level}-${item.section}`;
                     data.push({ id, text });
@@ -108,7 +107,99 @@ ConfigPage = {
             .catch(function (error) {
                 console.error('GET request error:', error);
             });
+    },
+    startDatePicker: function (datepickerId) {
+        ConfigPage.datePickerInst = $(`#${datepickerId}`).datepicker({
+            classes: 'col-10 col-md-5 col-xl-4',
+            position: 'bottom center',
+            language: "en",
+            minDate: NOW,
+            maxDate: ConfigPage.fiveYearsAhead,
+            clearButton: true,
+            autoClose: false,
+            dateFormat: "dd/mm/yyyy",
+            onSelect: function (formattedDate, date, inst) {
+
+                inst.el.dispatchEvent(new Event('input', { bubbles: true }));
+                ConfigPage.selectedDate = date.toISOString();
+            },
+            onShow: function (inst, animationComplete) {
+                let thisPicker = document.getElementsByClassName('datepicker');
+                let input = document.getElementById(ConfigPage.datepickerId);
+                let inputWidth = input.offsetWidth;
+                let inputVal = input.value;
+                if (!animationComplete) {
+                    var iFits = false;
+                    // Loop through a few possible position and see which one fits
+                    $.each(['bottom center', 'right center', 'right bottom', 'right top', 'top center'], function (i, pos) {
+                        if (!iFits) {
+                            inst.update('position', pos);
+                            var fits = ConfigPage.isElementInViewport(inst.$datepicker[0]);
+                            if (fits.all) {
+                                iFits = true;
+                            }
+                        }
+                    });
+
+                    input.value = inputVal;
+                }
+
+                for (let i = 0; i < thisPicker.length; i++) {
+                    let element = thisPicker[i];
+                    if (inputWidth > 250) {
+                        element.style.width = inputWidth + 'px';
+                    } else {
+                        element.style.width = 250 + 'px';
+                    }
+
+                }
+            },
+        });
     }
+}
+
+ConfigPage.fiveYearsAhead = new Date();
+ConfigPage.fiveYearsAhead.setFullYear(ConfigPage.fiveYearsAhead.getFullYear() + 5);
+ConfigPage.fiveYearsAhead.setMonth(ConfigPage.fiveYearsAhead.getMonth() + 1, 0);
+ConfigPage.fiveYearsAhead.setHours(23, 59, 59, 999);
+
+(function () {
+    ConfigPage.datepickerId = 'scheduleInput';
+    ConfigPage.addSectionInputId = 'add-section-schedule';
+
+
+    let currentYear = NOW.getFullYear();
+    let yearLength = currentYear.toString().length;
+    let datePattern = new RegExp(`^[0-3]?[0-9]/[01]?[0-9]/[0-9]{${yearLength}}$`);
+    let patternString = datePattern.toString().slice(1, -1);
+
+    ConfigPage.dateValidation = {
+        clear_invalid: false,
+        attributes: {
+            type: 'text',
+            pattern: patternString,
+            required: true,
+            max_length: 6 + yearLength,
+            min_length: 10,
+        }
+    };
+
+    ConfigPage.dateValidate = new InputValidator(ConfigPage.dateValidation);
+})();
+
+ConfigPage.isElementInViewport = function (el) {
+    var rect = el.getBoundingClientRect();
+    var fitsLeft = (rect.left >= 0 && rect.left <= $(window).width());
+    var fitsTop = (rect.top >= 0 && rect.top <= $(window).height());
+    var fitsRight = (rect.right >= 0 && rect.right <= $(window).width());
+    var fitsBottom = (rect.bottom >= 0 && rect.bottom <= $(window).height());
+    return {
+        bottom: fitsBottom,
+        top: fitsTop,
+        left: fitsLeft,
+        right: fitsRight,
+        all: (fitsLeft && fitsTop && fitsRight && fitsBottom)
+    };
 }
 
 /**
@@ -182,6 +273,9 @@ ConfigPage.objs = class Objects {
     }
 }
 
+// Disable Initial Error of datatble when no data fetch yet
+$.fn.dataTable.ext.errMode = 'none';
+
 ConfigPage.table = new DataTable('#example', {
     rowReorder: true,
     paging: false,
@@ -196,16 +290,26 @@ ConfigPage.table = new DataTable('#example', {
             targets: 0,
             className: 'custom-checkbox col-3',
             render: DataTable.render.select(),
-            // orderable: false,
 
         },
         {
             targets: 1,
             className: `text-left col-3`,
-            // orderable: false,
             render: function (data) {
-                const courseName = (data.courseName && data.courseName.trim()) ? data.courseName : 'Section';
-                return `${courseName} ${data.year}-${data.section}`;
+
+                try {
+                    let courseName;
+                    if (!data.courseName && data.courseName.trim() !== '') {
+                        courseName = 'Section';
+                    } else {
+                        courseName = data.courseName;
+                    }
+
+                    return `${courseName} ${data.year}-${data.section}`;
+                } catch (error) {
+
+                }
+
             }
         },
         {
@@ -216,12 +320,6 @@ ConfigPage.table = new DataTable('#example', {
     layout: {
         bottomStart: null,
         bottomEnd: null,
-        // topStart: function () {
-
-        //     toolbar = ConfigPage.dtbleObjects.getToolbar();
-
-        //     return toolbar;
-        // },
         topEnd: {
 
             search: {
@@ -234,12 +332,9 @@ ConfigPage.table = new DataTable('#example', {
                     text: '<i data-feather="user-plus"></i>',
                     className: 'btn-primary',
                     action: function () {
-                        let count = ConfigPage.table.rows({ selected: true }).count();
-                        console.log(ConfigPage.table.rows({ selected: true }).data());
-
+                        // ConfigPage.table.rows({ selected: true }).deselect();
                         ConfigPage.ActionModal.show(ConfigPage.actionModalObj, ConfigPage.objs.getModalId(), 'add');
 
-                        console.log(count + ' row(s) selected');
                     }
                 },
                 {
@@ -285,12 +380,13 @@ ConfigPage.table = new DataTable('#example', {
 ConfigPage.AddTableListener = function () {
     ConfigPage.table.on('draw', function () {
         if (ConfigPage.table.data().any()) {
-            // $('div.toolbar').show();
-            ConfigPage.dtbleObjects.addCheckboxLabel();
+            setTimeout(() => {
+                ConfigPage.dtbleObjects.addCheckboxLabel();
+                ConfigPage.table.select();
+            }, 0);
             $('table#example').show();
             $(this).parent().show();
         } else {
-            // $('div.toolbar').hide();
             $('table#example').hide();
             $(this).parent().hide();
         }
@@ -378,16 +474,23 @@ ConfigPage.AddSectionOverflowListener = function () {
 
     const container = text.parentNode.clientWidth - parseFloat(getComputedStyle(text.parentNode).paddingLeft) - parseFloat(getComputedStyle(text.parentNode).paddingRight);
     const textLength = text.getBoundingClientRect().width;
+    console.log('container');
+    console.log(container);
 
     if (textLength > container) {
         // If the text overflows, set the font size using clamp with a calculated value
-        text.style.fontSize = `clamp(0.8rem, calc(1.325rem + 0.9vw - ${(textLength - container) * 0.1}px), 4rem)`;
+        text.style.fontSize = `clamp(0.8rem, calc(1.325rem + 0.9vw - ${(textLength - container) * 0.02}px), 4rem)`;
         setTimeout(() => {
-            const container = text.parentNode.clientWidth - parseFloat(getComputedStyle(text.parentNode).paddingLeft) - parseFloat(getComputedStyle(text.parentNode).paddingRight);
+            let paddingX = parseFloat(getComputedStyle(text.parentNode).paddingLeft) + parseFloat(getComputedStyle(text.parentNode).paddingRight);
+            const container = text.parentNode.clientWidth - paddingX;
             const textLength = text.getBoundingClientRect().width;
-            console.log(textLength + ` text length after ` + container + " container length");
+            console.log('paddingX');
+            console.log(paddingX);
+            console.log('container');
+            console.log(container);
+
             if (textLength > container) {
-                text.style.maxWidth = `${container}px`;
+                text.style.maxWidth = `calc(95% - ${paddingX}px)`;
                 text.style.overflow = 'hidden';
                 text.style.whiteSpace = 'nowrap';
                 text.style.textOverflow = 'ellipsis';
@@ -402,37 +505,6 @@ ConfigPage.AddSectionOverflowListener = function () {
         text.style.fontSize = '';
     }
 
-}
-
-ConfigPage.Select2Matcher = function (params, data) {
-    // If there are no search terms, return all of the data
-    if ($.trim(params.term) === '') {
-        return data;
-    }
-
-    // Do not display the item if there is no 'text' property
-    if (typeof data.text === 'undefined') {
-        return null;
-    }
-
-    // Extracting individual components from the search term
-    const searchTerm = params.term.toLowerCase();
-    const searchParts = searchTerm.split(' ');
-
-    // Check if any part of the search term matches any part of the data.text
-    const isMatch = searchParts.every(part => data.text.toLowerCase().includes(part));
-
-    if (isMatch) {
-        var modifiedData = $.extend({}, data, true);
-        modifiedData.text += ' (matched)';
-
-        // You can return modified objects from here
-        // This includes matching the `children` how you want in nested data sets
-        return modifiedData;
-    }
-
-    // Return `null` if the term should not be displayed
-    return null;
 }
 
 
@@ -483,9 +555,9 @@ ConfigPage.ActionModal = class ActionModal {
         let saveButtonLabel = document.createElement('label')
         saveButtonLabel.setAttribute("for", "save-button");
         saveButtonLabel.setAttribute("id", "save-button-label");
-        saveButtonLabel.setAttribute("data-bs-toggle", "tooltip");
-        saveButtonLabel.setAttribute("data-bs-title", "No changes made.");
-        saveButtonLabel.setAttribute("data-bs-placement", "right");
+        // saveButtonLabel.setAttribute("data-bs-toggle", "tooltip");
+        // saveButtonLabel.setAttribute("data-bs-title", "No changes made.");
+        // saveButtonLabel.setAttribute("data-bs-placement", "right");
 
         let saveButton = document.createElement('button')
         saveButton.setAttribute("type", "button");
@@ -500,9 +572,22 @@ ConfigPage.ActionModal = class ActionModal {
         };
     }
 
+    static createDatePicker(datepickerId) {
+        let dateInput = document.createElement('input')
+        dateInput.setAttribute('type', 'text');
+        dateInput.classList = 'modal-temp col-10 col-md-5 col-xl-4';
+        dateInput.setAttribute('id', datepickerId);
+        dateInput.setAttribute('placeholder', 'dd/mm/yy');
+        dateInput.setAttribute('pattern', '');
+        dateInput.setAttribute('required', '');
+        dateInput.setAttribute('data-bs-toggle', 'tooltip');
+        dateInput.setAttribute('data-bs-title', 'No changes made.');
+        dateInput.setAttribute('data-bs-placement', 'right');
+
+        return dateInput;
+    }
+
     static clearModalBody(modal) {
-        console.log('clearing');
-        console.log(modal);
         while (modal.firstChild) {
             modal.removeChild(modal.firstChild);
         }
@@ -511,42 +596,38 @@ ConfigPage.ActionModal = class ActionModal {
     static setAddContent(modalId) {
 
         if (modalId) {
+            ConfigPage.submitMode = 'insert';
             let modalBody = document.querySelector(`#${modalId} .modal-body`);
             this.clearModalBody(modalBody);
 
             let selectElem = document.createElement("select");
             selectElem.setAttribute("id", "add-section-schedule");
 
-            let dateInput = document.createElement('input')
-            dateInput.setAttribute('type', 'text');
-            dateInput.classList = 'course-section col-10 col-md-5 col-xl-4';
-            dateInput.setAttribute('id', 'scheduleInput');
-            dateInput.setAttribute('placeholder', 'dd/mm/yy');
-            dateInput.setAttribute('pattern', '');
-            dateInput.setAttribute('required', '');
+            let dateInput = this.createDatePicker(ConfigPage.datepickerId);
 
             modalBody.insertBefore(dateInput, modalBody.firstChild);
             modalBody.insertBefore(selectElem, modalBody.firstChild);
 
-            // if ($('#add-section-schedule').hasClass("select2-hidden-accessible")) {
-            //     // Select2 has been initialized
-            // } else {
-
-
-            // if ($('#mySelect2').find("option[value='" + data.id + "']").length) {
-            // } else { 
-            //     // Create a DOM Option and pre-select by default
-            //     var newOption = new Option(data.text, data.id, true, true);
-
-            // } 
-            // }
-
-            $("#add-section-schedule").select2({
+            $(`#${ConfigPage.addSectionInputId}`).select2({
                 data: ConfigPage.yearSectionList,
                 multiple: true,
-                placeholder: 'Select a Section.',
+                placeholder: 'Add a ... to apply schedule',
             });
 
+
+            $(`#${ConfigPage.addSectionInputId}`).off('select2:opening');
+            $(`#${ConfigPage.addSectionInputId}`).on('select2:opening',);
+
+            $(`#${ConfigPage.addSectionInputId}`).off('select2:close');
+            $(`#${ConfigPage.addSectionInputId}`).on('select2:close', ConfigPage.handleYearSections);
+
+
+            ConfigPage.startDatePicker(ConfigPage.datepickerId);
+
+            ConfigPage.datepickerElem = document.getElementById(ConfigPage.datepickerId);
+
+            ConfigPage.delEventListener(ConfigPage.datepickerElem);
+            ConfigPage.addEventListenerAndStore(ConfigPage.datepickerElem, 'input', ConfigPage.handleDatepickerChange);
 
             const SAVE_BUTTON_LABEL = document.getElementById("save-button-label");
             const SAVE_BUTTON = document.getElementById("save-button");
@@ -555,6 +636,7 @@ ConfigPage.ActionModal = class ActionModal {
                 const { saveButtonLabel, saveButton } = this.createSaveButton();
                 modalBody.appendChild(saveButtonLabel);
                 modalBody.appendChild(saveButton);
+                ConfigPage.configJs();
             }
         }
 
@@ -567,15 +649,9 @@ ConfigPage.ActionModal = class ActionModal {
 
             let title = document.createElement('h2');
             title.classList = 'course-section modal-temp';
-            title.textContent = ' BSIT 3-1';
+            title.textContent = 'BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1, BSIT 3-1';
 
-            let dateInput = document.createElement('input')
-            dateInput.setAttribute('type', 'text');
-            dateInput.classList = 'modal-temp col-10 col-md-5 col-xl-4';
-            dateInput.setAttribute('id', 'scheduleInput');
-            dateInput.setAttribute('placeholder', 'dd/mm/yy');
-            dateInput.setAttribute('pattern', '');
-            dateInput.setAttribute('required', '');
+            let dateInput = this.createDatePicker('scheduleInput');
 
             modalBody.insertBefore(dateInput, modalBody.firstChild);
             modalBody.insertBefore(title, modalBody.firstChild);
@@ -640,6 +716,7 @@ ConfigPage.ActionModal = class ActionModal {
             ConfigPage.delEventListener(ConfigPage.actionModalE);
             ConfigPage.addEventListenerAndStore(ConfigPage.actionModalE, 'shown.bs.modal', ConfigPage.AddSectionOverflowListener);
 
+
         }
     }
 }
@@ -655,6 +732,212 @@ ConfigPage.actionModalObj = ConfigPage.ActionModal.create(ConfigPage.objs.getMod
 
 ConfigPage.AddTableListener();
 
+ConfigPage.handleYearSections = function (event, isCheckDatepicker = true) {
+    let datepickerEvent = new Event('input', {
+        bubbles: true, // Allow the event to bubble up the DOM
+        cancelable: true // Allow the event to be canceled
+    });
+
+    // Dispatch the event on the element
+    ConfigPage.datepickerElem.dispatchEvent(datepickerEvent);
+
+    let isValidDate;
+    if (!isCheckDatepicker) {
+        isValidDate = ConfigPage.handleDatepickerChange(datepickerEvent, false);
+    }
 
 
-console.log(ConfigPage);
+    let isValidYearSection = false;
+
+    let selectedRawData = $(`#${ConfigPage.addSectionInputId}`).select2('data');
+    if (selectedRawData.length > 0) {
+        selectedRawData.forEach(selectedItem => {
+            let exists = ConfigPage.yearSectionList.some(configItem => configItem.text === selectedItem.text);
+            if (exists) {
+                isValidYearSection = true;
+
+            } else {
+                console.log(`${selectedItem.text} does not exist in yearSectionList`);
+                isValidYearSection = false;
+            }
+        });
+    }
+
+    if (!isCheckDatepicker) {
+        ConfigPage.toggleSave(isValidDate && isValidYearSection);
+    }
+
+    return isValidYearSection;
+}
+
+ConfigPage.submitMode;
+
+ConfigPage.typingTimeout;
+
+ConfigPage.handleDatepickerChange = function (event, ischeckYearSection = true) {
+
+    clearTimeout(ConfigPage.typingTimeout);
+    ConfigPage.typingTimeout = setTimeout(() => {
+        let scheduleValue = event.target.value.trim();
+        let scheduleDateParts = scheduleValue.split('/');
+        let scheduleYear = parseInt(scheduleDateParts[2], 10);
+        let scheduleMonth = parseInt(scheduleDateParts[1], 10) - 1; // Months are zero-based
+        let scheduleDay = parseInt(scheduleDateParts[0], 10);
+        let scheduleDate = new Date(scheduleYear, scheduleMonth, scheduleDay);
+
+        scheduleDate.setHours(0, 0, 0, 0);
+        let today = new Date(NOW.getTime());
+        today.setHours(0, 0, 0, 0);
+
+        let dateIsBlank = scheduleValue === '' || scheduleValue === undefined;
+
+        let sameDate = scheduleDate.getTime() === today.getTime();
+
+        let tooltip = bootstrap.Tooltip.getInstance(`#${ConfigPage.datepickerId}`);
+
+        let isValidDate = false;
+
+        if (event) {
+            isValidDate = ConfigPage.dateValidate.validate(event.target);
+
+            switch (true) {
+                case dateIsBlank:
+                    tooltip._config.title = 'Schedule is blank.';
+                    event.target.classList.toggle('input-invalid', true);
+                    break;
+
+                case !isValidDate:
+                    tooltip._config.title = 'Invalid Year';
+                    event.target.classList.toggle('input-invalid', true);
+                    break;
+
+                case sameDate:
+                    isValidDate = true;
+                    event.target.classList.toggle('input-invalid', false);
+                    tooltip._config.title = 'Today? Are you sure?';
+                    break;
+
+                default:
+                    isValidDate = true;
+                    tooltip._config.title = '';
+                    event.target.classList.toggle('input-invalid', false);
+                    break;
+            }
+
+            tooltip.update();
+            if (ischeckYearSection) {
+                let isValidYearSection = ConfigPage.handleYearSections('', false);
+                ConfigPage.toggleSave(isValidDate && isValidYearSection);
+            }
+
+            return isValidDate;
+        }
+
+    }, 400);
+}
+
+ConfigPage.toggleSave = function (isValid) {
+    const SAVE_BUTTON = document.getElementById("save-button");
+    SAVE_BUTTON.disabled = !isValid;
+
+    if (isValid) {
+        if (ConfigPage.submitMode === 'insert') {
+            ConfigPage.addEventListenerAndStore(SAVE_BUTTON, 'click', ConfigPage.submitAddSchedule);
+        }
+    } else {
+        ConfigPage.delEventListener(SAVE_BUTTON);
+    }
+
+};
+
+ConfigPage.submitAddSchedule = function () {
+    let selectedRawData = $(`#${ConfigPage.addSectionInputId}`).select2('data');
+    let scheduleDate = ConfigPage.selectedDate;
+    let scheduleData = []
+    if (selectedRawData.length > 0) {
+        selectedRawData.forEach(selectedItem => {
+            let yearSection = {
+                year: selectedItem.id[0],
+                section: selectedItem.id[1],
+            }
+            scheduleData.push(yearSection);
+        });
+    }
+    let data = {
+        schedule_input_id: ConfigPage.datepickerId,
+        schedule: scheduleDate,
+        yearSection_input_id: ConfigPage.addSectionInputId,
+        yearSection_data: scheduleData,
+    }
+
+    let url = 'src/includes/classes/config-election-sched-controller.php';
+    let method = 'PUT';
+    let json_data = JSON.stringify(data);
+
+    return fetch(url, {
+        method: method,
+        body: json_data,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(function (response) {
+            if (!response.ok) {
+                ConfigPage.updateTableData({ data, success: false });
+                throw new Error('Network response was not ok');
+            } else {
+                return response.json();
+            }
+
+        })
+        .then(function (data) {
+            console.log('POST request successful:', data);
+            ConfigPage.updateTableData({ data, success: true });
+        })
+        .catch(function (error) {
+            console.error('POST request error:', error);
+            return { error, success: false };
+        });
+
+}
+
+ConfigPage.submitUpdateSchedule = function () {
+
+}
+
+ConfigPage.submitDelSchedule = function () {
+
+}
+
+ConfigPage.handleUpdateResponse = function (RESPONSE) {
+    if (!RESPONSE.success) {
+        // alert the error
+        console.log(RESPONSE.data.message);
+    } else {
+        ConfigPage.actionModalObj.hide();
+    }
+}
+
+ConfigPage.updateTableData = function (RESPONSE, draw = true) {
+
+    if (RESPONSE && RESPONSE.data.data && Array.isArray(RESPONSE.data.data)) {
+
+        ConfigPage.handleUpdateResponse(RESPONSE);
+
+        RESPONSE.data.data.forEach(item => {
+
+            if (draw) {
+                let tableData = ConfigPage.processData(item);
+
+                if (ConfigPage.submitMode === 'insert') {
+                    tableData.forEach(tableItem => {
+                        ConfigPage.table.row.add(tableItem).draw(true);
+                    });
+                }
+            }
+        });
+    } else {
+        // console.error('Invalid or missing DATA structure.');
+    }
+
+}

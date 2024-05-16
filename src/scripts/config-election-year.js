@@ -152,7 +152,6 @@ ConfigPage.displayCurrentYear = function (CURRENT_YEAR) {
 }
 
 
-
 ConfigPage.handleDatepickerChange = function (event) {
 
     clearTimeout(ConfigPage.typingTimeout);

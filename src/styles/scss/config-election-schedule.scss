@@ -126,6 +126,7 @@ body {
                     margin: calc(0.5rem + 0.05dvw);
                 }
 
+
             }
         }
     }
@@ -134,6 +135,10 @@ body {
         &:has(.select2-dropdown) {
             z-index: 1100;
         }
+    }
+
+    .datepickers-container {
+        z-index: 1112;
     }
 }
 
@@ -344,6 +349,7 @@ main.main {
             }
 
             label svg {
+                color: var(--main-color);
                 position: absolute;
                 transform: translateY(-50%) translateX(70%);
 
@@ -359,7 +365,6 @@ main.main {
             }
 
             &:has(:focus-within) label svg.feather-search {
-                color: var(--main-color);
                 width: calc(1rem + 0.25vw);
                 height: calc(1rem + 0.25vw);
                 stroke-width: calc(0.188rem + 0.001vw);

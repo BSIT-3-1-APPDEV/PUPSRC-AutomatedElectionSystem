@@ -228,13 +228,13 @@ class CandidatePosition {
             if (quill) {
                 let description = (DATA[0].description !== undefined && DATA[0].description !== '') ? JSON.parse(DATA[0].description) : '';
                 logToFile.log(`is ADD ${isAdd} dta `, description, ' stringtified ', JSON.stringify(description));
-                logToFile.downloadLog();
+                // logToFile.downloadLog();
                 quill.setContents(description);
 
             }
         } catch (error) {
             logToFile.log(`is ADD ${isAdd} error ${error} dta `, DATA[0].description, ' stringtified ', JSON.stringify(DATA[0].description));
-            logToFile.downloadLog();
+            // logToFile.downloadLog();
         }
     }
 
@@ -992,14 +992,14 @@ function postData(post_data) {
     if ('update_sequence' in post_data) {
         method = 'UPDATE';
         logToFile.log('Update dta ', post_data, ' stringtified ', JSON.stringify(post_data));
-        logToFile.downloadLog();
+        // logToFile.downloadLog();
     } else if ('delete_position' in post_data) {
         logToFile.log('Delete dta ', post_data, ' stringtified ', JSON.stringify(post_data));
-        logToFile.downloadLog();
+        // logToFile.downloadLog();
         method = 'DELETE';
     }
     logToFile.log('PUT dta ', post_data, ' stringtified ', JSON.stringify(post_data));
-    logToFile.downloadLog();
+    // logToFile.downloadLog();
     return fetch(url, {
         method: method,
         body: json_data,
@@ -1016,7 +1016,7 @@ function postData(post_data) {
         .then(function (data) {
             console.log('POST request successful:', data);
             logToFile.log('Response dta ', data, ' stringtified ', JSON.stringify(data));
-            logToFile.downloadLog();
+            // logToFile.downloadLog();
             return { data, success: true };
         })
         .catch(function (error) {
@@ -1042,7 +1042,7 @@ function fetchData() {
             const TABLE_DATA = processData(data);
             logToFile.log('fetched dta ', data, ' stringtified ', JSON.stringify(data));
             logToFile.log('fetched processed dta ', TABLE_DATA, ' stringtified ', JSON.stringify(TABLE_DATA));
-            logToFile.downloadLog();
+            // logToFile.downloadLog();
             insertData(TABLE_DATA, table);
             console.log('GET request successful:', data);
         })
