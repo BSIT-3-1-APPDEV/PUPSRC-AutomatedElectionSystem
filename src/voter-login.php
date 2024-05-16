@@ -18,7 +18,7 @@ if (isset($_SESSION['error_message'])) {
 }
 
 if (isset($_SESSION['info_message'])) {
-    $info_message = $_SESSION['info_message'];    
+    $info_message = $_SESSION['info_message'];
     unset($_SESSION['info_message']); // Unset the info message from the session once displayed
 }
 
@@ -128,7 +128,7 @@ if (isset($_SESSION['info_message'])) {
                                 </div> -->
                             </div>
                         </div>
-                        
+
                         <a href="forgot-password.php" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</a>
 
                         <div class="d-grid gap-2 mt-5 mb-4">
@@ -149,14 +149,15 @@ if (isset($_SESSION['info_message'])) {
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="m justify-content-center">
-                    <h1 class="modal-title fs-5 fw-bold" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
-                    </h1><hr>
+                    <h1 class="modal-title fs-5 fw-bold mb-2" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
+                        <!-- </h1><hr> -->
                 </div>
                 <div class="modal-body">
                     <form action="includes/send-password-reset.php" method="post" class="needs-validation" id="forgot-password-form" name="forgot-password-form" novalidate enctype="multipart/form-data">
                         <div class="col-12 col-md-12">
-                            <div class="d-flex align-items-start mb-3">
-                                <p for="email" class="form-label text-start ps-1">We will send a password reset link to your registered email address.</p>
+                            <div class="d-flex align-items-start mb-0 pb-0">
+                                <!-- <p for="email" class="form-label text-start ps-1">We will send a password reset link to your registered email address.</p> -->
+                                <p>Email Address</p>
                             </div>
                             <input type="email" class="form-control" id="email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
                             <div class="invalid-feedback text-start">
@@ -165,8 +166,8 @@ if (isset($_SESSION['info_message'])) {
                         </div>
                         <div class="col-md-12 ">
                             <div class="row reset-pass">
-                                <div class="col-4"> 
-                                    <button  type="button" id="sendPasswordResetLink" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
+                                <div class="col-4">
+                                    <button type="button" id="sendPasswordResetLink" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                                 <div class="col-4">
                                     <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send</button>
