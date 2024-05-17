@@ -16,6 +16,7 @@ class ElectionScheduleModel
 
             $some_data = [
                 'schedule' => $data['schedule'],
+                'formatted_schedule' => $data['formatted_schedule'],
                 'schedule_input_id' => $data['schedule_input_id'],
                 'yearSection_input_id' => $data['yearSection_input_id'],
             ];
@@ -74,7 +75,7 @@ class ElectionScheduleModel
             $saved_data = [
                 'data_id' => $inserted_id,
                 'schedule_input_id' => $some_data['schedule_input_id'],
-                'schedule' => $some_data['schedule'],
+                'schedule' => $some_data['formatted_schedule'],
                 'yearSection_input_id' => $some_data['yearSection_input_id'],
                 'year_level' => $data['year'],
                 'section' => $data['section']

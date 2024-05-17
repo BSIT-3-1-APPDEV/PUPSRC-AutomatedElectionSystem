@@ -157,6 +157,8 @@ class ElectionScheduleController extends ElectionScheduleModel
             // Valid date format
             if ($dateTime >= $this->min_date) {
                 if ($dateTime <= $this->max_date) {
+                    $this->data['formatted_schedule'] = $this->data['schedule'];
+                    $this->data['schedule'] = $dateTime->format('Y-m-d H:i:s');
                 } else {
                     // Invalid date - exceeds maximum date
                     $this->message = "Schedule date must be on or before " . $this->max_date->format('Y-m-d H:i:s') . ".";
