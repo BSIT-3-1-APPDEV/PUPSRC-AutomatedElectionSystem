@@ -48,3 +48,15 @@ $org_social_media = array(
     "jpia" => array("facebook" => "jpia_facebook", "twitter" => "jpia_twitter", "instagram" => "jpia_instagram"),
     "piie" => array("facebook" => "piie_facebook", "twitter" => "piie_twitter", "instagram" => "piie_instagram")
 );
+
+$org_personality = array(
+    "sco" => ("Iskolar"),
+    "elite" => ("Enthusiasts"),
+    "acap" => ("Psychmates"),
+    "aeces" => ("AECES"),
+    "give" => ("Educators"),
+    "jehra" => ("JEHRA"),
+    "jmap" => ("Marketista"),
+    "jpia" => ("JPIANs"),
+    "piie" => ("IEhinyero")
+);

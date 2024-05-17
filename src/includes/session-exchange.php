@@ -12,4 +12,5 @@
 	$facebook = $org_social_media[$org_name]["facebook"];
 	$twitter = $org_social_media[$org_name]["twitter"];
 	$instagram = $org_social_media[$org_name]["instagram"];
+	$org_personality = $org_personality[$org_name];
 ?>
