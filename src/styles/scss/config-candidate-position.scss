@@ -73,6 +73,8 @@ main {
             padding: 1rem 0.25rem;
 
             svg {
+                height: calc(1rem + 0.5vw);
+                width: calc(1rem + 0.5vw);
                 transform: translateY(-8%);
             }
         }
@@ -108,7 +110,8 @@ main {
             }
 
             &.selected {
-                border: calc(0.5px + 0.1vw) solid #0075FF;
+                // outline: clamp(1px, 0.5px + 0.1vw, 5px) solid #0075FF;
+                border: clamp(1.5px, 0.5px + 0.1vw, 5px) solid #0075FF;
             }
         }
     }

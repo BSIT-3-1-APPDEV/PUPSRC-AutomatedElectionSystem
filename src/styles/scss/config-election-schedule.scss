@@ -147,18 +147,8 @@ main.main {
     div.dt-container {
 
         .row.mt-2 {
-
-            // &:has(.dt-buttons) {
-            //     background-color: whitesmoke;
-            //     position: -webkit-sticky;
-            //     position: sticky;
-            //     align-self: flex-start;
-            //     top: 62px;
-            //     z-index: 1005;
-            // }
-
             &.stuck {
-                background-color: whitesmoke;
+                background-color: light-dark(#f5f5f5, #333);
                 position: -webkit-sticky;
                 position: sticky;
                 align-self: flex-start;
@@ -189,7 +179,6 @@ main.main {
                     background-color: var(--main-color);
 
                     border-radius: 50%;
-                    // height: clamp(2rem, 1.5rem + 1.75vw, 5rem);
                     padding: clamp(0.5rem, 0.625rem + 0.4vw, 5rem) clamp(1rem, 0.625rem + 0.4vw, 5rem);
 
                     &:not(:last-child) {
@@ -203,8 +192,8 @@ main.main {
 
                     svg {
                         &.feather {
-                            height: calc(1rem + 0.25vw);
-                            width: calc(1rem + 0.25vw);
+                            height: clamp(1.2rem, 0.5rem + 0.8vw, 5rem);
+                            width: clamp(1.2rem, 0.5rem + 0.8vw, 5rem);
                         }
 
                         &.feather-user-plus {
@@ -225,40 +214,21 @@ main.main {
             }
 
             & div:has(.dt-buttons.btn-group) {
-                @media (max-width: 576px) {
+                @media (max-width: 768px) {
                     order: 1;
                 }
 
-                @media (min-width: 576px) {
-                    order: 0;
-                }
-            }
-
-            &:has(.toolbar) {
-                background-color: whitesmoke;
-                position: -webkit-sticky;
-                position: sticky;
-                align-self: flex-start;
-                top: 62px;
-                z-index: 1005;
-            }
-
-            & div:has(.toolbar) {
-                @media (max-width: 576px) {
-                    order: 1;
-                }
-
-                @media (min-width: 576px) {
+                @media (min-width: 768px) {
                     order: 0;
                 }
             }
 
             & div:has(input[type="search"]) {
-                @media (max-width: 576px) {
+                @media (max-width: 768px) {
                     order: 0;
                 }
 
-                @media (min-width: 576px) {
+                @media (min-width: 768px) {
                     order: 1;
                 }
             }
@@ -276,45 +246,6 @@ main.main {
             }
         }
 
-        .toolbar {
-            // transform: translateY(20%);
-
-            button.btn-primary {
-                border-radius: 50%;
-                // height: clamp(2rem, 1.5rem + 1.75vw, 5rem);
-                padding: clamp(0.5rem, 0.313rem + 0.3vw, 5rem) clamp(1rem, 0.625rem + 0.6vw, 5rem);
-
-                &:not(:last-child) {
-                    margin-right: clamp(1.5rem, 0.5rem + 0.01vw, 1.5dvw);
-                }
-
-                &:focus-visible {
-                    box-shadow: 0 0 0 clamp(0.25rem, 0.25rem + 0.1vw, 1rem) color-mix(in srgb, var(--main-color) 25%, transparent);
-
-                }
-
-            }
-
-            svg {
-                &.feather {
-                    height: calc(1rem + 0.25vw);
-                    width: calc(1rem + 0.25vw);
-                }
-
-                &.feather-user-plus {
-                    transform: translateY(-10%);
-                }
-
-                &.feather-edit-2 {
-                    transform: translateY(-10%) translateX(5%);
-                }
-
-                &.feather-trash-2 {
-                    transform: translateY(-10%);
-                }
-            }
-
-        }
 
         .dt-search {
             display: flex;
@@ -322,17 +253,18 @@ main.main {
 
             input[type="search"] {
                 color: var(--main-color);
+                background-color: light-dark(var(--white), #ccc);
                 border: clamp(0.063rem, 0.031rem + 0.01vw, 0.05vw) solid var(--main-color);
                 height: clamp(2rem, 1.5rem + 1.75vw, 5rem);
 
                 padding-left: calc(1.75rem + 0.5vw);
 
-                @media (max-width: 576px) {
+                @media (max-width: 768px) {
                     margin-top: 1.5rem;
                     width: 100%;
                 }
 
-                @media (min-width: 576px) {
+                @media (min-width: 768px) {
                     width: clamp(280px, 140px + 10vw, 20vw);
                 }
 
@@ -342,7 +274,7 @@ main.main {
                 }
 
                 &:focus {
-                    background-color: var(--white);
+                    background-color: light-dark(var(--white), #ccc);
                     border: clamp(0.125rem, 0.062rem + 0.1vw, 0.3vw) solid var(--main-color);
                 }
 
@@ -354,14 +286,9 @@ main.main {
                 transform: translateY(-50%) translateX(70%);
 
                 @media (max-width: 576px) and (min-width: 400px) {
-                    left: calc(20% - 3vw);
-                    transform: translateY(-50%) translateX(-30%);
+                    transform: translateY(-50%) translateX(70%);
                 }
 
-                @media (max-width: 399px) {
-                    left: calc(20% - 3vw);
-                    transform: translateY(-50%) translateX(30%);
-                }
             }
 
             &:has(:focus-within) label svg.feather-search {
@@ -372,13 +299,7 @@ main.main {
                 transform: translateY(-50%) translateX(50%);
 
                 @media (max-width: 576px) and (min-width: 400px) {
-                    left: calc(20% - 3vw);
-                    transform: translateY(-50%) translateX(-20%);
-                }
-
-                @media (max-width: 399px) {
-                    left: calc(20% - 3vw);
-                    transform: translateY(-50%) translateX(20%);
+                    transform: translateY(-50%) translateX(60%);
                 }
             }
         }
@@ -409,6 +330,8 @@ main.main {
                     }
                 }
             }
+
+
         }
 
 

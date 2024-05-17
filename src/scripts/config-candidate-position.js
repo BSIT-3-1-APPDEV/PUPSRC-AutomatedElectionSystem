@@ -834,6 +834,9 @@ function deletePosition(DATA) {
                 table.row(DATA_ROW).remove().draw();
                 const SELECTED_COUNT = countSelectedRows();
                 updateToolbarButton(SELECTED_COUNT);
+                let tooltip = bootstrap.Tooltip.getInstance("#delete-label");
+                tooltip.hide();
+
             } else {
 
                 console.error(`Input element with ID not found.`);

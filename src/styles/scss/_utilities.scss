@@ -6,21 +6,48 @@
     box-sizing: border-box;
 }
 
+:root {
+    // color-scheme: light dark;
+}
+
+::-moz-selection {
+
+    /* Code for Firefox */
+    @media (prefers-color-scheme: dark) {
+        filter: brightness(120%);
+    }
+
+    color: light-dark(var(--white), #f5f5f5);
+    font-weight: bolder;
+    background: light-dark(color-mix(in srgb, var(--main-color) 95%, transparent), color-mix(in srgb, var(--main-color) 75%, transparent));
+}
+
+::selection {
+    @media (prefers-color-scheme: dark) {
+        filter: brightness(120%);
+    }
+
+    color: light-dark(var(--white), #f5f5f5);
+    font-weight: bolder;
+    background: light-dark(color-mix(in srgb, var(--main-color) 75%, transparent), color-mix(in srgb, var(--main-color), var(--white)));
+
+}
+
 %general-responsive-base-font-size {
     font-size: clamp(0.8rem, 0.5rem + 0.5vw, 1vw);
 }
 
-%table-row-height {
-    min-height: calc(1rem + 1vw + 3.5vh);
-    height: calc(1rem + 1vw + 3.5vh);
-}
-
 body {
+
     @extend %general-responsive-base-font-size;
 
     *::placeholder {
         @extend %general-responsive-base-font-size;
     }
+}
+
+input {
+    background-color: light-dark(var(--white), #ccc);
 }
 
 input:focus-visible,
@@ -76,7 +103,8 @@ h6 {
     text-shadow: 0.031px 0.031px var(--border-gray);
 
     &.page-title {
-        color: var(--main-color);
+        color: light-dark(var(--main-color), color-mix(in srgb, var(--main-color), var(--white) 25%));
+        text-shadow: none;
         text-transform: uppercase;
         font-weight: 700;
         margin-top: clamp(2rem, 3.2dvw, 4rem);
@@ -88,17 +116,19 @@ h6 {
 div.secondary-nav-container {
     ul.nav li a.nav-link {
         &:not(.active) {
+            color: light-dark(var(--main-black), #f5f5f5);
 
             &:focus-visible,
             &:hover {
                 font-weight: 500;
-                color: var(--main-color);
+                color: light-dark(var(--main-color), color-mix(in srgb, var(--main-color), var(--white) 25%));
                 text-decoration-color: var(--main-color) !important;
                 text-decoration: underline !important;
             }
         }
 
         &.active {
+            color: light-dark(var(--main-color), color-mix(in srgb, var(--main-color), var(--white) 25%));
             pointer-events: none;
         }
 

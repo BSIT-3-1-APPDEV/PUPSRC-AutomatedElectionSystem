@@ -52,14 +52,14 @@
                 <label for="deleteButton" id="delete-label" data-bs-toggle="tooltip" data-bs-title="No items selected." data-bs-placement="right">
                     <button type="button" id="delete" class="btn btn-primary del me-2 me-md-3" data-selected="" disabled>
                         <span class="icon trash ">
-                            <i data-feather="trash" width="calc(1rem + 0.5vw)" height="calc(1rem + 0.5vw)"></i>
+                            <i data-feather="trash-2"></i>
                         </span>
                         <span class="d-none d-sm-inline">Delete</span>
                     </button>
                 </label>
                 <button type="button" class="btn btn-primary del me-2 me-md-3 d-none" data-selected="">
                     <span class="icon trash ">
-                        <i data-feather="trash" width="calc(1rem + 0.5vw)" height="calc(1rem + 0.5vw)"></i>
+                        <i data-feather="trash"></i>
                     </span>
                     <span class="d-none d-sm-inline">Edit</span>
                 </button>
