@@ -4,9 +4,9 @@ require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
-if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'Student Voter') && ($_SESSION['status'] == 'Active')) {
+if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'student_voter') ) {
 
-  // if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'Voted')){
+  // if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'voted')){
 
      // ------ SESSION EXCHANGE
      include FileUtils::normalizeFilePath('includes/session-exchange.php');
@@ -53,7 +53,7 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
       <ul class="navbar-nav">
         <li class="nav-item dropdown d-none d-lg-block">
           <a class="nav-link main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <b>Hello, Iskolar</b><i class="fas fa-user-circle main-color ps-3" style="font-size: 23px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
+            <b>Hello, <?php echo $org_personality ?></b><i class="fas fa-user-circle main-color ps-3" style="font-size: 23px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="includes/voter-logout.php">Logout</a>
@@ -173,7 +173,7 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
       </div>
       <div class="row container-spacing pb-2">
         <div class="col">
-          <textarea name="feedback" id="feedback" class="form-control " rows="10" placeholder="Type your feedback here..."></textarea>
+          <textarea name="feedback" id="feedback" class="form-control" maxlength="500" rows="10" placeholder="Type your feedback here..."></textarea>
         </div>
       </div>
       
