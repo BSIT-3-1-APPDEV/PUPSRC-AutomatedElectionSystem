@@ -28,6 +28,17 @@ body {
     height: calc(1rem + 1vw + 3.5vh);
 }
 
+// .sidebar+.navbar .header-left {
+//     transform: translateX(0);
+//     transition: transform 0.2s ease-in;
+// }
+
+// // Moves the Hamburger Menu Icon Inside Sidebar when opened
+// .sidebar:not(.close)+.navbar .header-left {
+//     transform: translateX(-300%);
+//     transition: transform 0.2s ease-in;
+// }
+
 body {
     scrollbar-gutter: stable;
 
