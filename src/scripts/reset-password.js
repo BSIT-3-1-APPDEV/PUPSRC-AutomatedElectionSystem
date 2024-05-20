@@ -26,13 +26,27 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Disallow whitespaces from input fields
-function avoidSpace(event) {
-    if (event.key === " ") {
-      event.preventDefault();
-    }
-  }
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Disabling the submit button when fields are empty
 document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
@@ -60,6 +74,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     passwordConfirmationInput.addEventListener('input', checkInputs);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // For the password requirements
 document.addEventListener('DOMContentLoaded', function() {
@@ -122,30 +156,4 @@ document.addEventListener('DOMContentLoaded', function() {
           passwordRequirementsList[4].classList.remove('met');
       }
   });
-});
-
-// Process new password
-$(document).ready(function () {
-    $("#SCO-login-button").click(function (event) {
-      event.preventDefault();
-      var password = $("#password").val();
-      var password_confirmation = $("#password_confirmation").val();
-      var token = $("#token").val();
-      $.ajax({
-        url: "includes/process-reset-password.php",
-        type: "POST",
-        data: 
-            { 
-                password: password, 
-                password_confirmation: password_confirmation,
-                token: token 
-            },
-        success: function (response) {
-          $("#successPasswordResetModal").modal("show");
-        },
-        error: function (xhr, status, error) {
-          console.error(xhr.responseText);
-        },
-      });
-    });
 });
