@@ -5,10 +5,9 @@ require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php'
 include_once FileUtils::normalizeFilePath('includes/session-exchange.php');
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
-// SessionManager::checkUserRoleAndRedirect();
+SessionManager::checkUserRoleAndRedirect();
 
-/* Generates hexadecimal token that expires in 30 minutes
-   to avoid Cross-Site Request Forgery */
+// Generates hexadecimal token that expires in 30 minutes to avoid Cross-Site Request Forgery 
 $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 $_SESSION['csrf_expiry'] = time() + (60 * 30);
 
@@ -133,7 +132,7 @@ if (isset($_SESSION['info_message'])) {
 
                         <div class="d-grid gap-2 mt-5 mb-4">
                             <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
-                            <button class="btn login-sign-in-button" id="<?php echo strtoupper($org_name); ?>-login-button" name="sign-in" type="submit">Sign
+                            <button class="btn login-sign-in-button btn-primary" name="sign-in" type="submit">Sign
                                 In</button>
                         </div>
                         <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
@@ -144,24 +143,24 @@ if (isset($_SESSION['info_message'])) {
         </div>
     </div>
 
-    <!-- Modals -->
+    <!-- Forgot Password Modal -->
     <div class="modal fade" id="forgot-password-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="m justify-content-center">
                     <h1 class="modal-title fs-5 fw-bold mb-2" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
-                        <!-- </h1><hr> -->
+                        </h1><!-- <hr> -->
                 </div>
                 <div class="modal-body">
-                    <form action="includes/send-password-reset.php" method="post" class="needs-validation" id="forgot-password-form" name="forgot-password-form" novalidate enctype="multipart/form-data">
+                    <form class="needs-validation" id="forgot-password-form" name="forgot-password-form" novalidate enctype="multipart/form-data">
                         <div class="col-12 col-md-12">
                             <div class="d-flex align-items-start mb-0 pb-0">
                                 <!-- <p for="email" class="form-label text-start ps-1">We will send a password reset link to your registered email address.</p> -->
                                 <p>Email Address</p>
                             </div>
-                            <input type="email" class="form-control" id="email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
-                            <div class="invalid-feedback text-start">
-                                Please provide a valid email.
+                            <input type="email" class="form-control" id="email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address">
+                            <div class="invalid-feedback text-start" id="email-error">
+                                <!-- Displays error messages -->
                             </div>
                         </div>
                         <div class="col-md-12 ">
@@ -171,6 +170,7 @@ if (isset($_SESSION['info_message'])) {
                                 </div>
                                 <div class="col-4">
                                     <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send</button>
+                                    <script> var ORG_NAME = "<?php echo strtoupper($org_name) .'-login-button'; ?>"; </script>
                                 </div>
                             </div>
                         </div>
@@ -181,7 +181,36 @@ if (isset($_SESSION['info_message'])) {
         </div>
     </div>
 
+    <!-- Success Modal -->
+    <div class="modal" id="successResetPasswordLinkModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end">
+                    <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
+								onclick="redirectToPage('voter-login.php')">
+							</i>
+                    </div>
+                    <div class="text-center">
+                        <div class="col-md-12">
+                            <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 pb-3">
+                                <p class="fw-bold fs-3 text-success spacing-4">Success!</p>
+                                <p class="fw-medium spacing-5">An email containing the password reset link has been sent. Kindly check your email.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="scripts/voter-login.js"></script>
 
 </body>
