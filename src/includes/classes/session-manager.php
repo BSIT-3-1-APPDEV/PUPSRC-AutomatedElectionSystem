@@ -4,43 +4,56 @@ require_once FileUtils::normalizeFilePath(__DIR__ . '/../error-reporting.php');
 
 class SessionManager {
     public static function checkUserRoleAndRedirect() {
-
-        // Check if the user is already logged in
         if(isset($_SESSION['voter_id'])) {
 
-            // Check if role is set to student voter
-            if($_SESSION['role'] == 'Student Voter') {
+            $role = $_SESSION['role'];
+            $account_status = $_SESSION['account_status'];
+            $voter_status = $_SESSION['voter_status'];
+            $vote_status = $_SESSION['vote_status'];
 
-                // Check the account status of the user
-                if($_SESSION['status'] == 'Active') {
-
-                    /* Check for the vote status of the user and redirect to ballot form page if
-                    the vote status is NULL */
-                    if($_SESSION['vote_status'] == NULL) {
-                        header("Location: ballot-forms.php");
-                    }
-
-                    // Redirect to endpoint page if vote status of the user is set to Voted
-                    elseif($_SESSION['vote_status'] == 'Voted') {
-                        header("Location: end-point.php");
-                    }
-                }          
-            } 
-            // Check if role is set to committee member
-            elseif($_SESSION['role'] == 'Committee Member' || $_SESSION['role'] == 'Admin Member') {
-
-                // Check the account status if set to active
-                if($_SESSION['status'] == 'Active') {
-                    header("Location: admindashboard.php");
-                    exit();                    
-                }
+            if($role == 'student_voter') {
+                self::handleStudentVoter($account_status, $voter_status, $vote_status);
             }
-                     
+            elseif($role == 'admin' || $role == 'head_admin') {
+                self::handleAdminOrHeadAdmin($account_status);
+            }
             else {
-                // If 'role' key does not exist, redirects to landing page
                 header("Location: landing-page.php");
                 exit();
             }
+        }
+    }
+
+    private static function handleStudentVoter($account_status, $voter_status, $vote_status) {
+        if($account_status != 'verified') {
+            header("Location: landing-page.php");
+            exit();
+        }
+        if($voter_status == 'pending' || $voter_status == 'active') {
+            if($vote_status == NULL) {
+                header("Location: ballot-forms.php");
+                exit();
+            }
+            else {
+                header("Location: end-point.php");
+                exit();
+            }
+        }
+        else {
+            header("Location: landing-page.php");
+            exit();
+        }
+    }
+
+    // This method doesn't check yet whether admin/head account is disabled
+    private static function handleAdminOrHeadAdmin($account_status) {
+        if($account_status == 'verified') {
+            header("Location: admindashboard.php");
+            exit();
+        }
+        else {
+            header("Location: landing-page.php");
+            exit();
         }
     }
 }
