@@ -119,7 +119,7 @@ if (isset($_SESSION['info_message'])) {
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
-                                <input type="password" class="form-control" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" value="<?php if (isset($_SESSION['password'])) echo $_SESSION['password']; ?>" id="Password" required>
+                                <input type="password" class="form-control" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" id="Password" required>
                                 <button class="btn" type="button" id="password-toggle">Show</button>
                                 <!-- <div class="valid-feedback text-start">Looks good!</div>
                                 <div class="ps-2 text-start invalid-feedback">
