@@ -99,7 +99,7 @@ class Login{
                 $this->redirectWithMessage('info_message', 'This account is under verification.');
                 break;
             case 'invalid':
-                $this->setUserSession($row['email'], $row['password'], 'This account was rejected.');
+                $this->redirectWithError('This account was rejected.');
                 break;
             case 'verified':
                 $this->handleVerifiedStudentVoter($row);
@@ -218,14 +218,6 @@ class Login{
     private function redirectWithMessage($type, $message) {
         unsetSessionVar();
         $_SESSION[$type] = $message;
-        header("Location: ../voter-login.php");
-        exit();
-    }
-
-    private function setUserSession($email, $password, $message) {
-        $_SESSION['email'] = $email;
-        $_SESSION['password'] = $password;
-        $_SESSION['error_message'] = $message;
         header("Location: ../voter-login.php");
         exit();
     }

@@ -4,49 +4,91 @@ require_once FileUtils::normalizeFilePath(__DIR__ . '/session-handler.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/classes/session-manager.php');
 include_once FileUtils::normalizeFilePath(__DIR__ . '/session-exchange.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/classes/db-connector.php');
+include_once FileUtils::normalizeFilePath(__DIR__ . '/error-reporting.php');
+include_once FileUtils::normalizeFilePath(__DIR__ . '/default-time-zone.php');
 
-$token = $_POST["token"];
-$token_hash = hash("sha256", $token);
+if(isset($_POST['password']) && isset($_POST['password_confirmation'])) {
+    $token = $_POST['token'];
+    $password = $_POST['password'];
+    $password_confirmation = $_POST['password_confirmation'];
+    $token_hash = hash("sha256", $token);
 
-$connection = DatabaseConnection::connect();
+    $error = newPasswordValidation($password);
 
-$sql = "SELECT * FROM voter WHERE reset_token_hash = ?";
-$stmt = $connection->prepare($sql);
-$stmt->bind_param("s", $token_hash);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
+    if($error) {
+        $_SESSION['error_message'] = $error;
+        header("Location: ../reset-password.php?token=" . urlencode($token) . "&orgName=" . urlencode($org_name));;
+        exit();
+    }
 
-if ($row === NULL) {
-    $_SESSION['error_message'] = 'Your password reset link was not found.';
-    header("Location: ../voter-login.php");
-    exit();
+    if ($password !== $password_confirmation) {
+        $_SESSION['error_message'] = 'Your passwords do not match.';
+        header("Location: ../reset-password.php?token=" . urlencode($token) . "&orgName=" . urlencode($org_name));
+        exit();
+    }
+
+    $connection = DatabaseConnection::connect();
+
+    $sql = "SELECT * FROM voter WHERE reset_token_hash = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("s", $token_hash);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if (!$row) {
+        $_SESSION['error_message'] = 'Your password reset link was not found.';
+        header("Location: ../voter-login.php");
+        exit();
+    }
+
+    $expiry_time = strtotime($row["reset_token_expires_at"]);
+    $current_time = time();
+
+    if ($expiry_time <= $current_time) {
+        $_SESSION['error_message'] = 'Your password reset link has expired.';
+        header("Location: ../voter-login.php");
+        exit();
+    }
+
+    $new_password = password_hash($password_confirmation, PASSWORD_DEFAULT);
+
+    // Updating password values in database
+    $sql = "UPDATE voter SET password = ?, reset_token_hash = NULL, reset_token_expires_at = NULL WHERE voter_id = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param('si', $new_password, $row['voter_id']);
+    $success = $stmt->execute();
+
+    if($success) {
+        echo json_encode(['success' => true]);
+        exit(); 
+    }
+    else {
+        $_SESSION['error_message'] = "Failed to reset your password. Please try again.";
+        header("Location: ../reset-password.php?token=" . urlencode($token) . "&orgName=" . urlencode($org_name));
+    }
+    exit();    
 }
 
-if (strtotime($row["reset_token_expires_at"]) <= time()) {
-    $_SESSION['error_message'] = 'Your password reset link has expired.';
-    header("Location: ../voter-login.php");
-    exit();
+// Validate new password 
+function newPasswordValidation($password) {
+    if (strlen($password) < 8 || strlen($password) > 20) {
+        return "Your password must be between 8 and 20 characters long.";
+    }
+    if (!preg_match("/\d/", $password)) {
+        return "Your password must contain at least 1 number.";
+    }
+    if (!preg_match("/[A-Z]/", $password)) {
+        return "Your password must contain at least 1 uppercase letter.";
+    }
+    if (!preg_match("/[a-z]/", $password)) {
+        return "Your password must contain at least 1 lowercase letter.";
+    }
+    if (!preg_match("/[\W_]/", $password)) {
+        return "Your password must contain at least 1 special character.";
+    }
+    if (preg_match("/\s/", $password)) {
+        return "Your password must not contain any spaces.";
+    }
+    return "";
 }
-
-// Put here Password field validation
-
-// POST method for reset button
-
-if ($_POST['password'] !== $_POST['password_confirmation']) {
-    die("Passwords must match");
-}
-
-$new_password = password_hash($_POST['password_confirmation'], PASSWORD_DEFAULT);
-
-// Updating password values in database
-$sql = "UPDATE voter SET password = ?, reset_token_hash = NULL, reset_token_expires_at = NULL WHERE voter_id = ?";
-$stmt = $connection->prepare($sql);
-$stmt->bind_param('si', $new_password, $row['voter_id']);
-$stmt->execute();
-$stmt->close();
-
-
-// $_SESSION['success_message'] = 'Successfully updated password. You can now login';
-header("Location: ../voter-login.php");
-exit();
