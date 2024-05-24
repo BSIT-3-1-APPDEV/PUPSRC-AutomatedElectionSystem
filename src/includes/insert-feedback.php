@@ -1,7 +1,8 @@
 <?php 
-session_start();
-require_once '../includes/classes/db-config.php';
-require_once '../includes/classes/db-connector.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -19,11 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Establish the database connection
         $conn = DatabaseConnection::connect();
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
 
         // Prepare SQL statement to insert feedback into the database
         $sql = "INSERT INTO feedback (rating, feedback) VALUES (?, ?)";
