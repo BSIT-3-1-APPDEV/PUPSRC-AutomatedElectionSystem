@@ -157,13 +157,13 @@ if (isset($_SESSION['error_message'])) {
 
 
     <!-- Success Modal -->
-    <div class="modal" id="successPasswordResetModal" data-bs-backdrop="static"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+    <div class="modal" id="successPasswordResetModal" data-bs-backdrop="static"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" role="">
+        <div class="modal-dialog modal-dialog-centered" role="">
+        <div class="modal-content" id="success-modal">
                 <div class="modal-body">
                     <div class="text-center">
                         <div class="col-md-12">
-                            <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
+                        <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
                         </div>
 
                         <div class="row">
@@ -173,7 +173,8 @@ if (isset($_SESSION['error_message'])) {
                                 </p>
                                 <!-- Button to redirect to login here -->
                                 <!-- Sample only -->
-                                <a href="voter-login.php">Go to Login</a>
+                                <a href="voter-login.php" class="btn reset-sign-in-button mt-3" id="SCO-login-button">Go to Login</a>
+
                             </div>
                         </div>
                     </div>
@@ -181,6 +182,7 @@ if (isset($_SESSION['error_message'])) {
             </div>
         </div>
     </div>
+
 
 
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
