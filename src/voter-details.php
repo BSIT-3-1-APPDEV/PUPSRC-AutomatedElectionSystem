@@ -144,7 +144,8 @@ if (isset($_SESSION['voter_id'])) {
                                                     <div class="col-md-12">
                                                         <!-- Email -->
                                                         <p class="fw-bold fs-6 main-color spacing-4">Email Address</p>
-                                                        <p class="fw-medium fs-6 pt-sm-2 text-truncate"><?php echo $row["email"] ?>
+                                                        <p class="fw-medium fs-6 pt-sm-2 text-truncate">
+                                                            <?php echo $row["email"] ?>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -176,42 +177,24 @@ if (isset($_SESSION['voter_id'])) {
                                                         <div class="row pt-sm-4 status-acc">
                                                             <div class="col-sm-5 col-12">
 
-                                                                <form id="status-form" action="update-status.php"
-                                                                    method="post">
-                                                                    <input type="hidden" id="voter_id" name="voter_id"
-                                                                        value="<?php echo $voter_id; ?>">
+                                                                <?php
+                                                                $status = $row["account_status"];
+                                                                $statusClass = '';
 
-                                                                    <?php
-                                                                    $status = $row["status"];
-                                                                    $statusClass = '';
-
-                                                                    switch ($status) {
-                                                                        case 'Active':
-                                                                            $statusClass = 'active-status';
-                                                                            break;
-                                                                        case 'Inactive':
-                                                                            $statusClass = 'inactive-status';
-                                                                            break;
-                                                                        case 'Rejected':
-                                                                            $statusClass = 'rejected-status';
-                                                                            break;
-                                                                        default:
-                                                                            $statusClass = '';
-                                                                            break;
-                                                                    }
-                                                                    ?>
-
-                                                                    <select name="dropdown" id="dropdown"
-                                                                        class="status-background <?php echo $statusClass; ?>">
-                                                                        <option value="Active" <?php if ($row["status"] == 'Active')
-                                                                            echo 'selected="selected"'; ?>>Active</option>
-                                                                        <option value="Disabled" <?php if ($row["status"] == 'Inactive')
-                                                                            echo 'selected="selected"'; ?>>Disable</option>
-                                                                        <option value="Reject" <?php if ($row["status"] == 'Rejected')
-                                                                            echo 'selected="selected"'; ?>>Reject
-                                                                        </option>
-                                                                    </select>
-                                                                </form>
+                                                                switch ($status) {
+                                                                    case 'verified':
+                                                                        $statusClass = 'active-status';
+                                                                        break;
+                                                                    case 'invalid':
+                                                                        $statusClass = 'inactive-status';
+                                                                        break;
+                                                                    default:
+                                                                        $statusClass = '';
+                                                                        break;
+                                                                }
+                                                                ?>
+                                                                <span class="status-background <?php echo $statusClass; ?>">
+                                                                    <?php echo ucfirst($status); ?></span>
                                                             </div>
                                                             <div class="col-sm-5 col-12 status-update">
                                                                 <!-- Status -->

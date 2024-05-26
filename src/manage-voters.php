@@ -1,14 +1,15 @@
 <?php
-include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 
-if (isset($_SESSION['voter_id'])) {
+if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
-	include 'includes/session-exchange.php';
-	include 'submission_handlers/manage-acc.php';
+	
+	include FileUtils::normalizeFilePath('includes/session-exchange.php');
+	include FileUtils::normalizeFilePath('submission_handlers/manage-acc.php');
 	?>
 
 	<!DOCTYPE html>
@@ -147,10 +148,10 @@ if (isset($_SESSION['voter_id'])) {
 														<tbody>
 															<?php while ($row = $to_verify_tbl->fetch_assoc()) { ?>
 																<tr>
-																	</td>
-																	<td class="col-md-6 text-center text-truncate"><a
+																<td class="col-md-6 text-center text-truncate"><a
 																			href="validate-voter.php?voter_id=<?php echo $row["voter_id"]; ?>"><?php echo $row["email"]; ?></a>
 																	</td>
+
 																	<td class="col-md-6 text-center">
 																		<?php echo date("F j, Y", strtotime($row["acc_created"])); ?>
 																	</td>
@@ -349,18 +350,15 @@ if (isset($_SESSION['voter_id'])) {
 																		</td>
 																		<td class="col-md-3 text-center">
 																			<?php
-																			$status = $row["status"];
+																			$status = $row["account_status"];
 																			$statusClass = '';
 
 																			switch ($status) {
-																				case 'Active':
+																				case 'verified':
 																					$statusClass = 'active-status';
 																					break;
-																				case 'Inactive':
+																				case 'invalid':
 																					$statusClass = 'inactive-status';
-																					break;
-																				case 'Rejected':
-																					$statusClass = 'rejected-status';
 																					break;
 																				default:
 																					$statusClass = '';
@@ -368,7 +366,7 @@ if (isset($_SESSION['voter_id'])) {
 																			}
 																			?>
 																			<span
-																				class="status-background <?php echo $statusClass; ?>"><?php echo $status; ?></span>
+																				class="status-background <?php echo $statusClass; ?>"><?php echo ucfirst($status); ?></span>
 																		</td>
 
 																		<td class="col-md-3 text-center">

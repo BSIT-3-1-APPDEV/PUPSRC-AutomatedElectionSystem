@@ -4,7 +4,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
-if (isset($_SESSION['voter_id'])) {
+if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
 	$voter_id = $_GET['voter_id'];
 
@@ -139,7 +139,8 @@ if (isset($_SESSION['voter_id'])) {
 												<div class="row">
 													<div class="col-md-12 pt-sm-4">
 														<!-- Description -->
-														<p class="fw-medium fs-7 spacing-6 sub-title">Please review the provided
+														<p class="fw-medium fs-7 spacing-6 sub-title">Please review the
+															provided
 															information before validating the account registration.</p>
 													</div>
 												</div>
@@ -151,7 +152,8 @@ if (isset($_SESSION['voter_id'])) {
 													<div class="col-md-12">
 														<!-- Email -->
 														<p class="fw-bold fs-6 main-color spacing-4">Email Address</p>
-														<p class="fw-medium fs-6 pt-sm-2 text-truncate"><?php echo $row["email"] ?>
+														<p class="fw-medium fs-6 pt-sm-2 text-truncate">
+															<?php echo $row["email"] ?>
 														</p>
 													</div>
 												</div>
@@ -160,7 +162,15 @@ if (isset($_SESSION['voter_id'])) {
 													<div class="col-md-12">
 														<!-- Status -->
 														<p class="fw-bold fs-6 main-color spacing-4">Status</p>
-														<p class="fw-medium fs-6 pt-sm-2"><?php echo $row["status"] ?>
+														<p class="fw-medium fs-6 pt-sm-2">
+															<?php
+															if ($row["account_status"] === 'for_verification') {
+																echo 'For Verification';
+															} else {
+																echo ucfirst($row["account_status"]); // Capitalize the first letter of the status
+															}
+															?>
+														</p>
 														</p>
 													</div>
 												</div>
@@ -179,8 +189,7 @@ if (isset($_SESSION['voter_id'])) {
 											<section>
 												<div class="row pt-sm-5 buttons-cont">
 													<div class="col-6 text-end buttons">
-														<button
-															class="btn btn-danger px-5 btn-sm fw-bold fs-6 spacing-6"
+														<button class="btn btn-danger px-5 btn-sm fw-bold fs-6 spacing-6"
 															id="reject-btn" data-toggle="modal"
 															data-target="#rejectModal">Reject</button>
 													</div>
@@ -261,8 +270,8 @@ if (isset($_SESSION['voter_id'])) {
 									<label for="others" class="pt-2 fw-medium">Others (Please specify)</label><br>
 
 									<div id="otherReason" style="display: none;">
-										<textarea class="form-control bg-primary my-3 text-black" id="other" name="otherReason"
-											rows="3" maxlength="200"></textarea>
+										<textarea class="form-control bg-primary my-3 text-black" id="other"
+											name="otherReason" rows="3" maxlength="200"></textarea>
 										<p class="fs-7">Note: Only up to 200 characters are allowed</p>
 									</div>
 									<script>
