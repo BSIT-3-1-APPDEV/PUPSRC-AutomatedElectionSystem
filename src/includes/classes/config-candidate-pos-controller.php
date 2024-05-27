@@ -6,7 +6,6 @@ require_once FileUtils::normalizeFilePath('../model/configuration/candidate-pos-
 require_once FileUtils::normalizeFilePath('../model/configuration/endpoint-response.php');
 
 
-
 class CandidatePositionController extends CandidatePosition
 {
     use EndpointResponse;
@@ -30,12 +29,20 @@ class CandidatePositionController extends CandidatePosition
         if ($validation_func) {
             $data = $this->sanitizeData($data);
             $data = self::savePosition($data, $this->mode);
-
-            $response = [
-                'status' => 'success',
-                'data' => $data
-            ];
-            self::sendResponse(200, $response);
+            if (empty(self::$query_message)) {
+                $response = [
+                    'status' => 'success',
+                    'data' => $data
+                ];
+                self::sendResponse(200, $response);
+            } else {
+                $response = [
+                    'status' => 'error',
+                    'message' => self::$query_message,
+                    'data' => $data
+                ];
+                self::sendResponse(400, $response);
+            }
         } else {
             $response = [
                 'status' => 'error',
@@ -85,7 +92,7 @@ class CandidatePositionController extends CandidatePosition
                 // echo "\n</br>";
                 $sanitizedString[$key] = $element;
                 if (is_array($element) && array_key_exists('insert', $element)) {
-                    $sanitizedString[$key]['insert'] = htmlspecialchars($element['insert']);
+                    $sanitizedString[$key]['insert'] = htmlspecialchars($element['insert'], ENT_NOQUOTES);
                 }
             }
 
@@ -198,6 +205,19 @@ class CandidatePositionController extends CandidatePosition
     }
 }
 
+$is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role'], $_SESSION['organization']) &&
+    ($_SESSION['role'] === 'admin'  || $_SESSION['role'] == 'head_admin ') &&
+    !empty($_SESSION['organization']);
+
+if (!$is_page_accessible) {
+    $response = [
+        'status' => 'error',
+        'message' => 'Unauthorized'
+    ];
+    self::sendResponse(401, $response);
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'UPDATE') {
     $controller = new CandidatePositionController('sequence');
 
@@ -227,7 +247,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
 
     $decoded_data = $controller->decodeData();
 
-    if (isset($decoded_data['delete_position'])) {
+    if (isset($decoded_data['confirmed_delete'])) {
+        $controller->submit($decoded_data['confirmed_delete']);
+    } else if (isset($decoded_data['delete_position'])) {
         $controller->submit($decoded_data['delete_position']);
     }
 

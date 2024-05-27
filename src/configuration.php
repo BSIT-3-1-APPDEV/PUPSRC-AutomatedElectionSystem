@@ -8,6 +8,11 @@ require_once FileUtils::normalizeFilePath('includes/classes/user.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-router.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.php');
+require_once FileUtils::normalizeFilePath('includes/classes/date-time-utils.php');
+
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
 
 
 $is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role'], $_SESSION['organization']) &&
@@ -25,6 +30,8 @@ if (!$is_page_accessible) {
     exit();
 }
 require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
+
+$phpDateTimeNow = new DateTimeUtils();
 
 ?>
 

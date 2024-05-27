@@ -200,6 +200,9 @@ ConfigPage = {
                 let input_id = INPUT_ELEMENT.getAttribute('data-target-input');
                 let data_sequence = INPUT_ELEMENT.getAttribute('data-sequence');
                 let initial_val = INPUT_ELEMENT.getAttribute('data-initial');
+                let max_votes = $('#max-vote-picker').val();
+                console.log("max_votes");
+                console.log(max_votes);
                 let data_val = INPUT_ELEMENT.value;
 
                 let description = TEXT_EDITOR.getContents();
@@ -210,6 +213,7 @@ ConfigPage = {
                         'data_id': data_id,
                         'sequence': data_sequence,
                         'value': data_val,
+                        'max_votes': max_votes,
                         'description': description,
                     }]
                 }
@@ -223,13 +227,28 @@ ConfigPage = {
 
     onSavePosition: function (INPUT_ELEMENT, TEXT_EDITOR) {
         let data = ConfigPage.EditPositionModal.extractData(INPUT_ELEMENT, TEXT_EDITOR);
+        console.log(data);
+        if (!ConfigPage.position_validate.validate(INPUT_ELEMENT)) {
+            INPUT_ELEMENT.style.borderBottomColor = '0.5px solid red';
+            console.log(data);
+            return;
+        }
+
+        INPUT_ELEMENT.style.borderBottomColor = '';
+
         if (data && data.isChange) {
             ConfigPage.postData(data.data)
                 .then(function (result) {
                     const { data, success, error } = result;
-
+                    console.log('ConfigPage.mode');
+                    console.log(ConfigPage.mode);
                     if (success) {
-                        ConfigPage.updatePostion(data);
+                        if (ConfigPage.mode === 'add') {
+                            ConfigPage.insertPosition(data);
+                        } else if (ConfigPage.mode === 'update') {
+                            ConfigPage.updatePostion(data);
+                        }
+
                         ConfigPage.edit_position_modal.hide();
                     } else {
                         console.error('POST request failed:', error);
@@ -293,8 +312,8 @@ ConfigPage = {
 
         let saveButton = modal.querySelector(`#save-button`);
 
-        ConfigPage.delEventListener(saveButton, 'input');
-        ConfigPage.addEventListenerAndStore(saveButton, 'input', ConfigPage.saveFunc);
+        ConfigPage.delEventListener(saveButton, 'click');
+        ConfigPage.addEventListenerAndStore(saveButton, 'click', ConfigPage.saveFunc);
     },
 
     handleModalInput: function (event) {
@@ -317,7 +336,8 @@ ConfigPage = {
     handleInput: function (event) {
         setTextEditableWidth(event.target);
         const inputElement = event.target;
-
+        console.log('getform');
+        console.log(event.target);
         clearTimeout(ConfigPage.typingTimeout);
         ConfigPage.typingTimeout = setTimeout(() => {
             try {
@@ -520,18 +540,20 @@ ConfigPage = {
     },
 
     updatePostion: function (DATA, draw = true) {
+        console.log('update table');
 
         if (DATA && DATA.data && Array.isArray(DATA.data)) {
             DATA.data.forEach(item => {
                 console.log("each pos update " + JSON.stringify(item));
-                let { sequence, data_id, input_id, value, description } = item;
+                let { sequence, data_id, input_id, value, max_votes, description } = item;
                 if (draw) {
                     let rowData = {
                         0: sequence,
                         1: {
                             data_id: data_id,
                             sequence: sequence,
-                            value: value
+                            value: value,
+                            max_votes: max_votes
                         },
                         2: description
                     }
@@ -539,11 +561,50 @@ ConfigPage = {
                     let INPUT_ELEMENT = document.getElementById(input_id);
                     let DATA_ROW = INPUT_ELEMENT.closest(`tr`);
                     if (DATA_ROW) {
+                        console.log(DATA_ROW);
                         ConfigPage.table.row(DATA_ROW).data(rowData).draw(false);
                     } else {
 
                         console.error(`Input element with ID not found.`);
                     }
+                } else {
+
+
+                    // let INPUT_ELEMENT = document.getElementById(input_id);
+                    // if (INPUT_ELEMENT) {
+                    //     INPUT_ELEMENT.name = data_id;
+                    // } else {
+
+                    //     console.error(`Input element with ID not found.`);
+                    // }
+                }
+            });
+        } else {
+            // console.error('Invalid or missing DATA structure.');
+        }
+
+    },
+
+    insertPosition: function (DATA, draw = false) {
+
+        if (DATA && DATA.data && Array.isArray(DATA.data)) {
+            DATA.data.forEach(item => {
+                console.log("each pos update " + JSON.stringify(item));
+                let { sequence, data_id, input_id, value, max_votes, description } = item;
+                if (!draw) {
+                    let rowData = {
+                        0: sequence,
+                        1: {
+                            data_id: data_id,
+                            sequence: sequence,
+                            value: value,
+                            max_votes: (Number.isInteger(max_votes) && max_votes !== null) ? max_votes : 1
+                        },
+                        2: description
+                    }
+
+                    ConfigPage.table.row.add(rowData).draw(false);
+
                 } else {
 
 
@@ -625,6 +686,7 @@ ConfigPage = {
                 let data_sequence = sequence_dom.textContent.trim();
                 let data_val = (input_dom.value.trim() || '');
                 let data_id = input_dom.name || '';
+                let data_max_votes = input_dom.getAttribute('data-max');
                 let data_description = description_dom.textContent || '';
 
                 let row_data = {
@@ -632,6 +694,7 @@ ConfigPage = {
                     'data_id': data_id,
                     'sequence': data_sequence,
                     'value': data_val,
+                    'max_votes': data_max_votes,
                     'description': data_description,
                 };
 
@@ -715,7 +778,8 @@ ConfigPage = {
                 1: {
                     data_id: item.data_id,
                     sequence: item.sequence,
-                    value: item.value
+                    value: item.value,
+                    max_votes: item.max_votes
                 },
                 2: item.description
             };
@@ -808,7 +872,8 @@ ConfigPage.DTableUtil = class DTableUtil {
                 1: {
                     data_id: '',
                     sequence: sequence,
-                    value: ''
+                    value: '',
+                    max_votes: 1,
                 },
                 2: ''
             };
@@ -827,6 +892,13 @@ ConfigPage.DTableUtil = class DTableUtil {
  * Utility class for managing candidate position table.
  */
 ConfigPage.CandidatePosition = class CandidatePosition {
+
+    static maxVoteOptions = [
+        { value: '1', text: 'One (1)' },
+        { value: '2', text: 'Two (2)' },
+        { value: '3', text: 'Three (3)' },
+        { value: '4', text: 'Four (4)' }
+    ];
 
 
     static updateTextEditableListeners(inputElements) {
@@ -925,6 +997,37 @@ ConfigPage.CandidatePosition = class CandidatePosition {
 
     }
 
+    static delSelectMaxVotes() {
+        let existingSelectMaxVotes = document.getElementById('max-vote-picker');
+        if (existingSelectMaxVotes) {
+            $('.max-vote-picker').selectpicker('destroy');
+            existingSelectMaxVotes.remove();
+        }
+    }
+
+    static setMaxVoteOptions(selectElement) {
+        this.maxVoteOptions.forEach(optionData => {
+            let option = document.createElement('option');
+            option.value = optionData.value;
+            option.text = optionData.text;
+            selectElement.appendChild(option);
+        });
+    }
+
+
+    static initSelectMaxVotes(positionNameInput, value) {
+        this.delSelectMaxVotes();
+        let selectMaxVotes = document.createElement('select');
+        selectMaxVotes.classList.add('max-vote-picker');
+        selectMaxVotes.id = 'max-vote-picker';
+        this.setMaxVoteOptions(selectMaxVotes);
+        positionNameInput.insertAdjacentElement('afterend', selectMaxVotes);
+        $('#max-vote-picker').selectpicker();
+        console.log("value");
+        console.log(value);
+        $('#max-vote-picker').selectpicker('val', value);
+    }
+
     static updateModalContent(DATA, quill, isAdd = false) {
 
         let edit_position_modal = document.getElementById(ConfigPage.POSITION_MODAL_ID);
@@ -932,9 +1035,11 @@ ConfigPage.CandidatePosition = class CandidatePosition {
 
         if (isAdd) {
             edit_position_modal.querySelector('.modal-title').textContent = 'Add New Position';
+            ConfigPage.mode = 'add';
         } else {
 
             edit_position_modal.querySelector('.modal-title').textContent = 'Edit a Candidate Position';
+            ConfigPage.mode = 'update';
 
         }
 
@@ -945,6 +1050,9 @@ ConfigPage.CandidatePosition = class CandidatePosition {
             positionNameInput.setAttribute('data-initial', DATA[0].value);
             positionNameInput.value = DATA[0].value ?? '';
         }
+
+        this.initSelectMaxVotes(positionNameInput, DATA[0].max_votes);
+
         console.log("Text editor " + JSON.stringify(DATA[0].description));
         try {
             if (quill) {
@@ -1026,7 +1134,7 @@ ConfigPage.table = new DataTable('#example', {
         {
             targets: 1, className: `text-left text-editable`,
             render: function (data) {
-                return `<input class="text-editable" type="text" name="${data.data_id}" id="text-editable-${data.sequence}" value="${data.value}" placeholder="Enter a candidate position" pattern="[a-zA-Z .\\-]{1,50}" required="" style="width: 92.885px;">`;
+                return `<input class="text-editable" type="text" name="${data.data_id}" id="text-editable-${data.sequence}" data-max="${data.max_votes}" value="${data.value}" placeholder="Enter a candidate position" pattern="[a-zA-Z .\\-]{1,50}" required="" style="width: 92.885px;">`;
             }
         },
 
@@ -1065,7 +1173,7 @@ ConfigPage.table = new DataTable('#example', {
 
         ConfigPage.addEventListenerAndStore(document.getElementById('add-new'), 'click', function () {
             let blankRowData = ConfigPage.DTableUtil.AddRowData('example');
-            ConfigPage.table.row.add(blankRowData).draw(false);
+            // ConfigPage.table.row.add(blankRowData).draw(false);
 
             let rowData = [
                 {
@@ -1073,6 +1181,7 @@ ConfigPage.table = new DataTable('#example', {
                     'data_id': blankRowData[1].data_id,
                     'sequence': blankRowData[1].sequence,
                     'value': blankRowData[1].value,
+                    'max_votes': blankRowData[1].max_votes,
                     'description': blankRowData[2]
                 }
             ];
@@ -1092,9 +1201,7 @@ ConfigPage.table = new DataTable('#example', {
             ConfigPage.positionInput = modal.querySelector(`#positionInput`);
             let saveButton = modal.querySelector(`#save-button`);
 
-            // ConfigPage.delEventListener(row, 'dblclick');
-            // ConfigPage.addEventListenerAndStore(row, 'click', ConfigPage.handleTableRowClick);
-            ConfigPage.delEventListener(saveButton, 'dblclick');
+            ConfigPage.delEventListener(saveButton, 'click');
             ConfigPage.addEventListenerAndStore(saveButton, 'click', ConfigPage.saveFunc);
 
             ConfigPage.CandidatePosition.addTableListener('example');

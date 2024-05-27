@@ -8,6 +8,7 @@ require_once '../classes/db-connector.php';
 class CandidatePosition
 {
     private static $connection;
+    protected static $query_message;
 
     protected static function savePosition($data, $mode)
     {
@@ -17,7 +18,6 @@ class CandidatePosition
             $savedPositions = [];
 
             self::$connection->begin_transaction();
-
             foreach ($data as $item) {
 
                 $item['description'] = json_encode($item['description']);
@@ -49,7 +49,7 @@ class CandidatePosition
     private static function addPosition($data)
     {
 
-        $sql = "INSERT INTO position (sequence, title, description) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO position (sequence, title, max_votes, description) VALUES (?, ?, ?, ?)";
 
         // Prepare the statement
         $stmt = self::$connection->prepare($sql);
@@ -57,7 +57,7 @@ class CandidatePosition
         if ($stmt) {
             // $encoded_description = json_encode($data['description']);
             // $stmt->bind_param("iss", $data['sequence'], $data['value'], $encoded_description);
-            $stmt->bind_param("iss", $data['sequence'], $data['value'], $data['description']);
+            $stmt->bind_param("iss", $data['sequence'], $data['value'], $data['max_votes'], $data['description']);
             $stmt->execute();
             $inserted_id = self::$connection->insert_id;
             $position = [
@@ -65,6 +65,7 @@ class CandidatePosition
                 'data_id' => $inserted_id,
                 'sequence' => $data['sequence'],
                 'value' => $data['value'],
+                'max_votes' => $data['max_votes'],
                 'description' => $data['description']
             ];
         } else {
@@ -76,7 +77,7 @@ class CandidatePosition
 
     private static function updatePosition($data)
     {
-        $sql = "UPDATE position SET sequence = ?, title = ?, description = ? WHERE position_id = ?";
+        $sql = "UPDATE position SET sequence = ?, title = ?, max_votes = ?, description = ? WHERE position_id = ?";
 
         // Prepare the statement
         $stmt = self::$connection->prepare($sql);
@@ -85,7 +86,7 @@ class CandidatePosition
 
             // $encoded_description = json_encode($data['description']);
             // $stmt->bind_param("issi", $data['sequence'], $data['value'], $encoded_description, $data['data_id']);
-            $stmt->bind_param("issi", $data['sequence'], $data['value'], $data['description'], $data['data_id']);
+            $stmt->bind_param("isisi", $data['sequence'], $data['value'], $data['max_votes'], $data['description'], $data['data_id']);
             $stmt->execute();
             if ($stmt->affected_rows > 0) {
 
@@ -94,6 +95,7 @@ class CandidatePosition
                     'data_id' => $data['data_id'],
                     'sequence' => $data['sequence'],
                     'value' => $data['value'],
+                    'max_votes' => $data['max_votes'],
                     'description' => $data['description']
                 ];
             } else {
@@ -126,6 +128,7 @@ class CandidatePosition
                     'data_id' => $data['data_id'],
                     'sequence' => $data['sequence'],
                     'value' => $data['value'],
+                    'max_votes' => $data['max_votes'],
                     'description' => $data['description']
                 ];
             }
@@ -135,6 +138,55 @@ class CandidatePosition
         $stmt->close();
         return $position;
     }
+
+    protected static function checkCandidates($data)
+    {
+        $sql = "SELECT last_name, first_name, middle_name, suffix, photo_url  FROM candidate WHERE position_id = ?";
+        $stmt = self::$connection->prepare($sql);
+        $affected_candidates = [];
+
+        if ($stmt) {
+
+            $last_name = $first_name = $middle_name = $suffix = $photo_url = '';
+
+            $stmt->bind_param("i", $data['data_id']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $candidates = [
+                    'last_name' => $data['last_name'],
+                    'first_name' => $data['first_name'],
+                    'middle_name' => $data['middle_name'],
+                    'suffix' => $data['suffix'],
+                    'photo_url' => 'images/candidate-profile/' . $data['photo_url']
+                ];
+                $affected_candidates[] = $candidates;
+            }
+
+            $stmt->close();
+        } else {
+            echo "Error preparing statement: " . self::$connection->error;
+        }
+
+        if (empty($affected_candidates)) {
+            self::deletePosition($data);
+        } else {
+            $data = [
+                'confirmed_delete' => false,
+                'input_id' => $data['input_id'],
+                'data_id' => $data['data_id'],
+                'sequence' => $data['sequence'],
+                'value' => $data['value'],
+                'max_votes' => $data['max_votes'],
+                'description' => $data['description'],
+                'affected_candidates' => $affected_candidates
+            ];
+
+            self::$query_message = 'Confirm Deletion of Positions';  // Will replace with better message
+            return $data;
+        }
+    }
+
 
     protected static function deletePosition($data)
     {
@@ -158,6 +210,7 @@ class CandidatePosition
                     'data_id' => $data['data_id'],
                     'sequence' => $data['sequence'],
                     'value' => $data['value'],
+                    'max_votes' => $data['max_votes'],
                     'description' => $data['description']
                 ];
             } else {
@@ -188,10 +241,10 @@ class CandidatePosition
         if ($stmt) {
             $stmt->execute();
 
-            $position_id =  $sequence = $title = $description = '';
+            $position_id =  $sequence = $title = $max_votes = $description = '';
 
             // Bind result variables
-            $stmt->bind_result($position_id, $sequence, $title, $description);
+            $stmt->bind_result($position_id, $sequence, $title, $max_votes, $description);
 
             while ($stmt->fetch()) {
                 $position = [
@@ -199,6 +252,7 @@ class CandidatePosition
                     'data_id' => $position_id,
                     'sequence' => $sequence,
                     'value' => $title,
+                    'max_votes' => $max_votes,
                     'description' => $description
                 ];
 

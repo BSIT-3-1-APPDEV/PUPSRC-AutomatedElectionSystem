@@ -262,7 +262,7 @@ export default class InputValidator {
         if (attributes.multiple === true && input_obj.tagName === 'SELECT') {
             input_obj.multiple = true;
         } else if (input_obj.tagName === 'SELECT') {
-            input_obj.multiple = false;
+            inputObj.removeAttribute('multiple');
         }
     }
 
