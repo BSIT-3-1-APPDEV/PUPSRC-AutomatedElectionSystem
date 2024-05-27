@@ -13,6 +13,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/email-sender.php');
         $lastName = $_POST["last_name"];
         $firstName = $_POST["first_name"];
         $middleName = $_POST["middle_name"];
+        $suffix = $_POST["suffix"];
         $email = $_POST["email"];
         $role = $_POST["role"];
     
@@ -21,12 +22,12 @@ require_once FileUtils::normalizeFilePath('includes/classes/email-sender.php');
     
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
        
-        $sql = "INSERT INTO voter (last_name, first_name, middle_name, email, password, role, status)
-                VALUES (?, ?, ?, ?, ?, ?, 'Active')";
+        $sql = "INSERT INTO voter (last_name, first_name, middle_name, suffix, email, password, role, account_status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'Active')";
     
         $stmt = $conn->prepare($sql);
     
-        $stmt->bind_param("ssssss", $lastName, $firstName, $middleName, $email, $hashedPassword, $role);
+        $stmt->bind_param("sssssss", $lastName, $firstName, $middleName, $suffix, $email, $hashedPassword, $role);
     
         if ($stmt->execute()) {
             // Set session variable to indicate account creation

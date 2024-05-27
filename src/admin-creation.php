@@ -8,7 +8,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 if (isset($_SESSION['voter_id'])) {
 
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
-    $allowedRoles = array('Committee Member', 'Admin Member');
+    $allowedRoles = array('admin', 'head_admin');
     if (in_array($_SESSION['role'], $allowedRoles)) {
         include FileUtils::normalizeFilePath('submission_handlers/add-member.php');
         ?>
@@ -48,7 +48,7 @@ if (isset($_SESSION['voter_id'])) {
             <div class="main">
                 <div class="container mb-5 pl-5">
                     <div class="row justify-content-center">
-                        <div class="col-md-11">
+                        <div class="col-md-13">
                             <div class="breadcrumbs d-flex">
                                 <button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
                                     <i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
@@ -60,14 +60,13 @@ if (isset($_SESSION['voter_id'])) {
                     </div>
                 </div>
 
-
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-md-10 card-box mt-md-10">
+                        <div class="col-md-11 card-box mt-md-11">
                             <div class="container-fluid">
                                 <div class="card-box">
                                     <div class="row">
-                                        <div class="col-md-10">
+                                        <div class="col-md-11">
                                             <h2 class="form-title">Create Admin Account</h2>
                                         </div>
                                     </div>
@@ -75,58 +74,69 @@ if (isset($_SESSION['voter_id'])) {
                                     <div class="row">
                                         <form action="" method="post" id="admin-form">
                                             <div class="row">
-                                                <div class="col-md-4 col-sm-4 mx-auto">
+                                                <div class="col-md-3 col-sm-4">
                                                     <div class="form-group local-forms">
                                                         <label for="last_name" class="login-danger">Last Name <span
                                                                 class="required"> * </span> </label>
                                                         <input type="text" id="last_name" name="last_name"
-                                                            placeholder="Enter Last Name" required pattern="^[a-zA-Z]+$"
+                                                            placeholder="E.g. Carpena" required pattern="^[a-zA-Z]+$"
                                                             maxlength="20">
                                                         <span class="error-message" id="last_name_error"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-sm-4 mx-auto">
+                                                <div class="col-md-3 col-sm-4">
                                                     <div class="form-group local-forms">
                                                         <label for="first_name" class="login-danger">First Name<span
                                                                 class="required"> * </span> </label>
                                                         <input type="text" id="first_name" name="first_name"
-                                                            placeholder="Enter First Name" required pattern="^[a-zA-Z]+$"
+                                                            placeholder="E.g. Trizia Mae" required pattern="^[a-zA-Z]+$"
                                                             maxlength="50">
                                                         <span class="error-message" id="first_name_error"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-sm-3 mx-auto">
+                                                <div class="col-md-3 col-sm-3">
                                                     <div class="form-group local-forms">
                                                         <label for="middle_name" class="login-danger">Middle Name<span
                                                                 class="required"> * </span> </label>
                                                         <input type="text" id="middle_name" name="middle_name"
-                                                            placeholder="Enter Middle Name" required pattern="^[a-zA-Z]+$"
+                                                            placeholder="E.g. Santiago" required pattern="^[a-zA-Z]+$"
                                                             maxlength="20">
                                                         <span class="error-message" id="middle_name_error"></span>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-2 col-sm-2">
+                                                   <div class="form-group local-forms">
+                                                       <label for="suffix" class="login-danger">Suffix</label>
+                                                       <input type="text" id="suffix" name="suffix"
+                                                           placeholder="E.g. Jr." pattern="^[a-zA-Z]+$"
+                                                           maxlength="3">
+                                                       <span class="error-message" id="suffix_error"></span>
+                                                   </div>
+                                               </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6 col-sm-6">
+                                                <div class="col-md-7 col-sm-6">
                                                     <div class="form-group local-forms">
                                                         <label for="email" class="login-danger">Email<span class="required"> *
                                                             </span> </label>
-                                                        <input type="email" id="email" name="email" placeholder="Email" required
+                                                        <input type="email" id="email" name="email" placeholder="E.g. TriziaCarpena@gmail.com" required
                                                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
                                                         <span class="error-message" id="email_error"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6">
+                                                <div class="col-md-5 col-sm-6">
                                                     <div class="form-group local-forms shorter-form-group">
                                                         <label for="role" class="login-danger">Role<span class="required"> *
                                                             </span> </label>
                                                         <select id="role" name="role" required>
-                                                            <option value="Admin Member">Admin Member</option>
-                                                            <option value="Committee Member">Committee Member</option>
+                                                            <option>Select Role</option>
+                                                            <option value="head_admin">Head Admin</option>
+                                                            <option value="admin">Admin</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <br>
                                             <div class="d-flex flex-md-row flex-column justify-content-end align-items-center">
                                                 <button type="reset" class="reset-button">Reset Form</button>
                                                 <button type="submit" value="Submit" class="button-create mb-2 mb-md-0">Create

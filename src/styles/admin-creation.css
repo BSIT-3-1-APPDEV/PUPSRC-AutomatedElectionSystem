@@ -151,8 +151,8 @@
 }
 
 .shorter-form-group {
-  width: 80%; /* Adjust this value as needed */
-  margin: 0 auto; /* Center the form group */
+  width: 80%;
+  margin: 0 auto;
 }
 
 .form-group label {
