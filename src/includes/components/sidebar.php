@@ -126,18 +126,18 @@
 								basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
 								basename($_SERVER['PHP_SELF']) == 'voter-details.php')
 							? 'active-sub fw-bold' : ''; ?>">
-							Voters</a>
+							Voters' Accounts</a>
 
 					</li>
 
 					<li class="item">
 						<a href="manage-committee.php"
-							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Committee</a>
+							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Admin Accounts</a>
 					</li>
 					<li class="item">
 						<a href="admin-creation.php"
 							class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">Add
-							Committee</a>
+							Admin</a>
 					</li>
 				</ul>
 			</li>
