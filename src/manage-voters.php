@@ -217,8 +217,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														<div class="row">
 															<!-- Table Header -->
 															<div class="col-sm-6">
-																<p class="fs-3 main-color fw-bold ls-10 spacing-6">Pending
-																	Registrations</p>
+																<p class="fs-3 main-color fw-bold ls-10 spacing-6">Voters' Accounts</p>
 															</div>
 															<div class="col-sm-6">
 																<div class="row">
