@@ -63,80 +63,79 @@ $(document).ready(function () {
   $(document).ready(function () {
     // Reject Account Modal
     $("#rejectForm").submit(function (event) {
-        event.preventDefault();
-        var voter_id = $("#voter_id").val();
-        var reason = $("input[name='reason']:checked").val(); // Get the selected reason
-        var otherReason = $("#other").val(); // Get the specified other reason if applicable
+      event.preventDefault();
+      var voter_id = $("#voter_id").val();
+      var reason = $("input[name='reason']:checked").val(); // Get the selected reason
+      var otherReason = $("#other").val(); // Get the specified other reason if applicable
 
-        console.log("Selected Reason:", reason); // Log the selected reason for debugging
+      console.log("Selected Reason:", reason); // Log the selected reason for debugging
 
-        // Create the data object including the reason
-        var data = {
-            voter_id: voter_id,
-            action: "reject",
-            reason: reason // Include the selected reason in the data
-        };
+      // Create the data object including the reason
+      var data = {
+        voter_id: voter_id,
+        action: "reject",
+        reason: reason, // Include the selected reason in the data
+      };
 
-        // If "Others" is selected, include the otherReason in the data
-        if (reason === 'others') {
-            data.otherReason = otherReason;
-        }
+      // If "Others" is selected, include the otherReason in the data
+      if (reason === "others") {
+        data.otherReason = otherReason;
+      }
 
-        console.log("Data:", data); // Log the data object for debugging
+      console.log("Data:", data); // Log the data object for debugging
 
-        $.ajax({
-            url: "submission_handlers/validate-acc.php",
-            type: "POST",
-            data: data, // Use the data object including the reason
-            success: function (response) {
-                closeModal();
-                $("#rejectDone").modal("show");
-            },
-            error: function (xhr, status, error) {
-                console.error(xhr.responseText);
-            },
-        });
+      $.ajax({
+        url: "submission_handlers/validate-acc.php",
+        type: "POST",
+        data: data, // Use the data object including the reason
+        success: function (response) {
+          closeModal();
+          $("#rejectDone").modal("show");
+        },
+        error: function (xhr, status, error) {
+          console.error(xhr.responseText);
+        },
+      });
     });
 
     // Toggle visibility of otherReason textarea based on radio button selection
     $('input[type="radio"]').change(function () {
-        if (this.value === 'others' && this.checked) {
-            $("#otherReason").show();
-        } else {
-            $("#otherReason").hide();
-        }
+      if (this.value === "others" && this.checked) {
+        $("#otherReason").show();
+      } else {
+        $("#otherReason").hide();
+      }
     });
 
-
-
-  // Toggle visibility of otherReason textarea based on radio button selection
-  $('input[type="radio"]').change(function () {
-      if (this.value === 'others' && this.checked) {
-          $("#otherReason").show();
+    // Toggle visibility of otherReason textarea based on radio button selection
+    $('input[type="radio"]').change(function () {
+      if (this.value === "others" && this.checked) {
+        $("#otherReason").show();
       } else {
-          $("#otherReason").hide();
+        $("#otherReason").hide();
       }
+    });
   });
-});
 
 
-  // Confirm Delete Modal
-  $("#confirm-delete").click(function (event) {
+  // Move To Trashbin Modal Submit
+  $("#confirm-move").click(function (event) {
     event.preventDefault();
     var voter_id = $("#voter_id").val();
     $.ajax({
-      url: "submission_handlers/delete-acc.php",
+      url: "submission_handlers/move-to-trashbin.php",
       type: "POST",
       data: { voter_id: voter_id },
       success: function (response) {
         closeModal();
-        $("#deleteDone").modal("show");
+        $("#trashbinMoveDone").modal("show");
       },
       error: function (xhr, status, error) {
         console.error(xhr.responseText);
       },
     });
   });
+
 
   // Change Status on Voter Details
   $(document).ready(function () {
@@ -175,7 +174,10 @@ $(document).ready(function () {
 // ---- End of: FORM SUBMISSIONS ----
 
 
+
 // ----- MODALS -----
+
+//Show & Hide Modal Functions
 $(document).ready(function () {
   $("#reject-btn").click(function (event) {
     $("#rejectModal").modal("show");
@@ -197,7 +199,26 @@ document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
   });
 });
 
-// Validate Delete Confirmation
+// TOTAL DELETION: Confirm Delete Modal
+$("#totalDeleteModal").click(function (event) {
+  event.preventDefault();
+  var voter_id = $("#voter_id").val();
+  $.ajax({
+    url: "submission_handlers/delete-acc.php",
+    type: "POST",
+    data: { voter_id: voter_id },
+    success: function (response) {
+      closeModal();
+      $("#deleteDone").modal("show");
+    },
+    error: function (xhr, status, error) {
+      console.error(xhr.responseText);
+    },
+  });
+});
+
+
+// VALIDATION: Delete Confirmation
 function validateConfirmation() {
   var confirmationInput = document
     .getElementById("confirm-deletion")
@@ -219,8 +240,8 @@ function validateConfirmation() {
 
 // Dynamic change of dropdown edit status
 $("#dropdown").change(function () {
-  var selectedOption = $(this).val(); 
-  var newClass = ""; 
+  var selectedOption = $(this).val();
+  var newClass = "";
 
   switch (selectedOption) {
     case "Active":
