@@ -5,12 +5,13 @@ require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 
+
 if (isset($_SESSION['voter_id'])) {
 
 	include FileUtils::normalizeFilePath('includes/session-exchange.php');
 
-	// Check if the user's role is either 'Committee Member' or 'Admin Member'
-	$allowedRoles = array('Committee Member', 'Admin Member');
+	// Check if the user's role is either 'admin' or 'head_admin'
+	$allowedRoles = array('admin', 'head_admin');
 	if (in_array($_SESSION['role'], $allowedRoles)) {
 		include FileUtils::normalizeFilePath('submission_handlers/manage-members.php');
 		?>
@@ -46,35 +47,33 @@ if (isset($_SESSION['voter_id'])) {
 
 
 			<?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
-
+			
 			<div class="main">
 
-				<div class="container mb-5 pl-5">
-					<div class="row justify-content-center">
-						<div class="col-md-11">
-							<div class="breadcrumbs d-flex">
+			<div class="container mb-5 pl-5">
+				<div class="row justify-content-center">
+					<div class="col-md-11">
+						<div class="breadcrumbs d-flex justify-content-between">
+							<div class="d-flex">
 								<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
 									<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
 								</button>
-								<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">COMMITTEE
-									MEMBERS</button>
+								<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">COMMITTEE MEMBERS</button>
 							</div>
-						</div>
-						<div class="col-md-10">
-							<div class="breadcrumbs d-flex justify-content-end">
+							
+							<div class="ml-auto">
 								<a href="admin-creation.php">
-									<button type="button"
-										class="btn btn-lvl-white-add d-flex align-items-center spacing-8 fs-8">
-										<i data-feather="plus-circle" class="white im-cust feather-2xl"></i> Add Committee
-										Member
+									<button type="button" class="btn btn-lvl-white-add d-flex align-items-center spacing-8 fs-8">
+										<i data-feather="plus-circle" class="white im-cust rounded-pill feather-2xl"></i> Add Committee Member
 									</button>
 								</a>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 
-
+			<br>
 				<div class="container">
 					<div class="row justify-content-center">
 						<!-- VERIFIED TABLE -->
@@ -101,9 +100,7 @@ if (isset($_SESSION['voter_id'])) {
 																		<!-- Delete -->
 																		<div class="d-inline-block">
 																			<button class="delete-btn fs-7 spacing-6 fw-medium"
-																				type="button" id="dropdownMenuButton"
-																				data-bs-toggle="dropdown" aria-haspopup="true"
-																				aria-expanded="false">
+																				type="button"  id="deleteBtn">
 																				<i class="fa-solid fa-trash-can fa-sm"></i>
 																				Delete
 																			</button>
@@ -133,11 +130,11 @@ if (isset($_SESSION['voter_id'])) {
 																							<label>
 																								<input type="checkbox"
 																									name="filter[]"
-																									value="committee_member"
-																									<?php if (isset($_GET['filter']) && in_array('committee_member', $_GET['filter']))
+																									value="admin"
+																									<?php if (isset($_GET['filter']) && in_array('admin', $_GET['filter']))
 																										echo 'checked'; ?>
 																									onchange="this.form.submit()">
-																								Committee Member
+																								admin
 																							</label>
 																						</li>
 																						<li
@@ -145,10 +142,10 @@ if (isset($_SESSION['voter_id'])) {
 																							<label>
 																								<input type="checkbox"
 																									name="filter[]"
-																									value="admin_member" <?php if (isset($_GET['filter']) && in_array('admin_member', $_GET['filter']))
+																									value="head_admin" <?php if (isset($_GET['filter']) && in_array('head_admin', $_GET['filter']))
 																										echo 'checked'; ?>
 																									onchange="this.form.submit()">
-																								Admin Member
+																								head_admin
 																							</label>
 																						</li>
 																					</div>
@@ -222,29 +219,27 @@ if (isset($_SESSION['voter_id'])) {
 															<table class=table table-striped table-hover" id="voterTable">
 																<thead class="tl-header">
 																	<tr>
-																		<th
-																			class="col-md-3 tl-left text-center fs-7 fw-bold spacing-5">
-																			<i data-feather="user"
-																				class="feather-xs im-cust"></i>Full Name
+																		<th class="col-md-1 text-center fs-7 fw-bold spacing-5 checkbox-th">
+																			<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["voter_id"]; ?>" class="voterCheckbox" style="display: none;">
 																		</th>
-
-																		<th class="col-md-3 text-center fs-7 fw-bold spacing-5">
-																			<i data-feather="star"
-																				class="feather-xs im-cust"></i>Committee Role
+																		<th class="col-md-2 tl-left text-center fs-7 fw-bold spacing-5">
+																			<i data-feather="user" class="feather-xs im-cust"></i>Full Name
 																		</th>
-																		<th
-																			class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
-																			<i data-feather="calendar"
-																				class="feather-xs im-cust"></i>Date Created
+																		<th class="col-md-5 text-center fs-7 fw-bold spacing-5">
+																			<i data-feather="star" class="feather-xs im-cust"></i>Member Role
+																		</th>
+																		<th class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
+																			<i data-feather="calendar" class="feather-xs im-cust"></i>Date Created
 																		</th>
 																	</tr>
 																</thead>
 																<tbody>
 																	<?php while ($row = $verified_tbl->fetch_assoc()) { ?>
 																		<tr>
+																			<td class="col-md-1 text-center checkbox-td">
+																				<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["voter_id"]; ?>" class="voterCheckbox" style="display: none;">
 																			</td>
-																			<td class="col-md-3 text-center"><a
-																					href="account-details.php?voter_id=<?php echo $row["voter_id"]; ?>"><?php echo $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] . ' ' . $row["suffix"]; ?></a>
+																			<td class="col-md-3 text-center"><a href="account-details.php?voter_id=<?php echo $row["voter_id"]; ?>"><?php echo $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] . ' ' . $row["suffix"]; ?></a>
 																			</td>
 																			<td class="col-md-3 text-center">
 																				<?php
@@ -252,25 +247,23 @@ if (isset($_SESSION['voter_id'])) {
 																				$roleClass = '';
 
 																				switch ($role) {
-																					case 'Committee Member':
-																						$roleClass = 'committee-member';
-																						$role = 'Member';
+																					case 'admin':
+																						$roleClass = 'admin';
+																						$role = 'Admin';
 																						break;
-																					case 'Admin Member':
-																						$roleClass = 'admin-member';
+																					case 'head_admin':
+																						$roleClass = 'head-admin';
+																						$role = 'Head Admin';
 																						break;
 																					default:
 																						$roleClass = '';
 																						break;
 																				}
 																				?>
-																				<span
-																					class="role-background <?php echo $roleClass; ?>"><?php echo $role; ?></span>
+																				<span class="role-background <?php echo $roleClass; ?>"><?php echo $role; ?></span>
 																			</td>
-
-																			<td class="col-md-3 text-center">
-																				<span
-																					class=""><?php echo date("F j, Y", strtotime($row["acc_created"])); ?>
+																			<td class="col-md-4 text-center">
+																				<span class=""><?php echo date("F j, Y", strtotime($row["acc_created"])); ?></span>
 																			</td>
 																		</tr>
 																	<?php } ?>
@@ -280,36 +273,36 @@ if (isset($_SESSION['voter_id'])) {
 															<!-- Pagination -->
 
 															<div class="clearfix col-xs-12">
-																<ul class="pagination">
-																	<?php
-																	// Generate the filter parameters for the link
-																	$filterParams = '';
-																	if (!empty($filter)) {
-																		foreach ($filter as $f) {
-																			$filterParams .= '&filter[]=' . urlencode($f);
+																<div class="d-flex justify-content-end align-items-center">
+																	<div class="delete-actions me-auto" style="display: none;">
+																		<button class="btn btn-light px-sm-3 py-sm-1-5 btn-sm fw-bold fs-7 spacing-6" id="cancelBtn" disabled>Cancel</button>
+																		<button class="btn btn-danger px-sm-3 py-sm-1-5 btn-sm fw-bold fs-7 spacing-6" id="deleteSelectedBtn" disabled>Delete Selected</button>
+																	</div>
+																	<ul class="pagination">
+																		<?php
+																		// Generate the filter parameters for the link
+																		$filterParams = '';
+																		if (!empty($filter)) {
+																			foreach ($filter as $f) {
+																				$filterParams .= '&filter[]=' . urlencode($f);
+																			}
 																		}
-																	}
 
-																	if ($current_page > 1) { ?>
-																		<li class="fas fa-chevron-left black"><a
-																				href="?page=<?php echo $current_page - 1 . $filterParams; ?>"></a>
-																		</li>
-																	<?php } ?>
+																		if ($current_page > 1) { ?>
+																			<li class="fas fa-chevron-left black"><a href="?page=<?php echo $current_page - 1 . $filterParams; ?>"></a></li>
+																		<?php } ?>
 
-																	<?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-																		<li
-																			class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
-																			<a href="?page=<?php echo $i . $filterParams; ?>"
-																				class="page-link"><?php echo $i; ?></a>
-																		</li>
-																	<?php } ?>
+																		<?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+																			<li class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
+																				<a href="?page=<?php echo $i . $filterParams; ?>" class="page-link"><?php echo $i; ?></a>
+																			</li>
+																		<?php } ?>
 
-																	<?php if ($current_page < $total_pages) { ?>
-																		<li class="fas fa-chevron-right ps-xl-3 black"><a
-																				href="?page=<?php echo $current_page + 1 . $filterParams; ?>"></a>
-																		</li>
-																	<?php } ?>
-																</ul>
+																		<?php if ($current_page < $total_pages) { ?>
+																			<li class="fas fa-chevron-right ps-xl-3 black"><a href="?page=<?php echo $current_page + 1 . $filterParams; ?>"></a></li>
+																		<?php } ?>
+																	</ul>
+																</div>
 															</div>
 
 
@@ -328,7 +321,7 @@ if (isset($_SESSION['voter_id'])) {
 
 																			<th class="col-md-3 text-center fs-7 fw-bold spacing-5">
 																				<i data-feather="star"
-																					class="feather-xs im-cust"></i>Committee Role
+																					class="feather-xs im-cust"></i>Member Role
 																			</th>
 																			<th
 																				class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
@@ -366,13 +359,77 @@ if (isset($_SESSION['voter_id'])) {
 				</div>
 			</div>
 			</div>
+			<div class="modal-overlay"></div>
+			<!-- delete Modal -->
+			<div class="modal" id="rejectModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row p-4">
+                                <div class="col-md-12 pb-3">
+                                    <div class="text-center">
+                                        <div class="col-md-12 p-3">
+                                            <img src="images/resc/warning.png" alt="iVote Logo">
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12 pb-3 confirm-delete">
+                                                <p class="fw-bold fs-3 danger spacing-4">Confirm Delete?</p>
+                                                <p class="pt-2 fw-medium spacing-5">The account(s) will be deleted and moved to Recycle Bin.
+                                                    Are you sure you want to delete?
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 pt-3 text-center">
+                                    <div class="d-inline-block">
+                                        <button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+                                            onClick="closeModal()" aria-label="Close">Cancel</button>
+                                    </div>
+                                    <div class="d-inline-block">
+                                        <form class="d-inline-block">
+                                            <button class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+                                                type="submit" id="confirm-delete" value="delete">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rejected Successfully Modal -->
+            <div class="modal" id="deleteDone" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-end">
+                                <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
+                                    onclick="redirectToPage('manage-committee.php')">
+                                </i>
+                            </div>
+                            <div class="text-center p-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="fw-bold fs-3 danger spacing-4">Account Deleted</p>
+                                        <p class="fw-medium spacing-5">The account has been successfully deleted.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 			<?php include_once __DIR__ . '/includes/components/footer.php'; ?>
 			<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 			<script src="scripts/script.js"></script>
 			<script src="scripts/feather.js"></script>
-
-
+            <script src="scripts/manage-committee.js"></script>
 
 
 		</body>
