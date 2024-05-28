@@ -107,7 +107,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																				</button>
 																				<div class="dropdown-menu dropdown-menu-end"
 																					aria-labelledby="dropdownMenuButton"
-																					style="padding:0.5rem"">
+																					style="padding:0.5rem">
 																				<!-- Dropdown items -->
 																				<li class=" dropdown-item ps-3 fs-7 fw-medium">Newest to
 																					Oldest</li>
@@ -131,7 +131,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 															</div>
 														</div>
 													</div>
-													<table class=table table-striped table-hover">
+													<table class="table">
 														<thead class="tl-header">
 															<tr>
 																<th class="col-md-6 tl-left text-center fs-7 fw-bold spacing-5">
@@ -319,7 +319,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														</div>
 
 														<!-- Table Contents -->
-														<table class=table table-striped table-hover">
+														<table class="table">
 															<thead class="tl-header">
 																<tr>
 																	<th
