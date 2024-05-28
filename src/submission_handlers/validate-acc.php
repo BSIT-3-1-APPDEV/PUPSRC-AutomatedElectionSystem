@@ -7,7 +7,7 @@ require_once FileUtils::normalizeFilePath('../includes/classes/query-handler.php
 require_once FileUtils::normalizeFilePath('../includes/mailer.php');
 require_once FileUtils::normalizeFilePath('../includes/classes/email-sender.php');
 
-if (isset($_POST['voter_id'])) {
+if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
     $voterManager = new VoterManager();
     $emailSender = new EmailSender($mail);
     $voter = new Voter();
@@ -17,7 +17,7 @@ if (isset($_POST['voter_id'])) {
 
     if ($action == 'approve') {
         // Updates status in database
-        $approve_query = "UPDATE voter SET status = 'Active' WHERE voter_id = $voter_id";
+        $approve_query = "UPDATE voter SET account_status = 'verified' WHERE voter_id = $voter_id";
         $voterManager->validateVoter($voter_id, $approve_query);
 
         // Sending of email
@@ -27,7 +27,7 @@ if (isset($_POST['voter_id'])) {
     } elseif ($action == 'reject') {
 
         // Updates status in database
-        $reject_query = "UPDATE voter SET status = 'Rejected' WHERE voter_id = $voter_id";
+        $reject_query = "UPDATE voter SET account_status = 'invalid' WHERE voter_id = $voter_id";
         $voterManager->validateVoter($voter_id, $reject_query);
 
         // Sending of email
