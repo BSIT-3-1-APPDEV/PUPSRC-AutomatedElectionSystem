@@ -48,6 +48,9 @@
   color: #4769b2;
 }
 
+.btn-org-color {
+  --bs-btn-bg: var(--main-color) !important;
+}
 
 /*==========================
 	ACCENT COLORS: L TO D

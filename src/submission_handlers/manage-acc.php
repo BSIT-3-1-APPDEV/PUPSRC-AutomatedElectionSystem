@@ -3,8 +3,8 @@
 $conn = DatabaseConnection::connect();
 
 $queryExecutor = new QueryExecutor($conn);
-$query = "SELECT * FROM voter WHERE status = 'For Verification' AND role = 'Student Voter'";
+$query = "SELECT * FROM voter WHERE account_status = 'for_verification' AND role = 'student_voter'";
 $to_verify_tbl = $queryExecutor->executeQuery($query);
 
-$voter_query = "SELECT * FROM voter WHERE status != 'For Verification' AND role = 'Student Voter'";
-$verified_tbl = $conn->query($voter_query);
+$voter_query = "SELECT * FROM voter WHERE account_status = 'verified' AND role = 'student_voter'";
+$verified_tbl = $queryExecutor->executeQuery($voter_query);
