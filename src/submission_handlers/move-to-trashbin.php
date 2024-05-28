@@ -1,8 +1,8 @@
 <?php
-require_once '../includes/classes/db-connector.php';
-require_once '../includes/session-handler.php';
-require_once '../includes/classes/session-manager.php';
-require_once '../includes/classes/query-handler.php';
+require_once FileUtils::normalizeFilePath('../includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('../includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('../includes/classes/session-manager.php');
+require_once FileUtils::normalizeFilePath('../includes/classes/query-handler.php');
 
 if (isset($_POST['voter_id'])) {
     $voterManager = new VoterManager();
