@@ -313,7 +313,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 					<div class="modal-body">
 						<div class="d-flex justify-content-end">
 							<i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-								onclick="redirectToPage('voter-details.php?voter_id=<?php echo htmlspecialchars($row["voter_id"]); ?>')">
+								onclick="redirectToPage('manage-voters.php')">
 							</i>
 						</div>
 						<div class="text-center p-4">
