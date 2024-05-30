@@ -180,7 +180,10 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														<!-- Date -->
 														<p class="fw-bold fs-6 main-color spacing-4">Date Registered</p>
 														<p class="fw-medium fs-6 pt-sm-2">
-															<?php echo date("F j, Y", strtotime($row["acc_created"])); ?>
+															<?php
+															$date = new DateTime($row["acc_created"]);
+															echo $date->format('F j, Y');
+															?>
 														</p>
 													</div>
 												</div>
