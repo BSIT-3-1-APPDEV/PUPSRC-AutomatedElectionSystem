@@ -4,7 +4,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
-if (isset($_SESSION['voter_id'])) {
+if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
     $voter_id = $_GET['voter_id'];
 
@@ -16,6 +16,9 @@ if (isset($_SESSION['voter_id'])) {
     $voter_query = "SELECT * FROM voter WHERE voter_id = $voter_id";
     $result = $conn->query($voter_query);
     $row = $result->fetch_assoc();
+
+    if ($row['account_status'] == 'verified') {
+
     ?>
 
     <!DOCTYPE html>
@@ -409,6 +412,11 @@ if (isset($_SESSION['voter_id'])) {
 
     <?php
 } else {
+    header("Location: manage-voters.php");
+}
+
+} else {
     header("Location: landing-page.php");
 }
+
 ?>
