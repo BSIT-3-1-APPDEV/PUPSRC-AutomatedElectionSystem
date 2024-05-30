@@ -16,7 +16,11 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 	$voter_query = "SELECT * FROM voter WHERE voter_id = $voter_id";
 	$result = $conn->query($voter_query);
 	$row = $result->fetch_assoc();
+
+	if ($row['account_status'] != 'verified' && $row['account_status'] != 'invalid') {
 	?>
+
+	
 
 	<!DOCTYPE html>
 	<html lang="en">
@@ -346,6 +350,10 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 	</html>
 
 	<?php
+
+} else {
+	header("Location: manage-voters.php");
+}
 } else {
 	header("Location: landing-page.php");
 }
