@@ -26,7 +26,7 @@ class CandidatePosition
                 if ($mode === 'sequence') {
                     $savedPositions[] = self::updateSequence($item);
                 } else if ($mode === 'delete') {
-                    $savedPositions[] = self::deletePosition($item);
+                    $savedPositions[] = self::checkCandidates($item);
                 } else if (!empty($item['data_id'])) {
                     // Check if data is not blank
                     if (filter_var($item['data_id'], FILTER_VALIDATE_INT) !== false) {
@@ -57,7 +57,7 @@ class CandidatePosition
         if ($stmt) {
             // $encoded_description = json_encode($data['description']);
             // $stmt->bind_param("iss", $data['sequence'], $data['value'], $encoded_description);
-            $stmt->bind_param("iss", $data['sequence'], $data['value'], $data['max_votes'], $data['description']);
+            $stmt->bind_param("isis", $data['sequence'], $data['value'], $data['max_votes'], $data['description']);
             $stmt->execute();
             $inserted_id = self::$connection->insert_id;
             $position = [
@@ -154,11 +154,11 @@ class CandidatePosition
             $result = $stmt->get_result();
             while ($row = $result->fetch_assoc()) {
                 $candidates = [
-                    'last_name' => $data['last_name'],
-                    'first_name' => $data['first_name'],
-                    'middle_name' => $data['middle_name'],
-                    'suffix' => $data['suffix'],
-                    'photo_url' => 'images/candidate-profile/' . $data['photo_url']
+                    'last_name' => $row['last_name'],
+                    'first_name' => $row['first_name'],
+                    'middle_name' => $row['middle_name'],
+                    'suffix' => $row['suffix'],
+                    'photo_url' => 'images/candidate-profile/' . $row['photo_url']
                 ];
                 $affected_candidates[] = $candidates;
             }
@@ -169,7 +169,7 @@ class CandidatePosition
         }
 
         if (empty($affected_candidates)) {
-            self::deletePosition($data);
+            return self::deletePosition($data);
         } else {
             $data = [
                 'confirmed_delete' => false,
