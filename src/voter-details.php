@@ -13,12 +13,12 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     // ------ END OF SESSION EXCHANGE
 
     $conn = DatabaseConnection::connect();
-	$voter_query = "SELECT * FROM voter WHERE voter_id = ?";
-	$stmt = $conn->prepare($voter_query);
-	$stmt->bind_param("i", $voter_id);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	$row = $result->fetch_assoc();
+    $voter_query = "SELECT * FROM voter WHERE voter_id = ?";
+    $stmt = $conn->prepare($voter_query);
+    $stmt->bind_param("i", $voter_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
 
     if ($row['account_status'] == 'verified') {
 
@@ -213,7 +213,10 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                                                     <p class="fw-bold fs-8 spacing-4 no-padding">Last update on:
                                                                     </p>
                                                                     <p class="fw-medium fs-8 no-padding">
-                                                                        <?php echo date("F j, Y", strtotime($row["status_updated"])); ?>
+                                                                        <?php
+                                                                        $date = new DateTime($row["status_updated"]);
+                                                                        echo $date->format('F j, Y');
+                                                                        ?>
                                                                     </p>
                                                                 </div>
                                                             </div>
