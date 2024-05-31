@@ -3,7 +3,7 @@
         'name' => 'bsit-3-1-appdev/pupsrc-automatedelectionsystem',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '6263e099a0c8c8c1bc8cbae24decf21d1006fb2c',
+        'reference' => '67563fafe9ec80fd94023d4d26ef53f4d75c23f7',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'bsit-3-1-appdev/pupsrc-automatedelectionsystem' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '6263e099a0c8c8c1bc8cbae24decf21d1006fb2c',
+            'reference' => '67563fafe9ec80fd94023d4d26ef53f4d75c23f7',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
