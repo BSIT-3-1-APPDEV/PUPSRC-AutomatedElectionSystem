@@ -8,3 +8,4 @@ src/user_data/
 
 # Store results of unit testing
 .phpunit.cache
+.phpunit.result.cache
