@@ -12,55 +12,46 @@ namespace SebastianBergmann\LinesOfCode;
 /**
  * @psalm-immutable
  */
-final readonly class LinesOfCode
+final class LinesOfCode
 {
     /**
-     * @psalm-var non-negative-int
+     * @var int
      */
-    private int $linesOfCode;
+    private $linesOfCode;
 
     /**
-     * @psalm-var non-negative-int
+     * @var int
      */
-    private int $commentLinesOfCode;
+    private $commentLinesOfCode;
 
     /**
-     * @psalm-var non-negative-int
+     * @var int
      */
-    private int $nonCommentLinesOfCode;
+    private $nonCommentLinesOfCode;
 
     /**
-     * @psalm-var non-negative-int
+     * @var int
      */
-    private int $logicalLinesOfCode;
+    private $logicalLinesOfCode;
 
     /**
-     * @psalm-param non-negative-int $linesOfCode
-     * @psalm-param non-negative-int $commentLinesOfCode
-     * @psalm-param non-negative-int $nonCommentLinesOfCode
-     * @psalm-param non-negative-int $logicalLinesOfCode
-     *
      * @throws IllogicalValuesException
      * @throws NegativeValueException
      */
     public function __construct(int $linesOfCode, int $commentLinesOfCode, int $nonCommentLinesOfCode, int $logicalLinesOfCode)
     {
-        /** @psalm-suppress DocblockTypeContradiction */
         if ($linesOfCode < 0) {
             throw new NegativeValueException('$linesOfCode must not be negative');
         }
 
-        /** @psalm-suppress DocblockTypeContradiction */
         if ($commentLinesOfCode < 0) {
             throw new NegativeValueException('$commentLinesOfCode must not be negative');
         }
 
-        /** @psalm-suppress DocblockTypeContradiction */
         if ($nonCommentLinesOfCode < 0) {
             throw new NegativeValueException('$nonCommentLinesOfCode must not be negative');
         }
 
-        /** @psalm-suppress DocblockTypeContradiction */
         if ($logicalLinesOfCode < 0) {
             throw new NegativeValueException('$logicalLinesOfCode must not be negative');
         }
@@ -75,33 +66,21 @@ final readonly class LinesOfCode
         $this->logicalLinesOfCode    = $logicalLinesOfCode;
     }
 
-    /**
-     * @psalm-return non-negative-int
-     */
     public function linesOfCode(): int
     {
         return $this->linesOfCode;
     }
 
-    /**
-     * @psalm-return non-negative-int
-     */
     public function commentLinesOfCode(): int
     {
         return $this->commentLinesOfCode;
     }
 
-    /**
-     * @psalm-return non-negative-int
-     */
     public function nonCommentLinesOfCode(): int
     {
         return $this->nonCommentLinesOfCode;
     }
 
-    /**
-     * @psalm-return non-negative-int
-     */
     public function logicalLinesOfCode(): int
     {
         return $this->logicalLinesOfCode;

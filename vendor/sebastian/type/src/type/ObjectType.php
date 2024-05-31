@@ -14,8 +14,15 @@ use function strcasecmp;
 
 final class ObjectType extends Type
 {
-    private TypeName $className;
-    private bool $allowsNull;
+    /**
+     * @var TypeName
+     */
+    private $className;
+
+    /**
+     * @var bool
+     */
+    private $allowsNull;
 
     public function __construct(TypeName $className, bool $allowsNull)
     {
@@ -42,9 +49,6 @@ final class ObjectType extends Type
         return false;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function name(): string
     {
         return $this->className->qualifiedName();

@@ -10,32 +10,41 @@
 namespace PHPUnit\Framework\Constraint;
 
 use function sprintf;
-use SebastianBergmann\Exporter\Exporter;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use Throwable;
 
 /**
- * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
 final class ExceptionCode extends Constraint
 {
-    private readonly int|string $expectedCode;
+    /**
+     * @var int|string
+     */
+    private $expectedCode;
 
-    public function __construct(int|string $expected)
+    /**
+     * @param int|string $expected
+     */
+    public function __construct($expected)
     {
         $this->expectedCode = $expected;
     }
 
     public function toString(): string
     {
-        return 'exception code is ' . $this->expectedCode;
+        return 'exception code is ';
     }
 
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
+     *
+     * @param Throwable $other
      */
-    protected function matches(mixed $other): bool
+    protected function matches($other): bool
     {
-        return (string) $other === (string) $this->expectedCode;
+        return (string) $other->getCode() === (string) $this->expectedCode;
     }
 
     /**
@@ -43,15 +52,17 @@ final class ExceptionCode extends Constraint
      *
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
+     *
+     * @param mixed $other evaluated value or object
+     *
+     * @throws InvalidArgumentException
      */
-    protected function failureDescription(mixed $other): string
+    protected function failureDescription($other): string
     {
-        $exporter = new Exporter;
-
         return sprintf(
             '%s is equal to expected exception code %s',
-            $exporter->export($other),
-            $exporter->export($this->expectedCode),
+            $this->exporter()->export($other->getCode()),
+            $this->exporter()->export($this->expectedCode),
         );
     }
 }

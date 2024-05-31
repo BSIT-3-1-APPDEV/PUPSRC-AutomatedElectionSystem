@@ -17,7 +17,7 @@ final class Timer
     /**
      * @psalm-var list<float>
      */
-    private array $startTimes = [];
+    private $startTimes = [];
 
     public function start(): void
     {
@@ -31,7 +31,7 @@ final class Timer
     {
         if (empty($this->startTimes)) {
             throw new NoActiveTimerException(
-                'Timer::start() has to be called before Timer::stop()',
+                'Timer::start() has to be called before Timer::stop()'
             );
         }
 

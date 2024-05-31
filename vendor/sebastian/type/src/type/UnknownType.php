@@ -16,17 +16,11 @@ final class UnknownType extends Type
         return true;
     }
 
-    /**
-     * @psalm-return 'unknown type'
-     */
     public function name(): string
     {
         return 'unknown type';
     }
 
-    /**
-     * @psalm-return ''
-     */
     public function asString(): string
     {
         return '';

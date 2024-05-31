@@ -15,13 +15,32 @@ use function sprintf;
 /**
  * @psalm-immutable
  */
-final readonly class Duration
+final class Duration
 {
-    private float $nanoseconds;
-    private int $hours;
-    private int $minutes;
-    private int $seconds;
-    private int $milliseconds;
+    /**
+     * @var float
+     */
+    private $nanoseconds;
+
+    /**
+     * @var int
+     */
+    private $hours;
+
+    /**
+     * @var int
+     */
+    private $minutes;
+
+    /**
+     * @var int
+     */
+    private $seconds;
+
+    /**
+     * @var int
+     */
+    private $milliseconds;
 
     public static function fromMicroseconds(float $microseconds): self
     {

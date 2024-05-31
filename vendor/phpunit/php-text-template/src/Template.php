@@ -9,70 +9,81 @@
  */
 namespace SebastianBergmann\Template;
 
-use function array_keys;
 use function array_merge;
+use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
-use function is_file;
-use function is_string;
 use function sprintf;
 use function str_replace;
 
 final class Template
 {
     /**
-     * @psalm-var non-empty-string
+     * @var string
      */
-    private readonly string $template;
+    private $template = '';
 
     /**
-     * @psalm-var non-empty-string
+     * @var string
      */
-    private readonly string $openDelimiter;
+    private $openDelimiter;
 
     /**
-     * @psalm-var non-empty-string
+     * @var string
      */
-    private readonly string $closeDelimiter;
+    private $closeDelimiter;
 
     /**
-     * @psalm-var array<string,string>
+     * @var array
      */
-    private array $values = [];
+    private $values = [];
 
     /**
-     * @psalm-param non-empty-string $templateFile
-     * @psalm-param non-empty-string $openDelimiter
-     * @psalm-param non-empty-string $closeDelimiter
-     *
      * @throws InvalidArgumentException
      */
-    public function __construct(string $templateFile, string $openDelimiter = '{', string $closeDelimiter = '}')
+    public function __construct(string $file = '', string $openDelimiter = '{', string $closeDelimiter = '}')
     {
-        $this->template       = $this->loadTemplateFile($templateFile);
+        $this->setFile($file);
+
         $this->openDelimiter  = $openDelimiter;
         $this->closeDelimiter = $closeDelimiter;
     }
 
     /**
-     * @psalm-param array<string,string> $values
+     * @throws InvalidArgumentException
      */
+    public function setFile(string $file): void
+    {
+        $distFile = $file . '.dist';
+
+        if (file_exists($file)) {
+            $this->template = file_get_contents($file);
+        } elseif (file_exists($distFile)) {
+            $this->template = file_get_contents($distFile);
+        } else {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Failed to load template "%s"',
+                    $file
+                )
+            );
+        }
+    }
+
     public function setVar(array $values, bool $merge = true): void
     {
         if (!$merge || empty($this->values)) {
             $this->values = $values;
-
-            return;
+        } else {
+            $this->values = array_merge($this->values, $values);
         }
-
-        $this->values = array_merge($this->values, $values);
     }
 
     public function render(): string
     {
         $keys = [];
 
-        foreach (array_keys($this->values) as $key) {
+        foreach ($this->values as $key => $value) {
             $keys[] = $this->openDelimiter . $key . $this->closeDelimiter;
         }
 
@@ -84,48 +95,13 @@ final class Template
      */
     public function renderTo(string $target): void
     {
-        if (!@file_put_contents($target, $this->render())) {
+        if (!file_put_contents($target, $this->render())) {
             throw new RuntimeException(
                 sprintf(
                     'Writing rendered result to "%s" failed',
-                    $target,
-                ),
+                    $target
+                )
             );
         }
-    }
-
-    /**
-     * @psalm-param non-empty-string $file
-     *
-     * @psalm-return non-empty-string
-     *
-     * @throws InvalidArgumentException
-     */
-    private function loadTemplateFile(string $file): string
-    {
-        if (is_file($file)) {
-            $template = file_get_contents($file);
-
-            if (is_string($template) && !empty($template)) {
-                return $template;
-            }
-        }
-
-        $distFile = $file . '.dist';
-
-        if (is_file($distFile)) {
-            $template = file_get_contents($distFile);
-
-            if (is_string($template) && !empty($template)) {
-                return $template;
-            }
-        }
-
-        throw new InvalidArgumentException(
-            sprintf(
-                'Failed to load template "%s"',
-                $file,
-            ),
-        );
     }
 }

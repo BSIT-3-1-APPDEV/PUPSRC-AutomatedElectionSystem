@@ -20,7 +20,7 @@ final class IntersectionType extends Type
     /**
      * @psalm-var non-empty-list<Type>
      */
-    private array $types;
+    private $types;
 
     /**
      * @throws RuntimeException
@@ -39,17 +39,11 @@ final class IntersectionType extends Type
         return $other->isObject();
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function asString(): string
     {
         return $this->name();
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function name(): string
     {
         $types = [];
@@ -91,7 +85,7 @@ final class IntersectionType extends Type
     {
         if (count($types) < 2) {
             throw new RuntimeException(
-                'An intersection type must be composed of at least two types',
+                'An intersection type must be composed of at least two types'
             );
         }
     }
@@ -104,7 +98,7 @@ final class IntersectionType extends Type
         foreach ($types as $type) {
             if (!$type->isObject()) {
                 throw new RuntimeException(
-                    'An intersection type can only be composed of interfaces and classes',
+                    'An intersection type can only be composed of interfaces and classes'
                 );
             }
         }

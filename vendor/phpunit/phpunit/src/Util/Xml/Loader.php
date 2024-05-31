@@ -9,8 +9,11 @@
  */
 namespace PHPUnit\Util\Xml;
 
+use function chdir;
+use function dirname;
 use function error_reporting;
 use function file_get_contents;
+use function getcwd;
 use function libxml_get_errors;
 use function libxml_use_internal_errors;
 use function sprintf;
@@ -19,12 +22,12 @@ use DOMDocument;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class Loader
+final class Loader
 {
     /**
-     * @throws XmlException
+     * @throws Exception
      */
-    public function loadFile(string $filename): DOMDocument
+    public function loadFile(string $filename, bool $isHtml = false, bool $xinclude = false, bool $strict = false): DOMDocument
     {
         $reporting = error_reporting(0);
         $contents  = file_get_contents($filename);
@@ -32,33 +35,30 @@ final readonly class Loader
         error_reporting($reporting);
 
         if ($contents === false) {
-            throw new XmlException(
+            throw new Exception(
                 sprintf(
-                    'Could not read XML from file "%s"',
+                    'Could not read "%s".',
                     $filename,
                 ),
             );
         }
 
-        return $this->load($contents, $filename);
+        return $this->load($contents, $isHtml, $filename, $xinclude, $strict);
     }
 
     /**
-     * @throws XmlException
+     * @throws Exception
      */
-    public function load(string $actual, ?string $filename = null): DOMDocument
+    public function load(string $actual, bool $isHtml = false, string $filename = '', bool $xinclude = false, bool $strict = false): DOMDocument
     {
         if ($actual === '') {
-            if ($filename === null) {
-                throw new XmlException('Could not parse XML from empty string');
-            }
+            throw new Exception('Could not load XML from empty string');
+        }
 
-            throw new XmlException(
-                sprintf(
-                    'Could not parse XML from empty file "%s"',
-                    $filename,
-                ),
-            );
+        // Required for XInclude on Windows.
+        if ($xinclude) {
+            $cwd = getcwd();
+            @chdir(dirname($filename));
         }
 
         $document                     = new DOMDocument;
@@ -67,7 +67,21 @@ final readonly class Loader
         $internal  = libxml_use_internal_errors(true);
         $message   = '';
         $reporting = error_reporting(0);
-        $loaded    = $document->loadXML($actual);
+
+        if ($filename !== '') {
+            // Required for XInclude
+            $document->documentURI = $filename;
+        }
+
+        if ($isHtml) {
+            $loaded = $document->loadHTML($actual);
+        } else {
+            $loaded = $document->loadXML($actual);
+        }
+
+        if (!$isHtml && $xinclude) {
+            $document->xinclude();
+        }
 
         foreach (libxml_get_errors() as $error) {
             $message .= "\n" . $error->message;
@@ -76,13 +90,17 @@ final readonly class Loader
         libxml_use_internal_errors($internal);
         error_reporting($reporting);
 
-        if ($loaded === false || $message !== '') {
-            if ($filename !== null) {
-                throw new XmlException(
+        if (isset($cwd)) {
+            @chdir($cwd);
+        }
+
+        if ($loaded === false || ($strict && $message !== '')) {
+            if ($filename !== '') {
+                throw new Exception(
                     sprintf(
-                        'Could not load "%s"%s',
+                        'Could not load "%s".%s',
                         $filename,
-                        $message !== '' ? ":\n" . $message : '',
+                        $message !== '' ? "\n" . $message : '',
                     ),
                 );
             }
@@ -91,7 +109,7 @@ final readonly class Loader
                 $message = 'Could not load XML for unknown reason';
             }
 
-            throw new XmlException($message);
+            throw new Exception($message);
         }
 
         return $document;

@@ -14,16 +14,21 @@ use function strtolower;
 final class SimpleType extends Type
 {
     /**
-     * @psalm-var non-empty-string
+     * @var string
      */
-    private string $name;
-    private bool $allowsNull;
-    private mixed $value;
+    private $name;
 
     /**
-     * @psalm-param non-empty-string $name
+     * @var bool
      */
-    public function __construct(string $name, bool $nullable, mixed $value = null)
+    private $allowsNull;
+
+    /**
+     * @var mixed
+     */
+    private $value;
+
+    public function __construct(string $name, bool $nullable, $value = null)
     {
         $this->name       = $this->normalize($name);
         $this->allowsNull = $nullable;
@@ -51,9 +56,6 @@ final class SimpleType extends Type
         return false;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function name(): string
     {
         return $this->name;
@@ -64,7 +66,7 @@ final class SimpleType extends Type
         return $this->allowsNull;
     }
 
-    public function value(): mixed
+    public function value()
     {
         return $this->value;
     }
@@ -77,21 +79,26 @@ final class SimpleType extends Type
         return true;
     }
 
-    /**
-     * @psalm-param non-empty-string $name
-     *
-     * @psalm-return non-empty-string
-     */
     private function normalize(string $name): string
     {
         $name = strtolower($name);
 
-        return match ($name) {
-            'boolean' => 'bool',
-            'real', 'double' => 'float',
-            'integer' => 'int',
-            '[]'      => 'array',
-            default   => $name,
-        };
+        switch ($name) {
+            case 'boolean':
+                return 'bool';
+
+            case 'real':
+            case 'double':
+                return 'float';
+
+            case 'integer':
+                return 'int';
+
+            case '[]':
+                return 'array';
+
+            default:
+                return $name;
+        }
     }
 }

@@ -22,9 +22,6 @@ final class FalseType extends Type
               $other->value() === false;
     }
 
-    /**
-     * @psalm-return 'false'
-     */
     public function name(): string
     {
         return 'false';
