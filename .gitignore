@@ -1,3 +1,10 @@
-# Ignore
+# Ignore these files and directories
+
+# Log system-generated errors
 src/includes/error-logs.txt
+
+# Store user data (e.g., images, COR files)
 src/user_data/
+
+# Store results of unit testing
+.phpunit.cache
