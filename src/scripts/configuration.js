@@ -1,8 +1,10 @@
 
 export function initializeConfigurationJS() {
-    let tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    console.log(tooltipList);
+    let tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    const toastElList = document.querySelectorAll('.toast');
+    const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl));
+    // toastList.forEach(toast => toast.show());
 }
 
 export function shortFnv1a(input) {

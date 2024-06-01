@@ -29,9 +29,10 @@ ConfigPage.removeEventListeners = function () {
 
 ConfigPage.removeEventListeners();
 
+ConfigPage = null;
 ConfigPage = {};
 
-const NOW = new Date();
+const NOW = JS_DATE_TZ();
 
 ConfigPage = {
     configJs: function () {
@@ -941,3 +942,4 @@ ConfigPage.updateTableData = function (RESPONSE, draw = true) {
     }
 
 }
+

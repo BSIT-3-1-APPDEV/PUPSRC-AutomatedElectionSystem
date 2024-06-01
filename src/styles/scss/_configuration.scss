@@ -112,7 +112,8 @@ body {
         }
     }
 
-    .modal {
+    .modal,
+    .modal-native {
         border-radius: 10px;
 
         .modal-dialog {
@@ -166,8 +167,11 @@ body {
                 }
 
                 padding: 0;
-                // margin-top: clamp(1.5rem, 0.75rem + 0.5dvw, 48px);
                 margin-bottom: clamp(0.75px, 0.75rem + 0.5dvw, 36px);
+
+                *:not(:last-child) {
+                    margin-right: clamp(0.75px, 0.75rem + 0.5vw, 3rem);
+                }
             }
 
             .modal-footer {
@@ -183,6 +187,17 @@ body {
 
 
         }
+    }
+
+    .modal-native {
+        align-self: center;
+        justify-self: center;
+        // min-width: 50dvw;
+        min-height: max-content;
+        box-shadow: var(--bs-box-shadow-sm);
+        border: none;
+        outline: none;
+
     }
 
     .ql-toolbar,
@@ -307,4 +322,14 @@ dt-container:first-child {
     .mt-2 {
         margin-top: 0 !important;
     }
+}
+
+.toast-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    bottom: 15%;
+    // margin-right: inherit;
+    // transform: translateX(-20%);
 }

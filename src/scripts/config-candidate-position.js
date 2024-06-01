@@ -83,10 +83,16 @@ ConfigPage = {
             positionInput.setAttribute('data-target-input', '');
             positionInput.setAttribute('data-sequence', '');
             positionInput.setAttribute('data-initial', '');
-            positionInput.classList.add('form-control', 'mb-4');
+            positionInput.classList.add('form-control', 'mb-1');
             positionInput.setAttribute('placeholder', 'Enter a candidate position');
             positionInput.setAttribute('pattern', '[a-zA-Z .\\-]{1,50}');
             positionInput.setAttribute('required', '');
+
+            let positionAlert = document.createElement('div');
+            positionAlert.classList.add('input-alert', 'mb-2');
+            positionAlert.style.color = 'red';
+            positionAlert.innerHTML = "&nbsp;";
+
 
             let positionInputLabel = document.createElement('label');
             positionInputLabel.setAttribute('for', 'positionInput');
@@ -176,7 +182,8 @@ ConfigPage = {
             let editModalContent = document.createDocumentFragment();
 
             editModalContent.appendChild(positionInputLabel);
-            editModalContent.appendChild(positionInput);
+            let appendedPositionInput = editModalContent.appendChild(positionInput);
+            appendedPositionInput.insertAdjacentElement('afterend', positionAlert);
             editModalContent.appendChild(posDescrptnLabel);
             editModalContent.appendChild(richTextToolbar);
             editModalContent.appendChild(posDescrptnInput);
@@ -201,8 +208,6 @@ ConfigPage = {
                 let data_sequence = INPUT_ELEMENT.getAttribute('data-sequence');
                 let initial_val = INPUT_ELEMENT.getAttribute('data-initial');
                 let max_votes = $('#max-vote-picker').val();
-                console.log("max_votes");
-                console.log(max_votes);
                 let data_val = INPUT_ELEMENT.value;
 
                 let description = TEXT_EDITOR.getContents();
@@ -318,14 +323,22 @@ ConfigPage = {
 
     handleModalInput: function (event) {
         const inputElement = event.target;
+        const adjacentElement = inputElement.nextElementSibling;
+
 
         clearTimeout(ConfigPage.typingTimeout);
         ConfigPage.typingTimeout = setTimeout(() => {
             try {
                 if (ConfigPage.position_validate.validate(inputElement)) {
                     inputElement.style.borderBottomColor = '';
+                    if (adjacentElement && adjacentElement.classList.contains('input-alert')) {
+                        adjacentElement.innerHTML = "&nbsp;";
+                    }
                 } else {
                     inputElement.style.borderBottomColor = 'red';
+                    if (adjacentElement && adjacentElement.classList.contains('input-alert')) {
+                        adjacentElement.innerHTML = 'Valid characters are A-Z a-z dash (-) period(.) and spaces.';
+                    }
                 }
             } catch (error) {
                 console.error('Validation error:', error);
@@ -469,7 +482,10 @@ ConfigPage = {
                 $('table#example').hide();
                 $(this).parent().hide();
             }
+            ConfigPage.deselectAll();
         });
+
+
     },
 
     handleDeleteLabel: function (isDisabled, SELECTED_COUNT = 0) {
@@ -491,6 +507,7 @@ ConfigPage = {
     },
 
     handleDeleteBtn: function () {
+        ConfigPage.DELETE_BUTTON.disabled = true;
         const FORM = document.querySelectorAll(`table tbody tr.selected`);
 
         let deleteData = {
@@ -506,17 +523,38 @@ ConfigPage = {
 
         ConfigPage.postData(deleteData)
             .then(function (result) {
-                const { data, success, error } = result;
-                if (success) {
-                    ConfigPage.deletePosition(data);
-                } else {
-                    console.error('POST request failed:', error);
+                try {
+                    const { data, success, error } = result;
+                    if (success) {
+                        ConfigPage.deletePosition(data);
+                    } else if (error.data) {
+                        error.data.forEach(item => {
+                            console.log('item');
+                            console.log(item);
+                            console.log(item.hasOwnProperty('affected_candidates'));
+
+                            if (item.hasOwnProperty('affected_candidates')) {
+                                ConfigPage.NativeModal.show(item);
+                            } else {
+                                ConfigPage.deletePosition({ data: [item] });
+                            }
+                        });
+                    }
+                }
+                catch (e) {
+                    console.error('POST request failed:', e);
                 }
             })
     },
 
     deletePosition: function (DATA) {
+        console.log('removing');
+        console.log(DATA);
+        console.log(DATA.data);
+        console.log(Array.isArray(DATA.data));
+
         if (DATA && DATA.data && Array.isArray(DATA.data)) {
+
             DATA.data.forEach(item => {
                 const { data_id, input_id } = item;
 
@@ -526,8 +564,7 @@ ConfigPage = {
                     ConfigPage.table.row(DATA_ROW).remove().draw();
                     const SELECTED_COUNT = ConfigPage.countSelectedRows();
                     ConfigPage.updateToolbarButton(SELECTED_COUNT);
-                    let tooltip = bootstrap.Tooltip.getInstance("#delete-label");
-                    tooltip.hide();
+                    // ConfigPage.deselectAll();
 
                 } else {
 
@@ -537,6 +574,15 @@ ConfigPage = {
         } else {
             // console.error('Invalid or missing DATA structure.');
         }
+    },
+
+    deselectAll: function () {
+        const selectedRows = ConfigPage.TABLE_BODY.querySelectorAll('tr.selected');
+        selectedRows.forEach(row => {
+            row.classList.remove('selected');
+        });
+        const SELECTED_COUNT = ConfigPage.countSelectedRows();
+        ConfigPage.updateToolbarButton(SELECTED_COUNT);
     },
 
     updatePostion: function (DATA, draw = true) {
@@ -729,8 +775,11 @@ ConfigPage = {
             }
         })
             .then(function (response) {
+
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(data => {
+                        throw data;
+                    });
                 }
                 return response.json();
             })
@@ -1017,11 +1066,29 @@ ConfigPage.CandidatePosition = class CandidatePosition {
 
     static initSelectMaxVotes(positionNameInput, value) {
         this.delSelectMaxVotes();
+
+        let maxVotesLabel = document.querySelector('label[for="max-vote-picker"]');
+        if (!maxVotesLabel) {
+            maxVotesLabel = document.createElement('label');
+            maxVotesLabel.setAttribute('for', 'max-vote-picker');
+            maxVotesLabel.classList.add('d-block', 'mb-2');
+            maxVotesLabel.innerHTML = 'Vote Selection <span class="required"> *</span>';
+            let posNameInputAdjacent = positionInput.nextElementSibling;
+            if (posNameInputAdjacent && posNameInputAdjacent.classList.contains('input-alert')) {
+                posNameInputAdjacent.insertAdjacentElement('afterend', maxVotesLabel);
+            }
+        }
+
+        maxVotesLabel = document.querySelector('label[for="max-vote-picker"]');
+
         let selectMaxVotes = document.createElement('select');
-        selectMaxVotes.classList.add('max-vote-picker');
+        selectMaxVotes.classList.add('max-vote-picker', 'd-block', 'mb-4');
+        selectMaxVotes.setAttribute('data-none-selected-text', 'Choose');
+        // selectMaxVotes.setAttribute('data-width', 'auto');
         selectMaxVotes.id = 'max-vote-picker';
         this.setMaxVoteOptions(selectMaxVotes);
-        positionNameInput.insertAdjacentElement('afterend', selectMaxVotes);
+        maxVotesLabel.insertAdjacentElement('afterend', selectMaxVotes);
+
         $('#max-vote-picker').selectpicker();
         console.log("value");
         console.log(value);
@@ -1070,9 +1137,14 @@ ConfigPage.CandidatePosition = class CandidatePosition {
 
     static showModal(EDIT_MODAL) {
         if (EDIT_MODAL) {
-
-
             EDIT_MODAL.show();
+            let modal = document.getElementById(ConfigPage.POSITION_MODAL_ID);
+            modal.removeEventListener('hidden.bs.modal', event => {
+                ConfigPage.deselectAll();
+            })
+            modal.addEventListener('hidden.bs.modal', event => {
+                ConfigPage.deselectAll();
+            })
         }
     }
 }
@@ -1236,4 +1308,160 @@ ConfigPage.typingTimeout;
 ConfigPage.fetchData();
 ConfigPage.startTableListener();
 
+ConfigPage.NativeModal = class {
+    static modalElement = document.getElementsByClassName('modal-native');
+    static data;
 
+    static show(data, isModal = true) {
+        this.#updateContent(data);
+        if (this.modalElement.length > 0) {
+            if (isModal) {
+                this.modalElement[0].showModal();
+            }
+            else {
+                this.modalElement[0].show();
+            }
+
+            ConfigPage.delEventListener(this.modalElement[0], 'close');
+            ConfigPage.addEventListenerAndStore(this.modalElement[0], 'close', ConfigPage.deselectAll);
+        }
+    }
+    static #updateContent(data) {
+        console.log('updateContent');
+        console.log(data);
+        this.data = data;
+        let candidatesList = this.modalElement[0].querySelector('.modal-body .affected.candidate-list');
+
+        let promptMessage = this.modalElement[0].querySelector('.modal-body h5');
+        if (!promptMessage) {
+            promptMessage = this.#createPromptMsg();
+        }
+        const candidateCount = data.affected_candidates.length;
+        promptMessage.innerHTML =
+            `Do you want to remove these candidate${candidateCount > 1 ? 's' : ''} and votes associated with ${data.value}? This action cannot be undone.`;
+
+        candidatesList.innerHTML = '';
+        data.affected_candidates.forEach(candidate => {
+            let fullName = `${candidate.last_name}, ${candidate.first_name}`;
+            if (candidate.middle_name) {
+                fullName += ` ${candidate.middle_name}`;
+            }
+            let newDiv = document.createElement("div");
+            newDiv.innerHTML = fullName;
+            candidatesList.appendChild(newDiv);
+        });
+
+        let modalActionDiv = this.#initBtn();
+        candidatesList.insertAdjacentElement('afterend', modalActionDiv);
+
+        let primaryBtn = this.modalElement[0].querySelector('#modal-action-primary');
+        ConfigPage.delEventListener(primaryBtn, 'click');
+        ConfigPage.addEventListenerAndStore(primaryBtn, 'click', this.#confirmDelete.bind(this));
+
+        // let primaryBtn = document.querySelector('modal-action-primary');
+        // ConfigPage.delEventListener(saveButton, 'click');
+        // ConfigPage.addEventListenerAndStore(saveButton, 'click', ConfigPage.saveFunc);
+
+        let cancelBtn = this.modalElement[0].querySelector('.modal-body .cancel-btn');
+        ConfigPage.delEventListener(cancelBtn, 'click');
+        ConfigPage.addEventListenerAndStore(cancelBtn, 'click', this.close.bind(this));
+
+        let closeBtn = this.modalElement[0].querySelector('button.modal-close');
+        ConfigPage.delEventListener(closeBtn, 'click');
+        ConfigPage.addEventListenerAndStore(closeBtn, 'click', this.close.bind(this));
+    }
+
+    static #createPromptMsg() {
+
+        let promptMessage = document.createElement('h5');
+        let modalBody = this.modalElement[0].querySelector('.modal-body');
+        modalBody.insertBefore(promptMessage, modalBody.firstChild);
+        return this.modalElement[0].querySelector('.modal-body h5');
+    }
+
+    static #initBtn() {
+
+        this.#removeBtn();
+
+        const modalActionDiv = document.createElement('div');
+        modalActionDiv.classList.add('modal-action', 'w-100');
+
+        // Create the label and primary button
+        const label = document.createElement('label');
+        label.setAttribute('for', 'modal-action-primary');
+
+        const primaryButton = document.createElement('button');
+        primaryButton.id = 'modal-action-primary';
+        primaryButton.type = 'button';
+        primaryButton.classList.add('btn', 'btn-sm', 'btn-primary');
+        primaryButton.textContent = 'Delete';
+
+        label.appendChild(primaryButton);
+
+        // Create the secondary buttons
+        const goToButton = document.createElement('button');
+        goToButton.type = 'button';
+        goToButton.classList.add('btn', 'btn-sm', 'btn-secondary');
+        goToButton.textContent = 'Go to';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.type = 'button';
+        cancelButton.classList.add('btn', 'btn-sm', 'btn-secondary', 'cancel-btn');
+        cancelButton.textContent = 'Cancel';
+
+        // Append everything to the main div
+        modalActionDiv.appendChild(label);
+        modalActionDiv.appendChild(goToButton);
+        modalActionDiv.appendChild(cancelButton);
+
+        return modalActionDiv;
+    }
+
+    static #removeBtn() {
+        let modalBody = this.modalElement[0].querySelector('.modal-body');
+        let existingModalAction = modalBody.querySelector('.modal-action');
+        if (existingModalAction) {
+            modalBody.removeChild(existingModalAction);
+        }
+    }
+
+    static #confirmDelete() {
+        if (this.data) {
+            let primaryButton = this.modalElement[0].querySelector('.modal-body #modal-action-primary');
+            primaryButton.disabled = true;
+            this.#processDelete();
+        }
+    }
+
+    static #processDelete() {
+        if (this.data) {
+            this.data.confirmed_delete = true;
+            let data = { delete_position: [this.data] }
+            // console.log(data);
+            ConfigPage.postData(data).then(function (result) {
+                console.log(result);
+                try {
+                    const { data, success, error } = result;
+                    if (success) {
+                        ConfigPage.deletePosition(data);
+                        ConfigPage.NativeModal.close();
+                    }
+                }
+                catch (e) {
+                    console.error('Error deleting', e);
+                }
+            });
+        }
+    }
+
+    static close() {
+        if (this.data) {
+            this.modalElement[0].close();
+        }
+    }
+
+    static #redirect() {
+
+    }
+
+}

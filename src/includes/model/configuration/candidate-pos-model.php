@@ -1,19 +1,19 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR,  '../classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('../error-reporting.php');
-require_once '../classes/db-config.php';
-require_once '../classes/db-connector.php';
+require_once FileUtils::normalizeFilePath('../classes/db-config.php');
+require_once FileUtils::normalizeFilePath('../classes/db-connector.php');
 
 
 class CandidatePosition
 {
     private static $connection;
     protected static $query_message;
+    protected static $status;
 
     protected static function savePosition($data, $mode)
     {
-        // print_r($data);
-        // echo "<br>";
+
         if (self::$connection = DatabaseConnection::connect()) {
             $savedPositions = [];
 
@@ -49,9 +49,27 @@ class CandidatePosition
     private static function addPosition($data)
     {
 
+        $check_sql = "SELECT COUNT(*) FROM position WHERE title = ?";
+        $check_stmt = self::$connection->prepare($check_sql);
+        if ($check_stmt) {
+            $count = null;
+            $check_stmt->bind_param("s", $data['value']);
+            $check_stmt->execute();
+            $check_stmt->bind_result($count);
+            $check_stmt->fetch();
+            $check_stmt->close();
+
+            if ($count > 0) {
+                self::$query_message = 'Position Already Exist';
+                return $data;
+            }
+        } else {
+            self::$query_message = "Error preparing check statement: " . self::$connection->error;
+            return $data;
+        }
+
         $sql = "INSERT INTO position (sequence, title, max_votes, description) VALUES (?, ?, ?, ?)";
 
-        // Prepare the statement
         $stmt = self::$connection->prepare($sql);
         $position = [];
         if ($stmt) {
@@ -79,7 +97,6 @@ class CandidatePosition
     {
         $sql = "UPDATE position SET sequence = ?, title = ?, max_votes = ?, description = ? WHERE position_id = ?";
 
-        // Prepare the statement
         $stmt = self::$connection->prepare($sql);
         $position = [];
         if ($stmt) {
@@ -113,7 +130,6 @@ class CandidatePosition
     {
         $sql = "UPDATE position SET sequence = ? WHERE position_id = ?";
 
-        // Prepare the statement
         $stmt = self::$connection->prepare($sql);
         $position = [];
         if ($stmt) {
@@ -141,13 +157,20 @@ class CandidatePosition
 
     protected static function checkCandidates($data)
     {
+
+        if (isset($data['confirmed_delete']) && $data['confirmed_delete']) {
+            if (self::deleteCandidates($data)) {
+                return self::deletePosition($data);
+            } else {
+                self::$query_message = 'Error deleting position';
+                return $data;
+            }
+        }
         $sql = "SELECT last_name, first_name, middle_name, suffix, photo_url  FROM candidate WHERE position_id = ?";
         $stmt = self::$connection->prepare($sql);
         $affected_candidates = [];
 
         if ($stmt) {
-
-            $last_name = $first_name = $middle_name = $suffix = $photo_url = '';
 
             $stmt->bind_param("i", $data['data_id']);
             $stmt->execute();
@@ -181,7 +204,7 @@ class CandidatePosition
                 'description' => $data['description'],
                 'affected_candidates' => $affected_candidates
             ];
-
+            self::$status = 409;
             self::$query_message = 'Confirm Deletion of Positions';  // Will replace with better message
             return $data;
         }
@@ -192,17 +215,13 @@ class CandidatePosition
     {
         $sql = "DELETE FROM position WHERE position_id = ?";
 
-        // Prepare the statement
         $stmt = self::$connection->prepare($sql);
         $position = [];
         if ($stmt) {
-            // Bind parameters
+            // Bind position_id
             $stmt->bind_param("i", $data['data_id']);
-
-            // Execute the statement
             $stmt->execute();
 
-            // Check if any row was affected (deleted)
             if ($stmt->affected_rows > 0) {
                 // Row was deleted successfully
                 $position = [
@@ -214,12 +233,10 @@ class CandidatePosition
                     'description' => $data['description']
                 ];
             } else {
-                // No rows were affected (no matching data_id found)
-
+                self::$query_message = 'No position deleted';
             }
         } else {
-            // Error preparing statement
-            echo "Error preparing statement: " . self::$connection->error;
+            self::$query_message = "Error preparing statement: " . self::$connection->error;
         }
         $stmt->close();
         return $position;
@@ -266,5 +283,79 @@ class CandidatePosition
 
 
         return $positions;
+    }
+
+    protected static function deleteCandidates($data, $retryCount = 0)
+    {
+        self::$connection = DatabaseConnection::connect();
+        echo $retryCount;
+
+        $sql = "DELETE FROM candidate WHERE position_id = ?";
+
+        $stmt = self::$connection->prepare($sql);
+
+        if ($stmt) {
+            try {
+                // bind position_id
+                $stmt->bind_param("i", $data['data_id']);
+                $stmt->execute();
+
+                if ($stmt->affected_rows === count($data['affected_candidates'])) {
+                    // Row was deleted successfully
+                    return true;
+                }
+                // else if ($stmt->affected_rows > 0) {
+                //     self::$query_message = 'Some Candidates deleted';
+                // } else {
+                //     $deleteVoteIsSuccess = self::deleteVotes($data);
+                //     if ($deleteVoteIsSuccess) {
+                //         if ($deleteVoteIsSuccess && $retryCount < 1) {
+                //             return self::deleteCandidates($data, $retryCount + 1);
+                //         }
+                //     }
+                // }
+            } catch (mysqli_sql_exception $e) {
+                if ($e->getCode() === 1451) { // Error code for foreign key constraint failure
+                    $deleteVoteIsSuccess = self::deleteVotes($data);
+                    if ($deleteVoteIsSuccess && $retryCount < 1) { // prevent infinite recursion
+                        return self::deleteCandidates($data, $retryCount + 1);
+                    } else {
+                    }
+                } else {
+                    self::$query_message = "Error executing statement: " . $e->getMessage();
+                }
+            }
+
+            $stmt->close();
+        } else {
+            self::$query_message =  "Error preparing statement: " . self::$connection->error;
+        }
+    }
+
+    protected static function deleteVotes($data)
+    {
+        echo $data['data_id'];
+        self::$connection = DatabaseConnection::connect();
+
+        $sql = "DELETE FROM vote WHERE position_id = ?";
+
+        $stmt = self::$connection->prepare($sql);
+
+        if ($stmt) {
+            // bind position_id
+            $stmt->bind_param("i", $data['data_id']);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                return true;
+            } else {
+                self::$query_message = 'No votes removed';
+                return false;
+            }
+
+            $stmt->close();
+        } else {
+            self::$query_message =  "Error preparing statement: " . self::$connection->error;
+        }
     }
 }

@@ -14,9 +14,9 @@ ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
 
-
+$allowed_roles = ['admin', 'head_admin'];
 $is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role'], $_SESSION['organization']) &&
-    ($_SESSION['role'] === 'admin'  || $_SESSION['role'] == 'head_admin ') &&
+    (in_array($_SESSION['role'], $allowed_roles)) &&
     !empty($_SESSION['organization']);
 
 if (!$is_page_accessible) {
