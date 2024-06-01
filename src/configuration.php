@@ -211,7 +211,6 @@ $phpDateTimeNow = new DateTimeUtils();
     $configuration_pages = [
         'ballot-form',
         'vote-schedule',
-        'election-year',
         'vote-guidelines',
         'positions'
     ];
@@ -220,7 +219,6 @@ $phpDateTimeNow = new DateTimeUtils();
     $link_name = [
         'Ballot Form',
         'Schedule',
-        'Election Year',
         'Voting Guidelines',
         'Candidate Positions'
     ];

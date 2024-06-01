@@ -1,433 +1,158 @@
 @import 'configuration';
 
-body {
-    .modal {
-
-        .modal-dialog {
-            min-width: clamp(18.75rem, 40dvw, var(--bs-breakpoint-xl));
-
-            .modal-content {
-                border: clamp(0.063rem, 0.031rem + 0.1vw, 0.219rem) solid var(--main-color);
-                border-radius: calc(0.5rem + 0.4dvw + 0.5dvh);
-            }
-
-            .modal-header {
-                flex-direction: row-reverse;
-                background-color: transparent;
-                color: var(--main-color);
-
-                button.modal-close {
-                    color: var(--white);
-                    background-color: transparent;
-                    border: none;
-
-                    svg {
-                        background-color: var(--main-color);
-                        border-radius: 50%;
-
-                        circle {
-                            color: transparent;
-                        }
-
-                        line {
-                            stroke-width: clamp(2px, 1px + 0.15dvw, 5px);
-                        }
-                    }
-
-                    &:hover {
-                        svg {
-                            background-color: transparent;
-
-                            circle,
-                            line {
-                                stroke-width: clamp(1px, 1px + 0.2dvw, 5px);
-                                color: var(--main-color)
-                            }
-                        }
-
-                        background-color: var(--white);
-                        filter: brightness(130%);
-                    }
-
-                    &:active {
-
-                        svg {
-                            transform: translateX(-5%) translateY(5%);
-
-                            @media (min-height: var(--bs-breakpoint-xl)) {
-                                transform: translateX(-20%) translateY(-20%);
-                            }
-
-                            height: calc(0.9rem + 0.4vw);
-                            width: calc(0.9rem + 0.4vw);
-
-                            circle,
-                            line {
-                                stroke-width: clamp(1px, 1.1px + 0.2dvw, 5px);
-                            }
-                        }
-                    }
-                }
-            }
-
-            .modal-body {
-
-                min-height: max-content;
-                max-height: calc(150px + 30dvh);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-
-                .course-section {
-                    margin-bottom: 0;
-                    text-align: center;
-                    font-size: clamp(0.8rem, calc(1.325rem + 0.9vw), 4rem);
-                    overflow: visible;
-                    text-wrap: nowrap;
-                }
-
-                @media (max-height: 550px) {
-                    min-height: 60dvh;
-                    display: grid;
-                    place-items: end center;
-                    margin: 0;
-
-                    button.btn-success {
-                        align-self: start;
-                    }
-                }
-
-                label[for="save-button"] {
-                    // bottom: anchor(--save-btn center);
-                    // left: anchor(--save-btn center);
-                }
-
-                input[type=text] {
-                    height: calc(1.2rem + 0.5dvw + 1.5dvh);
-                    margin: clamp(0.5rem, 0.1rem + 0.9dvh, 3rem) 0;
-                    padding: calc(0.5rem + 0.1dvw) calc(0.5rem + 0.48dvw);
-                    text-align: center;
-                    border: calc(0.5px + 0.1vw) solid #000;
-
-                    // &::placeholder,
-                    // &::-webkit-input-placeholder,
-                    // &::-moz-placeholder,
-                    // &::-ms-input-placeholder {
-                    //     text-align: left;
-                    // }
-
-                    &::placeholder {
-                        text-align: left;
-                    }
-                }
-
-                .save-button {
-                    // anchor-name: --save-btn;
-                    margin: calc(0.5rem + 0.05dvw);
-                }
-
-
-            }
-        }
-    }
-
-    .select2-container--open {
-        &:has(.select2-dropdown) {
-            z-index: 1100;
-        }
-    }
-
-    .datepickers-container {
-        z-index: 1112;
-    }
-}
-
 main.main {
+    .card-box {
 
-    div.dt-container {
+        //55.98 + Footer
+        // 63.5 + Header
+        // 57.19 + NavList
+        // 61.49 + Page Head Title
+        // 16 + 16 top and bottom margin
+        // height: calc(100% - 151.48px);
+        // @media only screen and (max-width: 576px) {
 
-        .row.mt-2 {
-            &.stuck {
-                background-color: light-dark(#f5f5f5, #333);
-                position: -webkit-sticky;
-                position: sticky;
-                align-self: flex-start;
-                top: 62px;
-                z-index: 1005;
-                // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-                // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-                // box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+        //     height: 60dvh;
+        // }
 
+        // @media only screen and (min-width: 576px) {
+        //     height: clamp(min(300px, 55dvh), 9.375rem + 50dvh, 900px);
 
-                .dt-buttons,
-                .dt-search input[type="search"] {
-                    @media (max-width: 576px) {
-                        margin: 1.5rem !important;
-                    }
-
-                    @media (min-width: 576px) {
-                        margin: clamp(1rem, 0.5rem + 1dvh, 20dvh) 0 !important;
-                    }
-                }
-            }
-
-            .dt-buttons {
-                transform: translateY(-10%);
-
-                button.btn.btn-primary:has(span svg) {
-                    color: var(--white);
-                    background-color: var(--main-color);
-
-                    border-radius: 50%;
-                    padding: clamp(0.5rem, 0.625rem + 0.4vw, 5rem) clamp(1rem, 0.625rem + 0.4vw, 5rem);
-
-                    &:not(:last-child) {
-                        margin-right: clamp(1.5rem, 0.5rem + 0.01vw, 1.5dvw);
-                    }
-
-                    &:focus-visible {
-                        box-shadow: 0 0 0 clamp(0.25rem, 0.25rem + 0.1vw, 1rem) color-mix(in srgb, var(--main-color) 25%, transparent);
-
-                    }
-
-                    svg {
-                        &.feather {
-                            height: clamp(1.2rem, 0.5rem + 0.8vw, 5rem);
-                            width: clamp(1.2rem, 0.5rem + 0.8vw, 5rem);
-                        }
-
-                        &.feather-user-plus {
-                            transform: translateY(-10%);
-                        }
-
-                        &.feather-edit-2 {
-                            transform: translateY(-10%) translateX(5%);
-                        }
-
-                        &.feather-trash-2 {
-                            transform: translateY(-10%);
-                        }
-                    }
+        // }
 
 
-                }
-            }
+    }
 
-            & div:has(.dt-buttons.btn-group) {
-                @media (max-width: 768px) {
-                    order: 1;
-                }
+    .card-header {
 
-                @media (min-width: 768px) {
-                    order: 0;
-                }
-            }
+        h3.text-capitalize {
+            font-size: clamp(0.8rem, 1rem + 0.5vw, 3rem);
+        }
+    }
 
-            & div:has(input[type="search"]) {
-                @media (max-width: 768px) {
-                    order: 0;
-                }
+    .card-body {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        width: 100%;
+        height: auto;
 
-                @media (min-width: 768px) {
-                    order: 1;
-                }
-            }
-
+        &>*:first-child {
+            align-self: start;
         }
 
-        .dt-buttons,
-        .dt-search input[type="search"] {
-            @media (max-width: 576px) {
-                margin-bottom: 1.5rem;
-            }
+        &*:not(:first-child) {
+            align-self: center;
+            justify-self: center;
+        }
+    }
 
-            @media (min-width: 576px) {
-                margin: clamp(2.125rem, 1.75rem + 1dvh, 20dvh) 0;
+
+    div.form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        input[type=text] {
+            height: calc(1.2rem + 0.5dvw + 1.5dvh);
+            margin: clamp(0.5rem, 0.1rem + 0.9dvh, 3rem) 0;
+            padding: calc(0.5rem + 0.1dvw) calc(0.5rem + 0.48dvw);
+            text-align: center;
+            border: calc(0.5px + 0.1vw) solid #000;
+
+            // &::placeholder,
+            // &::-webkit-input-placeholder,
+            // &::-moz-placeholder,
+            // &::-ms-input-placeholder {
+            //     text-align: left;
+            // }
+
+            &::placeholder {
+                text-align: left;
             }
         }
 
-
-        .dt-search {
-            display: flex;
-            align-items: center;
-
-            input[type="search"] {
-                color: var(--main-color);
-                background-color: light-dark(var(--white), #ccc);
-                border: clamp(0.063rem, 0.031rem + 0.01vw, 0.05vw) solid var(--main-color);
-                height: clamp(2rem, 1.5rem + 1.75vw, 5rem);
-
-                padding-left: calc(1.75rem + 0.5vw);
-
-                @media (max-width: 768px) {
-                    margin-top: 1.5rem;
-                    width: 100%;
-                }
-
-                @media (min-width: 768px) {
-                    width: clamp(280px, 140px + 10vw, 20vw);
-                }
-
-                &::placeholder {
-                    color: var(--main-color);
-                    font-weight: 300;
-                }
-
-                &:focus {
-                    background-color: light-dark(var(--white), #ccc);
-                    border: clamp(0.125rem, 0.062rem + 0.1vw, 0.3vw) solid var(--main-color);
-                }
-
-            }
-
-            label svg {
-                color: var(--main-color);
-                position: absolute;
-                transform: translateY(-50%) translateX(70%);
-
-                @media (max-width: 576px) and (min-width: 400px) {
-                    transform: translateY(-50%) translateX(70%);
-                }
-
-            }
-
-            &:has(:focus-within) label svg.feather-search {
-                width: calc(1rem + 0.25vw);
-                height: calc(1rem + 0.25vw);
-                stroke-width: calc(0.188rem + 0.001vw);
-
-                transform: translateY(-50%) translateX(50%);
-
-                @media (max-width: 576px) and (min-width: 400px) {
-                    transform: translateY(-50%) translateX(60%);
-                }
-            }
+        button.btn {
+            margin: calc(0.5rem + 0.05dvw);
         }
-
-
-        table {
-            thead {
-                background-color: var(--border-gray);
-            }
-
-            tr {
-                @extend %table-row-height;
-                vertical-align: middle;
-
-                td,
-                th {
-                    &:first-child {
-                        text-align: right;
-                        align-items: end;
-                    }
-                }
-
-                td:nth-child(2) {
-                    border-right: clamp(0.063rem, 0.031rem + 0.01vw, 0.05vw) solid var(--border-gray);
-
-                    @media (max-width: 576px) {
-                        padding-left: 0;
-                    }
-                }
-            }
-
-
-        }
-
-
-
-
-    }
-}
-
-.custom-checkbox {
-    position: relative;
-}
-
-.custom-checkbox input[type="checkbox"] {
-    opacity: 0;
-    width: clamp(1.5rem, 0.75rem + 1vw, 5vw);
-    height: clamp(1.5rem, 0.75rem + 1vw, 5vw);
-    position: absolute;
-    margin: 5px 0 0 3px;
-    z-index: 9;
-}
-
-.custom-checkbox label:before {
-    width: clamp(1rem, 0.5rem + 0.75vw, 1.5vw);
-    height: clamp(1rem, 0.5rem + 0.75vw, 1.5vw);
-}
-
-.custom-checkbox label:before {
-    content: '';
-    margin-right: 10px;
-    display: inline-block;
-    vertical-align: text-top;
-    background: white;
-    border: 1px solid #bbb;
-    border-radius: 2px;
-    box-sizing: border-box;
-    z-index: 2;
-}
-
-.custom-checkbox input[type="checkbox"]:checked+label:after {
-    content: '';
-    position: absolute;
-    // right: 25px;
-    // top: 22px;
-    // right: calc(1.5rem + 0.1dvw);
-    // top: calc(0.8rem + 0.35dvw);
-    width: clamp(0.313rem, 0.150rem + 0.20vw, 2vw);
-    height: clamp(0.573rem, 0.350rem + 0.15vw, 2vw);
-    border: solid #000;
-    border-width: 0 calc(0.188rem + 0.0001vw + 0.0001vh) calc(0.188rem + 0.0001vw + 0.0001vh) 0;
-    z-index: 3;
-
-    @media (min-width: 4000px) {
-        height: clamp(1.146rem, 0.700rem + 0.15vw, 2vw);
-        transform: rotateZ(45deg) translateY(180%) translateX(-150%);
-        border-width: 0 calc(0.313rem + 0.001vw + 0.01vh) calc(0.313rem + 0.001vw + 0.01vh) 0;
     }
 
-    @media (min-width: 3000px) and (max-width: 3999px) {
-        height: clamp(1.146rem, 0.700rem + 0.15vw, 2vw);
-        border-width: 0 calc(0.313rem + 0.001vw + 0.01vh) calc(0.313rem + 0.001vw + 0.01vh) 0;
-        transform: rotateZ(45deg) translateY(130%) translateX(-170%);
-    }
-
-    @media (min-width: 2000px) and (max-width: 2999px) {
-        transform: rotateZ(45deg) translateY(260%) translateX(-200%);
-    }
-
-    @media (min-width: 1500px) and (max-width: 1999px) {
-        transform: rotateZ(45deg) translateY(220%) translateX(-220%);
-    }
-
-    @media (min-width: 1200px) and (max-width: 1499px) {
-        transform: rotateZ(45deg) translateY(200%) translateX(-230%);
-    }
-
-    @media (min-width: 576px) and (max-width: 1199px) {
-        transform: rotateZ(45deg) translateY(180%) translateX(-240%);
-    }
-
-    @media (max-width: 576px) {
-        transform: rotateZ(45deg) translateY(180%) translateX(-235%);
-    }
 }
 
-.custom-checkbox input[type="checkbox"]:checked+label:before {
-    border-color: #03A9F4;
-    background: #03A9F4;
+input::-webkit-clear-button {
+    // background-color: var(--main-color);
+    // color: var(--main-color);
 }
 
-.custom-checkbox input[type="checkbox"]:checked+label:after {
-    border-color: #fff;
+::-webkit-datetime-edit {
+    // targets text field of date and time input
+
+    // background-color: var(--main-color);
+    // color: var(--main-color);
 }
 
-.custom-checkbox input[type="checkbox"]:disabled+label:before {
-    color: #b8b8b8;
-    cursor: auto;
-    box-shadow: none;
-    background: #ddd;
+::-webkit-datetime-edit-fields-wrapper {
+    // targets text content of date and time input
+    // background-color: var(--main-color);
+    // color: var(--main-color);
+}
+
+::-webkit-datetime-edit-text {
+    // targets text separator on date and time 
+    // like colon : to seperate hour minutes
+    // like slash / and colon , in date
+    // also targets week placeholder like
+    // background-color: var(--main-color);
+    // color: var(--main-color);
+}
+
+::-webkit-datetime-edit-year-field {
+    // targets year text field
+    // background-color: var(--main-color);
+    // color: var(--main-color);
+}
+
+::-webkit-datetime-edit-month-field {
+    // targets year text field
+    // background-color: var(--main-color);
+    // color: var(--main-color);
+}
+
+// ::-webkit-datetime-edit-week-field
+::-webkit-datetime-edit-day-field {
+    // targets day text field
+    // background-color: var(--main-color);
+    // color: var(--main-color);
+}
+
+::-webkit-datetime-edit-hour-field {
+    // targets hour text field
+    // background-color: var(--main-color);
+    // color: var(--main-color);
+}
+
+::-webkit-datetime-edit-minute-field {
+    // targets minute text field
+    // background-color: var(--main-color);
+    // color: var(--main-color);
+}
+
+// ::-webkit-datetime-edit-second-field
+// ::-webkit-datetime-edit-millisecond-field
+::-webkit-datetime-edit-ampm-field {
+    // targets Am PM text field
+    // background-color: var(--main-color);
+    // color: var(--main-color);
+}
+
+::-webkit-inner-spin-button {
+    // targets 
+    // background-color: var(--main-color);
+    // color: var(--main-color);
+}
+
+::-webkit-calendar-picker-indicator {
+    // targets date and time picker icons
+    // background-color: var(--main-color);
+    // color: var(--main-color);
 }
