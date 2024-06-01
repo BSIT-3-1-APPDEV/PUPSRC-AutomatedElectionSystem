@@ -3,66 +3,73 @@
 ============================*/
 
 :root {
-    --main-color: #EE1C24;
-    --sub-color-accent: rgb(238, 28, 36, 0.5);
-    --hover-color-accent: rgb(238, 28, 36, 0.2);
+  --main-color: #ee1c24;
+  --sub-color-accent: rgb(238, 28, 36, 0.5);
+  --hover-color-accent: rgb(238, 28, 36, 0.2);
 }
 
 .main-color {
-    color: #EE1C24;
+  color: #ee1c24;
 }
 
 .main-bg-color {
-    background-color: #EE1C24 !important;
+  background-color: #ee1c24 !important;
 }
 .item a.active,
 .submenu-item.active {
-    background-color: #EE1C24;
-    color: white;
+  background-color: #ee1c24;
+  color: white;
 }
 
 .item a.active:hover,
 .submenu-item.active:hover {
-    background-color: #EE1C24;
-    color: white;
+  background-color: #ee1c24;
+  color: white;
 }
 
 .org-info {
-    background-color: #EE1C24;
+  background-color: #ee1c24;
 }
 .org-logo {
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 10px;
-    border: 2px solid #EE1C24;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid #ee1c24;
 }
 .item a:hover {
-    background: rgb(238, 28, 36, 0.1);
+  background: rgb(238, 28, 36, 0.1);
 }
 
 .submenu-item:hover {
-    background: rgb(238, 28, 36, 0.1);
+  background: rgb(238, 28, 36, 0.1);
 }
 
 .submenu .menu-title:hover {
-    background: rgb(238, 28, 36, 0.1);
+  background: rgb(238, 28, 36, 0.1);
 }
 
 .menu-items .item a.active-sub {
-    color: #EE1C24;
+  color: #ee1c24;
+}
+
+.btn-org-color {
+  --bs-btn-color: #fff !important;
+  --bs-btn-bg: var(--main-color) !important;
+  --bs-btn-hover-color: #cdcdcd !important;
+  --bs-btn-hover-bg: var(--sub-color-accent) !important;
 }
 
 /*==========================
 	Accent Colors: L TO D
 ============================*/
 .accent-1 {
-    color: #EE1C24;
+  color: #ee1c24;
 }
 
 .accent-2 {
-    color: #B81C22;
+  color: #b81c22;
 }
 
 .accent-3 {
-    color: #900E13;
+  color: #900e13;
 }

@@ -1,14 +1,15 @@
 <?php
-include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 
-if (isset($_SESSION['voter_id'])) {
+if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
-	include 'includes/session-exchange.php';
-	include 'submission_handlers/manage-acc.php';
+
+	include FileUtils::normalizeFilePath('includes/session-exchange.php');
+	include FileUtils::normalizeFilePath('submission_handlers/manage-acc.php');
 	?>
 
 	<!DOCTYPE html>
@@ -50,7 +51,8 @@ if (isset($_SESSION['voter_id'])) {
 							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
 								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
 							</button>
-							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS' ACCOUNTS</button>
+							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS'
+								ACCOUNTS</button>
 						</div>
 					</div>
 				</div>
@@ -106,10 +108,12 @@ if (isset($_SESSION['voter_id'])) {
 																				</button>
 																				<div class="dropdown-menu dropdown-menu-end"
 																					aria-labelledby="dropdownMenuButton"
-																					style="padding:0.5rem"">
-																				<!-- Dropdown items -->
-																				<li class=" dropdown-item ps-3 fs-7 fw-medium">Newest to
-																					Oldest</li>
+																					style="padding:0.5rem">
+																					<!-- Dropdown items -->
+																					<li
+																						class=" dropdown-item ps-3 fs-7 fw-medium">
+																						Newest to
+																						Oldest</li>
 																					<li
 																						class="dropdown-item ps-3 fs-7 fw-medium">
 																						Oldest to
@@ -130,7 +134,7 @@ if (isset($_SESSION['voter_id'])) {
 															</div>
 														</div>
 													</div>
-													<table class=table table-striped table-hover">
+													<table class="table">
 														<thead class="tl-header">
 															<tr>
 																<th class="col-md-6 tl-left text-center fs-7 fw-bold spacing-5">
@@ -147,12 +151,15 @@ if (isset($_SESSION['voter_id'])) {
 														<tbody>
 															<?php while ($row = $to_verify_tbl->fetch_assoc()) { ?>
 																<tr>
-																	</td>
 																	<td class="col-md-6 text-center text-truncate"><a
 																			href="validate-voter.php?voter_id=<?php echo $row["voter_id"]; ?>"><?php echo $row["email"]; ?></a>
 																	</td>
+
 																	<td class="col-md-6 text-center">
-																		<?php echo date("F j, Y", strtotime($row["acc_created"])); ?>
+																		<?php
+																		$date = new DateTime($row["acc_created"]);
+																		echo $date->format('F j, Y');
+																		?>
 																	</td>
 																</tr>
 															<?php } ?>
@@ -216,8 +223,8 @@ if (isset($_SESSION['voter_id'])) {
 														<div class="row">
 															<!-- Table Header -->
 															<div class="col-sm-6">
-																<p class="fs-3 main-color fw-bold ls-10 spacing-6">Pending
-																	Registrations</p>
+																<p class="fs-3 main-color fw-bold ls-10 spacing-6">Voters'
+																	Accounts</p>
 															</div>
 															<div class="col-sm-6">
 																<div class="row">
@@ -319,7 +326,7 @@ if (isset($_SESSION['voter_id'])) {
 														</div>
 
 														<!-- Table Contents -->
-														<table class=table table-striped table-hover">
+														<table class="table">
 															<thead class="tl-header">
 																<tr>
 																	<th
@@ -349,18 +356,15 @@ if (isset($_SESSION['voter_id'])) {
 																		</td>
 																		<td class="col-md-3 text-center">
 																			<?php
-																			$status = $row["status"];
+																			$status = $row["account_status"];
 																			$statusClass = '';
 
 																			switch ($status) {
-																				case 'Active':
+																				case 'verified':
 																					$statusClass = 'active-status';
 																					break;
-																				case 'Inactive':
+																				case 'invalid':
 																					$statusClass = 'inactive-status';
-																					break;
-																				case 'Rejected':
-																					$statusClass = 'rejected-status';
 																					break;
 																				default:
 																					$statusClass = '';
@@ -368,12 +372,15 @@ if (isset($_SESSION['voter_id'])) {
 																			}
 																			?>
 																			<span
-																				class="status-background <?php echo $statusClass; ?>"><?php echo $status; ?></span>
+																				class="status-background <?php echo $statusClass; ?>"><?php echo ucfirst($status); ?></span>
 																		</td>
 
 																		<td class="col-md-3 text-center">
-																			<span
-																				class=""><?php echo date("F j, Y", strtotime($row["status_updated"])); ?>
+																			<span class="">
+																				<?php
+																				$date = new DateTime($row["status_updated"]);
+																				echo $date->format('F j, Y');
+																				?>
 																		</td>
 																	</tr>
 																<?php } ?>

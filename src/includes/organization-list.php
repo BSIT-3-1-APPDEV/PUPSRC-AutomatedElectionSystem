@@ -4,7 +4,7 @@ $org_full_names = array(
     "sco" => ("student council organization"),
     "elite" => ("eligible league of information technology enthusiasts"),
     "acap" => ("association of competent and aspiring psychologists"),
-    "aeces" => ("association of electronics and communications engineering"),
+    "aeces" => ("association of electronics and communications engineering students"),
     "give" => ("guild of imporous and valuable educators"),
     "jehra" => ("junior executives of human resource association"),
     "jmap" => ("junior marketing association of the philippines"),
@@ -47,4 +47,16 @@ $org_social_media = array(
     "jmap" => array("facebook" => "jmap_facebook", "twitter" => "jmap_twitter", "instagram" => "jmap_instagram"),
     "jpia" => array("facebook" => "jpia_facebook", "twitter" => "jpia_twitter", "instagram" => "jpia_instagram"),
     "piie" => array("facebook" => "piie_facebook", "twitter" => "piie_twitter", "instagram" => "piie_instagram")
+);
+
+$org_personality = array(
+    "sco" => ("Iskolar"),
+    "elite" => ("Enthusiasts"),
+    "acap" => ("Psychmates"),
+    "aeces" => ("AECES"),
+    "give" => ("Educators"),
+    "jehra" => ("JEHRA"),
+    "jmap" => ("Marketista"),
+    "jpia" => ("JPIANs"),
+    "piie" => ("IEhinyero")
 );

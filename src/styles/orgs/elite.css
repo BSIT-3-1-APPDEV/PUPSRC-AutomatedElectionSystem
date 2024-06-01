@@ -3,40 +3,40 @@
 ============================*/
 
 :root {
-  --main-color: #FF7900;
+  --main-color: #ff7900;
   --sub-color-accent: rgb(255, 121, 0, 0.5);
   --hover-color-accent: rgb(255, 121, 0, 0.2);
 }
 
 .main-color {
-  color: #FF7900;
+  color: #ff7900;
 }
 
 .main-bg-color {
-  background-color: #FF7900 !important;
+  background-color: #ff7900 !important;
 }
 
 .item a.active,
 .submenu-item.active {
-  background-color: #FF7900;
+  background-color: #ff7900;
   color: white;
 }
 
 .item a.active:hover,
 .submenu-item.active:hover {
-  background-color: #FF7900;
+  background-color: #ff7900;
   color: white;
 }
 
 .org-info {
-  background-color: #FF7900;
+  background-color: #ff7900;
 }
 
 .org-logo {
   height: 100px;
   border-radius: 50%;
   margin-right: 10px;
-  border: 2px solid #FF7900;
+  border: 2px solid #ff7900;
 }
 
 .item a:hover {
@@ -52,9 +52,15 @@
 }
 
 .menu-items .item a.active-sub {
-  color: #FF7900;
+  color: #ff7900;
 }
 
+.btn-org-color {
+  --bs-btn-color: #fff !important;
+  --bs-btn-bg: var(--main-color) !important;
+  --bs-btn-hover-color: #cdcdcd !important;
+  --bs-btn-hover-bg: var(--sub-color-accent) !important;
+}
 
 /*==========================
 	ACCENT COLORS: L TO D

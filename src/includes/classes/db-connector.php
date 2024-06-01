@@ -11,10 +11,10 @@ class DatabaseConnection {
             // Retrieves organization name from session
             $org_name = $_SESSION['organization'] ?? '';        
 
-            // Displays an alert message if session not set
+            // Return an error message if organization not set
             if(!$org_name) {
-                echo '<script>alert("Organization not set in session")</script>';
-                exit();
+                $_SESSION['error_message'] = "We can't connect you to your organization.";
+                return;
             }
 
             try {
