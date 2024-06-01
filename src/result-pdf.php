@@ -29,7 +29,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="styles/archive.css" />
+    <link rel="stylesheet" href="styles/result.css" />
 </head>
 <body>
 <div class="popup-container"> 
