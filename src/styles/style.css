@@ -434,6 +434,7 @@ body>* {
 .disabled-arrow {
   color: rgb(195, 195, 195) !important;
   pointer-events: none !important;
+  cursor: pointer !important;
 }
 
 .pagination .disabled a {

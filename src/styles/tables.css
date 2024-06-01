@@ -274,6 +274,11 @@ table.table {
     width: 30% !important;
     height: 100% !important;
 }
+.not-found-illus {
+    opacity: 0.5;
+    width: 10% !important;
+    height: 100% !important;
+}
 /* -- End of: Empty State */
 
 
