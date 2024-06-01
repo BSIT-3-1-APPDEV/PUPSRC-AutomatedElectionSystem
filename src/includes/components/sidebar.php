@@ -67,12 +67,12 @@
 				</div>
 				<ul class="menu-items submenu collapse" id="manageCandidates">
 					<li class="item">
-						<a href="manage-voters.php"
+						<a href="add-candidate.php"
 							class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Add
 							Candidate</a>
 					</li>
 					<li class="item">
-						<a href="admin-creation.php"
+						<a href="manage-candidate.php"
 							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Manage
 							Candidates</a>
 					</li>

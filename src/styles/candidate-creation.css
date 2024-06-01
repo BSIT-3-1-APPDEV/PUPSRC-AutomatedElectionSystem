@@ -1,0 +1,245 @@
+.btn-lvl-current {
+  background-color: var(--main-color) !important;
+  color: white !important;
+  border-radius: 50px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 1 !important;
+  cursor: default !important;
+}
+
+.btn-lvl-white {
+  background-color: #fff !important;
+  color: grey !important;
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 2 !important;
+  cursor: default !important;
+  float: right !important;
+}
+
+.btn-lvl-white-add {
+  background-color: #fff !important;
+  color: var(--main-color) !important;
+  border-radius: 10px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 2 !important;
+  cursor: default !important;
+  cursor: pointer !important;
+}
+
+.btn-lvl-white {
+  padding: 6px 30px !important;
+}
+
+.btn-lvl-current {
+  padding: 6px 50px !important;
+}
+
+.btn-lvl-white + .btn-lvl-current {
+  margin-left: -30px !important;
+}
+
+
+/* FOR 3 LEVELS */
+.btn-back {
+  background-color: #fff !important;
+  color: grey !important;
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 2 !important;
+}
+
+.btn-back:hover {
+  color: var(--bs-gray-300) !important;
+}
+.btn-current {
+  background-color: var(--main-color) !important;
+  color: white !important;
+  border: 50px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 1 !important;
+  cursor: default !important;
+}
+
+.btn-white {
+  background-color: #fff !important;
+  color: grey !important;
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 2 !important;
+  cursor: default !important;
+}
+
+.no-border {
+  border: none !important;
+}
+
+/* Horizontal padding */
+
+.btn-white {
+  padding: 6px 30px !important;
+}
+
+.btn-back {
+  padding: 6px 50px !important; 
+}
+
+.btn-current {
+  padding: 6px 50px !important;
+}
+
+.btn-white + .btn-back {
+  margin-left: -30px !important;
+}
+
+.btn-back + .btn-current {
+  margin-left: -30px !important;
+}
+
+.breadcrumbs button {
+  border: none !important;
+}
+
+
+.container label {
+  color: #212529;
+}
+
+.container input[type="text"],
+.container input[type="file"]{
+  width: 100%;
+  padding: 0.375rem 0.75rem; 
+  margin-bottom: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.container input[type="submit"] {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  cursor: pointer;
+}
+
+.container input[type="reset"] {
+  color: #212529;
+  text-decoration: underline;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.form-title {
+  color: var(--main-color);
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.form-group {
+  margin-bottom: 10%;
+  width: 90%;
+}
+
+.shorter-form-group {
+  width: 80%; /* Adjust this value as needed */
+  margin: 0 auto; /* Center the form group */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group select{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid whitesmoke;
+  border-radius: 4px;
+  background-color: whitesmoke;
+  color: grey;
+}
+
+input[type="submit"],
+input[type="reset"] {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.form-group option {
+  background-color: whitesmoke;
+  color: grey;
+  opacity: 0.5;
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+  background-color: #45a049;
+}
+
+input::placeholder {
+  color: lightgray;
+}
+
+.button-create {
+  background-color: var(--main-color);
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  width: auto;
+  border-radius: 10px !important;
+  font-weight: bold;
+  border: none;
+}
+
+.reset-button {
+  background: none;
+  border: none;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  font-weight: bold;
+  color: #909090;
+  text-decoration: underline;
+  margin-right: 50px;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+ 
+}
+
+.card-box {
+  margin: 3%;
+}
+
+.required {
+  color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+
+.input-error {
+    border: 1px solid red !important;
+}
+
