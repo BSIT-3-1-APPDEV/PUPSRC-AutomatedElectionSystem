@@ -11,7 +11,10 @@ if (isset($_SESSION['voter_id'])) {
 
     // Check if the user's role is either 'admin' or 'head_admin'
     $allowedRoles = array('admin', 'head_admin');
-    if (in_array($_SESSION['role'], $allowedRoles)) {
+    if (!in_array($_SESSION['role'], $allowedRoles)) {
+        header("Location: landing-page.php");
+        exit();
+    }
         include FileUtils::normalizeFilePath('submission_handlers/manage-details.php');
         ?>
 
@@ -91,7 +94,7 @@ if (isset($_SESSION['voter_id'])) {
 
                                             <div class="col-md-6">
                                                 <!-- Right side content -->
-                                                <p class="fw-bold fs-6 main-color spacing-4">iVOTE Member Role</p>
+                                                <p class="fw-bold fs-6 main-color spacing-4">iVOTE Committee Role</p>
                                                 <p>
                                                 <form id="role-form"
                                                     action="manage-details.php?voter_id=<?php echo $voter_id; ?>" method="post">
@@ -219,9 +222,6 @@ if (isset($_SESSION['voter_id'])) {
         </html>
 
         <?php
-    } else {
-        header("Location: landing-page.php");
-    }
 } else {
     header("Location: landing-page.php");
 }

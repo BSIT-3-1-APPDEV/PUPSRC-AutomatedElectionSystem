@@ -11,8 +11,12 @@ if (isset($_SESSION['voter_id'])) {
 	include FileUtils::normalizeFilePath('includes/session-exchange.php');
 
 	// Check if the user's role is either 'admin' or 'head_admin'
-	$allowedRoles = array('admin', 'head_admin');
-	if (in_array($_SESSION['role'], $allowedRoles)) {
+    $allowedRoles = array('admin', 'head_admin');
+    if (!in_array($_SESSION['role'], $allowedRoles)) {
+        header("Location: landing-page.php");
+        exit();
+    }
+    
 		include FileUtils::normalizeFilePath('submission_handlers/manage-members.php');
 		?>
 
@@ -216,11 +220,13 @@ if (isset($_SESSION['voter_id'])) {
 														</div>
 														<?php if ($verified_tbl->num_rows > 0) { ?>
 															<!-- Table Contents -->
-															<table class=table table-striped table-hover" id="voterTable">
+															<table class="table table-hover" id="voterTable">
 																<thead class="tl-header">
 																	<tr>
 																		<th class="col-md-1 text-center fs-7 fw-bold spacing-5 checkbox-th">
-																			<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["voter_id"]; ?>" class="voterCheckbox" style="display: none;">
+																			<?php if (isset($row) && is_array($row) && array_key_exists("voter_id", $row)): ?>
+																				<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["voter_id"]; ?>" class="voterCheckbox" style="display: none;">
+																			<?php endif; ?>
 																		</th>
 																		<th class="col-md-2 tl-left text-center fs-7 fw-bold spacing-5">
 																			<i data-feather="user" class="feather-xs im-cust"></i>Full Name
@@ -306,11 +312,11 @@ if (isset($_SESSION['voter_id'])) {
 															</div>
 
 
-															<!-- If verified table is empty, show empty state -->
+															<!-- If admin table is empty, show empty state -->
 														<?php } else { ?>
 
 															<div class="table-title">
-																<table class=table table-striped table-hover" id="voterTable">
+																<table class="table table-hover" id="voterTable">
 																	<thead class="tl-header">
 																		<tr>
 																			<th
@@ -321,7 +327,7 @@ if (isset($_SESSION['voter_id'])) {
 
 																			<th class="col-md-3 text-center fs-7 fw-bold spacing-5">
 																				<i data-feather="star"
-																					class="feather-xs im-cust"></i>Member Role
+																					class="feather-xs im-cust"></i>Committee Role
 																			</th>
 																			<th
 																				class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
@@ -438,9 +444,7 @@ if (isset($_SESSION['voter_id'])) {
 		</html>
 
 		<?php
-	} else {
-		header("Location: landing-page.php");
-	}
+
 } else {
 	header("Location: landing-page.php");
 }
