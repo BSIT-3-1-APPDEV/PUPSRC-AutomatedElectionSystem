@@ -17,14 +17,14 @@
 }
 .item a.active,
 .submenu-item.active {
-    background-color: #f45b9b;
-    color: white;
+  background-color: #f45b9b;
+  color: white;
 }
 
 .item a.active:hover,
 .submenu-item.active:hover {
-    background-color: #f45b9b;
-    color: white;
+  background-color: #f45b9b;
+  color: white;
 }
 .org-info {
   background-color: #f45b9b;
@@ -46,6 +46,12 @@
 }
 .menu-items .item a.active-sub {
   color: #f45b9b;
+}
+.btn-org-color {
+  --bs-btn-color: #fff !important;
+  --bs-btn-bg: var(--main-color) !important;
+  --bs-btn-hover-color: #cdcdcd !important;
+  --bs-btn-hover-bg: var(--sub-color-accent) !important;
 }
 
 /* Lightest to Darkest */
