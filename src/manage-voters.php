@@ -8,6 +8,7 @@ require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
 
+
 	include FileUtils::normalizeFilePath('includes/session-exchange.php');
 	include FileUtils::normalizeFilePath('submission_handlers/manage-acc.php');
 	?>
@@ -51,6 +52,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
 								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
 							</button>
+							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS'
+								ACCOUNTS</button>
 							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS'
 								ACCOUNTS</button>
 						</div>
@@ -214,6 +217,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														<div class="row">
 															<!-- Table Header -->
 															<div class="col-sm-6">
+																<p class="fs-3 main-color fw-bold ls-10 spacing-6">Voters'
+																	Accounts</p>
 																<p class="fs-3 main-color fw-bold ls-10 spacing-6">Voters'
 																	Accounts</p>
 															</div>

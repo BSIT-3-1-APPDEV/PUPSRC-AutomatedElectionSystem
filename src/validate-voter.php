@@ -13,10 +13,17 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 	// ------ END OF SESSION EXCHANGE
 
 	$conn = DatabaseConnection::connect();
-	$voter_query = "SELECT * FROM voter WHERE voter_id = $voter_id";
-	$result = $conn->query($voter_query);
+	$voter_query = "SELECT * FROM voter WHERE voter_id = ?";
+	$stmt = $conn->prepare($voter_query);
+	$stmt->bind_param("i", $voter_id);
+	$stmt->execute();
+	$result = $stmt->get_result();
 	$row = $result->fetch_assoc();
+
+	if ($row['account_status'] != 'verified' && $row['account_status'] != 'invalid') {
 	?>
+
+	
 
 	<!DOCTYPE html>
 	<html lang="en">
@@ -180,7 +187,10 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														<!-- Date -->
 														<p class="fw-bold fs-6 main-color spacing-4">Date Registered</p>
 														<p class="fw-medium fs-6 pt-sm-2">
-															<?php echo date("F j, Y", strtotime($row["acc_created"])); ?>
+															<?php
+															$date = new DateTime($row["acc_created"]);
+															echo $date->format('F j, Y');
+															?>
 														</p>
 													</div>
 												</div>
@@ -343,6 +353,10 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 	</html>
 
 	<?php
+
+} else {
+	header("Location: manage-voters.php");
+}
 } else {
 	header("Location: landing-page.php");
 }
