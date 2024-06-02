@@ -7,9 +7,7 @@ include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'student_voter')) 
 {
-   if(($_SESSION['vote_status'] != 'voted' )){
-
-   
+   if(($_SESSION['vote_status'] == NULL)){
 
     // ------ SESSION EXCHANGE
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
@@ -28,7 +26,14 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
   $stmt_candidates->execute();
   $result_candidates = $stmt_candidates->get_result();
 
+  // Query for the configuration, check if disabled or enabled
+  // Trial onlyy
+  /*$stmt_config = $connection->prepare("SELECT * FROM config");
+  $stmt_config->execute();
+  $result_config = $stmt_config->get_result(); */
+
   $voter_id = $_SESSION['voter_id']; // Get voter id to update the vote status
+  $vote_status = $_SESSION['vote_status']; // Get voter id to update the vote status
   
 ?>
 
@@ -56,64 +61,24 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
   <!-- Icons -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   
   <style>.hover-color a:hover {color: var(--<?php echo "main-color"; ?>); } 
   input[type="radio"]:checked::before {background-color: var(--main-color);}
   input[type="radio"]:checked { border-color: var(--main-color); }
-  .clicked {background-color: var(--main-color);color: white;}</style>
+  .clicked {background-color: var(--main-color);color: white;}
+  .nav-link:hover, .nav-link:focus {color: var(--<?php echo "main-color"; ?>); }
+  .navbar-nav .nav-item.dropdown.show .nav-link.main-color {color: var(--main-color);}
+  .navbar-nav .nav-item.dropdown .nav-link.main-color,.navbar-nav .nav-item.dropdown .nav-link.main-color:hover,
+  .navbar-nav .nav-item.dropdown .nav-link.main-color:focus {color: var(--main-color);}
+  input[type="text"]:focus {border-color: var(--main-color);}
+  </style>
 
 </head>
 
 <body>
 
-<?php 
-      $personality = '';
-      if ($org_acronym == 'acap'){
-          $personality = "Psychmates";
-      } else if ($org_acronym == 'aeces'){
-          $personality = "AECES";
-      } else if ($org_acronym == 'elite'){
-          $personality = "Enthusiasts";       
-      } else if ($org_acronym == 'give'){
-          $personality = "Educators";      
-      } else if ($org_acronym == 'jehra'){
-          $personality = "JEHRA";    
-      } else if ($org_acronym == 'jpia'){
-          $personality = "JPIANs";   
-      } else if ($org_acronym == 'piie'){
-          $personality = "IEhinyero";  
-      } else if ($org_acronym == 'jmap'){
-          $personality = "Marketista"; 
-      } else if ($org_acronym == 'sco'){
-          $personality = "Iskolar"; 
-      }
-?>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
-  <div class="container">
-    <div class="navbar-brand spacing">
-      <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
-   </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown d-none d-lg-block">
-          <a class="nav-link main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <b>Hello, <?php echo $personality ?></b><i class="fas fa-user-circle main-color ps-3" style="font-size: 25px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="includes/voter-logout.php">Logout</a>
-          </div>
-        </li>
-        <li class="nav-item d-lg-none">
-          <a class="nav-link" href="includes/voter-logout.php">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<?php include_once __DIR__ . '/includes/components/topnavbar.php'; ?>
 
 <main>
 
@@ -123,46 +88,47 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
       <div class="p-4 title main-color text-center spacing" id="title">
         <!-- Toggle button for small screens -->
         <div class="m-0">
-        <button id="toggleButton" type="button" class="title main-color spacing border-0 d-md-none d-lg-none" data-toggle="modal" data-target="#guidelinesModal" style="white-space: nowrap;">
-          <span class="d-md-inline d-lg-inline">BALLOT FORM</span>
-      </button>
+          <button id="toggleButton" type="button" class="title main-color spacing border-0 d-md-none d-lg-none" data-toggle="modal" data-target="#guidelinesModal" style="white-space: nowrap;">
+            <span class="d-md-inline d-lg-inline">BALLOT FORM</span>
+          </button>
         </div>
        <!-- Text for medium and large screens -->
       <span class="d-none d-md-inline d-lg-inline">BALLOT FORM</span>
     </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="guidelinesModal" tabindex="-1" role="dialog" aria-labelledby="guidelinesModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+    
+    <!-- Modal -->
+      <div class="modal fade" id="guidelinesModal" tabindex="-1" role="dialog" aria-labelledby="guidelinesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content" style="margin: 0;">
             <div class="modal-body" style="padding: 0;">
                 <div class="title-2 main-bg-color">
                     Voting Guidelines
                 </div>
                 <div class="pt-4"></div>
-                <div class="ps-4 pe-4 pb-2">
-                    Select only one (1) candidate each position.
-                </div>
+                  <div class="ps-4 pe-4 pb-2">
+                      Select your preferred candidate(s) for each position.
+                  </div>
                 <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    Do not leave an empty selection.
-                </div>
+                  <div class="ps-4 pe-4 pb-2">
+                      Do not leave an empty selection.
+                  </div>
                 <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    Vote buying and intimidation are prohibited.
-                </div>
+                  <div class="ps-4 pe-4 pb-2">
+                      Vote buying and intimidation are prohibited.
+                  </div>
                 <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    Displaying your ballot or discussing your vote to another person's votes is prohibited.
-                </div>
+                  <div class="ps-4 pe-4 pb-2">
+                      Displaying your ballot or discussing your vote to another person's votes is prohibited.
+                  </div>
                 <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    Only registered voters are permitted to vote.
-                </div>
+                  <div class="ps-4 pe-4 pb-2">
+                      Only registered voters are permitted to vote.
+                  </div>
                 <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    After selecting one (1) candidate each position, click the Submit Vote button to successfully cast your vote.
-                </div>
+                  <div class="ps-4 pe-4 pb-2">
+                      After selecting candidate(s) each position, click the <div class="main-color"><b>Submit Vote</b> </div> button to successfully cast your vote.
+                  </div>
                 <br>
               </div>
             </div>
@@ -182,7 +148,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
         <div class="d-flex justify-content-end"> 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <b><div class="greetings-blue">Hello </div><div class="greetings-red"><?php echo $personality ?>!</div></b>
+        <b><div class="greetings-blue">Hello </div><div class="greetings-red"><?php echo $org_personality ?>!</div></b>
         <p class="pt-3">Voting just got even better at the Polytechnic University of the Philippines – Santa Rosa Campus, all thanks to technology! 
         With iVOTE Automated Election System (AES), you can now cast your vote electronically. 
         Make sure to carefully review the voting guidelines for an enhanced experience. 
@@ -196,14 +162,16 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 </div>
 
 
+
 <!-- Confirmation Modal -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" 
+      data-backdrop="static" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body">
         <div class="text-center pb-4">
-          <div class="main-color" style="padding-top: 6%;">
-            <h4><b>CANDIDATE PREVIEW</b></h4>
+          <div class="main-color pt-lg-5 pt-md-3 pt-3">
+            <h4><b>BALLOT PREVIEW</b></h4>
           </div>
           Kindly review and confirm selections.
         </div>
@@ -218,20 +186,20 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 </div>
 
 <!-- Modal for Vote Submitted -->
-<div class="modal fade adjust-submit-modal" id="voteSubmittedModal" tabindex="-1" aria-labelledby="voteSubmittedModalLabel" aria-hidden="false" data-backdrop="static">
+<div class="modal fade adjust-submit-modal" id="voteSubmittedModal" tabindex="-1" aria-labelledby="voteSubmittedModalLabel" 
+    aria-hidden="false" data-backdrop="static" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content pb-4">
       <div class="modal-body text-center pb-2">
         <img src="../src/images/resc/check-animation.gif" width="300px">
         <h4 class="pb-4"><b>Vote Submitted!</b></h4>
-        <button class="button-check main-bg-color text-white py-2 px-4" onclick="window.location.href='../src/feedback-suggestions.php';">
-          <b>Give Feedback</b>
+        <button class="button-check main-bg-color text-white py-2 px-4" id="giveFeedbackbtn">
+          <a class="custom-link" href="../src/feedback-suggestions.php"><b>Give Feedback</b></a>
         </button>
       </div>
     </div>
   </div>
 </div>
-
 
 <div class="m-4">
   <div class="row">
@@ -244,7 +212,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
           <div class="font-weight1">
             <div class="pt-4"></div>
                 <div class="ps-4 pe-4 pb-2">
-                    Select only one (1) candidate each position.
+                  Select your preferred candidate(s) for each position.
                 </div>
                 <hr>
                 <div class="ps-4 pe-4 pb-2">
@@ -264,7 +232,9 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                 </div>
                 <hr>
                 <div class="ps-4 pe-4 pb-2">
-                    After selecting one (1) candidate each position, click the Submit Vote button to successfully cast your vote.
+                  After selecting candidate(s) each position, click the 
+                  <span class="main-color"><b> Submit Vote</b> </span> 
+                  button to successfully cast your vote.
                 </div>
                 <br>
            </div>
@@ -273,39 +243,50 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 </div>
 
 
+<?php 
+/*$voter_name =''; 
+$student_num ='';
+if ($result_config->num_rows > 0) {
+        while ($row_config = $result_config->fetch_assoc()) {
+            // Display each config as a list item
+            $voter_name = $row_config['voter_name'];
+            $student_num =  $row_config['student_num'];
+        }
+    } */?>
      <!-- Voting Section -->
 
     <div class="col-lg-9 col-md-10">
-
-       <!-------------------------- Student Details ----------------------->
-
-     <!--<div class ="reminder">
+ <!-------------------------- Student Details ----------------------->
+    <form id="voteForm" method="post">
+  
+    <?php //if ($voter_name == 'Enabled' && $student_num =='Enabled') { ?>
+    <!--<div class ="reminder-student">
         <div class="main-color ps-4 pt-4 spacing">
           <b>STUDENT INFORMATION</b>
         </div>
-        <div class="row">
+        <div class="row" style="margin-left: 20px; margin-right:20px">
           <div class="col-lg-6 col-sm-10">
-            <div class=" main-color pt-4 ps-5">
+            <div class=" main-color pt-4">
               Full Name
             </div>
             <div class="pt-2"></div>
-            <div class="ps-5 pb-5">
-              <input type="text" name="voter_name" id="voter_name" class="form-control" placeholder="Dela Cruz, Juan">
+            <div class="pb-5">
+              <input type="text" name="voter_name" id="voter_name" class="form-control" placeholder="Dela Cruz, Juan" maxlength="80">
             </div>
           </div>
-          <div class="col-lg-5 col-sm-10">
-            <div class=" main-color pt-lg-4 ps-4 ps-sm-5">
+          <div class="col-lg-6 col-sm-10">
+            <div class=" main-color pt-lg-4">
               Student Number
             </div>
             <div class="pt-2"></div>
-            <div class="ps-4 ps-sm-5 pb-5">
-             <input type="text" name="student_num" id="student_num" class="form-control" placeholder="2000-00123-SR-0">
+            <div class="pb-5">
+             <input type="text" name="student_num" id="student_num" class="form-control" placeholder="2000-00123-SR-0" maxlength="15">
             </div>
           </div>
         </div>
       </div> <div class="pb-4"></div> -->
+      <?php // } ?>
 
-  <form id="voteForm" method="post" action="../src/includes/insert-vote.php">
     <?php if ($result_positions->num_rows == 0 || $result_candidates->num_rows == 0): ?>
         <div class="reminder">
             <div class="main-color py-4 px-4">
@@ -338,31 +319,32 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                         <div class="hover-color ps-5 pb-4">
                             <a href="#<?php echo $modal_id ?>" data-toggle="modal">Duties and Responsibilities</a>
                         </div>
-               <!-- Modal for Duties and Responsibilities -->
-               <div class="modal fade adjust-modal" id="<?php echo $modal_id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header main-bg-color text-white d-flex justify-content-between align-items-center" style="border-top-right-radius: 18px; border-top-left-radius:18px">
-                                <h4 class="modal-title mb-0"><b><?php echo strtoupper($row['title']) ?></b></h4>
-                                <button type="button" class="btn-close me-2"  data-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <?php $lines = explode("\n", $row['description']);
-                                  $count = count($lines); ?>
-                            <div class="modal-body">
-                              <div class="main-color pt-4 pb-3"><b>DUTIES AND RESPONSIBILITIES</b></div>
-                                <ul>
-                                <?php foreach ($lines as $key => $line): ?>
-                                    <?php if ($key === $count - 1): ?>
-                                        <li><?php echo htmlspecialchars($line); ?></li>
-                                    <?php else: ?>
-                                        <li class="pb-2"><?php echo htmlspecialchars($line); ?></li>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                               </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                    <!-- Modal for Duties and Responsibilities -->
+                    <div class="modal fade adjust-modal" id="<?php echo $modal_id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                          <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                  <div class="modal-header main-bg-color text-white d-flex justify-content-between align-items-center" style="border-top-right-radius: 18px; border-top-left-radius:18px">
+                                      <h4 class="modal-title mb-0"><b><?php echo strtoupper($row['title']) ?></b></h4>
+                                      <button type="button" class="btn-close me-2"  data-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <?php $lines = explode("\n", $row['description']);
+                                        $count = count($lines); ?>
+                                  <div class="modal-body">
+                                    <div class="main-color pt-4 pb-3"><b>DUTIES AND RESPONSIBILITIES</b></div>
+                                      <ul>
+                                      <?php foreach ($lines as $key => $line): ?>
+                                          <?php if ($key === $count - 1): ?>
+                                              <li><?php echo htmlspecialchars($line); ?></li>
+                                          <?php else: ?>
+                                              <li class="pb-2"><?php echo htmlspecialchars($line); ?></li>
+                                          <?php endif; ?>
+                                      <?php endforeach; ?>
+                                    </ul>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
 
                 <!-- Fetch candidates matching the position_id -->
                 <?php $result_candidates->data_seek(0); ?>
@@ -374,7 +356,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                             $full_name = $row_candidates['last_name'] . ", " . $row_candidates['first_name'];
                             ?>
                             <div class="col-lg-6 col-md-12 col-sm-12">
-                            <div class="px-5">
+                              <div class="px-5">
                                     <div class="candidate-info pb-4">
                                     <label for="<?php echo $row_candidates['candidate_id'] ?>">
                                         <img src="images/candidate-profile/<?php echo $row_candidates['photo_url'] ?>" alt="Candidate Image" width="100px" height="100px">
@@ -432,27 +414,38 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
             </button>
         </div>
     <?php endif; ?>
+    
 </form>
-
 
 </main>
 </body>
 
 <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
 
-
 <?php
 // PHP code to fetch $row_candidates['photo_url']
-$imageSrc = 'images/candidate-profile/' . $row_candidates['photo_url'];
+$imageSrc = 'images/candidate-profile/';
+if (!empty($row_candidates['photo_url'])) {
+    $imageSrc .= $row_candidates['photo_url'];
+} else {
+    // Handle the case where photo_url is not set or is null
+    $imageSrc .= 'placeholder.png';
+}
 ?>
 
+<script>
+  window.onload = function() {
+      $(document).ready(() => {
+          $('#greetModal').modal('show');
+      }); 
+  };
+</script>
+
   <script src="../src/scripts/feather.js"></script>
-  <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.js"></script>
-  <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src ="../src/scripts/ballot-forms.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 </html>
