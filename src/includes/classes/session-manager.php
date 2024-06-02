@@ -6,10 +6,10 @@ class SessionManager {
     public static function checkUserRoleAndRedirect() {
         if(isset($_SESSION['voter_id'])) {
 
-            $role = $_SESSION['role'];
-            $account_status = $_SESSION['account_status'];
-            $voter_status = $_SESSION['voter_status'];
-            $vote_status = $_SESSION['vote_status'];
+            $role = $_SESSION['role'] ?? NULL;
+            $account_status = $_SESSION['account_status'] ?? NULL;
+            $voter_status = $_SESSION['voter_status'] ?? NULL;
+            $vote_status = $_SESSION['vote_status'] ?? NULL;
 
             if($role == 'student_voter') {
                 self::handleStudentVoter($account_status, $voter_status, $vote_status);

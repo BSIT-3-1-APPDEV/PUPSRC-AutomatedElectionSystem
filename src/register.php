@@ -183,7 +183,18 @@ if ($result->num_rows > 0) {
             </div>
         </div>
     </div>
-    <div class="modal" id="approvalModal" tabindex="-1" role="dialog">
+
+    
+    <!-- CODE FOR TESTING ONLY. Remove the comment if no longer needed.
+        
+        <button class="del-no-border px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6" id="reject-btn" data-toggle="modal"
+        data-target="#onlyPDFAllowedModal">Try Only PDF files Button</button> -->
+
+
+    <!-- LIST OF MODALS -->
+
+    <!-- Registered Successfully Modal -->
+    <div class="modal" id="approvalModal" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -200,7 +211,8 @@ if ($result->num_rows > 0) {
                         <div class="row">
                             <div class="col-md-12 pb-3">
                                 <p class="fw-bold fs-3 success-color spacing-4">Successfully Registered!</p>
-                                <p class="fw-medium spacing-5">We'll notify you via email once your account has been verified.
+                                <p class="fw-medium spacing-5">We'll notify you via email once your account has been
+                                    verified.
                                 </p>
                             </div>
                         </div>
@@ -210,9 +222,40 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 
+    <!-- Only PDF Files Are Allowed Modal -->
+    <div class="modal" id="onlyPDFAllowedModal" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end">
+                        <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" onclick="closeModal()">
+                        </i>
+                    </div>
+                    <div class="text-center">
+                        <div class="col-md-12">
+                            <img src="images/resc/warning.png" alt="Warning Icon">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 pb-3 pt-4">
+                                <p class="fw-bold fs-3 danger spacing-4 px-2">Only PDF files are allowed</p>
+                                <p class="fw-medium spacing-5 pt-2 px-5 ">Please also ensure the file is no larger than
+                                    25 mb.
+                                    Let's try that again!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <?php include_once __DIR__ . '/includes/components/all-footer.php'; ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts/register.js"></script>
     <?php
     // Check if registration success flag is set in the session
     if (isset($_SESSION['registrationSuccess']) && $_SESSION['registrationSuccess'] === true) {
@@ -225,12 +268,6 @@ if ($result->num_rows > 0) {
         unset($_SESSION['registrationSuccess']);
     }
     ?>
-
-    <script>
-        function redirectToPage(url) {
-            window.location.href = url;
-        }
-    </script>
 
     <script>document.addEventListener('DOMContentLoaded', function () {
             const emailInput = document.getElementById('email');

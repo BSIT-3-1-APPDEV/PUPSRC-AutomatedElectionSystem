@@ -4,7 +4,7 @@ require_once FileUtils::normalizeFilePath('../error-reporting.php');
 
 trait EndpointResponse
 {
-    protected static function sendResponse($statusCode, $body, $terminate = false)
+    public static function sendResponse($statusCode, $body, $terminate = false)
     {
         http_response_code($statusCode);
         header('Content-Type: application/json');

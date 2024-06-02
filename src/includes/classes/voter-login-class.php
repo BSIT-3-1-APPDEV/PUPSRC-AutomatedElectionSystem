@@ -4,6 +4,7 @@ require_once FileUtils::normalizeFilePath(__DIR__ . '/db-connector.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/../get-ip-address.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/../unset-email-password.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/../error-reporting.php');
+include_once FileUtils::normalizeFilePath(__DIR__ . '/../default-time-zone.php');
 
 class Login{
 
@@ -70,7 +71,7 @@ class Login{
             $_SESSION['account_status'] = $row['account_status'];
             $this->handleUserRole($row);
         } else {
-            $this->handleMismatchedCredentials();
+            $this->handleMismatchedCredentials($row);
         }       
     }
 
@@ -111,14 +112,14 @@ class Login{
     }
 
     // Check voter status of a verified account
-    private function handleVerifiedStudentVoter($row) {
-        $_SESSION['voter_id'] = $row['voter_id'];
+    private function handleVerifiedStudentVoter($row) {    
         $_SESSION['voter_status'] = $row['voter_status'];
         $_SESSION['vote_status'] = $row['vote_status'];
 
         if ($row['voter_status'] === 'inactive') {
             $this->redirectWithMessage('info_message', 'This account is inactive.');
         } else {
+            $_SESSION['voter_id'] = $row['voter_id'];
             $this->redirectBasedOnVoteStatus($row['vote_status']);
         }
     }
@@ -159,14 +160,14 @@ class Login{
     }
 
     // Check mismatched email and password
-    private function handleMismatchedCredentials() {
+    private function handleMismatchedCredentials($row) {
         $this->logFailedAttempt();
 
         $remaining_attempt = self::LOGIN_ATTEMPT_COUNT - $this->getFailedAttemptsCount();
         if ($remaining_attempt <= 0) {
             $this->redirectWithError('Too many login attempts.<br/>You are blocked for ' . self::LOGIN_BLOCK_TIME . ' seconds.');
         } else {
-            $this->redirectWithMessage('error_message', 'Email and password do not match<br/>' . $remaining_attempt . ' remaining attempts.');
+            $this->setUserEmail($row['email'], 'Email and password do not match<br/>' . $remaining_attempt . ' remaining attempts.');
         }
     }
 
@@ -221,5 +222,11 @@ class Login{
         header("Location: ../voter-login.php");
         exit();
     }
-}
 
+    private function setUserEmail($email, $message) {
+        $_SESSION['email'] = $email;
+        $_SESSION['error_message']  = $message;
+        header("Location: ../voter-login.php");
+        exit();
+    }
+}
