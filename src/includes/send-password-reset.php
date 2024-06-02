@@ -8,10 +8,11 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/error-reporting.php');
 include_once FileUtils::normalizeFilePath(__DIR__. '/session-exchange.php');
 include_once FileUtils::normalizeFilePath(__DIR__. '/default-time-zone.php');
 
+// Set initial value of success key to false
 $response = ['success' => false, 'message' => 'An error occurred'];
 
-if(isset($_POST['email'])) {
-    $email = $_POST['email'];    
+if($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = $_POST['email'] ?? NULL;    
 
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $response['message'] = 'Please provide a valid email address';
@@ -22,7 +23,7 @@ if(isset($_POST['email'])) {
     $connection = DatabaseConnection::connect();
 
     // Check if email exists
-    $sql = "SELECT email, account_status FROM voter WHERE email = ?";
+    $sql = "SELECT email, account_status FROM voter WHERE BINARY email = ?";
     $stmt = $connection->prepare($sql);
     $stmt->bind_param('s', $email);
     $stmt->execute();
@@ -49,14 +50,16 @@ if(isset($_POST['email'])) {
     $duration = time() + (60 * 30);
     $expiry = date("Y-m-d H:i:s", $duration); 
 
-    $sql = "UPDATE voter SET reset_token_hash = ?, reset_token_expires_at = ? WHERE email = ?";
+    $sql = "UPDATE voter SET reset_token_hash = ?, reset_token_expires_at = ? WHERE BINARY email = ?";
     $stmt = $connection->prepare($sql);
     $stmt->bind_param('sss', $token_hash, $expiry, $email);
     $stmt->execute();
 
-    if($stmt->affected_rows) {
+    if($stmt->affected_rows) {     
+        // Create an instance of EmailSender
         $send_email = new EmailSender($mail);
-        $send_email->sendPasswordResetEmail($email, $token, $org_name);
+        $send_email->sendPasswordResetEmail($email, $token, $org_name);      
+        // Set value of success key to true
         $response['success'] = true;
         echo json_encode($response);
         exit();   
