@@ -260,7 +260,7 @@ if ($result_config->num_rows > 0) {
     <form id="voteForm" method="post">
   
     <?php //if ($voter_name == 'Enabled' && $student_num =='Enabled') { ?>
-    <!--<div class ="reminder-student">
+    <div class ="reminder-student">
         <div class="main-color ps-4 pt-4 spacing">
           <b>STUDENT INFORMATION</b>
         </div>
@@ -284,7 +284,7 @@ if ($result_config->num_rows > 0) {
             </div>
           </div>
         </div>
-      </div> <div class="pb-4"></div> -->
+      </div> <div class="pb-4"></div>
       <?php // } ?>
 
     <?php if ($result_positions->num_rows == 0 || $result_candidates->num_rows == 0): ?>
