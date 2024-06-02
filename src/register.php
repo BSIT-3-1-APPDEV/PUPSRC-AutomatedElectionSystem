@@ -183,8 +183,11 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 
-    <button class="del-no-border px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6" id="reject-btn" data-toggle="modal"
-        data-target="#onlyPDFAllowedModal">Try Only PDF files Button</button>
+    
+    <!-- CODE FOR TESTING ONLY. Remove the comment if no longer needed.
+        
+        <button class="del-no-border px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6" id="reject-btn" data-toggle="modal"
+        data-target="#onlyPDFAllowedModal">Try Only PDF files Button</button> -->
 
 
     <!-- LIST OF MODALS -->
