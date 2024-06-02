@@ -13,11 +13,16 @@ $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $limit = 5; 
 $offset = ($page - 1) * $limit;
 
-$query = "SELECT * FROM voter WHERE account_status = 'verified' AND role = 'student_voter' LIMIT $limit OFFSET $offset";
-$to_verify = $queryExecutor->executeQuery($query);
+$query = "SELECT voter_id, email, account_status, status_updated FROM voter WHERE account_status = ? AND role = ? LIMIT ? OFFSET ?";
+$stmt = $conn->prepare($query);
+$account_status = 'verified';
+$role = 'student_voter';
+$stmt->bind_param('ssii', $account_status, $role, $limit, $offset);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $voters = [];
-while ($row = $to_verify->fetch_assoc()) {
+while ($row = $result->fetch_assoc()) {
     $voters[] = [
         'voter_id' => $row['voter_id'],
         'email' => $row['email'],
@@ -26,9 +31,16 @@ while ($row = $to_verify->fetch_assoc()) {
     ];
 }
 
-$countQuery = "SELECT COUNT(*) as total FROM voter WHERE account_status = 'verified' AND role = 'student_voter'";
-$countResult = $queryExecutor->executeQuery($countQuery);
+$stmt->close();
+
+$countQuery = "SELECT COUNT(*) as total FROM voter WHERE account_status = ? AND role = ?";
+$countStmt = $conn->prepare($countQuery);
+$countStmt->bind_param('ss', $account_status, $role);
+$countStmt->execute();
+$countResult = $countStmt->get_result();
 $totalRows = $countResult->fetch_assoc()['total'];
+
+$countStmt->close();
 
 echo json_encode([
     'voters' => $voters,
