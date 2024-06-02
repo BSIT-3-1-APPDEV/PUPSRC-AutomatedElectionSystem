@@ -6,7 +6,8 @@ require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 SessionManager::checkUserRoleAndRedirect();
-
+$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+$_SESSION['csrf_expiry'] = time() + (60 * 30);
 $organization = 'sco';
 
 // Retrieves database configuration based on the organization name
@@ -81,11 +82,11 @@ if ($result->num_rows > 0) {
                                 <label class="fs-8 spacing-3">Email Address<span
                                         class="asterisk fw-medium">*</span></label>
                                 <input type="text" class="form-control pt-2 bg-primary text-black" name="email"
-                                    id="email" placeholder="Email Address" required>
+                                    id="email" placeholder="Email Address" oninput="preventSpaces(event)" required>
                             </div>
                         </div>
                     </div>
-
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
 
                     <!-- Select Organization -->
                     <div class="row pt-2">
@@ -118,7 +119,7 @@ if ($result->num_rows > 0) {
                                     <label class="fs-8 spacing-3">Password <span
                                             class="asterisk fw-medium">*</span></label>
                                     <input type="password" class="form-control pt-2 bg-primary text-black"
-                                        name="password" id="password" placeholder="Password" required>
+                                        name="password" id="password" placeholder="Password" oninput="preventSpaces(event)" required>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +134,7 @@ if ($result->num_rows > 0) {
                                     <label class="fs-8 spacing-3">Re-type password <span
                                             class="asterisk fw-medium">*</span></label>
                                     <input type="password" class="form-control pt-2 bg-primary text-black"
-                                        id="retype-pass" name="retype-pass" placeholder="Re-type password" required>
+                                        id="retype-pass" name="retype-pass" placeholder="Re-type password" oninput="preventSpaces(event)" required>
                                 </div>
                             </div>
                         </div>
@@ -251,12 +252,22 @@ if ($result->num_rows > 0) {
                 validateOrg(orgSelect);
                 checkFormValidity();
             });
+            let retypePasswordTimeout;
 
-            passwordInput.addEventListener('input', function () {
-                validatePassword(passwordInput);
-                validateRetypePassword(retypePassInput, passwordInput);
-                checkFormValidity();
-            });
+passwordInput.addEventListener('input', function () {
+    clearTimeout(retypePasswordTimeout); // Clear any previously set timeout
+
+    // Set a timeout to validate the retype password after a short delay
+    retypePasswordTimeout = setTimeout(function () {
+        validateRetypePassword(retypePassInput, passwordInput);
+        checkFormValidity();
+    }, 3000); // Adjust the delay as needed (e.g., 500 milliseconds)
+    
+    validatePassword(passwordInput);
+    checkFormValidity();
+});
+
+
 
             retypePassInput.addEventListener('input', function () {
 
@@ -324,7 +335,8 @@ if ($result->num_rows > 0) {
                 const passwordValue = input.value;
                 const errorElement = input.nextElementSibling;
 
-                const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
+                const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[^a-zA-Z0-9\s])[^\s]{8,20}$/;
+
                 if (!passwordRegex.test(passwordValue)) {
                     showError(input, errorElement, 'Password must be 8-20 characters long with letters, numbers, and symbols.');
                 } else {
@@ -420,6 +432,23 @@ if ($result->num_rows > 0) {
 
 
         });
+
+        function preventLeadingSpace(event) {
+    const input = event.target;
+    if (input.value.startsWith(' ')) {
+        input.value = input.value.trim(); // Remove leading space
+    }
+    // Replace multiple consecutive spaces with a single space
+    input.value = input.value.replace(/\s{2,}/g, ' ');
+}
+
+function preventSpaces(event) {
+        const input = event.target;
+        if (input.value.includes(' ')) {
+            input.value = input.value.replace(/\s/g, ''); // Remove all spaces
+        }
+    }
+
 
 
 

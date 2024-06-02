@@ -58,15 +58,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     
     <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_name . '.css'; ?>" id="org-style">
     <style>
-        <?php
-    
 
-        // Output the CSS with the organization color variable for background-color
-        echo ".main-bg-color { background-color: var(--$org_name); }";
-
-        // Output the CSS for the line with the dynamic color
-        echo ".line { border-bottom: 2px solid var(--$org_name); width: 100%; }";
-        ?>
     .full-screen{
         background-color: #f5f5f5;
     }

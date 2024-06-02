@@ -1,8 +1,27 @@
 <?php
-session_start();
+
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('session-handler.php'); // This file starts the session
 require_once FileUtils::normalizeFilePath('classes/db-config.php');
 require_once FileUtils::normalizeFilePath('error-reporting.php');
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token'])) {
+    displayUnsetToken();
+}
+
+// Validate CSRF token if it matches what is stored in session variable
+if ($_POST['csrf_token'] == $_SESSION['csrf_token']) {
+    // Check if CSRF token isn't expired yet
+    if (time() >= $_SESSION['csrf_expiry']) {
+        displayUnsetToken();
+    }
+
+    unset($_SESSION['csrf_token']);
+    unset($_SESSION['csrf_expiry']);
+} else {
+    displayUnsetToken();
+}
+
 try {
     // Get the organization from the form data
     $organization = $_POST['org'];
@@ -58,14 +77,16 @@ try {
         throw new Exception("Error uploading file.");
     }
 
+    // Generate a hash of the uploaded file
+    $fileHash = hash_file('sha256', $targetFile);
+
     // Extract the filename from the target file path
     $fileName = basename($targetFile);
 
- // Prepare and execute the SQL query to insert data into the respective organization's table
-$insertQuery = "INSERT INTO voter (email, password, cor, status, role) VALUES (?, ?, ?, 'For Verification', 'Student Voter')";
-$insertStatement = $connectionOrg->prepare($insertQuery);
-$insertStatement->bind_param("sss", $email, $hashedPassword, $fileName);
-
+    // Prepare and execute the SQL query to insert data into the respective organization's table
+    $insertQuery = "INSERT INTO voter (email, password, cor, cor_hash, account_status, role) VALUES (?, ?, ?, ?, 'for_verification', 'student_voter')";
+    $insertStatement = $connectionOrg->prepare($insertQuery);
+    $insertStatement->bind_param("ssss", $email, $hashedPassword, $fileName, $fileHash);
 
     if ($insertStatement->execute()) {
         // Insertion successful in the selected organization's database
@@ -84,9 +105,9 @@ $insertStatement->bind_param("sss", $email, $hashedPassword, $fileName);
         }
 
         // Prepare and execute the SQL query to insert data into 'voter' table in 'db_sco'
-        $insertQuerySco = "INSERT INTO voter (email, password, cor, status, role) VALUES (?, ?, ?, 'For Verification', 'Student Voter')";
+        $insertQuerySco = "INSERT INTO voter (email, password, cor, cor_hash, account_status, role) VALUES (?, ?, ?, ?, 'for_verification', 'student_voter')";
         $insertStatementSco = $connectionSco->prepare($insertQuerySco);
-        $insertStatementSco->bind_param("sss", $email, $hashedPassword, $fileName);
+        $insertStatementSco->bind_param("ssss", $email, $hashedPassword, $fileName, $fileHash);
 
         if ($insertStatementSco->execute()) {
             // Both insertions successful, redirect to register.php
@@ -118,6 +139,12 @@ $insertStatement->bind_param("sss", $email, $hashedPassword, $fileName);
     // Redirect with error message
     $errorMessage = "Error: " . $e->getMessage();
     header("Location: ../register.php?error=" . urlencode($errorMessage));
+    exit();
+}
+
+function displayUnsetToken() {
+    $_SESSION['error_message'] = 'Something went wrong. Please reload the page.';
+    header("Location: ../voter-login.php");
     exit();
 }
 ?>
