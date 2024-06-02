@@ -144,7 +144,7 @@ try {
 
 function displayUnsetToken() {
     $_SESSION['error_message'] = 'Something went wrong. Please reload the page.';
-    header("Location: ../voter-login.php");
+    header("Location: ../register.php");
     exit();
 }
 ?>
