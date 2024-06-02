@@ -288,7 +288,6 @@ class CandidatePosition
     protected static function deleteCandidates($data, $retryCount = 0)
     {
         self::$connection = DatabaseConnection::connect();
-        echo $retryCount;
 
         $sql = "DELETE FROM candidate WHERE position_id = ?";
 
@@ -334,7 +333,7 @@ class CandidatePosition
 
     protected static function deleteVotes($data)
     {
-        echo $data['data_id'];
+
         self::$connection = DatabaseConnection::connect();
 
         $sql = "DELETE FROM vote WHERE position_id = ?";
