@@ -430,3 +430,18 @@ body>* {
 .close-mark {
   margin: 2.5rem 1rem 0rem 0rem !important;
 }
+
+.disabled-arrow {
+  color: rgb(195, 195, 195) !important;
+  pointer-events: none !important;
+  cursor: pointer !important;
+}
+
+.pagination .disabled a {
+  pointer-events: none;
+  cursor: default;
+  background-color: none;
+}
+.pagination .disabled a .fas {
+  color: gray;
+}
