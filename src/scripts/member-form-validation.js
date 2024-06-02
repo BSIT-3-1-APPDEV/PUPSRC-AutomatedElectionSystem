@@ -45,7 +45,7 @@ adminForm.addEventListener("submit", function (event) {
 function validateFirstName() {
     const firstNameInput = document.getElementById("first_name");
     const firstNameError = document.getElementById("first_name_error");
-    const namePattern = /^[a-zA-Z]+(\s?[a-zA-Z]+)*$/;
+    const namePattern = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
 
     if (!namePattern.test(firstNameInput.value)) {
         firstNameError.textContent = "Please enter a valid name.";
@@ -62,7 +62,7 @@ firstNameInput.addEventListener("input", validateFirstName);
 function validateMiddleName() {
     const middleNameInput = document.getElementById("middle_name");
     const middleNameError = document.getElementById("middle_name_error");
-    const namePattern = /^[a-zA-Z]+(\s?[a-zA-Z]+)*$/;
+    const namePattern = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
 
     if (middleNameInput.value.length > 0 && !namePattern.test(middleNameInput.value)) {
         middleNameError.textContent = "Please enter a valid name.";
@@ -95,7 +95,7 @@ suffixInput.addEventListener("input", validateSuffix);
 function validateLastName() {
     const lastNameInput = document.getElementById("last_name");
     const lastNameError = document.getElementById("last_name_error");
-    const namePattern = /^[a-zA-Z]+(\s?[a-zA-Z]+)*$/;
+    const namePattern = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
 
     if (!namePattern.test(lastNameInput.value)) {
         lastNameError.textContent = "Please enter a valid name.";

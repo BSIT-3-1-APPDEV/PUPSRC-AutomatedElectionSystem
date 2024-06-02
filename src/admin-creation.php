@@ -121,7 +121,7 @@ if (isset($_SESSION['voter_id'])) {
                                                         </span> </label>
                                                     <input type="email" id="email" name="email"
                                                         placeholder="E.g. TriziaCarpena@gmail.com" required>
-                                                    <span class="error-message" id="email_error"></span>
+                                                    <span class="error-message" id="email_error"><?php echo $emailError; ?></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-5 col-sm-6">
