@@ -943,6 +943,7 @@ ConfigPage.DTableUtil = class DTableUtil {
 ConfigPage.CandidatePosition = class CandidatePosition {
 
     static maxVoteOptions = [
+        { value: '1', text: '' },
         { value: '1', text: 'One (1)' },
         { value: '2', text: 'Two (2)' },
         { value: '3', text: 'Three (3)' },
@@ -1059,6 +1060,9 @@ ConfigPage.CandidatePosition = class CandidatePosition {
             let option = document.createElement('option');
             option.value = optionData.value;
             option.text = optionData.text;
+            if (optionData.disabled) {
+                option.disabled = true;
+            }
             selectElement.appendChild(option);
         });
     }

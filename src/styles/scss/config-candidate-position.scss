@@ -379,6 +379,31 @@ button.add-new {
             text-align: center;
             letter-spacing: 0.1rem;
 
+            %hide-default-blank-option {
+                display: none;
+
+                &:hover {
+                    background-color: transparent;
+                    pointer-events: none;
+                }
+            }
+
+            &.disabled {
+                @extend %hide-default-blank-option;
+            }
+
+            a.dropdown-item span.text:empty {
+                @extend %hide-default-blank-option;
+            }
+
+            a.dropdown-item:has(span.text:empty) {
+                @extend %hide-default-blank-option;
+            }
+
+            &:has(&.disabled, a.dropdown-item span.text:empty) {
+                @extend %hide-default-blank-option;
+            }
+
             &.selected.active {
                 border-radius: 8px;
                 filter: drop-shadow(0 0 7mm var(--main-color));
