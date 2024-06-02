@@ -73,6 +73,8 @@ main {
             padding: 1rem 0.25rem;
 
             svg {
+                height: calc(1rem + 0.5vw);
+                width: calc(1rem + 0.5vw);
                 transform: translateY(-8%);
             }
         }
@@ -108,13 +110,15 @@ main {
             }
 
             &.selected {
-                border: calc(0.5px + 0.1vw) solid #0075FF;
+                // outline: clamp(1px, 0.5px + 0.1vw, 5px) solid #0075FF;
+                border: clamp(1.5px, 0.5px + 0.1vw, 5px) solid #0075FF;
             }
         }
     }
 }
 
-body div.modal {
+body div.modal,
+body dialog.modal-native {
 
     .modal-dialog {
         .modal-header {
@@ -131,6 +135,7 @@ body div.modal {
         }
 
         #positionInput {
+
             outline: none;
             border-top: 0;
             border-right: 0;
@@ -139,11 +144,14 @@ body div.modal {
             border-bottom: clamp(1px, 1px + 0.01dvw, 5px) solid var(--main-color);
             padding-left: 0;
             padding-right: 0;
+            // line-height: 1.75;
+            @extend %general-responsive-base-font-size;
 
             &.form-control {
 
                 &:active,
                 &:focus {
+                    // line-height: 1.5;
                     box-shadow: none;
                     border-bottom: clamp(2px, 1.5px + 0.01dvw, 5px) solid var(--main-color);
                 }
@@ -180,29 +188,37 @@ body div.modal {
                 }
 
                 background-color: var(--main-color);
-                filter: grayscale(100%);
+                filter: brightness(130%);
             }
+
+            &:focus-visible {
+                outline: none;
+            }
+        }
+
+        .ql-container {
+            @extend %general-responsive-base-font-size;
         }
 
         @media only screen and (max-height: 600px) {
             .ql-container {
                 // height: 100px;
-                height: clamp(6rem, 3rem + 9dvh, 50dvh);
+                height: clamp(5rem, 3rem + 6dvh, 50dvh);
             }
 
             .ql-editor {
-                height: clamp(4.5rem, 1.5rem + 8.5dvh, 49.5dvh);
+                height: clamp(3.5rem, 1.5rem + 5.5dvh, 49.5dvh);
             }
         }
 
         @media only screen and (min-height: 601px) {
             .ql-container {
                 // height: 100px;
-                height: clamp(6.25rem, 3rem + 35dvh, 50dvh);
+                height: clamp(6.25rem, 3rem + 15.5dvh, 50dvh);
             }
 
             .ql-editor {
-                height: clamp(4.75rem, 1.5rem + 34dvh, 49.5dvh);
+                height: clamp(4.75rem, 1.5rem + 14.5dvh, 49.5dvh);
             }
         }
 
@@ -314,3 +330,102 @@ button.add-new {
     //     box-shadow: var(--box-shadow-size), color-mix(in srgb, var(--dark-gray) 25%, transparent);
     // }
 }
+
+// sass doesnt support scope selector of css yet
+// @scope (main.main) {
+.dropdown.bootstrap-select {
+
+    button.dropdown-toggle {
+        background-color: #f8f8f8;
+        padding-top: 0.938rem;
+        padding-bottom: 1rem;
+        @extend %general-responsive-base-font-size;
+
+        .filter-option {
+            color: #b6b6b6;
+            font-weight: 500;
+        }
+
+        &:focus {
+            outline: clamp(1px, 0.5px + 0.1vw, 5px) solid var(--main-color) !important;
+        }
+
+        &::after {
+            content: none;
+        }
+
+        &::before {
+            color: #b6b6b6;
+            content: "\f078";
+            font-family: FontAwesome;
+            display: inline-block;
+            position: absolute;
+            right: 5%;
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        &.show::before {
+            filter: brightness(50%);
+            transform: rotateX(180deg);
+            transition: transform 0.3s ease;
+        }
+
+    }
+
+    .dropdown-menu[data-popper-placement] {
+        top: -20% !important;
+        border-width: 0;
+        filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25));
+        padding: clamp(1rem, 0.25rem + 0.5vw, 3rem) clamp(1.25rem, 0.5rem + 0.5vw, 3.5rem);
+
+        ul.dropdown-menu li {
+            @extend %general-responsive-base-font-size;
+            text-align: center;
+            letter-spacing: 0.1rem;
+
+            span.text {
+                font-weight: 500;
+            }
+
+            %hide-default-blank-option {
+                display: none;
+
+                &:hover {
+                    background-color: transparent;
+                    pointer-events: none;
+                }
+            }
+
+            &.disabled {
+                @extend %hide-default-blank-option;
+            }
+
+            a.dropdown-item span.text:empty {
+                @extend %hide-default-blank-option;
+            }
+
+            a.dropdown-item:has(span.text:empty) {
+                @extend %hide-default-blank-option;
+            }
+
+            &:has(&.disabled, a.dropdown-item span.text:empty) {
+                @extend %hide-default-blank-option;
+            }
+
+            &.selected.active {
+                border-radius: 8px;
+                filter: drop-shadow(0 0 7mm var(--main-color));
+
+                a {
+
+                    &.selected.active span.text {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// }

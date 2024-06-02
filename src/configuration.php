@@ -8,17 +8,30 @@ require_once FileUtils::normalizeFilePath('includes/classes/user.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-router.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.php');
+require_once FileUtils::normalizeFilePath('includes/classes/date-time-utils.php');
 
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
 
+$allowed_roles = ['admin', 'head_admin'];
 $is_page_accessible = isset($_SESSION['voter_id'], $_SESSION['role'], $_SESSION['organization']) &&
-    (strtolower($_SESSION['role']) === 'committee member'  || strtolower($_SESSION['role']) == 'admin member') &&
+    (in_array($_SESSION['role'], $allowed_roles)) &&
     !empty($_SESSION['organization']);
 
 if (!$is_page_accessible) {
-    header("location: ../landing-page.php");
+    $page = basename($_SERVER['PHP_SELF']);
+
+    if ($page === 'configuration.php') {
+        header("Location: landing-page.php");
+    } else {
+        header("Location: ../landing-page.php");
+    }
     exit();
 }
 require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
+
+$phpDateTimeNow = new DateTimeUtils();
 
 ?>
 
@@ -151,11 +164,14 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
     <link rel="stylesheet" href="src/styles/font-montserrat.css">
 
     <!-- Icons -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" as="style" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="vendor/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <!-- <script>
         new ResourceLoader('vendor/node_modules/bootstrap/dist/css/bootstrap.min.css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', 'css');
     </script> -->
@@ -179,6 +195,7 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
     </script> -->
     <!-- Main Scripts -->
     <script src="src/scripts/script.js" defer></script>
+    <script rel="preload" src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" as="script"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
 
@@ -194,7 +211,6 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
     $configuration_pages = [
         'ballot-form',
         'vote-schedule',
-        'election-year',
         'vote-guidelines',
         'positions'
     ];
@@ -203,7 +219,6 @@ require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
     $link_name = [
         'Ballot Form',
         'Schedule',
-        'Election Year',
         'Voting Guidelines',
         'Candidate Positions'
     ];
