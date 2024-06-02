@@ -199,7 +199,7 @@ if ($result->num_rows > 0) {
                 <div class="modal-body">
                     <div class="d-flex justify-content-end">
                         <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-                            onclick="redirectToPage('landing-page.php')" id="close-modal">
+                            onclick="redirectToPage('landing-page.php')">
                         </i>
                     </div>
                     <div class="text-center">
