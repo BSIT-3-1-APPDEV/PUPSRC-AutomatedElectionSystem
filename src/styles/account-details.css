@@ -135,12 +135,30 @@
     letter-spacing: 0.03rem
   }
   
-  .admin-member {
+  .admin{
     background-color: var(--primary) !important;
     color: #fff;
   }
   
-  .committee-member {
+  .head_admin {
     background-color: var(--light-green) !important;
     color: white !important; 
+  } 
+  
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
   }
+  
+  .card-body{
+    border: none;
+  }
+
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 10px;
+  }
+  
+ 
