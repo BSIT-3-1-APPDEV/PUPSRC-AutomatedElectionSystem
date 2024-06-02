@@ -214,11 +214,11 @@ body dialog.modal-native {
         @media only screen and (min-height: 601px) {
             .ql-container {
                 // height: 100px;
-                height: clamp(6.25rem, 3rem + 18dvh, 50dvh);
+                height: clamp(6.25rem, 3rem + 15.5dvh, 50dvh);
             }
 
             .ql-editor {
-                height: clamp(4.75rem, 1.5rem + 17dvh, 49.5dvh);
+                height: clamp(4.75rem, 1.5rem + 14.5dvh, 49.5dvh);
             }
         }
 
@@ -331,14 +331,19 @@ button.add-new {
     // }
 }
 
+// sass doesnt support scope selector of css yet
+// @scope (main.main) {
 .dropdown.bootstrap-select {
 
     button.dropdown-toggle {
         background-color: #f8f8f8;
+        padding-top: 0.938rem;
+        padding-bottom: 1rem;
         @extend %general-responsive-base-font-size;
 
         .filter-option {
             color: #b6b6b6;
+            font-weight: 500;
         }
 
         &:focus {
@@ -379,6 +384,10 @@ button.add-new {
             text-align: center;
             letter-spacing: 0.1rem;
 
+            span.text {
+                font-weight: 500;
+            }
+
             %hide-default-blank-option {
                 display: none;
 
@@ -410,7 +419,7 @@ button.add-new {
 
                 a {
 
-                    &.selected.active {
+                    &.selected.active span.text {
                         font-weight: bold;
                     }
                 }
@@ -418,3 +427,5 @@ button.add-new {
         }
     }
 }
+
+// }
