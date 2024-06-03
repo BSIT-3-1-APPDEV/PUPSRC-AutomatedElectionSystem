@@ -109,7 +109,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         <div class="card-report main-bg-color mb-5">
                             <div class="card-body main-bg-color d-flex justify-content-between">
                                 <div>
-                                    <h5 class="card-title"><i data-feather="bar-chart-2" class="white mb-xl-1"></i>  Election Reports</h5>
+                                <h5 class="card-title"><i data-feather="bar-chart-2" class="white mb-xl-1 responsive-icon"></i> Election Reports</h5>
                                     <p class="card-text" id="selectedYear">
                                         <?php
                                         if ($result_years && $result_years->num_rows > 0) {
@@ -288,7 +288,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                     <br>
                     <div class="col-11 col-md-10 col-lg-11 mx-auto">
                         <div class="card-graph mb-5">
-                            <canvas id="myChart" style="padding: 60px 60px 40px 40px; height: 50px; width: 200px;"></canvas>
+                            <canvas id="myChart"></canvas>
                             <div class="form-group">
                             <select id="positionSelect" class="form-control2 main-bg-color text-truncate">
                                 <?php
@@ -366,8 +366,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
                     <div class="row m-0 p-0 justify-content-between">
                         <div class="col-md-7 m-0 ps-0 pe-md-4 pe-md-0 pe-sm-0 pe-0 ">
-                            <div class="card p-4 " style="border-radius: 27px; height: 280px;">
-                                <div class="card-body2">
+                            <div class="card2 p-4 " style="border-radius: 20px; height: 275px;">
+                                <div>
                                     <div class="row justify-content-center">
                                         <div class="col-md-12 col-lg-6 pe-lg-0 pe-xl-5">
                                             <canvas id="chartProgress" width="200" height="200"></canvas>
@@ -452,9 +452,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
                         <div class="col-md-5 col-lg-5 px-0 d-flex flex-column">
                             <!-- Voters Account Card -->
-                            <div class="card p-1 mt-1 mt-md-0 " style="border-radius: 27px;">
-                                <div class="card-body2 d-flex align-items-center justify-content-between p-3">
-                                    <div class="row w-100" style="padding-left: 27px;">
+                            <div class="card p-1 mt-1 mt-md-0 " style="border-radius: 20px;">
+                                <div class="card-body3 d-flex align-items-center justify-content-between p-3" style="padding-left: 30px;">
+                                    <div class="row w-100">
                                         <div class="col-9">
                                             <div class="col-12">
                                                 <span class="secondary-metrics-header main-color">Total count of</span>
@@ -476,9 +476,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                             <br>
 
                             <!-- Candidate Card -->
-                            <div class="card p-1 mt-1 mt-md-0" style="border-radius: 27px;">
-                                <div class="card-body2 d-flex align-items-center justify-content-between p-3">
-                                    <div class="row w-100" style="padding-left: 27px;">
+                            <div class="card p-1 mt-1 mt-md-0" style="border-radius: 20px;">
+                                <div class="card-body3 d-flex align-items-center justify-content-between p-3" style="padding-left: 30px;">
+                                    <div class="row w-100">
                                         <div class="col-9">
                                             <div class="col-12">
                                                 <span class="secondary-metrics-header main-color">Total count of</span>
@@ -512,7 +512,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         <div class="col-sm-6">
 							<p class="feedback-text fs-3 main-color fw-bold ls-10 spacing-6">Feedback Ratings</p>
 						</div>
-                        <div class="card-body d-flex flex-column justify-content-between">
+                        <div class=" d-flex flex-column justify-content-between">
                         <div class="row">
                         <div class="emoji">
                         <ul class="feedback pb-4">
