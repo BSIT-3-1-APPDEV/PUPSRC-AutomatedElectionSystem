@@ -644,7 +644,8 @@ ConfigPage = {
                             data_id: data_id,
                             sequence: sequence,
                             value: value,
-                            max_votes: (Number.isInteger(max_votes) && max_votes !== null) ? max_votes : 1
+                            max_votes: (Number.isInteger(max_votes) && max_votes !== null) ? max_votes :
+                                (!isNaN(parseInt(max_votes)) ? parseInt(max_votes) : 1)
                         },
                         2: description
                     }
