@@ -7,6 +7,11 @@ body {
     color: blue;
     text-decoration: underline;
   }
+
+  .des {
+    font-weight: 500 !important; 
+    display: inline !important;
+  }
   
   .custom-radio input[type="radio"] {
     display: none; 
@@ -114,11 +119,12 @@ body {
   }
   
   .header {
-      font-size: 35px;
+      font-size: 30px;
   }
   
   .header-sub {
-      font-size: 19px;
+      font-size: 20px;
+      font-weight: 500;
   }
   
   @media (max-width: 992px) {
@@ -503,6 +509,55 @@ html {
         }
     }
 }
+.dropdown-toggle::after {display: none !important;}
+
+.asterisk {
+    color: red;
+}
+
+.button-check {
+    border-radius: 5px;
+    border: none;
+    }
+
+.modal-content {
+    border-radius: 20px !important; /* Adjust the value as needed */
+  }
+  
+  
+   /* CSS for the dark overlay */
+  .modal-open .modal-backdrop  {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.47) !important; /* Adjust the opacity as needed */
+    z-index: 1050 !important; /* Make sure the overlay is above other elements */
+  }
+  
+  
+  .modal-open {
+    overflow: hidden !important;
+  }
+  
+  .btn-close {
+  position: relative;
+  font-size: 10px;
+  background-color: #ccc;
+  color: #ffffff !important;
+  font-weight: bold;
+  border: none;
+  width: 15px; 
+  height: 15px;
+  border-radius: 50%;
+  }
+
+  .char-limit-message {
+    color: red;
+    font-size: 14px;
+    display: none;
+  }
 
 .container-spacing {
     padding-left: 5%;
@@ -528,84 +583,106 @@ html {
   .link-blue {
     color: #4169E1;
   }
+
+  .custom-link {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit the color from the parent element */
+    font-family: inherit; /* Inherit font family */
+    font-size: inherit; /* Inherit font size */
+    /* You can add more custom styles as needed */
+}
+
+.custom-link:hover, .custom-link:focus {
+    color: inherit; /* Change color on hover/focus */
+    text-decoration: underline; /* Add underline on hover/focus */
+}
    
-       /* --- Footer --- */
-    .footer {
-        width: 100%;
-        background-color: #fff;
-        padding: 15px;
-        position: relative;
-        bottom: 0;
-        max-width: 100%;
-        left: 0;
-    }
-    
-    .footer-left {
-        margin-left: 5%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .footer-right {
-        display: flex;
+/* --- Footer --- */
+.footer {
+    width: 100%;
+    background-color: #fff;
+    padding: 15px;
+    position: relative;
+    bottom: 0;
+    max-width: 100%;
+    left: 0;
+}
+
+.footer-left {
+    margin-left: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1;
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-grow: 1;
+    margin-left: 20px; /* Add some spacing between sections */
+}
+
+.vertical-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0; 
+    right: 0;
+    margin: auto;
+    width: 2.61px;
+    height: 70%;
+    background-color: #e7e7e7 !important;
+}
+
+.horizontal-line {
+    width: 80%;
+    height: 2px;
+    background-color: #e7e7e7;
+}
+
+.soc-med-icons {
+    height: 22px;
+    transition: ease transform 0.2s;
+}
+
+.soc-med-icons:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+@media (max-width: 767px) {
+    .footer .row {
         flex-direction: column;
         align-items: center;
-        justify-content: center;
         text-align: center;
     }
-    
-    .vertical-line {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0; 
-        right: 0;
-        margin: auto;
-        width: 2.61px;
-        height: 70%;
-        background-color: #e7e7e7 !important;
-    }
-    
-    .horizontal-line {
-        width: 80%;
-        height: 2px;
-        background-color: #e7e7e7;
-    }
-    
     .footer-left, .footer-right {
-        flex: 1; /* Equal width for both sections */
+        width: 100%;
+        margin: 0;
+        align-items: center; /* Center align items */
     }
-    
+    .footer-left {
+        order: 1;
+    }
     .footer-right {
-        margin-left: 20px; /* Add some spacing between sections */
+        order: 2;
+        margin-top: 20px; /* Adjust as needed */
+        margin-left: 0;
     }
-    
-    .soc-med-icons {
-        height: 22px;
-        transition: ease transform 0.2s;
+    .footer-left .row:last-child {
+        order: 3;
+        margin-top: auto; /* Push to the bottom */
+        text-align: center; /* Center text content */
     }
-    
-    .soc-med-icons:hover {
-        transform: translateY(-5px);
-        cursor: pointer;
+    .footer .vertical-line {
+        display: none;
     }
+}
 
-    @media (max-width: 767px) {
-        .footer .row {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .footer .col-md-5 {
-            margin-top: 20px; /* Adjust as needed */
-            text-align: center; /* Center text content */
-        }
-        .footer .vertical-line {
-            display: none;
-        }
-    }
-    
     /* --- FEATHER ICONS SIZES --- */
 
 fs-12 {

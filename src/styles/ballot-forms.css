@@ -12,6 +12,11 @@ margin-right: 5%;
 color: gray;
 }
 
+.dropdown-toggle::after {display: none !important;}
+
+.font-weight5{
+  font-weight: 400;
+  }
 .font-weight1{
 font-weight: 500;
 }
@@ -45,10 +50,66 @@ text-decoration: none;
   }
 }
 
+@media (max-width: 768px) {
+  .reminder-student .main-color,
+  .reminder-student .form-control {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .candidate-info img {
+    width: 75px;
+    height: 75px;
+  }
+  .candidate-info .font-weight2 {
+    font-size: 14px;
+  }
+  .candidate-info .font-weight3 {
+    font-size: 12px;
+  }
+  .text-muted {
+    font-size: 14px;
+  }
+
+  input[type="radio"]::before {
+    content: "";
+    display: inline-block;
+    width: 20px; /* Adjust the width of the outer circle */
+    height: 20px; /* Adjust the height of the outer circle */
+    border-radius: 50%; /* Make it circular */
+    position: absolute; /* Position the ::before pseudo-element relative to the radio button */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Move it back by half its size */
+  }
+  
+  /* Styling when radio button is checked */
+  input[type="radio"]:checked::before {
+  width: 12px; /* Adjust the width of the inner circle when checked */
+  height: 12px; /* Adjust the height of the inner circle when checked */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-dialog {
+    max-width: 100%;
+    margin: 0;
+  }
+  .modal-content {
+    padding: 15px;
+  }
+  .modal-body {
+    padding: 15px;
+  }
+  .candidate-info img {
+    margin-bottom: 10px;
+  }
+}
+
 .modal-content {
   border-radius: 20px !important; /* Adjust the value as needed */
 }
-
 
  /* CSS for the dark overlay */
 .modal-open .modal-backdrop  {
@@ -200,6 +261,19 @@ font-weight: 700;
 font-size: 30px;
 }
 
+.custom-link {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit the color from the parent element */
+  font-family: inherit; /* Inherit font family */
+  font-size: inherit; /* Inherit font size */
+  /* You can add more custom styles as needed */
+}
+
+.custom-link:hover, .custom-link:focus {
+  color: inherit; /* Change color on hover/focus */
+  text-decoration: none; /* Remove underline */
+}
+
 
 .border-frame {
 background-color: white; 
@@ -226,6 +300,12 @@ border-radius: 10px;
 border: 2px solid #ccc;
 }
 
+.reminder-student {
+  background-color: white; 
+  border-radius: 10px; 
+  border: 2px solid #ccc;
+  }
+
 .reminder button {
 border: none; 
 background-color: #fff; 
@@ -246,7 +326,7 @@ letter-spacing: 2px;
 }
 
 .text-position {
-  padding-top: 4%;
+  padding-top: 3.5%;
   padding-left: 6%;
 }
 
@@ -310,66 +390,89 @@ left: 50%; /* Center horizontally */
 
 /* --- Footer --- */
 .footer {
-width: 100%;
-background-color: #fff;
-padding: 15px;
-position: relative;
-bottom: 0;
-max-width: 100%;
-left: 0;
+  width: 100%;
+  background-color: #fff;
+  padding: 15px;
+  position: relative;
+  bottom: 0;
+  max-width: 100%;
+  left: 0;
 }
 
 .footer-left {
-margin-left: 5%;
-display: flex;
-flex-direction: column;
-align-items: flex-start;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
 }
 
 .footer-right {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-grow: 1;
+  margin-left: 20px; /* Add some spacing between sections */
 }
 
 .vertical-line {
-position: absolute;
-top: 0;
-bottom: 0;
-left: 0; 
-right: 0;
-margin: auto;
-width: 2.61px;
-height: 70%;
-background-color: #e7e7e7 !important;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0; 
+  right: 0;
+  margin: auto;
+  width: 2.61px;
+  height: 70%;
+  background-color: #e7e7e7 !important;
 }
 
 .horizontal-line {
-width: 80%;
-height: 2px;
-background-color: #e7e7e7;
-}
-
-.footer-left, .footer-right {
-flex: 1; /* Equal width for both sections */
-}
-
-.footer-right {
-margin-left: 20px; /* Add some spacing between sections */
+  width: 80%;
+  height: 2px;
+  background-color: #e7e7e7;
 }
 
 .soc-med-icons {
-height: 22px;
-transition: ease transform 0.2s;
+  height: 22px;
+  transition: ease transform 0.2s;
 }
 
 .soc-med-icons:hover {
-transform: translateY(-5px);
-cursor: pointer;
+  transform: translateY(-5px);
+  cursor: pointer;
 }
 
+@media (max-width: 767px) {
+  .footer .row {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+  .footer-left, .footer-right {
+      width: 100%;
+      margin: 0;
+      align-items: center; /* Center align items */
+  }
+  .footer-left {
+      order: 1;
+  }
+  .footer-right {
+      order: 2;
+      margin-top: 20px; /* Adjust as needed */
+      margin-left: 0;
+  }
+  .footer-left .row:last-child {
+      order: 3;
+      margin-top: auto; /* Push to the bottom */
+      text-align: center; /* Center text content */
+  }
+  .footer .vertical-line {
+      display: none;
+  }
+}
 /* --- FEATHER ICONS SIZES --- */
 
 fs-12 {
