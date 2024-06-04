@@ -1,3 +1,30 @@
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownToggle = document.getElementById('navbarDropdown');
+  const chevronIcon = document.getElementById('dropdown-chevron');
+
+  dropdownToggle.addEventListener('click', function() {
+    // Check if the dropdown is currently shown
+    const isDropdownShown = dropdownToggle.getAttribute('aria-expanded') === 'true';
+
+    if (isDropdownShown) {
+      chevronIcon.classList.remove('fa-chevron-down');
+      chevronIcon.classList.add('fa-chevron-up');
+    } else {
+      chevronIcon.classList.remove('fa-chevron-up');
+      chevronIcon.classList.add('fa-chevron-down');
+    }
+  });
+
+  // Handle clicking outside the dropdown to close it and reset the icon
+  document.addEventListener('click', function(event) {
+    if (!dropdownToggle.contains(event.target) && !document.querySelector('.dropdown-menu').contains(event.target)) {
+      chevronIcon.classList.remove('fa-chevron-up');
+      chevronIcon.classList.add('fa-chevron-down');
+    }
+  });
+});
+
+
 // Get references to the rating and feedback elements
 var ratingInput = document.getElementById('rating');
 var feedbackInput = document.getElementById('feedback');
@@ -30,6 +57,17 @@ document.querySelectorAll('.feedback li').forEach(entry => entry.addEventListene
     }
     updateButtonText(); // Explicitly call updateButtonText after updating the rating value
 }));
+
+const textarea = document.getElementById('feedback');
+    const charLimitMessage = document.getElementById('charLimitMessage');
+
+    textarea.addEventListener('input', function () {
+      if (textarea.value.length >= 500) {
+        charLimitMessage.style.display = 'block';
+      } else {
+        charLimitMessage.style.display = 'none';
+      }
+    });
 
 // Call updateButtonText on DOMContentLoaded to set the initial state correctly
 document.addEventListener("DOMContentLoaded", updateButtonText);

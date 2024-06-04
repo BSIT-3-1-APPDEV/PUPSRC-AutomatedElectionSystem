@@ -110,7 +110,14 @@ if (isset($_SESSION['info_message'])) {
                         <?php endif; ?>
 
                         <div class="col-md-12 mt-0 mb-3">
-                            <input type="email" class="form-control" id="Email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" value="<?php if (isset($_SESSION['email'])) echo $_SESSION['email']; ?>">
+                            <input type="email" class="form-control" id="Email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" 
+                            value="
+                                <?php 
+                                if (isset($_SESSION['email'])) {
+                                    echo htmlspecialchars($_SESSION['email']);
+                                }
+                                ?>
+                            ">
                             <div class="valid-feedback text-start">Looks good!</div>
                             <div class="ps-2 text-start invalid-feedback">
                                 Please provide a valid email.
@@ -162,7 +169,7 @@ if (isset($_SESSION['info_message'])) {
                         <div class="col-md-12 ">
                             <div class="row reset-pass">
                                 <div class="col-4">
-                                    <button type="button" id="sendPasswordResetLink" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" id="sendPasswordResetLink" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal" onclick="location.reload()">Cancel</button>
                                 </div>
                                 <div class="col-4">
                                     <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send</button>

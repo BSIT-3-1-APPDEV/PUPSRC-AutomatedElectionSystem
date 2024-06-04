@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.bootstrap5.css">
-<link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" />
 <link rel="stylesheet" href="src/styles/config-candidate-position.css?v=2">
 
 
@@ -52,14 +53,14 @@
                 <label for="deleteButton" id="delete-label" data-bs-toggle="tooltip" data-bs-title="No items selected." data-bs-placement="right">
                     <button type="button" id="delete" class="btn btn-primary del me-2 me-md-3" data-selected="" disabled>
                         <span class="icon trash ">
-                            <i data-feather="trash" width="calc(1rem + 0.5vw)" height="calc(1rem + 0.5vw)"></i>
+                            <i data-feather="trash-2"></i>
                         </span>
                         <span class="d-none d-sm-inline">Delete</span>
                     </button>
                 </label>
                 <button type="button" class="btn btn-primary del me-2 me-md-3 d-none" data-selected="">
                     <span class="icon trash ">
-                        <i data-feather="trash" width="calc(1rem + 0.5vw)" height="calc(1rem + 0.5vw)"></i>
+                        <i data-feather="trash"></i>
                     </span>
                     <span class="d-none d-sm-inline">Edit</span>
                 </button>
@@ -73,15 +74,70 @@
         </div>
     </div>
 
+    <dialog class="modal-native" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <h5 class="modal-title">Delete <span class="position-name"></span></h5>
+                    <button type="button" class="modal-close" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="affected candidate-list">
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </dialog>
+
+    <div class="toast-container pe-md-3 pe-lg-5 pe-sm-2">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Bootstrap</strong>
+                <small class="text-body-secondary">just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                See? Just like this.
+            </div>
+        </div>
+
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Bootstrap</strong>
+                <small class="text-body-secondary">2 seconds ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Heads up, toasts will stack automatically
+            </div>
+        </div>
+    </div>
+
 
 </main>
 <?php
+global $phpDateTimeNow;
 global $page_scripts;
+
+$phpDateTimeNow->printDatetimeTzJS();
+
 $page_scripts = '
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.bootstrap5.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
 <script type="module" src="src/scripts/config-candidate-position.js?v=2" defer></script>
 <script  type="text/javascript"src="src/scripts/feather.js" defer></script>
