@@ -21,7 +21,7 @@ if (isset($_SESSION['voter_id'])) {
         if (isset($_GET['candidate_id'])) {
             $candidate_id = $_GET['candidate_id'];
 
-            $stmt = $conn->prepare("SELECT c.candidate_id, c.last_name, c.first_name, c.middle_name, c.suffix, c.party_list, c.position_id, p.title as position, c.photo_url, c.year_level, c.section, c.`candidate-creation` 
+            $stmt = $conn->prepare("SELECT c.candidate_id, c.last_name, c.first_name, c.middle_name, c.suffix, c.party_list, c.position_id, p.title as position, c.photo_url, c.year_level, c.section, c.`candidate_creation` 
                                     FROM candidate c
                                     JOIN position p ON c.position_id = p.position_id 
                                     WHERE c.candidate_id = ?");
@@ -90,7 +90,11 @@ if (isset($_SESSION['voter_id'])) {
                                 <div class="col-md-6 mt-md-4 mx-auto">
                                     <div class="row">
                                         <div class="col-md-12 text-center mx-auto">
-                                            <img src="<?php echo htmlspecialchars('images/candidate-profile/' . $candidate['photo_url']); ?>" alt="Candidate Photo" class="candidate-image">
+                                            <?php 
+                                                // Debugging: Print the constructed file path
+                                                $imagePath = 'user_data/' . $org_name . '/candidate_imgs/' . $candidate['photo_url'];
+                                            ?>
+                                            <img src="<?php echo htmlspecialchars($imagePath); ?>" alt="Candidate Photo" class="candidate-image">
                                             <p class="fw-bold fs-6 pt-sm-2">
                                                 <?php echo strtoupper($candidate['last_name'].','. ' ' . $candidate['first_name'] . ' ' . $candidate['middle_name'] . ' ' . $candidate['suffix']); ?>
                                             </p>
@@ -120,7 +124,7 @@ if (isset($_SESSION['voter_id'])) {
                                     <div class="row mb-5">
                                         <div class="col-md-12 mx-auto"> 
                                             <p class="fw-bold fs-7 main-color">Registered Date</p>
-                                            <p class="fw-bold fs-6 "><?php echo date('F j, Y', strtotime($candidate['candidate-creation'])); ?></p>
+                                            <p class="fw-bold fs-6 "><?php echo date('F j, Y', strtotime($candidate['candidate_creation'])); ?></p>
                                         </div>
                                     </div>
                                 </div>

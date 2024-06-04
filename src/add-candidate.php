@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
@@ -7,54 +10,13 @@ require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 
-// Function to validate image file type and size
-function validateImage($file) {
-    $validTypes = ['image/jpeg', 'image/png'];
-    $maxSize = 500000; // 500KB
-    return in_array($file['type'], $validTypes) && $file['size'] <= $maxSize;
-}
-
 if (isset($_SESSION['voter_id'])) {
 
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
-    // Check if the user is authorized
     $allowedRoles = array('head_admin', 'admin');
     if (in_array($_SESSION['role'], $allowedRoles)) {
-        // Connect to the database
         $conn = DatabaseConnection::connect();
-
-        // Process form data and insert into the database
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Assuming you have sanitized the input, you can retrieve the form data like this:
-            $last_name = $_POST['last_name'];
-            $first_name = $_POST['first_name'];
-            $middle_name = $_POST['middle_name'];
-            $suffix = $_POST['suffix'];
-            $party_list = $_POST['party_list'];
-            $position_id = $_POST['position_id'];
-            $section = $_POST['section'];
-            $year_level = $_POST['year_level'];
-            $photo = $_FILES['photo'];
-
-            // Handling file upload for photo_url
-            $target_dir = "images/candidate-profile/";
-            $photo_url = $target_dir . basename($photo["name"]);
-
-            // Validate image file
-            if (!validateImage($photo)) {
-                echo "Invalid image file. Please upload a JPG or PNG file (max size 500KB).";
-            } elseif (move_uploaded_file($photo["tmp_name"], $photo_url)) {
-                // Insert the data into the database
-                $stmt = $conn->prepare("INSERT INTO candidate (last_name, first_name, middle_name, suffix, party_list, position_id, photo_url, section, year_level, `candidate-creation`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-                $stmt->bind_param("sssssiiss", $last_name, $first_name, $middle_name, $suffix, $party_list, $position_id, $photo_url, $section, $year_level);
-                $stmt->execute();
-                $stmt->close();
-                echo "Candidate added successfully.";
-            } else {
-                echo "Error uploading image.";
-            }
-        }
-?>
+        ?>
             <!DOCTYPE html>
             <html lang="en">
 
@@ -106,7 +68,7 @@ if (isset($_SESSION['voter_id'])) {
                         </div>
                     </div>
 
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="candidate-form">
+                <form action="../src/submission_handlers/insert-candidates.php" method="post" id="candidate-form" enctype="multipart/form-data">
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-md-10 card-box mt-md-10">
@@ -125,7 +87,7 @@ if (isset($_SESSION['voter_id'])) {
                                                             <label for="last_name" class="login-danger">Last Name <span
                                                                     class="required"> * </span> </label>
                                                             <input type="text" id="last_name" name="last_name"
-                                                                placeholder="E.g. Carpena" required pattern="^[a-zA-Z]+$"
+                                                                placeholder="E.g. Carpena" required pattern="^[a-z ,.'-]+$/i"
                                                                 maxlength="20">
                                                             <span class="error-message" id="last_name_error"></span>
                                                         </div>
@@ -135,7 +97,7 @@ if (isset($_SESSION['voter_id'])) {
                                                             <label for="first_name" class="login-danger">First Name<span
                                                                     class="required"> * </span> </label>
                                                             <input type="text" id="first_name" name="first_name"
-                                                                placeholder="E.g. Trizia Mae" required pattern="^[a-zA-Z]+$"
+                                                                placeholder="E.g. Trizia Mae" required pattern="^[a-z ,.'-]+$/i"
                                                                 maxlength="50">
                                                             <span class="error-message" id="first_name_error"></span>
                                                         </div>
@@ -158,7 +120,6 @@ if (isset($_SESSION['voter_id'])) {
                                                                     <option value="IV">IV</option>
                                                                     <option value="V">V</option>
                                                                 </select>
-                                                            <span class="error-message" id="suffix_error"></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -180,7 +141,6 @@ if (isset($_SESSION['voter_id'])) {
                                                                 }
                                                                 ?>
                                                             </select>
-                                                            <span class="error-message" id="position_error"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 col-sm-3 mx-auto">
@@ -199,16 +159,14 @@ if (isset($_SESSION['voter_id'])) {
                                                                     }
                                                                     ?>
                                                             </select>
-                                                            <span class="error-message" id="section_error"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 col-sm-3 mx-auto">
                                                         <div class="form-group local-forms">
                                                             <label for="photo" class="login-danger">Photo<span class="required"> * </span> </label>
                                                             <div class="input-group">
-                                                                <input type="file" id="photo" name="photo" accept=".jpg, .png" required onchange="displayFileName(this)" style="opacity: 0.5">  
+                                                                <input type="file" id="photo" name="photo" class="photo" accept=".jpg, .png, .jpeg" required onchange="displayFileName(this)" style="opacity: 0.5">  
                                                             </div>
-                                                            <span class="error-message" id="photo_error"></span>
                                                         </div>
                                                     </div>  
                                                 </div>
@@ -226,21 +184,6 @@ if (isset($_SESSION['voter_id'])) {
                     </div>
                 </form>
             </div>
-
-            <script>
-
-                function displayFileName(input) {
-                    const fileInput = document.getElementById('photo');
-                    const filenameContainer = document.getElementById('photo_filename');
-                    
-                    if (fileInput.files.length > 0) {
-                        filenameContainer.textContent = fileInput.files[0].name;
-                    } else {
-                        filenameContainer.textContent = '';
-                    }
-                }
-
-            </script>
         
 
                 <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
@@ -274,7 +217,10 @@ if (isset($_SESSION['voter_id'])) {
 
             </html>
 
-            <script>
+            
+
+             <script>
+                
                 $(document).ready(function () {
                     var createdModal = new bootstrap.Modal(document.getElementById('createdModal'), {});
 
@@ -318,7 +264,7 @@ if (isset($_SESSION['voter_id'])) {
                                 // Remove the last horizontal line if no forms are left
                                 formContainers.pop().remove();
                             }
-                        });
+                        }); 
 
                         // Create a div for the close button and position it
                         const closeButtonWrapper = document.createElement('div');
@@ -373,8 +319,6 @@ if (isset($_SESSION['voter_id'])) {
                         additionalHrWrappers.forEach(wrapper => wrapper.remove());
                     }
                 }
-
-
 
             </script>   
 

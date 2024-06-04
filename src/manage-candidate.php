@@ -74,7 +74,7 @@
 
 					<div class="container">
 						<div class="row justify-content-center">
-							<!-- VERIFIED TABLE -->
+							<!-- CANDIDATES TABLE -->
 							<div class="row justify-content-center">
 								<div class="col-md-10 card-box  mt-md-10">
 									<div class="container-fluid">
@@ -220,7 +220,7 @@
 																					<?php echo $row["position"]; ?>
 																				</td>
 																				<td class="col-md-3 text-center">
-																					<?php echo date('F j, Y', strtotime($row['candidate-creation'])); ?>
+																					<?php echo date('F j, Y', strtotime($row['candidate_creation'])); ?>
 																				</td>
 																			</tr>
 																		<?php } ?>

@@ -35,7 +35,7 @@
 				<div id="submenuToggle2" class="submenu-item <?php echo
 
 						# ---- MANAGE CANDIDATES PAGES
-					(basename($_SERVER['PHP_SELF']) == 'manage-candidates.php' ||
+					(basename($_SERVER['PHP_SELF']) == 'manage-candidate.php' ||
 						basename($_SERVER['PHP_SELF']) == 'add-candidate.php')
 					? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageCandidates" data-bs-parent="false">
 

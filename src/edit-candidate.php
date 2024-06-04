@@ -19,7 +19,7 @@ if (isset($_SESSION['voter_id'])) {
         if (isset($_GET['candidate_id'])) {
             $candidate_id = $_GET['candidate_id'];
 
-            $stmt = $conn->prepare("SELECT c.candidate_id, c.last_name, c.first_name, c.middle_name, c.suffix, c.party_list, c.position_id, p.title as position, c.photo_url, c.section, c.year_level, c.`candidate-creation` 
+            $stmt = $conn->prepare("SELECT c.candidate_id, c.last_name, c.first_name, c.middle_name, c.suffix, c.party_list, c.position_id, p.title as position, c.photo_url, c.section, c.year_level, c.`candidate_creation` 
                                     FROM candidate c
                                     JOIN position p ON c.position_id = p.position_id 
                                     WHERE c.candidate_id = ?");
@@ -165,7 +165,11 @@ if (isset($_SESSION['voter_id'])) {
                                         <div class="col-md-3 text-center mt-5 mx-auto">
                                             <div class="image-upload-wrapper">
                                                 <label for="file-input">
-                                                    <img src="<?php echo htmlspecialchars('images/candidate-profile/' . $candidate['photo_url']); ?>" alt="Candidate Photo" class="candidate-image">
+                                                <?php 
+                                                    // Debugging: Print the constructed file path
+                                                    $imagePath = 'user_data/' . $org_name . '/candidate_imgs/' . $candidate['photo_url'];
+                                                ?>
+                                                <img src="<?php echo htmlspecialchars($imagePath); ?>" alt="Candidate Photo" class="candidate-image">
                                                     <div class="overlay">
                                                         <i class="fas fa-camera fa-2x"></i>
                                                     </div>

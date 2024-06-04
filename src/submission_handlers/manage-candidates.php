@@ -1,6 +1,5 @@
 <?php
 
-
 $conn = DatabaseConnection::connect();
 
 // -----------------FETCHING POSITION TITLES-----------------//
@@ -18,16 +17,16 @@ $filter = is_array($filter) ? $filter : [];
 
 // -----------------SORTING-----------------//
 // Get the sort parameter from the URL
-$sort = isset($_GET['sort']) ? $_GET['sort'] : 'candidate-creation';
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'candidate_creation';
 $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 
 // Validate and sanitize the sort parameter
-$allowedSortColumns = array('candidate_id', 'last_name', 'first_name', 'middle_name', 'suffix', 'party_list', 'position_id', 'photo_url', 'section', 'candidate-creation');
+$allowedSortColumns = array('candidate_id', 'last_name', 'first_name', 'middle_name', 'suffix', 'party_list', 'position_id', 'photo_url', 'section', 'candidate_creation');
 $sort = in_array($sort, $allowedSortColumns) ? $sort : 'candidate_id';
 $order = strtoupper($order) === 'DESC' ? 'DESC' : 'ASC';
 
 // Initialize the SQL query
-$query = "SELECT c.candidate_id, c.last_name, c.first_name, c.middle_name, c.suffix, c.party_list, c.position_id, p.title as position, c.photo_url, c.section, c.`candidate-creation` FROM candidate c
+$query = "SELECT c.candidate_id, c.last_name, c.first_name, c.middle_name, c.suffix, c.party_list, c.position_id, p.title as position, c.photo_url, c.section, c.`candidate_creation` FROM candidate c
 JOIN position p ON c.position_id = p.position_id";
 
 // Add position filter conditions based on selected filters

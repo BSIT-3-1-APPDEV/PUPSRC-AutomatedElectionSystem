@@ -13,9 +13,6 @@ const errorMessages = {
   first_name: "Please enter a valid name.",
   middle_name: "Please enter a valid name.",
   last_name: "Please enter a valid name.",
-  position: "Please select a position.",
-  section: "Please select a section.",
-  photo: "Please select a JPG or PNG file."
 };
 
 // Utility function to validate inputs
@@ -34,7 +31,7 @@ function validateInput(input, regex, maxLength, errorMessage) {
 }
 
 // Validate name inputs
-const validateName = (input) => validateInput(input, /^[a-zA-Z]+$/, 50, errorMessages[input.id]);
+const validateName = (input) => validateInput(input, /^[a-z ,.'-]+$/i, 50, errorMessages[input.id]);
 
 // First Name validation
 firstNameInput.addEventListener("input", () => validateName(firstNameInput));
@@ -52,40 +49,11 @@ middleNameInput.addEventListener("input", () => {
 // Last Name validation
 lastNameInput.addEventListener("input", () => validateName(lastNameInput));
 
-
-// Position validation
-positionInput.addEventListener("change", () => validateInput(positionInput, /.+/, 0, errorMessages.position));
-
-// Section validation
-sectionInput.addEventListener("change", () => validateInput(sectionInput, /.+/, 0, errorMessages.section));
-
-// Photo validation
-function validatePhoto() {
-  const file = photoInput.files[0];
-  const fileType = file ? file.name.split(".").pop().toLowerCase() : "";
-
-  const isValid = file && (fileType === "jpg" || fileType === "png");
-  const errorElement = document.getElementById("photo_error");
-  if (!isValid) {
-    errorElement.textContent = errorMessages.photo;
-    errorElement.style.color = "red";
-    photoInput.style.borderColor = "red"; // Add red border
-  } else {
-    errorElement.textContent = "";
-    photoInput.style.borderColor = ""; // Remove red border
-  }
-  return isValid;
-}
-photoInput.addEventListener("change", validatePhoto);
-
 // Form submission
 form.addEventListener("submit", function (event) {
   const isFormValid = validateName(firstNameInput) &&
                       validateName(lastNameInput) &&
-                      validateInput(positionInput, /.+/, 0, errorMessages.position) &&
-                      validateInput(sectionInput, /.+/, 0, errorMessages.section) &&
-                      validatePhoto();
-
+                      validateName(middleNameInput);
   if (!isFormValid) {
     event.preventDefault();
   }
@@ -99,11 +67,11 @@ submitButton.classList.add('button-disabled');
 
 // Function to toggle submit button state
 function toggleSubmitButton() {
-  const isFormValid = validateName(firstNameInput) &&
-                      validateName(lastNameInput) &&
-                      validateInput(positionInput, /.+/, 0, errorMessages.position) &&
-                      validateInput(sectionInput, /.+/, 0, errorMessages.section) &&
-                      validatePhoto();
+  const isFormValid = firstNameInput.value.trim() !== "" &&
+                      lastNameInput.value.trim() !== "" &&
+                      positionInput.value.trim() !== "" &&
+                      sectionInput.value.trim() !== "" &&
+                      photoInput.files.length > 0;
 
   submitButton.disabled = !isFormValid;
   submitButton.classList.toggle('button-disabled', !isFormValid);
@@ -123,4 +91,3 @@ styleElem.innerHTML = `
     cursor: not-allowed !important;
   }
 `;
-
