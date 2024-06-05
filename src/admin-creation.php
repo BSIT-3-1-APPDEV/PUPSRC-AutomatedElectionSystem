@@ -54,7 +54,10 @@ if (isset($_SESSION['voter_id'])) {
             <div class="loader"></div>
         </div>
 
-        <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+        <?php 
+        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
+        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+        ?>
 
         <div class="main">
             <div class="container mb-5 pl-5">

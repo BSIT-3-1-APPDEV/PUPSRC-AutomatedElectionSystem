@@ -39,10 +39,7 @@ if (isset($_SESSION['error_message'])) {
 
 <body id="index-body">
 
-  <!-- Loader -->
-  <div class="loader-wrapper">
-    <div class="loader"></div>
-  </div>
+  <?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html'); ?>
 
   <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">

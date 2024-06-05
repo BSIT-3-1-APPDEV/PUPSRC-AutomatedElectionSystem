@@ -51,12 +51,10 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
 
 <body>
 
-  <!-- Loader -->
-  <div class="loader-wrapper">
-      <div class="loader"></div>
-  </div>
-
-<?php include_once __DIR__ . '/includes/components/topnavbar.php'; ?>
+<?php 
+include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnavbar.php'); 
+?>
 
 <div class="container mb-5">
     <div class="row justify-content-md-center align-items-center">

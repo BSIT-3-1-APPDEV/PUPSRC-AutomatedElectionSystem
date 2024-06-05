@@ -77,13 +77,11 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 </head>
 
 <body>
-
-    <!-- Loader -->
-    <div class="loader-wrapper">
-        <div class="loader"></div>
-    </div>
     
-    <?php include FileUtils::normalizeFilePath('includes/components/sidebar.php'); ?>
+    <?php 
+    include FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
+    include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+    ?>
 
     <main class="main">
 

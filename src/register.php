@@ -67,10 +67,9 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
 
 <body>
 
-    <!-- Loader -->
-    <div class="loader-wrapper">
-        <div class="loader"></div>
-    </div>
+    <?php
+    include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+    ?>
 
     <nav class="navbar navbar-expand-lg" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">

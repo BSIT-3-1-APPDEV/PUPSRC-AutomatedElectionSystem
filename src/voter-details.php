@@ -54,12 +54,10 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
         <body>
 
-        	<!-- Loader -->
-            <div class="loader-wrapper">
-                <div class="loader"></div>
-            </div>
-
-            <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+            <?php 
+            include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+            include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
+            ?>
 
             <div class="main">
                 <!-- Breadcrumbs -->
