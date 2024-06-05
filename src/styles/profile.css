@@ -20,7 +20,10 @@
   border-radius: 15px;
   text-align: center;
   overflow: hidden;
-  /* border: 3px solid; */
+  border: 2px solid var(--main-color) !important;
+  color: var(--main-color) !important;
+  background-color: white !important;
+  border-color: var(--main-color) !important;
 }
 
 .card-container{
@@ -56,14 +59,16 @@
 } */
 
 .edit-button {
-  font-size: 14px;
-  font-weight: 500;
-  padding: 1% !important;
-  margin: 0% !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
+  border: 2px solid var(--main-color) !important;
+  color: var(--main-color) !important;
+  background-color: white !important;
+  border-color: var(--main-color) !important;
+  border-radius: 5px !important;
+}
+
+.edit-button:hover {
+  color: white !important;
+  background-color: var(--main-color) !important;
 }
 
 .profile-info {
@@ -82,19 +87,11 @@
   letter-spacing: 3px;
 }
 
-.form-control {
-  background-color: #F8F8F8; /* Set your desired background color */
-}
-
 .form-control:focus {
   background-color: #F8F8F8; /* Set your desired background color */
   color: #000; /* Set your desired text color */
   border-color: #fff; /* Maintain the default border color */
   font-weight: normal;
-}
-
-span{
-  color: red;
 }
 
 label{
@@ -121,32 +118,44 @@ label{
 }
 
 #changePasswordBtn{
-  font-size: 12px;
+  font-size: 12px !important;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px !important;
 }
 
 .cancel-button{
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 10px 20px 10px 20px !important;
+  font-size: 15px !important;
+  border-radius: 10px !important;
 }
 
 .save-button {
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 10px 20px 10px 20px !important;
+  font-size: 15px !important;
+  border-radius: 10px !important;
+}
+
+.save-button:hover {
+  background-color: var(--secondary-color) !important;
+}
+
+.cancel-button#cancel-modal{
+  padding: 3px 20px 3px 20px !important;
+  font-size: 15px !important;
+  border-radius: 10px !important;
 }
 
 .delete-button {
-  padding-left: 40px;
-  padding-right: 40px;
+  padding: 3px 40px 3px 40px !important;
   background-color: #1A73E8 !important;
   border-color: #1A73E8 !important;
+  color: white !important;
 }
 
-
-.save-button, .cancel-button, #changePasswordBtn {
-font-weight: 600;
+.save-button, .cancel-button, #changePasswordBtn, #delete-button {
+font-weight: 600 !important;
 }
 
 .change-pass-icon {
@@ -217,29 +226,36 @@ font-weight: 600;
   color: #000;
 }
 
-
+p{
+  color: #000;
+}
 
 /* change-password */
-.forgot-password-icon{
+/* .forgot-password-icon{
   width: 40%; 
   display: block;
   margin: 0 auto;
   position: relative;
-  /* top: -100px; */
+  top: -150px !important; 
   z-index: 1;
-}
+} */
 
 .change-pass-container{
   background-color: white;
-  max-width: 1150px;
   border-radius: 20px;
   padding: 3%;
-  margin-top: 10%;
+ 
 }
 
 .img-container{
   margin: 0%;
   padding: 0%;
+  margin-bottom: -140px !important;
+}
+
+.main#change-password{
+  overflow: visible;
+  margin-top: 4%;
 }
 
 form#change-password-form{
@@ -247,7 +263,45 @@ form#change-password-form{
   top: -130px;
 }
 
-.reset-pass{
+.card-box{
+  border-radius: 25px;
+}
+
+
+
+
+label{
+  color: black ;
+}
+
+.asterisk{
+  color: red;
+}
+
+
+hr {
+  height: 2px; /* Adjust the thickness */
+  background-color: #000; /* Set the background color */
+  border: none;
+  display: none;
+}
+
+.form-control{
+  background-color: #F8F8F8 !important;
+}
+
+.form-control#lastName, .form-control#firstName, .form-control#middleName, .form-control#suffix, .form-control#email{
+  border: none !important;
+}
+
+
+
+
+/* Change Password */
+.reset-password-body {
+  background-color: #f5f5f5;
+  color: black;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -264,27 +318,32 @@ form#change-password-form{
 
 .reset-password-title{
   font-weight: bold;
+  margin: 0%;
+  padding: 0%;
 }
 
 .reset-password-subtitle{
-  font-weight: bold;
+  font-weight: 600;
+  margin: 0%;
+  padding: 0%;
 }
 
 .reset-password-password {
-  background-color: transparent;
+  background-color: white !important;
   border-radius: 100px;
-  border: 2px solid #999999;
-  border-right: none;
-  padding: 2%;
+  border: 2px solid #999999 !important;
+  border-right: none !important;
+  padding: 2% !important;
 }
 
 #reset-password-toggle-1, #reset-password-toggle-2 {
-  background-color: #fff !important;
-  width: 75px;
-  padding-right: 3%;
-  color: #999999;
-  border: 2px solid gray !important;
-  border-left: none !important
+  background-color: white !important;
+  width: 75px !important;
+  padding-right: 3% !important;
+  color: #999999 !important;
+  border: 2px solid #999999 !important;
+  border-left: none !important;
+  border-right: 2px solid #999999 !important;
 }
 
 .new-password {
@@ -296,7 +355,6 @@ form#change-password-form{
   padding-right: 1%;
   font-size: 12px;
   font-weight: bold;
-  top: 0px;
 }
 
 .forgot-password-icon{
@@ -304,13 +362,8 @@ form#change-password-form{
   display: block;
   margin: 0 auto;
   position: relative;
-  top: -130px; /* Adjust this value to overlap the top line as desired */
+  top: -150px !important;
   z-index: 1;
-}
-
-.img-container {
-  text-align: center;
-  margin-bottom: -110px; /* Adjust this value to bring the image closer to the form */
 }
 
 .password-requirements {
@@ -357,6 +410,12 @@ form#change-password-form{
   background-color: red;
 }
 
+.reset-pass{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .reset-pass-title {
   font-size: 12px;
   font-weight: bold;
@@ -399,21 +458,6 @@ form#change-password-form{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Default state: hide the horizontal line */
 .profile-info-hr {
   display: none;
@@ -440,24 +484,62 @@ form#change-password-form{
     letter-spacing: 0px;
   }
 
-  .profile-info::before {
-    text-align: center;
-    align-self: center;
-    display: flex;
-    content: "";
-    width: 80%;
-    height: 1px;
-    background-color: #D9D9D9; /* Change this to the color you want */
-    position: absolute;
-    top: -10px; /* Adjust this to control the space above the line */
-    left: 0;
+  .profile-info {
+    padding: 0%;
+    margin: 0%;
+  }
+ 
+  .profile-info-hr {
+    display: block;
+    justify-content: center;
+    align-items: center;
   }
 
   .btn-container {
     margin-top: 0%;
   }
 
+  .card-container {
+    padding: 0% !important;
+    margin: 0% !important;
+    margin-bottom: 5% !important;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+  }
+
+  hr {
+    display: block;
+    margin-bottom: 10% !important;
+  }
+
+  .member-card {
+    width: 275px !important;
+  }
+
+  .hehe {
+    justify-content: flex-start !important;
+    padding: 0% !important;
+    margin: 0% !important;
+    margin-bottom: 5% !important;
+  }
+
+  .img-container{
+    margin-top: 5% !important;
+    margin-bottom: -100px !important;
+  }
+
+  .forgot-password-icon{
+    top: -120px !important;
+  }
 }
+
+
+
 
 
 
