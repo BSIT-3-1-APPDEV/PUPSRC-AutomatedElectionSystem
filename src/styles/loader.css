@@ -1,0 +1,40 @@
+/* --- iVOTE Loader --- */
+.loader-wrapper {
+    background-color: #FFFFFF;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
+  }
+  
+  .loader {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    position: relative;
+    background: url('../images/resc/ivote-icon.png') center center no-repeat;
+    background-size: cover;
+  }
+  
+  .loader::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    background: radial-gradient(farthest-side, #ea423c 94%, transparent) top/9px 9px no-repeat,
+                conic-gradient(transparent 30%, #ea423c);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 0);
+    -moz-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 0);
+    mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 0);
+    animation: spinner-c7wet2 1s infinite linear;
+  }
+  
+  @keyframes spinner-c7wet2 {
+    100% {
+      transform: rotate(1turn);
+    }
+  }
