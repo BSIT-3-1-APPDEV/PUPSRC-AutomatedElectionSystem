@@ -49,6 +49,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
 
+    <link rel="stylesheet" href="styles/loader.css" />
     <link rel="stylesheet" href="styles/core.css" />
     <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
@@ -65,6 +66,12 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
 </head>
 
 <body>
+
+    <!-- Loader -->
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
     <nav class="navbar navbar-expand-lg" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
             <a href="landing-page.php"><img src="images/resc/ivote-icon-2.png" id="ivote-logo-landing-header"
@@ -274,6 +281,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="scripts/register.js"></script>
+    <script src="scripts/loader.js"></script>
 
 </body>
 </html>

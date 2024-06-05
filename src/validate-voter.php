@@ -47,11 +47,17 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 		<link rel="stylesheet" href="styles/core.css" />
 		<link rel="stylesheet" href="styles/manage-voters.css" />
 		<link rel="stylesheet" href="styles/validate-voter.css" />
+		<link rel="stylesheet" href="styles/loader.css" />
 		<link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
 
 	</head>
 
 	<body>
+
+	    <!-- Loader -->
+		<div class="loader-wrapper">
+			<div class="loader"></div>
+		</div>
 
 		<?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
 
@@ -345,7 +351,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 		<script src="scripts/script.js"></script>
 		<script src="scripts/manage-voters.js"></script>
 		<script src="scripts/feather.js"></script>
-
+		<script src="scripts/loader.js"></script>
 
 	</body>
 

@@ -68,12 +68,18 @@ if (isset($_SESSION['error_message'])) {
     <link href="https://fonts.googleapis.com/css2?family=Akronim&family=Anton&family=Aoboshi+One&family=Audiowide&family=Black+Han+Sans&family=Braah+One&family=Bungee+Outline&family=Hammersmith+One&family=Krona+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="styles/dist/landing.css">
+    <link rel="stylesheet" href="styles/loader.css">
     <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
     <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
     <title>Reset Password</title>
 </head>
 
 <body class="login-body reset-password-body">
+
+    <!-- Loader -->
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
 
     <nav class="navbar navbar-expand-lg fixed-top" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
@@ -186,6 +192,7 @@ if (isset($_SESSION['error_message'])) {
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="scripts/reset-password.js"></script>
+    <script src="scripts/loader.js"></script>
 
 </body>
 

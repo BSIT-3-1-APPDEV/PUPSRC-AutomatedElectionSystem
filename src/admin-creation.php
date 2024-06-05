@@ -39,14 +39,20 @@ if (isset($_SESSION['voter_id'])) {
         <link rel="stylesheet" href="styles/style.css" />
         <link rel="stylesheet" href="styles/core.css" />
         <link rel="stylesheet" href="styles/admin-creation.css" />
+        <link rel="stylesheet" href="styles/loader.css" />
         <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="scripts/loader.js" defer></script>
 
 
     </head>
 
     <body>
 
+        <!-- Loader -->
+        <div class="loader-wrapper">
+            <div class="loader"></div>
+        </div>
 
         <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
 
