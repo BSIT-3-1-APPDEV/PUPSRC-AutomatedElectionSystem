@@ -47,18 +47,29 @@ $(document).ready(function () {
   $("#approve").click(function (event) {
     event.preventDefault();
     var voter_id = $("#voter_id").val();
+    
+    // Show the emailSending modal
+    $("#emailSending").modal("show");
+
     $.ajax({
-      url: "submission_handlers/validate-acc.php",
-      type: "POST",
-      data: { voter_id: voter_id, action: "approve" },
-      success: function (response) {
-        $("#approvalModal").modal("show");
-      },
-      error: function (xhr, status, error) {
-        console.error(xhr.responseText);
-      },
+        url: "submission_handlers/validate-acc.php",
+        type: "POST",
+        data: { voter_id: voter_id, action: "approve" },
+        success: function (response) {
+            // Hide the emailSending modal
+            $("#emailSending").modal("hide");
+
+            // Show the approvalModal
+            $("#approvalModal").modal("show");
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+            // Hide the emailSending modal in case of an error
+            $("#emailSending").modal("hide");
+        },
     });
-  });
+});
+
 
   $(document).ready(function () {
     // Reject Account Modal
@@ -84,27 +95,21 @@ $(document).ready(function () {
 
       console.log("Data:", data); // Log the data object for debugging
 
+      closeModal();
+      $("#emailSending").modal("show");
+
       $.ajax({
         url: "submission_handlers/validate-acc.php",
         type: "POST",
         data: data, // Use the data object including the reason
         success: function (response) {
-          closeModal();
+          $("#emailSending").modal("hide");
           $("#rejectDone").modal("show");
         },
         error: function (xhr, status, error) {
           console.error(xhr.responseText);
         },
       });
-    });
-
-    // Toggle visibility of otherReason textarea based on radio button selection
-    $('input[type="radio"]').change(function () {
-      if (this.value === "others" && this.checked) {
-        $("#otherReason").show();
-      } else {
-        $("#otherReason").hide();
-      }
     });
 
     // Toggle visibility of otherReason textarea based on radio button selection
