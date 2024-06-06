@@ -197,6 +197,12 @@ background-color:#EDEDED !important;
 .input-error {
   border-color: red !important ;
 }
+.candidate-pictures{
+  border-radius: 50% ;
+  border: 3px solid #ccc;
+  width: 140px;
+  height: 140px;
+}
 .restore-btn {
   border: none !important;
   color: var(--info) !important;

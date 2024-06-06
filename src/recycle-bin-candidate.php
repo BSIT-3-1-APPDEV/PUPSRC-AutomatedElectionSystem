@@ -317,34 +317,43 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         </div>
     </div>
 	<!-- Bootstrap Modal Structure -->
-	<div class="modal fade" id="voterDetailsModal" tabindex="-1" aria-labelledby="voterDetailsModalLabel" aria-hidden="true">
+	<div class="modal fade" id="candidateDetailsModal" tabindex="-1" aria-labelledby="voterDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-size">
         <div class="modal-content px-4 py-4">
             <div class="modal-header">
-            <p class="fs-4 main-color fw-bold ls-10 spacing-6 text-center">Account Details</p>
+            <p class="fs-4 main-color fw-bold ls-10 spacing-6 text-center">Candidate Details</p>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 				<div class="row">
-					<div class="col-md-7 pe-5">
+					<div class="col-md-7 pe-5 justify-content-center d-flex flex-direct align-items-center border-right">
+          
+             <img id="modal-photo-url" src="" alt="Candidate Photo" class="img-fluid candidate-pictures mb-2"/>
              <b>  <p id="modal-name" class="spacing-6 m-0 ps-4"> </p> </b>
-                <p class="main-color fw-bold fs-8 spacing-6 mb-5 ps-4"><?php echo strtoupper($org_name); ?> Committee Member</p>
-                        <p class="m-0 spacing-6 fs-6 fw-bold ps-4 "id="modal-email"></p>
-                        <p class="main-color fs-8 spacing-6 ps-4"><strong>Email Address</strong></p>
+           
+                        
 				</div>
 				<div class="col-md-5">
 	
-				<p class="text-center main-color m-0 mb-2 "><strong>iVOTE Member Role</strong></p>
-                <div class="justify-content-center d-flex">
-                <span class="text-center badge rounded-pill badge-admin badge-lg px-4 align-self-center"id="modal-role"></span> 
-                </div>
+			
                         <p class="text-center"id="modal-email"></p>
                      
 						<p  class="text-center m-0"> <span id="modal-acc-created"></span> </p>
-                        <p class="text-center main-color fs-8 mb-5"><strong> Account Created</strong></p>
-                        <p class="text-center red fs-8 fw-medium"><i> <span id="modal-status-updated" ></span> </i></p>
+                        <p class="text-left main-color fs-8 mb-0  ms-5"><strong> Candidacy Position</strong></p>
+                        <p class="text-left fs-7 fw-bold mb-3 ms-5"><span id="modal-title" ></span></p>
+                        <p class="text-left main-color fs-8 mb-0  ms-5"><strong> Block Section</strong></p>
+                        <p class="text-left fs-7 fw-bold mb-3 ms-5"><span id="modal-year-level" > </span>-<span id="modal-section" ></span></p>
+                        <p class="text-left main-color fs-8 mb-0  ms-5"><strong> Date Registered</strong></p>
+                        <p class="text-left fs-7 fw-bold mb-5 ms-5"><span id="modal-register-date"> </span></p>
+                 
+                        
 				</div>
-			
+                <div class="col-md-7">
+                
+                </div>
+                <div class="col-md-5 mt-3">
+                <p class="text-center red fs-8 fw-medium"><i> <span id="modal-status-updated" ></span> </i></p>
+                </div>
 				</div>
                
             </div>
@@ -437,6 +446,50 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 				<script src="scripts/feather.js"></script>
 				<script src="scripts/manage-voters.js"></script>
                 <script src="scripts/recycle-bin-candidates.js"></script>
+                <script>
+                    $(document).ready(function() {
+  $('.email-link').on('click', function(event) {
+      event.preventDefault();
+
+      var voterId = $(this).data('voter-id');
+
+      $.ajax({
+        type: 'POST',
+        url: 'submission_handlers/recycle-bin-candidate-modal.php',
+        data: { voter_id: voterId }, // Changed from voter_id to candidate_id
+        dataType: 'json',
+        success: function(response) {
+            if (response.title) {
+                var orgName = '<?php echo $org_name; ?>';
+                var formattedPhotoUrl = 'user_data/' + orgName + '/candidate_imgs/' + response.photo_url;
+    
+                $('#modal-title').text(response.title);
+                $('#modal-photo-url').attr('src', formattedPhotoUrl);
+                $('#modal-register-date').text(response.register_date);
+                var statusUpdatedDate = new Date(response.status_updated);
+                var formattedStatusUpdated = 'Deleted at: ' + statusUpdatedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' | ' + statusUpdatedDate.toLocaleDateString([], { month: 'short', day: '2-digit', year: 'numeric' });
+                $('#modal-status-updated').text(formattedStatusUpdated);
+
+    
+                var name = (response.last_name + ', ' + response.first_name + ' ' + response.middle_name + ' ' + response.suffix).toUpperCase();
+                $('#modal-name').text(name);
+    
+                $('#modal-section').text(response.section);
+                $('#modal-year-level').text(response.year_level);
+                
+                $('#candidateDetailsModal').modal('show');
+            } else {
+                alert(response.error || 'An error occurred');
+            }
+        },
+        error: function() {
+            alert('An error occurred while fetching the data');
+        }
+    });
+    
+  });
+});
+</script>
 				
 			
 	</body>

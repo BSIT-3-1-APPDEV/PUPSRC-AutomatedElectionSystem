@@ -76,49 +76,7 @@ $(document).ready(function() {
       location.reload();
   });
 });
-$(document).ready(function() {
-  $('.email-link').on('click', function(event) {
-      event.preventDefault();
 
-      var voterId = $(this).data('voter-id');
-
-      $.ajax({
-          type: 'POST',
-          url: 'submission_handlers/recycle-bin-admin-modal.php',
-          data: { voter_id: voterId },
-          dataType: 'json',
-          success: function(response) {
-              if (response.cor) {
-                  var formattedCorLink = 'user_data/<?php echo $org_name; ?>/cor/' + response.cor;
-                  $('#modal-voter-id').text(voterId);
-                  $('#pdfViewer').attr('src', formattedCorLink); // Set src attribute of pdfViewer
-                  $('#modal-download-link').attr('href', formattedCorLink); // Set href attribute of modal-download-link
-                  $('#modal-email').text(response.email);
-                  
-                  // Format status updated date
-                  var statusUpdatedDate = new Date(response.status_updated);
-                  var formattedStatusUpdated = 'Deleted at: ' + statusUpdatedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' | ' + statusUpdatedDate.toLocaleDateString([], { month: 'short', day: '2-digit', year: 'numeric' });
-                  $('#modal-status-updated').text(formattedStatusUpdated);
-                  
-                  // Display role and name details
-                  var name = (response.last_name + ', ' + response.first_name + ' ' + response.middle_name + ' ' + response.suffix).toUpperCase();
-
-
-                  $('#modal-name').text(name);
-                  $('#modal-role').text(response.role);
-                  
-                  $('#modal-acc-created').text(response.acc_created);
-                  $('#voterDetailsModal').modal('show');
-              } else {
-                  alert(response.error || 'An error occurred');
-              }
-          },
-          error: function() {
-              alert('An error occurred while fetching the data');
-          }
-      });
-  });
-});
 
 
 
