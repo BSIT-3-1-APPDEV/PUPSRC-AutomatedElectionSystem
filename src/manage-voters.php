@@ -64,8 +64,6 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 							</button>
 							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS'
 								ACCOUNTS</button>
-							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS'
-								ACCOUNTS</button>
 						</div>
 					</div>
 				</div>

@@ -445,3 +445,7 @@ body>* {
 .pagination .disabled a .fas {
   color: gray;
 }
+.loading-gif {
+  height: 70% !important;
+  width: 40% !important;
+}

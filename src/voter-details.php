@@ -254,7 +254,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 
             <!-- Move To Trashbin Modal -->
-            <div class="modal" id="rejectModal" tabindex="-1" role="dialog">
+            <div class="modal" id="rejectModal" data-bs-keyboard="false" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
@@ -297,7 +297,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             </div>
 
             <!-- Successfully Moved to Trashbin Modal -->
-            <div class="modal" id="trashbinMoveDone" tabindex="-1" role="dialog">
+            <div class="modal" id="trashbinMoveDone" data-bs-keyboard="false" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-body pb-5">
@@ -330,7 +330,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                 </div>
 
 
-                <!-- The following block of codes of modals,
+            <!-- The following block of codes of modals,
             "TOTAL DELETION" can be used for the Trashbin Module. -->
 
                 <!-- TOTAL DELETION: Confirm Delete Modal -->
