@@ -79,14 +79,9 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 
 <body>
 
-  <!-- Loader -->
-  <div class="loader-wrapper">
-      <div class="loader"></div>
-  </div>
-
-<?php 
+<?php
+include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html'); 
 include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnavbar.php'); 
-include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
 ?>
 
 <main>
