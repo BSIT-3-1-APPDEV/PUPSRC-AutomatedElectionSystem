@@ -267,8 +267,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 															<div class="row">
 																<!-- HEADER -->
 																<div class="col-sm-12">
-																	<p class="fs-3 main-color fw-bold ls-10 spacing-6">Admins'
-																		Account</p>
+																	<p class="fs-3 main-color fw-bold ls-10 spacing-6">Candidate Details</p>
 																</div>
 															</div>
 															<div class="col-md-12 no-registration text-center">
