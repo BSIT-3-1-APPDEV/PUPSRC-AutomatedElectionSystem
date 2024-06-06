@@ -298,13 +298,13 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 										<div class="col-md-12 pt-3 text-end">
 											<div class="d-inline-block">
 												<button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-													onClick="closeModal()" aria-label="Close">Cancel</button>
+													onClick="cancelForm(event)">Cancel</button>
 											</div>
 											<div class="d-inline-block">
 												<input type="hidden" id="voter_id" name="voter_id"
 													value="<?php echo $voter_id; ?>">
 												<button class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-													type="submit" id="send-reject">Reject</button>
+													type="button" id="send-reject">Reject</button>
 											</div>
 										</div>
 									</form>

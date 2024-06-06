@@ -73,7 +73,8 @@ $(document).ready(function () {
 
   $(document).ready(function () {
     // Reject Account Modal
-    $("#rejectForm").submit(function (event) {
+    $("#send-reject").click(function (event) {
+
       event.preventDefault();
       var voter_id = $("#voter_id").val();
       var reason = $("input[name='reason']:checked").val(); // Get the selected reason
@@ -101,7 +102,7 @@ $(document).ready(function () {
       $.ajax({
         url: "submission_handlers/validate-acc.php",
         type: "POST",
-        data: data, // Use the data object including the reason
+        data: data,
         success: function (response) {
           $("#emailSending").modal("hide");
           $("#rejectDone").modal("show");
@@ -180,7 +181,7 @@ $(document).ready(function () {
 
 
 
-// ----- MODALS -----
+// ----- MODALS BEHAVIOR TRIGGERS -----
 
 //Show & Hide Modal Functions
 $(document).ready(function () {
@@ -188,6 +189,11 @@ $(document).ready(function () {
     $("#rejectModal").modal("show");
   });
 });
+
+function cancelForm(event) {
+  event.preventDefault(); // Prevent the default form submission
+  closeModal(); // Close the modal (assuming this function is defined elsewhere)
+}
 
 function closeModal() {
   $("#rejectModal").modal("hide");
