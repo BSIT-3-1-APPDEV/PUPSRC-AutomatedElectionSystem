@@ -13,18 +13,18 @@ $sort = isset($_GET['sort']) ? $_GET['sort'] : 'acc_created';
 $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 
 // Initialize the SQL query
-$query = "SELECT * FROM voter WHERE status != ? AND role IN ('Committee Member', 'Admin Member')";
+$query = "SELECT * FROM voter WHERE account_status != ? AND role IN ('admin', 'head_admin')";
 $params = ["For Verification"];
 
 // Add role filter conditions based on selected filters
 if (!empty($filter)) {
     $query .= " AND (";
     $roleFilters = [];
-    if (in_array('committee_member', $filter)) {
-        $roleFilters[] = "role = 'Committee Member'";
+    if (in_array('admin', $filter)) {
+        $roleFilters[] = "role = 'admin'";
     }
-    if (in_array('admin_member', $filter)) {
-        $roleFilters[] = "role = 'Admin Member'";
+    if (in_array('head_admin', $filter)) {
+        $roleFilters[] = "role = 'head_admin'";
     }
     if (!empty($roleFilters)) {
         $query .= implode(" OR ", $roleFilters);

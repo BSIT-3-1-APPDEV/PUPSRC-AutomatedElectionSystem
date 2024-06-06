@@ -31,6 +31,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr class="">
+                        <td></td>
+                        <td>
+                            <div class="vote-rule-text">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda at quidem nisi autem inventore sed aut neque placeat iste animi labore, odio doloremque, ex ipsam voluptate. Consequatur earum explicabo odio! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus eligendi illum officiis corrupti ipsam dolores deleniti beatae consequuntur mollitia aut? Asperiores, magnam? Hic voluptas illo corrupti dignissimos consequuntur, veniam exercitationem!
+
+                            </div>
+                        </td>
+                    </tr>
                     <?php
                     for ($i = 0; $i < 6; ++$i) {
                         echo "

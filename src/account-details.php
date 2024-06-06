@@ -9,9 +9,12 @@ if (isset($_SESSION['voter_id'])) {
 
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
 
-    // Check if the user's role is either 'Committee Member' or 'Admin Member'
-    $allowedRoles = array('Committee Member', 'Admin Member');
-    if (in_array($_SESSION['role'], $allowedRoles)) {
+    // Check if the user's role is either 'admin' or 'head_admin'
+    $allowedRoles = array('admin', 'head_admin');
+    if (!in_array($_SESSION['role'], $allowedRoles)) {
+        header("Location: landing-page.php");
+        exit();
+    }
         include FileUtils::normalizeFilePath('submission_handlers/manage-details.php');
         ?>
 
@@ -66,96 +69,68 @@ if (isset($_SESSION['voter_id'])) {
                     </div>
                 </div>
 
-
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-10 card-box mt-md-10">
                             <div class="container-fluid">
-                                <div class="card-box">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    <p class="fs-3 main-color fw-bold ls-10 spacing-6">Account Details</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    <p class="fw-medium fs-6 pt-sm-2">
-                                                        <?php echo strtoupper($voter['first_name'] . ' ' . $voter['middle_name'] . ' ' . $voter['last_name'] . ' ' . $voter['suffix']); ?>
-                                                    </p>
-                                                    <p class="fw-bold fs-6 main-color spacing-4">
-                                                        <?php echo strtoupper($org_acronym) ?> Committee Member
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    <p class="fw-medium fs-6 pt-sm-2"><?php echo $voter['email']; ?></p>
-                                                    <p class="fw-bold fs-6 main-color spacing-4">Email Address</p>
-                                                </div>
-                                            </div>
-                                            <div class="vertical-line"></div>
-                                        </div>
+                                <div class="card">
+                                    <div class="card-body" style="border: none;">
+                                        <h5 class="fs-3 main-color fw-bold ls-10 spacing-6">Account Details</h5>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <!-- Left side content -->
+                                                <p class="fw-bold fs-6 pt-sm-2">
+                                                    <?php echo strtoupper($voter['first_name'] . ' ' . $voter['middle_name'] . ' ' . $voter['last_name'] . ' ' . $voter['suffix']); ?>
+                                                </p>
+                                                <p class="fw-bold fs-7 main-color spacing-4">
+                                                    <?php echo strtoupper($org_acronym) ?> Committee Member
+                                                </p>
 
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    <!-- role -->
-                                                    <p class="fw-bold fs-6 main-color spacing-4">Account role</p>
-                                                    <div class="row pt-sm-4">
-                                                        <div class="col-md-5">
-
-                                                            <form id="role-form"
-                                                                action="manage-details.php?voter_id=<?php echo $voter_id; ?>"
-                                                                method="post">
-
-                                                                <?php
-                                                                $role = $voter["role"];
-                                                                $roleClass = '';
-
-                                                                switch ($role) {
-                                                                    case 'Committee Member':
-                                                                        $roleClass = 'committee-member';
-                                                                        $role = 'Member';
-                                                                        break;
-                                                                    case 'Admin Member':
-                                                                        $roleClass = 'admin-member';
-                                                                        break;
-                                                                    default:
-                                                                        $roleClass = '';
-                                                                        break;
-                                                                }
-                                                                ?>
-                                                                <select name="dropdown" id="dropdown"
-                                                                    class="role-background <?php echo $roleClass; ?>">
-                                                                    <option value="committee-member" <?php if ($voter["role"] == 'committee-member')
-                                                                        echo 'selected="selected"'; ?>>Member</option>
-                                                                    <option value="admin-member" <?php if ($voter["role"] == 'admin-member')
-                                                                        echo 'selected="selected"'; ?>>Admin Member</option>
-                                                                </select>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <p class="fw-bold fs-6 pt-sm-2"><?php echo $voter['email']; ?></p>
+                                                <p class="fw-bold fs-7 main-color spacing-4">Email Address</p>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    <p class="fw-medium fs-6 pt-sm-2"><?php echo $voter['formatted_account_created']; ?></p>
-                                                    <p class="fw-bold fs-6 main-color spacing-4">Account Created</p>
-                                                </div>
+
+
+                                            <div class="col-md-6">
+                                                <!-- Right side content -->
+                                                <p class="fw-bold fs-6 main-color spacing-4">iVOTE Committee Role</p>
+                                                <p>
+                                                <form id="role-form"
+                                                    action="manage-details.php?voter_id=<?php echo $voter_id; ?>" method="post">
+                                                    <?php
+                                                    $role = $voter["role"];
+                                                    $roleClass = '';
+
+                                                    switch ($role) {
+                                                        case 'admin':
+                                                            $roleClass = 'admin';
+                                                            $role = 'Admin';
+                                                            break;
+                                                        case 'head_admin':
+                                                            $roleClass = 'head_admin';
+                                                            $role = 'Head Admin';
+                                                            break;
+                                                        default:
+                                                            $roleClass = '';
+                                                            break;
+                                                    }
+                                                    ?>
+                                                    <select name="dropdown" id="dropdown"
+                                                        class="role-background <?php echo $roleClass; ?>">
+                                                        <option value="admin" <?php if ($voter["role"] == 'admin')
+                                                            echo 'selected="selected"'; ?>>Admin</option>
+                                                        <option value="head_admin" <?php if ($voter["role"] == 'head_admin')
+                                                            echo 'selected="selected"'; ?>>Head Admin</option>
+                                                    </select>
+                                                </form>
+                                                </p>
+                                                <p class="fw-medium fs-6 pt-sm-2">
+                                                    <?php echo $voter['formatted_account_created']; ?>
+                                                </p>
+                                                <p class="fw-bold fs-6 main-color spacing-4">Account Created</p>
+                                                <button class="btn btn-danger">Delete Account</button>
                                             </div>
-                                            <section>
-                                                <div class="row pt-sm-5">
-                                                    <div class="col-md-10 text-end">
-                                                        <button
-                                                            class="del-no-border px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-                                                            id="reject-btn" data-toggle="modal"
-                                                            data-target="#rejectModal">Delete Account</button>
-                                                    </div>
-                                                </div>
-                                            </section>
                                         </div>
                                     </div>
                                 </div>
@@ -190,23 +165,10 @@ if (isset($_SESSION['voter_id'])) {
                                         <div class="row">
                                             <div class="col-md-12 pb-3 confirm-delete">
                                                 <p class="fw-bold fs-3 danger spacing-4">Confirm Delete?</p>
-                                                <p class="pt-2 fw-medium spacing-5">A heads up: this action <span
-                                                        class="fw-bold">cannot be undone!</span></p>
-                                                <p class="fw-medium spacing-5 pt-1">Type '<span class="fw-bold">Confirm
-                                                        Delete</span>' to proceed.</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="row justify-content-center"> <!-- Add justify-content-center class -->
-                                            <div class="col-md-11 pb-3 pt-3 confirm-delete text-center mx-auto">
-                                                <!-- Add mx-auto class -->
-                                                <form action="#" method="post">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control pt-2 bg-primary text-black"
-                                                            id="confirm-deletion" placeholder="Type here..."
-                                                            oninput="validateConfirmation()">
-                                                    </div>
-                                                </form>
+                                                <p class="pt-2 fw-medium spacing-5">The account(s) will be deleted and moved to
+                                                    Recycle Bin.
+                                                    Are you sure you want to delete?
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -260,9 +222,6 @@ if (isset($_SESSION['voter_id'])) {
         </html>
 
         <?php
-    } else {
-        header("Location: landing-page.php");
-    }
 } else {
     header("Location: landing-page.php");
 }

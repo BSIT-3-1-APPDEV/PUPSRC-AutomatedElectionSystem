@@ -1,7 +1,8 @@
 <?php 
-session_start();
-require_once '../includes/classes/db-config.php';
-require_once '../includes/classes/db-connector.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('../includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('../includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('../includes/error-reporting.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Establish database connection
@@ -45,12 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $stmt_vote->close();
 
-        // Redirect back to ballot forms to display the modal
-        header("Location: ../../src/ballot-forms.php?success=1");
+        $_SESSION['vote_status'] = 'voted';
         exit();
     } 
 } else {
-    header("Location: ../../src/feedback-suggestions.php");
+    header("Location: ../../src/ballot-forms.php");
     exit();
 }
 ?>

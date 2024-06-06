@@ -22,7 +22,7 @@
 
         <div class="card-box ">
             <div class="">
-                <div class="list-group ballot-form fs-6" id="items">
+                <div class="list-group ballot-form" id="items">
                     <div class="list-group-item">
                         <div class="handle">
                             <span class="fas fa-grip-lines"></span>
@@ -51,12 +51,28 @@
                         </div>
                     </div>
                     <div class="list-group-item ">
-                        <div class="field-item add-item ">
-                            <div class="">
-                                <button class="btn btn-primary text-capitalize">
-                                    Add input field
-                                </button>
-                            </div>
+                        <div class="handle">
+                            <span class="fas fa-grip-lines"></span>
+                        </div>
+                        <div class="field-item ">
+                            <div class="me-auto">Candidate Form2</div>
+                        </div>
+                    </div>
+                    <div class="list-group-item ">
+                        <div class="handle">
+                            <span class="fas fa-grip-lines"></span>
+                        </div>
+                        <div class="field-item ">
+                            <div class="me-auto">Candidate Form3</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item add-item">
+                    <div class="field-item ">
+                        <div class="">
+                            <button class="btn btn-primary text-capitalize">
+                                Add input field
+                            </button>
                         </div>
                     </div>
                 </div>

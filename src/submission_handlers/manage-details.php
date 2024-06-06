@@ -8,8 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Map the dropdown values to the actual roles
     $role_map = [
-        'committee-member' => 'Committee Member',
-        'admin-member' => 'Admin Member',
+        'admin' => 'Admin',
+        'head_admin' => 'Head Admin',
     ];
 
     if (isset($role_map[$new_role])) {
