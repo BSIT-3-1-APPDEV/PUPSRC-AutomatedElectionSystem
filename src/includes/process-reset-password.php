@@ -7,7 +7,8 @@ require_once FileUtils::normalizeFilePath(__DIR__ . '/classes/db-connector.php')
 include_once FileUtils::normalizeFilePath(__DIR__ . '/error-reporting.php');
 include_once FileUtils::normalizeFilePath(__DIR__ . '/default-time-zone.php');
 
-if(isset($_POST['password']) && isset($_POST['password_confirmation'])) {
+if($_SERVER["REQUEST_METHOD"] === "POST") {
+    
     $token = $_POST['token'];
     $password = $_POST['password'];
     $password_confirmation = $_POST['password_confirmation'];
@@ -54,9 +55,9 @@ if(isset($_POST['password']) && isset($_POST['password_confirmation'])) {
     $new_password = password_hash($password_confirmation, PASSWORD_DEFAULT);
 
     // Updating password values in database
-    $sql = "UPDATE voter SET password = ?, reset_token_hash = NULL, reset_token_expires_at = NULL WHERE voter_id = ?";
+    $sql = "UPDATE voter SET password = ?, reset_token_hash = NULL, reset_token_expires_at = NULL WHERE BINARY email = ?";
     $stmt = $connection->prepare($sql);
-    $stmt->bind_param('si', $new_password, $row['voter_id']);
+    $stmt->bind_param('si', $new_password, $row['email']);
     $success = $stmt->execute();
 
     if($success) {

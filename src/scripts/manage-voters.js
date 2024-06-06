@@ -47,22 +47,34 @@ $(document).ready(function () {
   $("#approve").click(function (event) {
     event.preventDefault();
     var voter_id = $("#voter_id").val();
+    
+    // Show the emailSending modal
+    $("#emailSending").modal("show");
+
     $.ajax({
-      url: "submission_handlers/validate-acc.php",
-      type: "POST",
-      data: { voter_id: voter_id, action: "approve" },
-      success: function (response) {
-        $("#approvalModal").modal("show");
-      },
-      error: function (xhr, status, error) {
-        console.error(xhr.responseText);
-      },
+        url: "submission_handlers/validate-acc.php",
+        type: "POST",
+        data: { voter_id: voter_id, action: "approve" },
+        success: function (response) {
+            // Hide the emailSending modal
+            $("#emailSending").modal("hide");
+
+            // Show the approvalModal
+            $("#approvalModal").modal("show");
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+            // Hide the emailSending modal in case of an error
+            $("#emailSending").modal("hide");
+        },
     });
-  });
+});
+
 
   $(document).ready(function () {
     // Reject Account Modal
-    $("#rejectForm").submit(function (event) {
+    $("#send-reject").click(function (event) {
+
       event.preventDefault();
       var voter_id = $("#voter_id").val();
       var reason = $("input[name='reason']:checked").val(); // Get the selected reason
@@ -84,27 +96,21 @@ $(document).ready(function () {
 
       console.log("Data:", data); // Log the data object for debugging
 
+      closeModal();
+      $("#emailSending").modal("show");
+
       $.ajax({
         url: "submission_handlers/validate-acc.php",
         type: "POST",
-        data: data, // Use the data object including the reason
+        data: data,
         success: function (response) {
-          closeModal();
+          $("#emailSending").modal("hide");
           $("#rejectDone").modal("show");
         },
         error: function (xhr, status, error) {
           console.error(xhr.responseText);
         },
       });
-    });
-
-    // Toggle visibility of otherReason textarea based on radio button selection
-    $('input[type="radio"]').change(function () {
-      if (this.value === "others" && this.checked) {
-        $("#otherReason").show();
-      } else {
-        $("#otherReason").hide();
-      }
     });
 
     // Toggle visibility of otherReason textarea based on radio button selection
@@ -175,7 +181,7 @@ $(document).ready(function () {
 
 
 
-// ----- MODALS -----
+// ----- MODALS BEHAVIOR TRIGGERS -----
 
 //Show & Hide Modal Functions
 $(document).ready(function () {
@@ -183,6 +189,11 @@ $(document).ready(function () {
     $("#rejectModal").modal("show");
   });
 });
+
+function cancelForm(event) {
+  event.preventDefault(); // Prevent the default form submission
+  closeModal(); // Close the modal (assuming this function is defined elsewhere)
+}
 
 function closeModal() {
   $("#rejectModal").modal("hide");
@@ -197,6 +208,67 @@ document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
       document.getElementById("otherReason").style.display = "none";
     }
   });
+});
+
+
+// ---- End of: MODALS ----
+
+
+// ----- VALIDATIONS -----
+
+function toggleOtherReason() {
+  const otherReasonInput = document.getElementById('otherReason');
+  if (this.value === 'others' && this.checked) {
+    otherReasonInput.style.display = 'block';
+  } else {
+    otherReasonInput.style.display = 'none';
+    document.getElementById('other').value = ''; // Clear textarea if not selected
+  }
+  checkFormValidity();
+}
+
+function checkFormValidity() {
+  const reasonSelected = document.querySelector('input[name="reason"]:checked') !== null;
+  const otherReason = document.getElementById('other').value.trim();
+  const isValid = reasonSelected && (document.getElementById('others').checked ? otherReason.length > 0 : true);
+  document.getElementById('send-reject').disabled = !isValid;
+}
+
+document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
+  radio.addEventListener('change', toggleOtherReason);
+});
+
+document.getElementById('other').addEventListener('input', checkFormValidity);
+
+
+
+
+// ----- UNUSED/REFERENCE CODES -----
+// This will be removed if no longer needeed as a reference for other modules.
+
+// Dynamic change of dropdown edit status
+$("#dropdown").change(function () {
+  var selectedOption = $(this).val();
+  var newClass = "";
+
+  switch (selectedOption) {
+    case "Active":
+      newClass = "active-status";
+      break;
+    case "Disabled":
+      newClass = "inactive-status";
+      break;
+    case "Reject":
+      newClass = "rejected-status";
+      break;
+    default:
+      newClass = "";
+      break;
+  }
+
+  $(this)
+    .removeClass("active-status inactive-status rejected-status")
+    .addClass(newClass);
 });
 
 // TOTAL DELETION: Confirm Delete Modal
@@ -232,33 +304,3 @@ function validateConfirmation() {
     deleteButton.setAttribute("disabled", "disabled");
   }
 }
-
-// ---- End of: MODALS ----
-
-
-
-
-// Dynamic change of dropdown edit status
-$("#dropdown").change(function () {
-  var selectedOption = $(this).val();
-  var newClass = "";
-
-  switch (selectedOption) {
-    case "Active":
-      newClass = "active-status";
-      break;
-    case "Disabled":
-      newClass = "inactive-status";
-      break;
-    case "Reject":
-      newClass = "rejected-status";
-      break;
-    default:
-      newClass = "";
-      break;
-  }
-
-  $(this)
-    .removeClass("active-status inactive-status rejected-status")
-    .addClass(newClass);
-});

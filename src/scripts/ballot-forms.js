@@ -1,47 +1,172 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownToggle = document.getElementById('navbarDropdown');
+    const chevronIcon = document.getElementById('dropdown-chevron');
+  
+    dropdownToggle.addEventListener('click', function() {
+      // Check if the dropdown is currently shown
+      const isDropdownShown = dropdownToggle.getAttribute('aria-expanded') === 'true';
+  
+      if (isDropdownShown) {
+        chevronIcon.classList.remove('fa-chevron-down');
+        chevronIcon.classList.add('fa-chevron-up');
+      } else {
+        chevronIcon.classList.remove('fa-chevron-up');
+        chevronIcon.classList.add('fa-chevron-down');
+      }
+    });
+  
+    // Handle clicking outside the dropdown to close it and reset the icon
+    document.addEventListener('click', function(event) {
+      if (!dropdownToggle.contains(event.target) && !document.querySelector('.dropdown-menu').contains(event.target)) {
+        chevronIcon.classList.remove('fa-chevron-up');
+        chevronIcon.classList.add('fa-chevron-down');
+      }
+    });
+  });
 
+document.getElementById("toggleButton").addEventListener("click", function() {
+    this.classList.add("clicked");
+    document.getElementById("title").classList.add("main-bg-color");
+    setTimeout(function() {
+        // Remove the 'clicked' class from the button
+        document.getElementById("toggleButton").classList.remove("clicked");
+        // Remove the 'main-bg-color' class from the title
+        document.getElementById("title").classList.remove("main-bg-color");
+    }, 1000);
+});
+
+
+function removeErrorAndBorder(inputElement, errorElement) {
+    inputElement.addEventListener('input', function() {
+        if (inputElement.value.trim() && errorElement) {
+            inputElement.classList.remove('border', 'border-danger');
+            errorElement.parentNode.removeChild(errorElement);
+        }
+    });
+}
 function validateForm(event) {
     var voteForm = document.getElementById('voteForm');
     var reminders = voteForm.querySelectorAll('.reminder');
     var isValid = true;
     var scrollToReminder = null;
     var selectedCandidateHTML = '';
-
     var pairCounter = 0;
-    reminders.forEach(function (reminder) {
+
+    // Check if the voter name and student number fields exist
+    var voterNameInput = document.getElementById('voter_name');
+    var studentNumInput = document.getElementById('student_num');
+
+    // Regular expressions
+    var studentNumRegex = /^\d{4}-\d{5}-[A-Z]{2}-\d$/;
+    var voterNameRegex = /^[A-Za-z.,\-\s]+$/;
+
+    if (voterNameInput !== null) {
+        var voterNameError = document.getElementById('voterNameError');
+        removeErrorAndBorder(voterNameInput, voterNameError);
+
+        if (!voterNameInput.value.trim()) {
+            if (!voterNameError) {
+                var errorText = document.createElement('div');
+                errorText.id = 'voterNameError';
+                errorText.classList.add('text-danger', 'mt-2', 'ps-2');
+                errorText.innerHTML = "<i>This field is required.</i>";
+                voterNameInput.parentNode.appendChild(errorText);
+            }
+            voterNameInput.classList.add('border', 'border-danger');
+            isValid = false;
+            scrollToReminder = document.querySelector('.reminder-student');
+        } else if (!voterNameRegex.test(voterNameInput.value.trim())) {
+            if (!voterNameError) {
+                var errorText = document.createElement('div');
+                errorText.id = 'voterNameError';
+                errorText.classList.add('text-danger', 'mt-2', 'ps-2');
+                errorText.innerHTML = "<i>Name does not exist.</i>";
+                voterNameInput.parentNode.appendChild(errorText);
+            }
+            voterNameInput.classList.add('border', 'border-danger');
+            isValid = false;
+            scrollToReminder = document.querySelector('.reminder-student');
+        } else {
+            if (voterNameError) {
+                voterNameInput.parentNode.removeChild(voterNameError);
+            }
+            voterNameInput.classList.remove('border', 'border-danger');
+        }
+    }
+
+    if (studentNumInput !== null) {
+        var studentNumError = document.getElementById('studentNumError');
+        removeErrorAndBorder(studentNumInput, studentNumError);
+
+        if (!studentNumInput.value.trim()) {
+            if (!studentNumError) {
+                var errorText = document.createElement('div');
+                errorText.id = 'studentNumError';
+                errorText.classList.add('text-danger', 'mt-2', 'ps-2');
+                errorText.innerHTML = "<i>This field is required.</i>";
+                studentNumInput.parentNode.appendChild(errorText);
+            }
+            studentNumInput.classList.add('border', 'border-danger');
+            isValid = false;
+            if (!scrollToReminder) {
+                scrollToReminder = document.querySelector('.reminder-student');
+            }
+        } else if (!studentNumRegex.test(studentNumInput.value.trim())) {
+            if (!studentNumError) {
+                var errorText = document.createElement('div');
+                errorText.id = 'studentNumError';
+                errorText.classList.add('text-danger', 'mt-2', 'ps-2');
+                errorText.innerHTML = "<i>Student number does not exist.</i>";
+                studentNumInput.parentNode.appendChild(errorText);
+            }
+            studentNumInput.classList.add('border', 'border-danger');
+            isValid = false;
+            if (!scrollToReminder) {
+                scrollToReminder = document.querySelector('.reminder-student');
+            }
+        } else {
+            if (studentNumError) {
+                studentNumInput.parentNode.removeChild(studentNumError);
+            }
+            studentNumInput.classList.remove('border', 'border-danger');
+        }
+    }
+
+    reminders.forEach(function(reminder) {
         var radioButtons = reminder.querySelectorAll('input[type="radio"]');
         var radioButtonChecked = false;
 
-        radioButtons.forEach(function (radioButton) {
+        radioButtons.forEach(function(radioButton) {
             if (radioButton.checked) {
                 radioButtonChecked = true;
-                // get the selected position and candidates
                 var positionTitle = reminder.getAttribute('data-position-title');
                 var candidateName = 'ABSTAINED';
 
                 if (radioButton.value !== '') {
-                    candidateName = radioButton.parentNode.querySelector('div.ps-4 > div.font-weight2').textContent.trim(); // Get only the full name
+                    candidateName = radioButton.parentNode.querySelector('div.ps-4 > div.font-weight2').textContent.trim();
                 }
 
+                var candidateHTML = candidateName ? '<div>' + candidateName + '</div>' : '';
+                var imageSrc;
 
-                var candidateHTML = candidateName ? '<div>' + candidateName + '</div>' : ''; // Check if candidate name is not empty
-                var imageSrc = reminder.querySelector('img').getAttribute('src'); // Get candidate image source
+                if (candidateName === 'ABSTAINED') {
+                    imageSrc = 'images/candidate-profile/placeholder.png';
+                } else {
+                    imageSrc = reminder.querySelector('img').getAttribute('src');
+                }
 
-                // Wrap each pair in a row
                 if (pairCounter % 2 === 0) {
                     selectedCandidateHTML += '<div class="row ms-4">';
                 }
 
-                // Add the image and pair to the row
-                selectedCandidateHTML += '<div class="col-lg-6 pb-sm-3"><img src="' + imageSrc + '" width="80px" height="80px" style="display: inline-block; vertical-align: middle;border-radius: 10px; border: 2px solid #ccc;">' +
+                selectedCandidateHTML += '<div class="col-lg-6 col-md-12 col-sm-12 pb-lg-3 pb-3"><img src="' + imageSrc + '" width="80px" height="80px" style="display: inline-block; vertical-align: middle;border-radius: 10px; border: 2px solid #ccc;">' +
                     '<div class="ps-4" style="display: inline-block; vertical-align: middle; "><b><div class="main-color">' + candidateHTML + '</div></b><div style="font-size:12px"><b>' +
                     positionTitle.toUpperCase() + '</b></div></div>' + '</div>';
 
                 pairCounter++;
 
-
-                // Close the row after every second pair
                 if (pairCounter % 2 === 0) {
-                    selectedCandidateHTML += '</div><br>'; // Close the row
+                    selectedCandidateHTML += '</div>';
                 }
             }
         });
@@ -49,10 +174,11 @@ function validateForm(event) {
         var reminderError = reminder.querySelector('.text-danger');
 
         if (!radioButtonChecked) {
-            if (!reminderError) {
+            if (!reminderError) {        
                 var requiredText = document.createElement('div');
-                requiredText.classList.add('text-danger', 'mt-4', 'ps-4');
-                requiredText.innerHTML = "<i>This field is required. Please select one (1) candidate or click ABSTAIN.</i>";
+                requiredText.classList.add('text-danger', 'mt-4', 'ps-4', 'ms-4', 'me-4');
+                requiredText.innerHTML = "<span><i>This field is required. Please select one (1) candidate or click ABSTAIN.</i></span>";
+
                 reminder.insertBefore(requiredText, reminder.firstChild);
             }
 
@@ -69,20 +195,14 @@ function validateForm(event) {
         }
     });
 
-    if (!isValid && scrollToReminder) {
-        event.preventDefault(); // Prevent form submission
-        scrollToReminder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!isValid) {
+        event.preventDefault();
+        if (scrollToReminder) {
+            scrollToReminder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     } else {
-        // If all fields are valid, display the modal with form preview
-        event.preventDefault(); // Prevent form submission
-
-        document.getElementById('confirmationModal').classList.add('show');
-        document.getElementById('confirmationModal').style.display = 'block';
-        document.body.classList.add('modal-open');
-        document.getElementById('confirmationModal').setAttribute('aria-modal', true);
-        document.getElementById('confirmationModal').setAttribute('aria-hidden', false);
-        document.getElementById('confirmationModal').setAttribute('role', 'dialog');
-
+        event.preventDefault();
+        $('#confirmationModal').modal('show');
         document.getElementById('selectedCandidate').innerHTML = selectedCandidateHTML;
     }
 }
@@ -91,8 +211,8 @@ document.getElementById('voteForm').addEventListener('submit', validateForm);
 
 // Dynamically remove the error message if a radio button is once selected
 var radioButtons = document.querySelectorAll('input[type="radio"]');
-radioButtons.forEach(function (radioButton) {
-    radioButton.addEventListener('change', function () {
+radioButtons.forEach(function(radioButton) {
+    radioButton.addEventListener('change', function() {
         var reminder = this.closest('.reminder');
         var reminderError = reminder.querySelector('.text-danger');
         if (reminderError) {
@@ -102,76 +222,61 @@ radioButtons.forEach(function (radioButton) {
     });
 });
 
-// Submit the form when the "Submit Vote" button is clicked
-document.getElementById('submitModalButton').addEventListener('click', function () {
-    document.getElementById('voteForm').submit();
+// Handle the confirmation of the vote
+document.getElementById('submitModalButton').addEventListener('click', function() {
+    var voteForm = document.getElementById('voteForm');
+    var formData = $(voteForm).serialize();
 
+    $.ajax({
+        type: 'POST',
+        url: '../src/includes/insert-vote.php',
+        data: formData,
+        success: function(response) {
+            // Hide the confirmation modal
+            $('#confirmationModal').modal('hide');
+            // Show the success modal
+            $('#voteSubmittedModal').modal('show');
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error(xhr.responseText);
+        }
+    });
 });
 
-// Dismiss the modal when the "Cancel" button is clicked
-document.getElementById('cancelModalButton').addEventListener('click', function () {
-    var modal = document.getElementById('confirmationModal');
-    modal.setAttribute('aria-hidden', 'true');
-    modal.style.display = 'none';
-    document.body.classList.remove('modal-open');
+// Add alert when user tries to refresh the page or close the browser
+let formChanged = false;
+
+document.getElementById('voteForm').addEventListener('change', function() {
+  formChanged = true;
 });
 
+window.addEventListener('beforeunload', function (e) {
+  if (formChanged) {
+    const confirmationMessage = ' ';
+    e.returnValue = confirmationMessage;
+    return confirmationMessage;
+  }
+});
 
-
+// Add an event listener to the "Give Feedback" button to remove the beforeunload event
+document.getElementById('giveFeedbackbtn').addEventListener('click', function() {
+  formChanged = false; // Reset the flag
+  window.removeEventListener('beforeunload', function (e) {
+    if (formChanged) {
+      const confirmationMessage = ' ';
+      e.returnValue = confirmationMessage;
+      return confirmationMessage;
+    }
+  });
+});
 
 function resetForm() {
     document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-        radio.checked = false;
+    radio.checked = false;
     });
     document.querySelectorAll('input[type="text"]').forEach((textInput) => {
-        textInput.value = '';
+    textInput.value = '';
     });
 }
 
-
-// Function to show the vote submitted modal
-function showVoteSubmittedModal() {
-    $('#voteSubmittedModal').modal('show');
-}
-
-// Close modals when clicking on the close button
-var closeButtons = document.getElementsByClassName('btn-close');
-for (var i = 0; i < closeButtons.length; i++) {
-    closeButtons[i].addEventListener('click', function () {
-        var modal = this.closest('.modal');
-        $(modal).modal('hide');
-    });
-}
-
-// Show the vote submitted modal when the page loads (if redirected with success parameter)
-window.onload = function () {
-    var urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('success')) {
-        showVoteSubmittedModal();
-    } else {
-        $(document).ready(() => {
-            $('#greetModal').modal('show');
-        });
-    }
-};
-
-
-// Prevent modal from being dismissed
-$('#voteSubmittedModal').modal({
-    backdrop: 'static',
-    keyboard: false
-});
-
-// Prevent modal from being dismissed by clicking on backdrop
-$('#voteSubmittedModal').on('click', function (event) {
-    if ($(event.target).hasClass('modal')) {
-        return false;
-    }
-});
-
-// Prevent modal from being dismissed by pressing ESC key
-$(document).on('keydown', function (event) {
-    if (event.keyCode === 27 && $('#voteSubmittedModal').is(':visible')) {
-        return false;
-    }
-});

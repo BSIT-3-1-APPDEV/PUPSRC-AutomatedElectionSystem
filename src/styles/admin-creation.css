@@ -139,6 +139,21 @@
   cursor: pointer;
 }
 
+/* Default border color */
+input {
+  border: 1px solid #ccc;
+}
+
+/* Border color when focused */
+input:focus {
+  border-color: #4285f4 !important; /* Blue color */
+}
+
+/* Border color when there is an error */
+input.error {
+  border-color: #d93025; /* Red color */
+}
+
 .form-title {
   color: var(--main-color);
   font-size: 34px;
@@ -237,4 +252,16 @@ input::placeholder {
 .input-error {
     border: 1px solid red !important;
 }
+
+/* Media query for smaller screens (e.g., phones) */
+@media only screen and (max-width: 767px) {
+  .d-flex.flex-md-row.flex-column {
+      flex-direction: column-reverse; /* Reverse the order of buttons */
+  }
+
+  .reset-button {
+      margin-top: 10px; /* Add some spacing between the buttons */
+  }
+}
+
 /*# sourceMappingURL=style.css.map */

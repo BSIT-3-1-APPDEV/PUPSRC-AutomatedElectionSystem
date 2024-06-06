@@ -1,11 +1,13 @@
 <?php
-
-include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
+
 SessionManager::checkUserRoleAndRedirect();
+
 $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 $_SESSION['csrf_expiry'] = time() + (60 * 30);
 $organization = 'sco';
@@ -15,11 +17,6 @@ $config = DatabaseConfig::getOrganizationDBConfig($organization);
 
 // Creates database connection
 $connection = new mysqli($config['host'], $config['username'], $config['password'], $config['database']);
-
-// Checks for connection errors
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
 
 $sql = "SELECT email FROM voter";
 $result = $connection->query($sql);
@@ -34,6 +31,14 @@ if ($result->num_rows > 0) {
     }
 }
 
+if (isset($_SESSION['error_message'])) {
+    $error_message = $_SESSION['error_message'];
+    unset($_SESSION['error_message']);
+}
+
+// Check if registration success flag is set in the session
+$registration_success = isset($_SESSION['registration_success']) && $_SESSION['registration_success'] === true;
+
 ?>
 
 <!DOCTYPE html>
@@ -44,15 +49,28 @@ if ($result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
 
+    <link rel="stylesheet" href="styles/loader.css" />
     <link rel="stylesheet" href="styles/core.css" />
     <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 
     <link rel="stylesheet" href="styles/dist/register.css">
     <title>Register</title>
+
+    <script>
+        // Will be used for validation of existing emails 
+        const emails = <?php echo json_encode($emails); ?>
+        // Will be used to display success modal 
+        const registrationSuccess = <?php echo json_encode($registration_success); ?>
+    </script>
 </head>
 
 <body>
+
+    <?php
+    include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+    ?>
+
     <nav class="navbar navbar-expand-lg" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
             <a href="landing-page.php"><img src="images/resc/ivote-icon-2.png" id="ivote-logo-landing-header"
@@ -64,7 +82,7 @@ if ($result->num_rows > 0) {
     <div class="container-fluid">
         <div class="row mt-5">
             <div class="col-md-6">
-                <form id="register-form" action="includes/registration-process.php" method="POST"
+                <form id="register-form" action="includes/registration-inc.php" method="POST"
                     enctype="multipart/form-data">
 
                     <div class="row">
@@ -74,15 +92,31 @@ if ($result->num_rows > 0) {
                         </div>
                     </div>
 
+                    <div class="d-flex align-items-center justify-content-center mb-0 pb-0">
+                        <!-- Displays error message from server-side -->
+                        <?php if (isset($error_message)) : ?>
+                            <div class="fw-medium border border-danger text-danger alert alert-danger alert-dismissible fade show  custom-alert" role="alert">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 16">
+                                    <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
+                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                                </svg>
+                                <div class="d-flex align-items-center">
+                                    <span class="pe-1"><?php echo $error_message; ?></span>
+                                    <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
 
                     <!-- Email Address -->
                     <div class="row pt-3">
                         <div class="col-12 d-flex justify-content-end">
                             <div class="form-group col-7">
-                                <label class="fs-8 spacing-3">Email Address<span
-                                        class="asterisk fw-medium">*</span></label>
+                                <label for="email" class="fs-8 spacing-3">Email Address<span
+                                        class="asterisk fw-medium">*</span></label>                                   
                                 <input type="text" class="form-control pt-2 bg-primary text-black" name="email"
-                                    id="email" placeholder="Email Address" oninput="preventSpaces(event)" required>
+                                    id="email" placeholder="Email Address" autocomplete="email" required>
+                                    
                             </div>
                         </div>
                     </div>
@@ -92,7 +126,7 @@ if ($result->num_rows > 0) {
                     <div class="row pt-2">
                         <div class="col-12   d-flex justify-content-end">
                             <div class="col-7  ">
-                                <label class="fs-8 spacing-3">Organization<span
+                                <label for="org" class="fs-8 spacing-3">Organization<span
                                         class="asterisk fw-medium">*</span></label>
                                 <select class="form-select form-control bg-primary text-black"
                                     style="color: red; background-color: blue;" name="org" id="org" required>
@@ -116,10 +150,10 @@ if ($result->num_rows > 0) {
                         <div class="col-12   d-flex justify-content-end">
                             <div class="col-7">
                                 <div class="form-group">
-                                    <label class="fs-8 spacing-3">Password <span
+                                    <label for="password" class="fs-8 spacing-3">Password <span
                                             class="asterisk fw-medium">*</span></label>
                                     <input type="password" class="form-control pt-2 bg-primary text-black"
-                                        name="password" id="password" placeholder="Password" oninput="preventSpaces(event)" required>
+                                        name="password" id="password" placeholder="Password" autocomplete="new-password" required>
                                 </div>
                             </div>
                         </div>
@@ -131,10 +165,10 @@ if ($result->num_rows > 0) {
                         <div class="col-12   d-flex justify-content-end">
                             <div class="col-7">
                                 <div class="form-group">
-                                    <label class="fs-8 spacing-3">Re-type password <span
+                                    <label for="retype-pass" class="fs-8 spacing-3">Re-type password <span
                                             class="asterisk fw-medium">*</span></label>
                                     <input type="password" class="form-control pt-2 bg-primary text-black"
-                                        id="retype-pass" name="retype-pass" placeholder="Re-type password" oninput="preventSpaces(event)" required>
+                                        id="retype-pass" name="retype-pass" placeholder="Re-type password" autocomplete="current-password" required>
                                 </div>
                             </div>
                         </div>
@@ -145,25 +179,24 @@ if ($result->num_rows > 0) {
                         <div class="col-12 d-flex justify-content-end">
                             <div class="col-7">
                                 <div class="form-group">
-                                    <label class="fs-8 spacing-3">Certificate of Registration<span
+                                    <label for="cor" class="fs-8 spacing-3">Certificate of Registration<span
                                             class="asterisk fw-medium"> *</span></label>
                                     <input class="form-control form-control-sm pl-2" style="background-color:#EDEDED"
                                         type="file" name="cor" id="cor" accept=".pdf" max="25MB" required>
-                                    <small class="form-text text-muted">Only PDF files up to 25MB are allowed.</small>
                                 </div>
+                                <div class="form-text mt-2" style="font-size: 12px;"><span class="main-blue fw-semibold">Note:</span> Only PDF files up to 25MB are allowed.</div>
                             </div>
                         </div>
                     </div>
 
-
-                    <!-- Select Organization -->
+                    <!-- Sign Up Button -->
                     <div class="row pt-4">
                         <div class="col-12 d-flex justify-content-end">
                             <div class="col-7">
                                 <div id="submit-container">
                                     <button
                                         class="btn btn-primary px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 w-100"
-                                        type="submit" id="sign-up" name="sign-up" value="approve" disabled>Sign
+                                        type="submit" id="sign-up" name="sign-up" disabled>Sign
                                         Up</button>
                                 </div>
                                 <p class="pt-2 fs-7 spacing-8 main-blue-200 text-center">Already have an account? Go to
@@ -183,13 +216,15 @@ if ($result->num_rows > 0) {
             </div>
         </div>
     </div>
-    <div class="modal" id="approvalModal" tabindex="-1" role="dialog">
+
+    <!-- Registered Successfully Modal -->
+    <div class="modal" id="registerSuccessModal" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="d-flex justify-content-end">
                         <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-                            onclick="redirectToPage('landing-page.php')">
+                            onclick="location.href = 'landing-page.php';">
                         </i>
                     </div>
                     <div class="text-center">
@@ -200,7 +235,8 @@ if ($result->num_rows > 0) {
                         <div class="row">
                             <div class="col-md-12 pb-3">
                                 <p class="fw-bold fs-3 success-color spacing-4">Successfully Registered!</p>
-                                <p class="fw-medium spacing-5">We'll notify you via email once your account has been verified.
+                                <p class="fw-medium spacing-5">We'll notify you via email once your account has been
+                                    verified.
                                 </p>
                             </div>
                         </div>
@@ -210,252 +246,41 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 
-    <?php include_once __DIR__ . '/includes/components/all-footer.php'; ?>
+    <!-- Only PDF Files Are Allowed Modal -->
+    <div class="modal" id="onlyPDFAllowedModal" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end">
+                        <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" id="onlyPDFClose">
+                        </i>
+                    </div>
+                    <div class="text-center">
+                        <div class="col-md-12">
+                            <img src="images/resc/warning.png" alt="Warning Icon">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 pb-3 pt-4">
+                                <p class="fw-bold fs-3 danger spacing-4 px-2">Only PDF files are allowed</p>
+                                <p class="fw-medium spacing-5 pt-2 px-5 ">Please also ensure the file is no larger than
+                                    25 mb.
+                                    Let's try that again!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/all-footer.php'); ?>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <?php
-    // Check if registration success flag is set in the session
-    if (isset($_SESSION['registrationSuccess']) && $_SESSION['registrationSuccess'] === true) {
-        // Display JavaScript to trigger the modal
-        echo '<script>
-        $(document).ready(function() {
-            $("#approvalModal").modal("show");
-        });
-        </script>';
-        unset($_SESSION['registrationSuccess']);
-    }
-    ?>
-
-    <script>
-        function redirectToPage(url) {
-            window.location.href = url;
-        }
-    </script>
-
-    <script>document.addEventListener('DOMContentLoaded', function () {
-            const emailInput = document.getElementById('email');
-            const orgSelect = document.getElementById('org');
-            const passwordInput = document.getElementById('password');
-            const retypePassInput = document.getElementById('retype-pass');
-            const corInput = document.getElementById('cor');
-            const submitBtn = document.getElementById('submit-container');
-            const submitButton = document.getElementById('sign-up');
-            const form = document.getElementById('register-form');
-
-            emailInput.addEventListener('input', function () {
-                validateEmail(emailInput);
-
-                checkFormValidity();
-            });
-
-            orgSelect.addEventListener('input', function () {
-                validateOrg(orgSelect);
-                checkFormValidity();
-            });
-            let retypePasswordTimeout;
-
-passwordInput.addEventListener('input', function () {
-    clearTimeout(retypePasswordTimeout); // Clear any previously set timeout
-
-    // Set a timeout to validate the retype password after a short delay
-    retypePasswordTimeout = setTimeout(function () {
-        validateRetypePassword(retypePassInput, passwordInput);
-        checkFormValidity();
-    }, 3000); // Adjust the delay as needed (e.g., 500 milliseconds)
-    
-    validatePassword(passwordInput);
-    checkFormValidity();
-});
-
-
-
-            retypePassInput.addEventListener('input', function () {
-
-                validateRetypePassword(retypePassInput, passwordInput);
-                checkFormValidity();
-            });
-
-            corInput.addEventListener('input', function () {
-                validateCOR(corInput);
-                checkFormValidity();
-            });
-
-            submitBtn.addEventListener('mouseover', function () {
-                checkEmptyFields(); // Show errors on hover
-            });
-
-
-            form.addEventListener('submit', function (event) {
-                if (!validateForm()) {
-                    event.preventDefault(); // Prevent form submission if validation fails
-                }
-            });
-
-            function validateEmail(input) {
-                const emailValue = input.value.trim();
-                const errorElement = input.nextElementSibling;
-                const emails = <?php echo json_encode($emails); ?>;
-
-                const isValidFormat = validateEmailFormat(emailValue);
-                const isExistingEmail = emails.includes(emailValue);
-
-                if (!isValidFormat) {
-                    showError(input, errorElement, 'Please enter a valid email address.');
-                    return false; // Return false if email format is invalid
-                } else if (isExistingEmail) {
-                    showError(input, errorElement, 'Email address already exists.');
-                    return false; // Return false if email already exists
-                } else {
-                    clearError(input, errorElement);
-                    return true; // Return true if email format is valid and does not exist
-                }
-            }
-
-            function validateEmailFormat(email) {
-                const allowedDomains = ['@gmail.com', '@iskolarngbayan.pup.edu.ph'];
-                const domainMatch = allowedDomains.some(domain => email.endsWith(domain));
-                return domainMatch && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-            }
-
-
-
-
-            function validateOrg(input) {
-                const orgValue = input.value;
-                const errorElement = input.nextElementSibling;
-
-                if (orgValue === '') {
-                    showError(input, errorElement, 'Please select an organization.');
-                } else {
-                    clearError(input, errorElement);
-                }
-            }
-
-            function validatePassword(input) {
-                const passwordValue = input.value;
-                const errorElement = input.nextElementSibling;
-
-                const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[^a-zA-Z0-9\s])[^\s]{8,20}$/;
-
-                if (!passwordRegex.test(passwordValue)) {
-                    showError(input, errorElement, 'Password must be 8-20 characters long with letters, numbers, and symbols.');
-                } else {
-                    clearError(input, errorElement);
-                }
-            }
-
-
-            function validateRetypePassword(input, originalPasswordInput) {
-                const retypePassValue = input.value;
-                const errorElement = input.nextElementSibling;
-
-                if (retypePassValue !== originalPasswordInput.value) {
-                    showError(input, errorElement, 'Passwords do not match.');
-                } else {
-                    clearError(input, errorElement);
-                }
-            }
-
-            function validateCOR(input) {
-                const corValue = input.value;
-                const errorElement = input.nextElementSibling;
-
-                if (corValue === '') {
-                    showError(input, errorElement, 'Please upload your Certificate of Registration.');
-                } else {
-                    clearError(input, errorElement);
-                }
-            }
-
-            function showError(input, errorElement, message) {
-                if (!errorElement) {
-                    const newErrorElement = document.createElement('div');
-                    newErrorElement.className = 'error-message';
-                    input.parentNode.appendChild(newErrorElement);
-                    errorElement = newErrorElement; // Update errorElement to the newly created element
-                }
-                errorElement.textContent = message;
-                input.classList.add('error-border');
-            }
-
-            function clearError(input, errorElement) {
-                if (errorElement) {
-                    errorElement.textContent = '';
-                    input.classList.remove('error-border');
-                }
-            }
-
-            function validateForm() {
-                return validateEmailFormat(emailInput.value.trim()) &&
-                    orgSelect.value !== '' &&
-                    passwordInput.value.length >= 8 &&
-                    retypePassInput.value === passwordInput.value &&
-                    corInput.value !== '';
-            }
-            function checkEmptyFields() {
-                const inputs = [emailInput, orgSelect, passwordInput, retypePassInput, corInput];
-
-                inputs.forEach(input => {
-                    if (input.value.trim() === '') {
-                        showError(input, input.nextElementSibling, 'This field is required.');
-                    }
-                });
-            }
-            function clearErrors() {
-                // Select all error messages and remove them
-                const errorMessages = document.querySelectorAll('.error-message');
-                errorMessages.forEach(message => message.remove());
-
-                // Remove the error border from all input fields
-                const inputFields = document.querySelectorAll('.error-border');
-                inputFields.forEach(input => input.classList.remove('error-border'));
-            } function checkFormValidity() {
-                const emailValue = emailInput.value.trim();
-                const orgValue = orgSelect.value;
-                const passwordValue = passwordInput.value;
-                const retypePassValue = retypePassInput.value;
-                const corValue = corInput.value;
-                const emailValid = validateEmailFormat(emailValue);
-                const orgValid = orgValue !== '';
-                const passwordValid = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(passwordValue); // Validate password directly with regex
-                const retypePassValid = retypePassValue === passwordValue;
-                const corValid = corValue !== '';
-
-                const allFieldsValid = emailValid && orgValid && passwordValid && retypePassValid && corValid;
-
-                if (allFieldsValid) {
-                    submitButton.removeAttribute('disabled');
-                } else {
-                    submitButton.setAttribute('disabled', 'disabled');
-                }
-            }
-
-
-        });
-
-        function preventLeadingSpace(event) {
-    const input = event.target;
-    if (input.value.startsWith(' ')) {
-        input.value = input.value.trim(); // Remove leading space
-    }
-    // Replace multiple consecutive spaces with a single space
-    input.value = input.value.replace(/\s{2,}/g, ' ');
-}
-
-function preventSpaces(event) {
-        const input = event.target;
-        if (input.value.includes(' ')) {
-            input.value = input.value.replace(/\s/g, ''); // Remove all spaces
-        }
-    }
-
-
-
-
-    </script>
-
-
+    <script src="scripts/register.js"></script>
+    <script src="scripts/loader.js"></script>
 
 </body>
-
 </html>

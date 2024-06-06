@@ -7,7 +7,8 @@ require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 
 if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
-	
+
+
 	include FileUtils::normalizeFilePath('includes/session-exchange.php');
 	include FileUtils::normalizeFilePath('submission_handlers/manage-acc.php');
 	?>
@@ -33,14 +34,19 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 		<link rel="stylesheet" href="styles/core.css" />
 		<link rel="stylesheet" href="styles/tables.css" />
 		<link rel="stylesheet" href="styles/manage-voters.css" />
+		<link rel="stylesheet" href="styles/loader.css" />
 		<link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="scripts/loader.js"></script>
 
 	</head>
 
 	<body>
 
-		<?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+		<?php 
+		include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+		include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
+		?>
 
 		<div class="main">
 
@@ -51,7 +57,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
 								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
 							</button>
-							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS' ACCOUNTS</button>
+							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS'
+								ACCOUNTS</button>
 						</div>
 					</div>
 				</div>
@@ -81,18 +88,21 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 														<div class="col-sm-6">
 															<div class="row">
-																<div class="col-md-12 text-end">
+																<div class="col-md-12 text-end flex-end">
+																	<!-- Delete -->
 																	<div class="d-inline-block">
 																		<button class="delete-btn fs-7 spacing-6 fw-medium"
 																			type="button" id="dropdownMenuButton"
 																			data-bs-toggle="dropdown" aria-haspopup="true"
-																			aria-expanded="false"><i
-																				class="fa-solid fa-trash-can fa-sm"></i>
+																			aria-expanded="false">
+																			<i class="fa-solid fa-trash-can fa-sm"></i>
 																			Delete
 																		</button>
-
 																		<span class="light-gray-accent fw-bold ps-3">|</span>
 																	</div>
+																	<!-- Filters -->
+
+																	<!-- Sort By -->
 																	<div class="d-inline-block ps-3">
 																		<form class="d-inline-block">
 																			<div class="dropdown sort-by">
@@ -100,38 +110,45 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																					class="sortby-tbn fs-7 spacing-6 fw-medium"
 																					type="button" id="dropdownMenuButton"
 																					data-bs-toggle="dropdown"
-																					aria-haspopup="true"
-																					aria-expanded="false"><i
+																					aria-haspopup="true" aria-expanded="false">
+																					<i
 																						class="fa-solid fa-arrow-down-wide-short fa-sm"></i>
 																					Sort by
 																				</button>
 																				<div class="dropdown-menu dropdown-menu-end"
 																					aria-labelledby="dropdownMenuButton"
-																					style="padding:0.5rem">
-																				<!-- Dropdown items -->
-																				<li class=" dropdown-item ps-3 fs-7 fw-medium">Newest to
-																					Oldest</li>
+																					style="padding: 0.5rem">
+																					<!-- Dropdown items -->
 																					<li
 																						class="dropdown-item ps-3 fs-7 fw-medium">
-																						Oldest to
-																						Newest</li>
+																						Newest to Oldest</li>
 																					<li
 																						class="dropdown-item ps-3 fs-7 fw-medium">
-																						A to Z
-																						(Ascending)</li>
+																						Oldest to Newest</li>
 																					<li
 																						class="dropdown-item ps-3 fs-7 fw-medium">
-																						Z to A
-																						(Descending)</li>
+																						A to Z (Ascending)</li>
+																					<li
+																						class="dropdown-item ps-3 fs-7 fw-medium">
+																						Z to A (Descending)</li>
 																				</div>
 																			</div>
 																		</form>
+																	</div>
+
+																	<!-- Search -->
+																	<div class="ps-3">
+																		<i data-feather="search" class="feather-xs im-cust-2"
+																			style="color: black"></i>
+																		<input class="search-input fs-7 spacing-6 fw-medium"
+																			type="text" placeholder=" Search..."
+																			id="searchPending" style="width: 100px">
 																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
-													<table class="table">
+													<table class="table" id="pendingTable">
 														<thead class="tl-header">
 															<tr>
 																<th class="col-md-6 tl-left text-center fs-7 fw-bold spacing-5">
@@ -147,28 +164,14 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														</thead>
 														<tbody>
 															<?php while ($row = $to_verify_tbl->fetch_assoc()) { ?>
-																<tr>
-																<td class="col-md-6 text-center text-truncate"><a
-																			href="validate-voter.php?voter_id=<?php echo $row["voter_id"]; ?>"><?php echo $row["email"]; ?></a>
-																	</td>
+																<!-- Generated in table-funcs.js -->
 
-																	<td class="col-md-6 text-center">
-																		<?php echo date("F j, Y", strtotime($row["acc_created"])); ?>
-																	</td>
-																</tr>
 															<?php } ?>
 														</tbody>
 													</table>
 													<div class="clearfix col-xs-12">
-														<ul class="pagination">
-															<li class="fas fa-chevron-left black"><a href="#"></a></li>
-															<li class="page-item"><a href="#" class="page-link">1</a></li>
-															<li class="page-item"><a href="#" class="page-link">2</a></li>
-															<li class="page-item active"><a href="#" class="page-link">3</a>
-															</li>
-															<li class="page-item"><a href="#" class="page-link">4</a></li>
-															<li class="page-item"><a href="#" class="page-link">5</a></li>
-															<li class="fas fa-chevron-right ps-xl-3 black"><a href="#"></a></li>
+														<ul class="pagination" id="pagination">
+															<!-- For Verification pagination will be generated here -->
 														</ul>
 													</div>
 
@@ -217,7 +220,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														<div class="row">
 															<!-- Table Header -->
 															<div class="col-sm-6">
-																<p class="fs-3 main-color fw-bold ls-10 spacing-6">Voters' Accounts</p>
+																<p class="fs-3 main-color fw-bold ls-10 spacing-6">Voters'
+																	Accounts</p>
 															</div>
 															<div class="col-sm-6">
 																<div class="row">
@@ -237,36 +241,6 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																				class="light-gray-accent fw-bold ps-3">|</span>
 																		</div>
 																		<!-- Filters -->
-																		<div class="d-inline-block ps-3">
-																			<form class="d-inline-block">
-																				<div class="dropdown sort-by">
-																					<button
-																						class="sortby-tbn fs-7 spacing-6 fw-medium"
-																						type="button" id="dropdownMenuButton"
-																						data-bs-toggle="dropdown"
-																						aria-haspopup="true"
-																						aria-expanded="false">
-																						<i data-feather="filter"
-																							class="feather-xs im-cust-2"></i>
-																						Filters
-																					</button>
-																					<div class="dropdown-menu dropdown-menu-end"
-																						aria-labelledby="dropdownMenuButton"
-																						style="padding: 0.5rem">
-																						<!-- Checklist Items -->
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Active</li>
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Rejected</li>
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							For Verification</li>
-																					</div>
-																				</div>
-																			</form>
-																		</div>
 
 																		<!-- Sort By -->
 																		<div class="d-inline-block ps-3">
@@ -310,7 +284,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																				style="color: black"></i>
 																			<input class="search-input fs-7 spacing-6 fw-medium"
 																				type="text" placeholder=" Search..."
-																				id="searchInput" style="width: 100px">
+																				id="searchVerified" style="width: 100px">
 																		</div>
 																	</div>
 
@@ -319,7 +293,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														</div>
 
 														<!-- Table Contents -->
-														<table class="table">
+														<table class="table" id="verifiedTable">
 															<thead class="tl-header">
 																<tr>
 																	<th
@@ -342,53 +316,16 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 															</thead>
 															<tbody>
 																<?php while ($row = $verified_tbl->fetch_assoc()) { ?>
-																	<tr>
-																		</td>
-																		<td class="col-md-3 text-center text-truncate"><a
-																				href="voter-details.php?voter_id=<?php echo $row["voter_id"]; ?>"><?php echo $row["email"]; ?></a>
-																		</td>
-																		<td class="col-md-3 text-center">
-																			<?php
-																			$status = $row["account_status"];
-																			$statusClass = '';
 
-																			switch ($status) {
-																				case 'verified':
-																					$statusClass = 'active-status';
-																					break;
-																				case 'invalid':
-																					$statusClass = 'inactive-status';
-																					break;
-																				default:
-																					$statusClass = '';
-																					break;
-																			}
-																			?>
-																			<span
-																				class="status-background <?php echo $statusClass; ?>"><?php echo ucfirst($status); ?></span>
-																		</td>
-
-																		<td class="col-md-3 text-center">
-																			<span
-																				class=""><?php echo date("F j, Y", strtotime($row["status_updated"])); ?>
-																		</td>
-																	</tr>
+																	<!-- Generated in table-funcs.js -->
 																<?php } ?>
 															</tbody>
 														</table>
 
 														<!-- Pagination -->
 														<div class="clearfix col-xs-12">
-															<ul class="pagination">
-																<li class="fas fa-chevron-left black"><a href="#"></a></li>
-																<li class="page-item"><a href="#" class="page-link">1</a></li>
-																<li class="page-item"><a href="#" class="page-link">2</a></li>
-																<li class="page-item active"><a href="#" class="page-link">3</a>
-																</li>
-																<li class="page-item"><a href="#" class="page-link">4</a></li>
-																<li class="page-item"><a href="#" class="page-link">5</a></li>
-																<li class="fas fa-chevron-right ps-xl-3 black"><a href="#"></a>
-																</li>
+															<ul class="pagination" id="verified-pagination">
+																<!-- Verification pagination will be generated here -->
 															</ul>
 														</div>
 
@@ -431,6 +368,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 				<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 				<script src="scripts/script.js"></script>
 				<script src="scripts/feather.js"></script>
+				<script src="scripts/table-funcs.js"></script>
 
 
 	</body>

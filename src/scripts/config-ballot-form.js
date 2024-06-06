@@ -5,10 +5,18 @@ import Sortable from '../../vendor/node_modules/sortablejs/modular/sortable.comp
 var el = document.getElementById('items');
 var sortable = new Sortable(el, {
     handle: '.handle',
-    swap: true,
+    filter: 'add-item',
     group: 'nested',
+    multiDrag: true, // Enable the plugin
+    selectedClass: "sortable-selected", // Class name for selected item
+    avoidImplicitDeselect: false,
     animation: 150,
     onSort: function (/**Event*/evt) {
         console.log(evt);
     },
 });
+
+// Sortable.create(list, {
+//     multiDrag: true,
+//     selectedClass: "selected"
+// });
