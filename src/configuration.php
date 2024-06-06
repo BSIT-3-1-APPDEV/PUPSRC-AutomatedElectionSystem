@@ -180,6 +180,7 @@ $phpDateTimeNow = new DateTimeUtils();
     <!-- Main Style -->
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
+    <link rel="stylesheet" href="styles/loader.css" />
     <link rel="stylesheet" href="src/styles/orgs/<?= $org_name ?? 'sco' ?>.css">
     <link rel="icon" href="src/images/logos/<?= $org_name; ?>.png" type="image/x-icon">
     <link rel="icon" type="image/x-icon" href="src/images/resc/ivote-favicon.png">
@@ -195,6 +196,8 @@ $phpDateTimeNow = new DateTimeUtils();
     </script> -->
     <!-- Main Scripts -->
     <script src="src/scripts/script.js" defer></script>
+    <script src="src/scripts/loader.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script rel="preload" src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" as="script"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
@@ -202,6 +205,11 @@ $phpDateTimeNow = new DateTimeUtils();
 </head>
 
 <body>
+
+    <!-- Loader -->
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
 
     <?php include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-sidebar.php')
     ?>

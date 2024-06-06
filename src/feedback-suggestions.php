@@ -35,6 +35,7 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
   <!-- Bootstrap 5 code -->
   <link type="text/css" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../src/styles/feedback-suggestions.css">
+  <link rel="stylesheet" href="styles/loader.css">
   <link rel="stylesheet" href="<?php echo '../src/styles/orgs/' . $org_acronym . '.css'; ?>">
 
   <style> .nav-link:hover, .nav-link:focus {color: var(--<?php echo "main-color"; ?>); }
@@ -46,7 +47,10 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
 
 <body>
   
-<?php include_once __DIR__ . '/includes/components/topnavbar.php'; ?>
+<?php 
+include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnavbar.php'); 
+?>
 
 <!-- Modal for Vote Submitted -->
 <div class="modal fade adjust-submit-modal" id="voteSubmittedModal" tabindex="-1" aria-labelledby="voteSubmittedModalLabel" aria-hidden="false" data-backdrop="static">
@@ -192,7 +196,8 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
   
 <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../src/scripts/feedback-suggestions.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="scripts/loader.js"></script>
 
 </html>
 <?php

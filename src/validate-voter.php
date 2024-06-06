@@ -21,7 +21,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 	$row = $result->fetch_assoc();
 
 	if ($row['account_status'] != 'verified' && $row['account_status'] != 'invalid') {
-		?>
+	?>
 
 
 
@@ -47,12 +47,16 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 			<link rel="stylesheet" href="styles/core.css" />
 			<link rel="stylesheet" href="styles/manage-voters.css" />
 			<link rel="stylesheet" href="styles/validate-voter.css" />
+			<link rel="stylesheet" href="styles/loader.css" />
 			<link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
-
 		</head>
 
 		<body>
 
+		<?php 
+        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
+        ?>
 			<?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
 
 			<div class="main">
@@ -352,10 +356,11 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 				</div>
 			</div>
 
-			<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-			<script src="scripts/script.js"></script>
-			<script src="scripts/manage-voters.js"></script>
-			<script src="scripts/feather.js"></script>
+		<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="scripts/script.js"></script>
+		<script src="scripts/manage-voters.js"></script>
+		<script src="scripts/feather.js"></script>
+		<script src="scripts/loader.js"></script>
 
 
 		</body>
