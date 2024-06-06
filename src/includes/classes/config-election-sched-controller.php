@@ -70,7 +70,7 @@ class ElectionYearController extends ElectionYearModel
 
 // if ($_SERVER['REQUEST_METHOD'] === 'UPDATE') {
 
-$decoded_data = ElectionYearController::fetchData();
+// $decoded_data = ElectionYearController::fetchData();
 
 // if (isset($decoded_data)) {
 echo json_encode($decoded_data);

@@ -18,15 +18,10 @@ main.main {
             justify-content: center;
             align-items: center;
             align-content: space-between;
-            // min-height: clamp(1.6rem, 1rem + 3.8vw, 5rem);
-            height: clamp(1.6rem, 1rem + 3.8vw, 5rem);
+            min-height: calc(1rem + 1vw + 4vh);
             padding: 0 clamp(1.5rem, 0.75rem + 2.5vw, 4rem);
             border: calc(0.5px + 0.06dvw) solid rgba(217, 217, 217, 1);
 
-            &.add-item {
-                // min-height: clamp(4rem, 1.4rem + 3.8vw, 5rem);
-                height: clamp(4rem, 1.4rem + 3.8vw, 5.5rem);
-            }
 
             &:not(.add-item):has(:focus-within) {
                 background-color: color-mix(in srgb, var(--main-color) 5%, transparent);
@@ -34,24 +29,48 @@ main.main {
             }
         }
 
-    }
-
-    .handle {
-        display: grid;
-        place-items: center;
-        width: 100%;
-        height: calc(1.5rem + 0.01dvw + 1dvh);
-        color: #fff;
-        background-color: var(--border-gray);
-
-        .fa {
-            @extend %fa-grip-lines-before;
+        &.add-item .field-item {
+            min-height: clamp(4rem, 1.4rem + 2.5vw + 5vh, 6rem + 0.2vw + 0.2vh);
         }
 
-        .fas {
-            @extend %fa-grip-lines-before;
+        .handle {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: calc(1.5rem + 0.01dvw + 1dvh);
+            color: #fff;
+            background-color: var(--border-gray);
+
+            .fa {
+                @extend %fa-grip-lines-before;
+            }
+
+            .fas {
+                @extend %fa-grip-lines-before;
+            }
         }
+
+        &.sortable-selected {
+
+            border-radius: 0;
+            border: calc(0.5px + 0.06dvw) solid var(--main-color);
+
+            .field-item {
+                color: var(--main-color);
+                font-weight: bolder;
+                border: none;
+            }
+
+            .handle {
+                background-color: color-mix(in srgb, var(--main-color) 75%, transparent);
+            }
+        }
+
     }
+
+
+
+
 
     .form-check-input {
         --dfault-color: var(--dark-gray);

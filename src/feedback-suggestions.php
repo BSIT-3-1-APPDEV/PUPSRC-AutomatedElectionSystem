@@ -6,7 +6,7 @@ include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'student_voter') ) {
 
-  // if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'voted')){
+ if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'voted')){
 
      // ------ SESSION EXCHANGE
      include FileUtils::normalizeFilePath('includes/session-exchange.php');
@@ -37,35 +37,31 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
   <link rel="stylesheet" href="../src/styles/feedback-suggestions.css">
   <link rel="stylesheet" href="<?php echo '../src/styles/orgs/' . $org_acronym . '.css'; ?>">
 
+  <style> .nav-link:hover, .nav-link:focus {color: var(--<?php echo "main-color"; ?>); }
+  .navbar-nav .nav-item.dropdown.show .nav-link.main-color {color: var(--main-color);}
+  .navbar-nav .nav-item.dropdown .nav-link.main-color,.navbar-nav .nav-item.dropdown .nav-link.main-color:hover,
+  .navbar-nav .nav-item.dropdown .nav-link.main-color:focus {color: var(--main-color);}</style>
+  
 </head>
 
 <body>
   
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
-  <div class="container">
-    <div class="navbar-brand spacing">
-      <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
-   </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown d-none d-lg-block">
-          <a class="nav-link main-color" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <b>Hello, <?php echo $org_personality ?></b><i class="fas fa-user-circle main-color ps-3" style="font-size: 23px;"></i> <i class="fas fa-chevron-down text-muted ps-2"></i>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="includes/voter-logout.php">Logout</a>
-          </div>
-        </li>
-        <li class="nav-item d-lg-none">
-          <a class="nav-link" href="includes/voter-logout.php">Logout</a>
-        </li>
-      </ul>
+<?php include_once __DIR__ . '/includes/components/topnavbar.php'; ?>
+
+<!-- Modal for Vote Submitted -->
+<div class="modal fade adjust-submit-modal" id="voteSubmittedModal" tabindex="-1" aria-labelledby="voteSubmittedModalLabel" aria-hidden="false" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content pb-4">
+      <div class="modal-body text-center pb-2">
+        <img src="../src/images/resc/check-animation.gif" width="300px">
+        <h4 class="pb-4"><b>Vote Submitted!</b></h4>
+        <button class="button-check main-bg-color text-white py-2 px-4" onclick="window.location.href='../src/feedback-suggestions.php';">
+          <b>Give Feedback</b>
+        </button>
+      </div>
     </div>
   </div>
-</nav>
+</div>
 
 <div class="container mt-4">
   <div class="row">
@@ -81,7 +77,7 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
 
   <div class="container mt-4">
     <div class="row">
-      <div class="col-lg-12 col-md-12">
+      <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="reminder">
           <div class="text-position main-color text-center">
             <b>How was your experience?</b>
@@ -174,6 +170,7 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
       <div class="row container-spacing pb-2">
         <div class="col">
           <textarea name="feedback" id="feedback" class="form-control" maxlength="500" rows="10" placeholder="Type your feedback here..."></textarea>
+          <div id="charLimitMessage" class="char-limit-message">Note: Maximum input of 500 characters only.</div>
         </div>
       </div>
       
@@ -199,9 +196,9 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
 
 </html>
 <?php
-  //} else{
-   // header("Location: ballot-forms.php");
- // }
+  } else {
+    header("Location: ballot-forms.php");
+ }
 } else {
   header("Location: landing-page.php");
 }
