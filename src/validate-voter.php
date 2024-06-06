@@ -264,9 +264,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 				<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<div class="modal-body">
-							<div class="row p-4">
+							<div class="row px-4 pt-4">
 								<div class="col-md-12 pb-3">
-									<p class="fw-bold fs-3 danger spacing-4">Reason for rejection</p>
+									<p class="fw-bold fs-3 danger spacing-4 pt-3">Reason for rejection</p>
 									<form id="rejectForm" action="#" method="post">
 										<input type="radio" id="reason1" name="reason" value="reason1">
 										<label for="reason1" class="pt-2 fw-medium">Student is not part of the
@@ -284,18 +284,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 												name="otherReason" rows="3" maxlength="200"></textarea>
 											<p class="fs-7">Note: Only up to 200 characters are allowed</p>
 										</div>
-										<script>
-											document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
-												radio.addEventListener('change', function () {
-													if (this.value === 'others' && this.checked) {
-														document.getElementById('otherReason').style.display = 'block';
-													} else {
-														document.getElementById('otherReason').style.display = 'none';
-													}
-												});
-											});
-										</script>
-										<div class="col-md-12 pt-3 text-end">
+										<div class="col-md-12 pt-4 text-end">
 											<div class="d-inline-block">
 												<button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
 													onClick="cancelForm(event)">Cancel</button>
@@ -304,7 +293,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 												<input type="hidden" id="voter_id" name="voter_id"
 													value="<?php echo $voter_id; ?>">
 												<button class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-													type="button" id="send-reject">Reject</button>
+													type="button" id="send-reject" disabled>Reject</button>
 											</div>
 										</div>
 									</form>
