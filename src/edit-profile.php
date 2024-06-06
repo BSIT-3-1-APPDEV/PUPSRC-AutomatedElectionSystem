@@ -35,14 +35,18 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         <link rel="stylesheet" href="styles/tables.css" />
         <link rel="stylesheet" href="styles/manage-voters.css" />
         <link rel="stylesheet" href="styles/profile.css" />
+        <link rel="stylesheet" href="styles/loader.css" />
         <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+        <script src="scripts/loader.js" defer></script>
     </head>
 
     <body>
 
-        <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+        <?php 
+        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
+        ?>
 
         <div class="main">
 

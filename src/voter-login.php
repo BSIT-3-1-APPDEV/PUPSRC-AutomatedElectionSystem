@@ -13,12 +13,12 @@ $_SESSION['csrf_expiry'] = time() + (60 * 30);
 
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
-    unset($_SESSION['error_message']); // Unset the error message from the session once displayed
+    unset($_SESSION['error_message']);
 }
 
 if (isset($_SESSION['info_message'])) {
     $info_message = $_SESSION['info_message'];
-    unset($_SESSION['info_message']); // Unset the info message from the session once displayed
+    unset($_SESSION['info_message']);
 }
 
 ?>
@@ -42,12 +42,16 @@ if (isset($_SESSION['info_message'])) {
     <link href="https://fonts.googleapis.com/css2?family=Akronim&family=Anton&family=Aoboshi+One&family=Audiowide&family=Black+Han+Sans&family=Braah+One&family=Bungee+Outline&family=Hammersmith+One&family=Krona+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="styles/dist/landing.css">
+    <link rel="stylesheet" href="styles/loader.css" />
     <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
     <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
     <title>Login</title>
 </head>
 
 <body class="login-body" id="<?php echo strtoupper($org_name); ?>-body">
+
+    <?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html'); ?>
+
     <nav class="navbar navbar-expand-lg fixed-top" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
             <a href="landing-page.php"><img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo"></a>
@@ -221,6 +225,7 @@ if (isset($_SESSION['info_message'])) {
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="scripts/voter-login.js"></script>
+    <script src="scripts/loader.js"></script>
 
 </body>
 
