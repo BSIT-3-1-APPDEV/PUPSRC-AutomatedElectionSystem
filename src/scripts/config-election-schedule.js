@@ -1,7 +1,45 @@
 import { initializeConfigurationJS as ConfigJS } from './configuration.js';
 import InputValidator from './input-validator.js';
 
-var ConfigPage = {};
+/**
+ * The ConfigPage object holds variables classes and function of the current page.
+ * If ConfigPage is already defined, it retains its current value; otherwise, it is initialized as an empty object.
+ * It will be reset to empty when another configuration script is added and executed.
+ * @type {object}
+ */
+var ConfigPage = ConfigPage || {};
+
+/**
+ * Removes all event listeners stored in ConfigPage.eventListeners Map, if any.
+ * It iterates over the Map and removes each event listener using removeEventListener(),
+ * and then clears the Map.
+ * @function
+ * @name ConfigPage.removeEventListeners
+ * @memberof ConfigPage
+ */
+ConfigPage.removeEventListeners = function () {
+    if (ConfigPage.eventListeners && ConfigPage.eventListeners instanceof Map && ConfigPage.eventListeners.size > 0) {
+        ConfigPage.eventListeners.forEach((listener, element) => {
+            element.removeEventListener(listener.event, listener.handler);
+        });
+
+        ConfigPage.eventListeners.clear();
+    }
+};
+
+ConfigPage.removeEventListeners();
+
+ConfigPage = null;
+ConfigPage = {};
+
+// Make the date time act lije constant
+Object.defineProperty(ConfigPage, 'NOW', {
+    value: JS_DATE_TZ(),
+    writable: false,
+    enumerable: true,
+    configurable: false
+});
+
 
 ConfigPage = {
     configJs: function () {
@@ -95,17 +133,54 @@ ConfigPage = {
 }
 
 ConfigPage.configJs();
-// ConfigPage.yearInput = document.getElementById('year-picker');
-
-ConfigPage.today = new Date();
-ConfigPage.today.setDate(ConfigPage.today.getDate());
-
-ConfigPage.fiveYearsAhead = new Date();
-ConfigPage.fiveYearsAhead.setFullYear(ConfigPage.fiveYearsAhead.getFullYear() + 5);
-ConfigPage.fiveYearsAhead.setMonth(ConfigPage.fiveYearsAhead.getMonth() + 1, 0);
-ConfigPage.fiveYearsAhead.setHours(23, 59, 59, 999);
-
 // ConfigPage.fetchData();
+
+Object.defineProperty(ConfigPage, 'NOW', {
+    value: JS_DATE_TZ(),
+    writable: false,
+    enumerable: true,
+    configurable: false
+});
+
+Object.defineProperty(ConfigPage, 'TODAY', {
+    get: function () {
+        const today = new Date(ConfigPage.NOW);
+        today.setHours(0, 0, 0, 0);
+        return today;
+    },
+    enumerable: true,
+    configurable: false,
+});
+
+
+Object.defineProperty(ConfigPage, 'FIVE_YEARS_AHEAD', {
+    get: function () {
+        const futureDate = new Date(ConfigPage.NOW);
+        futureDate.setFullYear(futureDate.getFullYear() + 5);
+        futureDate.setMonth(futureDate.getMonth() + 1, 0);
+        futureDate.setHours(23, 59, 59, 999);
+        return futureDate;
+    },
+    enumerable: true,
+    configurable: false,
+});
+
+
+
+
+Object.defineProperty(ConfigPage, 'DATE_REGEX', {
+    get: function () {
+        let regex = new RegExp(`^[0-9]+$`);
+        let regexString = regex.toString().slice(1, -1);
+        return regexString;
+    },
+    enumerable: true,
+    configurable: false,
+});
+
+
+
+
 
 ConfigPage.initPage = function () {
     ConfigPage.yearMaxLength = ConfigPage.electionYears.currentYear.getFullYear().toString().length;
