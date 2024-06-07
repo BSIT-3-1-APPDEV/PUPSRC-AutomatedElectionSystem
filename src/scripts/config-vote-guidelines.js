@@ -10,12 +10,12 @@ let table = new DataTable('#example', {
             <span class="fas fa-grip-lines"></span>`;
             }
         },
-        // {
-        //     targets: 1, className: `text-left text-editable`,
-        //     render: function (data) {
-        //         return `<input class="text-editable" type="text" name="${data.data_id}" id="text-editable-${data.sequence}" value="${data.value}" placeholder="Enter a candidate position" pattern="[a-zA-Z .\\-]{1,50}" required="" style="width: 92.885px;">`;
-        //     }
-        // },
+        {
+            targets: 1, className: ``,
+            // render: function (data) {
+            //     return ``;
+            // }
+        },
 
         // {
         //     targets: 2, className: `d-none`,

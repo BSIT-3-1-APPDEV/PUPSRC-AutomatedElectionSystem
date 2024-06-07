@@ -26,12 +26,12 @@ class ElectionYearModel
             $stmt->bind_result($election_id, $year, $is_current_year);
 
             while ($stmt->fetch()) {
-                $election_year = [
-                    'year' => $year,
-                    'is_current_year' => $is_current_year
-                ];
+                // $election_year = [
+                //     'year' => $year,
+                //     'is_current_year' => $is_current_year
+                // ];
 
-                $election_years[] = $election_year;
+                // $election_years[] = $election_year;
             }
 
             $stmt->close();

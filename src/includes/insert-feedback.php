@@ -1,8 +1,8 @@
 <?php 
-include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
-require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
-require_once FileUtils::normalizeFilePath('includes/session-handler.php');
-include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
+include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('../includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('../includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('../includes/error-reporting.php');
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->close();
 
     } else {
-        echo "Rating or feedback is/are inserted.";
+        echo "Rating or feedback is/are not inserted.";
     }
 } else {
     echo "Form submission error.";
