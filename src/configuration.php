@@ -70,6 +70,12 @@ $phpDateTimeNow = new DateTimeUtils();
 
     <meta name="robots" content="noindex" />
 
+    <!-- Preloader -->
+    <link rel="preload" href="src/styles/loader.css" as="style" />
+    <link rel="stylesheet" href="src/styles/loader.css" />
+    <link rel="preload" href="src/images/resc/ivote-icon.png" as="image" />
+
+
     <script>
         class ResourceLoader {
             constructor(localSrc, cdnSrc, type, integrity = null, crossorigin = null) {
@@ -180,7 +186,6 @@ $phpDateTimeNow = new DateTimeUtils();
     <!-- Main Style -->
     <link rel="stylesheet" href="src/styles/core.css">
     <link rel="stylesheet" href="src/styles/style.css" />
-    <link rel="stylesheet" href="styles/loader.css" />
     <link rel="stylesheet" href="src/styles/orgs/<?= $org_name ?? 'sco' ?>.css">
     <link rel="icon" href="src/images/logos/<?= $org_name; ?>.png" type="image/x-icon">
     <link rel="icon" type="image/x-icon" href="src/images/resc/ivote-favicon.png">
@@ -197,7 +202,6 @@ $phpDateTimeNow = new DateTimeUtils();
     <!-- Main Scripts -->
     <script src="src/scripts/script.js" defer></script>
     <script src="src/scripts/loader.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script rel="preload" src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" as="script"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
@@ -206,12 +210,10 @@ $phpDateTimeNow = new DateTimeUtils();
 
 <body>
 
-    <!-- Loader -->
-    <div class="loader-wrapper">
-        <div class="loader"></div>
-    </div>
 
-    <?php include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-sidebar.php')
+    <?php
+    include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-sidebar.php');
+    include_once FileUtils::normalizeFilePath('includes/components/loader.html');
     ?>
 
     <?php
