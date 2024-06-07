@@ -321,12 +321,13 @@ a {
   background-image: linear-gradient(to bottom, #232323, #101010);
 }
 
-#ELITE-login-button {
-  background-color: #ff7900;
+.ELITE-login-button, #ELITE-login-button {
+  background-color: #ff7900 !important;
+  border: none !important;
 }
 
-#ELITE-login-button:hover {
-  background-color: black;
+.ELITE-login-button:hover, #ELITE-login-button:hover {
+  background-color: black !important;
 }
 
 #eliteSignUP {
@@ -348,12 +349,13 @@ a {
   fill: #f0bef7;
 }
 
-#JPIA-login-button {
-  background-color: #f0488f;
+.JPIA-login-button, #JPIA-login-button {
+  background-color: #f0488f !important;
+  border: none !important;
 }
 
-#JPIA-login-button:hover {
-  background-color: #b51557;
+.JPIA-login-button:hover, #JPIA-login-button:hover {
+  background-color: #b51557 !important;
 }
 
 #jpiaSignUP {
@@ -371,14 +373,14 @@ a {
   fill: #fbed13;
 }
 
-#SCO-login-button {
-  background-color: #254a9b;
-  color: white;
+.SCO-login-button,#SCO-login-button {
+  background-color: #254a9b !important;
+  color: white !important;
+  border: none !important;
 }
 
-#SCO-login-button:hover {
-  background-color: #0c3181;
-  color: FF7900;
+.SCO-login-button:hover, #SCO-login-button:hover {
+  background-color: #0c3181 !important;
   font-weight: bold;
 }
 
@@ -397,12 +399,13 @@ a {
   fill: #FFFFFF;
 } */
 
-#GIVE-login-button {
-  background-color: #0d3c55;
+.GIVE-login-button, #GIVE-login-button{
+  background-color: #0d3c55 !important;  
+  border: none !important;
 }
 
-#GIVE-login-button:hover {
-  background-color: #092839;
+.GIVE-login-button:hover, #GIVE-login-button:hover {
+  background-color: #092839 !important;
 }
 
 #giveSignUP {
@@ -420,12 +423,13 @@ a {
   fill: #85acdf;
 }
 
-#ACAP-login-button {
-  background-color: #592293;
+.ACAP-login-button, #ACAP-login-button {
+  background-color: #592293 !important;
+  border: none !important;
 }
 
-#ACAP-login-button:hover {
-  background-color: #38145e;
+.ACAP-login-button:hover, #ACAP-login-button:hover {
+  background-color: #38145e !important;
 }
 
 #acapSignUP {
@@ -443,12 +447,13 @@ a {
   fill: #fff;
 } */
 
-#AECES-login-button {
-  background-color: #e42e1c;
+.AECES-login-button, #AECES-login-button {
+  background-color: #e42e1c !important;
+  border: none !important;
 }
 
-#AECES-login-button:hover {
-  background-color: #a21c0f;
+.AECES-login-button:hover, #AECES-login-button:hover {
+  background-color: #a21c0f !important;
 }
 
 #aecesSignUP {
@@ -466,13 +471,13 @@ a {
   fill: #fff;
 } */
 
-#JEHRA-login-button {
-  background-color: #800000;
-  color: white;
+.JEHRA-login-button, #JEHRA-login-button {
+  background-color: #800000 !important;
+  border: none !important;
 }
 
-#JEHRA-login-button:hover {
-  background-color: #490000;
+.JEHRA-login-button:hover, #JEHRA-login-button:hover {
+  background-color: #490000 !important;
 }
 
 #jehraSignUP {
@@ -490,12 +495,13 @@ a {
   fill: #fff;
 } */
 
-#JMAP-login-button {
-  background-color: #efb400;
+.JMAP-login-button, #JMAP-login-button {
+  background-color: #efb400 !important;
+  border: none !important;
 }
 
-#JMAP-login-button:hover {
-  background-color: #fd8607;
+.JMAP-login-button:hover, #JMAP-login-button:hover {
+  background-color: #fd8607 !important;
 }
 
 #jmapSignUP {
@@ -513,12 +519,13 @@ a {
   fill: #ffd22f;
 }
 
-#PIIE-login-button {
-  background-color: #026644;
+.PIIE-login-button, #PIIE-login-button {
+  background-color: #026644 !important;
+  border: none !important;
 }
 
-#PIIE-login-button:hover {
-  background-color: #003b25;
+.PIIE-login-button:hover, #PIIE-login-button:hover {
+  background-color: #003b25 !important;
 }
 
 #piieSignUP {
@@ -841,7 +848,6 @@ span {
 
 .reset-password-title{
   font-weight: bold;
-  
 }
 
 .reset-password-subtitle{
@@ -1012,7 +1018,6 @@ span {
 
   .forgot-password-icon{
     width: 70%; 
-
   }
 
   .img-container {

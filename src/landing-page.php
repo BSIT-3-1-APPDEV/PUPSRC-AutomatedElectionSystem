@@ -25,6 +25,7 @@ if (isset($_SESSION['error_message'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/dist/landing.css">
+  <link rel="stylesheet" href="styles/loader.css" />
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>iVote</title>
 
@@ -37,6 +38,9 @@ if (isset($_SESSION['error_message'])) {
 </head>
 
 <body id="index-body">
+
+  <?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html'); ?>
+
   <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
       <!-- <a class="navbar-brand" href="#">Your Brand</a> -->
@@ -241,6 +245,8 @@ if (isset($_SESSION['error_message'])) {
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="scripts/loader.js"></script>
 
   <!-- JavaScript for dynamic text change PUPSRC -->
   <script>

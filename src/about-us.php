@@ -1,6 +1,7 @@
 <?php
-require_once 'includes/session-handler.php';
-require_once 'includes/classes/session-manager.php';
+include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 
 // Check if voter_id and role is set in session
 SessionManager::checkUserRoleAndRedirect();
@@ -17,6 +18,7 @@ SessionManager::checkUserRoleAndRedirect();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/dist/landing.css">
+  <link rel="stylesheet" href="styles/loader.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>iVote</title>
   <title>iVote</title>
@@ -28,6 +30,9 @@ SessionManager::checkUserRoleAndRedirect();
 </head>
 
 <body id="index-body">
+
+  <?php include_once FileUtils::normalizeFilePath('includes/components/loader.html'); ?>
+
   <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
       <!-- <a class="navbar-brand" href="#">Your Brand</a> -->
@@ -147,6 +152,8 @@ SessionManager::checkUserRoleAndRedirect();
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="scripts/loader.js"></script>
 
   <!-- JavaScript for dynamic text change PUPSRC -->
   <script>
