@@ -32,7 +32,7 @@ ConfigPage.removeEventListeners();
 ConfigPage = null;
 ConfigPage = {};
 
-// Make the date time act lije constant
+// Make the date time act like constant
 Object.defineProperty(ConfigPage, 'NOW', {
     value: JS_DATE_TZ(),
     writable: false,
@@ -46,7 +46,7 @@ ConfigPage = {
         ConfigJS();
     },
     fetchData: function () {
-        var url = 'src/includes/classes/config-election-year-controller.php';
+        let url = 'src/includes/classes/config-election-year-controller.php';
 
         fetch(url)
             .then(function (response) {
@@ -57,79 +57,13 @@ ConfigPage = {
             })
             .then(function (data) {
                 console.log('GET request successful:', data);
-                ConfigPage.processData(data);
-                ConfigPage.displayCurrentYear(ConfigPage.electionYears.currentYear);
-                ConfigPage.startDatePicker();
-                ConfigPage.initPage();
+
             })
             .catch(function (error) {
                 console.error('GET request error:', error);
             });
     },
 
-    electionYears: { currentYear: '', previousYears: [] },
-    processData: function (DATA) {
-        DATA.forEach(element => {
-            const YEAR = parseInt(element.year);
-
-            if (element.is_current_year === 1) {
-                ConfigPage.electionYears.currentYear = new Date(YEAR, 0);
-            } else {
-                ConfigPage.electionYears.previousYears.push(new Date(YEAR, 0));
-            }
-
-        });
-    },
-    startDatePicker: function () {
-        ConfigPage.datePickerInst = $(`#year-picker`).datepicker({
-            classes: 'col-10 col-md-5 col-xl-4',
-            position: 'bottom center',
-            language: "en",
-            view: 'years',
-            minView: 'years',
-            // minDate: ConfigPage.electionYears.currentYear,
-            minDate: ConfigPage.today,
-            maxDate: ConfigPage.fiveYearsAhead,
-            clearButton: true,
-            isMobile: true,
-            autoClose: false,
-            dateFormat: "yyyy",
-            onSelect: function (formattedDate, date, inst) {
-                inst.el.dispatchEvent(new Event('input', { bubbles: true }));
-            },
-            onShow: function (inst, animationComplete) {
-                let thisPicker = document.getElementsByClassName('datepicker');
-                let input = document.getElementById('year-picker');
-                let inputWidth = input.offsetWidth;
-                let inputVal = input.value;
-                if (!animationComplete) {
-                    var iFits = false;
-                    // Loop through a few possible position and see which one fits
-                    $.each(['bottom center', 'right center', 'right bottom', 'right top', 'top center'], function (i, pos) {
-                        if (!iFits) {
-                            inst.update('position', pos);
-                            var fits = ConfigPage.isElementInViewport(inst.$datepicker[0]);
-                            if (fits.all) {
-                                iFits = true;
-                            }
-                        }
-                    });
-
-                    input.value = inputVal;
-                }
-
-                for (let i = 0; i < thisPicker.length; i++) {
-                    let element = thisPicker[i];
-                    if (inputWidth > 250) {
-                        element.style.width = inputWidth + 'px';
-                    } else {
-                        element.style.width = 250 + 'px';
-                    }
-
-                }
-            },
-        });
-    }
 }
 
 ConfigPage.configJs();
@@ -178,53 +112,6 @@ Object.defineProperty(ConfigPage, 'DATE_REGEX', {
     configurable: false,
 });
 
-
-
-
-
-ConfigPage.initPage = function () {
-    ConfigPage.yearMaxLength = ConfigPage.electionYears.currentYear.getFullYear().toString().length;
-
-    // let yearPattern = new RegExp(`[0-9]{1,${ConfigPage.yearMaxLength}}`);
-    let yearPattern = new RegExp(`^[0-9]+$`);
-    let patternString = yearPattern.toString().slice(1, -1);
-
-
-    ConfigPage.customValidation = {
-        clear_invalid: true,
-        attributes: {
-            type: 'text',
-            pattern: patternString,
-            required: true,
-            max_length: ConfigPage.yearMaxLength,
-            min_length: 4,
-        }
-    };
-
-    ConfigPage.yearInputListener = ConfigPage.yearInput.addEventListener('input', ConfigPage.handleDatepickerChange);
-    ConfigPage.yearValidate = new InputValidator(ConfigPage.customValidation);
-}
-
-ConfigPage.isElementInViewport = function (el) {
-    var rect = el.getBoundingClientRect();
-    var fitsLeft = (rect.left >= 0 && rect.left <= $(window).width());
-    var fitsTop = (rect.top >= 0 && rect.top <= $(window).height());
-    var fitsRight = (rect.right >= 0 && rect.right <= $(window).width());
-    var fitsBottom = (rect.bottom >= 0 && rect.bottom <= $(window).height());
-    return {
-        bottom: fitsBottom,
-        top: fitsTop,
-        left: fitsLeft,
-        right: fitsRight,
-        all: (fitsLeft && fitsTop && fitsRight && fitsBottom)
-    };
-}
-
-ConfigPage.displayCurrentYear = function (CURRENT_YEAR) {
-    let currentYearContainer = document.querySelector('#curr-year-container h4');
-    ConfigPage.currentYear = CURRENT_YEAR.getFullYear();
-    currentYearContainer.innerHTML = `Current Election Year: <span>&ensp;${ConfigPage.currentYear}</span>`;
-}
 
 
 ConfigPage.handleDatepickerChange = function (event) {
