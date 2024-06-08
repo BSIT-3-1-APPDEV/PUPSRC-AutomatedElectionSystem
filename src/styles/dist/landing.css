@@ -676,7 +676,7 @@ footer {
 
 .ivote-email {
   font-weight: bold;
-  color: #252525;
+  color: #653f3f;
 }
 .footer-about-us{
   color: #464646;
@@ -947,9 +947,32 @@ span {
   left: -50px;
 }
 
-#credits-two{
-  display: none ;
+.check-perc{
+  width: 50%;
 }
+
+.modal-content#success-modal{
+  background-color: white;
+  border-radius: 35px;
+}
+
+.fa-circle-xmark {
+  color: lightgray; 
+  transition: color 0.3s ease;
+}
+.fa-circle-xmark:hover {
+  color: black;
+}
+
+.reset-sign-in-button {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.reset-sign-in-button:hover {
+  font-weight: bold;
+}
+
 
 /* Media query for small screens */
 @media (max-width: 768px) {
@@ -1023,16 +1046,6 @@ span {
   .img-container {
     text-align: center;
     margin-bottom: -110px;
-  }
-
-  #credits-two{
-    margin-top: 5%;
-    margin-bottom: 5%;
-    display: block;
-  }
-
-  #credits{
-    display: none;
   }
 }
 
