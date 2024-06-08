@@ -2,7 +2,6 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, '../includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('../includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('../includes/session-handler.php');
-require_once FileUtils::normalizeFilePath('../includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('../includes/classes/query-handler.php');
 
 // Check if the request is POST

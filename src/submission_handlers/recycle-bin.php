@@ -3,19 +3,15 @@
 $conn = DatabaseConnection::connect();
 
 $queryExecutor = new QueryExecutor($conn);
-// Pagination Parameters
 
+// Define the status and role values
+$queryExecutor->status = 'invalid';
+$queryExecutor->role = 'student_voter';
 
-// Calculate OFFSET for SQL query
-$offset = ($page - 1) * $limit;
-
-// SQL Query for 'verified' table with LIMIT and OFFSET
-$query_verified = "SELECT * FROM voter WHERE account_status = 'invalid' AND role = 'student_voter' ";
+// Query with placeholders
+$query_verified = "SELECT * FROM voter WHERE account_status = '{$queryExecutor->status}' AND role = '{$queryExecutor->role}'";
 
 // Execute the SQL query for fetching paginated data
 $verified_tbl = $queryExecutor->executeQuery($query_verified);
 
-
-// You can then use these total pages to display pagination links in your HTML
 ?>
-

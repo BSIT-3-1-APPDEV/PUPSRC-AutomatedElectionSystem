@@ -17,8 +17,8 @@ if (isset($_POST['voter_id'])) {
     // Initialize the query executor
     $queryExecutor = new QueryExecutor($conn);
     
-    // Query to fetch the cor based on voter_id
-    $query = "SELECT cor, acc_created, email, status_updated FROM voter WHERE voter_id = ?";
+
+    $query = "SELECT c.*, p.title  FROM candidate c  LEFT JOIN position p ON c.position_id = p.position_id WHERE c.candidacy_status = 'removed' AND candidate_id = ?";
     
     // Prepare and execute the query
     $stmt = $conn->prepare($query);
@@ -29,7 +29,7 @@ if (isset($_POST['voter_id'])) {
     // Check if a record was found
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        echo json_encode(['cor' => $row['cor'], 'status_updated' => $row['status_updated'], 'acc_created' => $row['acc_created'], 'email' => $row['email']]);
+        echo json_encode(['title' => $row['title'], 'photo_url' => $row['photo_url'],'register_date' => $row['register_date'], 'first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'middle_name' => $row['middle_name'], 'suffix' => $row['suffix'],  'section' => $row['section'], 'year_level' => $row['year_level'], 'status_updated' => $row['status_updated']  ]);
     } else {
         echo json_encode(['error' => 'No record found']);
     }
