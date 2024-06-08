@@ -1,11 +1,15 @@
 <?php
+include_once 'file-utils.php';
+require_once FileUtils::normalizeFilePath(__DIR__ . '/../error-reporting.php');
+include_once FileUtils::normalizeFilePath(__DIR__ . '/../default-time-zone.php');
+
 class DateTimeUtils
 {
     private $dateTime;
 
     public function __construct($time = 'now')
     {
-        $this->dateTime = new DateTime($time, new DateTimeZone('Asia/Manila'));
+        $this->dateTime = new DateTime($time);
     }
 
     public function getFDatetime()

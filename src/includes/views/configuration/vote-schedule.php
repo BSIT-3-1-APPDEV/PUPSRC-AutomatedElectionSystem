@@ -1,4 +1,10 @@
-<link rel="stylesheet" href="vendor/plugin/air-datepicker/dist/css/datepicker.min.css">
+<?php
+$_SESSION['csrf'] = [
+    'token' => bin2hex(random_bytes(32)),
+    'expiry' => time() + (60 * 20)
+];
+?>
+
 <link rel="stylesheet" href="src/styles/config-election-schedule.css?v=2">
 
 <main class="main">
@@ -27,11 +33,11 @@
         <section>
             <label for="datetime-start">from</label>
             <div class="datetime" id="datetime-start">
-                <input type="datetime-local" min="2017-04-01" max="2017-04-30">
+                <input type="date" min="2017-04-01" max="2017-04-30">
                 <div class="form-alert date">&nbsp;</div>
                 <input type="time">
                 <div class="form-alert time">&nbsp;</div>
-                <input type="text" name="" id="" placeholder="This will be hidden" readonly>
+                <!-- <input type="datetime-local" name="" id="" placeholder="This will be hidden"> -->
             </div>
 
             <label for="datetime-end">to</label>
@@ -40,22 +46,32 @@
                 <div class="form-alert date">&nbsp;</div>
                 <input type="time">
                 <div class="form-alert time">&nbsp;</div>
-                <input type="text" name="" id="" placeholder="This will be hidden" readonly>
+                <!-- <input type="datetime-local" name="" id="" placeholder="This will be hidden"> -->
             </div>
 
-            <button type="button">Save Changes</button>
+            <button type="button" id="submit-schedule">Save Changes</button>
         </section>
 
     </div>
 </main>
+
+<script>
+    const setCSRFToken = () => {
+        try {
+            return `<?= $_SESSION['csrf']['token']; ?>`;
+        } catch (error) {
+
+        }
+    };
+</script>
+
 <?php
 global $phpDateTimeNow;
 global $page_scripts;
 
+
 $phpDateTimeNow->printDatetimeTzJS();
 $page_scripts = '
-<script type="text/javascript" src="vendor/plugin/air-datepicker/dist/js/datepicker.min.js"></script>
-<script type="text/javascript" src="vendor/plugin/air-datepicker/dist/js/i18n/datepicker.en.js"></script>
 <script type="module" src="src/scripts/config-election-schedule.js?v=2"></script>
 <script  type="text/javascript" src="src/scripts/feather.js" defer></script>
     ';

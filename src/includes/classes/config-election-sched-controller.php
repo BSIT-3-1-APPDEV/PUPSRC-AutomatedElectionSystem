@@ -1,13 +1,15 @@
 <?php
 include_once 'file-utils.php';
 require_once FileUtils::normalizeFilePath('../error-reporting.php');
+include_once 'config-controller.php';
+include_once FileUtils::normalizeFilePath('../default-time-zone.php');
 require_once FileUtils::normalizeFilePath('../session-handler.php');
 require_once FileUtils::normalizeFilePath('../model/configuration/endpoint-response.php');
-require_once FileUtils::normalizeFilePath('../model/configuration/election-year-model.php');
+require_once FileUtils::normalizeFilePath('../model/configuration/election-schedule-model.php');
 
 class ElectionYearController extends ElectionYearModel
 {
-    use EndpointResponse;
+    use EndpointResponse, ConfigGuard;
     private $data;
 
     public function __construct()
@@ -15,20 +17,22 @@ class ElectionYearController extends ElectionYearModel
         $this->data = $this->decodeData();
     }
 
-    private function decodeData()
+    public function decodeData()
     {
         $json_data = file_get_contents('php://input');
         return json_decode($json_data, true);
     }
 
-    public function getData()
+    public function getReqData()
     {
         return $this->data;
     }
 
     public function submit()
     {
-
+        if ($this->validate()) {
+            echo json_encode($this->data);
+        }
         // if ($) {
 
         //     $response = [
@@ -66,24 +70,45 @@ class ElectionYearController extends ElectionYearModel
         // }
         // return $sanitizedData;
     }
+
+    private function validate()
+    {
+        if (!isset($this->data['electionStart']) || !isset($this->data['electionEnd'])) {
+            return false; // Required keys are missing
+        }
+
+        $startDateTime = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $this->data['electionStart']);
+        $endDateTime = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $this->data['electionEnd']);
+
+        if (!$startDateTime || !$endDateTime) {
+            return false;
+        }
+
+        // Compare start and end dates
+        if ($startDateTime >= $endDateTime) {
+            return false;
+        }
+
+        return true;
+    }
 }
 
-// if ($_SERVER['REQUEST_METHOD'] === 'UPDATE') {
 
-// $decoded_data = ElectionYearController::fetchData();
+try {
+    if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
-// if (isset($decoded_data)) {
-echo json_encode($decoded_data);
-// }
-// }
+        $controller = new ElectionYearController();
 
-// if ($_SERVER['REQUEST_METHOD'] === 'UPDATE') {
-
-    // $controller = new ElectionYearController();
-
-    // $decoded_data = $controller->getData();
-    
-    // if (isset($decoded_data) && json_last_error() === JSON_ERROR_NONE) {
-    //     echo json_encode($decoded_data);
-    // }
-    // }
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $data = $controller->getReqData();
+            $controller->validateRequestOrigin($data['csrf_token']);
+            $controller->submit();
+        }
+    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $controller  = new ElectionYearController();
+        $controller->validateRequestOrigin($controller->getReqData());
+        $data = $controller->getData();
+        echo json_encode($data);
+    }
+} catch (Exception $e) {
+}

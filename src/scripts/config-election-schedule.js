@@ -1,4 +1,4 @@
-import { initializeConfigurationJS as ConfigJS } from './configuration.js';
+import { initializeConfigurationJS as ConfigJS, EventListenerUtils as EventUtils } from './configuration.js';
 import InputValidator from './input-validator.js';
 
 /**
@@ -9,66 +9,77 @@ import InputValidator from './input-validator.js';
  */
 var ConfigPage = ConfigPage || {};
 
-/**
- * Removes all event listeners stored in ConfigPage.eventListeners Map, if any.
- * It iterates over the Map and removes each event listener using removeEventListener(),
- * and then clears the Map.
- * @function
- * @name ConfigPage.removeEventListeners
- * @memberof ConfigPage
- */
-ConfigPage.removeEventListeners = function () {
-    if (ConfigPage.eventListeners && ConfigPage.eventListeners instanceof Map && ConfigPage.eventListeners.size > 0) {
-        ConfigPage.eventListeners.forEach((listener, element) => {
-            element.removeEventListener(listener.event, listener.handler);
-        });
-
-        ConfigPage.eventListeners.clear();
-    }
-};
-
-ConfigPage.removeEventListeners();
-
+EventUtils.clearEventListeners(ConfigPage.eventListeners);
 ConfigPage = null;
 ConfigPage = {};
 
-// Make the date time act like constant
-Object.defineProperty(ConfigPage, 'NOW', {
-    value: JS_DATE_TZ(),
+ConfigPage.fetchData = function () {
+    let url = `src/includes/classes/config-election-sched-controller.php`;
+    const queryParams = new URLSearchParams(requestData);
+    url = `${url}?${queryParams.toString()}`;
+
+    fetch(url)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            console.log('GET request successful:', data);
+        })
+        .catch(function (error) {
+            console.error('GET request error:', error);
+        });
+};
+
+ConfigPage.postData = function (post_data) {
+    let url = 'src/includes/classes/config-election-sched-controller.php';
+    let method = 'PUT';
+    post_data.csrf_token = `${ConfigPage.CSRF_TOKEN}`;
+    console.log(post_data);
+    let json_data = JSON.stringify(post_data);
+
+    return fetch(url, {
+        method: method,
+        body: json_data,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(function (response) {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw data;
+                });
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            console.log('POST request successful:', data);
+            return { data, success: true };
+        })
+        .catch(function (error) {
+            console.error('POST request error:', error);
+            return { error, success: false };
+        });
+};
+
+
+
+ConfigJS();
+
+Object.defineProperty(ConfigPage, 'CSRF_TOKEN', {
+    value: setCSRFToken(),
     writable: false,
-    enumerable: true,
+    enumerable: false,
     configurable: false
 });
 
+console.log(ConfigPage.CSRF_TOKEN);
+// ConfigPage.fetchData({csrf: ConfigPage.CSRF_TOKEN});
 
-ConfigPage = {
-    configJs: function () {
-        ConfigJS();
-    },
-    fetchData: function () {
-        let url = 'src/includes/classes/config-election-year-controller.php';
-
-        fetch(url)
-            .then(function (response) {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(function (data) {
-                console.log('GET request successful:', data);
-
-            })
-            .catch(function (error) {
-                console.error('GET request error:', error);
-            });
-    },
-
-}
-
-ConfigPage.configJs();
-// ConfigPage.fetchData();
-
+// Make the date time act like constant
 Object.defineProperty(ConfigPage, 'NOW', {
     value: JS_DATE_TZ(),
     writable: false,
@@ -112,7 +123,109 @@ Object.defineProperty(ConfigPage, 'DATE_REGEX', {
     configurable: false,
 });
 
+ConfigPage.startDateValidation = {
+    clear_invalid: false,
+    attributes: {
+        type: 'date',
+        pattern: ConfigPage.DATE_REGEX,
+        required: true,
+        min: ConfigPage.TODAY.toISOString().split('T')[0],
+        max: ConfigPage.FIVE_YEARS_AHEAD.toISOString().split('T')[0],
+    }
+}
 
+
+ConfigPage.endDateValidation = {
+    clear_invalid: false,
+    attributes: {
+        type: 'date',
+        pattern: ConfigPage.DATE_REGEX,
+        required: true,
+        min: ConfigPage.TODAY.toISOString().split('T')[0],
+        max: ConfigPage.FIVE_YEARS_AHEAD.toISOString().split('T')[0],
+    }
+}
+
+ConfigPage.startTimeValidation = {
+    clear_invalid: false,
+    attributes: {
+        type: 'date',
+        pattern: ConfigPage.DATE_REGEX,
+        required: true,
+        min: ConfigPage.NOW.toLocaleTimeString('en-GB', { hour12: false }),
+        // max: ConfigPage.FIVE_YEARS_AHEAD.toISOString().split('T')[0],
+    }
+}
+
+
+ConfigPage.endTimeValidation = {
+    clear_invalid: false,
+    attributes: {
+        type: 'date',
+        pattern: ConfigPage.DATE_REGEX,
+        required: true,
+        min: ConfigPage.NOW.toLocaleTimeString('en-GB', { hour12: false }),
+        // max: ConfigPage.FIVE_YEARS_AHEAD.toISOString().split('T')[0],
+    }
+}
+
+const currentTime = ConfigPage.NOW.toLocaleTimeString('en-GB', { hour12: false });
+
+
+ConfigPage.startDatetimeValidation = {
+    clear_invalid: false,
+    attributes: {
+        type: 'time',
+        pattern: ConfigPage.DATE_REGEX,
+        required: true,
+        readonly: true,
+        hidden: true,
+        // min:,
+        // max:
+    }
+}
+
+ConfigPage.endDatetimeValidation = {
+    clear_invalid: false,
+    attributes: {
+        type: 'time',
+        pattern: ConfigPage.DATE_REGEX,
+        required: true,
+        readonly: true,
+        hidden: true,
+        // min:,
+        // max:
+    }
+}
+
+ConfigPage.startDatetimeValidation = {
+    clear_invalid: false,
+    attributes: {
+        type: 'text',
+        pattern: ConfigPage.DATE_REGEX,
+        required: true,
+        readonly: true,
+        hidden: true,
+        // min:,
+        // max:
+    }
+}
+
+ConfigPage.endDatetimeValidation = {
+    clear_invalid: false,
+    attributes: {
+        type: 'text',
+        pattern: ConfigPage.DATE_REGEX,
+        required: true,
+        readonly: true,
+        hidden: true,
+        // min:,
+        // max:
+    }
+}
+
+
+ConfigPage.startDateValidator = new InputValidator(ConfigPage.startDateValidation);
 
 ConfigPage.handleDatepickerChange = function (event) {
 
@@ -166,4 +279,36 @@ ConfigPage.handleDatepickerChange = function (event) {
 ConfigPage.typingTimeout;
 // ConfigPage.yearInputListener();
 
+
+ConfigPage.setDatetimeInput = function (groupId) {
+    let dateGroup = document.getElementById(`${groupId}`);
+    let datePicker = dateGroup.querySelector(`input[type="date"]`);
+    let timePicker = dateGroup.querySelector(`input[type="time"]`);
+    // let datetimePicker = dateGroup.querySelector(`input[type="datetime-local"]`);
+    // console.log('date ' + datePicker.value);
+    // console.log('time ' + timePicker.value);
+    // console.log('datetime ' + datetimePicker.value);
+
+    let dateValue = datePicker.value;
+    let timeValue = timePicker.value;
+
+    // Combine the date and time into a single string
+    let combinedDateTime = `${dateValue}T${timeValue}+08:00`;
+
+    // Create a new Date object and convert it to ISO format
+    let isoFormat = new Date(combinedDateTime).toISOString();
+    console.log('datetime format: ' + combinedDateTime);
+    console.log('ISO format: ' + isoFormat);
+    return isoFormat;
+}
+
+let submit = document.getElementById('submit-schedule');
+submit.addEventListener('click', function () {
+    let schedule = {
+        electionStart: ConfigPage.setDatetimeInput('datetime-start'),
+        electionEnd: ConfigPage.setDatetimeInput('datetime-end'),
+    }
+
+    ConfigPage.postData(schedule);
+});
 
