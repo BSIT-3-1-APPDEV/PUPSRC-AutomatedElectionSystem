@@ -1,22 +1,24 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/file-utils.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/db-connector.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/../get-ip-address.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/../unset-email-password.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/manage-ip-address.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/../session-handler.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/../error-reporting.php');
 include_once FileUtils::normalizeFilePath(__DIR__ . '/../default-time-zone.php');
 
-class Login{
+class Login extends IpAddress {
 
-    private const LOGIN_BLOCK_TIME = 60; // 1 minute
+    private const LOGIN_BLOCK_TIME = 60; // 30 minutes
     private const LOGIN_ATTEMPT_COUNT = 5;
     private $connection;
     private $ip_address;
+    private $ip_manager;
 
     // Creates connection to the database and gets user ip address
     public function __construct() {
         $this->connection = DatabaseConnection::connect();
-        $this->ip_address = getIPAddress();
+        $this->ip_address = IpAddress::getIpAddress();
+        $this->ip_manager = new IpAddress();
     }
 
     // Authenticates the user submitted email
@@ -93,7 +95,7 @@ class Login{
 
     // Check student-voter account and vote status
     private function handleStudentVoter($row) {
-        $this->deleteIPDetails();
+        $this->ip_manager->deleteIpAddress($this->ip_address);
 
         switch ($row['account_status']) {
             case 'for_verification':
@@ -126,7 +128,6 @@ class Login{
 
     // Check voter's vote status (e.g., if the user has voted already or no)
     private function redirectBasedOnVoteStatus($vote_status) {
-        unsetSessionVar();
         $this->regenerateSessionId();
 
         switch ($vote_status) {
@@ -146,8 +147,7 @@ class Login{
 
     // Redirects a committee member to the admin dashboard
     private function handleAdminOrHead($row) {
-        $this->deleteIPDetails();
-        unsetSessionVar();
+        $this->ip_manager->deleteIpAddress($this->ip_address);
 
         if ($row['account_status'] === 'verified') {
             $this->regenerateSessionId();
@@ -161,7 +161,7 @@ class Login{
 
     // Check mismatched email and password
     private function handleMismatchedCredentials($row) {
-        $this->logFailedAttempt();
+        $this->ip_manager->storeIpAddress($this->ip_address, time());
 
         $remaining_attempt = self::LOGIN_ATTEMPT_COUNT - $this->getFailedAttemptsCount();
         if ($remaining_attempt <= 0) {
@@ -176,15 +176,6 @@ class Login{
         $this->redirectWithError('User with this email does not exist.');
     }
 
-    // Insert user ip address to login logs table
-    private function logFailedAttempt() {
-        $try_time = time();
-        $insert_query = "INSERT INTO login_logs (ip_address, login_time) VALUES (?, ?)";
-        $stmt = $this->connection->prepare($insert_query);
-        $stmt->bind_param('si', $this->ip_address, $try_time);
-        $stmt->execute();
-    }
-
     // Counts user failed login attempts
     private function getFailedAttemptsCount() {
         $time = time() - self::LOGIN_BLOCK_TIME;
@@ -194,13 +185,6 @@ class Login{
         $result = $stmt->get_result();
         $check_login = $result->fetch_assoc();
         return $check_login['total_count'];
-    }
-
-    // Delete user ip address, if user log in successfully
-    private function deleteIPDetails() {
-        $stmt = $this->connection->prepare("DELETE FROM login_logs WHERE ip_address = ?");
-        $stmt->bind_param('s', $this->ip_address);
-        $stmt->execute();
     }
 
     // Regenerate a stronger session
@@ -217,7 +201,6 @@ class Login{
 
     // Handles different types of messages
     private function redirectWithMessage($type, $message) {
-        unsetSessionVar();
         $_SESSION[$type] = $message;
         header("Location: ../voter-login.php");
         exit();
