@@ -2,9 +2,12 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('session-handler.php');
 require_once FileUtils::normalizeFilePath('classes/registration-class.php');
+require_once FileUtils::normalizeFilePath('classes/csrf-token.php');
 require_once FileUtils::normalizeFilePath('error-reporting.php');
 
-if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['sign-up'])) {
+CsrfToken::validateCSRFToken();
+
+if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["sign-up"])) {
 
     $email = $_POST['email'];
     $password = $_POST['password'];
