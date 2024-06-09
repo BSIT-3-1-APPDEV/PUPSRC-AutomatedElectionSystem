@@ -1,5 +1,4 @@
 <?php
-
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'classes/file-utils.php');
 include_once FileUtils::normalizeFilePath('default-time-zone.php');
 include_once FileUtils::normalizeFilePath('error-reporting.php');
@@ -8,8 +7,8 @@ ini_set('session.use_only_cookies', 1);
 ini_set('session.use_strict_mode', 1);
 
 session_set_cookie_params([
-    'lifetime' => 1800,
-    'domain' => 'localhost',
+    'lifetime' => 0,
+    'domain' => 'localhost', 
     'path' => '/',
     'secure' => true,
     'httponly' => true
