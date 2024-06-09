@@ -2,6 +2,7 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
+require_once FileUtils::normalizeFilePath('includes/classes/csrf-token.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 include_once FileUtils::normalizeFilePath('includes/session-exchange.php');
 include_once FileUtils::normalizeFilePath('includes/default-time-zone.php');
@@ -9,9 +10,7 @@ include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 SessionManager::checkUserRoleAndRedirect();
 
-// Generates hexadecimal token that expires in 30 minutes to avoid CSRF
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-$_SESSION['csrf_expiry'] = time() + (60 * 30);
+$csrf_token = CsrfToken::generateCSRFToken();
 
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
@@ -21,11 +20,6 @@ if (isset($_SESSION['error_message'])) {
 if (isset($_SESSION['info_message'])) {
     $info_message = $_SESSION['info_message'];
     unset($_SESSION['info_message']);
-}
-
-if (isset($_SESSION['email'])) {
-    $email = $_SESSION['email'];
-    unset($_SESSION['email']);
 }
 
 // Create connection with the database
@@ -110,6 +104,10 @@ $connection->close();
 
                 <div>
                     <form action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
+                                 
+                        <!-- CSRF Token hidden field -->
+                        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                        
                         <h1 class="login-account">Account Log In</h1>
                         <p>Sign in to your account</p>
 
@@ -144,7 +142,15 @@ $connection->close();
 
                         <div class="col-md-12 mt-0 mb-3">
                             <input type="email" class="form-control shadow-sm" id="Email" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" 
-                            value=" <?php if(isset($email)) : echo htmlspecialchars($email); endif; ?>" autocomplete="email">
+                            value="
+                                <?php 
+                                if (isset($_SESSION['email'])) {
+                                    echo htmlspecialchars($_SESSION['email']);
+                                }
+                                unset($_SESSION['email']);
+                                ?>" 
+                            autocomplete="email">
+                            
                             <div class="ps-1 fw-medium valid-feedback text-start" id="email-login-valid">
                                 <!-- Display default valid message -->
                                 Looks right!
@@ -180,7 +186,6 @@ $connection->close();
                             <button class="btn login-sign-in-button btn-primary <?php echo strtoupper($org_name); ?>-login-button" name="sign-in" type="submit">Sign In</button>
                         </div>
                         <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
-                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                     </form>
                 </div>
             </div>
