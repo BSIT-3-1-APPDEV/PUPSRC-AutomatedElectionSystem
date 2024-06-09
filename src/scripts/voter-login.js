@@ -79,17 +79,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const isValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(
       emailValue
     );
-    const isNotExisting = !emails.includes(emailValue);
+    const user = user_data[emailValue]; // Getting user data from user_data
 
     if (!isValid) {
       email.classList.remove("is-valid", "was-validated");
       email.classList.add("is-invalid");
       emailErrorElement.textContent = "Please provide a valid email.";
       emailValidElement.textContent = "";
-    } else if (!isLogin && isNotExisting) {
+    } else if (!isLogin && !user) {
       email.classList.remove("is-valid", "was-validated");
       email.classList.add("is-invalid");
       emailErrorElement.textContent = "User with this email does not exist.";
+      emailValidElement.textContent = "";
+    } else if (!isLogin && user === "invalid") {
+      email.classList.remove("is-valid", "was-validated");
+      email.classList.add("is-invalid");
+      emailErrorElement.textContent = "This account was rejected.";
       emailValidElement.textContent = "";
     } else {
       email.classList.remove("is-invalid");
@@ -100,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Enable send button if email is valid and exists
     if (!isLogin) {
-      sendButton.disabled = !(isValid && !isNotExisting);
+      sendButton.disabled = !(isValid && user && user !== "invalid");
     }
   };
 
