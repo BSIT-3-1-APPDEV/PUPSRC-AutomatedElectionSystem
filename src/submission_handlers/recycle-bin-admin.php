@@ -1,18 +1,40 @@
 <?php
 
+// Establish a database connection
 $conn = DatabaseConnection::connect();
 
-$queryExecutor = new QueryExecutor($conn);
+// Construct the SQL query
+$query = "SELECT * FROM voter WHERE account_status = ? AND role IN (?, ?)";
+
+// Prepare the statement
+$stmt = $conn->prepare($query);
+
+// Bind parameters
+$stmt->bind_param('sss', $account_status, $role1, $role2);
 
 // Set the role and account_status properties
-$queryExecutor->role = "('admin', 'head_admin')";
-$queryExecutor->account_status = 'invalid';
+$account_status = 'invalid';
+$role1 = 'admin';
+$role2 = 'head_admin';
 
-// Query with placeholders
-$query_verified = "SELECT * FROM voter WHERE account_status = '{$queryExecutor->account_status}' AND role IN {$queryExecutor->role}";
+// Execute the statement
+$stmt->execute();
 
-// Execute the SQL query for fetching paginated data
-$verified_tbl = $queryExecutor->executeQuery($query_verified);
+// Get the result
+$verified_tbl = $stmt->get_result();
 
-// You can then use these total pages to display pagination links in your HTML
+// Check if there are rows returned
+if ($verified_tbl->num_rows > 0) {
+    // Fetch data and display it
+} else {
+    // Display message for empty result set
+    echo "No accounts deleted";
+}
+
+// Close the statement
+$stmt->close();
+
+// Close the connection
+$conn->close();
+
 ?>

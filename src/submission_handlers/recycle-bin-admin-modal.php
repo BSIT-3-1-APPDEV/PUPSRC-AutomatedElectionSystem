@@ -24,23 +24,25 @@ if (isset($_POST['voter_id'])) {
     $stmt->execute();
     $result = $stmt->get_result();
     
-    // Check if a record was found
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+        
+        // Output JSON response with voter details, replacing NULL values with empty strings
         echo json_encode([
-            'cor' => $row['cor'],
-            'status_updated' => $row['status_updated'],
-            'acc_created' => $row['acc_created'],
-            'email' => $row['email'],
-            'role' => $row['role'],
-            'first_name' => $row['first_name'],
-            'middle_name' => $row['middle_name'],
-            'last_name' => $row['last_name'],
-            'suffix' => $row['suffix']
+            'cor' => $row['cor'] ?? '',
+            'status_updated' => $row['status_updated'] ?? '',
+            'acc_created' => $row['acc_created'] ?? '',
+            'email' => $row['email'] ?? '',
+            'role' => $row['role'] ?? '',
+            'first_name' => $row['first_name'] ?? '',
+            'middle_name' => $row['middle_name'] ?? '',
+            'last_name' => $row['last_name'] ?? '',
+            'suffix' => $row['suffix'] ?? ''
         ]);
     } else {
         echo json_encode(['error' => 'No record found']);
     }
+    
     
     // Close statement and connection
     $stmt->close();

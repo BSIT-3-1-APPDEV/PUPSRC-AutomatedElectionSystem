@@ -1,17 +1,31 @@
 <?php
 
+// Establish a database connection
 $conn = DatabaseConnection::connect();
 
-$queryExecutor = new QueryExecutor($conn);
+// Construct the SQL query
+$query = "SELECT * FROM voter WHERE account_status = ? AND role = ?";
 
-// Define the status and role values
-$queryExecutor->status = 'invalid';
-$queryExecutor->role = 'student_voter';
+// Prepare the statement
+$stmt = $conn->prepare($query);
 
-// Query with placeholders
-$query_verified = "SELECT * FROM voter WHERE account_status = '{$queryExecutor->status}' AND role = '{$queryExecutor->role}'";
+// Bind parameters
+$stmt->bind_param('ss', $account_status, $role);
 
-// Execute the SQL query for fetching paginated data
-$verified_tbl = $queryExecutor->executeQuery($query_verified);
+// Set the status and role values
+$account_status = 'invalid';
+$role = 'student_voter';
+
+// Execute the statement
+$stmt->execute();
+
+// Get the result
+$verified_tbl = $stmt->get_result();
+
+// Close the statement
+$stmt->close();
+
+// Close the connection
+$conn->close();
 
 ?>

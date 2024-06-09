@@ -1,17 +1,38 @@
 <?php
 
+// Establish a database connection
 $conn = DatabaseConnection::connect();
 
-$queryExecutor = new QueryExecutor($conn);
+// Construct the SQL query
+$query = "SELECT c.*, p.title FROM candidate c LEFT JOIN position p ON c.position_id = p.position_id WHERE c.candidacy_status = ?";
+
+// Prepare the statement
+$stmt = $conn->prepare($query);
+
+// Bind parameter
+$stmt->bind_param('s', $candidacy_status);
 
 // Set the candidacy_status property
-$queryExecutor->candidacy_status = 'removed';
+$candidacy_status = 'removed';
 
-// Query with placeholders
-$query_verified = "SELECT c.*, p.title FROM candidate c LEFT JOIN position p ON c.position_id = p.position_id WHERE c.candidacy_status = '{$queryExecutor->candidacy_status}'";
+// Execute the statement
+$stmt->execute();
 
-// Execute the SQL query for fetching data
-$verified_tbl = $queryExecutor->executeQuery($query_verified);
+// Get the result
+$verified_tbl = $stmt->get_result();
 
-// You can then use these total pages to display pagination links in your HTML
+// Check if there are rows returned
+if ($verified_tbl->num_rows > 0) {
+    // Fetch data and display it
+} else {
+    // Display message for empty result set
+    echo "No removed candidates";
+}
+
+// Close the statement
+$stmt->close();
+
+// Close the connection
+$conn->close();
+
 ?>
