@@ -31,15 +31,18 @@ if (isset($_SESSION['email'])) {
 // Create connection with the database
 $connection = DatabaseConnection::connect();
 
-$sql = "SELECT email FROM voter";
+$sql = "SELECT email, account_status FROM voter";
 $result = $connection->query($sql);
 
-// Hold all emails
-$emails = array();
+// Hold all emails and statuses
+$user_data = array();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $emails[] = $row['email'];
+        $email = $row['email'];
+        $account_status = $row['account_status'];
+        // Store email and status as key value pairs
+        $user_data[$email] = $account_status;
     }
 }
 
@@ -140,7 +143,7 @@ $connection->close();
                         <?php endif; ?>
 
                         <div class="col-md-12 mt-0 mb-3">
-                            <input type="email" class="form-control shadow-sm" id="Email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" 
+                            <input type="email" class="form-control shadow-sm" id="Email" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" 
                             value=" <?php if(isset($email)) : echo htmlspecialchars($email); endif; ?>" autocomplete="email">
                             <div class="ps-1 fw-medium valid-feedback text-start" id="email-login-valid">
                                 <!-- Display default valid message -->
@@ -156,7 +159,7 @@ $connection->close();
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
-                                <input type="password" class="form-control shadow-sm" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" id="Password" autocomplete="current-password" required>
+                                <input type="password" class="form-control shadow-sm" name="password" placeholder="Password" id="Password" autocomplete="current-password" required>
                                 <button class="btn shadow-sm border border-0" type="button" id="password-toggle">Show</button>
                                 
                                 <!-- Displaying these validation messages messes up the UI
@@ -199,16 +202,16 @@ $connection->close();
                                 <!-- <p for="email" class="form-label text-start ps-1">We will send a password reset link to your registered email address.</p> -->
                                 <p>Email Address</p>
                             </div>
-                            <input type="email" class="form-control border border-secondary-subtle shadow-sm" id="email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" autocomplete="email">
+                            <input type="email" class="form-control border border-secondary-subtle shadow-sm" id="email" name="email" placeholder="Email Address" autocomplete="email">
                             <div class="valid-feedback text-start fw-medium" id="email-valid">
                             </div>
                             <div class="invalid-feedback text-start fw-medium" id="email-error">
                                 <!-- Displays error messages -->
                             </div>
 
-                            <!-- Will be used for validating if email is non-existent -->
+                            <!-- Will be used for validating user -->
                             <script>
-                                const emails = <?php echo json_encode($emails); ?>
+                                const user_data = <?php echo json_encode($user_data); ?>
                             </script>
 
                         </div>
