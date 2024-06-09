@@ -51,10 +51,11 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     <link rel="stylesheet" href="styles/admin_dashboard.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/core.css">
+    <link rel="stylesheet" href="styles/loader.css" />
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.min.js"></script>
-
+    <script src="scripts/loader.js" defer></script>
     
     <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_name . '.css'; ?>" id="org-style">
     <style>
@@ -77,7 +78,10 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 <body>
     
-<?php     include FileUtils::normalizeFilePath('includes/components/sidebar.php'); ?>
+    <?php 
+    include FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
+    include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+    ?>
 
     <main class="main">
 
@@ -314,6 +318,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     <?php     include FileUtils::normalizeFilePath('includes/components/footer.php');?>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/admin_dashboard.js"></script>
     <script src="scripts/feather.js"></script>

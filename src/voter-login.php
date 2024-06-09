@@ -13,12 +13,12 @@ $_SESSION['csrf_expiry'] = time() + (60 * 30);
 
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
-    unset($_SESSION['error_message']); // Unset the error message from the session once displayed
+    unset($_SESSION['error_message']);
 }
 
 if (isset($_SESSION['info_message'])) {
     $info_message = $_SESSION['info_message'];
-    unset($_SESSION['info_message']); // Unset the info message from the session once displayed
+    unset($_SESSION['info_message']);
 }
 
 ?>
@@ -42,12 +42,16 @@ if (isset($_SESSION['info_message'])) {
     <link href="https://fonts.googleapis.com/css2?family=Akronim&family=Anton&family=Aoboshi+One&family=Audiowide&family=Black+Han+Sans&family=Braah+One&family=Bungee+Outline&family=Hammersmith+One&family=Krona+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="styles/dist/landing.css">
+    <link rel="stylesheet" href="styles/loader.css" />
     <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
     <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
     <title>Login</title>
 </head>
 
 <body class="login-body" id="<?php echo strtoupper($org_name); ?>-body">
+
+    <?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html'); ?>
+
     <nav class="navbar navbar-expand-lg fixed-top" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
             <a href="landing-page.php"><img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo"></a>
@@ -128,10 +132,7 @@ if (isset($_SESSION['info_message'])) {
                             <div class="input-group">
                                 <input type="password" class="form-control" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" id="Password" required>
                                 <button class="btn" type="button" id="password-toggle">Show</button>
-                                <!-- <div class="valid-feedback text-start">Looks good!</div>
-                                <div class="ps-2 text-start invalid-feedback">
-                                    Please provide a valid password.
-                                </div> -->
+
                             </div>
                         </div>
 
@@ -139,8 +140,7 @@ if (isset($_SESSION['info_message'])) {
 
                         <div class="d-grid gap-2 mt-5 mb-4">
                             <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
-                            <button class="btn login-sign-in-button btn-primary" name="sign-in" type="submit">Sign
-                                In</button>
+                            <button class="btn login-sign-in-button btn-primary <?php echo strtoupper($org_name); ?>-login-button" name="sign-in" type="submit">Sign In</button>
                         </div>
                         <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
@@ -156,7 +156,7 @@ if (isset($_SESSION['info_message'])) {
             <div class="modal-content">
                 <div class="m justify-content-center">
                     <h1 class="modal-title fs-5 fw-bold mb-2" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
-                        </h1><!-- <hr> -->
+                    </h1><!-- <hr> -->
                 </div>
                 <div class="modal-body">
                     <form class="needs-validation" id="forgot-password-form" name="forgot-password-form" novalidate enctype="multipart/form-data">
@@ -177,7 +177,9 @@ if (isset($_SESSION['info_message'])) {
                                 </div>
                                 <div class="col-4">
                                     <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send</button>
-                                    <script> var ORG_NAME = "<?php echo strtoupper($org_name) .'-login-button'; ?>"; </script>
+                                    <script>
+                                        var ORG_NAME = "<?php echo strtoupper($org_name) . '-login-button'; ?>";
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -188,37 +190,42 @@ if (isset($_SESSION['info_message'])) {
         </div>
     </div>
 
-    <!-- Success Modal -->
-    <div class="modal" id="successResetPasswordLinkModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="d-flex justify-content-end">
-                    <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-								onclick="redirectToPage('voter-login.php')">
-							</i>
+<!-- Success Modal -->
+<div class="modal" id="successResetPasswordLinkModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="success-modal">
+            <div class="modal-body">
+                <div class="d-flex justify-content-end">
+                    <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" onclick="closeModal()"></i>
+                </div>
+                <div class="text-center">
+                    <div class="col-md-12">
+                        <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
                     </div>
-                    <div class="text-center">
-                        <div class="col-md-12">
-                            <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12 pb-3">
-                                <p class="fw-bold fs-3 text-success spacing-4">Success!</p>
-                                <p class="fw-medium spacing-5">An email containing the password reset link has been sent. Kindly check your email.
-                                </p>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-12 pb-3">
+                            <p class="fw-bold fs-3 text-success spacing-4">Success!</p>
+                            <p class="fw-medium spacing-5">An email containing the password reset link has been sent. Kindly check your email.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    function closeModal() {
+        $('#successResetPasswordLinkModal').modal('hide');
+    }
+</script>
+
 
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="scripts/voter-login.js"></script>
+    <script src="scripts/loader.js"></script>
 
 </body>
 

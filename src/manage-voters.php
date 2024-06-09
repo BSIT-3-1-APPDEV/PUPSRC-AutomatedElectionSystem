@@ -34,14 +34,19 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 		<link rel="stylesheet" href="styles/core.css" />
 		<link rel="stylesheet" href="styles/tables.css" />
 		<link rel="stylesheet" href="styles/manage-voters.css" />
+		<link rel="stylesheet" href="styles/loader.css" />
 		<link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="scripts/loader.js"></script>
 
 	</head>
 
 	<body>
 
-		<?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+		<?php 
+		include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+		include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
+		?>
 
 		<div class="main">
 
@@ -52,8 +57,6 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
 								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
 							</button>
-							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS'
-								ACCOUNTS</button>
 							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS'
 								ACCOUNTS</button>
 						</div>

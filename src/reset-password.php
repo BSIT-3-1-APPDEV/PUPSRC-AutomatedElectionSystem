@@ -68,12 +68,17 @@ if (isset($_SESSION['error_message'])) {
     <link href="https://fonts.googleapis.com/css2?family=Akronim&family=Anton&family=Aoboshi+One&family=Audiowide&family=Black+Han+Sans&family=Braah+One&family=Bungee+Outline&family=Hammersmith+One&family=Krona+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="styles/dist/landing.css">
+    <link rel="stylesheet" href="styles/loader.css">
     <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
     <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
     <title>Reset Password</title>
 </head>
 
 <body class="login-body reset-password-body">
+
+    <?php
+    include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+    ?>
 
     <nav class="navbar navbar-expand-lg fixed-top" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
@@ -157,13 +162,13 @@ if (isset($_SESSION['error_message'])) {
 
 
     <!-- Success Modal -->
-    <div class="modal" id="successPasswordResetModal" data-bs-backdrop="static"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+    <div class="modal" id="successPasswordResetModal" data-bs-backdrop="static"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" role="">
+        <div class="modal-dialog modal-dialog-centered" role="">
+        <div class="modal-content" id="success-modal">
                 <div class="modal-body">
                     <div class="text-center">
                         <div class="col-md-12">
-                            <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
+                        <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
                         </div>
 
                         <div class="row">
@@ -173,7 +178,8 @@ if (isset($_SESSION['error_message'])) {
                                 </p>
                                 <!-- Button to redirect to login here -->
                                 <!-- Sample only -->
-                                <a href="voter-login.php">Go to Login</a>
+                                <a href="voter-login.php" class="btn reset-sign-in-button mt-3" id="SCO-login-button">Go to Login</a>
+
                             </div>
                         </div>
                     </div>
@@ -183,9 +189,11 @@ if (isset($_SESSION['error_message'])) {
     </div>
 
 
+
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="scripts/reset-password.js"></script>
+    <script src="scripts/loader.js"></script>
 
 </body>
 

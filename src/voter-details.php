@@ -47,13 +47,17 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             <link rel="stylesheet" href="styles/manage-voters.css" />
             <link rel="stylesheet" href="styles/voter-details.css" />
             <link rel="stylesheet" href="styles/validate-voter.css" />
+            <link rel="stylesheet" href="styles/loader.css" />
             <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
 
         </head>
 
         <body>
 
-            <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+            <?php 
+            include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+            include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
+            ?>
 
             <div class="main">
                 <!-- Breadcrumbs -->
@@ -250,7 +254,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 
             <!-- Move To Trashbin Modal -->
-            <div class="modal" id="rejectModal" tabindex="-1" role="dialog">
+            <div class="modal" id="rejectModal" data-bs-keyboard="false" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
@@ -293,7 +297,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             </div>
 
             <!-- Successfully Moved to Trashbin Modal -->
-            <div class="modal" id="trashbinMoveDone" tabindex="-1" role="dialog">
+            <div class="modal" id="trashbinMoveDone" data-bs-keyboard="false" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-body pb-5">
@@ -326,7 +330,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                 </div>
 
 
-                <!-- The following block of codes of modals,
+            <!-- The following block of codes of modals,
             "TOTAL DELETION" can be used for the Trashbin Module. -->
 
                 <!-- TOTAL DELETION: Confirm Delete Modal -->
@@ -416,7 +420,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                 <script src="scripts/script.js"></script>
                 <script src="scripts/manage-voters.js"></script>
                 <script src="scripts/feather.js"></script>
-
+                <script src="scripts/loader.js"></script>
 
         </body>
 

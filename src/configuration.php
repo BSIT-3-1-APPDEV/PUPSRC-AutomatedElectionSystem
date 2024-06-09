@@ -70,6 +70,12 @@ $phpDateTimeNow = new DateTimeUtils();
 
     <meta name="robots" content="noindex" />
 
+    <!-- Preloader -->
+    <link rel="preload" href="src/styles/loader.css" as="style" />
+    <link rel="stylesheet" href="src/styles/loader.css" />
+    <link rel="preload" href="src/images/resc/ivote-icon.png" as="image" />
+
+
     <script>
         class ResourceLoader {
             constructor(localSrc, cdnSrc, type, integrity = null, crossorigin = null) {
@@ -195,6 +201,7 @@ $phpDateTimeNow = new DateTimeUtils();
     </script> -->
     <!-- Main Scripts -->
     <script src="src/scripts/script.js" defer></script>
+    <script src="src/scripts/loader.js" defer></script>
     <script rel="preload" src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" as="script"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
@@ -203,7 +210,10 @@ $phpDateTimeNow = new DateTimeUtils();
 
 <body>
 
-    <?php include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-sidebar.php')
+
+    <?php
+    include_once FileUtils::normalizeFilePath('includes/views/configuration/configuration-sidebar.php');
+    include_once FileUtils::normalizeFilePath('includes/components/loader.html');
     ?>
 
     <?php
