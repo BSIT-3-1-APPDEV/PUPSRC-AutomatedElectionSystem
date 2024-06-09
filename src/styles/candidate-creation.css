@@ -1,58 +1,47 @@
 .btn-lvl-current {
   background-color: var(--main-color) !important;
-  color: white ;
-  border-radius: 50px ;
-  padding: 10px 5px ;
-  font-weight: bold ;
-  z-index: 1 ;
-  cursor: default ;
+  color: white !important;
+  border-radius: 10px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 1 !important;
+  cursor: default !important;
+}
+
+.btn-lvl-white { 
+  background-color: #fff !important;
+  color: grey !important;
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 2 !important;
+  cursor: default !important;
+  float: right !important;
 }
 
 .btn-lvl-white {
-  background-color: #fff ;
-  color: grey ;
-  border-top-right-radius: 50px ;
-  border-bottom-right-radius: 50px ;
-  padding: 10px 5px ;
-  font-weight: bold ;
-  z-index: 2 ;
-  cursor: default ;
-  float: right ;
-}
-
-.btn-lvl-white-add {
-  background-color: #fff ;
-  color: var(--main-color) !important;
-  border-radius: 10px ;
-  padding: 10px 5px ;
-  font-weight: bold ;
-  z-index: 2 ;
-  cursor: default ;
-  cursor: pointer ;
-}
-
-.btn-lvl-white {
-  padding: 6px 30px ;
+  padding: 6px 30px !important;
 }
 
 .btn-lvl-current {
-  padding: 6px 50px ;
+  padding: 6px 50px !important;
 }
 
 .btn-lvl-white + .btn-lvl-current {
-  margin-left: -30px ;
+  margin-left: -30px !important;
 }
 
 
 /* FOR 3 LEVELS */
 .btn-back {
-  background-color: #fff ;
-  color: grey ;
-  border-top-right-radius: 50px ;
-  border-bottom-right-radius: 50px ;
-  padding: 10px 5px ;
-  font-weight: bold ;
-  z-index: 2 ;
+  background-color: #fff !important;
+  color: grey !important;
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 2 !important;
 }
 
 .btn-back:hover {
@@ -60,49 +49,49 @@
 }
 .btn-current {
   background-color: var(--main-color) !important;
-  color: white ;
-  border: 50px ;
-  padding: 10px 5px ;
-  font-weight: bold ;
-  z-index: 1 ;
-  cursor: default ;
+  color: white !important;
+  border: 50px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 1 !important;
+  cursor: default !important;
 }
 
 .btn-white {
-  background-color: #fff ;
-  color: grey ;
-  border-top-right-radius: 50px ;
-  border-bottom-right-radius: 50px ;
-  padding: 10px 5px ;
-  font-weight: bold ;
-  z-index: 2 ;
-  cursor: default ;
+  background-color: #fff !important;
+  color: grey !important;
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
+  padding: 10px 5px !important;
+  font-weight: bold !important;
+  z-index: 2 !important;
+  cursor: default !important;
 }
 
 .no-border {
-  border: none ;
+  border: none !important;
 }
 
 /* Horizontal padding */
 
 .btn-white {
-  padding: 6px 30px ;
+  padding: 6px 30px !important;
 }
 
 .btn-back {
-  padding: 6px 50px ; 
+  padding: 6px 50px !important; 
 }
 
 .btn-current {
-  padding: 6px 50px ;
+  padding: 6px 50px !important;
 }
 
 .btn-white + .btn-back {
-  margin-left: -30px ;
+  margin-left: -30px !important;
 }
 
 .btn-back + .btn-current {
-  margin-left: -30px ;
+  margin-left: -30px !important;
 }
 
 .breadcrumbs button {
@@ -206,6 +195,16 @@ input::placeholder {
   border-radius: 10px ;
   font-weight: bold;
   border: none;
+}
+
+.button-add {
+  background-color: white;
+  color: var(--main-color)!important;
+  border-radius: 50px;
+  padding: 5px 50px;
+  font-weight: 800;
+  z-index: 1;
+  cursor: default;
 }
 
 .reset-button {

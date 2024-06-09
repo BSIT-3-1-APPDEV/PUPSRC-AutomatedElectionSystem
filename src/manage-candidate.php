@@ -37,9 +37,11 @@
 				<link rel="stylesheet" href="styles/style.css" />
 				<link rel="stylesheet" href="styles/core.css" />
 				<link rel="stylesheet" href="styles/tables.css" />
-				<link rel="stylesheet" href="styles/manage-committee.css" />
+				<link rel="stylesheet" href="styles/candidate-table.css" />
+				<link rel="stylesheet" href="styles/loader.css" />
 				<link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
 				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+				<script src="scripts/loader.js" defer></script>
 
 
 			</head>
@@ -47,7 +49,10 @@
 			<body>
 
 
-				<?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+			<?php 
+			include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+			include FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
+			?>
 
 				<div class="main">
 
@@ -61,8 +66,8 @@
 									<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">MANAGE CANDIDATES</button>
 									<div class = "align-items-end ms-auto me-4 mx-a">
 										<a href="add-candidate.php">
-											<button type="button" class="btn btn-lvl-current rounded-2 fs-7" >
-											<i class = "bi bi-plus-circle me-3"></i>Add New Candidate
+											<button type="button" class="button-add rounded-2 fs-7" >
+												<i class = "bi bi-plus-circle me-3"></i>Add New Candidate
 											</button>
 										</a>
 									</div>
@@ -95,7 +100,7 @@
 																			<!-- Delete -->
 																			<div class="d-inline-block">
 																				<button class="delete-btn fs-7 spacing-3 fw-medium"
-																					type="button" id="dropdownMenuButton"
+																					type="button" id="deleteBtn"
 																					data-bs-toggle="dropdown" aria-haspopup="true"
 																					aria-expanded="false">
 																					<i class="fa-solid fa-trash-can fa-sm"></i>
@@ -146,29 +151,17 @@
 																							aria-labelledby="dropdownMenuButton"
 																							style="padding: 0.5rem">
 																							<!-- Dropdown items -->
-																							<li
-																								class="dropdown-item ps-3 fs-7 fw-medium">
-																								<a
-																									href="?sort=acc_created&order=desc">Newest
-																									to Oldest</a>
+																							<li class="dropdown-item ps-3 fs-7 fw-medium">
+																								<a href="?sort=acc_created&order=desc">Newest to Oldest</a>
 																							</li>
-																							<li
-																								class="dropdown-item ps-3 fs-7 fw-medium">
-																								<a
-																									href="?sort=acc_created&order=asc">Oldest
-																									to Newest</a>
+																							<li class="dropdown-item ps-3 fs-7 fw-medium">
+																								<a href="?sort=acc_created&order=asc">Oldest to Newest</a>
 																							</li>
-																							<li
-																								class="dropdown-item ps-3 fs-7 fw-medium">
-																								<a
-																									href="?sort=first_name&order=asc">A
-																									to Z (Ascending)</a>
+																							<li class="dropdown-item ps-3 fs-7 fw-medium">
+																								<a href="?sort=first_name&order=asc">A to Z (Ascending)</a>
 																							</li>
-																							<li
-																								class="dropdown-item ps-3 fs-7 fw-medium">
-																								<a
-																									href="?sort=first_name&order=desc">Z
-																									to A (Descending)</a>
+																							<li class="dropdown-item ps-3 fs-7 fw-medium">
+																								<a href="?sort=first_name&order=desc">Z to A (Descending)</a>
 																							</li>
 																						</div>
 																					</div>
@@ -177,12 +170,8 @@
 
 																			<!-- Search -->
 																			<div class="ps-3">
-																				<i data-feather="search"
-																					class="feather-xs im-cust-2"
-																					style="color: black"></i>
-																				<input class="search-input fs-7 spacing-6 fw-medium"
-																					type="text" placeholder=" Search..."
-																					id="searchInput" style="width: 100px">
+																				<i data-feather="search" class="feather-xs im-cust-2" style="color: black"></i>
+																				<input class="search-input fs-7 spacing-6 fw-medium" type="text" name="search" placeholder=" Search..." id="searchInput" style="width: 100px" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
 																			</div>
 																		</div>
 																	</div>
@@ -190,11 +179,15 @@
 															</div>
 															<?php if ($verified_tbl->num_rows > 0) { ?>
 																<!-- Table Contents -->
-																<table class= "table table-striped table-hover" id="voterTable">
+																<table class= "table table-hover" id="voterTable">
 																	<thead class="tl-header">
 																		<tr>
-																			<th
-																				class="col-md-3 tl-left text-center fs-7 fw-bold spacing-5">
+																			<th class="col-md-1 text-center fs-7 fw-bold spacing-5 checkbox-th">
+																				<?php if (isset($row) && is_array($row) && array_key_exists("candidate_id", $row)): ?>
+																					<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["candidate_id"]; ?>" class="voterCheckbox" style="display: none;">
+																				<?php endif; ?>
+																			</th>
+																			<th class="col-md-3 tl-left text-center fs-7 fw-bold spacing-5">
 																				<i data-feather="user"
 																					class="feather-xs im-cust"></i>Full Name
 																			</th>
@@ -213,6 +206,9 @@
 																		<tbody>
 																		<?php while ($row = $verified_tbl->fetch_assoc()) { ?>
 																			<tr>
+																				<td class="col-md-1 text-center checkbox-td">
+																					<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["candidate_id"]; ?>" class="voterCheckbox" style="display: none;">
+																				</td>
 																				<td class="col-md-3 text-center">
 																					<a href="candidate-details.php?candidate_id=<?php echo $row["candidate_id"]; ?>"><?php echo $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] . ' ' . $row["suffix"]; ?></a>
 																				</td>
@@ -230,36 +226,36 @@
 																<!-- Pagination -->
 
 																<div class="clearfix col-xs-12">
-																	<ul class="pagination">
-																		<?php
-																		// Generate the filter parameters for the link
-																		$filterParams = '';
-																		if (!empty($filter)) {
-																			foreach ($filter as $f) {
-																				$filterParams .= '&filter[]=' . urlencode($f);
+																	<div class="d-flex justify-content-end align-items-center">
+																		<div class="delete-actions me-auto" style="display: none;">
+																			<button class="btn btn-light px-sm-3 py-sm-1-5 btn-sm fw-bold fs-7 spacing-6" id="cancelBtn" disabled>Cancel</button>
+																			<button class="btn btn-danger px-sm-3 py-sm-1-5 btn-sm fw-bold fs-7 spacing-6" id="deleteSelectedBtn" disabled>Delete Selected</button>
+																		</div>
+																		<ul class="pagination">
+																			<?php
+																			// Generate the filter parameters for the link
+																			$filterParams = '';
+																			if (!empty($filter)) {
+																				foreach ($filter as $f) {
+																					$filterParams .= '&filter[]=' . urlencode($f);
+																				}
 																			}
-																		}
 
-																		if ($current_page > 1) { ?>
-																			<li class="fas fa-chevron-left black"><a
-																					href="?page=<?php echo $current_page - 1 . $filterParams; ?>"></a>
-																			</li>
-																		<?php } ?>
+																			if ($current_page > 1) { ?>
+																				<li class="fas fa-chevron-left black"><a href="?page=<?php echo $current_page - 1 . $filterParams; ?>"></a></li>
+																			<?php } ?>
 
-																		<?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-																			<li
-																				class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
-																				<a href="?page=<?php echo $i . $filterParams; ?>"
-																					class="page-link"><?php echo $i; ?></a>
-																			</li>
-																		<?php } ?>
+																			<?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+																				<li class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
+																					<a href="?page=<?php echo $i . $filterParams; ?>" class="page-link"><?php echo $i; ?></a>
+																				</li>
+																			<?php } ?>
 
-																		<?php if ($current_page < $total_pages) { ?>
-																			<li class="fas fa-chevron-right ps-xl-3 black"><a
-																					href="?page=<?php echo $current_page + 1 . $filterParams; ?>"></a>
-																			</li>
-																		<?php } ?>
-																	</ul>
+																			<?php if ($current_page < $total_pages) { ?>
+																				<li class="fas fa-chevron-right ps-xl-3 black"><a href="?page=<?php echo $current_page + 1 . $filterParams; ?>"></a></li>
+																			<?php } ?>
+																		</ul>
+																	</div>
 																</div>
 
 
@@ -321,9 +317,7 @@
 				<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 				<script src="scripts/script.js"></script>
 				<script src="scripts/feather.js"></script>
-
-
-
+				<script src="scripts/manage-committee.js"></script>
 
 			</body>
 
@@ -338,3 +332,5 @@
 		header("Location: landing-page.php");
 	}
 	?>
+
+	

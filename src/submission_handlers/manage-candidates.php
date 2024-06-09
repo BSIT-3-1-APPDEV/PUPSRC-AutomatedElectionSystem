@@ -31,9 +31,7 @@ JOIN position p ON c.position_id = p.position_id";
 
 // Add position filter conditions based on selected filters
 if (!empty($filter)) {
-    $query .= " WHERE (";
-    $query .= implode(" OR ", array_fill(0, count($filter), "p.title = ?"));
-    $query .= ")";
+    $query .= " WHERE " . implode(" OR ", array_fill(0, count($filter), "p.title = ?"));
 }
 
 // Prepare the statement for counting total records
@@ -55,8 +53,17 @@ if (!empty($filter)) {
         echo "Error preparing statement: " . $conn->error;
     }
 } else {
-    // No filters, set total_records to 0
-    $total_records = 0;
+    // No filters, coult all records in candidate table
+    $countQuery = "SELECT COUNT(*) as total FROM candidate";
+    $countStmt = $conn->prepare($countQuery);
+    if($countStmt){
+        $countStmt->execute();
+        $result = $countStmt->get_result();
+        $total_records = $result->fetch_assoc()['total'];
+        $countStmt->close();
+    }else{
+        echo "Error preparing statement: " . $conn->error;
+    }
 }
 
 // ----------PAGINATION--------------//
@@ -73,10 +80,14 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($current_page - 1) * $records_per_page;
 
 // Add sorting order and limit for fetching records for the current page
-$query .= " ORDER BY '$sort' $order LIMIT $offset, $records_per_page";
+$query .= " ORDER BY $sort $order LIMIT $offset, $records_per_page";
 
 // Prepare the statement for fetching records
 $stmt = $conn->prepare($query);
+if (!empty($filter)) {
+    $bindTypes = str_repeat('s', count($filter)); // Assuming all titles are strings
+    $stmt->bind_param($bindTypes, ...$filter);
+}
 $stmt->execute();
 $verified_tbl = $stmt->get_result();
 

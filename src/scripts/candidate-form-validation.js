@@ -33,6 +33,27 @@ function validateInput(input, regex, maxLength, errorMessage) {
 // Validate name inputs
 const validateName = (input) => validateInput(input, /^[a-z ,.'-]+$/i, 50, errorMessages[input.id]);
 
+//Prevent Spaces
+function preventLeadingSpace(event) {
+  const input = event.target;
+  if (input.value.startsWith(' ')) {
+      input.value = input.value.trim(); // Remove leading space
+  }
+  // Replace multiple consecutive spaces with a single space
+  input.value = input.value.replace(/\s{2,}/g, ' ');
+}
+
+ // Event listeners to prevent whitespaces
+ $("#first_name").on("input", function (event) {
+  preventLeadingSpace(event);
+});
+$("#last_name").on("input", function (event) {          
+  preventLeadingSpace(event);
+});
+$("#middle_name").on("input", function (event) {
+  preventLeadingSpace(event);
+});
+
 // First Name validation
 firstNameInput.addEventListener("input", () => validateName(firstNameInput));
 
@@ -49,11 +70,13 @@ middleNameInput.addEventListener("input", () => {
 // Last Name validation
 lastNameInput.addEventListener("input", () => validateName(lastNameInput));
 
+
+
 // Form submission
 form.addEventListener("submit", function (event) {
   const isFormValid = validateName(firstNameInput) &&
-                      validateName(lastNameInput) &&
-                      validateName(middleNameInput);
+    validateName(lastNameInput) &&
+    validateName(middleNameInput);
   if (!isFormValid) {
     event.preventDefault();
   }
@@ -68,10 +91,10 @@ submitButton.classList.add('button-disabled');
 // Function to toggle submit button state
 function toggleSubmitButton() {
   const isFormValid = firstNameInput.value.trim() !== "" &&
-                      lastNameInput.value.trim() !== "" &&
-                      positionInput.value.trim() !== "" &&
-                      sectionInput.value.trim() !== "" &&
-                      photoInput.files.length > 0;
+    lastNameInput.value.trim() !== "" &&
+    positionInput.value.trim() !== "" &&
+    sectionInput.value.trim() !== "" &&
+    photoInput.files.length > 0;
 
   submitButton.disabled = !isFormValid;
   submitButton.classList.toggle('button-disabled', !isFormValid);

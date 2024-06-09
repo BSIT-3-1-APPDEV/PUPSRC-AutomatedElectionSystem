@@ -160,16 +160,16 @@
   }
   
   .button-create {
-    background-color: var(--main-color);
-    color: white;
+    background-color: white !important;
+    color: var(--main-color) !important;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 14px;
     width: auto;
-    border-radius: 10px !important;
+    border-radius: 15px !important;
     font-weight: bold;
-    border: none;
+    border: 2px solid var(--main-color) !important;
   }
   
   .cancel-button{
@@ -271,4 +271,18 @@
     overflow:hidden;
     opacity: 25%;
     }
+  
+  @media screen and (max-width: 767px){  
+    .divider{
+      position: absolute;
+      left:50%;
+      top:30%;
+      bottom: 35%;
+      border-left: 0px !important;
+      overflow:hidden;
+      opacity: 25%;
+      }
+  }
+
+  
   

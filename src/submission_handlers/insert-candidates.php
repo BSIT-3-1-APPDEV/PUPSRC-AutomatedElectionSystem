@@ -18,6 +18,7 @@ if (isset($_SESSION['voter_id'])) {
         $suffix = htmlspecialchars(trim($_POST['suffix']));
         $party_list = htmlspecialchars(trim($_POST['party_list']));
         $position_id = intval($_POST['position_id']);
+        $election_year = htmlspecialchars(trim($_POST['election_year']));
         $section_year = explode('-', $_POST['section']);
         $year_level = $section_year[0];
         $section = $section_year[1];
@@ -38,11 +39,11 @@ if (isset($_SESSION['voter_id'])) {
         }
         
         // Insert Candidate
-        $sql = "INSERT INTO candidate (last_name, first_name, middle_name, suffix, party_list, position_id, section, year_level, photo_url) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO candidate (last_name, first_name, middle_name, suffix, party_list, position_id, section, year_level, photo_url, election_year) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssssss", $last_name, $first_name, $middle_name, $suffix, $party_list, $position_id, $section, $year_level, $photo_url);
+        $stmt->bind_param("ssssssssss", $last_name, $first_name, $middle_name, $suffix, $party_list, $position_id, $section, $year_level, $photo_url, $election_year);
         
         if ($stmt->execute()) {
             $_SESSION['account_created'] = true;

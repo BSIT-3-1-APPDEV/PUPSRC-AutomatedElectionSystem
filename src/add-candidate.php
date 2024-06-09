@@ -36,6 +36,7 @@ if (isset($_SESSION['voter_id'])) {
                 <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_name . '.css'; ?>" id="org-style">
                 <link rel="stylesheet" href="styles/style.css" />
                 <link rel="stylesheet" href="styles/core.css" />
+                <link rel="stylesheet" href="styles/loader.css" />
                 <link rel="stylesheet" href="styles/candidate-creation.css" />
                 <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -45,8 +46,10 @@ if (isset($_SESSION['voter_id'])) {
 
             <body>
 
-
-                <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+            <?php 
+			include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+			include FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
+			?>
 
                 <div class="main">
                     <div class="container mb-5 pl-5">
@@ -59,7 +62,7 @@ if (isset($_SESSION['voter_id'])) {
                                     <button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">ADD
                                         CANDIDATE</button>
                                     <div class = "align-items-end ms-auto me-4 mx-auto">
-                                        <button type="button" class="btn btn-lvl-current rounded-2 fs-7" onclick="duplicateForm()">
+                                        <button type="button" class="button-add rounded-2 fs-7" onclick="duplicateForm()">
                                             <i class = "bi bi-plus-circle me-3"></i>Add Another Candidate
                                         </button>
                                     </div>
@@ -71,7 +74,7 @@ if (isset($_SESSION['voter_id'])) {
                 <form action="../src/submission_handlers/insert-candidates.php" method="post" id="candidate-form" enctype="multipart/form-data">
                     <div class="container">
                         <div class="row justify-content-center">
-                            <div class="col-md-10 card-box mt-md-10">
+                            <div class="col-md-10 card-box mt-md-10" id = "carl">
                                 <div class="container-fluid">
                                     <div class="card-box">
                                         <div class="row">
@@ -191,6 +194,7 @@ if (isset($_SESSION['voter_id'])) {
                 <script src="scripts/script.js"></script>
                 <script src="scripts/feather.js"></script>
                 <script src="scripts/candidate-form-validation.js"></script>
+                <script src="scripts/loader.js" defer></script>
 
                 <!-- Created Modal -->
                 <div class="modal" id="createdModal" tabindex="-1" role="dialog" <?php if (isset($_SESSION['account_created']) && $_SESSION['account_created'])
@@ -244,7 +248,7 @@ if (isset($_SESSION['voter_id'])) {
                 function duplicateForm() {
                     if (formCount < 5) {
                         formCount++;
-                        const formContainer = document.getElementById('candidate-form');
+                        const formContainer = document.getElementById('carl');
                         const clonedForm = formContainer.cloneNode(true);
 
                         // Reset form inputs

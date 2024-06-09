@@ -52,13 +52,17 @@ if (isset($_SESSION['voter_id'])) {
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/core.css" />
     <link rel="stylesheet" href="styles/tables.css" />
+    <link rel="stylesheet" href="styles/loader.css" />
     <link rel="stylesheet" href="styles/candidate-detail.css" />
     <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
-    <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+            <?php 
+			include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+			include FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
+			?>
 
     <div class="main">
         <div class="container mb-5 ml-10">
@@ -98,7 +102,7 @@ if (isset($_SESSION['voter_id'])) {
                                             <p class="fw-bold fs-6 pt-sm-2">
                                                 <?php echo strtoupper($candidate['last_name'].','. ' ' . $candidate['first_name'] . ' ' . $candidate['middle_name'] . ' ' . $candidate['suffix']); ?>
                                             </p>
-                                            <a href="edit-candidate.php?candidate_id=<?php echo htmlspecialchars($candidate['candidate_id']); ?>" class="btn btn-lvl-current rounded-2 btn-sm">Edit Information</a>
+                                            <a href="edit-candidate.php?candidate_id=<?php echo htmlspecialchars($candidate['candidate_id']); ?>" class="button-create rounded-3 btn-sm">Edit Information</a>
                                         </div>
                                     </div>
                                 </div>
@@ -141,87 +145,7 @@ if (isset($_SESSION['voter_id'])) {
     <script src="scripts/script.js"></script>
     <script src="scripts/feather.js"></script>
     <script src="scripts/member-form-validation.js"></script>
-
-     <!-- Confirm Reject Modal -->
-     <div class="modal" id="rejectModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-
-                            <div class="row p-4">
-                                <div class="col-md-12 pb-3">
-                                    <div class="text-center">
-                                        <div class="col-md-12 p-3">
-                                            <img src="images/resc/warning.png" alt="iVote Logo">
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-12 pb-3 confirm-delete">
-                                                <p class="fw-bold fs-3 danger spacing-4">Confirm Delete?</p>
-                                                <p class="pt-2 fw-medium spacing-5">A heads up: this action <span
-                                                        class="fw-bold">cannot be undone!</span></p>
-                                                <p class="fw-medium spacing-5 pt-1">Type '<span class="fw-bold">Confirm
-                                                        Delete</span>' to proceed.</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="row justify-content-center"> <!-- Add justify-content-center class -->
-                                            <div class="col-md-11 pb-3 pt-3 confirm-delete text-center mx-auto">
-                                                <!-- Add mx-auto class -->
-                                                <form action="#" method="post">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control pt-2 bg-primary text-black"
-                                                            id="confirm-deletion" placeholder="Type here..."
-                                                            oninput="validateConfirmation()">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 pt-3 text-center">
-                                    <div class="d-inline-block">
-                                        <button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-                                            onClick="closeModal()" aria-label="Close">Cancel</button>
-                                    </div>
-                                    <div class="d-inline-block">
-                                        <form class="d-inline-block">
-                                            <input type="hidden" id="voter_id" name="voter_id" value="<?php echo $voter_id; ?>">
-                                            <button class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-                                                type="submit" id="confirm-delete" value="delete" disabled>Delete</button>
-                                        </form>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Rejected Successfully Modal -->
-            <div class="modal" id="deleteDone" tabindex="-1" role="dialog">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="d-flex justify-content-end">
-                                <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-                                    onclick="redirectToPage('manage-voters.php')">
-                                </i>
-                            </div>
-                            <div class="text-center p-4">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="fw-bold fs-3 danger spacing-4">Account Deleted</p>
-                                        <p class="fw-medium spacing-5">The account has been successfully deleted.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <script src="scripts/loader.js" defer></script>
 
 </body>
 </html>
