@@ -13,7 +13,7 @@ $stmt = $conn->prepare($query);
 $stmt->bind_param('s', $candidacy_status);
 
 // Set the candidacy_status property
-$candidacy_status = 'removed';
+$candidacy_status = 'invalid';
 
 // Execute the statement
 $stmt->execute();

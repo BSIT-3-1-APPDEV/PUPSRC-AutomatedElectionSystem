@@ -18,7 +18,7 @@ if (isset($_POST['voter_id'])) {
     $queryExecutor = new QueryExecutor($conn);
     
 
-    $query = "SELECT c.*, p.title  FROM candidate c  LEFT JOIN position p ON c.position_id = p.position_id WHERE c.candidacy_status = 'removed' AND candidate_id = ?";
+    $query = "SELECT c.*, p.title  FROM candidate c  LEFT JOIN position p ON c.position_id = p.position_id WHERE c.candidacy_status = 'invalid' AND candidate_id = ?";
     
     // Prepare and execute the query
     $stmt = $conn->prepare($query);
