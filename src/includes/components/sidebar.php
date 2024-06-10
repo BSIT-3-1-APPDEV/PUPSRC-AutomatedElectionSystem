@@ -183,7 +183,7 @@
 				<ul class="dropdown-menu dropdown-menu-end main-color p-3" aria-labelledby="dropdownMenuButton">
 					<li class="px-xl-2 py-xl-1"><a class="dropdown-item" href="profile.php"><i data-feather="user"
 								class="fs-12 main-color mb-xl-1"></i><span style="padding-left: .8rem">Profile</a></li>
-					<li class="px-xl-2"><a class="dropdown-item" href="#"><i data-feather="trash-2"
+					<li class="px-xl-2"><a class="dropdown-item" href="recycle-bin.php"><i data-feather="trash-2"
 								class="fs-11 main-color mb-xl-1"></i><span style="padding-left: .8rem">Recycle Bin</a>
 					</li>
 					<li class="px-xl-2 py-xl-1"><a class="dropdown-item" href="includes/voter-logout.php"><i
