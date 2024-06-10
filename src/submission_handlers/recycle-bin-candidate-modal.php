@@ -37,7 +37,7 @@ if (isset($_POST['voter_id'])) {
             echo json_encode([
                 'title' => $row['title'] ?? '',
                 'photo_url' => $row['photo_url'] ?? '',
-                'candidate_creation' => $row['register_date'] ?? '',
+                'register_date' => $row['candidate_creation'] ?? '',
                 'first_name' => $row['first_name'] ?? '',
                 'last_name' => $row['last_name'] ?? '',
                 'middle_name' => $row['middle_name'] ?? '',
