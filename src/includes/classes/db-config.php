@@ -9,10 +9,10 @@ class DatabaseConfig {
     public static function getOrganizationDBConfig ($organization) {
         return array(
             'host' => 'localhost',
-            'username' => self::prefix . $organization,
+            'username' => self::$prefix . $organization,
             'password' => 'Student_0rg',
             // Adds 'db_' prefix to access specific org database
-            'database' => self::prefix . 'db_' . $organization
+            'database' => self::$prefix . 'db_' . $organization
         );
     }
 }
