@@ -1,66 +1,3 @@
-
-$(document).ready(function() {
-  // Function to handle delete button click
-  $('#confirmDeleteButton').on('click', function () {
-      var selectedIds = [];
-      $('.select-checkbox:checked').each(function () {
-          selectedIds.push($(this).val());
-      });
-      if (selectedIds.length > 0) {
-          // Send AJAX request to delete selected items
-          $.ajax({
-              type: 'POST',
-              url: 'submission_handlers/delete-selected-candidates.php',
-              data: { ids: selectedIds },
-              dataType: 'json',
-              success: function (response) {
-                  // Handle success response
-                  console.log('Selected items deleted successfully');
-                  $('#deleteSuccessModal').modal('show');
-                  // Refresh the page or update the UI as needed
-                  // location.reload(); // Uncomment to refresh the page
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                  // Handle error response
-                  console.error('An error occurred while deleting selected items:', textStatus, errorThrown);
-              }
-          });
-      } else {
-          console.warn('No items selected for deletion');
-      }
-  });
-
-  // Function to handle restore button click
-  $('#confirmRestoreBtn').on('click', function () {
-      var selectedIds = [];
-      $('.select-checkbox:checked').each(function () {
-          selectedIds.push($(this).val());
-      });
-      if (selectedIds.length > 0) {
-          // Send AJAX request to restore selected items
-          $.ajax({
-              type: 'POST',
-              url: 'submission_handlers/restore-selected-candidate.php',
-              data: { ids: selectedIds },
-              dataType: 'json',
-              success: function (response) {
-                  // Handle success response
-                  console.log('Selected items restored successfully');
-                  $('#restoreSuccessModal').modal('show');
-                  // Refresh the page or update the UI as needed
-                  // location.reload(); // Uncomment to refresh the page
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                  // Handle error response
-                  console.error('An error occurred while restoring selected items:', textStatus, errorThrown);
-              }
-          });
-      } else {
-          console.warn('No items selected for restoration');
-      }
-  });
-});
-
                   
                   $(document).ready(function() {
                       function isAnyCheckboxChecked() {
@@ -304,22 +241,37 @@ $(document).ready(function() {
           $('#next-page').removeClass('disabled');
       }
   }
-
   function filterRows() {
-      var searchValue = $('#searchInput').val().toLowerCase();
-      var allRows = $('.table tbody tr');
-      var filteredRows = allRows.filter(function() {
-          return $(this).text().toLowerCase().indexOf(searchValue) > -1;
-      });
-      allRows.hide();
-      filteredRows.show();
-      displayPage(1, filteredRows);
-      updatePagination(filteredRows);
-  }
+    var searchValue = $('#searchInput').val().toLowerCase();
+    var allRows = $('.table tbody tr');
+    var filteredRows = allRows.filter(function() {
+        return $(this).text().toLowerCase().indexOf(searchValue) > -1;
+    });
 
-  $('#searchInput').on('keyup', function() {
-      filterRows();
-  });
+    allRows.hide(); // Hide all rows by default
+
+    if (filteredRows.length === 0) {
+        // Create a placeholder element for "No records found" message
+        var noRecordsFoundMessage = $('<tr class="no-records-found text-center"><td colspan="4">No records found</td></tr>');
+        $('.table tbody').append(noRecordsFoundMessage);
+    } else {
+        // Remove any existing "No records found" message
+        $('.no-records-found').remove();
+
+        // Show only the filtered rows
+        filteredRows.show();
+        displayPage(1, filteredRows);
+        updatePagination(filteredRows);
+    }
+}
+
+$('#searchInput').on('keyup', function() {
+    filterRows();
+});
+
+
+
+
 
   $('.dropdown-item').on('click', function() {
       var sortOption = $(this).text().trim(); // Get the text of the clicked option

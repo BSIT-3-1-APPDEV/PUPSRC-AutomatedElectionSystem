@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $queryExecutor = new QueryExecutor($conn);
         
         // Prepare the SQL statement to update selected items
-        $query = "UPDATE candidate SET candidacy_status = 'added' WHERE candidate_id IN (";
+        $query = "UPDATE candidate SET candidacy_status = 'verified' WHERE candidate_id IN (";
         $params = array();
         foreach ($ids as $id) {
             $query .= "?, ";

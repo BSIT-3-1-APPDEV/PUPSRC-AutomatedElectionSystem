@@ -104,7 +104,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                             <div class="row">
                                                 <!-- Table Header -->
                                                 <div class="col-sm-6">
-                                                    <p class="fs-3 main-color fw-bold ls-10 spacing-6">Election Committees</p>
+                                                    <p class="fs-3 main-color fw-bold ls-10 spacing-6">Candidate Details</p>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="row d-flex justify-content-end align-items-center">
@@ -241,6 +241,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                 </div>
             </div>
         </div>
+     </div>
+     </div>
+</div>
 
         <!-- Confirm Delete Modal -->
         <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
@@ -436,6 +439,73 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
                 });
             });
+            
+$(document).ready(function() {
+  // Function to handle delete button click
+  $('#confirmDeleteButton').on('click', function () {
+      var selectedIds = [];
+      $('.select-checkbox:checked').each(function () {
+          selectedIds.push($(this).val());
+      });
+      if (selectedIds.length > 0) {
+          // Send AJAX request to delete selected items
+          $.ajax({
+              type: 'POST',
+              url: 'submission_handlers/delete-selected-candidates.php',
+              data: { ids: selectedIds },
+              dataType: 'json',
+              success: function (response) {
+                  // Handle success response
+                  console.log('Selected items deleted successfully');
+                  $('#deleteSuccessModal').modal('show');
+                  $.each(selectedIds, function(index, id) {
+                    $('.select-checkbox[value="' + id + '"]').closest('tr').remove();
+                });
+
+},
+              error: function (jqXHR, textStatus, errorThrown) {
+                  // Handle error response
+                  console.error('An error occurred while deleting selected items:', textStatus, errorThrown);
+              }
+          });
+      } else {
+          console.warn('No items selected for deletion');
+      }
+  });
+
+  // Function to handle restore button click
+  $('#confirmRestoreBtn').on('click', function () {
+      var selectedIds = [];
+      $('.select-checkbox:checked').each(function () {
+          selectedIds.push($(this).val());
+      });
+      if (selectedIds.length > 0) {
+          // Send AJAX request to restore selected items
+          $.ajax({
+              type: 'POST',
+              url: 'submission_handlers/restore-selected-candidate.php',
+              data: { ids: selectedIds },
+              dataType: 'json',
+              success: function (response) {
+                  // Handle success response
+                  console.log('Selected items restored successfully');
+                  $('#restoreSuccessModal').modal('show');
+                  $.each(selectedIds, function(index, id) {
+                    $('.select-checkbox[value="' + id + '"]').closest('tr').remove();
+                });
+
+},
+              error: function (jqXHR, textStatus, errorThrown) {
+                  // Handle error response
+                  console.error('An error occurred while restoring selected items:', textStatus, errorThrown);
+              }
+          });
+      } else {
+          console.warn('No items selected for restoration');
+      }
+  });
+});
+
         </script>
 
 

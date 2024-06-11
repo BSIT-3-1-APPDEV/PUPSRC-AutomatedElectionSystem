@@ -35,7 +35,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         <link rel="stylesheet" href="styles/recycle-bin.css" />
         <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   
 
     </head>
 
@@ -239,6 +239,10 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+  </div>
+</div> 
 
 
         <!-- Bootstrap Modal Structure -->
@@ -380,7 +384,70 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         <script src="scripts/feather.js"></script>
         <script src="scripts/manage-voters.js"></script>
         <script src="scripts/recycle-bin.js"></script>
+<script>
+    
+// Function to handle delete button click
+$('#confirmDeleteButton').on('click', function () {
+var selectedIds = [];
+$('.select-checkbox:checked').each(function () {
+selectedIds.push($(this).val());
+});
+if (selectedIds.length > 0) {
+// Send AJAX request to delete selected items
+$.ajax({
+type: 'POST',
+url: 'submission_handlers/delete-selected-voter.php', // Replace 'delete_selected.php' with your server endpoint
+data: { ids: selectedIds },
+dataType: 'json',
+success: function (response) {
+// Handle success response
+console.log('Selected items deleted successfully');
+$('#deleteSuccessModal').modal('show');
+$.each(selectedIds, function(index, id) {
+                    $('.select-checkbox[value="' + id + '"]').closest('tr').remove();
+                });
 
+},
+error: function () {
+// Handle error response
+console.error('An error occurred while deleting selected items');
+}
+});
+}
+});
+
+// Function to handle restore button click
+$('#confirmRestoreBtn').on('click', function () {
+var selectedIds = [];
+$('.select-checkbox:checked').each(function () {
+selectedIds.push($(this).val());
+});
+if (selectedIds.length > 0) {
+// Send AJAX request to restore selected items
+$.ajax({
+type: 'POST',
+url: 'submission_handlers/restore-selected-voter.php', // Replace 'restore_selected.php' with your server endpoint
+data: { ids: selectedIds },
+dataType: 'json',
+success: function (response) {
+// Handle success response
+console.log('Selected items restored successfully');
+$('#restoreSuccessModal').modal('show');
+$.each(selectedIds, function(index, id) {
+                    $('.select-checkbox[value="' + id + '"]').closest('tr').remove();
+                });
+
+},
+error: function () {
+// Handle error response
+console.error('An error occurred while restoring selected items');
+}
+});
+}
+});
+
+
+                </script>
 
     </body>
 

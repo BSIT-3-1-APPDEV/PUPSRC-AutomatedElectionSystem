@@ -25,8 +25,7 @@ $verified_tbl = $stmt->get_result();
 if ($verified_tbl->num_rows > 0) {
     // Fetch data and display it
 } else {
-    // Display message for empty result set
-    echo "No removed candidates";
+
 }
 
 // Close the statement

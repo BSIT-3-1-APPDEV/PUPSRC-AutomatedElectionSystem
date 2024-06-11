@@ -1,60 +1,4 @@
-
-                    
-// Function to handle delete button click
-$('#confirmDeleteButton').on('click', function () {
-var selectedIds = [];
-$('.select-checkbox:checked').each(function () {
-    selectedIds.push($(this).val());
-});
-if (selectedIds.length > 0) {
-    // Send AJAX request to delete selected items
-    $.ajax({
-        type: 'POST',
-        url: 'submission_handlers/delete-selected-voter.php', // Replace 'delete_selected.php' with your server endpoint
-        data: { ids: selectedIds },
-        dataType: 'json',
-        success: function (response) {
-            // Handle success response
-            console.log('Selected items deleted successfully');
-            $('#deleteSuccessModal').modal('show');
-            // Refresh the page or update the UI as needed
-        },
-        error: function () {
-            // Handle error response
-            console.error('An error occurred while deleting selected items');
-        }
-    });
-}
-});
-
-// Function to handle restore button click
-$('#confirmRestoreBtn').on('click', function () {
-var selectedIds = [];
-$('.select-checkbox:checked').each(function () {
-    selectedIds.push($(this).val());
-});
-if (selectedIds.length > 0) {
-    // Send AJAX request to restore selected items
-    $.ajax({
-        type: 'POST',
-        url: 'submission_handlers/restore-selected-voter.php', // Replace 'restore_selected.php' with your server endpoint
-        data: { ids: selectedIds },
-        dataType: 'json',
-        success: function (response) {
-            // Handle success response
-            console.log('Selected items restored successfully');
-            $('#restoreSuccessModal').modal('show');
-            // Refresh the page or update the UI as needed
-        },
-        error: function () {
-            // Handle error response
-            console.error('An error occurred while restoring selected items');
-        }
-    });
-}
-});
-
-                
+      
                 $(document).ready(function() {
                     function isAnyCheckboxChecked() {
     return $('.select-checkbox:checked').length > 0;
@@ -340,22 +284,29 @@ function updateButtonsState(currentPage, rowsCount) {
         $('#next-page').removeClass('disabled');
     }
 }
-
 function filterRows() {
     var searchValue = $('#searchInput').val().toLowerCase();
     var allRows = $('.table tbody tr');
     var filteredRows = allRows.filter(function() {
         return $(this).text().toLowerCase().indexOf(searchValue) > -1;
     });
-    allRows.hide();
-    filteredRows.show();
-    displayPage(1, filteredRows);
-    updatePagination(filteredRows);
+    if (filteredRows.length === 0) {
+        // If no records found, display message
+        var colspan = $('.table thead th').length; // Get the number of columns from the table header
+        var noRecordsMessage = '<tr><td colspan="' + colspan + '" style="text-align: center;">No records found</td></tr>';
+        $('.table tbody').html(noRecordsMessage);
+    } else {
+        // If records found, display filtered rows and update pagination
+        $('.table tbody').html(filteredRows);
+        displayPage(1, filteredRows);
+        updatePagination(filteredRows);
+    }
 }
 
 $('#searchInput').on('keyup', function() {
     filterRows();
 });
+
 
 $('.dropdown-item').on('click', function() {
     var sortOption = $(this).text().trim(); // Get the text of the clicked option
