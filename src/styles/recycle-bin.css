@@ -1,0 +1,284 @@
+/* --- BREADCRUMBS --- */
+
+/* FOR 2 LEVELS */
+
+.search-container {
+    position: relative;
+    display: inline-block;
+}
+.search-icon {
+
+    padding-top: 3px;
+    color: #989898;
+    font-weight: bold;
+    height: 12px !important;
+ position: absolute; top: 50%; left: 6px; transform: translateY(-50%); z-index:200;
+}
+.search-input {
+    padding-left: 20px !important; /* Adjust based on icon size */
+    padding-bottom: 5px !important;
+    height: 20px; /* Adjust based on design */
+    border: 1.5px solid #989898;
+    border-radius:8px; /* Adjust for rounded corners */
+    width: 200px; /* Adjust width as needed */
+    font-size: 8px !important; /* Adjust font size as needed */
+    color: gray;
+}
+.table thead th, .table tbody td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 650px) {
+  /* Define styles for screens below 650px width */
+  .recycle-navigation{
+    font-size:10px !important;
+  }
+  .recycle-navigation-active{
+    font-size:10px !important;
+  }
+  .table thead th, .table tbody td {
+font-size: 10px;
+  
+  }
+  .table-wrapper{
+    padding: 0;
+  }
+}
+.border-right{
+  border-right: 2px solid #ccc !important; 
+}
+.border-right-modal{
+  border-right: 2px solid #ccc ; 
+}
+@media screen and (max-width: 767px) {
+  .border-right-modal{
+    border-right: 0px !important;
+  }
+  
+  .border-bottom-modal{
+    border-bottom: 2px solid #ccc !important; 
+    margin-left: 0px !important;
+  }
+
+}
+@media screen and (max-width: 650px) {
+  /* Define styles for screens below 650px width */
+  .table thead th, .table tbody td {
+font-size: 10px !important;
+letter-spacing: normal !important;
+padding: 10px !important;
+  
+  }
+  .table-wrapper{
+    padding: 0;
+  }
+}
+@media screen and (max-width: 350px) {
+  /* Define styles for screens below 650px width */
+  .table thead th, .table tbody td {
+font-size: 10px !important;
+letter-spacing: normal !important;
+padding: 1px !important;
+  
+  }
+  .card-wrapper {
+    position: relative;
+}
+
+
+
+  .table-wrapper{
+    padding: 0;
+  }
+}
+
+.table thead th, .table tbody td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.email-link {
+  display: inline-block;
+  max-width: 150px; /* Adjust as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-background {
+  display: inline-block;
+  max-width: 100px; /* Adjust as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.validation-message{
+  display: none;
+  position: absolute;
+}
+
+.search-input::placeholder {
+  font-size: 9px;
+    color: #989898; /* Match placeholder color */
+    font-weight: 600;
+   
+}
+.select-checkbox {
+  display: none;
+}
+
+.cancelDelete{
+  color:#515050 !important;
+  background-color: #CDCDCD !important;
+  border:none !important;
+}
+.col-33{
+  width: 31% !important;
+}
+#modal-status-updated{
+  color:#ee1c24;
+}
+.card{
+  border:none !important;
+  border-radius: 20px !important;
+}
+.recycle-navigation{
+  font-size: 15px;
+  font-weight: 500;
+  color: #1f1d1b76;
+
+}
+.modal-body p{
+ letter-spacing: 1px !important;
+}
+.flex-direct{
+  flex-direction: column;
+}
+.page-link{
+  border-radius: 50% !important;
+}
+.modal-size{
+
+  max-width: 800px !important;
+
+}
+.red{
+  color:#ee1c24
+}
+
+.badge-head{
+  background-color: #1A73E8;
+}
+.badge-admin{
+  background-color: #36CD76;
+}
+.recycle-navigation-active{
+  font-weight:600;
+  color: #1f1d1b;
+  font-size: 15px;
+
+}
+.search-input:focus {
+  padding-left: 20px !important; /* Ensure padding stays when focused */
+  font-size: 8px;
+}
+#restoreSelectedbtn{
+  background-color: #1A73e8 !important;
+  color: white;
+  font-weight: bold;
+}
+#confirmRestoreBtn{
+  background-color: #1A73e8 !important;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination-container {
+  display: flex!important;
+  justify-content: flex-end  !important;
+}
+.form-control {
+  background-color:#EDEDED !important;
+}
+.form-control:focus {
+background-color:#EDEDED !important;
+}
+
+.input-error {
+  border-color: red !important ;
+}
+.candidate-pictures{
+  border-radius: 50% ;
+  border: 3px solid #ccc;
+  width: 140px;
+  height: 140px;
+}
+.restore-btn {
+  border: none !important;
+  color: var(--info) !important;
+  background-color: #fff;
+}
+.btn-delete{
+  width:150px;
+  font-size: 0.85em !important;
+  font-weight: bold !important;
+}
+.btn-delete:disabled{
+  color: white !important;
+  background-color: #cdcdcd !important;
+  border:none;
+}
+.btn-cancel{
+  border:none !important;
+  width:100px;
+  font-size: 0.85em !important;
+  font-weight: bold !important;
+  color: #515050 !important;
+  background-color: #cdcdcd !important;
+}
+.green{
+  color: #27AE60 !important;
+  font-weight: bold;
+}
+.yellow{
+  color: #FFA500 !important;
+  font-weight: bold;
+}
+
+.blue{
+  color: #1a73e8 !important;
+  font-weight: bold;
+}
+.img-icons{
+  width: 200px;
+}
+.modal-icon{
+ width: 100px;
+ height: 100px;
+}
+.img-icons-2{
+  width: 100px;
+}
+.img-icons-2{
+  width: 80px;
+}
+.underlined-link {
+  text-decoration: underline !important;
+}
+
+.btn-gray {
+  color: gray !important;
+
+}
+
+.checkbox-red {
+  accent-color: red; /* Use accent-color to change checkbox color */
+}
+
+.checkbox-blue {
+  accent-color: #1a73e8; /* Use accent-color to change checkbox color */
+}

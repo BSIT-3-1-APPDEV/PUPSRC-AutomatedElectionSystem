@@ -74,6 +74,12 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
   
     </style>
+    
+    <script>
+        // Assuming $org_name is a string or a valid data type for JSON encoding
+        const orgName = <?php echo json_encode($org_name); ?>;
+        console.log(orgName); // Log the actual variable
+    </script>
 </head>
 
 <body>
@@ -322,6 +328,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     <script src="scripts/script.js"></script>
     <script src="scripts/admin_dashboard.js"></script>
     <script src="scripts/feather.js"></script>
+    
 
 <script>
 
