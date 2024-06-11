@@ -8,7 +8,7 @@ ini_set('session.use_strict_mode', 1);
 
 session_set_cookie_params([
     'lifetime' => 0,
-    'domain' => 'localhost', // will be changed to ivote-pupsrc.com
+    'domain' => 'ivote-pupsrc.com', // for devs, revert this to localhost
     'path' => '/',
     'secure' => true,
     'httponly' => true
