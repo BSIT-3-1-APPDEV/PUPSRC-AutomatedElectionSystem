@@ -51,12 +51,12 @@ $_SESSION['csrf'] = [
                         <div class="datetime" id="datetime-start">
                             <div class="col-6 date-group">
                                 <span class="d-inline-flex">
-                                    <i data-feather="calendar"></i><input class="form-control" type="date" data-value="" required>
+                                    <i data-feather="calendar"></i><input class="form-control" placeholder="e.g. 12/31/2024" type="date" data-value="" required>
                                 </span>
                             </div>
                             <div class="col-6 time-group">
                                 <span class="d-inline-flex">
-                                    <i data-feather="clock"></i><input class="form-control" type="time" step="1800" data-value="" required>
+                                    <i data-feather="clock"></i><input class="form-control" type="time" placeholder="e.g. 1:00 PM" step="1800" data-value="" required>
                                 </span>
                             </div>
                         </div>
@@ -72,12 +72,12 @@ $_SESSION['csrf'] = [
                         <div class="datetime" id="datetime-end">
                             <div class="col-6 date-group">
                                 <span class="d-inline-flex">
-                                    <i data-feather="calendar"></i><input class="form-control " type="date" data-value="" required>
+                                    <i data-feather="calendar"></i><input class="form-control " placeholder="e.g. 12/31/2024" type="date" data-value="" required>
                                 </span>
                             </div>
                             <div class="col-6 time-group">
                                 <span class="d-inline-flex">
-                                    <i data-feather="clock"></i><input class="form-control " type="time" step="1800" data-value="" required>
+                                    <i data-feather="clock"></i><input class="form-control " type="time" placeholder="e.g. 1:00 PM" step="1800" data-value="" required>
                                 </span>
                             </div>
 
