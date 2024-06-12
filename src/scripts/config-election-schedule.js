@@ -120,6 +120,46 @@ ConfigPage.handleToggleAllDay = function (event) {
     }
 };
 
+// Make the date time act like constant
+Object.defineProperty(ConfigPage, 'NOW', {
+    value: JS_DATE_TZ(),
+    writable: false,
+    enumerable: true,
+    configurable: false
+});
+
+Object.defineProperty(ConfigPage, 'TODAY', {
+    get: function () {
+        const today = new Date(ConfigPage.NOW);
+        today.setHours(0, 0, 0, 0);
+        let isoToday = ConfigPage.isoDateConverter(today);
+        return isoToday;
+    },
+    enumerable: true,
+    configurable: false,
+});
+
+Object.defineProperty(ConfigPage, 'FIVE_YEARS_AHEAD', {
+    get: function () {
+        const futureDate = new Date(ConfigPage.NOW);
+        futureDate.setFullYear(futureDate.getFullYear() + 5);
+        futureDate.setMonth(futureDate.getMonth() + 1, 0);
+        futureDate.setHours(23, 59, 59, 999);
+        return futureDate;
+    },
+    enumerable: true,
+    configurable: false,
+});
+
+Object.defineProperty(ConfigPage, 'DATE_REGEX', {
+    get: function () {
+        let regex = new RegExp(`^[0-9]+$`);
+        let regexString = regex.toString().slice(1, -1);
+        return regexString;
+    },
+    enumerable: true,
+    configurable: false,
+});
 
 ConfigPage.dateGroupStart = document.getElementById(`datetime-start`);
 ConfigPage.datePickerStart = ConfigPage.dateGroupStart.querySelector(`input[type="date"]`);
@@ -201,7 +241,17 @@ ConfigPage.fetchData = function (requestData) {
         });
 };
 
+ConfigPage.isoDateConverter = function (date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
 ConfigPage.setFetchedSchedule = function (data) {
+    ConfigPage.datePickerStart.setAttribute('min', ConfigPage.TODAY);
+    ConfigPage.datePickerEnd.setAttribute('min', ConfigPage.TODAY);
 
     if (data[0]) {
         let startDateTime = data[0].electionStart.split(' ');
@@ -235,7 +285,6 @@ ConfigPage.setFetchedSchedule = function (data) {
         ConfigPage.timePickerStart.setAttribute('data-value', startTime);
         ConfigPage.datePickerEnd.setAttribute('data-value', endDate);
         ConfigPage.timePickerEnd.setAttribute('data-value', endTime);
-
 
         ConfigPage.handleToggleAllDay();
     }
@@ -301,57 +350,13 @@ Object.defineProperty(ConfigPage, 'CSRF_TOKEN', {
 console.log(ConfigPage.CSRF_TOKEN);
 ConfigPage.fetchData({ csrf: ConfigPage.CSRF_TOKEN });
 
-// Make the date time act like constant
-Object.defineProperty(ConfigPage, 'NOW', {
-    value: JS_DATE_TZ(),
-    writable: false,
-    enumerable: true,
-    configurable: false
-});
-
-Object.defineProperty(ConfigPage, 'TODAY', {
-    get: function () {
-        const today = new Date(ConfigPage.NOW);
-        today.setHours(0, 0, 0, 0);
-        return today;
-    },
-    enumerable: true,
-    configurable: false,
-});
-
-
-Object.defineProperty(ConfigPage, 'FIVE_YEARS_AHEAD', {
-    get: function () {
-        const futureDate = new Date(ConfigPage.NOW);
-        futureDate.setFullYear(futureDate.getFullYear() + 5);
-        futureDate.setMonth(futureDate.getMonth() + 1, 0);
-        futureDate.setHours(23, 59, 59, 999);
-        return futureDate;
-    },
-    enumerable: true,
-    configurable: false,
-});
-
-
-
-
-Object.defineProperty(ConfigPage, 'DATE_REGEX', {
-    get: function () {
-        let regex = new RegExp(`^[0-9]+$`);
-        let regexString = regex.toString().slice(1, -1);
-        return regexString;
-    },
-    enumerable: true,
-    configurable: false,
-});
-
 ConfigPage.startDateValidation = {
     clear_invalid: false,
     attributes: {
         type: 'date',
         pattern: ConfigPage.DATE_REGEX,
         required: true,
-        min: ConfigPage.TODAY.toISOString().split('T')[0],
+        min: ConfigPage.TODAY,
         max: ConfigPage.FIVE_YEARS_AHEAD.toISOString().split('T')[0],
     },
     customMsg: {
@@ -374,7 +379,7 @@ ConfigPage.endDateValidation = {
         type: 'date',
         pattern: ConfigPage.DATE_REGEX,
         required: true,
-        min: ConfigPage.TODAY.toISOString().split('T')[0],
+        min: ConfigPage.TODAY,
         max: ConfigPage.FIVE_YEARS_AHEAD.toISOString().split('T')[0],
     },
     customMsg: {
@@ -471,48 +476,49 @@ ConfigPage.setErrorDictionary = function (definitions) {
     console.log(ConfigPage.errorDictionary);
 }
 
+ConfigPage.handleValidation = function (inputElement, validatorObj, isInput = true) {
+    let parentElement = inputElement.closest('.datetime');
 
+    let feedbackField = parentElement.nextElementSibling;
+    console.log(feedbackField);
+
+    if (validatorObj.validate(inputElement, ConfigPage.inputFeedbackHandler)) {
+        if (isInput === true) {
+            inputElement.classList.remove('is-invalid');
+            feedbackField.textContent = "\u00A0";
+        }
+    } else {
+        inputElement.classList.add('is-invalid');
+    }
+
+    if (parentElement && parentElement.id === 'datetime-start') {
+        ConfigPage.toggleEndDateTime();
+    }
+
+    ConfigPage.toggleSaveBtn();
+}
 
 ConfigPage.handleInput = function (event, validatorObj) {
     ConfigPage.isScheduleChanged = true;
     const inputElement = event.target;
     // const parentElement = inputElement.parentNode;
-    console.log(event);
-    let feedbackField;
-    let parentElement;
-    try {
-        parentElement = inputElement.closest('.datetime');
-
-        feedbackField = parentElement.nextElementSibling;
-
-        console.log(feedbackField);
-    } catch (error) {
-
-    }
 
     clearTimeout(ConfigPage.typingTimeout);
     ConfigPage.typingTimeout = setTimeout(() => {
         try {
 
-            if (validatorObj.validate(inputElement, ConfigPage.inputFeedbackHandler)) {
-                inputElement.classList.remove('is-invalid');
-                feedbackField.text = "&nbsp;";
-            } else {
-                inputElement.classList.add('is-invalid');
-            }
-
-            if (parentElement && parentElement.id === 'datetime-start') {
-                ConfigPage.toggleEndDateTime();
-            }
-
-            ConfigPage.toggleSaveBtn();
+            ConfigPage.handleValidation(inputElement, validatorObj);
         } catch (error) {
             console.error('Validation error:', error);
         }
     }, 400);
 }
 
+
+
 ConfigPage.toggleEndDateTime = function () {
+    console.log(ConfigPage.dateGroupStart.querySelector('.is-invalid'));
+    console.log(ConfigPage.dateGroupStart.querySelector('.is-invalid')?.matches('.form-control'));
     const hasInvalidStart = ConfigPage.dateGroupStart.querySelector('.is-invalid')?.matches('.form-control');
 
     if (hasInvalidStart) {
@@ -522,8 +528,13 @@ ConfigPage.toggleEndDateTime = function () {
         ConfigPage.timePickerEnd.disabled = true;
 
     } else {
-        ConfigPage.datePickerEnd.value = ConfigPage.datePickerEnd.getAttribute('data-value');
-        ConfigPage.timePickerEnd.value = ConfigPage.timePickerEnd.getAttribute('data-value');
+        if (ConfigPage.datePickerEnd.getAttribute('data-value')) {
+            ConfigPage.datePickerEnd.value = ConfigPage.datePickerEnd.getAttribute('data-value');
+        }
+
+        if (ConfigPage.timePickerEnd.getAttribute('data-value')) {
+            ConfigPage.timePickerEnd.value = ConfigPage.timePickerEnd.getAttribute('data-value');
+        }
         ConfigPage.datePickerEnd.disabled = false;
         ConfigPage.timePickerEnd.disabled = false;
     }
@@ -557,6 +568,10 @@ ConfigPage.editBtn = document.querySelector('section.schedule .action-btn #edit-
 // ConfigPage.addEventListenerAndStore(saveButton, 'click', ConfigPage.saveFunc);
 
 ConfigPage.handleSetSchedule = function () {
+    ConfigPage.handleValidation(ConfigPage.datePickerStart, ConfigPage.startDateValidator, false);
+    ConfigPage.handleValidation(ConfigPage.datePickerEnd, ConfigPage.endDateValidator, false);
+    ConfigPage.handleValidation(ConfigPage.timePickerStart, ConfigPage.startTimeValidator, false);
+    ConfigPage.handleValidation(ConfigPage.timePickerEnd, ConfigPage.endTimeValidator, false);
     let schedule = {
         electionStart: ConfigPage.getDatetimeInput(ConfigPage.dateGroupStart),
         electionEnd: ConfigPage.getDatetimeInput(ConfigPage.dateGroupEnd),
