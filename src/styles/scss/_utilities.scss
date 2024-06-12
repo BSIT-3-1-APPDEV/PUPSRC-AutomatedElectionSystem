@@ -142,3 +142,98 @@ input[type="checkbox"]:not(disabled) {
 .required {
     color: red;
 }
+
+section .toast-container,
+section .toast-container-unstacked {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    bottom: 15%;
+
+    .toast {
+        border: none;
+        border-radius: clamp(0.438rem, 0.2rem + 0.3vw, 1rem);
+
+        .toast-body {
+            display: flex;
+            border-radius: clamp(0.438rem, 0.2rem + 0.3vw, 1rem);
+
+            &.text-bg-danger {
+                border: clamp(1.5px, 0.5px + 0.1vw, 5px) solid !important;
+                background-color: color-mix(in srgb, var(--danger), white) !important;
+                color: var(--danger) !important;
+
+                ::-moz-selection {
+
+                    /* Code for Firefox */
+                    @media (prefers-color-scheme: dark) {
+                        filter: brightness(120%);
+                    }
+
+                    color: light-dark(var(--white), #f5f5f5);
+                    font-weight: bolder;
+                    background: light-dark(color-mix(in srgb, blue 95%, transparent), color-mix(in srgb, blue 75%, transparent));
+                }
+
+                ::selection {
+                    @media (prefers-color-scheme: dark) {
+                        filter: brightness(120%);
+                    }
+
+                    color: light-dark(var(--white), #f5f5f5);
+                    font-weight: bolder;
+                    background: light-dark(color-mix(in srgb, blue 75%, transparent), color-mix(in srgb, blue, var(--white)));
+
+                }
+            }
+
+            &.text-bg-sucess {
+                border: clamp(1.5px, 0.5px + 0.1vw, 5px) solid !important;
+                background-color: color-mix(in srgb, var(--success), white) !important;
+                color: var(--success) !important;
+
+                ::-moz-selection {
+
+                    /* Code for Firefox */
+                    @media (prefers-color-scheme: dark) {
+                        filter: brightness(120%);
+                    }
+
+                    color: light-dark(var(--white), #f5f5f5);
+                    font-weight: bolder;
+                    background: light-dark(color-mix(in srgb, var(--success) 95%, transparent), color-mix(in srgb, var(--success) 75%, transparent));
+                }
+
+                ::selection {
+                    @media (prefers-color-scheme: dark) {
+                        filter: brightness(120%);
+                    }
+
+                    color: light-dark(var(--white), #f5f5f5);
+                    font-weight: bolder;
+                    background: light-dark(color-mix(in srgb, var(--success) 75%, transparent), color-mix(in srgb, var(--success), var(--white)));
+
+                }
+            }
+
+            .toast-content {
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
+                text-align: justify;
+                width: 85%;
+                padding-left: clamp(2rem, 1rem + 1dvw, 4rem);
+            }
+
+            div:has(button[type="button"].btn-close) {
+                display: grid;
+                place-content: center;
+                width: 15%;
+
+                button[type="button"].btn-close {}
+            }
+        }
+    }
+}

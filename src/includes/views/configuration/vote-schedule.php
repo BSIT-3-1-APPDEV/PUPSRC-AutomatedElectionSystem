@@ -5,6 +5,7 @@ $_SESSION['csrf'] = [
 ];
 ?>
 
+<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_o5hd5vvqpoqiwwmi.css">
 <link rel="stylesheet" href="src/styles/config-election-schedule.css?v=2">
 
 <main class="main">
@@ -30,26 +31,72 @@ $_SESSION['csrf'] = [
             </nav>
         </section>
 
+        <section class="schedule card-box">
+            <div class="content col-12 col-md-9">
+                <div class="subtitle">
+                    Select a starting and ending date and time for the election period.
+                </div>
+                <div class="all-day" id="">
+                    <span>All-day</span>
+                    <span class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="all-day-input">
+                        <label class="form-check-label" for="all-day-input"></label>
+                    </span>
+                </div>
+                <div class="row schedule-group">
+                    <div class="d-flex flex-column col-md-5">
+                        <label for="datetime-start" class="col-12">Start Date <span class="required">*</span></label>
+                        <div class="datetime" id="datetime-start">
+                            <div class="col-6 date-group">
+                                <span class="d-inline-flex">
+                                    <i data-feather="calendar"></i><input class="form-control" type="date" data-value="" required>
+                                </span>
+                            </div>
+                            <div class="col-6 time-group">
+                                <span class="d-inline-flex">
+                                    <i data-feather="clock"></i><input class="form-control" type="time" step="1800" data-value="" required>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-feedback text-danger">&nbsp;</div>
+                    </div>
+                    <div class="d-flex flex-column col-12 col-md-auto">
+                        <div class="d-none d-md-none">&nbsp;</div>
+                        <div class="sched-separator">to</div>
+                    </div>
+
+                    <div class="d-flex flex-column col-12 col-md-5">
+                        <label for="datetime-end" class="col-12">End Date <span class="required">*</span></label>
+                        <div class="datetime" id="datetime-end">
+                            <div class="col-6 date-group">
+                                <span class="d-inline-flex">
+                                    <i data-feather="calendar"></i><input class="form-control " type="date" data-value="" required>
+                                </span>
+                            </div>
+                            <div class="col-6 time-group">
+                                <span class="d-inline-flex">
+                                    <i data-feather="clock"></i><input class="form-control " type="time" step="1800" data-value="" required>
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="form-feedback text-danger">&nbsp;</div>
+                    </div>
+                </div>
+                <div class="action-btn">
+                    <button type="button" class="btn btn-secondary" id="cancel-schedule">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submit-schedule">Set Schedule</button>
+                </div>
+            </div>
+        </section>
+
         <section>
-            <label for="datetime-start">from</label>
-            <div class="datetime" id="datetime-start">
-                <input type="date" min="2017-04-01" max="2017-04-30">
-                <div class="form-alert date">&nbsp;</div>
-                <input type="time">
-                <div class="form-alert time">&nbsp;</div>
-                <!-- <input type="datetime-local" name="" id="" placeholder="This will be hidden"> -->
+            <div class="toast-container-unstacked pe-md-3 pe-lg-5 pe-sm-2">
+                <!-- <div class="toast-body text-bg-danger">
+                    <div class="toast-content">The end date cannot be before the start date.</div>
+                    <div><button class="btn-close" type="button" data-bs-dismiss="toast" aria-label="Close"></button></div>
+                </div> -->
             </div>
-
-            <label for="datetime-end">to</label>
-            <div class="datetime" id="datetime-end">
-                <input type="date" min="2017-04-01" max="2017-04-30">
-                <div class="form-alert date">&nbsp;</div>
-                <input type="time">
-                <div class="form-alert time">&nbsp;</div>
-                <!-- <input type="datetime-local" name="" id="" placeholder="This will be hidden"> -->
-            </div>
-
-            <button type="button" id="submit-schedule">Save Changes</button>
         </section>
 
     </div>

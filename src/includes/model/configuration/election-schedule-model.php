@@ -13,11 +13,13 @@ class ElectionYearModel
 
     public static function getData()
     {
-        self::$connection = DatabaseConnection::connect();
+        if (!self::$connection = DatabaseConnection::connect()) {
+            throw new Exception("Failed to connect to the database.");
+        }
 
         $election_shedules = [];
 
-        $sql = "SELECT * FROM election_schedule ORDER BY year DESC";
+        $sql = "SELECT start, close FROM election_schedule";
 
         $stmt = self::$connection->prepare($sql);
 
@@ -26,13 +28,13 @@ class ElectionYearModel
 
             $election_id = $start = $end = '';
 
-            $stmt->bind_result($election_id, $start, $end);
+            $stmt->bind_result($start, $end);
 
             while ($stmt->fetch()) {
                 $election_shedule = [
-                    'schedule_id' => $election_id,
-                    'start' => $start,
-                    'end' => $end
+                    // 'schedule_id' => $election_id,
+                    'electionStart' => $start,
+                    'electionEnd' => $end
                 ];
 
                 $election_shedules[] = $election_shedule;
@@ -49,14 +51,13 @@ class ElectionYearModel
     protected static function saveData($data)
     {
         try {
-            $connection = DatabaseConnection::connect();
 
-            if (!$connection) {
+            if (!self::$connection = DatabaseConnection::connect()) {
                 throw new Exception("Failed to connect to the database.");
             }
 
             $sql = "SELECT COUNT(*) FROM election_schedule";
-            $stmt = $connection->prepare($sql);
+            $stmt = self::$connection->prepare($sql);
 
             if (!$stmt) {
                 throw new Exception("Error preparing statement.");
@@ -66,18 +67,25 @@ class ElectionYearModel
             $stmt->execute();
             $stmt->bind_result($row_count);
             $stmt->fetch();
+            $stmt->close();
 
+            self::$connection->begin_transaction();
+            $result = '';
             if ($row_count > 0) {
-                self::updateData($data);
+                $result = self::updateData($data);
             } else {
-                self::setData($data);
+                $result = self::setData($data);
             }
 
-            $stmt->close();
-            $connection->close();
+            self::$connection->commit();
+
+            // self::$connection->close();
+            return $result;
         } catch (Exception $e) {
 
             self::$query_message = $e->getMessage();
+            // self::$connection->close();
+            return $result;
         }
     }
 
@@ -86,15 +94,10 @@ class ElectionYearModel
     private static function setData($data)
     {
         try {
-            self::$connection = DatabaseConnection::connect();
-
-            if (!self::$connection) {
-                throw new Exception("Failed to connect to the database.");
-            }
 
             $election_schedules = [];
 
-            $sql = "INSERT INTO election_schedule (start, end) VALUES (?, ?)";
+            $sql = "INSERT INTO election_schedule (start, close) VALUES (?, ?)";
 
             $stmt = self::$connection->prepare($sql);
 
@@ -102,25 +105,16 @@ class ElectionYearModel
                 throw new Exception("Error preparing statement: " . self::$connection->error);
             }
 
-            $start = $data['start'];
-            $end = $data['end'];
-
-            $stmt->bind_param("ss", $start, $end);
+            $stmt->bind_param("ss", $data['electionStart'], $data['electionEnd']);
 
             $stmt->execute();
 
-            $election_schedules[] = [
-                'start' => $start,
-                'end' => $end
-            ];
-
             $stmt->close();
-            self::$connection->close();
 
-            return $election_schedules;
+            return $data;
         } catch (Exception $e) {
-            self::$query_message = $e->getMessage();
-            return [];
+            self::$query_message = 'set ' . $e->getMessage();
+            return $data;
         }
     }
 
@@ -128,13 +122,8 @@ class ElectionYearModel
     private static function updateData($data)
     {
         try {
-            self::$connection = DatabaseConnection::connect();
 
-            if (!self::$connection) {
-                throw new Exception("Failed to connect to the database.");
-            }
-
-            $sql = "UPDATE election_schedule SET start = ?, end = ? WHERE schedule_id = ?";
+            $sql = "UPDATE election_schedule SET start = ?, close = ? ";
 
             $stmt = self::$connection->prepare($sql);
 
@@ -142,17 +131,16 @@ class ElectionYearModel
                 throw new Exception("Error preparing statement: " . self::$connection->error);
             }
 
-            $stmt->bind_param("ss", $data['start'], $data['end']);
+            $stmt->bind_param("ss", $data['electionStart'], $data['electionEnd']);
 
             $stmt->execute();
 
             $stmt->close();
-            self::$connection->close();
 
             return $data;
         } catch (Exception $e) {
 
-            self::$query_message = $e->getMessage();
+            self::$query_message = 'update ' . $e->getMessage();
             return $data;
         }
     }

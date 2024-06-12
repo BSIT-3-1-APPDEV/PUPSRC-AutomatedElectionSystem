@@ -42,6 +42,15 @@ body {
 body {
     scrollbar-gutter: stable;
 
+    .form-control {
+
+        input:valid,
+        input:invalid {
+            background-image: none;
+        }
+
+    }
+
     .btn {
         letter-spacing: 0.1rem;
         border: none;
@@ -325,12 +334,18 @@ dt-container:first-child {
     }
 }
 
-.toast-container {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    right: 0;
-    bottom: 15%;
-    // margin-right: inherit;
-    // transform: translateX(-20%);
-}
+// .toast-container {
+//     position: absolute;
+//     display: flex;
+//     flex-direction: column;
+//     right: 0;
+//     bottom: 15%;
+//     // margin-right: inherit;
+//     // transform: translateX(-20%);
+
+//     .toast-body{
+//         .text-bg-danger{
+
+//         }
+//     }
+// }

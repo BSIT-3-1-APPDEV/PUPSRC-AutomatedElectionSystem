@@ -50,8 +50,10 @@ export class EventListenerUtils {
     static addEventListenerAndStore(element, event, handler, eventListenersMap) {
         element.addEventListener(event, handler);
         const key = `${element}-${event}`;
-        eventListenersMap.set(key, { event, handler });
+        eventListenersMap.set(key, handler);
     }
+
+
 
     /**
      * Removes the event listener associated with the specified element and deletes its entry from the provided Map.

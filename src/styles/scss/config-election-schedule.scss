@@ -1,83 +1,200 @@
+@import 'toggle-checkbox';
 @import 'configuration';
 
+@font-face {
+    font-family: "feather";
+    src: url('iconfont.eot?t=1501834582692');
+    /* IE9*/
+    src: url('iconfont.eot?t=1501834582692#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */
+        url('iconfont.woff?t=1501834582692') format('woff'),
+        /* chrome, firefox */
+        url('iconfont.ttf?t=1501834582692') format('truetype'),
+        /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+        url('iconfont.svg?t=1501834582692#feather') format('svg');
+    /* iOS 4.1- */
+}
+
 main.main {
-    .card-box {
-
-        //55.98 + Footer
-        // 63.5 + Header
-        // 57.19 + NavList
-        // 61.49 + Page Head Title
-        // 16 + 16 top and bottom margin
-        // height: calc(100% - 151.48px);
-        // @media only screen and (max-width: 576px) {
-
-        //     height: 60dvh;
-        // }
-
-        // @media only screen and (min-width: 576px) {
-        //     height: clamp(min(300px, 55dvh), 9.375rem + 50dvh, 900px);
-
-        // }
-
-
-    }
-
-    .card-header {
-
-        h3.text-capitalize {
-            font-size: clamp(0.8rem, 1rem + 0.5vw, 3rem);
-        }
-    }
-
-    .card-body {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        width: 100%;
-        height: auto;
-
-        &>*:first-child {
-            align-self: start;
-        }
-
-        &*:not(:first-child) {
-            align-self: center;
-            justify-self: center;
-        }
-    }
-
-
-    div.form {
+    .schedule.card-box {
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
+        justify-content: center;
+        padding-top: clamp(3rem, 2rem + 1dvw, 5rem);
+        padding-bottom: clamp(3rem, 2rem + 1dvw, 5rem);
 
-        input[type=text] {
-            height: calc(1.2rem + 0.5dvw + 1.5dvh);
-            margin: clamp(0.5rem, 0.1rem + 0.9dvh, 3rem) 0;
-            padding: calc(0.5rem + 0.1dvw) calc(0.5rem + 0.48dvw);
-            text-align: center;
-            border: calc(0.5px + 0.1vw) solid #000;
+        @media only screen and (max-width: 576px) {
+            padding-left: clamp(1.5rem, 0.7rem + 1dvw, 5rem);
+            padding-right: clamp(1.5rem, 0.7rem + 1dvw, 5rem);
+        }
 
-            // &::placeholder,
-            // &::-webkit-input-placeholder,
-            // &::-moz-placeholder,
-            // &::-ms-input-placeholder {
-            //     text-align: left;
-            // }
+        .subtitle {
+            margin-bottom: clamp(1rem, 0.5rem + 1dvw, 5rem);
+            border-bottom: 1px solid light-dark(var(--main-color), var(--main-color));
+        }
 
-            &::placeholder {
-                text-align: left;
+        .all-day {
+            padding: 0.5rem 3rem;
+            margin-bottom: clamp(1rem, 0.5rem + 1dvw, 5rem);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: min(2px, 0.01vw);
+            border: calc(.5px + .06dvw) solid #d9d9d9;
+            @extend %custom-toggle-checkbox;
+
+        }
+
+        .content {
+            // width: 100%;
+        }
+
+        .schedule-group {
+            gap: 1rem;
+            margin-bottom: clamp(1.5rem, 1rem + 1dvw, 6rem);
+
+            label {
+                font-weight: 700;
+                margin-bottom: clamp(0.5rem, 0.25rem + 0.25dvw, 2rem);
+            }
+
+            .datetime:has(.form-control.is-invalid) {
+                border: clamp(1.5px, 0.5px + 0.1vw, 5px) solid var(--danger);
+            }
+
+            input {
+                background: transparent;
+                border: none;
+                @extend %general-responsive-base-font-size;
+
+                &:focus,
+                &:focus-visible,
+                &:focus-visible::placeholder {
+                    // font-size: clamp(0.85rem, 0.5rem + 0.5vw, 1.5vw);
+                    font-size: inherit;
+                    background: unset;
+                    color: light-dark(var(--main-black), var(--main-black));
+                }
+
+                &:focus-visible {
+                    // font-size: clamp(0.85rem, 0.5rem + 0.5vw, 1.5vw);
+                    border: clamp(1.5px, 0.5px + 0.1vw, 5px) solid var(--main-color);
+
+                    &.form-control.is-invalid {
+                        border: clamp(1px, 0.1vw, 3px) solid var(--danger);
+
+                    }
+                }
+
+                &.form-control:required {
+                    padding-right: clamp(0.75rem, 0.25rem + 0.65dvw, 2rem);
+                    padding-left: clamp(0.75rem, 0.25rem + 0.65dvw, 2rem);
+                }
+
+                &.form-control.is-invalid:required {
+
+                    padding-right: clamp(0.75rem, 0.25rem + 0.5dvw, 2rem);
+                    padding-left: clamp(0.75rem, 0.25rem + 0.5dvw, 2rem);
+
+                }
             }
         }
 
-        button.btn {
-            margin: calc(0.5rem + 0.05dvw);
+        input[type="date"] {
+            border-radius: clamp(0.438rem, 0.2rem + 0.3vw, 1rem) 0px 0px clamp(0.438rem, 0.2rem + 0.3vw, 1rem);
         }
+
+        input[type="time"] {
+            width: 100%;
+            border-radius: 0px clamp(0.438rem, 0.2rem + 0.3vw, 1rem) clamp(0.438rem, 0.2rem + 0.3vw, 1rem) 0px;
+        }
+
+        button.btn:not(nav.navbar .btn):not(nav.sidebar .btn) {
+            &.btn-secondary:not(:disabled) {
+                background-color: #cdcdcd;
+
+                &:hover {}
+
+                &:active {}
+
+                // &:focus-visible {
+                //     box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--success) 25%, transparent);
+                // }
+            }
+        }
+
     }
 
+    .sched-separator {
+        height: 100%;
+        display: grid;
+        place-content: center;
+    }
+
+    .datetime {
+        display: flex;
+        flex-direction: row;
+        border-radius: clamp(0.438rem, 0.2rem + 0.3vw, 1rem);
+        background-color: #f5f5f5;
+        gap: 1px;
+
+        svg.feather {
+            // transform: translateY(-100%) translateX(50%);
+            position: absolute;
+            // transform: translateX(50%) translateY(10%);
+            transform: translateX(80%);
+            align-self: center;
+            height: clamp(0.9rem, 0.5rem + 0.5vw, 3rem);
+            width: clamp(0.9rem, 0.5rem + 0.5vw, 3rem);
+        }
+
+        svg.feather-clock {}
+
+        .time-group,
+        .date-group {
+            span {
+                width: 100%;
+            }
+
+            &.col-6 {
+                ::-webkit-datetime-edit-fields-wrapper {
+                    // targets text content of date and time input
+                    // background-color: var(--main-color);
+                    margin-left: 20%;
+                }
+            }
+
+            &.col-12 {
+                ::-webkit-datetime-edit-fields-wrapper {
+                    // targets text content of date and time input
+                    // background-color: var(--main-color);
+                    margin-left: 9%;
+                }
+            }
+        }
+
+        .date-group {
+            &.col-12 {
+                input[type="date"] {
+                    border-radius: clamp(0.438rem, 0.2rem + 0.3vw, 1rem);
+                }
+            }
+        }
+
+    }
 }
+
+
+
+
+.action-btn {
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    @extend %general-responsive-base-font-size;
+}
+
+
 
 input::-webkit-clear-button {
     // background-color: var(--main-color);
@@ -91,11 +208,7 @@ input::-webkit-clear-button {
     // color: var(--main-color);
 }
 
-::-webkit-datetime-edit-fields-wrapper {
-    // targets text content of date and time input
-    // background-color: var(--main-color);
-    // color: var(--main-color);
-}
+
 
 ::-webkit-datetime-edit-text {
     // targets text separator on date and time 
@@ -155,4 +268,9 @@ input::-webkit-clear-button {
     // targets date and time picker icons
     // background-color: var(--main-color);
     // color: var(--main-color);
+    // position: absolute;
+    // left: 0;
+    // transform: translateX(-600%);
+    display: none;
+
 }
