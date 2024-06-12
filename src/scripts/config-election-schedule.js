@@ -78,7 +78,10 @@ ConfigPage.allDayContainerClick = function (event) {
     }
 };
 
-ConfigPage.handleToggleAllDay = function () {
+ConfigPage.handleToggleAllDay = function (event) {
+    if (event) {
+        ConfigPage.isScheduleChanged = true;
+    }
     let isToggled = ConfigPage.toggleAllDayBtn.checked;
     let startTimeContainer = document.querySelector('#datetime-start .time-group');
     let endTimeContainer = document.querySelector('#datetime-end .time-group');
@@ -113,7 +116,7 @@ ConfigPage.handleToggleAllDay = function () {
 
         endDateContainer.classList.remove('col-12');
         endDateContainer.classList.add('col-6');
-        ConfigPage.resetDatetime(ConfigPage.dateGroupStart, ConfigPage.dateGroupEnd, false);
+        ConfigPage.resetDatetime(false);
     }
 };
 
@@ -125,7 +128,7 @@ ConfigPage.dateGroupEnd = document.getElementById(`datetime-end`);
 ConfigPage.datePickerEnd = ConfigPage.dateGroupEnd.querySelector(`input[type="date"]`);
 ConfigPage.timePickerEnd = ConfigPage.dateGroupEnd.querySelector(`input[type="time"]`);
 
-ConfigPage.resetDatetime = function (dateGroupStart, dateGroupEnd, date = true, time = true) {
+ConfigPage.resetDatetime = function (date = true, time = true) {
 
 
     if (date) {
@@ -471,6 +474,7 @@ ConfigPage.setErrorDictionary = function (definitions) {
 
 
 ConfigPage.handleInput = function (event, validatorObj) {
+    ConfigPage.isScheduleChanged = true;
     const inputElement = event.target;
     // const parentElement = inputElement.parentNode;
     console.log(event);
@@ -545,7 +549,9 @@ ConfigPage.addEventListenerAndStore(ConfigPage.datePickerEnd, 'input', (event) =
 ConfigPage.addEventListenerAndStore(ConfigPage.timePickerStart, 'input', (event) => ConfigPage.handleInput(event, ConfigPage.startTimeValidator));
 ConfigPage.addEventListenerAndStore(ConfigPage.timePickerEnd, 'input', (event) => ConfigPage.handleInput(event, ConfigPage.endTimeValidator));
 
-ConfigPage.submitBtn = document.getElementById('submit-schedule');
+ConfigPage.submitBtn = document.querySelector('section.schedule .action-btn #submit-schedule');
+ConfigPage.cancelBtn = document.querySelector('section.schedule .action-btn #cancel-schedule');
+ConfigPage.editBtn = document.querySelector('section.schedule .action-btn #edit-schedule');
 
 // ConfigPage.delEventListener(saveButton, 'click');
 // ConfigPage.addEventListenerAndStore(saveButton, 'click', ConfigPage.saveFunc);
@@ -559,7 +565,55 @@ ConfigPage.handleSetSchedule = function () {
     ConfigPage.postData(schedule);
 }
 
+ConfigPage.warningModal = new bootstrap.Modal(document.getElementById('warning-modal'));
+
+ConfigPage.isScheduleChanged = false;
+
+ConfigPage.handleDiscardSchedule = async function () {
+    if (ConfigPage.isScheduleChanged && ConfigPage.checkUnsaveSchedule) {
+
+        if (await ConfigPage.showDiscardModal() == 'true') {
+            ConfigPage.resetDatetime();
+            console.log('true');
+        }
+    }
+    else {
+        console.log('false');
+    }
+}
+
+ConfigPage.checkUnsaveSchedule = function () {
+    let isStartDateChange = ConfigPage.datePickerStart.value == ConfigPage.datePickerStart.getAttribute('data-value');
+    let isEndDateChange = ConfigPage.datePickerStart.value == ConfigPage.datePickerEnd.getAttribute('data-value');
+    let isStartTimeChange = ConfigPage.datePickerStart.value == ConfigPage.timePickerStart.getAttribute('data-value');
+    let isEndTimeChange = ConfigPage.datePickerStart.value == ConfigPage.timePickerEnd.getAttribute('data-value');
+    let conditions = [isStartDateChange, isEndDateChange, isStartTimeChange, isEndTimeChange];
+
+    return conditions.every(condition => condition === true);
+}
+
+ConfigPage.showDiscardModal = async function () {
+    // https://stackoverflow.com/questions/65454144/javascript-await-bootstrap-modal-close-by-user
+    ConfigPage.warningModal.show();
+
+    return new Promise(resolve => {
+        $('.prompt-action button').off('click');
+        $('.prompt-action button').on('click', (event) => {
+            const buttonValue = event.currentTarget.value;
+            console.log('button value ', buttonValue);
+            ConfigPage.warningModal.hide();
+            resolve(buttonValue);
+        });
+    });
+}
+
+
 ConfigPage.addEventListenerAndStore(ConfigPage.submitBtn, 'click', ConfigPage.handleSetSchedule);
+ConfigPage.addEventListenerAndStore(ConfigPage.cancelBtn, 'click', ConfigPage.handleDiscardSchedule);
+
+
+
+
 
 ConfigPage.toastContainer = document.querySelector('.toast-container-unstacked');
 
@@ -609,3 +663,4 @@ ConfigPage.setToViewOnlyState = function () {
 ConfigPage.setToEditState = function () {
 
 }
+

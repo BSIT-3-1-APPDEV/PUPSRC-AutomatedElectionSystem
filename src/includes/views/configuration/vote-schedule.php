@@ -1,4 +1,6 @@
 <?php
+include_once 'modals.php';
+
 $_SESSION['csrf'] = [
     'token' => bin2hex(random_bytes(32)),
     'expiry' => time() + (60 * 20)
@@ -87,6 +89,9 @@ $_SESSION['csrf'] = [
                     <button type="button" class="btn btn-secondary" id="cancel-schedule">Cancel</button>
                     <button type="button" class="btn btn-primary" id="submit-schedule">Set Schedule</button>
                 </div>
+                <div class="action-btn-view">
+                    <button type="button" class="btn d-none" id="edit-schedule">Edit Schedule</button>
+                </div>
             </div>
         </section>
 
@@ -99,8 +104,22 @@ $_SESSION['csrf'] = [
             </div>
         </section>
 
+
+
     </div>
 </main>
+
+<section class="modals-container">
+
+    <?php
+    Modals::getWarningModal("You have</br>pending changes", 'Discard changes?');
+    ?>
+
+
+
+
+
+</section>
 
 <script>
     const setCSRFToken = () => {

@@ -61,36 +61,70 @@ input:focus-visible::placeholder {
 
     h1,
     .fs-1 {
-        font-size: calc(1.45rem + 1.25vw);
+        font-size: calc(1.45rem + 1.25vw) !important;
     }
 
     h2,
     .fs-2 {
-        font-size: calc(1.18rem + 1.25vw);
+        font-size: calc(1.18rem + 1.25vw) !important;
     }
 
     h3,
     .fs-3 {
-        font-size: calc(1rem + 1.25vw);
+        font-size: calc(1rem + 1.25vw) !important;
     }
 
     h4,
     .fs-4 {
-        font-size: calc(1rem + 1vw);
+        font-size: calc(1rem + 1vw) !important;
     }
 
     h5,
     .fs-5 {
-        font-size: calc(1rem + 0.6575vw);
+        font-size: calc(1rem + 0.6575vw) !important;
     }
 
     h6,
     .fs-6 {
-        font-size: calc(0.75rem + 0.6575vw);
+        font-size: calc(0.75rem + 0.6575vw) !important;
     }
 
     .container-fluid .content-margin {
         margin: 1.75rem calc(.25rem + 8vw);
+    }
+}
+
+@media only screen and (min-width: 600px) {
+
+    h1,
+    .fs-1 {
+        font-size: calc(1.45rem + 1.25vw) !important;
+    }
+
+    h2,
+    .fs-2 {
+        font-size: calc(1.18rem + 1.25vw) !important;
+    }
+
+    h3,
+    .fs-3 {
+        font-size: calc(1.3rem + 0.32vw + 0.55vh) !important;
+        // clamp(1.75rem, 0.75rem + 0.15vw + 0.38vh, 2rem)
+    }
+
+    h4,
+    .fs-4 {
+        font-size: calc(1rem + 1vw) !important;
+    }
+
+    h5,
+    .fs-5 {
+        font-size: clamp(1.25rem, 0.75rem + 0.15vw + 0.38vh, 2rem) !important; //not tested
+    }
+
+    h6,
+    .fs-6 {
+        font-size: clamp(1rem, 0.75rem + 0.15vw + 0.38vh, 2rem) !important;
     }
 }
 
@@ -233,6 +267,41 @@ section .toast-container-unstacked {
                 width: 15%;
 
                 button[type="button"].btn-close {}
+            }
+        }
+    }
+}
+
+.modal {
+    .prompt-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        // gap: clamp(3rem, );
+        gap: calc(1rem + 0.75dvh + 0.15dvw);
+
+        p {
+            margin-bottom: 0;
+        }
+
+
+
+        img.main-icon {
+            height: clamp(90px, 2.713rem + 1.92dvw + 4.15dvh, 150px);
+            width: clamp(100px, 3.125rem + 2.1dvw + 4.3dvh, 170px);
+            margin-bottom: 0.5rem;
+        }
+
+        .prompt-action {
+            display: flex;
+            gap: calc(0.063rem + 0.2dvw + 0.5dvh);
+
+            .btn {
+                &.btn-secondary {
+                    color: #515050;
+                    background-color: #cdcdcd !important;
+                }
             }
         }
     }

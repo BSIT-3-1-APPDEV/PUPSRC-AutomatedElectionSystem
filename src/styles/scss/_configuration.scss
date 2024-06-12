@@ -118,6 +118,18 @@ body {
                     box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--success) 25%, transparent);
                 }
             }
+
+            &.btn-warning:not(:disabled) {
+                color: light-dark(var(--white), var(--white));
+
+                &:hover {}
+
+                &:active {}
+
+                &:focus-visible {
+                    box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--success) 25%, transparent);
+                }
+            }
         }
     }
 
@@ -349,3 +361,7 @@ dt-container:first-child {
 //         }
 //     }
 // }
+
+section.modals-container {
+    z-index: 1200;
+}
