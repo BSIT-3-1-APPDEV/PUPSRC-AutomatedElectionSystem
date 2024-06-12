@@ -34,7 +34,7 @@ $_SESSION['csrf'] = [
         </section>
 
         <section class="schedule card-box">
-            <div class="content col-12 col-md-9">
+            <div class="content col-12 col-sm-10 col-md-9">
                 <div class="subtitle">
                     Select a starting and ending date and time for the election period.
                 </div>

@@ -109,6 +109,9 @@ main.main {
         }
 
         button.btn:not(nav.navbar .btn):not(nav.sidebar .btn) {
+
+            @extend %general-responsive-base-font-size;
+
             &.btn-secondary:not(:disabled) {
                 background-color: #cdcdcd;
 
@@ -192,6 +195,22 @@ main.main {
     align-items: center;
     justify-content: end;
     @extend %general-responsive-base-font-size;
+
+    @media only screen and (max-width: 500px) {
+        flex-wrap: wrap;
+    }
+
+    &>* {
+        min-width: fit-content;
+
+        @media only screen and (max-width: 576px) and (min-width: 500px) {
+            flex-grow: 1;
+        }
+
+        @media only screen and (max-width: 500px) {
+            flex: 1;
+        }
+    }
 }
 
 
