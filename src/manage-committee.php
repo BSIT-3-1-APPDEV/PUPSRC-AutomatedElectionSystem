@@ -69,7 +69,7 @@ if (isset($_SESSION['voter_id'])) {
 							
 							<div class="ml-auto">
 								<a href="admin-creation.php">
-									<button type="button" class="btn btn-lvl-white-add d-flex align-items-center spacing-8 fs-8">
+									<button type="button" class="btn btn-lvl-white-add align-items-center spacing-8 fs-8">
 										<i data-feather="plus-circle" class="white im-cust rounded-pill feather-2xl"></i> Add Committee Member
 									</button>
 								</a>
@@ -82,7 +82,7 @@ if (isset($_SESSION['voter_id'])) {
 			<br>
 				<div class="container">
 					<div class="row justify-content-center">
-						<!-- VERIFIED TABLE -->
+						<!-- COMMITTEE TABLE -->
 						<div class="row justify-content-center">
 							<div class="col-md-10 card-box  mt-md-10">
 								<div class="container-fluid">
@@ -136,11 +136,8 @@ if (isset($_SESSION['voter_id'])) {
 																							<label>
 																								<input type="checkbox"
 																									name="filter[]"
-																									value="admin"
-																									<?php if (isset($_GET['filter']) && in_array('admin', $_GET['filter']))
-																										echo 'checked'; ?>
-																									onchange="this.form.submit()">
-																								admin
+																									value="admin">
+																								Admin
 																							</label>
 																						</li>
 																						<li
@@ -148,10 +145,8 @@ if (isset($_SESSION['voter_id'])) {
 																							<label>
 																								<input type="checkbox"
 																									name="filter[]"
-																									value="head_admin" <?php if (isset($_GET['filter']) && in_array('head_admin', $_GET['filter']))
-																										echo 'checked'; ?>
-																									onchange="this.form.submit()">
-																								head_admin
+																									value="head_admin">
+																								Head Admin
 																							</label>
 																						</li>
 																					</div>
@@ -163,43 +158,23 @@ if (isset($_SESSION['voter_id'])) {
 																		<div class="d-inline-block ps-3">
 																			<form class="d-inline-block">
 																				<div class="dropdown sort-by">
-																					<button
-																						class="sortby-tbn fs-7 spacing-6 fw-medium"
-																						type="button" id="dropdownMenuButton"
-																						data-bs-toggle="dropdown"
-																						aria-haspopup="true"
-																						aria-expanded="false">
-																						<i
-																							class="fa-solid fa-arrow-down-wide-short fa-sm"></i>
+																					<button class="sortby-tbn fs-7 spacing-6 fw-medium" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																						<i class="fa-solid fa-arrow-down-wide-short fa-sm"></i>
 																						Sort by
 																					</button>
-																					<div class="dropdown-menu dropdown-menu-end"
-																						aria-labelledby="dropdownMenuButton"
-																						style="padding: 0.5rem">
+																					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="padding: 0.5rem">
 																						<!-- Dropdown items -->
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							<a
-																								href="?sort=acc_created&order=desc">Newest
-																								to Oldest</a>
+																						<li class="dropdown-item ps-3 fs-7 fw-medium">
+																							<a href="#" data-sort="acc_created" data-order="desc" class="sort-link">Newest to Oldest</a>
 																						</li>
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							<a
-																								href="?sort=acc_created&order=asc">Oldest
-																								to Newest</a>
+																						<li class="dropdown-item ps-3 fs-7 fw-medium">
+																							<a href="#" data-sort="acc_created" data-order="asc" class="sort-link">Oldest to Newest</a>
 																						</li>
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							<a
-																								href="?sort=first_name&order=asc">A
-																								to Z (Ascending)</a>
+																						<li class="dropdown-item ps-3 fs-7 fw-medium">
+																							<a href="#" data-sort="first_name" data-order="asc" class="sort-link">A to Z (Ascending)</a>
 																						</li>
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							<a
-																								href="?sort=first_name&order=desc">Z
-																								to A (Descending)</a>
+																						<li class="dropdown-item ps-3 fs-7 fw-medium">
+																							<a href="#" data-sort="first_name" data-order="desc" class="sort-link">Z to A (Descending)</a>
 																						</li>
 																					</div>
 																				</div>
@@ -243,37 +218,7 @@ if (isset($_SESSION['voter_id'])) {
 																</thead>
 																<tbody>
 																	<?php while ($row = $verified_tbl->fetch_assoc()) { ?>
-																		<tr>
-																			<td class="col-md-1 text-center checkbox-td">
-																				<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["voter_id"]; ?>" class="voterCheckbox" style="display: none;">
-																			</td>
-																			<td class="col-md-3 text-center"><a href="account-details.php?voter_id=<?php echo $row["voter_id"]; ?>"><?php echo $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] . ' ' . $row["suffix"]; ?></a>
-																			</td>
-																			<td class="col-md-3 text-center">
-																				<?php
-																				$role = $row["role"];
-																				$roleClass = '';
-
-																				switch ($role) {
-																					case 'admin':
-																						$roleClass = 'admin';
-																						$role = 'Admin';
-																						break;
-																					case 'head_admin':
-																						$roleClass = 'head-admin';
-																						$role = 'Head Admin';
-																						break;
-																					default:
-																						$roleClass = '';
-																						break;
-																				}
-																				?>
-																				<span class="role-background <?php echo $roleClass; ?>"><?php echo $role; ?></span>
-																			</td>
-																			<td class="col-md-4 text-center">
-																				<span class=""><?php echo date("F j, Y", strtotime($row["acc_created"])); ?></span>
-																			</td>
-																		</tr>
+																		<!-- Generated in table-funcs.js -->
 																	<?php } ?>
 																</tbody>
 															</table>
@@ -286,29 +231,8 @@ if (isset($_SESSION['voter_id'])) {
 																		<button class="btn btn-light px-sm-3 py-sm-1-5 btn-sm fw-bold fs-7 spacing-6" id="cancelBtn" disabled>Cancel</button>
 																		<button class="btn btn-danger px-sm-3 py-sm-1-5 btn-sm fw-bold fs-7 spacing-6" id="deleteSelectedBtn" disabled>Delete Selected</button>
 																	</div>
-																	<ul class="pagination">
-																		<?php
-																		// Generate the filter parameters for the link
-																		$filterParams = '';
-																		if (!empty($filter)) {
-																			foreach ($filter as $f) {
-																				$filterParams .= '&filter[]=' . urlencode($f);
-																			}
-																		}
-
-																		if ($current_page > 1) { ?>
-																			<li class="fas fa-chevron-left black"><a href="?page=<?php echo $current_page - 1 . $filterParams; ?>"></a></li>
-																		<?php } ?>
-
-																		<?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-																			<li class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
-																				<a href="?page=<?php echo $i . $filterParams; ?>" class="page-link"><?php echo $i; ?></a>
-																			</li>
-																		<?php } ?>
-
-																		<?php if ($current_page < $total_pages) { ?>
-																			<li class="fas fa-chevron-right ps-xl-3 black"><a href="?page=<?php echo $current_page + 1 . $filterParams; ?>"></a></li>
-																		<?php } ?>
+																	<ul class="pagination" id="committeePagination">
+																		<!-- Pagination will be set here -->
 																	</ul>
 																</div>
 															</div>
