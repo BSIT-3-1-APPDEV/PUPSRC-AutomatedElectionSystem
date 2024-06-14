@@ -33,71 +33,20 @@
 }
 
 
-/* FOR 3 LEVELS */
-.btn-back {
-  background-color: #fff !important;
-  color: grey !important;
-  border-top-right-radius: 50px !important;
-  border-bottom-right-radius: 50px !important;
-  padding: 10px 5px !important;
-  font-weight: bold !important;
-  z-index: 2 !important;
-}
-
-.btn-back:hover {
-  color: var(--bs-gray-300) !important;
-}
-.btn-current {
-  background-color: var(--main-color) !important;
-  color: white !important;
-  border: 50px !important;
-  padding: 10px 5px !important;
-  font-weight: bold !important;
-  z-index: 1 !important;
-  cursor: default !important;
-}
-
-.btn-white {
-  background-color: #fff !important;
-  color: grey !important;
-  border-top-right-radius: 50px !important;
-  border-bottom-right-radius: 50px !important;
-  padding: 10px 5px !important;
-  font-weight: bold !important;
-  z-index: 2 !important;
-  cursor: default !important;
-}
-
 .no-border {
   border: none !important;
 }
 
 /* Horizontal padding */
 
-.btn-white {
-  padding: 6px 30px !important;
-}
-
-.btn-back {
-  padding: 6px 50px !important; 
-}
 
 .btn-current {
   padding: 6px 50px !important;
 }
 
-.btn-white + .btn-back {
-  margin-left: -30px !important;
-}
-
-.btn-back + .btn-current {
-  margin-left: -30px !important;
-}
-
 .breadcrumbs button {
   border: none !important;
 }
-
 
 .container label {
   color: #212529;

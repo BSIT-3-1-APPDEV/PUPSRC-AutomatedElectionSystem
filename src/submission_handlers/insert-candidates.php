@@ -29,22 +29,28 @@ if (isset($_SESSION['voter_id'])) {
             // Handle file upload  
             $target_dir = __DIR__ . '/../user_data/' . $org_name . '/candidate_imgs/';
             $target_file = $target_dir . basename($_FILES['photo']['name']);
-        
-            if (move_uploaded_file($_FILES['photo']['tmp_name'], $target_file)) {
-                $photo_url = basename($_FILES['photo']['name']);
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+            if (in_array($imageFileType, $allowedExtensions)) {
+                if (move_uploaded_file($_FILES['photo']['tmp_name'], $target_file)) {
+                    $photo_url = basename($_FILES['photo']['name']);
+                } else {
+                    echo "Failed to move uploaded file.";
+                    var_dump($_FILES['photo']['error']);
+                }
             } else {
-                echo "Failed to move uploaded file.";
-                var_dump($_FILES['photo']['error']);
+                echo "Invalid file type. Only JPG, JPEG, and PNG files are allowed.";
             }
         }
-        
+
         // Insert Candidate
         $sql = "INSERT INTO candidate (last_name, first_name, middle_name, suffix, party_list, position_id, section, year_level, photo_url, election_year) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
+
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssssssssss", $last_name, $first_name, $middle_name, $suffix, $party_list, $position_id, $section, $year_level, $photo_url, $election_year);
-        
+
         if ($stmt->execute()) {
             $_SESSION['account_created'] = true;
             header("Location: ../add-candidate.php");
@@ -52,13 +58,11 @@ if (isset($_SESSION['voter_id'])) {
         } else {
             echo "Error: " . $stmt->error;
         }
-        
+
         $stmt->close();
-        
     } else {
         header("Location: ../landing-page.php");
     }
 } else {
     header("Location: ../landing-page.php");
 }
-?>
