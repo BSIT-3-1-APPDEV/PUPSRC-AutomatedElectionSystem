@@ -24,7 +24,6 @@ class Registration {
 
     public function processRegistrationCredentials() {
         try {
-            $this->validateCSRFToken();
             $this->validateEmailNotExist();
             $this->validateFile();
             $this->saveFile();
@@ -42,22 +41,6 @@ class Registration {
         }
     }
 
-    private function validateCSRFToken() {
-        if(!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token'])) {
-            $this->displayUnsetToken();
-        }
-        if($_POST['csrf_token'] != $_SESSION['csrf_token'] || time() >= $_SESSION['csrf_expiry']) {
-            $this->displayUnsetToken();
-        }
-    }
-
-    private function displayUnsetToken() {
-        unset($_SESSION['csrf_token']);
-        unset($_SESSION['csrf_expiry']);
-        $_SESSION['error_message'] = 'Something went wrong. Please reload the page.';
-        header("Location: ../register.php");
-        exit();
-    }
 
     private function validateEmailNotExist() {
         $config = DatabaseConfig::getOrganizationDBConfig($this->organization);
@@ -77,6 +60,7 @@ class Registration {
         $connection->close();  
     }
 
+
     private function validateFile() {
         $target_directory = "../user_data/{$this->organization}/cor/";
         if(!file_exists($target_directory)) {
@@ -92,6 +76,7 @@ class Registration {
         $this->file_name = basename($this->file['name']);
     }
 
+
     private function saveFile() {
         $target_directory = "../user_data/{$this->organization}/cor/";
         $target_file = $target_directory . $this->file_name;
@@ -102,6 +87,7 @@ class Registration {
         
         $this->file_hash = hash_file('sha256', $target_file);
     }
+
 
     private function insertIntoOrganizationDB() {
         $config = DatabaseConfig::getOrganizationDBConfig($this->organization);
@@ -124,6 +110,7 @@ class Registration {
         $connection->close();
     }    
 
+    
     private function insertIntoScoDB() {
         $sco = 'sco';
         $config = DatabaseConfig::getOrganizationDBConfig($sco);

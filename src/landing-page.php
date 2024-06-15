@@ -2,7 +2,6 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
-require_once FileUtils::normalizeFilePath('includes/unset-email-password.php');
 include_once FileUtils::normalizeFilePath('includes/organization-list.php');
 
 SessionManager::checkUserRoleAndRedirect();

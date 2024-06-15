@@ -958,5 +958,7 @@ button {
 
 }
 
-
-
+.loading-gif {
+  height: 70% !important;
+  width: 40% !important;
+}

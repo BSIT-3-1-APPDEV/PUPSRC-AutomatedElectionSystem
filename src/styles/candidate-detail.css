@@ -1,0 +1,288 @@
+/* --- BREADCRUMBS --- */
+
+/* FOR 2 LEVELS */
+
+.btn-lvl-current {
+    background-color: var(--main-color) !important;
+    color: white !important;
+    border-radius: 50px !important;
+    padding: 6px 50px !important;
+    font-weight: bold !important;
+    z-index: 1 !important;
+    cursor: default !important;
+  }
+  
+  .btn-lvl-white {
+    background-color: #fff !important;
+    color: grey !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    padding: 6px 30px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+    cursor: default !important;
+  }
+  
+  .btn-lvl-white-add {
+    background-color: #fff !important;
+    color: var(--main-color) !important;
+    border-radius: 10px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+    cursor: pointer !important;
+  }
+  
+  .btn-lvl-white + .btn-lvl-current {
+    margin-left: -30px !important;
+  }
+  
+  /* FOR 3 LEVELS */
+  .btn-back {
+    background-color: #fff !important;
+    color: grey !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    padding: 6px 50px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+  }
+  
+  .btn-back:hover {
+    color: var(--bs-gray-300) !important;
+  }
+  
+  .btn-current {
+    background-color: var(--main-color) !important;
+    color: white !important;
+    border: 50px !important;
+    padding: 6px 50px !important;
+    font-weight: bold !important;
+    z-index: 1 !important;
+    cursor: default !important;
+  }
+  
+  .btn-white {
+    background-color: #fff !important;
+    color: grey !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    padding: 6px 30px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+    cursor: default !important;
+  }
+  
+  .btn-white + .btn-back {
+    margin-left: -30px !important;
+  }
+  
+  .btn-back + .btn-current {
+    margin-left: -30px !important;
+  }
+  
+  .breadcrumbs button {
+    border: none !important;
+  }
+  
+  /* FORM DESIGN */
+  .container label {
+    color: #212529;
+  }
+  
+  .container input[type="text"],
+  .container input[type="email"],
+  .container input[type="password"] {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+  
+  .container input[type="submit"] {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    cursor: pointer;
+  }
+  
+  .container input[type="cancel"] {
+    color: #212529;
+    text-decoration: underline;
+    background-color: grey;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .form-title {
+    color: var(--main-color);
+    font-size: 34px;
+    font-weight: bold;
+  }
+  
+  .form-group {
+    margin-bottom: 10%;
+    width: 90%;
+  }
+  
+  .form-group option {
+    background-color: whitesmoke;
+    color: grey;
+    opacity: 0.5;
+  }
+  
+  .shorter-form-group {
+    width: 80%; /* Adjust this value as needed */
+    margin: 0 auto; /* Center the form group */
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid whitesmoke;
+    border-radius: 4px;
+    background-color: whitesmoke;
+    color: grey;
+  }
+  
+  
+  input::placeholder {
+    color: lightgray;
+  }
+  
+  .button-create {
+    background-color: white !important;
+    color: var(--main-color) !important;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    width: auto;
+    border-radius: 15px !important;
+    font-weight: bold;
+    border: 2px solid var(--main-color) !important;
+  }
+  
+  .cancel-button{
+    background-color: grey;
+    border-radius: 1px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-weight: bold;
+    color: #909090;
+    margin-right: 0px;
+  }
+  
+  .button-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .card-box {
+    margin: 3%;
+  }
+  
+  .required {
+    color: red;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .input-error {
+    border: 1px solid red !important;
+  }
+  
+  /* IMAGE UPLOAD AND OVERLAY */
+  .image-upload-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .candidate-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    object-fit: cover;
+  }
+  
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.25s;
+    cursor: pointer;
+  }
+  
+  .image-upload-wrapper:hover .overlay {
+    opacity: 1;
+  }
+  
+  /* MISC */
+  .information p, .confirm-delete p {
+    margin-bottom: 0 !important;
+  }
+  
+  select, select:focus, select:active, select:valid, select:checked {
+    border: none !important;
+    outline: 0 !important;
+  }
+  
+  select option {
+    padding: 5px !important;
+  }
+  
+  .vertical-line {
+    border-left: 2px solid #ddd; /* Adjust the color and width as needed */
+    position: center;
+    left: 100%; /* Adjust positioning if necessary */
+    top: 0%;
+  }
+
+  .divider{
+    position: absolute;
+    left:50%;
+    top:30%;
+    bottom: 35%;
+    border-left:2px solid #333;
+    overflow:hidden;
+    opacity: 25%;
+    }
+  
+  @media screen and (max-width: 767px){  
+    .divider{
+      position: absolute;
+      left:50%;
+      top:30%;
+      bottom: 35%;
+      border-left: 0px !important;
+      overflow:hidden;
+      opacity: 25%;
+      }
+  }
+
+  
+  
