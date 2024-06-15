@@ -10,8 +10,8 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/default-time-zone.php');
 if($_SERVER["REQUEST_METHOD"] === "POST") {
     
     $token = $_POST['token'];
-    $password = $_POST['password'];
-    $password_confirmation = $_POST['password_confirmation'];
+    $password = trim($_POST['password']);
+    $password_confirmation = trim($_POST['password_confirmation']);
     $token_hash = hash("sha256", $token);
 
     $error = newPasswordValidation($password);
