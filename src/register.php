@@ -11,6 +11,8 @@ SessionManager::checkUserRoleAndRedirect();
 
 $csrf_token = CsrfToken::generateCSRFToken();
 
+$_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
+
 // Retrieves database configuration based on the organization name
 $organization = 'sco';
 $config = DatabaseConfig::getOrganizationDBConfig($organization);
