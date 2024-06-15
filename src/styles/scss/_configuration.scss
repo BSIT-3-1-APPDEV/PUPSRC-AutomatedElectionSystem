@@ -42,6 +42,15 @@ body {
 body {
     scrollbar-gutter: stable;
 
+    .form-control {
+
+        input:valid,
+        input:invalid {
+            background-image: none;
+        }
+
+    }
+
     .btn {
         letter-spacing: 0.1rem;
         border: none;
@@ -100,6 +109,18 @@ body {
 
             &.btn-success:not(:disabled) {
                 background-color: rgba(7, 136, 95, 1);
+
+                &:hover {}
+
+                &:active {}
+
+                &:focus-visible {
+                    box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--success) 25%, transparent);
+                }
+            }
+
+            &.btn-warning:not(:disabled) {
+                color: light-dark(var(--white), var(--white));
 
                 &:hover {}
 
@@ -325,12 +346,22 @@ dt-container:first-child {
     }
 }
 
-.toast-container {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    right: 0;
-    bottom: 15%;
-    // margin-right: inherit;
-    // transform: translateX(-20%);
+// .toast-container {
+//     position: absolute;
+//     display: flex;
+//     flex-direction: column;
+//     right: 0;
+//     bottom: 15%;
+//     // margin-right: inherit;
+//     // transform: translateX(-20%);
+
+//     .toast-body{
+//         .text-bg-danger{
+
+//         }
+//     }
+// }
+
+section.modals-container {
+    z-index: 1200;
 }
