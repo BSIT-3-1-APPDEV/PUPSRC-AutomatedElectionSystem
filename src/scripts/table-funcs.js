@@ -395,6 +395,7 @@ handleSearch("#searchVerified", "verifiedTable", "verified-pagination", "submiss
     });
   
     $(".cancel-pending").click(function () {
+      deletePendingState = false;
       cancelDelete('pending');
     });
   
@@ -404,6 +405,7 @@ handleSearch("#searchVerified", "verifiedTable", "verified-pagination", "submiss
     });
   
     $(".cancel-verified").click(function () {
+      deleteVerifiedState = false;
       cancelDelete('verified');
     });
   
