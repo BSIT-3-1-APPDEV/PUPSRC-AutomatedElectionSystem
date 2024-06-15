@@ -41,6 +41,8 @@ if (empty($voters)) {
     $response['totalRows'] = $totalRows;
 }
 
+$response['status'] = "pending";
+
 echo json_encode($response);
 
 ?>

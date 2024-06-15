@@ -42,5 +42,7 @@ if (empty($voters)) {
     $response['totalRows'] = $totalRows;
 }
 
+$response['status'] = "verified";
+
 echo json_encode($response);
 ?>
