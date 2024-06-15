@@ -32,9 +32,15 @@ $countQuery = "SELECT COUNT(*) as total FROM voter WHERE account_status = 'for_v
 $countResult = $queryExecutor->executeQuery($countQuery);
 $totalRows = $countResult->fetch_assoc()['total'];
 
-echo json_encode([
-    'voters' => $voters,
-    'totalRows' => $totalRows
-]);
+$response = [];
+
+if (empty($voters)) {
+    $response['isEmpty'] = true;
+} else {
+    $response['voters'] = $voters;
+    $response['totalRows'] = $totalRows;
+}
+
+echo json_encode($response);
 
 ?>

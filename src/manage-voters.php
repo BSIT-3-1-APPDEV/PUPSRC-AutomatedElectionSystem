@@ -43,9 +43,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 	<body>
 
-		<?php 
+		<?php
 		include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
-		include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
+		include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
 		?>
 
 		<div class="main">
@@ -79,7 +79,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 											<?php if ($to_verify_tbl->num_rows > 0) { ?>
 
 												<div class="table-title">
-													<div class="row">
+													<div class="row pending-accs-table">
 														<!-- HEADER -->
 														<div class="col-sm-6">
 															<p class="fs-3 main-color fw-bold ls-10 spacing-6">Pending
@@ -91,7 +91,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																<div class="col-md-12 text-end flex-end">
 																	<!-- Delete -->
 																	<div class="d-inline-block">
-																		<button class="delete-btn fs-7 spacing-6 fw-medium"
+																		<button
+																			class="delete-btn pending-delete-btn fs-7 spacing-6 fw-medium"
 																			type="button" id="dropdownMenuButton"
 																			data-bs-toggle="dropdown" aria-haspopup="true"
 																			aria-expanded="false">
@@ -100,7 +101,6 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																		</button>
 																		<span class="light-gray-accent fw-bold ps-3">|</span>
 																	</div>
-																	<!-- Filters -->
 
 																	<!-- Sort By -->
 																	<div class="d-inline-block ps-3">
@@ -108,7 +108,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																			<div class="dropdown sort-by">
 																				<button
 																					class="sortby-tbn fs-7 spacing-6 fw-medium"
-																					type="button" id="dropdownMenuButton"
+																					type="button" id="dropdownMenuButtonPending"
 																					data-bs-toggle="dropdown"
 																					aria-haspopup="true" aria-expanded="false">
 																					<i
@@ -116,21 +116,17 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																					Sort by
 																				</button>
 																				<div class="dropdown-menu dropdown-menu-end"
-																					aria-labelledby="dropdownMenuButton"
+																					aria-labelledby="dropdownMenuButtonPending"
 																					style="padding: 0.5rem">
-																					<!-- Dropdown items -->
-																					<li
-																						class="dropdown-item ps-3 fs-7 fw-medium">
-																						Newest to Oldest</li>
-																					<li
-																						class="dropdown-item ps-3 fs-7 fw-medium">
-																						Oldest to Newest</li>
-																					<li
-																						class="dropdown-item ps-3 fs-7 fw-medium">
-																						A to Z (Ascending)</li>
-																					<li
-																						class="dropdown-item ps-3 fs-7 fw-medium">
-																						Z to A (Descending)</li>
+																					<li class="dropdown-item ps-3 fs-7 fw-medium"
+																						data-sort="newest">Newest to Oldest</li>
+																					<li class="dropdown-item ps-3 fs-7 fw-medium"
+																						data-sort="oldest">Oldest to Newest</li>
+																					<li class="dropdown-item ps-3 fs-7 fw-medium"
+																						data-sort="asc">A to Z (Ascending)</li>
+																					<li class="dropdown-item ps-3 fs-7 fw-medium"
+																						data-sort="desc">Z to A (Descending)
+																					</li>
 																				</div>
 																			</div>
 																		</form>
@@ -149,9 +145,14 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														</div>
 													</div>
 													<table class="table" id="pendingTable">
-														<thead class="tl-header">
+														<thead class="tl-header pending-accs-table">
 															<tr>
-																<th class="col-md-6 tl-left text-center fs-7 fw-bold spacing-5">
+																<th
+																	class="col-md-3 text-center tl-left d-none checkbox-all-pending">
+																	<input type="checkbox" id="selectAllPending">
+																</th>
+																<th
+																	class="col-md-6 tl-left text-center del-center fs-7 fw-bold spacing-5">
 																	<i data-feather="mail" class="feather-xs im-cust"></i>Email
 																	Address
 																</th>
@@ -170,9 +171,20 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 														</tbody>
 													</table>
 													<div class="clearfix col-xs-12">
+
 														<ul class="pagination" id="pagination">
 															<!-- For Verification pagination will be generated here -->
 														</ul>
+
+														<div class="d-flex justify-content-start pt-2">
+															<button id="deleteSelectedPending"
+																class="btn btn-danger px-sm-4 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 final-delete-btn-pending d-none rounded-3"
+																disabled>Delete
+																Selected</button>
+
+															<button
+																class="btn btn-light btn-cancel px-sm-4 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 rounded-3 cancel-pending d-none">Cancel</button>
+														</div>
 													</div>
 
 													<!-- If empty, show empty state -->
@@ -217,7 +229,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 											<div class="table-wrapper">
 												<?php if ($verified_tbl->num_rows > 0) { ?>
 													<div class="table-title">
-														<div class="row">
+														<div class="row verified-accs-table">
 															<!-- Table Header -->
 															<div class="col-sm-6">
 																<p class="fs-3 main-color fw-bold ls-10 spacing-6">Voters'
@@ -230,7 +242,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																	<div class="col-md-12 text-end flex-end">
 																		<!-- Delete -->
 																		<div class="d-inline-block">
-																			<button class="delete-btn fs-7 spacing-6 fw-medium"
+																			<button
+																				class="delete-btn verified-delete-btn fs-7 spacing-6 fw-medium"
 																				type="button" id="dropdownMenuButton"
 																				data-bs-toggle="dropdown" aria-haspopup="true"
 																				aria-expanded="false">
@@ -248,7 +261,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																				<div class="dropdown sort-by">
 																					<button
 																						class="sortby-tbn fs-7 spacing-6 fw-medium"
-																						type="button" id="dropdownMenuButton"
+																						type="button"
+																						id="dropdownMenuButtonVerified"
 																						data-bs-toggle="dropdown"
 																						aria-haspopup="true"
 																						aria-expanded="false">
@@ -257,21 +271,20 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																						Sort by
 																					</button>
 																					<div class="dropdown-menu dropdown-menu-end"
-																						aria-labelledby="dropdownMenuButton"
+																						aria-labelledby="dropdownMenuButtonVerified"
 																						style="padding: 0.5rem">
-																						<!-- Dropdown items -->
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Newest to Oldest</li>
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Oldest to Newest</li>
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							A to Z (Ascending)</li>
-																						<li
-																							class="dropdown-item ps-3 fs-7 fw-medium">
-																							Z to A (Descending)</li>
+																						<li class="dropdown-item ps-3 fs-7 fw-medium"
+																							data-sort="newest">Newest to Oldest
+																						</li>
+																						<li class="dropdown-item ps-3 fs-7 fw-medium"
+																							data-sort="oldest">Oldest to Newest
+																						</li>
+																						<li class="dropdown-item ps-3 fs-7 fw-medium"
+																							data-sort="asc">A to Z (Ascending)
+																						</li>
+																						<li class="dropdown-item ps-3 fs-7 fw-medium"
+																							data-sort="desc">Z to A (Descending)
+																						</li>
 																					</div>
 																				</div>
 																			</form>
@@ -294,10 +307,14 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 														<!-- Table Contents -->
 														<table class="table" id="verifiedTable">
-															<thead class="tl-header">
+															<thead class="tl-header verified-accs-table">
 																<tr>
 																	<th
-																		class="col-md-3 tl-left text-center fs-7 fw-bold spacing-5">
+																		class="col-md-3 tl-left d-none checkbox-all-verified text-center">
+																		<input type="checkbox" id="selectAllVerified">
+																	</th>
+																	<th
+																		class="col-md-3 del-center tl-left text-center fs-7 fw-bold spacing-5">
 																		<i data-feather="mail"
 																			class="feather-xs im-cust"></i>Email
 																		Address
@@ -327,6 +344,15 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 															<ul class="pagination" id="verified-pagination">
 																<!-- Verification pagination will be generated here -->
 															</ul>
+
+															<div class="d-flex justify-content-start pt-2">
+																<button id="deleteSelectedVerified"
+																	class="btn btn-danger px-sm-4 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 final-delete-btn-verified d-none rounded-3"
+																	type="button" disabled>Delete
+																	Selected</button>
+																<button
+																	class="btn btn-light btn-cancel px-sm-4 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 rounded-3 cancel-verified d-none">Cancel</button>
+															</div>
 														</div>
 
 
@@ -365,12 +391,92 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 				<?php include_once __DIR__ . '/includes/components/footer.php'; ?>
 
+
+				<!-- Move To Trashbin Modal -->
+				<div class="modal" id="rejectModal" data-bs-keyboard="false" data-bs-backdrop="static">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-body">
+
+								<div class="row p-4">
+									<div class="col-md-12 pb-3">
+										<div class="text-center">
+											<div class="col-md-12 p-3">
+												<img src="images/resc/warning.png" alt="iVote Logo">
+											</div>
+
+											<div class="row">
+												<div class="col-md-12 pb-3 confirm-delete">
+													<p class="fw-bold fs-3 danger spacing-4">Confirm Delete?</p>
+													<p class="pt-2 fs-7 fw-medium spacing-5">The account will be deleted and
+														moved
+														to <span class="fw-bold">Recycle Bin</span>.</p>
+													<p class="fw-medium spacing-5 pt-1 fs-7">Are you sure you want to
+														delete?</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 pt-1 text-center">
+										<div class="d-inline-block">
+											<button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+												onClick="closeModal('rejectModal')" aria-label="Close">Cancel</button>
+										</div>
+										<div class="d-inline-block">
+											<form class="d-inline-block">
+												<input type="hidden" id="voter_id" name="voter_id" value="">
+												<button
+													class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+													type="button" id="confirm-move" value="delete">Delete</button>
+											</form>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Successfully Moved to Trashbin Modal -->
+				<div class="modal" id="trashbinMoveDone" data-bs-keyboard="false" data-bs-backdrop="static">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-body pb-5">
+								<div class="d-flex justify-content-end">
+									<i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
+										onclick="closeModal('trashbinMoveDone')">
+									</i>
+								</div>
+								<div class="text-center">
+									<div class="col-md-12">
+										<img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
+									</div>
+
+									<div class="row">
+										<div class="col-md-12 pb-3">
+											<p class="fw-bold fs-3 success-color spacing-4">Deleted successfully</p>
+											<p class="fw-medium spacing-5 fs-7">The deleted account has been moved to <span
+													class="fw-bold">Recycle Bin</span>.
+											</p>
+										</div>
+									</div>
+
+									<div class="col-md-12 pt-1 d-flex justify-content-center">
+										<button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+											onClick="redirectToPage('trashbin.php')" aria-label="Close">Go To Recycle
+											Bin</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 				<script src="scripts/script.js"></script>
 				<script src="scripts/feather.js"></script>
 				<script src="scripts/table-funcs.js"></script>
-
-
 	</body>
 
 
