@@ -35,12 +35,12 @@ function loadPage(
       // * Handles the empty states
       // For no results in search
       if (data.hasOwnProperty("isEmpty") && data.isEmpty) {
-        if (data.hasOwnProperty("status") && data.status === "pending") {
+        if (data.status === "pending") {
           displayNoSearchResults("pendingTable", "pagination");
-        } else if (data.hasOwnProperty("status") && data.status === "verified") {
+        } else if (data.status === "verified") {
           displayNoSearchResults("verifiedTable", "verified-pagination");
         }
-      
+
       // For complete empty state after deletion
       } else if (voters.length === 0) {
         displayEmptyState(
@@ -50,8 +50,6 @@ function loadPage(
       
       // Continues if there are datas still
       } else {
-        $(".pagination").closest('div').show();
-        
         voters.forEach((voter) => {
           const date = new Date(voter.acc_created);
           const formattedDate = date.toLocaleDateString("en-US", {
@@ -64,6 +62,7 @@ function loadPage(
 
           // Pending Table
           if (tableId === "pendingTable") {
+            $("#pagination").closest('div').show();
             const isChecked = selectedPendingIds.includes(voter.voter_id)
               ? "checked"
               : "";
@@ -86,6 +85,7 @@ function loadPage(
           
           // Verified Table
           } else if (tableId === "verifiedTable") {
+            $("#verified-pagination").closest('div').show();
             const isChecked = selectedVerifiedIds.includes(voter.voter_id)
               ? "checked"
               : "";
@@ -585,7 +585,7 @@ function closeModal(modal_name) {
 function displayNoSearchResults(tableId, paginationName) {
   console.log(paginationName);
   $(`#${paginationName}`).closest('div').hide(); // Assuming pagination is wrapped in a div
-  $(`#${tableId} tbody`).append(`
+  $(`#${tableId} tbody`).html(`
     <td colspan="3" class="pt-5">
       <div class="pt-4 col-md-12 no-registration text-center">
         <img src="images/resc/not-found.png" class="not-found-illus">
