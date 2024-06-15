@@ -4,7 +4,6 @@ require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 require_once FileUtils::normalizeFilePath('../config.php');
 require_once FileUtils::normalizeFilePath('includes/classes/Path.php');
 include_once FileUtils::normalizeFilePath('includes/classes/page-head-utils.php');
-require_once FileUtils::normalizeFilePath('includes/classes/user.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-router.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.php');
@@ -29,6 +28,7 @@ if (!$is_page_accessible) {
     }
     exit();
 }
+
 require_once FileUtils::normalizeFilePath('includes/session-exchange.php');
 
 $phpDateTimeNow = new DateTimeUtils();
