@@ -1,4 +1,5 @@
 <?php
+
 include_once str_replace('/', DIRECTORY_SEPARATOR,  '../classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('../error-reporting.php');
 require_once FileUtils::normalizeFilePath('../classes/db-config.php');
@@ -7,38 +8,140 @@ require_once FileUtils::normalizeFilePath('../classes/db-connector.php');
 class ElectionYearModel
 {
     private static $connection;
+    protected static $query_message;
+    protected static $status;
 
-    public static function fetchData()
+    public static function getData()
     {
-        self::$connection = DatabaseConnection::connect();
+        if (!self::$connection = DatabaseConnection::connect()) {
+            throw new Exception("Failed to connect to the database.");
+        }
 
-        $election_years = [];
+        $election_shedules = [];
 
-        $sql = "SELECT * FROM election_year ORDER BY year DESC";
+        $sql = "SELECT start, close FROM election_schedule";
 
         $stmt = self::$connection->prepare($sql);
 
         if ($stmt) {
             $stmt->execute();
 
-            $election_id = $year = $is_current_year = '';
+            $election_id = $start = $end = '';
 
-            $stmt->bind_result($election_id, $year, $is_current_year);
+            $stmt->bind_result($start, $end);
 
             while ($stmt->fetch()) {
-                // $election_year = [
-                //     'year' => $year,
-                //     'is_current_year' => $is_current_year
-                // ];
+                $election_shedule = [
+                    // 'schedule_id' => $election_id,
+                    'electionStart' => $start,
+                    'electionEnd' => $end
+                ];
 
-                // $election_years[] = $election_year;
+                $election_shedules[] = $election_shedule;
             }
 
             $stmt->close();
         } else {
-            echo "Error preparing statement: " . self::$connection->error;
+            self::$query_message = "Error preparing statement: " . self::$connection->error;
         }
 
-        return $election_years;
+        return $election_shedules;
+    }
+
+    protected static function saveData($data)
+    {
+        try {
+
+            if (!self::$connection = DatabaseConnection::connect()) {
+                throw new Exception("Failed to connect to the database.");
+            }
+
+            $sql = "SELECT COUNT(*) FROM election_schedule";
+            $stmt = self::$connection->prepare($sql);
+
+            if (!$stmt) {
+                throw new Exception("Error preparing statement.");
+            }
+
+            $row_count = null;
+            $stmt->execute();
+            $stmt->bind_result($row_count);
+            $stmt->fetch();
+            $stmt->close();
+
+            self::$connection->begin_transaction();
+            $result = '';
+            if ($row_count > 0) {
+                $result = self::updateData($data);
+            } else {
+                $result = self::setData($data);
+            }
+
+            self::$connection->commit();
+
+            // self::$connection->close();
+            return $result;
+        } catch (Exception $e) {
+
+            self::$query_message = $e->getMessage();
+            // self::$connection->close();
+            return $result;
+        }
+    }
+
+
+
+    private static function setData($data)
+    {
+        try {
+
+            $election_schedules = [];
+
+            $sql = "INSERT INTO election_schedule (start, close) VALUES (?, ?)";
+
+            $stmt = self::$connection->prepare($sql);
+
+            if (!$stmt) {
+                throw new Exception("Error preparing statement: " . self::$connection->error);
+            }
+
+            $stmt->bind_param("ss", $data['electionStart'], $data['electionEnd']);
+
+            $stmt->execute();
+
+            $stmt->close();
+
+            return $data;
+        } catch (Exception $e) {
+            self::$query_message = 'set ' . $e->getMessage();
+            return $data;
+        }
+    }
+
+
+    private static function updateData($data)
+    {
+        try {
+
+            $sql = "UPDATE election_schedule SET start = ?, close = ? ";
+
+            $stmt = self::$connection->prepare($sql);
+
+            if (!$stmt) {
+                throw new Exception("Error preparing statement: " . self::$connection->error);
+            }
+
+            $stmt->bind_param("ss", $data['electionStart'], $data['electionEnd']);
+
+            $stmt->execute();
+
+            $stmt->close();
+
+            return $data;
+        } catch (Exception $e) {
+
+            self::$query_message = 'update ' . $e->getMessage();
+            return $data;
+        }
     }
 }
