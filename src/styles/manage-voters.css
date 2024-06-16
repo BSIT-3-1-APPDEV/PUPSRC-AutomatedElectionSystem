@@ -101,6 +101,10 @@
 
 /* --- VALIDATE ACCOUNT --- */
 
+.confirm-delete p {
+  margin-bottom: 0 !important;
+}
+
 .funcs a {
     color: var(--main-black) !important;
 }
@@ -113,4 +117,18 @@
     border: 1.8px solid var(--bs-gray-300);
     border-radius: .8%;
     padding: .8%;
+}
+
+.btn-cancel {
+  color: #000 !important;
+  background-color: #CDCDCD;
+}
+
+.btn-cancel:hover {
+  color: #00000064 !important;
+  background-color: #CDCDCD;
+}
+
+.light-gray {
+  color: var(--bs-gray-250);
 }
