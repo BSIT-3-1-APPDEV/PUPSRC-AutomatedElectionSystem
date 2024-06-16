@@ -1,16 +1,37 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
-require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
-require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/csrf-token.php');
 
 if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
-
-
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
-    include FileUtils::normalizeFilePath('submission_handlers/manage-acc.php');
+
+    if(!isset($_SESSION['correctPassword'])) {
+        header("Location: " . $_SESSION['referringPage']);
+        exit(); 
+    }
+    else {
+        if(!$_SESSION['correctPassword'] === true) {
+            header("Location: " . $_SESSION['referringPage']);
+            exit(); 
+        }
+    }
+
+    $_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
+
+    if(isset($_SESSION['isBlocked']) && $_SESSION['isBlocked'] === true) {
+        session_destroy();
+    }
+
+    // $csrf_token = CsrfToken::generateCSRFToken();
+
+    if (isset($_SESSION['error_message'])) {
+        $error_message = $_SESSION['error_message'];
+        unset($_SESSION['error_message']);
+    }
+    
 ?>
 
     <!DOCTYPE html>
@@ -50,15 +71,16 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         ?>
 
         <div class="main" id="change-password">
-
-
             <div class="container">
                 <div class="row justify-content-center">
                     <!-- FOR VERIFICATION TABLE -->
                     <div class="col-md-10 card-box">
                         <div class="table-wrapper" id="profile">
                             <form class="needs-validation" id="reset-password-form" novalidate enctype="multipart/form-data">
-                                <input type="hidden" id="token" name="token" value="<?= htmlspecialchars($token) ?>">
+                                
+                                <!-- CSRF Token hidden field -->
+                                <!-- <input type="hidden" name="csrf_token" value="<?php // echo $csrf_token; ?>">               -->
+                                
                                 <div class="img-container">
                                     <img src="images/resc/Change-Pass/<?php echo strtolower($org_name); ?>-change-pass.png" alt="Forgot Password Icon" class="forgot-password-icon">
                                 </div>
@@ -86,8 +108,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                     <div class="row mt-5 mb-3 reset-pass">
                                         <div class="col-md-8 mb-2 position-relative">
                                             <div class="input-group mb-3" id="reset-password">
-                                                <input type="password" class="form-control reset-password-password" name="password" onkeypress="return avoidSpace(event)" placeholder="Enter a strong password" id="password" required>
-                                                <label for="password" class="new-password translate-middle-y <?php echo strtoupper($org_name); ?>-text-color" id="">NEW PASSWORD</label>
+                                                <input type="password" class="form-control reset-password-password" name="password" placeholder="Enter a strong password" id="password" required>
+                                                <label for="password" class="new-password translate-middle-y <?php echo strtoupper($org_name); ?>-text-color">NEW PASSWORD</label>
                                                 <button class="btn btn-secondary reset-password-password" type="button" id="reset-password-toggle-1">
                                                     <i class="fas fa-eye-slash"></i>
                                                 </button>
@@ -106,20 +128,23 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
                                         <div class="col-md-8 mb-0 mt-0 position-relative">
                                             <div class="input-group" id="reset-password">
-                                                <input type="password" class="form-control reset-password-password" onkeypress="return avoidSpace(event)" id="password_confirmation" name="password_confirmation" placeholder="Confirm your password" required>
-                                                <label for="password_confirmation" class="new-password translate-middle-y <?php echo strtoupper($org_name); ?>-text-color" id="">CONFIRM PASSWORD</label>
+                                                <input type="password" class="form-control reset-password-password" id="password_confirmation" name="password_confirmation" placeholder="Confirm your password" required>
+                                                <label for="password_confirmation" class="new-password translate-middle-y <?php echo strtoupper($org_name); ?>-text-color">CONFIRM PASSWORD</label>
                                                 <button class="btn btn-secondary reset-password-password" type="button" id="reset-password-toggle-2">
                                                     <i class="fas fa-eye-slash"></i>
                                                 </button>
                                             </div>
+                                            <div id="password-mismatch-error" class="text-center ps-1 text-danger fw-semibold fs-7 mt-2" style="display: none;">PASSWORDS DO NOT MATCH.</div>
+                                            <div id="error-message" class="text-center ps-1 text-danger fw-semibold fs-7 mt-2 text-uppercase" >
+                                                <!-- Display error message -->
+                                            </div>
                                         </div>
-                                        <div id="password-mismatch-error" class="text-danger" style="display: none;">Passwords do not match.</div>
-
                                     </div>
                                     <div class="col-md-12 reset-pass">
-                                        <!-- <button class="btn login-sign-in-button mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="reset-password-submit" id="reset-password-submit">Set Password</button> -->
-                                        <button class="btn login-sign-in-button mt-3 mb-3" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="new-password-submit">Set Password</button>
-
+                                        <button class="btn login-sign-in-button fw-semibold my-3 px-4 rounded-2" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="change-password-submit">Set Password</button>
+                                        <script>
+                                            const ORG_NAME = "<?php echo strtoupper($org_name) . '-login-button'; ?>";
+                                        </script>
                                     </div>
                                 </div>
 
@@ -130,55 +155,33 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             </div>
         </div>
 
-
-
-
+        <!-- Success Change Password Modal -->
+        <div class="modal fade" id="successChangePasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content d-flex align-items-center justify-content-center" id="success-modal">
+                    <div class="modal-body text-center w-100">
+                        <div class="col-md-12">
+                            <img src="images/resc/check-animation.gif" class="success-change-pass-modal-icon" alt="iVote Logo">
+                        </div>
+                        <p class="fw-bold fs-4 change-password-title spacing-4 mt-2" id="password-updated">Password Updated</p>
+                        <p class="change-password-sub mb-4">Your password has been successfully updated! Please log in again.</p>
+                        <a href="voter-login.php" class="btn btn-primary px-5 success-change-pass-button fw-semibold" id="success-change-pass-button">Go to Log In</a>
+                        <p class="timer mt-2 mb-0 pb-0">Redirecting to login in <strong>10</strong> seconds...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
 
         <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="scripts/script.js"></script>
         <script src="scripts/feather.js"></script>
-        <script src="scripts/table-funcs.js"></script>
-        <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="scripts/reset-password.js"></script>
-
-
-        <!-- Updated script for password toggle -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const togglePassword1 = document.querySelector("#password-toggle-1");
-                const passwordInput1 = document.querySelector("#change-password");
-                const eyeIcon1 = togglePassword1.querySelector("i");
-
-                togglePassword1.addEventListener("click", function() {
-                    const type =
-                        passwordInput1.getAttribute("type") === "password" ?
-                        "text" :
-                        "password";
-                    passwordInput1.setAttribute("type", type);
-
-                    // Toggle eye icon classes
-                    eyeIcon1.classList.toggle("fa-eye-slash");
-                    eyeIcon1.classList.toggle("fa-eye");
-                });
-
-                // Show or hide eye toggle based on input value
-                passwordInput1.addEventListener("input", function() {
-                    if (passwordInput1.value === "") {
-                        togglePassword1.style.display = "none";
-                    } else {
-                        togglePassword1.style.display = "block";
-                    }
-                });
-            });
-        </script>
+        <script src="scripts/change-password.js"></script>
 
     </body>
-
-
-    </html>
+</html>
 
 <?php
 } else {

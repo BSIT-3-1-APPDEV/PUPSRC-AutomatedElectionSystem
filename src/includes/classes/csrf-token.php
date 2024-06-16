@@ -57,7 +57,7 @@ class CsrfToken {
 
     private static function displayErrorMessage() {
         $_SESSION['error_message'] = 'Something went wrong. Please reload the page.';
-        header("Location: " . $_SERVER['HTTP_REFERER']);
+        header("Location: " . $_SESSION['referringPage']);
         exit();
     }
 }
