@@ -2,6 +2,7 @@
 class EmailSender
 {
     private $mail;
+    private $app_url = 'https://ivote-pupsrc.com/';
 
     public function __construct($mail)
     {
@@ -12,7 +13,7 @@ class EmailSender
     {
         $mailBody = 'Good day, Iskolar!<br><br>
             
-        We’re pleased to inform you that your account has been <b>approved</b>! You can now access and log in to <a href="http://localhost/PUPSRC-AutomatedElectionSystem/src/landing-page.php"> iVOTE</a>. <br><br>
+        We’re pleased to inform you that your account has been <b>approved</b>! You can now access and log in to <a href="' . $this->app_url . '">iVOTE</a>. <br><br>
             
         If you have any questions or need assistance, please contact the support team at ivotepupsrc@gmail.com. ';
 
@@ -57,7 +58,8 @@ class EmailSender
 
     public function sendPasswordResetEmail($recipientEmail, $token, $orgName) {
         $subject = 'iVOTE Password Reset Request';
-        $resetPasswordLink = "http://localhost/PUPSRC-AutomatedElectionSystem/src/reset-password.php?token=$token&orgName=$orgName";
+        $resetPasswordLink = $this->app_url . "reset-password.php?token=" . urlencode($token) . "&orgName=" . urlencode($orgName);
+        
         $mailBody = <<<EOT
         <!DOCTYPE html>
         <html lang="en">
@@ -66,7 +68,7 @@ class EmailSender
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>iVOTE Password Reset Request</title>
         </head>
-        <body">
+        <body>
             <p>Dear Iskolar,</p>
             <p>We have received a request to reset the password associated with your account. To complete the process, 
             please follow the instructions below:</p>
