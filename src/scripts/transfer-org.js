@@ -102,11 +102,10 @@ $(document).ready(function() {
             contentType: false,
             dataType: 'json',
             success: function(response) {
-
-                if (response.status === 'success') {
+                if (response.success) {
                     // Proceed with organization change
                     var formDataOrg = new FormData($('#changeOrgForm')[0]);
-                  
+
                     $.ajax({
                         type: 'POST',
                         url: 'includes/change-org.php',
@@ -114,7 +113,6 @@ $(document).ready(function() {
                         processData: false,
                         contentType: false,
                         success: function(response) {
-        
                             $('#confirmPassModal').modal('hide');
                             $('#transferSuccessModal').modal('show');
                             setTimeout(function() {
@@ -123,17 +121,16 @@ $(document).ready(function() {
                         },
                         error: function(xhr, status, error) {
                             console.error('Change organization AJAX Error:', xhr.responseText); // Log organization change error
-
                         }
                     });
-                } else if (response.status === 'blocked') {
+                } else if (response.maxLimit) {
                     // Maximum attempts exceeded
                     $('#confirmPassModal').modal('hide');
                     $('#maximumAttemptsModal').modal('show');
                 } else {
                     // Password verification failed
-                    var attemptsLeft = response.attempts_left;
-                    $('#errorMessage').text('Incorrect password. Attempts left: ' + attemptsLeft).show();
+                    var attemptsLeft = response.message.split('Attempts left: ')[1];
+                    $('#errorMessage').text(response.message).show();
                     $('#password').addClass('error-border');
                 }
             },
@@ -143,6 +140,22 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Ajax request to destroy the session of a user
+  $("#closeMaximumAttemptsModal").on("click", function () {
+    $.ajax({
+      url: "includes/voter-logout.php",
+      type: "POST",
+      success: function () {
+        window.location.href = "landing-page.php";
+      },
+      error: function () {
+        console.error("Error:", error);
+        $("#error-message").text("An error occurred. Please try again later.");
+      },
+    });
+  });
+
 
     // Optional: Handle input error removal
     $('#password').on('input', function() {

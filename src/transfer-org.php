@@ -256,7 +256,7 @@ $voter_id = $_SESSION['voter_id'];
               <div class="modal-content">
                   <div class="modal-body text-center">
                       <div class="d-flex justify-content-end w-100 border-0 me-4 mt-4">
-                          <button type="button" class="btn-close custom-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                          <button type="button" class="btn-close custom-close-btn" id="closeMaximumAttemptsModal" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="col-md-12">
                           <img src="images/resc/warning.png" class="py-2" style="width: 30%; height:30%" alt="Warning Logo">
