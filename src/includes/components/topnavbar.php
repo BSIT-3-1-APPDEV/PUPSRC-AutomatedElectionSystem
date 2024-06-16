@@ -10,7 +10,7 @@
         <i id="dropdown-chevron" class="fas fa-chevron-down ps-1"></i>
       </a>
       <ul class="dropdown-menu dropdown-menu-end" style="font-size: 14px;" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item main-color" href="#">Settings</a></li>
+        <li><a class="dropdown-item main-color" href="user-setting-information.php">Settings</a></li>
         <li><a class="dropdown-item main-color" href="includes/voter-logout.php">Logout</a></li>
       </ul>
     </div>
