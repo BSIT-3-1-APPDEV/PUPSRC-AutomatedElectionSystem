@@ -1,7 +1,9 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/csrf-token.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+include_once FileUtils::normalizeFilePath('includes/default-time-zone.php');
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 
@@ -15,6 +17,8 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 
   $connection = DatabaseConnection::connect();
   // Assume $connection is your database connection
+
+  $csrf_token = CsrfToken::generateCSRFToken();
 
   // Query for selecting all columns in position
   $stmt_positions = $connection->prepare("SELECT * FROM position");
@@ -409,6 +413,8 @@ if ($result_config->num_rows > 0) {
     <?php endif; ?>
     <!-- Voter ID Input -->
     <input type="hidden" name="voter_id" value="<?php echo $voter_id ?>">
+    <!-- CSRF Token hidden field -->
+    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
     <!-- Submit and Reset Buttons -->
     <?php if ($result_positions->num_rows > 0 && $result_candidates->num_rows > 0): ?>
         <div class="text-center pb-4 mt-3">
