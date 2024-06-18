@@ -33,9 +33,16 @@ $countQuery = "SELECT COUNT(*) as total FROM voter WHERE account_status = 'verif
 $countResult = $queryExecutor->executeQuery($countQuery);
 $totalRows = $countResult->fetch_assoc()['total'];
 
-echo json_encode([
-    'voters' => $voters,
-    'totalRows' => $totalRows
-]);
+$response = [];
 
+if (empty($voters)) {
+    $response['isEmpty'] = true;
+} else {
+    $response['voters'] = $voters;
+    $response['totalRows'] = $totalRows;
+}
+
+$response['status'] = "verified";
+
+echo json_encode($response);
 ?>

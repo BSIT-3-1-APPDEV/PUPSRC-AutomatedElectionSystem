@@ -1053,3 +1053,21 @@ span {
   height: 70% !important;
   width: 40% !important;
 }
+
+.modal-content#max-modal{
+  background-color: white;
+  border-radius: 35px;
+}
+
+.warning-icon{
+  width: 25%;
+}
+
+.limit{
+  color: #EE1C24;
+}
+
+.max-text{
+  font-size: 14px;
+  padding: 0% 10% 0% 10% ;
+}

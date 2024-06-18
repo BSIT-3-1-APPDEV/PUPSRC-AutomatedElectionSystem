@@ -43,12 +43,11 @@ if ($expiry_time <= $current_time) {
 
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
-    unset($_SESSION['error_message']); // Unset the error message from the session once displayed
+    unset($_SESSION['error_message']); 
 }
 
 ?>
 
-<!--Modify the html and css of this. This page is for resetting the password-->
 <!DOCTYPE html>
 <html>
 
@@ -118,7 +117,7 @@ if (isset($_SESSION['error_message'])) {
                         <div class="row mt-5 mb-3 reset-pass">
                             <div class="col-md-8 mb-2 position-relative">
                                 <div class="input-group mb-3" id="reset-password">
-                                    <input type="password" class="form-control reset-password-password" name="password" onkeypress="return avoidSpace(event)" placeholder="Enter a strong password" id="password" required>
+                                    <input type="password" class="form-control reset-password-password shadow-sm" name="password" placeholder="Enter a strong password" id="password" required>
                                     <label for="password" class="new-password translate-middle-y" id="scoSignUP">NEW PASSWORD</label>
                                     <button class="btn btn-secondary reset-password-password" type="button" id="reset-password-toggle-1">
                                         <i class="fas fa-eye-slash"></i>
@@ -138,19 +137,17 @@ if (isset($_SESSION['error_message'])) {
 
                             <div class="col-md-8 mb-0 mt-0 position-relative">
                                 <div class="input-group" id="reset-password">
-                                    <input type="password" class="form-control reset-password-password" onkeypress="return avoidSpace(event)" id="password_confirmation" name="password_confirmation" placeholder="Confirm your password" required>
+                                    <input type="password" class="form-control reset-password-password shadow-sm" id="password_confirmation" name="password_confirmation" placeholder="Confirm your password" required>
                                     <label for="password_confirmation" class="new-password translate-middle-y" id="scoSignUP">CONFIRM PASSWORD</label>
                                     <button class="btn btn-secondary reset-password-password" type="button" id="reset-password-toggle-2">
                                         <i class="fas fa-eye-slash"></i>
                                     </button>
                                 </div>
+                                <div id="password-mismatch-error" class="ps-1 text-danger fw-bold mt-2" style="display: none; font-size: 12px;">PASSWORDS DO NOT MATCH.</div>
                             </div>
-                            <div id="password-mismatch-error" class="text-danger" style="display: none;">Passwords do not match.</div>
-
                         </div>
                         <div class="col-md-12 reset-pass">
-                            <!-- <button class="btn login-sign-in-button mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="reset-password-submit" id="reset-password-submit">Set Password</button> -->
-                            <button class="btn login-sign-in-button mt-3 mb-3" id="SCO-login-button" type="submit" name="new-password-submit">Set Password</button>
+                            <button class="btn login-sign-in-button mt-3 mb-3 px-4 fs-7 fw-semibold" id="SCO-login-button" type="submit" name="new-password-submit">Set Password</button>
                             
                         </div>
                     </div>
