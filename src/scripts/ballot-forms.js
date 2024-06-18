@@ -1,29 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const dropdownToggle = document.getElementById('navbarDropdown');
-    const chevronIcon = document.getElementById('dropdown-chevron');
-  
-    dropdownToggle.addEventListener('click', function() {
-      // Check if the dropdown is currently shown
-      const isDropdownShown = dropdownToggle.getAttribute('aria-expanded') === 'true';
-  
-      if (isDropdownShown) {
-        chevronIcon.classList.remove('fa-chevron-down');
-        chevronIcon.classList.add('fa-chevron-up');
-      } else {
-        chevronIcon.classList.remove('fa-chevron-up');
-        chevronIcon.classList.add('fa-chevron-down');
-      }
-    });
-  
-    // Handle clicking outside the dropdown to close it and reset the icon
-    document.addEventListener('click', function(event) {
-      if (!dropdownToggle.contains(event.target) && !document.querySelector('.dropdown-menu').contains(event.target)) {
-        chevronIcon.classList.remove('fa-chevron-up');
-        chevronIcon.classList.add('fa-chevron-down');
-      }
-    });
-  });
-
+// toggle button for voting guidelines
 document.getElementById("toggleButton").addEventListener("click", function() {
     this.classList.add("clicked");
     document.getElementById("title").classList.add("main-bg-color");

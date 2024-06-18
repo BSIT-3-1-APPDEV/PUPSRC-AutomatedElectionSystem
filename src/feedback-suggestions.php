@@ -1,12 +1,13 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/csrf-token.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'student_voter') ) {
 
- if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'voted')){
+  if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'voted' || $_SESSION['vote_status'] == 'abstained')){
 
      // ------ SESSION EXCHANGE
      include FileUtils::normalizeFilePath('includes/session-exchange.php');
@@ -14,6 +15,8 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
 
   $connection = DatabaseConnection::connect();
   // Assume $connection is your database connection
+
+  $csrf_token = CsrfToken::generateCSRFToken();
   
 ?>
 
@@ -51,21 +54,6 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
 include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
 include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnavbar.php'); 
 ?>
-
-<!-- Modal for Vote Submitted -->
-<div class="modal fade adjust-submit-modal" id="voteSubmittedModal" tabindex="-1" aria-labelledby="voteSubmittedModalLabel" aria-hidden="false" data-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content pb-4">
-      <div class="modal-body text-center pb-2">
-        <img src="../src/images/resc/check-animation.gif" width="300px">
-        <h4 class="pb-4"><b>Vote Submitted!</b></h4>
-        <button class="button-check main-bg-color text-white py-2 px-4" onclick="window.location.href='../src/feedback-suggestions.php';">
-          <b>Give Feedback</b>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="container mt-4">
   <div class="row">
@@ -178,6 +166,9 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
         </div>
       </div>
       
+      <!-- CSRF Token hidden field -->
+      <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+
       <div class="row pe-4 pb-4">
         <div class="col">
           <div class="text-center mt-3 text-lg-end">

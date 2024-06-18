@@ -10,10 +10,41 @@ $conn = DatabaseConnection::connect();
 $queryExecutor = new QueryExecutor($conn);
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-$limit = 5; 
+$limit = 5;
 $offset = ($page - 1) * $limit;
 
-$query = "SELECT voter_id, email, acc_created FROM voter WHERE account_status = ? AND role = ? LIMIT ? OFFSET ?";
+$sortOrder = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
+
+// Determine sorting column and order
+$orderBy = "acc_created";
+$orderDir = "";
+
+
+switch ($sortOrder) {
+    case 'asc':
+        $orderBy = "email"; // Sorting alphabetically by email
+        $orderDir = 'ASC';
+        break;
+    case 'desc':
+        $orderBy = "email"; // Sorting alphabetically by email
+        $orderDir = 'DESC';
+        break;
+    case 'newest':
+        $orderBy = "acc_created"; // Sorting by creation date
+        $orderDir = 'DESC';
+        break;
+    case 'oldest':
+        $orderBy = "acc_created"; // Sorting by creation date
+        $orderDir = 'ASC';
+        break;
+    default:
+        $orderBy = "acc_created"; // Default to sorting by creation date
+        $orderDir = 'DESC   '; // Default sorting order
+        break;
+}
+
+$query = "SELECT voter_id, email, acc_created FROM voter WHERE account_status = ? AND role = ? ORDER BY $orderBy $orderDir LIMIT ? OFFSET ?";
+error_log("SQL Query: " . $query); 
 $stmt = $conn->prepare($query);
 $account_status = 'for_verification';
 $role = 'student_voter';

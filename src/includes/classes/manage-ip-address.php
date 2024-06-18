@@ -23,6 +23,7 @@ class IpAddress {
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("si", $ip_address, $try_time);
         $stmt->execute();
+        $stmt->close();
     }
 
 
@@ -44,6 +45,18 @@ class IpAddress {
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param('s', $ip_address);
         $stmt->execute();
+        $stmt->close();
+    }
+
+    public function countIpAddressAttempt($ip_address, $time) {
+        $sql = "SELECT COUNT(*) AS total_count FROM login_logs WHERE login_time > ? AND ip_address = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("is", $time, $ip_address);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $count_attempts = $result->fetch_assoc()['total_count'];
+        $stmt->close();
+        return $count_attempts;
     }
 
 }

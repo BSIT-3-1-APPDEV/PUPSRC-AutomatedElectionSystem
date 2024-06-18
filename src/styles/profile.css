@@ -191,6 +191,30 @@ font-weight: 600 !important;
   font-size: medium;
 }
 
+.change-password-title#password-updated{
+  color: #27AE60;
+}
+
+.success-change-pass-modal-icon{
+  width: 50%;
+}
+
+#success-change-pass-button{
+  color: white;
+  background-color: #27AE60;
+  border: none ;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+#success-change-pass-button:hover{
+  background-color: #1f8a4c;
+}
+
+.timer{
+  font-size: 12px;
+}
+
 .modal {
   z-index: 9999 !important; /* Adjust this value as needed */
 }
@@ -427,9 +451,22 @@ hr {
   width: 50%;
 }
 
-.modal-content#success-modal{
+.modal-content#success-modal, .modal-content#max-modal{
   background-color: white;
   border-radius: 35px;
+}
+
+.warning-icon{
+  width: 25%;
+}
+
+.limit{
+  color: #EE1C24;
+}
+
+.max-text{
+  font-size: 14px;
+  padding: 0% 10% 0% 10% ;
 }
 
 .fa-circle-xmark {
