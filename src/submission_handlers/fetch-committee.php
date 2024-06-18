@@ -5,6 +5,7 @@
     require_once FileUtils::normalizeFilePath('../includes/classes/session-manager.php');
     require_once FileUtils::normalizeFilePath('../includes/classes/query-handler.php');
 
+
     $conn = DatabaseConnection::connect();
     $queryExecutor = new QueryExecutor($conn);
 
@@ -27,7 +28,11 @@
         $sort_order = 'DESC';
     }
 
-    $query = "SELECT voter_id, first_name, middle_name, last_name, suffix, role, acc_created FROM voter WHERE role IN ('admin', 'head_admin') ORDER BY $sort_by $sort_order LIMIT ? OFFSET ?";
+    $query = "SELECT voter_id, first_name, middle_name, last_name, suffix, role, acc_created 
+          FROM voter 
+          WHERE account_status = 'verified' AND role IN ('admin', 'head_admin') 
+          ORDER BY $sort_by $sort_order 
+          LIMIT ? OFFSET ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ii", $limit, $offset);
     $stmt->execute();

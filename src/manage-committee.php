@@ -4,6 +4,7 @@ include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
+require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 
 if (isset($_SESSION['voter_id'])) {
@@ -218,7 +219,7 @@ if (isset($_SESSION['voter_id'])) {
 																</thead>
 																<tbody>
 																	<?php while ($row = $verified_tbl->fetch_assoc()) { ?>
-																		<!-- Generated in table-funcs.js -->
+																		<!-- Generated in manage-committee.js -->
 																	<?php } ?>
 																</tbody>
 															</table>

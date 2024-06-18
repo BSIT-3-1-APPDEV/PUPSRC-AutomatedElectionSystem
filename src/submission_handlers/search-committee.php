@@ -29,11 +29,11 @@ if (!in_array(strtolower($sort_order), $valid_orders)) {
 $searchCondition = $search ? "AND LOWER(CONCAT_WS(' ', COALESCE(TRIM(first_name), ''), COALESCE(TRIM(middle_name), ''), COALESCE(TRIM(last_name), ''), COALESCE(TRIM(suffix), ''), COALESCE(TRIM(role), ''), COALESCE(TRIM(acc_created), ''))) LIKE ?" : "";
 
 // Prepare the main query with sorting
-$query = "SELECT voter_id, first_name, middle_name, last_name, suffix, role, acc_created 
-          FROM voter 
-          WHERE role IN ('admin', 'head_admin') 
-          $searchCondition 
-          ORDER BY $sort_by $sort_order 
+$query = "SELECT voter_id, first_name, middle_name, last_name, suffix, role, acc_created
+          FROM voter
+          WHERE account_status = 'verified' AND role IN ('admin', 'head_admin')
+          $searchCondition
+          ORDER BY $sort_by $sort_order
           LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($query);
 
@@ -53,9 +53,9 @@ while ($row = $result->fetch_assoc()) {
 $stmt->close();
 
 // Count total rows
-$countQuery = "SELECT COUNT(*) as total 
-               FROM voter 
-               WHERE role IN ('admin', 'head_admin') 
+$countQuery = "SELECT COUNT(*) as total
+               FROM voter
+               WHERE account_status = 'verified' AND role IN ('admin', 'head_admin')
                $searchCondition";
 $countStmt = $conn->prepare($countQuery);
 if ($search) {
