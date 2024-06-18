@@ -9,7 +9,7 @@ if (isset($_SESSION['voter_id'])) {
 
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
 
-    $allowedRoles = array('admin', 'head_admin');
+    $allowedRoles = array('head_admin');
     if (!in_array($_SESSION['role'], $allowedRoles)) {
         header("Location: landing-page.php");
         exit();
@@ -174,9 +174,7 @@ if (isset($_SESSION['voter_id'])) {
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <div class="d-flex justify-content-end">
-                        <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" id="closeModal"></i>
-                        </div>
+                        
                         <div class="text-center">
                             <div class="col-md-12">
                                 <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">

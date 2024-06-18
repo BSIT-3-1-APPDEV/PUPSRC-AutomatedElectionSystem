@@ -132,13 +132,17 @@
 
 					<li class="item">
 						<a href="manage-committee.php"
-							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Admin Accounts</a>
+							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Admin
+							Accounts</a>
 					</li>
-					<li class="item">
-						<a href="admin-creation.php"
-							class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">Add
-							Admin</a>
-					</li>
+					<?php if ($_SESSION['role'] === 'head_admin'): ?>
+						<li class="item">
+							<a href="admin-creation.php"
+								class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">
+								Add Admin
+							</a>
+						</li>
+					<?php endif; ?>
 				</ul>
 			</li>
 
