@@ -4,7 +4,7 @@
     <div class="card page-title text-truncate col-12">
         <div class="card-body">
             <h3 class="">Configuration</h3>
-            <small class="">Welcome to configuration.</small>
+            <small class="fw-medium">Set up and manage your election settings and preferences.</small>
         </div>
     </div>
 </div>
