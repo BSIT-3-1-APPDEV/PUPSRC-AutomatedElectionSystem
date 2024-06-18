@@ -8,7 +8,7 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/../default-time-zone.php')
 
 class Login extends IpAddress {
 
-    private const LOGIN_BLOCK_TIME = 60; // 30 minutes
+    private const LOGIN_BLOCK_TIME = 1800; // 30 minutes
     private const LOGIN_ATTEMPT_COUNT = 5;
     private $connection;
     private $ip_address;
@@ -30,7 +30,7 @@ class Login extends IpAddress {
         }
 
         if($this->isBlocked()) {
-            $this->redirectWithError('Too many failed login attempts.</br>Please wait for ' . self::LOGIN_BLOCK_TIME . ' seconds.');
+            $this->isLoginAttemptMax();
         }
 
         // Verify user in the voter table
@@ -162,11 +162,12 @@ class Login extends IpAddress {
     // Check mismatched email and password
     private function handleMismatchedCredentials($row) {
         $this->ip_manager->storeIpAddress($this->ip_address, time());
-
         $remaining_attempt = self::LOGIN_ATTEMPT_COUNT - $this->getFailedAttemptsCount();
+        
         if ($remaining_attempt <= 0) {
-            $this->redirectWithError('Too many login attempts.<br/>You are blocked for ' . self::LOGIN_BLOCK_TIME . ' seconds.');
-        } else {
+            $this->isLoginAttemptMax();        
+        } 
+        else {
             $this->setUserEmail($row['email'], 'Email and password do not match<br/>' . $remaining_attempt . ' remaining attempts.');
         }
     }
@@ -209,6 +210,12 @@ class Login extends IpAddress {
     private function setUserEmail($email, $message) {
         $_SESSION['email'] = $email;
         $_SESSION['error_message']  = $message;
+        header("Location: ../voter-login.php");
+        exit();
+    }
+    
+    private function isLoginAttemptMax() {
+        $_SESSION['maxLimit'] = true;
         header("Location: ../voter-login.php");
         exit();
     }

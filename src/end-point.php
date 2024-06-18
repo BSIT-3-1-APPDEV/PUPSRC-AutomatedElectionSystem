@@ -6,7 +6,7 @@ include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'student_voter'))  {
 
-  if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'voted')){
+  if((isset($_SESSION['vote_status'])) && ($_SESSION['vote_status'] == 'voted' || $_SESSION['vote_status'] == 'abstained')){
 
     // ------ SESSION EXCHANGE
     include FileUtils::normalizeFilePath('includes/session-exchange.php');

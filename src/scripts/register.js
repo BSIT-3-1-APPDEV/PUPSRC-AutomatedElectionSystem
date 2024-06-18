@@ -27,8 +27,14 @@ $(document).ready(function () {
 
   // Check for valid email and if one already exists in the voter table
   function validateEmail(input, showErrorMessages = false) {
-    const emailValue = input.val().trim();
+    let emailValue = input.val().trim();
     const errorElement = input.next();
+
+    // Truncate email if exceeds 50 characters
+    if (emailValue.length > 50) {
+      emailValue = emailValue.slice(0, 50);
+      input.val(emailValue);
+    }
 
     const isValidFormat = validateEmailFormat(emailValue);
     const isExistingEmail = emails.includes(emailValue);
@@ -69,8 +75,14 @@ $(document).ready(function () {
   }
 
   function validatePassword(input, showErrorMessages = false) {
-    const passwordValue = input.val();
+    let passwordValue = input.val();
     const errorElement = input.next();
+
+    // Truncate password if exceeds 20 characters
+    if (passwordValue.length > 20) {
+      passwordValue = passwordValue.slice(0, 20);
+      input.val(passwordValue);
+    }
 
     const passwordRegex =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[^a-zA-Z0-9\s])[^\s]{8,20}$/;
@@ -94,8 +106,14 @@ $(document).ready(function () {
     originalPasswordInput,
     showErrorMessages = false
   ) {
-    const retypePassValue = input.val();
+    let retypePassValue = input.val();
     const errorElement = input.next();
+
+    // Truncate retype password if exceeds 20 characters
+    if (retypePassValue.length > 20) {
+      retypePassValue = retypePassValue.slice(0, 20);
+      input.val(retypePassValue);
+    }
 
     if (retypePassValue !== originalPasswordInput.val()) {
       if (showErrorMessages && fields.retypePass.touched)
@@ -195,14 +213,9 @@ $(document).ready(function () {
   }
 
   // Event listeners to prevent whitespaces haha
-  $("#email").on("input", function (event) {
+  $("#email, #password, #retype-pass").on("input", function (event) {
     preventSpaces(event);
-  });
-  $("#password").on("input", function (event) {
-    preventSpaces(event);
-  });
-  $("#retype-pass").on("input", function (event) {
-    preventSpaces(event);
+    checkFormValidity();
   });
 
   // Event listeners for all input fields validity
@@ -218,13 +231,13 @@ $(document).ready(function () {
     checkFormValidity();
   });
 
-  $("#password").on("change", function () {
+  $("#password").on("input", function () {
     fields.password.touched = true;
     validatePassword($(this), true);
     checkFormValidity();
   });
 
-  $("#retype-pass").on("change", function () {
+  $("#retype-pass").on("input", function () {
     fields.retypePass.touched = true;
     validateRetypePassword($(this), $("#password"), true);
     checkFormValidity();

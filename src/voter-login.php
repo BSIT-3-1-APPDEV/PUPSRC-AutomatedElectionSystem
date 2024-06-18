@@ -12,6 +12,8 @@ SessionManager::checkUserRoleAndRedirect();
 
 $csrf_token = CsrfToken::generateCSRFToken();
 
+$_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
+
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
     unset($_SESSION['error_message']);
@@ -20,6 +22,13 @@ if (isset($_SESSION['error_message'])) {
 if (isset($_SESSION['info_message'])) {
     $info_message = $_SESSION['info_message'];
     unset($_SESSION['info_message']);
+}
+
+$max_login_attempts = false;
+
+if(isset($_SESSION['maxLimit']) && $_SESSION['maxLimit'] === true) {
+    $max_login_attempts = $_SESSION['maxLimit'];
+    unset($_SESSION['maxLimit']);
 }
 
 // Create connection with the database
@@ -64,6 +73,7 @@ $connection->close();
 
     <link rel="stylesheet" href="styles/dist/landing.css">
     <link rel="stylesheet" href="styles/loader.css" />
+    <link rel="preload" href="images/resc/ivote-icon.png" as="image">
     <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
     <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
     <title>Login</title>
@@ -179,7 +189,7 @@ $connection->close();
                             </div>
                         </div>
 
-                        <a href="forgot-password.php" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</a>
+                        <div role="button" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</div>
 
                         <div class="d-grid gap-2 mt-5 mb-4">
                             <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
@@ -187,6 +197,35 @@ $connection->close();
                         </div>
                         <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Will be used to display if login attempts reached maximum
+        const maxLoginAttempts = <?php echo json_encode((bool)$max_login_attempts); ?>
+    </script>
+
+    <!-- Max Login Attempt Limit Modal -->
+    <div class="modal" id="maxLimitReachedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="max-modal">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end">
+                        <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" role="button" data-bs-dismiss="modal"></i>
+                    </div>
+                    <div class="text-center">
+                        <div class="col-md-12 mt-3 mb-3">
+                            <img src="images/resc/warning.png" class="warning-icon" alt="Warning Icon">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pb-3">
+                                <p class="fw-bold fs-3 spacing-4 limit" >Max Limit Reached</p>
+                                <p class="fw-medium max-text">Sorry, you've reached the maximum number of attempts. For security reasons, please wait for <strong>30 minutes</strong> before trying again.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

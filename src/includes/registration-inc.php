@@ -9,13 +9,13 @@ CsrfToken::validateCSRFToken();
 
 if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["sign-up"])) {
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $retype_password = $_POST['retype-pass'];
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $retype_password = trim($_POST['retype-pass']);
     $organization = $_POST['org'];
     $cor = $_FILES['cor'];
 
     // Instantiate a new instance of Registration class
-    $process_registration = new Registration($email, $password, $organization, $cor);
+    $process_registration = new Registration($email, $password, $retype_password, $organization, $cor);
     $process_registration->processRegistrationCredentials();
 }
