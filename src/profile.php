@@ -5,12 +5,35 @@ require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 
+$_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
+
 if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
-
-
 	include FileUtils::normalizeFilePath('includes/session-exchange.php');
-	include FileUtils::normalizeFilePath('submission_handlers/manage-acc.php');
+											
+	$connection = DatabaseConnection::connect();
+	$voter_id = $_SESSION['voter_id'];
+
+	$sql = "SELECT last_name, first_name, middle_name, suffix, email, role FROM voter WHERE voter_id = ?";
+	$stmt = $connection->prepare($sql);
+	$stmt->bind_param("i", $voter_id);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	
+	while($row = $result->fetch_assoc()) {
+		$last_name = $row['last_name'] ?? '';
+		$first_name = $row['first_name'] ?? '';
+		$middle_name = $row['middle_name'] ?? '';
+		$suffix = $row['suffix'] ?? '';
+		$email = $row['email'];
+		$role = $row['role'];
+	}
+
+	$full_name = $last_name . ' ' . $suffix . ', ' . $first_name . ' ' . $middle_name;
+
+	$stmt->close();
+	$connection->close();
+	
 ?>
 
 	<!DOCTYPE html>
@@ -74,10 +97,10 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 									<div class="col-md-6 text-center position-relative card-container">
 										<div class="member-card main-border-color">
 											<div class="member-card-header main-bg-color">
-												iVOTE Committee Role
+												iVOTE Account Type
 											</div>
-											<div class="member-card-body">
-												MEMBER
+											<div class="member-card-body text-capitalize">
+												<?php echo htmlspecialchars($role); ?>
 											</div>
 										</div>
 										<div class="vertical-line"></div>
@@ -88,11 +111,11 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 										<div class="profile-info">
 											<div>
 												<span class="label main-color">Full Name</span>
-												<p class="user-name text-truncate">Dator, Rhey Yuri Marcelino</p>
+												<p class="user-name text-truncate text-capitalize"><?php echo htmlspecialchars($full_name); ?></p>
 											</div>
 											<div>
 												<span class="label main-color">Email Address</span>
-												<p class="user-email text-truncate">rhey.yuridator@gmail.com</p>
+												<p class="user-email text-truncate"><?php echo htmlspecialchars($email); ?></p>
 											</div>
 										</div>
 									</div>
@@ -105,7 +128,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 			</div>
 		</div>
 
-		<?php include_once __DIR__ . '/includes/components/footer.php'; ?>
+		<?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/footer.php'); ?>
 
 		<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="scripts/script.js"></script>
