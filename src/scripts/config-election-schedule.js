@@ -354,13 +354,13 @@ ConfigPage.startDateValidation = {
     clear_invalid: false,
     attributes: {
         type: 'date',
-        pattern: ConfigPage.DATE_REGEX,
+        // pattern: ConfigPage.DATE_REGEX,
         required: true,
         min: ConfigPage.TODAY,
         max: ConfigPage.FIVE_YEARS_AHEAD.toISOString().split('T')[0],
     },
     customMsg: {
-        pattern: 'Only date in numbers are allowed.',
+        // pattern: 'Only date in numbers are allowed.',
         required: true,
         min: 'Date cannot be past',
         max: '',
@@ -377,13 +377,13 @@ ConfigPage.endDateValidation = {
     clear_invalid: false,
     attributes: {
         type: 'date',
-        pattern: ConfigPage.DATE_REGEX,
+        // pattern: ConfigPage.DATE_REGEX,
         required: true,
         min: ConfigPage.TODAY,
         max: ConfigPage.FIVE_YEARS_AHEAD.toISOString().split('T')[0],
     },
     customMsg: {
-        pattern: 'Only date in numbers are allowed.',
+        // pattern: 'Only date in numbers are allowed.',
         required: true,
         min: 'Date cannot be past',
         max: '',
@@ -399,11 +399,11 @@ ConfigPage.startTimeValidation = {
     clear_invalid: false,
     attributes: {
         type: 'time',
-        pattern: ConfigPage.DATE_REGEX,
+        // pattern: ConfigPage.DATE_REGEX,
         required: true,
     },
     customMsg: {
-        pattern: 'Only date in numbers are allowed.',
+        // pattern: 'Only date in numbers are allowed.',
         required: true,
     },
     errorFeedback: {
@@ -416,11 +416,11 @@ ConfigPage.endTimeValidation = {
     clear_invalid: false,
     attributes: {
         type: 'time',
-        pattern: ConfigPage.DATE_REGEX,
+        // pattern: ConfigPage.DATE_REGEX,
         required: true,
     },
     customMsg: {
-        pattern: 'Only date in numbers are allowed.',
+        // pattern: 'Only date in numbers are allowed.',
         required: true,
     },
     errorFeedback: {
@@ -528,13 +528,6 @@ ConfigPage.toggleEndDateTime = function () {
         ConfigPage.timePickerEnd.disabled = true;
 
     } else {
-        if (ConfigPage.datePickerEnd.getAttribute('data-value')) {
-            ConfigPage.datePickerEnd.value = ConfigPage.datePickerEnd.getAttribute('data-value');
-        }
-
-        if (ConfigPage.timePickerEnd.getAttribute('data-value')) {
-            ConfigPage.timePickerEnd.value = ConfigPage.timePickerEnd.getAttribute('data-value');
-        }
         ConfigPage.datePickerEnd.disabled = false;
         ConfigPage.timePickerEnd.disabled = false;
     }
@@ -572,12 +565,14 @@ ConfigPage.handleSetSchedule = function () {
     ConfigPage.handleValidation(ConfigPage.datePickerEnd, ConfigPage.endDateValidator, false);
     ConfigPage.handleValidation(ConfigPage.timePickerStart, ConfigPage.startTimeValidator, false);
     ConfigPage.handleValidation(ConfigPage.timePickerEnd, ConfigPage.endTimeValidator, false);
+
     let schedule = {
         electionStart: ConfigPage.getDatetimeInput(ConfigPage.dateGroupStart),
         electionEnd: ConfigPage.getDatetimeInput(ConfigPage.dateGroupEnd),
     }
+    console.log(schedule);
 
-    ConfigPage.postData(schedule);
+    // ConfigPage.postData(schedule);
 }
 
 ConfigPage.warningModal = new bootstrap.Modal(document.getElementById('warning-modal'));
