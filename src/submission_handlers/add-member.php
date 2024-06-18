@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO voter (last_name, first_name, middle_name, suffix, email, password, role, account_status)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, 'Active')";
+                    VALUES (?, ?, ?, ?, ?, ?, ?, 'verified')";
 
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sssssss", $lastName, $firstName, $middleName, $suffix, $email, $hashedPassword, $role);
