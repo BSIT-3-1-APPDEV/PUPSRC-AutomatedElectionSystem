@@ -107,6 +107,12 @@ body {
       padding-bottom: 30px;
       text-align: center; 
   }
+
+  .voting-closed {
+    padding-top: 10px;
+    padding-bottom: 30px;
+    text-align: center; 
+}
   
   .end-point img {
     padding-top: 20px;

@@ -58,7 +58,7 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
 <div class="container mb-5">
     <div class="row justify-content-md-center align-items-center">
         <div class="col-lg-6 col-sm-12 order-sm-2">
-            <div class="end-point text-center">
+            <div class="voting-closed text-center">
                 <?php echo '<img src="../src/images/resc/closed-election-year/'. $org_acronym .'-closed-elec.png" alt="Closed Election Image" class="img-fluid">';?>
             </div>
         </div>
