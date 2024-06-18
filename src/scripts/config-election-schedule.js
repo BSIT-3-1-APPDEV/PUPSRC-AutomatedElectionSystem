@@ -570,9 +570,8 @@ ConfigPage.handleSetSchedule = function () {
         electionStart: ConfigPage.getDatetimeInput(ConfigPage.dateGroupStart),
         electionEnd: ConfigPage.getDatetimeInput(ConfigPage.dateGroupEnd),
     }
-    console.log(schedule);
 
-    // ConfigPage.postData(schedule);
+    ConfigPage.postData(schedule);
 }
 
 ConfigPage.warningModal = new bootstrap.Modal(document.getElementById('warning-modal'));
