@@ -35,7 +35,7 @@
 				<div id="submenuToggle2" class="submenu-item <?php echo
 
 						# ---- MANAGE CANDIDATES PAGES
-					(basename($_SERVER['PHP_SELF']) == 'manage-candidates.php' ||
+					(basename($_SERVER['PHP_SELF']) == 'manage-candidate.php' ||
 						basename($_SERVER['PHP_SELF']) == 'add-candidate.php')
 					? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageCandidates" data-bs-parent="false">
 
@@ -67,12 +67,12 @@
 				</div>
 				<ul class="menu-items submenu collapse" id="manageCandidates">
 					<li class="item">
-						<a href="manage-voters.php"
+						<a href="add-candidate.php"
 							class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Add
 							Candidate</a>
 					</li>
 					<li class="item">
-						<a href="admin-creation.php"
+						<a href="manage-candidate.php"
 							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Manage
 							Candidates</a>
 					</li>
@@ -183,7 +183,7 @@
 				<ul class="dropdown-menu dropdown-menu-end main-color p-3" aria-labelledby="dropdownMenuButton">
 					<li class="px-xl-2 py-xl-1"><a class="dropdown-item" href="profile.php"><i data-feather="user"
 								class="fs-12 main-color mb-xl-1"></i><span style="padding-left: .8rem">Profile</a></li>
-					<li class="px-xl-2"><a class="dropdown-item" href="#"><i data-feather="trash-2"
+					<li class="px-xl-2"><a class="dropdown-item" href="recycle-bin.php"><i data-feather="trash-2"
 								class="fs-11 main-color mb-xl-1"></i><span style="padding-left: .8rem">Recycle Bin</a>
 					</li>
 					<li class="px-xl-2 py-xl-1"><a class="dropdown-item" href="includes/voter-logout.php"><i

@@ -1,10 +1,8 @@
 (() => {
   "use strict";
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
   const forms = document.querySelectorAll(".needs-validation");
 
-  // Loop over them and prevent submission
   Array.from(forms).forEach((form) => {
     form.addEventListener(
       "submit",
@@ -21,67 +19,111 @@
   });
 })();
 
-// Updated script for password toggle
-document.addEventListener("DOMContentLoaded", function () {
-  const togglePassword = document.querySelector("#password-toggle");
-  const passwordInput = document.querySelector("#Password");
-
-  togglePassword.addEventListener("click", function () {
-    const type =
-      passwordInput.getAttribute("type") === "password" ? "text" : "password";
-    passwordInput.setAttribute("type", type);
-
-    // Change button text
-    togglePassword.textContent = type === "password" ? "Show" : "Hide";
-  });
-});
-
-// Disallow whitespaces from input fields
-function avoidSpace(event) {
-  if (event.key === " ") {
-    event.preventDefault();
-  }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  const sendButton = document.querySelector("#" + ORG_NAME);
-  const emailInput = document.querySelector("#email");
-
-  sendButton.disabled = true; // Initially disable the Send button
-
-  const validateEmail = () => {
-    const email = emailInput.value;
-    const isValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(
-      email
-    ); // Basic email format validation
-    sendButton.disabled = !isValid;
-    const emailError = document.querySelector("#email-error");
-    if (!isValid) {
-      emailError.textContent = "Please provide a valid email address.";
-      emailInput.classList.add("is-invalid");
-    } else {
-      emailError.textContent = "";
-      emailInput.classList.remove("is-invalid");
+$(document).ready(function () {
+  const avoidSpace = (event) => {
+    if (event.key === " ") {
+      event.preventDefault();
     }
   };
 
-  // Validate the email input on input and change events
-  emailInput.addEventListener("input", validateEmail);
-  emailInput.addEventListener("change", validateEmail);
+  const preventSpaces = (event) => {
+    let input = event.target;
+    let value = $(input).val();
+    value = value.replace(/\s/g, "");
+    $(input).val(value);
+  };
 
-  // Password Reset Link
-  $("#" + ORG_NAME).click(function (event) {
+  $("input").on("keydown", avoidSpace);
+  $("input").on("input", preventSpaces);
+
+  // Function to reset forgot password form
+  const resetForgotPasswordForm = () => {
+    $("#email-error").text("");
+    $("#email").removeClass("is-invalid is-valid was-validated");
+    $("#email-valid").text("");
+    $("#" + ORG_NAME).prop("disabled", true);
+    $("#forgot-password-form")[0].reset();
+  };
+
+  $("#cancelReset").on("click", resetForgotPasswordForm);
+
+  // Toggle password visibility
+  $("#password-toggle").on("click", function () {
+    const type =
+      $("#Password").attr("type") === "password" ? "text" : "password";
+    $("#Password").attr("type", type);
+    $(this).text(type === "password" ? "Show" : "Hide");
+  });
+
+  const sendButton = $("#" + ORG_NAME);
+  sendButton.prop("disabled", true);
+
+  const validateEmail = (
+    email,
+    emailErrorElement,
+    emailValidElement,
+    isLogin = false
+  ) => {
+    const emailValue = email.val().trim();
+    const isValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(
+      emailValue
+    );
+    const user = user_data[emailValue]; // Assuming user_data is available
+
+    if (!isValid) {
+      email.removeClass("is-valid was-validated").addClass("is-invalid");
+      emailErrorElement.text("Please provide a valid email.");
+      emailValidElement.text("");
+    } else if (!isLogin && !user) {
+      email.removeClass("is-valid was-validated").addClass("is-invalid");
+      emailErrorElement.text("User with this email does not exist.");
+      emailValidElement.text("");
+    } else if (!isLogin && user === "invalid") {
+      email.removeClass("is-valid was-validated").addClass("is-invalid");
+      emailErrorElement.text("This account was rejected.");
+      emailValidElement.text("");
+    } else {
+      email.removeClass("is-invalid").addClass("is-valid was-validated");
+      emailErrorElement.text("");
+      emailValidElement.text("Looks right!");
+    }
+
+    if (!isLogin) {
+      sendButton.prop("disabled", !(isValid && user && user !== "invalid"));
+    }
+  };
+
+  $("#email").on("input", function () {
+    validateEmail($(this), $("#email-error"), $("#email-valid"));
+  });
+
+  $("#Email").on("change", function () {
+    validateEmail(
+      $(this),
+      $("#email-login-error"),
+      $("#email-login-valid"),
+      true
+    );
+  });
+
+  if (maxLoginAttempts) {
+    $("#maxLimitReachedModal").modal("show");
+  }
+
+  sendButton.on("click", function (event) {
     event.preventDefault();
-    var email = $("#email").val();
+    const email = $("#email").val();
+    const emailError = $("#email-error");
+
     if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
-      // Basic email format validation
-      const emailError = document.querySelector("#email-error");
-      emailError.textContent = "Please provide a valid email address.";
-      emailInput.classList.add("is-invalid");
+      emailError.text("Please provide a valid email address.");
+      $("#email").addClass("is-invalid");
       return;
     }
 
-    sendButton.disabled = true; // Disable the button while the request is being processed
+    $("#forgot-password-modal").modal("hide");
+    $("#emailSending").modal("show");
+    sendButton.prop("disabled", true);
 
     $.ajax({
       url: "includes/send-password-reset.php",
@@ -89,29 +131,25 @@ document.addEventListener("DOMContentLoaded", function () {
       data: { email: email },
       dataType: "json",
       success: function (response) {
+        $("#emailSending").modal("hide");
+
         if (response.success) {
           $("#successResetPasswordLinkModal")
             .modal("show")
             .on("hidden.bs.modal", function () {
-              location.reload();
+              resetForgotPasswordForm();
             });
         } else {
-          const emailError = document.querySelector("#email-error");
-          emailError.textContent = response.message;
-          emailInput.classList.add("is-invalid");
-          sendButton.disabled = false;
-          sendButton.disabled = false; // Re-enable the button if there's an error
+          $("#forgot-password-modal").modal("show");
+          emailError.text(response.message);
+          $("#email").addClass("is-invalid");
+          sendButton.prop("disabled", false);
         }
       },
       error: function (xhr, status, error) {
         console.error(xhr.responseText);
-        sendButton.disabled = false; // Re-enable the button if there's an error
+        sendButton.prop("disabled", false);
       },
     });
-  });
-
-  // Disable the "Send" button after it's clicked
-  $("#" + ORG_NAME).click(function () {
-    $(this).prop("disabled", true);
   });
 });

@@ -68,11 +68,13 @@ export default class InputValidator {
         let input_element = input_obj;
         let original_value = input_element.value;
         let trimmed_value = original_value;
-        // console.log('orig val ' + original_value);
 
         this.enforceAttributes(input_element);
 
         if (input_element.validity.typeMismatch) {
+            if (this.#validations?.customMsg?.typeMismatch) {
+                input_element.setCustomValidity(this.#validations.customMsg.typeMismatch);
+            }
             return false;
         }
 
@@ -81,7 +83,10 @@ export default class InputValidator {
             if (input_element.validity.valueMissing || original_value.trim() === '') {
                 input_element.value = original_value.trim();
                 if (typeof callback === 'function') {
-                    callback(input_element);
+                    callback(input_element, this.#validations?.errorFeedback?.required);
+                }
+                if (this.#validations?.customMsg?.required) {
+                    input_element.setCustomValidity(this.#validations.customMsg.required);
                 }
                 return false;
             }
@@ -104,8 +109,13 @@ export default class InputValidator {
                 }
 
                 if (typeof callback === 'function') {
-                    callback(input_element);
+                    callback(input_element, this.#validations?.errorFeedback?.pattern);
                 }
+
+                if (this.#validations?.customMsg?.pattern) {
+                    input_element.setCustomValidity(this.#validations.customMsg.pattern);
+                }
+
 
                 return false;
             }
@@ -117,14 +127,38 @@ export default class InputValidator {
 
                 trimmed_value = trimmed_value.slice(0, this.#validations.attributes.max_length);
             }
+
+            if (typeof callback === 'function') {
+                callback(input_element, this.#validations?.errorFeedback?.max_length);
+            }
+
+            if (this.#validations?.customMsg?.max_length) {
+                input_element.setCustomValidity(this.#validations.customMsg.max_length);
+            }
             return false;
         }
 
         if (this.#validations.attributes.min && input_element.validity.rangeUnderflow) {
+
+            if (typeof callback === 'function') {
+                callback(input_element, this.#validations?.errorFeedback?.min);
+            }
+
+            if (this.#validations?.customMsg?.min) {
+                input_element.setCustomValidity(this.#validations.customMsg.min);
+            }
             return false;
         }
 
         if (this.#validations.attributes.max && input_element.validity.rangeOverflow) {
+
+            if (typeof callback === 'function') {
+                callback(input_element, this.#validations?.errorFeedback?.max);
+            }
+
+            if (this.#validations?.customMsg?.max) {
+                input_element.setCustomValidity(this.#validations.customMsg.max);
+            }
             return false;
         }
 
@@ -151,7 +185,7 @@ export default class InputValidator {
 
         }
 
-        return input_element.checkValidity();
+        return true;
 
     }
 
@@ -200,13 +234,13 @@ export default class InputValidator {
 
 
     setMin(input_obj, attributes) {
-        if (typeof attributes.min === 'number' && !isNaN(attributes.min)) {
+        if (attributes.min) {
             input_obj.min = attributes.min;
         }
     }
 
     setMax(input_obj, attributes) {
-        if (typeof attributes.max === 'number' && !isNaN(attributes.max)) {
+        if (attributes.max) {
             input_obj.max = attributes.max;
         }
     }

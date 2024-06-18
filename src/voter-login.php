@@ -2,14 +2,17 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
+require_once FileUtils::normalizeFilePath('includes/classes/csrf-token.php');
+require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 include_once FileUtils::normalizeFilePath('includes/session-exchange.php');
+include_once FileUtils::normalizeFilePath('includes/default-time-zone.php');
 include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 SessionManager::checkUserRoleAndRedirect();
 
-// Generates hexadecimal token that expires in 30 minutes to avoid Cross-Site Request Forgery 
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-$_SESSION['csrf_expiry'] = time() + (60 * 30);
+$csrf_token = CsrfToken::generateCSRFToken();
+
+$_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
 
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
@@ -20,6 +23,33 @@ if (isset($_SESSION['info_message'])) {
     $info_message = $_SESSION['info_message'];
     unset($_SESSION['info_message']);
 }
+
+$max_login_attempts = false;
+
+if(isset($_SESSION['maxLimit']) && $_SESSION['maxLimit'] === true) {
+    $max_login_attempts = $_SESSION['maxLimit'];
+    unset($_SESSION['maxLimit']);
+}
+
+// Create connection with the database
+$connection = DatabaseConnection::connect();
+
+$sql = "SELECT email, account_status FROM voter";
+$result = $connection->query($sql);
+
+// Hold all emails and statuses
+$user_data = array();
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $email = $row['email'];
+        $account_status = $row['account_status'];
+        // Store email and status as key value pairs
+        $user_data[$email] = $account_status;
+    }
+}
+
+$connection->close();
 
 ?>
 
@@ -43,6 +73,7 @@ if (isset($_SESSION['info_message'])) {
 
     <link rel="stylesheet" href="styles/dist/landing.css">
     <link rel="stylesheet" href="styles/loader.css" />
+    <link rel="preload" href="images/resc/ivote-icon.png" as="image">
     <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
     <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
     <title>Login</title>
@@ -50,8 +81,10 @@ if (isset($_SESSION['info_message'])) {
 
 <body class="login-body" id="<?php echo strtoupper($org_name); ?>-body">
 
+    <!-- Preloader -->
     <?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html'); ?>
 
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
             <a href="landing-page.php"><img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo"></a>
@@ -81,6 +114,10 @@ if (isset($_SESSION['info_message'])) {
 
                 <div>
                     <form action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
+                                 
+                        <!-- CSRF Token hidden field -->
+                        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                        
                         <h1 class="login-account">Account Log In</h1>
                         <p>Sign in to your account</p>
 
@@ -114,37 +151,81 @@ if (isset($_SESSION['info_message'])) {
                         <?php endif; ?>
 
                         <div class="col-md-12 mt-0 mb-3">
-                            <input type="email" class="form-control" id="Email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" 
+                            <input type="email" class="form-control shadow-sm" id="Email" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" 
                             value="
                                 <?php 
                                 if (isset($_SESSION['email'])) {
                                     echo htmlspecialchars($_SESSION['email']);
                                 }
-                                ?>
-                            ">
-                            <div class="valid-feedback text-start">Looks good!</div>
-                            <div class="ps-2 text-start invalid-feedback">
+                                unset($_SESSION['email']);
+                                ?>" 
+                            autocomplete="email">
+                            
+                            <div class="ps-1 fw-medium valid-feedback text-start" id="email-login-valid">
+                                <!-- Display default valid message -->
+                                Looks right!
+                            </div>
+                            <div class="ps-1 fw-medium text-start invalid-feedback" id="email-login-error">
+                                <!-- Display error messages here -->
+
+                                <!-- Display default error message -->
                                 Please provide a valid email.
                             </div>
-                        </div>
+                        </div>  
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
-                                <input type="password" class="form-control" name="password" onkeypress="return avoidSpace(event)" placeholder="Password" id="Password" required>
-                                <button class="btn" type="button" id="password-toggle">Show</button>
+                                <input type="password" class="form-control shadow-sm" name="password" placeholder="Password" id="Password" autocomplete="current-password" required>
+                                <button class="btn shadow-sm border border-0" type="button" id="password-toggle">Show</button>
+                                
+                                <!-- Displaying these validation messages messes up the UI
 
+                                <div class="ps-1 fw-medium valid-feedback text-start">
+                                    Looks right!
+                                </div>
+                                <div class="ps-1 fw-medium text-start invalid-feedback">
+                                    Please provide a valid password.
+                                </div> --> 
                             </div>
                         </div>
 
-                        <a href="forgot-password.php" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</a>
+                        <div role="button" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</div>
 
                         <div class="d-grid gap-2 mt-5 mb-4">
                             <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
                             <button class="btn login-sign-in-button btn-primary <?php echo strtoupper($org_name); ?>-login-button" name="sign-in" type="submit">Sign In</button>
                         </div>
                         <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
-                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Will be used to display if login attempts reached maximum
+        const maxLoginAttempts = <?php echo json_encode((bool)$max_login_attempts); ?>
+    </script>
+
+    <!-- Max Login Attempt Limit Modal -->
+    <div class="modal" id="maxLimitReachedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="max-modal">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end">
+                        <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" role="button" data-bs-dismiss="modal"></i>
+                    </div>
+                    <div class="text-center">
+                        <div class="col-md-12 mt-3 mb-3">
+                            <img src="images/resc/warning.png" class="warning-icon" alt="Warning Icon">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pb-3">
+                                <p class="fw-bold fs-3 spacing-4 limit" >Max Limit Reached</p>
+                                <p class="fw-medium max-text">Sorry, you've reached the maximum number of attempts. For security reasons, please wait for <strong>30 minutes</strong> before trying again.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -165,20 +246,28 @@ if (isset($_SESSION['info_message'])) {
                                 <!-- <p for="email" class="form-label text-start ps-1">We will send a password reset link to your registered email address.</p> -->
                                 <p>Email Address</p>
                             </div>
-                            <input type="email" class="form-control" id="email" name="email" onkeypress="return avoidSpace(event)" placeholder="Email Address">
-                            <div class="invalid-feedback text-start" id="email-error">
+                            <input type="email" class="form-control border border-secondary-subtle shadow-sm" id="email" name="email" placeholder="Email Address" autocomplete="email">
+                            <div class="valid-feedback text-start fw-medium" id="email-valid">
+                            </div>
+                            <div class="invalid-feedback text-start fw-medium" id="email-error">
                                 <!-- Displays error messages -->
                             </div>
+
+                            <!-- Will be used for validating user -->
+                            <script>
+                                const user_data = <?php echo json_encode($user_data); ?>
+                            </script>
+
                         </div>
                         <div class="col-md-12 ">
                             <div class="row reset-pass">
                                 <div class="col-4">
-                                    <button type="button" id="sendPasswordResetLink" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal" onclick="location.reload()">Cancel</button>
+                                    <button type="button" id="cancelReset" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                                 <div class="col-4">
                                     <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send</button>
                                     <script>
-                                        var ORG_NAME = "<?php echo strtoupper($org_name) . '-login-button'; ?>";
+                                        const ORG_NAME = "<?php echo strtoupper($org_name) . '-login-button'; ?>";
                                     </script>
                                 </div>
                             </div>
@@ -190,37 +279,52 @@ if (isset($_SESSION['info_message'])) {
         </div>
     </div>
 
-<!-- Success Modal -->
-<div class="modal" id="successResetPasswordLinkModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" id="success-modal">
-            <div class="modal-body">
-                <div class="d-flex justify-content-end">
-                    <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" onclick="closeModal()"></i>
-                </div>
-                <div class="text-center">
-                    <div class="col-md-12">
-                        <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 pb-3">
-                            <p class="fw-bold fs-3 text-success spacing-4">Success!</p>
-                            <p class="fw-medium spacing-5">An email containing the password reset link has been sent. Kindly check your email.
-                            </p>
+    <!-- Email Sending Modal -->
+    <div class="modal" id="emailSending" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body pb-5">
+                    <div class="text-center">
+                        <div class="col-md-12 pt-5">
+                            <img src="images/resc/loader.gif" class="loading-gif" alt="iVote Logo">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pt-4">
+                                <p class="fw-bold fs-4 spacing-4">Sending email...</p>
+                                <p class="fw-medium spacing-5 fs-7">Please wait for a moment</span>.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    function closeModal() {
-        $('#successResetPasswordLinkModal').modal('hide');
-    }
-</script>
-
+    <!-- Success Modal -->
+    <div class="modal" id="successResetPasswordLinkModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" id="success-modal">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end">
+                        <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" role="button" data-bs-dismiss="modal"></i>
+                    </div>
+                    <div class="text-center">
+                        <div class="col-md-12">
+                            <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pb-3">
+                                <p class="fw-bold fs-3 text-success spacing-4">Success!</p>
+                                <p class="fw-medium spacing-5">An email containing the password reset link has been sent. Kindly check your email.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

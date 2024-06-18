@@ -1,0 +1,169 @@
+.btn-lvl-current {
+    background-color: var(--main-color) !important;
+    color: white !important;
+    border-radius: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 1 !important;
+    cursor: default !important;
+  }
+  
+  .btn-lvl-white {
+    background-color: #fff !important;
+    color: grey !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+    cursor: default !important;
+    float: right !important;
+  }
+  
+  .btn-lvl-white-add {
+    color: var(--main-color) !important;
+    border-radius: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 1 !important;
+    font-size: xx-small;
+    background-color: #fff !important;
+  }
+  
+  
+  .btn-lvl-white {
+    padding: 6px 30px !important;
+  }
+  
+  .btn-lvl-current {
+    padding: 6px 50px !important;
+  }
+  
+  .btn-lvl-white+.btn-lvl-current {
+    margin-left: -30px !important;
+  }
+  
+  
+  /* FOR 3 LEVELS */
+  .btn-back {
+    background-color: #fff !important;
+    color: grey !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+  }
+  
+  .btn-back:hover {
+    color: var(--bs-gray-300) !important;
+  }
+  
+  .btn-current {
+    background-color: var(--main-color) !important;
+    color: white !important;
+    border: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 1 !important;
+    cursor: default !important;
+  }
+  
+  .btn-white {
+    background-color: #fff !important;
+    color: grey !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    padding: 10px 5px !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+    cursor: default !important;
+  }
+  
+  .no-border {
+    border: none !important;
+  }
+  
+  /* Horizontal padding */
+  
+  .btn-white {
+    padding: 6px 30px !important;
+  }
+  
+  .btn-back {
+    padding: 6px 50px !important;
+  }
+  
+  .btn-current {
+    padding: 6px 50px !important;
+  }
+  
+  .btn-white+.btn-back {
+    margin-left: -30px !important;
+  }
+  
+  .btn-back+.btn-current {
+    margin-left: -30px !important;
+  }
+  
+  .breadcrumbs button {
+    border: none !important;
+  }
+
+  .button-add {
+    background-color: white;
+    color: var(--main-color)!important;
+    border-radius: 50px;
+    padding: 5px 50px;
+    font-weight: 800;
+    z-index: 1;
+    cursor: default;
+  } 
+
+  
+  
+  /* DELETE CSS */
+  /* Adjust the width of the checkbox column */
+  .row-checkbox {
+    width: 20px; /* Set an appropriate width */
+  }
+  
+  /* Prevent other columns from resizing */
+  .col-md-3 {
+    flex: 1; /* Maintain equal flex distribution for other columns */
+  }
+  
+  .checkbox-th {
+    padding: 0.25rem 0.5rem; /* Adjust the top/bottom and left/right padding as needed */
+  }
+  
+  .checkbox-td {
+    padding: 0.25rem 0.5rem; /* Adjust the top/bottom and left/right padding as needed */
+  }
+  
+  .delete-button {
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Modal Overlay */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(77, 77, 77, 0.212); /* Semi-transparent black */
+    z-index: 1040; /* Adjust this value based on your modal's z-index */
+    display: none;
+  }
+  
+  /* Custom styles for red checkboxes */
+  .form-check-input:checked {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }

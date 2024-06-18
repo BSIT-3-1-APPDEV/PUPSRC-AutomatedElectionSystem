@@ -2,17 +2,19 @@
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-config.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath('includes/classes/csrf-token.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
 require_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 SessionManager::checkUserRoleAndRedirect();
 
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-$_SESSION['csrf_expiry'] = time() + (60 * 30);
-$organization = 'sco';
+$csrf_token = CsrfToken::generateCSRFToken();
+
+$_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
 
 // Retrieves database configuration based on the organization name
+$organization = 'sco';
 $config = DatabaseConfig::getOrganizationDBConfig($organization);
 
 // Creates database connection
@@ -85,6 +87,9 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                 <form id="register-form" action="includes/registration-inc.php" method="POST"
                     enctype="multipart/form-data">
 
+                    <!-- CSRF Token hidden field -->
+                    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+
                     <div class="row">
                         <div class="col-12 header-register">
                             <p class="fs-2 fw-bold main-red spacing-6">Get Started</p>
@@ -120,7 +125,6 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
 
                     <!-- Select Organization -->
                     <div class="row pt-2">
@@ -195,7 +199,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                             <div class="col-7">
                                 <div id="submit-container">
                                     <button
-                                        class="btn btn-primary px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 w-100"
+                                        class="btn btn-primary px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 w-100 text-white"
                                         type="submit" id="sign-up" name="sign-up" disabled>Sign
                                         Up</button>
                                 </div>

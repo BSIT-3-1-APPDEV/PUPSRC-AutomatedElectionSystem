@@ -159,7 +159,8 @@ let myChart;
 
 function updateChart(candidatesData) {
     candidatesData.sort((a, b) => b.votesCount - a.votesCount);
-    const IMG_URLS = candidatesData.map(candidate => `images/candidate-profile/${candidate.photoUrl}`);
+const IMG_URLS = candidatesData.map(candidate => `user_data/${orgName}/candidate_imgs/${candidate.photoUrl}`);
+
     const DATA_POINTS = candidatesData.map(candidate => candidate.votesCount);
     const LABELS = candidatesData.map(candidate => [candidate.firstName, candidate.lastName]);
  
