@@ -1,151 +1,146 @@
-// Updated script for password toggle
-document.addEventListener("DOMContentLoaded", function () {
-  const togglePassword1 = document.querySelector("#reset-password-toggle-1");
-  const togglePassword2 = document.querySelector("#reset-password-toggle-2");
-  const passwordInput1 = document.querySelector("#password");
-  const passwordInput2 = document.querySelector("#password_confirmation");
-  const eyeIcon1 = togglePassword1.querySelector("i");
-  const eyeIcon2 = togglePassword2.querySelector("i");
-
-  togglePassword1.addEventListener("click", function () {
-    const type =
-      passwordInput1.getAttribute("type") === "password" ? "text" : "password";
-    passwordInput1.setAttribute("type", type);
-
-    eyeIcon1.classList.toggle("fa-eye-slash");
-    eyeIcon1.classList.toggle("fa-eye");
+$(document).ready(function () {
+  // Toggle password visibility
+  $("#reset-password-toggle-1").click(function () {
+    togglePasswordVisibility("#password", $(this));
   });
 
-  togglePassword2.addEventListener("click", function () {
-    const type =
-      passwordInput2.getAttribute("type") === "password" ? "text" : "password";
-    passwordInput2.setAttribute("type", type);
-
-    eyeIcon2.classList.toggle("fa-eye-slash");
-    eyeIcon2.classList.toggle("fa-eye");
+  $("#reset-password-toggle-2").click(function () {
+    togglePasswordVisibility("#password_confirmation", $(this));
   });
-});
 
-// Disallow whitespaces from input fields
-function avoidSpace(event) {
-    if (event.key === " ") {
-      event.preventDefault();
+  function togglePasswordVisibility(inputSelector, toggleElement) {
+    var passwordInput = $(inputSelector);
+    var eyeIcon = toggleElement.find("i");
+
+    var type = passwordInput.attr("type") === "password" ? "text" : "password";
+    passwordInput.attr("type", type);
+
+    eyeIcon.toggleClass("fa-eye-slash fa-eye");
+  }
+
+  // Function to prevent spaces from input fields
+  function preventSpaces(event) {
+    var input = $(event.target);
+    var value = input.val().replace(/\s/g, "");
+    input.val(value);
+  }
+
+  // Disallow whitespaces from input fields
+  $("#password, #password_confirmation").on("input", function (event) {
+    preventSpaces(event);
+  });
+
+  // Truncate password if exceeds 20 characters
+  function truncatePasswordIfExceedsMax(input) {
+    var value = input.val().trim();
+    if (value.length > 20) {
+      value = value.slice(0, 20);
+      input.val(value);
     }
   }
-  
-// Disabling the submit button when fields are empty
-document.addEventListener('DOMContentLoaded', function() {
-    const passwordInput = document.getElementById('password');
-    const passwordConfirmationInput = document.getElementById('password_confirmation');
-    const submitButton = document.getElementById('SCO-login-button');
-    const errorText = document.getElementById('password-mismatch-error');
 
-    function checkInputs() {
-        const passwordValue = passwordInput.value.trim();
-        const passwordConfirmationValue = passwordConfirmationInput.value.trim();
+  function checkInputs() {
+    truncatePasswordIfExceedsMax($("#password"));
+    truncatePasswordIfExceedsMax($("#password_confirmation"));
+    var passwordValue = $("#password").val().trim();
+    var passwordConfirmationValue = $("#password_confirmation").val().trim();
+    var submitButton = $("#SCO-login-button");
+    var errorText = $("#password-mismatch-error");
 
-        if (passwordConfirmationValue === '') {
-            submitButton.disabled = true;
-            errorText.style.display = 'none';
-        } else if (passwordValue === passwordConfirmationValue) {
-            submitButton.disabled = false;
-            errorText.style.display = 'none';
-        } else {
-            submitButton.disabled = true;
-            errorText.style.display = 'block';
-        }
+    // Password requirements
+    var hasValidLength =
+      passwordValue.length >= 8 && passwordValue.length <= 20;
+    var hasUpperCase = /[A-Z]/.test(passwordValue);
+    var hasLowerCase = /[a-z]/.test(passwordValue);
+    var hasNumber = /\d/.test(passwordValue);
+    var hasSpecialChar = /[\W_]/.test(passwordValue);
+
+    // Check if passwords match and all requirements are met
+    if (
+      passwordConfirmationValue === "" ||
+      !hasValidLength ||
+      !hasUpperCase ||
+      !hasLowerCase ||
+      !hasNumber ||
+      !hasSpecialChar
+    ) {
+      submitButton.prop("disabled", true);
+      errorText.hide();
+    } else if (passwordValue === passwordConfirmationValue) {
+      submitButton.prop("disabled", false);
+      errorText.hide();
+    } else {
+      submitButton.prop("disabled", true);
+      errorText.show();
+    }
+  }
+
+  // Initial check
+  checkInputs();
+
+  // Check inputs on input change
+  $("#password, #password_confirmation").on("input", function () {
+    checkInputs();
+  });
+
+  // Show password requirements
+  $("#password").on("input", function () {
+    var value = $(this).val().trim();
+    var passwordRequirements = $(".password-requirements");
+
+    if (value) {
+      passwordRequirements.addClass("show");
+    } else {
+      passwordRequirements.removeClass("show");
     }
 
-    checkInputs();
+    var passwordRequirementsList = $(".requirement");
 
-    passwordConfirmationInput.addEventListener('input', checkInputs);
-});
+    // Check password length
+    passwordRequirementsList
+      .eq(0)
+      .toggleClass("met", value.length >= 8 && value.length <= 20);
+    passwordRequirementsList
+      .eq(0)
+      .toggleClass("unmet", !(value.length >= 8 && value.length <= 20));
 
-// For the password requirements
-document.addEventListener('DOMContentLoaded', function() {
-  const passwordInput = document.getElementById('password');
-  const passwordRequirements = document.querySelector('.password-requirements');
+    // Check for uppercase letter
+    passwordRequirementsList.eq(1).toggleClass("met", /[A-Z]/.test(value));
+    passwordRequirementsList.eq(1).toggleClass("unmet", !/[A-Z]/.test(value));
 
-  passwordInput.addEventListener('input', function() {
-      const value = passwordInput.value.trim();
+    // Check for lowercase letter
+    passwordRequirementsList.eq(2).toggleClass("met", /[a-z]/.test(value));
+    passwordRequirementsList.eq(2).toggleClass("unmet", !/[a-z]/.test(value));
 
-      if (value) {
-          passwordRequirements.classList.add('show');
-      } else {
-          passwordRequirements.classList.remove('show');
-      }
+    // Check for number
+    passwordRequirementsList.eq(3).toggleClass("met", /\d/.test(value));
+    passwordRequirementsList.eq(3).toggleClass("unmet", !/\d/.test(value));
 
-      const passwordRequirementsList = document.querySelectorAll('.requirement');
-
-      // Check password length
-      if (value.length >= 8 && value.length <= 20) {
-          passwordRequirementsList[0].classList.add('met');
-          passwordRequirementsList[0].classList.remove('unmet');
-      } else {
-          passwordRequirementsList[0].classList.add('unmet');
-          passwordRequirementsList[0].classList.remove('met');
-      }
-
-      // Check for uppercase letter
-      if (/[A-Z]/.test(value)) {
-          passwordRequirementsList[1].classList.add('met');
-          passwordRequirementsList[1].classList.remove('unmet');
-      } else {
-          passwordRequirementsList[1].classList.add('unmet');
-          passwordRequirementsList[1].classList.remove('met');
-      }
-
-      // Check for lowercase letter
-      if (/[a-z]/.test(value)) {
-          passwordRequirementsList[2].classList.add('met');
-          passwordRequirementsList[2].classList.remove('unmet');
-      } else {
-          passwordRequirementsList[2].classList.add('unmet');
-          passwordRequirementsList[2].classList.remove('met');
-      }
-
-      // Check for number
-      if (/\d/.test(value)) {
-          passwordRequirementsList[3].classList.add('met');
-          passwordRequirementsList[3].classList.remove('unmet');
-      } else {
-          passwordRequirementsList[3].classList.add('unmet');
-          passwordRequirementsList[3].classList.remove('met');
-      }
-
-      // Check for special character
-      if (/[\W_]/.test(value)) {
-          passwordRequirementsList[4].classList.add('met');
-          passwordRequirementsList[4].classList.remove('unmet');
-      } else {
-          passwordRequirementsList[4].classList.add('unmet');
-          passwordRequirementsList[4].classList.remove('met');
-      }
+    // Check for special character
+    passwordRequirementsList.eq(4).toggleClass("met", /[\W_]/.test(value));
+    passwordRequirementsList.eq(4).toggleClass("unmet", !/[\W_]/.test(value));
   });
-});
 
-// Process new password
-$(document).ready(function () {
-    $("#SCO-login-button").click(function (event) {
-      event.preventDefault();
-      var password = $("#password").val();
-      var password_confirmation = $("#password_confirmation").val();
-      var token = $("#token").val();
-      $.ajax({
-        url: "includes/process-reset-password.php",
-        type: "POST",
-        data: 
-            { 
-                password: password, 
-                password_confirmation: password_confirmation,
-                token: token 
-            },
-        success: function (response) {
-          $("#successPasswordResetModal").modal("show");
-        },
-        error: function (xhr, status, error) {
-          console.error(xhr.responseText);
-        },
-      });
+  // Process new password
+  $("#SCO-login-button").click(function (event) {
+    event.preventDefault();
+    var password = $("#password").val();
+    var password_confirmation = $("#password_confirmation").val();
+    var token = $("#token").val();
+    $.ajax({
+      url: "includes/process-reset-password.php",
+      type: "POST",
+      data: {
+        password: password,
+        password_confirmation: password_confirmation,
+        token: token,
+      },
+      success: function (response) {
+        $("#successPasswordResetModal").modal("show");
+      },
+      error: function (xhr, status, error) {
+        console.error(xhr.responseText);
+      },
     });
+  });
 });
