@@ -403,7 +403,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         <img src="images/resc/check-animation.gif" class="img-icons img-fluid">
                         <p class=" fs-5 text-center green mb-3">Restored Successfully!</p>
                         <p class="fs-7 text-center fw-medium m-0">Accounts have been restored! You can now</p>
-                        <p class="fs-7 text-center fw-medium">Access them in the <a href="manage-voters.php" class="underlined-link">Voters</a></ul> table.</p>
+                        <p class="fs-7 text-center fw-medium">Access them in the <a href="manage-committee.php" class="underlined-link">Committee</a></ul> table.</p>
                     </div>
 
                 </div>
