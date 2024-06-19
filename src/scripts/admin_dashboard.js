@@ -4,7 +4,7 @@ let previousCandidatesData = null;
 let shouldSwapNames = false;
 
 function fetchCandidates() {
-console.log('Fetching candidates...'); // Add this line
+
 const SELECTED_POSITION = document.getElementById('positions').value; // Get the selected position
 
 const XHR = new XMLHttpRequest();
@@ -14,7 +14,7 @@ XHR.onreadystatechange = function() {
     if (XHR.readyState === XMLHttpRequest.DONE) {
         if (XHR.status === 200) {
             const fetchedCandidatesData = JSON.parse(XHR.responseText);
-            console.log('Candidates Data:', fetchedCandidatesData);
+          
             if (shouldSwapNames == true) {
                 fetchedCandidatesData.forEach(candidate => {
                     candidate.firstName = candidate.positionTitle;
@@ -47,8 +47,7 @@ XHR.send(`position=${SELECTED_POSITION}`);
 
 const toggleSwitch = document.getElementById('switch');
 toggleSwitch.addEventListener('change', function() {
-    console.log("Toggle Pressed");
-    console.log(shouldSwapNames);
+ 
     toggleNameSwap();
 });
 function toggleNameSwap() {
@@ -98,7 +97,7 @@ function restoreChart() {
     myChart.resize(); // Resize the chart
 }
 // Add event listener for changes in fullscreen mode
-screenfull.on('change', () => {
+screenfull.on('change', async () => {
     // Get a reference to the full-screen element
     const ELEMENT = document.querySelector('.full-screen');
     const ELEMENT2= document.querySelector('.full-screen-content');
@@ -110,6 +109,13 @@ screenfull.on('change', () => {
     // Check if the element is in fullscreen mode
     if (screenfull.isFullscreen) {
         // Add your desired class to the element when in fullscreen mode
+        try {
+            if (screen.orientation && screen.orientation.lock) {
+                await screen.orientation.lock('landscape');
+            }
+        } catch (err) {
+            console.error('Orientation lock failed:', err);
+        }
         ELEMENT.classList.add('centered');
         ELEMENT2.classList.add('centered');
         ELEMENT3.classList.add('centered');
@@ -118,6 +124,14 @@ screenfull.on('change', () => {
         HIDE_FULL_SCREEN.classList.add('d-none');
         resizeChart();
     } else {
+        // Unlock screen orientation
+        try {
+            if (screen.orientation && screen.orientation.unlock) {
+                await screen.orientation.unlock();
+            }
+        } catch (err) {
+            console.error('Orientation unlock failed:', err);
+        }
         // Remove the class when exiting fullscreen mode
         ELEMENT.classList.remove('centered');
         ELEMENT2.classList.remove('centered');
@@ -181,12 +195,15 @@ const IMG_URLS = candidatesData.map(candidate => `user_data/${orgName}/candidate
         for (let i = 0; i < DATA_POINTS.length; i++) {
             const IMAGE_URL = `${IMG_URLS[i % IMG_URLS.length]}`;
             const IMG = new Image();
+            const TARGET_WIDTH = 50; // Desired width for the image
+            const TARGET_HEIGHT = 50; // Desired height for the image 
             IMG.src = IMAGE_URL;
 
             IMG.onload = function() {
                 const FONT_SIZE = Math.min(args.meta.data[i].height * 0.5, 14);
                 const ASPECT_RATIO = IMG.height / IMG.width;
-                const IMG_WIDTH = args.meta.data[i].height / ASPECT_RATIO;
+                const IMG_WIDTH = TARGET_WIDTH;
+                const IMG_HEIGHT = TARGET_WIDTH * ASPECT_RATIO;
 
                 ctx.beginPath();
                 ctx.arc(args.meta.data[i].x + (IMG_WIDTH / 1.7), args.meta.data[i].y, args.meta.data[i].height / 2, 0, Math.PI * 2);
@@ -277,6 +294,8 @@ function createChart(labels, dataPoints, imgUrls) {
             afterDatasetDraw: function(chart, args, options) {
                 const { ctx } = chart;
                 for (let i = 0; i < dataPoints.length; i++) {
+                    const TARGET_WIDTH = 50; // Desired width for the image
+                    const TARGET_HEIGHT = 50; // Desired height for the image 
                     const IMAGE_URL = `${imgUrls[i % imgUrls.length]}`;
                     const IMG = new Image();
                     IMG.src = IMAGE_URL;
@@ -284,7 +303,8 @@ function createChart(labels, dataPoints, imgUrls) {
                     IMG.onload = function() {
                         const FONT_SIZE = Math.min(args.meta.data[i].height * 0.5, 14);
                         const ASPECT_RATIO = IMG.height / IMG.width;
-                        const IMG_WIDTH = args.meta.data[i].height / ASPECT_RATIO;
+                        const IMG_WIDTH = TARGET_WIDTH;
+    const IMG_HEIGHT = TARGET_WIDTH * ASPECT_RATIO;
 
                         ctx.beginPath();
                         ctx.arc(args.meta.data[i].x + (IMG_WIDTH / 1.7), args.meta.data[i].y, args.meta.data[i].height / 2, 0, Math.PI * 2);
