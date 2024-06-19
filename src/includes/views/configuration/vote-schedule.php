@@ -1,10 +1,11 @@
 <?php
 include_once 'modals.php';
 
-$_SESSION['csrf'] = [
-    'token' => bin2hex(random_bytes(32)),
-    'expiry' => time() + (60 * 20)
-];
+(new class
+{
+    use ConfigGuard;
+})::generateCSRFToken(time() + (60 * 20));
+
 ?>
 
 <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_o5hd5vvqpoqiwwmi.css">
