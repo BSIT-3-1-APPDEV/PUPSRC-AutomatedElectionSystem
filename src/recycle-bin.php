@@ -163,7 +163,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 
                                 <th class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
-                                    <i data-feather="calendar" class="feather-xs im-cust"></i>Date Verified
+                                    <i data-feather="calendar" class="feather-xs im-cust"></i>Remaining Days
                                 </th>
                             </tr>
                         </thead>
