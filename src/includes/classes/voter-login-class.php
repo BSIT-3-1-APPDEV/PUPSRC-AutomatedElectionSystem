@@ -58,8 +58,12 @@ class Login extends IpAddress {
     // Check login attempts and if is blocked
     private function isBlocked() {
         $time = time() - self::LOGIN_BLOCK_TIME;
-        $check_attempts = $this->ip_manager->countIpAddressAttempt($this->ip_address, $time);
-        return $check_attempts >= self::LOGIN_ATTEMPT_COUNT;
+        $stmt = $this->connection->prepare("SELECT COUNT(*) AS total_count FROM login_logs WHERE login_time > ? AND ip_address = ?");
+        $stmt->bind_param('is', $time, $this->ip_address);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $check_login = $result->fetch_assoc();
+        return $check_login['total_count'] >= self::LOGIN_ATTEMPT_COUNT;
     }
 
     // Check if password matches the hashed password
@@ -109,35 +113,6 @@ class Login extends IpAddress {
         }
     }
 
-    // Check if election year is open
-    private function isElectionYearOpen() {
-        $sql = "SELECT start, close FROM election_schedule WHERE schedule_id = 0";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if($result) {
-            $row = $result->fetch_assoc();
-            $today = new DateTime();
-            $start = new Datetime($row['start']);
-            $close = new DateTime($row['close']);
-            if($today >= $start && $today <= $close) {
-                $_SESSION['electionOpen'] = true;
-                header("Location: ../ballot-forms.php");
-                exit();
-            }
-            else {
-                $_SESSION['electionOpen'] = false;
-                header("Location: ../voting-closed.php");
-                exit();
-            }
-        }
-        else {
-            $this->redirectWithError('Something went wrong.');
-        }
-        $stmt->close();
-    }
-
     // Check voter status of a verified account
     private function handleVerifiedStudentVoter($row) {    
         $_SESSION['voter_status'] = $row['voter_status'];
@@ -154,7 +129,6 @@ class Login extends IpAddress {
     // Check voter's vote status (e.g., if the user has voted already or no)
     private function redirectBasedOnVoteStatus($vote_status) {
         $this->regenerateSessionId();
-        $this->isElectionYearOpen();
 
         switch ($vote_status) {
             case NULL:
@@ -206,7 +180,12 @@ class Login extends IpAddress {
     // Counts user failed login attempts
     private function getFailedAttemptsCount() {
         $time = time() - self::LOGIN_BLOCK_TIME;
-        return $this->ip_manager->countIpAddressAttempt($this->ip_address, $time);
+        $stmt = $this->connection->prepare("SELECT COUNT(*) AS total_count FROM login_logs WHERE login_time > ? AND ip_address = ?");
+        $stmt->bind_param('is', $time, $this->ip_address);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $check_login = $result->fetch_assoc();
+        return $check_login['total_count'];
     }
 
     // Regenerate a stronger session
