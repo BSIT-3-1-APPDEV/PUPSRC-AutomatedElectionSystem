@@ -16,24 +16,28 @@ class LoginController extends Login {
 
     public function loginUser() {
         if ($this->hasEmptyEmailAndPassword()) {
-            $this->redirectToLoginPage('Input fields cannot be empty.');
-        }
-
-        if ($this->isEmailEmpty() || $this->isPasswordEmpty()) {
-            $this->redirectToLoginPage('Email or password cannot be empty.');
+            $this->redirectToLoginPage('Email and password cannot be empty.');
         }
     
         if ($this->isInvalidEmail()) {
             $this->redirectToLoginPage('Please provide a valid email.');
+        }
+
+        if ($this->validateEmailLength()) {
+            $this->redirectToLoginPage('Email address must not exceed 255 characters');
+        }
+
+        if ($this->validatePasswordLength()) {
+            $this->redirectToLoginPage('Password must not exceed 20 characters.');
         }
     
         // Proceed with user login process
         $this->login->getUser($this->email, $this->password);
     }
     
-    // Check for empty email and password
+    // Check for empty email or password
     private function hasEmptyEmailAndPassword() {
-        return empty($this->email) && empty($this->password);
+        return empty($this->email) || empty($this->password);
     }
     
     // Redirect to login page and display error message
@@ -43,20 +47,18 @@ class LoginController extends Login {
         exit();
     }
     
-    // Check for empty email
-    private function isEmailEmpty() {
-        return empty($this->email);
-    }
-    
-    // Check for invalid email
+    // Check for invalid email format
     private function isInvalidEmail() {
         return !filter_var($this->email, FILTER_VALIDATE_EMAIL);
     }
-    
-    // Check for empty password
-    private function isPasswordEmpty() {
-        return empty($this->password);
+
+    // Check for invalid email length
+    private function validateEmailLength() {
+        return strlen($this->email) > 255;
     }
-    
+
+    // Check for invalid password length
+    private function validatePasswordLength() {
+        return strlen($this->password) > 20;
+    }
 }
-?>
