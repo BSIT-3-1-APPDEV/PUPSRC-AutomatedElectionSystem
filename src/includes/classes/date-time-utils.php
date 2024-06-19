@@ -63,10 +63,10 @@ class TimeValidator extends DateTimeUtils
         $maxTime = '23:59';
 
         // Check if the date to be set is today
-        if ($this->date_time->format('Y-m-d') === $datetime->format('Y-m-d')) {
-            // Time to be set shall not be less than current time
-            $minTime = $this->date_time->format('H:i');
-        }
+        // if ($this->date_time->format('Y-m-d') === $datetime->format('Y-m-d')) {
+        //     // Time to be set shall not be less than current time
+        //     $minTime = $this->date_time->format('H:i');
+        // }
 
         if (!self::checkMin($time, $minTime)) {
             return false;
