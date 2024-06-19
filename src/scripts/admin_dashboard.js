@@ -140,6 +140,7 @@ screenfull.on('change', async () => {
         ELEMENT5.classList.add('d-none');
         HIDE_FULL_SCREEN.classList.remove('d-none');
         restoreChart();
+        shouldSwapNames = false;
         
     }
 });
