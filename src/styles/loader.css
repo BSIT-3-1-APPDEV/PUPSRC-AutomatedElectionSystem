@@ -1,9 +1,11 @@
 /* --- iVOTE Loader --- */
 .loader-wrapper {
-    background-color: #FFFFFF;
+    background-color: #f8f9fa;
     position: fixed;
-    width: 100%;
-    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 9999;
     display: flex;
     justify-content: center;
@@ -12,8 +14,8 @@
   }
   
   .loader {
-    width: 75px;
-    height: 75px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     position: relative;
     background: url('../images/resc/ivote-icon.png') center center no-repeat;

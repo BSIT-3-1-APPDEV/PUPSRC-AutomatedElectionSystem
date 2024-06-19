@@ -86,27 +86,33 @@ body {
     }
   
     .button-submit {
-      border-radius: 5px;
-      border: none;
-      color: #fff;
-      font-weight: bold;
-      font-size: medium;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 7px;
-      padding-bottom: 7px;
-     }
-
-     .button-submit[disabled] {
-      background-color: #ccc; 
-      color: #666; 
-    }
+        border-radius: 5px;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        font-size: medium;
+        padding-left: 35px;
+        padding-right: 35px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+       }
+    
+       .button-submit[disabled] {
+        background-color: #ccc !important; 
+        color: #666 !important; 
+      }
   
     .end-point {
       padding-top: 50px;
       padding-bottom: 30px;
       text-align: center; 
   }
+
+  .voting-closed {
+    padding-top: 10px;
+    padding-bottom: 30px;
+    text-align: center; 
+}
   
   .end-point img {
     padding-top: 20px;
@@ -120,6 +126,7 @@ body {
   
   .header {
       font-size: 30px;
+      font-weight: 800 ;
   }
   
   .header-sub {
@@ -136,6 +143,16 @@ body {
           display: none;
       }
   }
+
+  @media (max-width: 767px) {
+    .header {
+        font-size: 24px;
+        
+    }
+    .header-sub {
+        font-size: 16px;
+    }
+}
   
   .feedback {
     --normal: #ECEAF3;
