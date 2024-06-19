@@ -25,6 +25,7 @@ if (isset($_SESSION['error_message'])) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="stylesheet" href="styles/loader.css" />
+  <link rel="preload" href="images/resc/ivote-icon.png" as="image">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>iVote</title>
 
