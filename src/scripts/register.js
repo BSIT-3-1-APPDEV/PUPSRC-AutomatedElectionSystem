@@ -30,9 +30,9 @@ $(document).ready(function () {
     let emailValue = input.val().trim();
     const errorElement = input.next();
 
-    // Truncate email if exceeds 50 characters
-    if (emailValue.length > 50) {
-      emailValue = emailValue.slice(0, 50);
+    // Truncate email if exceeds 255 characters
+    if (emailValue.length > 255) {
+      emailValue = emailValue.slice(0, 255);
       input.val(emailValue);
     }
 
