@@ -247,7 +247,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
         <!-- Confirm Delete Modal -->
         <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body justify-content-center d-flex flex-column align-items-center py-4">
                         <img src="images/resc/warning.png">
@@ -271,7 +271,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
         <!-- Candidate Details Modal -->
         <div class="modal fade" id="candidateDetailsModal" tabindex="-1" aria-labelledby="voterDetailsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-size">
+            <div class="modal-dialog modal-dialog-centered modal-xl modal-size">
                 <div class="modal-content px-4 py-4">
                     <div class="modal-header">
                         <p class="fs-4 main-color fw-bold ls-10 spacing-6 text-center">Candidate Details</p>
@@ -309,7 +309,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
         <!-- Action Required Modal -->
         <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-3">
                     <div class="modal-header p-1">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -326,7 +326,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
         <!-- Restore Confirmation Modal -->
         <div class="modal fade" id="restoreConfirmationModal" tabindex="-1" aria-labelledby="restoreConfirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -349,7 +349,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
         <!-- Successfully Deleted Modal --->
         <div class="modal fade" id="deleteSuccessModal" tabindex="-1" aria-labelledby="deleteSuccessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-3">
                     <div class="modal-header p-1">
                         <button type="button" class="btn-close" id="refreshPageBtn" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -365,7 +365,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
         <!-- Successfully Restored Modal --->
         <div class="modal fade" id="restoreSuccessModal" tabindex="-1" aria-labelledby="restoreSuccessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-3">
                     <div class="modal-header p-1">
                         <button type="button" class="btn-close" id="refreshPageBtn2" data-bs-dismiss="modal" aria-label="Close"></button>
