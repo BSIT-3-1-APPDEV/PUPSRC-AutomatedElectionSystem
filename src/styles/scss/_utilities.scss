@@ -146,6 +146,31 @@ h6 {
     }
 }
 
+main.main .page-title.card {
+
+    padding: 1rem 2.5rem;
+    box-shadow: var(--bs-box-shadow-sm);
+    border: none;
+    margin-top: clamp(1.5rem, 2.5dvw, 4rem);
+    margin-bottom: clamp(2rem, 2.4dvw, 3rem);
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+
+        color: light-dark(var(--main-color), color-mix(in srgb, var(--main-color), var(--white) 25%));
+        text-shadow: none;
+        text-transform: uppercase;
+        font-weight: 700;
+
+    }
+
+
+}
+
 
 div.secondary-nav-container {
     ul.nav li a.nav-link {

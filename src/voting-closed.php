@@ -6,6 +6,7 @@ include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 
 if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['role'] == 'student_voter'))  {
 
+
     // ------ SESSION EXCHANGE
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
     // ------ END OF SESSION EXCHANGE
@@ -21,7 +22,7 @@ if(isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['rol
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thank You!</title>
+  <title>Voting Closed</title>
   <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
   
   <!-- Montserrat Font -->
@@ -55,46 +56,60 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
 ?>
 
 <div class="container mb-5">
-    <div class="row justify-content-md-center align-items-end">
-        <div class="col-lg-6 col-sm-12">
-            <div class="reminder px-5 py-4 my-5">
-                <div class="header main-color text-center py-2 mb-3">
-                    <b>The voting period is <br/> currently closed!</b>
+    <div class="row justify-content-md-center align-items-center">
+        <div class="col-lg-6 col-sm-12 order-sm-2">
+            <div class="voting-closed text-center">
+                <?php echo '<img src="../src/images/resc/closed-election-year/'. $org_acronym .'-closed-elec.png" alt="Closed Election Image" class="img-fluid">';?>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 order-sm-1">
+            <div class="reminder px-2 px-sm-2 px-lg-5 py-4">
+                <div class="header main-color text-center py-2">
+                    The voting period is <br>currently closed!
                 </div>
-                <div class="header-sub text-center pb-2">
-                    Stay tuned for the continuation of the voting process on 
+                <div class="header-sub text-center px-2 px-sm-2 pb-sm-4 pb-lg-2 pb-4">
+                    Stay tuned for the continuation of the voting process on
                     <?php echo strtoupper($org_acronym); ?>'s
-                      <?php if ($org_acronym == 'acap'){
-                        echo '<a href="https://www.facebook.com/ACAPpage">';
-                      } else if ($org_acronym == 'aeces'){
-                        echo '<a href="https://www.facebook.com/OfficialAECES">';
-                      } else if ($org_acronym == 'elite'){
-                        echo '<a href="https://www.facebook.com/ELITE.PUPSRC">';
-                      } else if ($org_acronym == 'give'){
-                        echo '<a href="https://www.facebook.com/educgive">';
-                      } else if ($org_acronym == 'jehra'){
-                        echo '<a href="https://www.facebook.com/PUPSRCJEHRA">';
-                      } else if ($org_acronym == 'jpia'){
-                        echo '<a href="https://www.facebook.com/JPIA.PUPSRC">';
-                      } else if ($org_acronym == 'piie'){
-                        echo '<a href="https://www.facebook.com/piiepup">';
-                      } else if ($org_acronym == 'jmap'){
-                        echo '<a href="https://www.facebook.com/JMAPPUPSRCOfficial">';
-                      }else if ($org_acronym == 'sco'){
-                        echo '<a href="https://www.facebook.com/thepupsrcstudentcouncil">';
-                      }
-                      ?>
-                      Facebook</a> page. We appreciate your patience, Psychmates! Your understanding is greatly valued!
+                    <?php 
+                    switch ($org_acronym) {
+                        case 'acap':
+                            echo '<a href="https://www.facebook.com/ACAPpage">';
+                            break;
+                        case 'aeces':
+                            echo '<a href="https://www.facebook.com/OfficialAECES">';
+                            break;
+                        case 'elite':
+                            echo '<a href="https://www.facebook.com/ELITE.PUPSRC">';
+                            break;
+                        case 'give':
+                            echo '<a href="https://www.facebook.com/educgive">';
+                            break;
+                        case 'jehra':
+                            echo '<a href="https://www.facebook.com/PUPSRCJEHRA">';
+                            break;
+                        case 'jpia':
+                            echo '<a href="https://www.facebook.com/JPIA.PUPSRC">';
+                            break;
+                        case 'piie':
+                            echo '<a href="https://www.facebook.com/piiepup">';
+                            break;
+                        case 'jmap':
+                            echo '<a href="https://www.facebook.com/JMAPPUPSRCOfficial">';
+                            break;
+                        case 'sco':
+                            echo '<a href="https://www.facebook.com/thepupsrcstudentcouncil">';
+                            break;
+                        default:
+                            break;
+                    }
+                    ?>
+                    Facebook</a> page. We appreciate your patience, &nbsp;<?php echo $org_personality ?>! Your understanding is greatly valued.
                 </div>
             </div>
-        </div> 
-        <div class="col-lg-6 col-sm-12">
-            <div class="end-point text-start">
-                <?php echo '<img src="../src/images/resc/closed-election-year/'. $org_acronym .'-closed-election.png" alt="Closed Election Year" class="img-fluid">';?>
-            </div> 
         </div>
     </div>
 </div>
+
 
 </body>
 
@@ -128,10 +143,10 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
 </script>
 
   <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../src/scripts/feedback-suggestions.js"></script>
   <script src="scripts/loader.js"></script>
 
-<?php
+  <?php
+
 } else {
   header("Location: landing-page.php");
 }
