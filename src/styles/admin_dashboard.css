@@ -1,4 +1,9 @@
-
+body{
+  overflow-x: hidden !important;
+}
+main{
+  overflow-x: hidden !important;
+}
 .position-container {
     display: flex;
     justify-content: space-between;
@@ -19,8 +24,6 @@
     font-weight: bold;
     color: #FFFFFF;
     text-align: center;
-    padding-right: 5px;
-    padding-left: 5px;
     font-size: 11px;
     
 }
@@ -200,6 +203,19 @@ input:checked + .slider:before {
   font-weight: bold;
   letter-spacing: 1.5px;
   white-space: nowrap;
+}
+@media (max-width: 360px) {
+  .secondary-metrics-header{
+    font-size: 0.6rem !important;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+  .secondary-metrics-content{
+    font-size: 0.9rem !important;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+  }
 }
 .navigate-images{
   width: 170px;
