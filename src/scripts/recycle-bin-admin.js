@@ -290,14 +290,19 @@ function filterRows() {
     var filteredRows = allRows.filter(function() {
         return $(this).text().toLowerCase().indexOf(searchValue) > -1;
     });
+
+    allRows.hide(); // Hide all rows by default
+
     if (filteredRows.length === 0) {
-        // If no records found, display message
-        var colspan = $('.table thead th').length; // Get the number of columns from the table header
-        var noRecordsMessage = '<tr><td colspan="' + colspan + '" style="text-align: center;">No records found</td></tr>';
-        $('.table tbody').html(noRecordsMessage);
+        // Create a placeholder element for "No records found" message
+        var noRecordsFoundMessage = $('<tr class="no-records-found text-center"><td colspan="4">No records found</td></tr>');
+        $('.table tbody').append(noRecordsFoundMessage);
     } else {
-        // If records found, display filtered rows and update pagination
-        $('.table tbody').html(filteredRows);
+        // Remove any existing "No records found" message
+        $('.no-records-found').remove();
+
+        // Show only the filtered rows
+        filteredRows.show();
         displayPage(1, filteredRows);
         updatePagination(filteredRows);
     }
@@ -306,6 +311,8 @@ function filterRows() {
 $('#searchInput').on('keyup', function() {
     filterRows();
 });
+
+
 
 
 $('.dropdown-item').on('click', function() {

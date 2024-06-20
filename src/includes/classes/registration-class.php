@@ -62,8 +62,8 @@ class Registration {
 
     // Validate email and password string length to avoid buffer overflow
     private function validateEmailAndPasswordLength() {
-        if (strlen($this->email) > 50) {
-            throw new Exception("Email address must not exceed 50 characters");
+        if (strlen($this->email) > 255) {
+            throw new Exception("Email address must not exceed 255 characters");
         }
 
         if (strlen($this->password) > 20) {

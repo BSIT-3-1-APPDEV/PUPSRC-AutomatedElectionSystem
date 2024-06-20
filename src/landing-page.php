@@ -26,6 +26,7 @@ if (isset($_SESSION['error_message'])) {
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="stylesheet" href="styles/dist/all-footer.css">
   <link rel="stylesheet" href="styles/loader.css" />
+  <link rel="preload" href="images/resc/ivote-icon.png" as="image">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>iVote</title>
 
