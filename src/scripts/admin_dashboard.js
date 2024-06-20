@@ -97,13 +97,15 @@ function restoreChart() {
     myChart.resize(); // Resize the chart
 }
 // Add event listener for changes in fullscreen mode
+// Add event listener for changes in fullscreen mode
 screenfull.on('change', async () => {
-    // Get a reference to the full-screen element
+    // Get a reference to the full-screen element and other relevant elements
     const ELEMENT = document.querySelector('.full-screen');
-    const ELEMENT2= document.querySelector('.full-screen-content');
-    const ELEMENT3= document.querySelector('.chart-container');
-    const ELEMENT4= document.querySelector('.switch');
-    const ELEMENT5= document.querySelector('.anonymous-text');
+    const ELEMENT2 = document.querySelector('.full-screen-content');
+    const ELEMENT3 = document.querySelector('.chart-container');
+    const SWITCH_CONTAINER = document.querySelector('.switch'); // Container
+    const ELEMENT4 = SWITCH_CONTAINER.querySelector('input[type="checkbox"]'); // Checkbox input
+    const ELEMENT5 = document.querySelector('.anonymous-text');
     const HIDE_FULL_SCREEN = document.getElementById('fullscreen-button');
 
     // Check if the element is in fullscreen mode
@@ -119,7 +121,7 @@ screenfull.on('change', async () => {
         ELEMENT.classList.add('centered');
         ELEMENT2.classList.add('centered');
         ELEMENT3.classList.add('centered');
-        ELEMENT4.classList.remove('d-none');
+        SWITCH_CONTAINER.classList.remove('d-none');
         ELEMENT5.classList.remove('d-none');
         HIDE_FULL_SCREEN.classList.add('d-none');
         resizeChart();
@@ -136,14 +138,24 @@ screenfull.on('change', async () => {
         ELEMENT.classList.remove('centered');
         ELEMENT2.classList.remove('centered');
         ELEMENT3.classList.remove('centered');
-        ELEMENT4.classList.add('d-none');
+        SWITCH_CONTAINER.classList.add('d-none');
         ELEMENT5.classList.add('d-none');
         HIDE_FULL_SCREEN.classList.remove('d-none');
         restoreChart();
+
+        // Change the state of the toggle switch
+        if (ELEMENT4.checked) {
+            ELEMENT4.checked = false;
+
+            // Dispatch a change event to trigger any associated event listeners
+            const event = new Event('change');
+            ELEMENT4.dispatchEvent(event);
+        }
+
         shouldSwapNames = false;
-        
     }
 });
+
 
 function generateLighterShades(baseColor, steps) {
     const RGB_COLOR = baseColor.match(/\d+/g); // Extract RGB values from the base color
