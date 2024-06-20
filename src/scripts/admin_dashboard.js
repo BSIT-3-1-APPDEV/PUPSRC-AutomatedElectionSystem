@@ -244,8 +244,15 @@ const IMG_URLS = candidatesData.map(candidate => `user_data/${orgName}/candidate
                 if (shouldSwapNames) {
                 ctx.fillText( candidatesData[i].lastName.toUpperCase() + '' + candidatesData[i].firstName.toUpperCase(), TEXT_X, TEXT_Y);
             } else {
-                ctx.fillText( candidatesData[i].lastName.toUpperCase() + ', ' + candidatesData[i].firstName.toUpperCase(), TEXT_X, TEXT_Y);
+                if (candidatesData[i].lastName && candidatesData[i].firstName) {
+                    ctx.fillText(candidatesData[i].lastName.toUpperCase() + ', ' + candidatesData[i].firstName.toUpperCase(), TEXT_X, TEXT_Y);
+                } else if (candidatesData[i].lastName) {
+                    ctx.fillText(candidatesData[i].lastName.toUpperCase(), TEXT_X, TEXT_Y);
+                } else {
+                    ctx.fillText('', TEXT_X, TEXT_Y); // Handle case where last name is not available
+                }
             }
+            
                 ctx.fillStyle = LIGHTER_SHADES;
                 const SMALL_TEXT_Y = args.meta.data[i].y + FONT_SIZE - 1;
                 ctx.font = `bold ${FONT_SIZE - 5.3}px Montserrat`;
