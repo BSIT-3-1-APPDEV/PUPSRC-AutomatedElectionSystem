@@ -142,7 +142,7 @@ class ElectionYearController extends ElectionYearModel
             return false;
         }
 
-        if ($startDateTime->format('Y-m-d') >= $endDateTime->format('Y-m-d')) {
+        if ($startDateTime->format('Y-m-d') > $endDateTime->format('Y-m-d')) {
             $this->client_error = 'ERR_END_DATE_BEFORE_START_DATE';
             return false;
         }
