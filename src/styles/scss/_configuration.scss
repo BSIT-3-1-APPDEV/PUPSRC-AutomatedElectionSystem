@@ -59,7 +59,7 @@ body {
             padding: clamp(0.4rem, 0.25rem + 0.1vw, 0.5rem) clamp(2rem, 0.75rem + 0.5vw, 3rem);
         }
 
-        &:not(nav.navbar .btn):not(nav.sidebar .btn) {
+        &:not(nav.navbar .btn, nav.sidebar .btn) {
             font-weight: 700;
 
             box-shadow: var(--bs-box-shadow-sm);
@@ -139,23 +139,40 @@ body {
 
         .modal-dialog {
             .modal-header {
-                text-transform: uppercase;
-                color: var(--white);
-                background-color: var(--main-color);
-                padding: clamp(1rem, 0.5rem + 0.8dvw, 2vw) clamp(1rem, 0.5rem + 0.8dvw, 2vw);
+                &.editor {
+                    text-transform: uppercase;
+                    color: var(--white);
+                    background-color: var(--main-color);
 
-                .modal-title {
-                    letter-spacing: 0.20rem;
-                    font-weight: 800;
-                    flex-grow: 1;
-                    text-align: center;
+                    button.modal-close {
+                        border: none;
+                        border-radius: 50%;
+                        color: var(--main-color);
+                        background-color: var(--white);
+
+                        svg {
+                            height: calc(1rem + 0.5vw);
+                            width: calc(1rem + 0.5vw);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            circle {
+                                color: transparent;
+                            }
+
+                            line {
+                                stroke-width: clamp(2px, 1px + 0.25dvw, 5px);
+                            }
+                        }
+                    }
                 }
 
                 button.modal-close {
                     border: none;
                     border-radius: 50%;
-                    color: var(--main-color);
-                    background-color: var(--white);
+                    color: var(--white);
+                    background-color: #ccc;
 
                     svg {
                         height: calc(1rem + 0.5vw);
@@ -172,13 +189,51 @@ body {
                             stroke-width: clamp(2px, 1px + 0.25dvw, 5px);
                         }
                     }
+
+                    &:hover {
+
+                        svg circle,
+                        svg line {
+                            stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
+                            color: var(--main-black);
+                        }
+
+                        background-color: transparent;
+                        filter: brightness(130%);
+                    }
+
+                    &:focus-visible {
+                        outline: none;
+                    }
                 }
 
+                padding: clamp(1rem, 0.5rem + 0.8dvw, 2vw) clamp(1rem, 0.5rem + 0.8dvw, 2vw);
+
+                .modal-title {
+                    letter-spacing: 0.20rem;
+                    font-weight: 800;
+                    flex-grow: 1;
+                    text-align: center;
+                }
+
+
+
             }
 
-            .modal-body {
+            :not(:has(.modal-header)) .modal-body,
+            :has(.modal-header.editor) .modal-body {
                 padding: clamp(24px, 1.75rem + 0.5dvw, 48px);
             }
+
+            :has(.modal-header) .prompt-content {
+                padding-top: 0 !important;
+            }
+
+
+            .modal-body {
+                padding: 0 clamp(24px, 1.75rem + 0.5dvw, 48px) clamp(24px, 1.75rem + 0.5dvw, 48px);
+            }
+
 
             .modal-action {
                 border: none;
@@ -208,6 +263,49 @@ body {
 
 
         }
+
+
+        &.danger-modal {
+
+            input {
+                background-color: light-dark(#EDEDED, #EDEDED);
+                color: light-dark(#B6B6B6, #B6B6B6);
+
+                &:focus-visible {
+                    border: clamp(1px, 1px + 0.1vw, 5px) solid light-dark(var(--main-color), var(--main-color));
+
+                    &.is-invalid {
+                        border: clamp(1px, 1px + 0.1vw, 5px) solid light-dark(var(--danger), var(--danger));
+                    }
+                }
+
+                &+.form-feedback {
+                    visibility: hidden;
+                    color: var(--danger);
+                }
+
+                &.form-control.is-invalid+.form-feedback {
+                    visibility: visible;
+                }
+            }
+
+            .prompt-action {
+                width: 100%;
+                place-content: center;
+                gap: calc(0.063rem + 0.6dvw + 1.3dvh);
+
+                &>* {
+                    flex: 1;
+                }
+
+                button.btn.btn-secondary.primary {
+                    color: var(--white);
+                }
+            }
+
+
+        }
+
     }
 
     .modal-native {
@@ -276,10 +374,10 @@ ul {
     & li.nav-item {
 
         & a.secondary-nav {
-            color: var(--black);
+            color: var(--main-black);
 
             &:hover {
-                color: var(--black);
+                color: var(--main-black);
             }
 
             font-size: calc(0.75rem + 0.4vw);

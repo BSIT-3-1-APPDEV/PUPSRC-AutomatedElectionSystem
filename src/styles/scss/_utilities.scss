@@ -148,7 +148,11 @@ h6 {
 
 main.main .page-title.card {
 
-    padding: 1rem 2.5rem;
+    // padding: 1rem 2.5rem;
+
+    padding: clamp(0.75rem, 0.5rem + 1dvw, 2rem) clamp(1rem, 0.25rem + 3dvw, 4rem);
+
+
     box-shadow: var(--bs-box-shadow-sm);
     border: none;
     margin-top: clamp(1.5rem, 2.5dvw, 4rem);
@@ -310,17 +314,35 @@ section .toast-container-unstacked {
             margin-bottom: 0;
         }
 
-
-
-        img.main-icon {
+        img.main-icon,
+        div.success-icon {
             height: clamp(90px, 2.713rem + 1.92dvw + 4.15dvh, 150px);
             width: clamp(100px, 3.125rem + 2.1dvw + 4.3dvh, 170px);
+            aspect-ratio: 3 / 2;
             margin-bottom: 0.5rem;
+            cursor: none;
+
+
         }
+
+        div.success-icon {
+            overflow: clip;
+            overflow-clip-margin: 20px;
+            display: grid;
+            place-content: center;
+
+            img[src="src/images/resc/check-animation.gif"] {
+                height: clamp(180px, 5.431rem + 3.84dvw + 8.30dvh, 300px);
+                width: clamp(200px, 6.25rem + 4.2dvw + 8.6dvh, 340px);
+            }
+
+        }
+
+
 
         .prompt-action {
             display: flex;
-            gap: calc(0.063rem + 0.2dvw + 0.5dvh);
+            gap: calc(0.063rem + 0.3dvw + 0.7dvh);
 
             .btn {
                 &.btn-secondary {

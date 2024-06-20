@@ -127,6 +127,33 @@ body dialog.modal-native {
                     font-size: calc(0.75rem + 0.6575vw);
                 }
             }
+
+            &.editor {
+                button.modal-close {
+                    color: var(--main-color);
+                    background-color: var(--white);
+
+                    svg circle {
+                        color: transparent;
+                    }
+
+                    &:hover {
+
+                        svg circle,
+                        svg line {
+                            stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
+                            color: var(--white)
+                        }
+
+                        background-color: var(--main-color);
+                        filter: brightness(130%);
+                    }
+
+                    &:focus-visible {
+                        outline: none;
+                    }
+                }
+            }
         }
 
         label[for="positionInput"] {
@@ -169,31 +196,6 @@ body dialog.modal-native {
             }
 
 
-        }
-
-        button.modal-close {
-            color: var(--main-color);
-            background-color: var(--white);
-
-            svg circle {
-                color: transparent;
-            }
-
-            &:hover {
-
-                svg circle,
-                svg line {
-                    stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
-                    color: var(--white)
-                }
-
-                background-color: var(--main-color);
-                filter: brightness(130%);
-            }
-
-            &:focus-visible {
-                outline: none;
-            }
         }
 
         .ql-container {
@@ -322,7 +324,7 @@ button.add-new {
     &:hover {
         background-color: rgb(236, 236, 236, 1);
         font-weight: bolder;
-        color: var(--black);
+        color: var(--main-black);
         cursor: crosshair;
     }
 

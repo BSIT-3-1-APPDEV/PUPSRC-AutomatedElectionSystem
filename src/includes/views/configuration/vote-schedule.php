@@ -8,7 +8,6 @@ include_once 'modals.php';
 
 ?>
 
-<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_o5hd5vvqpoqiwwmi.css">
 <link rel="stylesheet" href="src/styles/config-election-schedule.css?v=2">
 
 <main class="main">
