@@ -1,100 +1,6 @@
-$(document).ready(function () {
-  // Check the stored visibility state on page load
-  var isDeleteModeActive = localStorage.getItem('isDeleteModeActive') === 'true';
-  if (isDeleteModeActive) {
-    $(".voterCheckbox, .delete-actions").show();
-  } else {
-    $(".voterCheckbox, .delete-actions").hide();
-  }
-
-  $("#deleteBtn").click(function () {
-    $(".voterCheckbox, .delete-actions").toggle();
-    $("#selectAllCheckbox").prop("checked", false);
-    updateDeleteSelectedButtonState();
-
-    // Store the visibility state in localStorage
-    var isVisible = $(".voterCheckbox").is(":visible");
-    localStorage.setItem('isDeleteModeActive', isVisible);
-  });
-
-  $("#selectAllCheckbox").click(function () {
-    $(".voterCheckbox").prop("checked", this.checked);
-    updateDeleteSelectedButtonState();
-  });
-
-  $(".voterCheckbox").change(function () {
-    updateDeleteSelectedButtonState();
-  });
-
-  function updateDeleteSelectedButtonState() {
-    var checkedCount = $(".voterCheckbox:checked").length;
-    $("#deleteSelectedBtn").prop("disabled", checkedCount === 0);
-    $("#cancelBtn").prop("disabled", checkedCount === 0);
-  }
-
-  // Open the delete modal when the "Delete Selected" button is clicked
-  $("#deleteSelectedBtn").click(function () {
-    $("#rejectModal").modal("show");
-  });
-});
-
-// Select the necessary elements
-const deleteModal = document.getElementById('rejectModal');
-const cancelBtn = document.getElementById('cancelBtn');
-const voterCheckboxes = document.querySelectorAll('.voterCheckbox');
-const deleteActions = document.querySelector('.delete-actions');
-
-// Create the overlay element
-const overlay = document.createElement('div');
-overlay.classList.add('modal-overlay');
-document.body.appendChild(overlay);
-
-// Show the overlay when the delete modal is shown
-$('#rejectModal').on('show.bs.modal', function () {
-  overlay.style.display = 'block';
-});
-
-// Hide the overlay when the delete modal is hidden
-$('#rejectModal').on('hidden.bs.modal', function () {
-  overlay.style.display = 'none';
-});
-
-// Close the delete modal and overlay when clicked outside or on the "Cancel" button
-window.addEventListener('click', function (event) {
-  if (event.target === deleteModal || event.target === overlay) {
-    $('#rejectModal').modal('hide');
-  }
-});
-
-cancelBtn.addEventListener('click', function () {
-  $('#rejectModal').modal('hide');
-});
-
-// Enable/disable the "Delete Selected" button based on checkbox selections
-voterCheckboxes.forEach(function (checkbox) {
-  checkbox.addEventListener('change', function () {
-    const checkedCheckboxes = Array.from(voterCheckboxes).filter(function (checkbox) {
-      return checkbox.checked;
-    });
-    if (checkedCheckboxes.length > 0) {
-      $("#deleteSelectedBtn").prop("disabled", false);
-      deleteActions.style.display = 'block';
-    } else {
-      $("#deleteSelectedBtn").prop("disabled", true);
-      deleteActions.style.display = 'none';
-    }
-  });
-});
-
-// Function to close the delete modal
-function closeModal() {
-  $('#rejectModal').modal('hide');
-}
-
-// Function to redirect to a page
-function redirectToPage(page) {
-  window.location.href = page;
-}
+// Global arrays to store selected IDs & flagging of status
+let selectedAdminIds = [];
+let deleteAdminState = false;
 
 
 //------------SEARCH AND PAGINATION-------------//
@@ -103,6 +9,11 @@ function formatRoleString(roleString) {
   const words = roleString.split('_');
   const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
   return capitalizedWords.join(' ');
+}
+
+function formatDate(dateString) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('en-US', options);
 }
 
 function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy = "", sortOrder = "") {
@@ -116,7 +27,7 @@ function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy 
       const data = JSON.parse(response);
       const voters = data.voters;
       const totalRows = data.totalRows;
-      const totalPages = Math.ceil(totalRows / 5); // Assuming the limit is 5
+      const totalPages = Math.ceil(totalRows / 5);
 
       console.log(`Total rows: ${totalRows}, Total pages: ${totalPages}`);
 
@@ -137,31 +48,37 @@ function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy 
         `);
       } else {
         voters.forEach((voter) => {
-          const date = new Date(voter.acc_created);
-          const formattedDate = date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          });
-
+          const formattedDate = formatDate(voter.acc_created);
+          const isChecked = selectedAdminIds.includes(voter.voter_id) ? "checked" : "";
+        
           const row = `
             <tr>
-               <td class="col-md-1 text-center">
-                
+              <td class="col-md-1 text-center checkbox-delete-admin ${
+                deleteAdminState ? "" : "d-none"
+              }">
+                <input type="checkbox" class="adminCheckbox" data-id="${
+                  voter.voter_id
+                }" ${isChecked}>
               </td>
-              <td class="col-md-3 text-center"><a href="account-details.php?voter_id=${voter.voter_id}">${voter.first_name} ${voter.middle_name} ${voter.last_name} ${voter.suffix}</a></td>
+              <td class="col-md-4 text-center text-truncate"><a href="account-details.php?voter_id=${voter.voter_id}">${voter.first_name} ${voter.middle_name} ${voter.last_name} ${voter.suffix}</a></td>
               <td class="col-md-3 text-center">
                 <span class="role-background ${voter.role.toLowerCase()} ${voter.role === 'head_admin' ? 'head-admin' : ''}">${formatRoleString(voter.role)}</span>
               </td>
-              <td class="col-md-4 text-center">
+              <td class="col-md-3 text-center">
                 <span>${formattedDate}</span>
               </td>
             </tr>
           `;
-
+        
           tbody.append(row);
         });
       }
+
+      if (tableId === "adminTable") {
+        selectedAdminIds.forEach((id) => {
+          $(`.adminCheckbox[data-id="${id}"]`).prop("checked", true);
+        });
+      } 
 
       // Initial generation of pagination (when page is open/reloads)
       generatePagination(paginationId, totalPages, page, tableId, ajaxUrl, searchTerm);
@@ -174,7 +91,7 @@ function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy 
 
 $(document).ready(function () {
   // Load initial page without sorting
-  loadPage('voterTable', 'pagination', 'submission_handlers/fetch-committee.php', 1);
+  loadPage('adminTable', 'pagination', 'submission_handlers/fetch-committee.php', 1);
 
   // Event listeners for sort links
   $('.sort-link').on('click', function (e) {
@@ -182,9 +99,24 @@ $(document).ready(function () {
     const sortBy = $(this).data('sort');
     const sortOrder = $(this).data('order');
     // Load page with sorting parameters
-    loadPage('voterTable', 'pagination', 'submission_handlers/fetch-committee.php', 1, $('#searchInput').val(), sortBy, sortOrder);
+    loadPage('adminTable', 'pagination', 'submission_handlers/fetch-committee.php', 1, $('#searchInput').val(), sortBy, sortOrder);
   });
 });
+
+
+//-------------Rechecking of Checkboxes------------//
+function recheckCheckboxes(tableId) {
+  console.log("Rechecking checkboxes for table:", tableId);
+
+  if (tableId === "adminTable") {
+    console.log("Selected admin IDs:", selectedAdminIds);
+    selectedAdminIds.forEach((id) => {
+      console.log("Checking checkbox for admin ID:", id);
+      $(`.adminCheckbox[data-id="${id}"]`).prop("checked", true);
+    });
+  }
+}
+// -- FUNCTION: Rechecking of Checkboxes
 
 
 //---------- PAGINATION------------ //
@@ -261,7 +193,7 @@ $(document).ready(function () {
 
   // Load initial data
   loadPage(
-    "voterTable",
+    "adminTable",
     "committeePagination",
     "submission_handlers/fetch-committee.php",
     currentPage,
@@ -273,7 +205,7 @@ $(document).ready(function () {
     const searchTerm = $(this).val();
     if (searchTerm !== "") {
       loadPage(
-        "voterTable",
+        "adminTable",
         "committeePagination",
         "submission_handlers/search-committee.php",
         currentPage,
@@ -281,7 +213,7 @@ $(document).ready(function () {
       );
     } else {
       loadPage(
-        "voterTable",
+        "adminTable",
         "committeePagination",
         "submission_handlers/fetch-committee.php",
         currentPage,
@@ -291,4 +223,170 @@ $(document).ready(function () {
   });
 });
 
+
+$(document).ready(function () {
+  function toggleDeleteState(tableType) {
+    if (tableType === 'admin') {
+      checkAdminCheckboxes();
+    }
+
+    var checkBoxDeleteClass = ".checkbox-delete-admin";
+    var checkBoxAllClass = ".checkbox-all-admin";
+    var tableId = "#adminTable";
+    var cancelBtnClass = ".cancel-admin";
+    var finalDeleteBtnClass = ".final-delete-btn-admin";
+
+    $(`${checkBoxDeleteClass}, ${checkBoxAllClass}`).removeClass("d-none");
+    $(`${tableId} th.checkbox-${tableType}`).removeClass("d-none").addClass("tl-left");
+    $(`${tableId} th.del-center`).removeClass("tl-left");
+    $(`${finalDeleteBtnClass}`).toggleClass("d-none");
+    $(`${cancelBtnClass}`).toggleClass("d-none");
+
+    $(`.${tableType}-delete-btn`).prop("disabled", true).addClass("light-gray");
+    $(`${cancelBtnClass}`).prop("disabled", false);
+  }
+
+  function cancelDelete(tableType) {
+    var checkBoxDeleteClass = ".checkbox-delete-admin";
+    var checkBoxAllClass = ".checkbox-all-admin";
+    var tableId = "#adminTable";
+    var cancelBtnClass = ".cancel-admin";
+    var finalDeleteBtnClass = ".final-delete-btn-admin";
+
+    $(`${checkBoxDeleteClass}, ${checkBoxAllClass}`).addClass("d-none");
+    $(`${tableId} th.checkbox-${tableType}`).addClass("d-none");
+    $(`${tableId} th.del-center`).addClass("tl-left");
+    $(`${finalDeleteBtnClass}`).toggleClass("d-none");
+    $(`${cancelBtnClass}`).toggleClass("d-none");
+
+    $(`${cancelBtnClass}`).prop("disabled", true);
+    $(`.${tableType}-delete-btn`).prop("disabled", false).removeClass("light-gray");
+
+    $(`${tableId} .${tableType}Checkbox`).prop("checked", false);
+    $(`#selectAllAdmin`).prop("checked", false);
+
+    selectedAdminIds = [];
+    loadPage(
+      "adminTable",
+      "committeePagination",
+      "submission_handlers/fetch-committee.php",
+      currentPage
+    );
+    checkAdminCheckboxes();
+  }
+
+  $(".admin-delete-btn").click(function () {
+    deleteAdminState = true;
+    toggleDeleteState('admin');
+  });
+
+  $(".cancel-admin").click(function () {
+    deleteAdminState = false;
+    cancelDelete('admin');
+  });
+
+  $(".cancel-admin").prop("disabled", true);
+});
+
+$("#selectAllAdmin").click(function () {
+  $(".adminCheckbox").prop("checked", this.checked);
+  checkAdminCheckboxes();
+});
+
+$("#adminTable").on("change", ".adminCheckbox", function () {
+  checkAdminCheckboxes();
+});
+
+function checkAdminCheckboxes() {
+  const isAnyChecked = $(".adminCheckbox:checked").length > 0;
+  const areAnyAvailable = $(".adminCheckbox").length > 0;
+  console.log("Admin checkboxes checked:", isAnyChecked);
+  console.log("Admin checkboxes available:", areAnyAvailable);
+  $("#deleteSelectedAdmin").prop(
+    "disabled",
+    !isAnyChecked || !areAnyAvailable
+  );
+
+  selectedAdminIds = $(".adminCheckbox:checked")
+    .map(function () {
+      return $(this).data("id");
+    })
+    .get();
+}
+
+$("#deleteSelectedAdmin").click(function () {
+  const selectedIds = getSelectedIds("adminTable");
+
+  if (selectedIds.length > 0) {
+    showModalAndConfirmDeletion("adminTable", selectedIds);
+  } else {
+    alert("Please select at least one record to delete.");
+  }
+});
+
+function getSelectedIds(tableId) {
+  const selectedIds = [];
+  $(`#${tableId} input[type=checkbox]:checked`).each(function () {
+    selectedIds.push($(this).data("id"));
+  });
+  return selectedIds;
+}
+
+function showModalAndConfirmDeletion(tableId, selectedIds) {
+  $("#rejectModal").modal("show");
+  $("#confirm-move")
+    .off("click")
+    .on("click", function (e) {
+      e.preventDefault();
+      performDeletion(tableId, selectedIds);
+    });
+}
+
+function performDeletion(tableId, selectedIds) {
+  $.ajax({
+    url: "submission_handlers/move-trashbin-accs.php",
+    type: "POST",
+    data: { ids: selectedIds },
+    success: function (response) {
+      const result = JSON.parse(response);
+      if (result.success) {
+        handleSuccessfulDeletion(tableId);
+        reloadPage(tableId);
+      } else {
+        alert(result.message);
+      }
+    },
+    error: function (error) {
+      console.error("Error deleting records:", error);
+    },
+  });
+}
+
+function handleSuccessfulDeletion(tableId) {
+  $("#rejectModal").modal("hide");
+  $("#trashbinMoveDone").modal("show");
+
+  updateAdminTableState();
+}
+
+function updateAdminTableState() {
+  deleteAdminState = false;
+  $(".cancel-admin").addClass("d-none");
+  $(".checkbox-delete-admin").addClass("d-none");
+  $(".final-delete-btn-admin").toggleClass("d-none");
+  $("#adminTable th.del-center").addClass("tl-left");
+  $("#selectAllAdmin").closest("th").addClass("d-none");
+  $(".admin-delete-btn").prop("disabled", false).removeClass("light-gray");
+}
+
+function reloadPage(tableId) {
+  const ajaxUrl = "submission_handlers/fetch-committee.php";
+  const paginationId = "committeePagination";
+
+  loadPage(tableId, paginationId, ajaxUrl, currentPage);
+
+  if (voters.length === 0) {
+    displayEmptyState(tableId, "admin");
+  }
+}
 
