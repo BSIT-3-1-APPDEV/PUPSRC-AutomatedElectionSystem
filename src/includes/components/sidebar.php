@@ -80,71 +80,77 @@
 			</li>
 
 			<li class="item">
-				<div id="submenuToggle" class="submenu-item <?php echo
+				<?php if ($_SESSION['role'] === 'head_admin'): ?>
+					<div id="submenuToggle" class="submenu-item <?php echo
+							# ---- MANAGE ACCOUNTS PAGES
+						(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
+							basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
+							basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
+							basename($_SERVER['PHP_SELF']) == 'voter-details.php' ||
+							basename($_SERVER['PHP_SELF']) == 'admin-creation.php')
+						? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" data-bs-parent="false">
 
-						# ---- MANAGE ACCOUNTS PAGES
-					(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
-						basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
-						basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
-						basename($_SERVER['PHP_SELF']) == 'voter-details.php' ||
-						basename($_SERVER['PHP_SELF']) == 'admin-creation.php')
-					? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" data-bs-parent="false">
+						<div class="submenu-content">
+							<i data-feather="users" class="white mb-xl-1"></i>
+							<span style="padding-left: 0.7rem;">Manage Users</span>
+						</div>
 
-					<div class="submenu-content">
-						<i data-feather="users" class="white mb-xl-1"></i>
-						<span style="padding-left: 0.7rem;">Manage Users</span>
-					</div>
+						<i class="fas fa-chevron-right" id="submenuIcon"></i>
 
-					<i class="fas fa-chevron-right" id="submenuIcon"></i>
+						<script>
+							document.addEventListener("DOMContentLoaded", function () {
+								var submenuToggle = document.getElementById("submenuToggle");
+								var submenuIcon = document.getElementById("submenuIcon");
 
-					<script>
-						document.addEventListener("DOMContentLoaded", function () {
-							var submenuToggle = document.getElementById("submenuToggle");
-							var submenuIcon = document.getElementById("submenuIcon");
-
-							submenuToggle.addEventListener("click", function () {
-								if (submenuIcon.classList.contains("fa-chevron-right")) {
-									submenuIcon.classList.remove("fa-chevron-right");
-									submenuIcon.classList.add("fa-chevron-down");
-								} else {
-									submenuIcon.classList.remove("fa-chevron-down");
-									submenuIcon.classList.add("fa-chevron-right");
-								}
-								submenuIcon.style.transition = "transform 0.5s ease";
+								submenuToggle.addEventListener("click", function () {
+									if (submenuIcon.classList.contains("fa-chevron-right")) {
+										submenuIcon.classList.remove("fa-chevron-right");
+										submenuIcon.classList.add("fa-chevron-down");
+									} else {
+										submenuIcon.classList.remove("fa-chevron-down");
+										submenuIcon.classList.add("fa-chevron-right");
+									}
+									submenuIcon.style.transition = "transform 0.5s ease";
+								});
 							});
-						});
-					</script>
+						</script>
 
-				</div>
-				<ul class="menu-items submenu collapse" id="manageAccounts">
+					</div>
+					<ul class="menu-items submenu collapse" id="manageAccounts">
 
-					<li class="item">
-						<a href="manage-voters.php" class="<?php echo
+						<li class="item">
+							<a href="manage-voters.php" class="<?php echo
+									# ---- VOTERS PAGES
+								(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
+									basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
+									basename($_SERVER['PHP_SELF']) == 'voter-details.php')
+								? 'active-sub fw-bold' : ''; ?>">
+								Voters' Accounts</a>
+						</li>
 
-								# ---- VOTERS PAGES
-							(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
-								basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
-								basename($_SERVER['PHP_SELF']) == 'voter-details.php')
-							? 'active-sub fw-bold' : ''; ?>">
-							Voters' Accounts</a>
-
-					</li>
-
-					<li class="item">
-						<a href="manage-committee.php"
-							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Admin
-							Accounts</a>
-					</li>
-					<?php if ($_SESSION['role'] === 'head_admin'): ?>
+						<li class="item">
+							<a href="manage-committee.php"
+								class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Admin
+								Accounts</a>
+						</li>
 						<li class="item">
 							<a href="admin-creation.php"
 								class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">
 								Add Admin
 							</a>
 						</li>
-					<?php endif; ?>
-				</ul>
+					</ul>
+				<?php elseif ($_SESSION['role'] === 'admin'): ?>
+					<a href="manage-voters.php"
+						class="submenu-item <?php echo basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ? 'active' : ''; ?>">
+						<div class="submenu-content">
+							<i data-feather="users" class="white mb-xl-1"></i>
+							<span style="padding-left: 0.7rem;">Manage Voters</span>
+						</div>
+					</a>
+				<?php endif; ?>
 			</li>
+
 
 			<li class="item">
 				<a href="configuration.php" class="<?=
