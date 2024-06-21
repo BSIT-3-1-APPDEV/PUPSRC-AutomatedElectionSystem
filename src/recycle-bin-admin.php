@@ -166,7 +166,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 
                                     <th class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
-                                        <i data-feather="calendar" class="feather-xs im-cust"></i>Date Verified
+                                        <i data-feather="calendar" class="feather-xs im-cust"></i>Remaining Days
                                     </th>
                                 </tr>
                             </thead>
@@ -271,7 +271,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 
         <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-body justify-content-center d-flex flex-column align-items-center py-4">
@@ -298,7 +298,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         </div>
         <!-- Bootstrap Modal Structure -->
         <div class="modal fade" id="voterDetailsModal" tabindex="-1" aria-labelledby="voterDetailsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-size">
+            <div class="modal-dialog modal-dialog-centered modal-xl modal-size">
                 <div class="modal-content px-4 py-4">
                     <div class="modal-header">
                         <p class="fs-4 main-color fw-bold ls-10 spacing-6 text-center">Account Details</p>
@@ -335,7 +335,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         </div>
         <!-- Modal for warning message -->
         <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-3">
                     <div class="modal-header p-1">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -353,7 +353,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         </div>
         <!-- Restore Confirmation Modal -->
         <div class="modal fade" id="restoreConfirmationModal" tabindex="-1" aria-labelledby="restoreConfirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -377,7 +377,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         </div>
 
         <div class="modal fade" id="deleteSuccessModal" tabindex="-1" aria-labelledby="deleteSuccessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-3">
                     <div class="modal-header p-1">
 
@@ -393,7 +393,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             </div>
         </div>
         <div class="modal fade" id="restoreSuccessModal" tabindex="-1" aria-labelledby="restoreSuccessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-3">
                     <div class="modal-header p-1">
 
@@ -403,7 +403,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         <img src="images/resc/check-animation.gif" class="img-icons img-fluid">
                         <p class=" fs-5 text-center green mb-3">Restored Successfully!</p>
                         <p class="fs-7 text-center fw-medium m-0">Accounts have been restored! You can now</p>
-                        <p class="fs-7 text-center fw-medium">Access them in the <a href="manage-voters.php" class="underlined-link">Voters</a></ul> table.</p>
+                        <p class="fs-7 text-center fw-medium">Access them in the <a href="manage-committee.php" class="underlined-link">Committee</a></ul> table.</p>
                     </div>
 
                 </div>

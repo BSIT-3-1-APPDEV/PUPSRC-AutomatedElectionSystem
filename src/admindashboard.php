@@ -65,9 +65,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     }
     .full-screen-content.centered{
      
-        margin-top: 20vh !important;
-        margin-left: 100px !important;
-        margin-right: 100px !important;
+        margin-top: 15vh !important;
+        margin-left: 10px !important;
+        margin-right: 10px !important;
    
    
     }
@@ -89,9 +89,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
     ?>
 
-    <main class="main">
+    <main class="main px-0">
 
-        <div class="container px-md-3 px-lg-5 px-sm-2 p-4 justify-content-center d-flex ">
+        <div class="container px-md-3 px-lg-5 px-sm-2 px-0 p-4 justify-content-center d-flex ">
         <div class="col-md-12 my-3 p-0 mx-0">
             <div class="card p-4 mb-5 mt-3">
             <div class="card-body">
@@ -116,7 +116,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         <div class="col-sm-12  justify-content-between d-flex mb-2">
                     <h4 class="main-color main-text ms-2">LIVE RESULTS</h4>
                
-                    <select id="positions" class="positions-dropdown main-bg-color<?php if (empty($positions)) echo ' no-positions'; ?>">
+                    <select id="positions" class="px-2  positions-dropdown main-bg-color<?php if (empty($positions)) echo ' no-positions'; ?>">
     <?php
     // Check if there are positions available
     if (empty($positions)) {
@@ -169,7 +169,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                 <h4 class="main-text main-color mt-4 ms-2 ">METRICS</h4>
                     </div>
                 <div class="row m-0 p-0 justify-content-between">
-               <div class= "col-md-7 m-0  ps-0 pe-md-4 pe-md-0 pe-sm-0 pe-0">
+               <div class= "col-lg-7 m-0  ps-0 pe-lg-4 pe-md-0 pe-sm-0 pe-0">
                 <div class="card p-3 ">
                     <div class="card-body pr-5">
                 <div class="row justify-content-center ">
@@ -209,9 +209,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                 </div>
                 </div>
                 
-                 <div class="col-md-5 col-lg-5 justify-content-between d-flex flex-direct px-0">
+                 <div class="col-lg-5 justify-content-between d-flex flex-direct  pe-lg-0 px-md-0  px-0">
                   
-                 <div class="card p-3 mt-3 mt-md-0">
+                 <div class="card p-3 mt-3 mt-md-3 mt-lg-0 p-0 p-md-3 py-lg-5 py-xl-3">
                      
                      <div class="card-body d-flex   align-items-center justify-content-between p-3">
             
@@ -221,7 +221,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                          <span class="secondary-metrics-header main-color">   Total count of </span>
                         </div>
                         <div class="col-12">
-                        <span class="secondary-metrics-content ">   VOTER ACCOUNTS </span>
+                        <span class="secondary-metrics-content fs-6 ">   VOTER ACCOUNTS </span>
                         </div>
                     </div>
                     </div>
@@ -234,8 +234,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                 </div>     
             </div>
             </div>
-            <div class="card p-3 mt-3 mt-md-0">
-                <div class="card-body d-flex align-items-center justify-content-between p-3">
+            <div class="card p-3 mt-3  mt-md-3 mt-lg-0">
+                <div class="card-body d-flex align-items-center justify-content-between p-3 p-md-3 py-lg-5 py-xl-3">
 
             
                 <div class="row w-100">
@@ -290,7 +290,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                     </div>
                 </div>
                 <div class="row">
-                    <span class="vw-1 m-0 fw-bold mt-1 text-center">Manage Accounts</span>
+                    <span class="vw-1 m-0 fw-bold mt-1 text-center text-nowrap">Manage Accounts</span>
                 </div>
                 <div class="row">
                     <span class="vw-1 m-0 mt-1 text-center navigate-text">Create, modify, or delete user accounts</span>
