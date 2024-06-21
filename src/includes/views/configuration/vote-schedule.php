@@ -135,7 +135,6 @@ include_once 'modals.php';
 global $phpDateTimeNow;
 global $page_scripts;
 
-
 $phpDateTimeNow->printDatetimeTzJS();
 $page_scripts = '
 <script type="module" src="src/scripts/config-election-schedule.js?v=2"></script>

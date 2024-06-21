@@ -7,7 +7,10 @@ include_once 'modals.php';
 })::generateCSRFToken(time() + (60 * 20));
 ?>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" />
 <link rel="stylesheet" href="src/styles/config-ballot-form.css?v=2">
+
 
 <main class="main">
     <div class="container px-md-3 px-lg-5 px-sm-2">
@@ -32,39 +35,40 @@ include_once 'modals.php';
 
         <section class="card-box ">
             <div class="">
-                <div class="list-group ballot-form" id="items">
-                    <div class="list-group-item">
+                <div class="list-group ballot-form" id="sortableForms">
+                    <div class="list-group-item" id="" data-id="b-field-2">
                         <div class="handle">
                             <span class="fas fa-grip-lines"></span>
                         </div>
                         <div class="field-item ">
-                            <div class="me-auto">Student Name</div>
+                            <input class="me-auto form-name default" value="Student Name" readonly disabled>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                                <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="checkbox-stud-name">
+                                <label class="form-check-label" for="checkbox-stud-name"></label>
                             </div>
                         </div>
                         <div class="field-item ">
-                            <div class="me-auto">Section</div>
+                            <input class="me-auto form-name default" value="Section" readonly disabled>
                             <div class=" form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked>
-                                <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="checkbox-section" checked>
+                                <label class="form-check-label" for="checkbox-section"></label>
                             </div>
                         </div>
                     </div>
-                    <div class="list-group-item ">
+                    <div class="list-group-item" id="" data-id="b-field-1">
                         <div class="handle">
                             <span class="fas fa-grip-lines"></span>
                         </div>
                         <div class="field-item ">
-                            <div class="me-auto">Candidate Form</div>
+                            <input class="me-auto form-name default" value="Candidate Form" readonly disabled>
+                            <!-- <div class="me-auto form-name default">Candidate Form</div> -->
                             <div class=" form-check form-switch d-none">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked>
-                                <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="checkbox-candidates" checked>
+                                <label class="form-check-label" for="checkbox-candidates"></label>
                             </div>
                         </div>
                     </div>
-                    <div class="list-group-item ">
+                    <div class="list-group-item " id="" data-id="b-field-3">
                         <div class="handle">
                             <span class="fas fa-grip-lines"></span>
                         </div>
@@ -72,16 +76,81 @@ include_once 'modals.php';
                             <div class="me-auto">Candidate Form2</div>
                         </div>
                     </div>
-                    <div class="list-group-item ">
+                    <div class="list-group-item " id="" data-id="b-field-4">
                         <div class="handle">
                             <span class="fas fa-grip-lines"></span>
                         </div>
                         <div class="field-item ">
-                            <div class="me-auto">Candidate Form3</div>
+                            <div class="field-item-header">
+                                <div class="field-name-form col-8 col-md-6">
+
+                                    <div id="b-field-4-name" class="ql-container">
+
+                                    </div>
+                                    <div id="b-field-4-name-toolbar" class="ql-toolbar ql-snow">
+                                        <button class="ql-bold"><i data-feather="bold"></i></button>
+                                        <button class="ql-italic"><i data-feather="italic"></i></button>
+                                        <button class="ql-underline"><i data-feather="underline"></i></button>
+                                        <button class="ql-link"><i data-feather="link-2"></i></button>
+                                        <button class="ql-clean">
+                                            <!-- <i data-feather="type"></i> -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="format-clear">
+                                                <path fill="none" d="M0 0h24v24H0V0z" fill="currentColor"></path>
+                                                <path d="M20 8V5H6.39l3 3h1.83l-.55 1.28 2.09 2.1L14.21 8zM3.41 4.86L2 6.27l6.97 6.97L6.5 19h3l1.57-3.66L16.73 21l1.41-1.41z" fill="currentColor"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <select class="field-type-form col-12 col-md-4" name="" id="b-field-4-type">
+                                    <option value="multiple_choice">Multiple Choice</option>
+                                    <option value="short_text">Text Input</option>
+                                </select>
+
+                                <div class=" col-1">
+                                    <div class=" form-check form-switch  ">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="checkbox-candidates" checked>
+                                        <label class="form-check-label" for="checkbox-candidates"></label>
+                                    </div>
+                                </div>
+
+
+                                <div class="field-desc-form col-12">
+                                    <div class="col-12 col-md-6">
+
+                                        <div id="b-field-4-desc" class="ql-container">
+
+                                        </div>
+                                        <div id="b-field-4-desc-toolbar" class="ql-toolbar ql-snow">
+                                            <button class="ql-bold"><i data-feather="bold"></i></button>
+                                            <button class="ql-italic"><i data-feather="italic"></i></button>
+                                            <button class="ql-underline"><i data-feather="underline"></i></button>
+                                            <button class="ql-link"><i data-feather="link-2"></i></button>
+                                            <button class="ql-clean">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="format-clear">
+                                                    <path fill="none" d="M0 0h24v24H0V0z" fill="currentColor"></path>
+                                                    <path d="M20 8V5H6.39l3 3h1.83l-.55 1.28 2.09 2.1L14.21 8zM3.41 4.86L2 6.27l6.97 6.97L6.5 19h3l1.57-3.66L16.73 21l1.41-1.41z" fill="currentColor"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=" field-action">
+                                <div class="btn-group" role="group" aria-label="Field Menu Button">
+                                    <button class="btn btn-secondary">
+                                        <i data-feather="copy"></i>
+                                    </button>
+                                    <button class="btn btn-secondary">
+                                        <i data-feather="trash-2"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="list-group-item add-item">
+                <!-- <div class="list-group-item add-item">
                     <div class="field-item ">
                         <div class="">
                             <button class="btn btn-primary text-capitalize">
@@ -89,7 +158,7 @@ include_once 'modals.php';
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -102,6 +171,9 @@ include_once 'modals.php';
             </div>
         </section>
     </div>
+
+    <script>
+    </script>
 
 
 
@@ -125,9 +197,24 @@ include_once 'modals.php';
 
 </section>
 
+<script>
+    const setCSRFToken = () => {
+        try {
+            return `<?= $_SESSION['csrf']['token']; ?>`;
+        } catch (error) {
+
+        }
+    };
+</script>
+
 <?php
+global $phpDateTimeNow;
 global $page_scripts;
+
+$phpDateTimeNow->printDatetimeTzJS();
 $page_scripts = '
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
 <script  type="module" src="src/scripts/config-ballot-form.js?v=2"></script>
 <script  type="text/javascript" src="src/scripts/feather.js" defer></script>
     ';
