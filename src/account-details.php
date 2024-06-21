@@ -109,25 +109,26 @@ if (isset($_SESSION['voter_id'])) {
                                         <div class="row">
                                             <div class="col-md-12 mx-auto text-center">
                                                 <p class="fw-bold fs-6 main-color spacing-4">iVOTE Committee Role</p>
-                                                <p style="margin-top: -10px" >
+                                                <p style="margin-top: -10px">
                                                 <form id="role-form"
                                                     action="manage-details.php?voter_id=<?php echo $voter_id; ?>"
                                                     method="post">
                                                     <div class="dropdown">
-                                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                                        style="
+                                                        <button class="btn dropdown-toggle" type="button"
+                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            aria-expanded="false" style="
                                                         <?php
-                                                            if ($voter['role'] == 'admin') {
-                                                                echo 'background-color: #03C04A; color: white;';
-                                                            } elseif ($voter['role'] == 'head_admin') {
-                                                                echo 'background-color: blue; color: white;';
-                                                            } else {
-                                                                echo 'background-color: #6c757d; color: white;'; // Default color
-                                                            }
+                                                        if ($voter['role'] == 'admin') {
+                                                            echo 'background-color: #03C04A; color: white;';
+                                                        } elseif ($voter['role'] == 'head_admin') {
+                                                            echo 'background-color: blue; color: white;';
+                                                        } else {
+                                                            echo 'background-color: #6c757d; color: white;'; // Default color
+                                                        }
                                                         ?>
                                                         ">
-                                                        
-                                                        <?php
+
+                                                            <?php
                                                             if ($voter["role"] == 'admin') {
                                                                 echo 'Admin';
                                                             } elseif ($voter["role"] == 'head_admin') {
@@ -135,11 +136,14 @@ if (isset($_SESSION['voter_id'])) {
                                                             } else {
                                                                 echo 'Select a role';
                                                             }
-                                                        ?>
+                                                            ?>
                                                         </button>
                                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                            <li><a class="dropdown-item" href="#" onclick="changeButtonText(this, 'admin')">Admin</a></l>
-                                                            <li><a class="dropdown-item" href="#" onclick="changeButtonText(this, 'head_admin')">Head Admin</a></li>
+                                                            <li><a class="dropdown-item" href="#"
+                                                                    onclick="changeButtonText(this, 'admin')">Admin</a></l>
+                                                            <li><a class="dropdown-item" href="#"
+                                                                    onclick="changeButtonText(this, 'head_admin')">Head
+                                                                    Admin</a></li>
                                                         </ul>
                                                     </div>
                                                 </form>
@@ -157,14 +161,17 @@ if (isset($_SESSION['voter_id'])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 text-end d-none d-md-block" style="margin-top: 30px">
-                                        <button class="btn btn-link mb-3 fw-bold"
-                                            style="color: red; text-decoration: underline;">Delete Account</button>
-                                    </div>
-                                    <div class="col-md-12 delete-btn-mobile d-block d-md-none">
-                                        <button class="btn btn-link mb-3 fw-bold"
-                                            style="color: red; text-decoration: underline;">Delete Account</button>
-                                    </div>
+                                    <!-- Buttons -->
+                                    <section>
+                                        <div class="row pt-sm-5 del-btn">
+                                            <div class="col-md-12 text-end">
+                                                <button
+                                                    class="del-no-border px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+                                                    id="reject-btn" data-toggle="modal" data-target="#rejectModal">Delete
+                                                    Account</button>
+                                            </div>
+                                        </div>
+                                    </section>
                                 </div>
                             </div>
                         </div>
@@ -179,10 +186,8 @@ if (isset($_SESSION['voter_id'])) {
         <script src="scripts/feather.js"></script>
         <script src="scripts/account-details.js"></script>
 
-
-
-        <!-- Confirm Reject Modal -->
-        <div class="modal" id="rejectModal" tabindex="-1" role="dialog">
+        <!-- Move To Trashbin Modal -->
+        <div class="modal" id="rejectModal" data-bs-keyboard="false" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -197,16 +202,14 @@ if (isset($_SESSION['voter_id'])) {
                                     <div class="row">
                                         <div class="col-md-12 pb-3 confirm-delete">
                                             <p class="fw-bold fs-3 danger spacing-4">Confirm Delete?</p>
-                                            <p class="pt-2 fw-medium spacing-5">The account(s) will be deleted and
-                                                moved to
-                                                Recycle Bin.
-                                                Are you sure you want to delete?
-                                            </p>
+                                            <p class="pt-2 fs-7 fw-medium spacing-5">The account will be deleted and moved
+                                                to <span class="fw-bold">Recycle Bin</span>.</p>
+                                            <p class="fw-medium spacing-5 pt-1 fs-7">Are you sure you want to delete?</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 pt-3 text-center">
+                            <div class="col-md-12 pt-1 text-center">
                                 <div class="d-inline-block">
                                     <button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
                                         onClick="closeModal()" aria-label="Close">Cancel</button>
@@ -215,7 +218,7 @@ if (isset($_SESSION['voter_id'])) {
                                     <form class="d-inline-block">
                                         <input type="hidden" id="voter_id" name="voter_id" value="<?php echo $voter_id; ?>">
                                         <button class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-                                            type="submit" id="confirm-delete" value="delete" disabled>Delete</button>
+                                            type="submit" id="confirm-move" value="delete">Delete</button>
                                     </form>
                                 </div>
                             </div>
@@ -226,23 +229,34 @@ if (isset($_SESSION['voter_id'])) {
             </div>
         </div>
 
-        <!-- Rejected Successfully Modal -->
-        <div class="modal" id="deleteDone" tabindex="-1" role="dialog">
+        <!-- Successfully Moved to Trashbin Modal -->
+        <div class="modal" id="trashbinMoveDone" data-bs-keyboard="false" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-body">
+                    <div class="modal-body pb-5">
                         <div class="d-flex justify-content-end">
                             <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-                                onclick="redirectToPage('manage-voters.php')">
+                                onclick="redirectToPage('manage-committee.php')">
                             </i>
                         </div>
-                        <div class="text-center p-4">
+                        <div class="text-center">
+                            <div class="col-md-12">
+                                <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
+                            </div>
+
                             <div class="row">
-                                <div class="col-md-12">
-                                    <p class="fw-bold fs-3 danger spacing-4">Account Deleted</p>
-                                    <p class="fw-medium spacing-5">The account has been successfully deleted.
+                                <div class="col-md-12 pb-3">
+                                    <p class="fw-bold fs-3 success-color spacing-4">Deleted successfully</p>
+                                    <p class="fw-medium spacing-5 fs-7">The deleted account has been moved to <span
+                                            class="fw-bold">Recycle Bin</span>.
                                     </p>
                                 </div>
+                            </div>
+
+                            <div class="col-md-12 pt-1 d-flex justify-content-center">
+                                <button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6" aria-label="Close">
+                                <a href="recycle-bin.php" style="color: white">Go To Recycle
+                                Bin</a></button>
                             </div>
                         </div>
                     </div>

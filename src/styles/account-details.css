@@ -98,8 +98,18 @@
   border: none !important;
 }
 
-.information p {
+@media (max-width: 768px) {
+  .del-btn button {
+    font-size: 0.7rem !important;
+    margin: 0 1rem 2rem 0 !important;
+  }
+}
+
+.no-padding {
   margin-bottom: 0 !important;
+}
+.information p {
+  margin-bottom: 0.2rem !important;
 }
 
 .confirm-delete p {
@@ -129,6 +139,10 @@ select option {
 
 .del-no-border:hover {
   color: var(--bs-gray-500);
+}
+
+.fullscreen-icon {
+  padding-left: 3rem !important;
 }
 
 .role-background {

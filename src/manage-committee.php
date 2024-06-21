@@ -397,10 +397,10 @@ if (isset($_SESSION['voter_id'])) {
 							</div>
 
 							<div class="col-md-12 pt-1 d-flex justify-content-center">
-								<button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-									onClick="redirectToPage('trashbin.php')" aria-label="Close">Go To Recycle
-									Bin</button>
-							</div>
+                                <button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6" aria-label="Close">
+                                <a href="recycle-bin.php" style="color: white">Go To Recycle
+                                Bin</a></button>
+                            </div>
 						</div>
 					</div>
 				</div>

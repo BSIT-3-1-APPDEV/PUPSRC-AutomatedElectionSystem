@@ -31,3 +31,41 @@ function changeButtonText(elem, role, color) {
   button.textContent = elem.textContent;
 };
 
+// Move To Trashbin Modal Submit
+$(document).ready(function() {
+  $("#confirm-move").click(function (event) {
+      event.preventDefault();
+      var voter_id = $("#voter_id").val();
+      
+      $.ajax({
+          url: "submission_handlers/move-to-trashbin.php",
+          type: "POST",
+          data: { voter_id: voter_id },
+          success: function (response) {
+              console.log("AJAX call successful");
+              $("#rejectModal").modal("hide");
+              $("#trashbinMoveDone").modal("show");
+          },
+          error: function (xhr, status, error) {
+              console.error("AJAX call failed:", error);
+              console.error(xhr.responseText);
+          },
+      });
+  });
+});
+
+//Show & Hide Modal Functions
+$(document).ready(function () {
+  $("#reject-btn").click(function (event) {
+    $("#rejectModal").modal("show");
+  });
+});
+
+function cancelForm(event) {
+  event.preventDefault();
+}
+
+function closeModal() {
+  $("#rejectModal").modal("hide");
+}
+
