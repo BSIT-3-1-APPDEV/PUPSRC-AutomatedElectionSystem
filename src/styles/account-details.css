@@ -145,74 +145,33 @@ select option {
   padding-left: 3rem !important;
 }
 
+/* styles.css */
 .role-background {
-  position: relative;
-  display: inline-block;
   padding: 0.2rem 1rem;
   border-radius: 10px;
   font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.03rem
-}
-
-.role-background select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  letter-spacing: 0.03rem;
+  color: white;
   border: none;
-  background-color: transparent;
-  color: #fff;
-  padding: 8px 12px;
-  font-size: 16px;
 }
 
-.role-background .selected-option {
-  background-color: green;
-  color: #fff;
-  padding: 8px 24px 8px 12px;
-  border-radius: 4px;
-  position: relative;
+.role-admin {
+  background-color: #03C04A;
 }
 
-.role-background .selected-option::after {
-  content: "";
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: solid #fff;
-  border-width: 0 2px 2px 0;
-  padding: 3px;
-  pointer-events: none;
+.role-head-admin {
+  background-color: blue;
 }
 
-.role-background .options {
-  position: absolute;
-  background-color: #fff !important;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  z-index: 1;
-  width: 100%;
-  box-sizing: border-box;
-  display: none;
-}
-
-.role-background .options option {
-  background-color: #fff !important;
-  color: #333;
-  padding: 8px 12px;
-}
-
-.role-background select:focus + .options {
-  display: block;
+.role-default {
+  background-color: #6c757d;
 }
 
 .vertical-line {
   border-left: 2px solid #ddd;
-  /* Adjust the color and width as needed */
   position: center;
   left: 100%;
-  /* Adjust positioning if necessary */
   top: 0%;
 }
 
@@ -266,4 +225,8 @@ select option {
 
 .mt-20 {
   margin-top: 20px !important;
+}
+
+.close-mark {
+  cursor: pointer;
 }

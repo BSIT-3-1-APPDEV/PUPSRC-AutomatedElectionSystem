@@ -441,3 +441,7 @@ function reloadPage(tableId) {
   }
 }
 
+function redirectToPage(url) {
+  window.location.href = url;
+}
+

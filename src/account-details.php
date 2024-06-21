@@ -110,24 +110,23 @@ if (isset($_SESSION['voter_id'])) {
                                             <div class="col-md-12 mx-auto text-center">
                                                 <p class="fw-bold fs-6 main-color spacing-4">iVOTE Committee Role</p>
                                                 <p style="margin-top: -10px">
-                                                <form id="role-form"
-                                                    action="manage-details.php?voter_id=<?php echo $voter_id; ?>"
-                                                    method="post">
+                                                <form id="role-form">
+                                                    <input type="hidden" id="voter_id" name="voter_id"
+                                                        value="<?php echo $voter_id; ?>">
                                                     <div class="dropdown">
-                                                        <button class="btn dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                            aria-expanded="false" style="
-                                                        <?php
-                                                        if ($voter['role'] == 'admin') {
-                                                            echo 'background-color: #03C04A; color: white;';
-                                                        } elseif ($voter['role'] == 'head_admin') {
-                                                            echo 'background-color: blue; color: white;';
-                                                        } else {
-                                                            echo 'background-color: #6c757d; color: white;'; // Default color
-                                                        }
-                                                        ?>
-                                                        ">
-
+                                                        <button class="dropdown-toggle role-background" type="button"
+                                                            id="changeRole" data-bs-toggle="dropdown" aria-expanded="false"
+                                                            style="
+                                                            <?php
+                                                            if ($voter['role'] == 'admin') {
+                                                                echo 'background-color: #03C04A; color: white;';
+                                                            } elseif ($voter['role'] == 'head_admin') {
+                                                                echo 'background-color: blue; color: white;';
+                                                            } else {
+                                                                echo 'background-color: #6c757d; color: white;';
+                                                            }
+                                                            ?>
+                                                            ">
                                                             <?php
                                                             if ($voter["role"] == 'admin') {
                                                                 echo 'Admin';
@@ -138,12 +137,17 @@ if (isset($_SESSION['voter_id'])) {
                                                             }
                                                             ?>
                                                         </button>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                            <li><a class="dropdown-item" href="#"
-                                                                    onclick="changeButtonText(this, 'admin')">Admin</a></l>
-                                                            <li><a class="dropdown-item" href="#"
-                                                                    onclick="changeButtonText(this, 'head_admin')">Head
-                                                                    Admin</a></li>
+                                                        <ul class="dropdown-menu" aria-labelledby="changeRole">
+                                                            <li>
+                                                                <a class="dropdown-item role-background" href="#"
+                                                                    data-role="admin">Admin
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item role-background" href="#"
+                                                                    data-role="head_admin">Head Admin
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </form>
@@ -161,7 +165,6 @@ if (isset($_SESSION['voter_id'])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Buttons -->
                                     <section>
                                         <div class="row pt-sm-5 del-btn">
                                             <div class="col-md-12 text-end">
@@ -180,18 +183,38 @@ if (isset($_SESSION['voter_id'])) {
             </div>
         </div>
 
-        <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
-        <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="scripts/script.js"></script>
-        <script src="scripts/feather.js"></script>
-        <script src="scripts/account-details.js"></script>
+        <!-- Change of Role Success Modal -->
+        <div class="modal" id="changeSuccessModal" data-bs-keyboard="false" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body pb-5">
+                        <div class="d-flex justify-content-end">
+                            <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" onClick="closeModal()"
+                                aria-label="Close">
+                            </i>
+                        </div>
+                        <div class="text-center">
+                            <div class="col-md-12">
+                                <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 pb-3">
+                                    <p class="fw-bold fs-3 success-color spacing-4">Role change successfully</p>
+                                    <p class="fw-medium spacing-5 fs-6">The account role has been change </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Move To Trashbin Modal -->
         <div class="modal" id="rejectModal" data-bs-keyboard="false" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-
                         <div class="row p-4">
                             <div class="col-md-12 pb-3">
                                 <div class="text-center">
@@ -222,7 +245,6 @@ if (isset($_SESSION['voter_id'])) {
                                     </form>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -235,7 +257,7 @@ if (isset($_SESSION['voter_id'])) {
                 <div class="modal-content">
                     <div class="modal-body pb-5">
                         <div class="d-flex justify-content-end">
-                            <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
+                            <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" id="closeIcon"
                                 onclick="redirectToPage('manage-committee.php')">
                             </i>
                         </div>
@@ -247,22 +269,34 @@ if (isset($_SESSION['voter_id'])) {
                             <div class="row">
                                 <div class="col-md-12 pb-3">
                                     <p class="fw-bold fs-3 success-color spacing-4">Deleted successfully</p>
-                                    <p class="fw-medium spacing-5 fs-7">The deleted account has been moved to <span
-                                            class="fw-bold">Recycle Bin</span>.
+                                    <p class="fw-medium spacing-5 fs-7">The deleted account has been moved to 
+                                        <span class="fw-bold">Recycle Bin</span>.
                                     </p>
                                 </div>
                             </div>
 
                             <div class="col-md-12 pt-1 d-flex justify-content-center">
-                                <button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6" aria-label="Close">
-                                <a href="recycle-bin.php" style="color: white">Go To Recycle
-                                Bin</a></button>
+                                <button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+                                    aria-label="Close">
+                                    <a href="recycle-bin.php" style="color: white">Go To Recycle
+                                        Bin
+                                    </a>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
+        <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="scripts/script.js"></script>
+        <script src="scripts/feather.js"></script>
+        <script src="scripts/loader.js"></script>
+        <script src="scripts/account-details.js"></script>
+
+
     </body>
 
 
