@@ -9,11 +9,12 @@ $conn = DatabaseConnection::connect();
 $queryExecutor = new QueryExecutor($conn);
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-$limit = 5; 
+$limit = 5;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'acc_created';
 $sort_order = isset($_GET['sort_order']) ? $_GET['sort_order'] : 'DESC';
+$filter = isset($_GET['filter']) ? $_GET['filter'] : [];
 
 // Validate sort_by and sort_order
 $valid_columns = ['acc_created', 'first_name'];
@@ -28,17 +29,28 @@ if (!in_array(strtolower($sort_order), $valid_orders)) {
 
 $searchCondition = $search ? "AND LOWER(CONCAT_WS(' ', COALESCE(TRIM(first_name), ''), COALESCE(TRIM(middle_name), ''), COALESCE(TRIM(last_name), ''), COALESCE(TRIM(suffix), ''), COALESCE(TRIM(role), ''), COALESCE(TRIM(acc_created), ''))) LIKE ?" : "";
 
-// Prepare the main query with sorting
+// Prepare the filter condition
+$filterCondition = "";
+if (!empty($filter)) {
+    $filterCondition = "AND role IN (" . implode(',', array_map(function ($role) use ($conn) {
+        return "'" . $conn->real_escape_string($role) . "'";
+    }, $filter)) . ")";
+} else {
+    $filterCondition = "AND role IN ('admin', 'head_admin')";
+}
+
+// Prepare the main query with sorting and filtering
 $query = "SELECT voter_id, first_name, middle_name, last_name, suffix, role, acc_created
           FROM voter
-          WHERE account_status = 'verified' AND role IN ('admin', 'head_admin')
+          WHERE account_status = 'verified'
+          $filterCondition
           $searchCondition
           ORDER BY $sort_by $sort_order
           LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($query);
 
 if ($search) {
-    $searchParam = "%".strtolower($search)."%";
+    $searchParam = "%" . strtolower($search) . "%";
     $stmt->bind_param("sii", $searchParam, $limit, $offset);
 } else {
     $stmt->bind_param("ii", $limit, $offset);
@@ -55,7 +67,8 @@ $stmt->close();
 // Count total rows
 $countQuery = "SELECT COUNT(*) as total
                FROM voter
-               WHERE account_status = 'verified' AND role IN ('admin', 'head_admin')
+               WHERE account_status = 'verified'
+               $filterCondition
                $searchCondition";
 $countStmt = $conn->prepare($countQuery);
 if ($search) {

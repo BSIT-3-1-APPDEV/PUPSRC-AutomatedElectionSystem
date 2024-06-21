@@ -103,8 +103,6 @@ if (isset($_SESSION['voter_id'])) {
 														</div>
 														<div class="col-sm-6">
 															<div class="row">
-
-
 																<div class="col-md-12 text-end flex-end">
 																	<!-- Delete -->
 																	<div class="d-inline-block">
@@ -121,7 +119,7 @@ if (isset($_SESSION['voter_id'])) {
 																	</div>
 																	<!-- Filters -->
 																	<div class="d-inline-block ps-3">
-																		<form class="d-inline-block" method="get">
+																		<form id="filterForm" class="d-inline-block">
 																			<div class="dropdown sort-by">
 																				<button
 																					class="sortby-tbn fs-7 spacing-6 fw-medium"
@@ -136,23 +134,26 @@ if (isset($_SESSION['voter_id'])) {
 																				<div class="dropdown-menu dropdown-menu-end"
 																					aria-labelledby="dropdownMenuButton"
 																					style="padding: 0.5rem">
-																					<!-- Checklist Items -->
 																					<li
 																						class="dropdown-item ps-3 fs-7 fw-medium">
 																						<label>
-																							<input type="checkbox"
+																							<input type="checkbox" class="filter-checkbox"
 																								name="filter[]"
-																								value="admin">
-																							Admin
+																								value="admin"
+																								id="filterAdmin"> 
+																								<span class="filter-custom-checkbox"></span>
+																								Admin
 																						</label>
 																					</li>
 																					<li
 																						class="dropdown-item ps-3 fs-7 fw-medium">
 																						<label>
-																							<input type="checkbox"
+																							<input type="checkbox" class="filter-checkbox"
 																								name="filter[]"
-																								value="head_admin">
-																							Head Admin
+																								value="head_admin"
+																								id="filterHeadAdmin"> 
+																								<span class="filter-custom-checkbox"></span>
+																								Head Admin
 																						</label>
 																					</li>
 																				</div>
@@ -221,7 +222,6 @@ if (isset($_SESSION['voter_id'])) {
 																			id="searchInput" style="width: 100px">
 																	</div>
 																</div>
-
 															</div>
 														</div>
 													</div>
@@ -234,8 +234,7 @@ if (isset($_SESSION['voter_id'])) {
 																		class="col-md-3 tl-left d-none checkbox-all-admin text-center">
 																		<input type="checkbox" id="selectAllAdmin">
 																	</th>
-																	<th
-																		class="col-md-4 text-center fs-7 fw-bold spacing-5">
+																	<th class="col-md-4 text-center fs-7 fw-bold spacing-5">
 																		<i data-feather="user"
 																			class="feather-xs im-cust"></i>Full Name
 																	</th>
@@ -288,7 +287,8 @@ if (isset($_SESSION['voter_id'])) {
 																				class="feather-xs im-cust"></i>Full Name
 																		</th>
 
-																		<th class="col-md-3 del-center tl-left text-center fs-7 fw-bold spacing-5">
+																		<th
+																			class="col-md-3 del-center tl-left text-center fs-7 fw-bold spacing-5">
 																			<i data-feather="star"
 																				class="feather-xs im-cust"></i>Committee Role
 																		</th>

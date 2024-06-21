@@ -154,3 +154,46 @@
 .light-gray {
   color: var(--bs-gray-250);
 }
+
+/* Hide only the filter checkboxes */
+.filter-checkbox {
+  display: none;
+}
+
+/* Style for the filter custom checkbox */
+.filter-custom-checkbox {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  margin-right: 5px;
+  vertical-align: middle;
+  position: relative;
+}
+
+/* Style the checkmark for filter checkbox */
+.filter-custom-checkbox::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 2px;
+  width: 3px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Show checkmark when filter checkbox is checked */
+.filter-checkbox:checked + .filter-custom-checkbox::after {
+  display: block;
+}
+
+/* Change background color when filter checkbox is checked */
+.filter-checkbox:checked + .filter-custom-checkbox {
+  background-color: var(--main-color); 
+  border-color: var(--main-color);  
+}

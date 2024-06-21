@@ -16,18 +16,51 @@ function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString('en-US', options);
 }
 
-function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy = "", sortOrder = "") {
-  console.log(`Loading page ${page} for ${tableId} with search term: "${searchTerm}", sortBy: "${sortBy}", sortOrder: "${sortOrder}"`);
+function applyFilters() {
+  const searchTerm = $("#searchInput").val();
+  const filterForm = $("#filterForm");
+  console.log("Filter form:", filterForm);
+  console.log("Serialized form data:", filterForm.serialize());
+
+  const filterValues = filterForm.serializeArray()
+    .filter(item => item.name === "filter[]")
+    .map(item => item.value);
+
+  console.log("Filter values:", filterValues);
+
+  loadPage(
+    "adminTable",
+    "committeePagination",
+    searchTerm !== "" ? "submission_handlers/search-committee.php" : "submission_handlers/fetch-committee.php",
+    1,
+    searchTerm,
+    "",
+    "",
+    filterValues
+  );
+}
+
+function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy = "", sortOrder = "", filter = []) {
+  const requestData = {
+    page: page,
+    search: searchTerm,
+    sort_by: sortBy,
+    sort_order: sortOrder,
+    filter: filter
+  };
+
+  console.log("AJAX request data:", requestData);
+
   $.ajax({
-    url: searchTerm ? "submission_handlers/search-committee.php" : ajaxUrl,
+    url: ajaxUrl,
     type: "GET",
-    data: { page: page, search: searchTerm, sort_by: sortBy, sort_order: sortOrder },
+    data: requestData,
     success: function (response) {
-      console.log(`Response received for page ${page}:`, response);  // Log the response
+      console.log("Server response:", response);
       const data = JSON.parse(response);
       const voters = data.voters;
       const totalRows = data.totalRows;
-      const totalPages = Math.ceil(totalRows / 5);
+      const totalPages = Math.max(1, Math.ceil(totalRows / 5));
 
       console.log(`Total rows: ${totalRows}, Total pages: ${totalPages}`);
 
@@ -50,15 +83,11 @@ function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy 
         voters.forEach((voter) => {
           const formattedDate = formatDate(voter.acc_created);
           const isChecked = selectedAdminIds.includes(voter.voter_id) ? "checked" : "";
-        
+
           const row = `
             <tr>
-              <td class="col-md-1 text-center checkbox-delete-admin ${
-                deleteAdminState ? "" : "d-none"
-              }">
-                <input type="checkbox" class="adminCheckbox" data-id="${
-                  voter.voter_id
-                }" ${isChecked}>
+              <td class="col-md-1 text-center checkbox-delete-admin ${deleteAdminState ? "" : "d-none"}">
+                <input type="checkbox" class="adminCheckbox" data-id="${voter.voter_id}" ${isChecked}>
               </td>
               <td class="col-md-4 text-center text-truncate"><a href="account-details.php?voter_id=${voter.voter_id}">${voter.first_name} ${voter.middle_name} ${voter.last_name} ${voter.suffix}</a></td>
               <td class="col-md-3 text-center">
@@ -69,7 +98,7 @@ function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy 
               </td>
             </tr>
           `;
-        
+
           tbody.append(row);
         });
       }
@@ -78,13 +107,13 @@ function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy 
         selectedAdminIds.forEach((id) => {
           $(`.adminCheckbox[data-id="${id}"]`).prop("checked", true);
         });
-      } 
+      }
 
       // Initial generation of pagination (when page is open/reloads)
       generatePagination(paginationId, totalPages, page, tableId, ajaxUrl, searchTerm);
     },
     error: function (error) {
-      console.error(`Error loading page ${page} for ${tableId} with search term: "${searchTerm}", sortBy: "${sortBy}", sortOrder: "${sortOrder}"`, error);
+      console.error(`Error loading page ${page} for ${tableId} with search term: "${searchTerm}", sortBy: "${sortBy}", sortOrder: "${sortOrder}", filter: ${JSON.stringify(filter)}`, error);
     },
   });
 }
@@ -116,51 +145,37 @@ function recheckCheckboxes(tableId) {
     });
   }
 }
-// -- FUNCTION: Rechecking of Checkboxes
-
 
 //---------- PAGINATION------------ //
 function generatePagination(paginationId, totalPages, currentPage, tableId, ajaxUrl, searchTerm = "") {
-  console.log(`Generating pagination for ${tableId} (Page ${currentPage} of ${totalPages})`); // Debug
-
-  // Sort By dropdown items
-  $(`#${paginationId} .dropdown-menu a`).on('click', function (e) {
-    e.preventDefault();
-    const sortColumn = $(this).data('sort');
-    const sortOrder = $(this).data('order');
-
-    // Call the loadPage function with the new sort parameters
-    loadPage(tableId, paginationId, ajaxUrl, currentPage, searchTerm, sortColumn, sortOrder);
-  });
-
-  // Removes the pagination if records are empty
-  if (totalPages === 0) {
-    $(`#${paginationId}`).empty(); // Clear the pagination
-    return; // Exit the function
-  }
+  console.log(`Generating pagination for ${tableId} (Page ${currentPage} of ${totalPages})`);
 
   const pagination = $(`#${paginationId}`);
   pagination.empty();
+
+  // Ensure at least one page
+  totalPages = Math.max(1, totalPages);
+  currentPage = Math.min(Math.max(1, currentPage), totalPages);
 
   // Previous arrow
   const prevArrowClass = currentPage === 1 ? "disabled-arrow" : "";
   const pointerPrevNone = currentPage === 1 ? "pe-none" : "";
   const prevPage = currentPage > 1 ? currentPage - 1 : 1;
   const prevItem = `
-        <li class="page-item ${pointerPrevNone}" id="left-arrow-page">
-            <a href="#" class="page-link" data-page="${prevPage}">
-                <span class="fas fa-chevron-left ${prevArrowClass}"></span>
-            </a>
-        </li>`;
+         <li class="page-item ${pointerPrevNone}" id="left-arrow-page">
+             <a href="#" class="page-link" data-page="${prevPage}">
+                 <span class="fas fa-chevron-left left-arrow-icon ${prevArrowClass}"></span>
+             </a>
+         </li>`;
   pagination.append(prevItem);
 
   // Page numbers
   for (let i = 1; i <= totalPages; i++) {
     const activeClass = i === currentPage ? "active" : "";
     const pageItem = `
-            <li class="page-item ${activeClass}">
-                <a href="#" class="page-link" data-page="${i}">${i}</a>
-            </li>`;
+             <li class="page-item ${activeClass}">
+                 <a href="#" class="page-link" data-page="${i}">${i}</a>
+             </li>`;
     pagination.append(pageItem);
   }
 
@@ -169,11 +184,11 @@ function generatePagination(paginationId, totalPages, currentPage, tableId, ajax
   const pointerNextNone = currentPage === totalPages ? "pe-none" : "";
   const nextPage = currentPage < totalPages ? currentPage + 1 : totalPages;
   const nextItem = `
-        <li class="page-item ${pointerNextNone}" id="right-arrow-page">
-            <a href="#" class="page-link" data-page="${nextPage}">
-                <span class="fas fa-chevron-right ${nextArrowClass}"></span>
-            </a>
-        </li>`;
+         <li class="page-item ${pointerNextNone}" id="right-arrow-page">
+             <a href="#" class="page-link" data-page="${nextPage}">
+                 <span class="fas fa-chevron-right ${nextArrowClass}"></span>
+             </a>
+         </li>`;
   pagination.append(nextItem);
 
   // Attach click events
@@ -181,9 +196,11 @@ function generatePagination(paginationId, totalPages, currentPage, tableId, ajax
     .off("click")
     .on("click", function (e) {
       e.preventDefault();
-      const page = $(this).data("page");
-      console.log(`Page link clicked: ${page}`);
-      loadPage(tableId, paginationId, ajaxUrl, page, searchTerm);
+      if (!$(this).parent().hasClass('disabled')) {
+        const page = $(this).data("page");
+        console.log(`Page link clicked: ${page}`);
+        loadPage(tableId, paginationId, ajaxUrl, page, searchTerm);
+      }
     });
 }
 
@@ -191,14 +208,48 @@ function generatePagination(paginationId, totalPages, currentPage, tableId, ajax
 $(document).ready(function () {
   const currentPage = 1;
 
+  function applyFilters() {
+    const searchTerm = $("#searchInput").val();
+    const filterValues = $("#filterForm").serializeArray()
+      .filter(item => item.name === "filter[]")
+      .map(item => item.value);
+
+    loadPage(
+      "adminTable",
+      "committeePagination",
+      searchTerm !== "" ? "submission_handlers/search-committee.php" : "submission_handlers/fetch-committee.php",
+      currentPage,
+      searchTerm,
+      "",
+      "",
+      filterValues
+    );
+  }
+
   // Load initial data
-  loadPage(
-    "adminTable",
-    "committeePagination",
-    "submission_handlers/fetch-committee.php",
-    currentPage,
-    "" // Initial search term (empty)
-  );
+  applyFilters();
+
+  // Search event listener
+  $("#searchInput").on("input", applyFilters);
+
+  // Add this new event listener for checkboxes
+  $("#filterForm input[type='checkbox']").on("change", function () {
+    console.log("Checkbox changed. Checkbox value:", $(this).val(), "Checked:", $(this).prop('checked'));
+    applyFilters();
+  });
+
+  // Sort event listener
+  $('.sort-link').on('click', function (e) {
+    e.preventDefault();
+    const sortBy = $(this).data('sort');
+    const sortOrder = $(this).data('order');
+    const filterValues = $("#filterForm").serializeArray()
+      .filter(item => item.name === "filter[]")
+      .map(item => item.value);
+
+    // Load page with sorting parameters and filter
+    loadPage('adminTable', 'pagination', 'submission_handlers/fetch-committee.php', 1, $('#searchInput').val(), sortBy, sortOrder, filterValues);
+  });
 
   // Search event listener
   $("#searchInput").on("input", function () {
