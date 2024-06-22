@@ -44,6 +44,14 @@ main.main {
                 min-width: 100%;
                 max-width: 100%;
 
+                .form-check-label {
+                    &::after {
+                        content: "Required";
+                        position: absolute;
+                        transform: translateX(-65%) translateY(10%);
+                    }
+                }
+
                 .field-item-header {
                     width: 100%;
                     display: flex;
@@ -55,6 +63,18 @@ main.main {
                         flex-direction: column;
 
                         order: 0;
+
+                        &:has(:focus-within)~div.col-1 {
+
+                            @media (max-width: 576px) {
+                                transform: translateY(-25%);
+                            }
+
+                            @media (min-width: 576px) {
+                                transform: translateY(-20%);
+                            }
+                        }
+
                     }
 
                     div:has(input[type="checkbox"]) {
@@ -83,7 +103,8 @@ main.main {
                         }
                     }
 
-                    select {
+                    select,
+                    .dropdown.bootstrap-select {
 
 
                         @media (max-width: 576px) {
@@ -139,10 +160,6 @@ main.main {
             }
 
             div.ql-container {
-
-                &:focus {
-                    border: 5px solid aqua;
-                }
 
                 &:has(:focus-within):has(.ql-editor[contenteditable="true"])+div.ql-toolbar {
                     display: block;
