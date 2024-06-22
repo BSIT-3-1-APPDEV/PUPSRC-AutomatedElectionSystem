@@ -23,23 +23,13 @@ class Login extends IpAddress {
 
     // Authenticates the user submitted email
     protected function getUser($email, $password) {
-
-        // If db connection is not established, terminate execution
-        if(!$this->connection) {
-            $this->redirectWithError('A problem has occured. Try reloading the page.');
-        }
-
         if($this->isBlocked()) {
             $this->isLoginAttemptMax();
         }
 
-        // Verify user in the voter table
-        $stmt = $this->connection->prepare("SELECT 
-                                                voter_id, email, password, role, account_status, voter_status, vote_status 
-                                            FROM 
-                                                voter 
-                                            WHERE 
-                                                BINARY email = ?");
+        // Verifies user in the voter table
+        $sql = "SELECT voter_id, email, password, role, account_status, voter_status, vote_status FROM voter WHERE BINARY email = ?";
+        $stmt = $this->connection->prepare($sql);
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
