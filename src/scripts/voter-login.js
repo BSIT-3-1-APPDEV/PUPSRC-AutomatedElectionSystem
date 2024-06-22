@@ -26,6 +26,24 @@ $(document).ready(function () {
     }
   };
 
+  // Clears displayed messages from server-side
+  $("#loginSubmitBtn").on("click", function () {
+    const serverSideErrorMessage = document.querySelector(
+      "#serverSideErrorMessage"
+    );
+    const serverSideInfoMessage = document.querySelector(
+      "#serverSideInfoMessage"
+    );
+
+    if (serverSideErrorMessage) {
+      serverSideErrorMessage.remove();
+    }
+
+    if (serverSideInfoMessage) {
+      serverSideInfoMessage.remove();
+    }
+  });
+
   const preventSpaces = (event) => {
     let input = event.target;
     let maxLength = input.id === "Password" ? 20 : 255;
