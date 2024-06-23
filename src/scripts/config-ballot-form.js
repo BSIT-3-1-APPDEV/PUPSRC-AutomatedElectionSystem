@@ -167,15 +167,6 @@ ConfigPage.sortableObj = new Sortable(ConfigPage.sortableForms, {
     // },
 });
 
-ConfigPage.formTemplate = function () {
-
-}
-
-
-ConfigPage.formCreator = function () {
-
-}
-
 ConfigPage.inputHandler = function () {
 
 }
@@ -184,13 +175,250 @@ ConfigPage.defaultFormHandler = function () {
 
 }
 
+ConfigPage.customField = class {
+    static fieldTypes = [
+        { value: 'short_text', text: 'Text Input' },
+        { value: 'multiple_choice', text: 'Multiple Choice' },
+    ]
 
-ConfigPage.quill1 = new Quill('#b-field-4-name', {
-    modules: {
-        toolbar: '#b-field-4-name-toolbar'
-    },
-    placeholder: 'Question',
+
+    static formatButtons = [
+        { className: 'ql-bold', icon: 'bold' },
+        { className: 'ql-italic', icon: 'italic' },
+        { className: 'ql-underline', icon: 'underline' },
+        { className: 'ql-link', icon: 'link-2' },
+        {
+            className: 'ql-clean', svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="format-clear">
+                                          <path fill="none" d="M0 0h24v24H0V0z" fill="currentColor"></path>
+                                          <path d="M20 8V5H6.39l3 3h1.83l-.55 1.28 2.09 2.1L14.21 8zM3.41 4.86L2 6.27l6.97 6.97L6.5 19h3l1.57-3.66L16.73 21l1.41-1.41z" fill="currentColor"></path>
+                                        </svg>` }
+    ];
+
+    static setTypeOptions(selectElement) {
+        this.fieldTypes.forEach(optionData => {
+            let option = document.createElement('option');
+            option.value = optionData.value;
+            option.text = optionData.text;
+            if (optionData.disabled) {
+                option.disabled = true;
+            }
+            selectElement.appendChild(option);
+        });
+    }
+
+
+    static createPluginObjects(fieldId) {
+        new Quill(`#b-field-${fieldId}-name`, {
+            modules: {
+                toolbar: `#b-field-${fieldId}-name-toolbar`
+            },
+            placeholder: 'Question',
+        });
+
+        new Quill(`#b-field-${fieldId}-desc`, {
+            modules: {
+                toolbar: `#b-field-${fieldId}-desc-toolbar`
+            },
+            placeholder: 'Description.',
+        });
+
+        $(`#b-field-${fieldId}-type`).selectpicker();
+    }
+
+
+    static createField(fieldId) {
+        let orderableField = document.createElement('div');
+        orderableField.className = 'list-group-item';
+        orderableField.id = '';
+        orderableField.setAttribute('data-id', `b-field-${fieldId}`);
+
+        let orderableHandle = document.createElement('div');
+        orderableHandle.className = 'handle';
+
+        let handleIcon = document.createElement('span');
+        handleIcon.className = 'fas fa-grip-lines';
+
+        let fieldItem = document.createElement('div');
+        fieldItem.className = 'field-item';
+
+
+        orderableHandle.insertBefore(handleIcon, orderableHandle.firstChild);
+
+        orderableField.insertBefore(orderableHandle, orderableField.firstChild);
+
+        fieldItem.appendChild(this.createFieldHeader(fieldId));
+        fieldItem.appendChild(this.createActionButtons());
+
+        orderableField.appendChild(fieldItem);
+
+        ConfigPage.sortableForms.appendChild(orderableField);
+        feather.replace();
+
+        this.createPluginObjects(fieldId);
+    }
+
+    static createFieldHeader(fieldId) {
+        let fieldHeader = document.createElement('div');
+        fieldHeader.className = 'field-item-header';
+
+        fieldHeader.appendChild(this.createQuestion(fieldId));
+        fieldHeader.appendChild(this.createTypeSelector(fieldId));
+        fieldHeader.appendChild(this.createRequiredToggle(fieldId));
+        fieldHeader.appendChild(this.createDescription(fieldId));
+
+        return fieldHeader;
+    }
+
+    static createQuestion(fieldId) {
+        let fieldNameForm = document.createElement('div');
+        fieldNameForm.className = 'field-name-form col-8 col-md-6';
+
+        let fieldGroup = document.createElement('div')
+
+        let fieldName = document.createElement('div');
+        fieldName.id = `b-field-${fieldId}-name`;
+        fieldName.className = 'ql-container';
+
+        let fieldNameToolbar = document.createElement('div');
+        fieldNameToolbar.id = `b-field-${fieldId}-name-toolbar`;
+        fieldNameToolbar.className = 'ql-toolbar ql-snow';
+
+        this.createFormatBtn(fieldNameToolbar);
+
+        fieldGroup.appendChild(fieldName);
+        fieldGroup.appendChild(fieldNameToolbar);
+        fieldNameForm.insertBefore(fieldGroup, fieldNameForm.firstChild);
+
+        return fieldNameForm;
+    }
+
+    static createFormatBtn(toolbar) {
+        this.formatButtons.forEach(button => {
+            let btn = document.createElement('button');
+            btn.className = button.className;
+            btn.setAttribute('tabindex', 0);
+            if (button.icon) {
+                let icon = document.createElement('i');
+                icon.setAttribute('data-feather', button.icon);
+                btn.appendChild(icon);
+            } else if (button.svg) {
+                btn.innerHTML = button.svg;
+            }
+            toolbar.appendChild(btn);
+        });
+    }
+
+    static createTypeSelector(fieldId) {
+        let fieldTypeForm = document.createElement('select');
+        fieldTypeForm.className = 'field-type-form col-12 col-md-4';
+        fieldTypeForm.id = `b-field-${fieldId}-type`;
+
+        this.setTypeOptions(fieldTypeForm);
+
+        return fieldTypeForm;
+    }
+
+    static createRequiredToggle() {
+        let toggleContainer = document.createElement('div');
+        toggleContainer.className = 'col-1';
+
+        let toggleParent = document.createElement('div');
+        toggleParent.className = 'form-check form-switch';
+
+        let toggle = document.createElement('input');
+        toggle.className = 'form-check-input';
+        toggle.type = 'checkbox';
+        toggle.role = 'switch';
+        toggle.id = 'checkbox-candidates';
+        toggle.checked = true;
+
+        let toggleLabel = document.createElement('label');
+        toggleLabel.className = 'form-check-label';
+        toggleLabel.htmlFor = 'checkbox-candidates';
+
+        toggleParent.appendChild(toggle);
+        toggleParent.appendChild(toggleLabel);
+        toggleContainer.insertBefore(toggleParent, toggleContainer.firstChild);
+
+        return toggleContainer;
+    }
+
+    static createDescription(fieldId) {
+
+        let fieldDescContainer = document.createElement('div');
+        fieldDescContainer.className = 'field-desc-form col-12';
+
+        // Create the inner div for field description
+        let fieldDescForm = document.createElement('div');
+        fieldDescForm.className = 'col-12 col-md-6';
+
+        // Create the div for b-field-4-desc
+        let fieldDesc = document.createElement('div');
+        fieldDesc.id = `b-field-${fieldId}-desc`;
+        fieldDesc.className = 'ql-container';
+
+        // Create the toolbar div for b-field-4-desc
+        let fieldDescToolbar = document.createElement('div');
+        fieldDescToolbar.id = `b-field-${fieldId}-desc-toolbar`;
+        fieldDescToolbar.className = 'ql-toolbar ql-snow';
+
+        this.createFormatBtn(fieldDescToolbar);
+
+        fieldDescForm.appendChild(fieldDesc);
+        fieldDescForm.appendChild(fieldDescToolbar);
+
+        fieldDescContainer.appendChild(fieldDescForm);
+
+        return fieldDescContainer;
+    }
+
+    static createActionButtons() {
+
+        let fieldAction = document.createElement('div');
+        fieldAction.className = 'field-action';
+
+        let btnGroup = document.createElement('div');
+        btnGroup.className = 'btn-group';
+        btnGroup.setAttribute('role', 'group');
+        btnGroup.setAttribute('aria-label', 'Field Menu Button');
+
+        let copyButton = document.createElement('button');
+        copyButton.className = 'btn btn-secondary';
+        let copyIcon = document.createElement('i');
+        copyIcon.setAttribute('data-feather', 'copy');
+        copyButton.appendChild(copyIcon);
+
+        let trashButton = document.createElement('button');
+        trashButton.className = 'btn btn-secondary';
+        let trashIcon = document.createElement('i');
+        trashIcon.setAttribute('data-feather', 'trash-2');
+        trashButton.appendChild(trashIcon);
+
+        btnGroup.appendChild(copyButton);
+        btnGroup.appendChild(trashButton);
+        fieldAction.insertBefore(btnGroup, fieldAction.firstChild);
+
+        return fieldAction;
+    }
+
+
+}
+
+let tempSelct = document.getElementById('b-field-4-type');
+
+ConfigPage.customField.setTypeOptions(tempSelct);
+
+ConfigPage.customField.createPluginObjects(4);
+
+let addBtn = document.querySelector('.list-group-item.add-item button');
+
+console.log(addBtn);
+
+addBtn.addEventListener('click', function () {
+    ConfigPage.customField.createField(5);
 });
+
+
 
 const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike', 'link', 'clean'],        // toggled buttons
@@ -214,14 +442,8 @@ const toolbarOptions = [
 ];
 
 
-ConfigPage.quill2 = new Quill('#b-field-4-desc', {
-    modules: {
-        toolbar: '#b-field-4-desc-toolbar'
-    },
-    placeholder: 'Description.',
-});
 
-$('#b-field-4-type').selectpicker();
+
 
 // $('.max-vote-picker').selectpicker('destroy');
 

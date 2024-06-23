@@ -36,7 +36,7 @@ include_once 'modals.php';
         <section class="card-box ">
             <div class="">
                 <div class="list-group ballot-form" id="sortableForms">
-                    <div class="list-group-item" id="" data-id="b-field-2">
+                    <div class="list-group-item" id="" data-id="b-field-1">
                         <div class="handle">
                             <span class="fas fa-grip-lines"></span>
                         </div>
@@ -55,7 +55,7 @@ include_once 'modals.php';
                             </div>
                         </div>
                     </div>
-                    <div class="list-group-item" id="" data-id="b-field-1">
+                    <div class="list-group-item" id="" data-id="b-field-2">
                         <div class="handle">
                             <span class="fas fa-grip-lines"></span>
                         </div>
@@ -68,14 +68,6 @@ include_once 'modals.php';
                             </div>
                         </div>
                     </div>
-                    <div class="list-group-item " id="" data-id="b-field-3">
-                        <div class="handle">
-                            <span class="fas fa-grip-lines"></span>
-                        </div>
-                        <div class="field-item ">
-                            <div class="me-auto">Candidate Form2</div>
-                        </div>
-                    </div>
                     <div class="list-group-item " id="" data-id="b-field-4">
                         <div class="handle">
                             <span class="fas fa-grip-lines"></span>
@@ -84,27 +76,26 @@ include_once 'modals.php';
                             <div class="field-item-header">
                                 <div class="field-name-form col-8 col-md-6">
 
-                                    <div id="b-field-4-name" class="ql-container">
+                                    <div class="">
+                                        <div id="b-field-4-name" class="ql-container">
 
-                                    </div>
-                                    <div id="b-field-4-name-toolbar" class="ql-toolbar ql-snow">
-                                        <button class="ql-bold"><i data-feather="bold"></i></button>
-                                        <button class="ql-italic"><i data-feather="italic"></i></button>
-                                        <button class="ql-underline"><i data-feather="underline"></i></button>
-                                        <button class="ql-link"><i data-feather="link-2"></i></button>
-                                        <button class="ql-clean">
-                                            <!-- <i data-feather="type"></i> -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="format-clear">
-                                                <path fill="none" d="M0 0h24v24H0V0z" fill="currentColor"></path>
-                                                <path d="M20 8V5H6.39l3 3h1.83l-.55 1.28 2.09 2.1L14.21 8zM3.41 4.86L2 6.27l6.97 6.97L6.5 19h3l1.57-3.66L16.73 21l1.41-1.41z" fill="currentColor"></path>
-                                            </svg>
-                                        </button>
+                                        </div>
+                                        <div id="b-field-4-name-toolbar" class="ql-toolbar ql-snow">
+                                            <button class="ql-bold"><i data-feather="bold"></i></button>
+                                            <button class="ql-italic"><i data-feather="italic"></i></button>
+                                            <button class="ql-underline"><i data-feather="underline"></i></button>
+                                            <button class="ql-link"><i data-feather="link-2"></i></button>
+                                            <button class="ql-clean">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="format-clear">
+                                                    <path fill="none" d="M0 0h24v24H0V0z" fill="currentColor"></path>
+                                                    <path d="M20 8V5H6.39l3 3h1.83l-.55 1.28 2.09 2.1L14.21 8zM3.41 4.86L2 6.27l6.97 6.97L6.5 19h3l1.57-3.66L16.73 21l1.41-1.41z" fill="currentColor"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <select class="field-type-form col-12 col-md-4" name="" id="b-field-4-type">
-                                    <option value="multiple_choice">Multiple Choice</option>
-                                    <option value="short_text">Text Input</option>
                                 </select>
 
                                 <div class=" col-1">
@@ -150,7 +141,7 @@ include_once 'modals.php';
                         </div>
                     </div>
                 </div>
-                <!-- <div class="list-group-item add-item">
+                <div class="list-group-item add-item">
                     <div class="field-item ">
                         <div class="">
                             <button class="btn btn-primary text-capitalize">
@@ -158,7 +149,7 @@ include_once 'modals.php';
                             </button>
                         </div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </section>
 

@@ -36,6 +36,7 @@ main.main {
                 }
 
 
+
             }
 
 
@@ -57,6 +58,33 @@ main.main {
                     display: flex;
                     flex-wrap: wrap;
                     gap: 30px;
+                    /* Need to be responsive  */
+                    /* Upon adjust will affect  transform of field-name-form &:has(:focus-within) ~div.col-1*/
+
+                    &:has(.field-name-form:focus-within) {
+
+
+                        @media (max-width: 576px) {
+                            gap: 60px 30px;
+                            /* Need to be responsive  */
+                            /* Upon adjust will affect  transform of field-name-form &:has(:focus-within) ~div.col-1*/
+                        }
+
+                        @media (min-width: 576px) {
+                            gap: 50px 30px;
+                            /* Need to be responsive  */
+                            /* Upon adjust will affect  transform of field-name-form &:has(:focus-within) ~div.col-1*/
+                        }
+
+                        .field-desc-form {
+                            margin-bottom: -60px;
+                        }
+
+                    }
+
+                    .ql-container {
+                        min-height: calc(clamp(1rem, 0.75rem + 0.5vw, 1.5vw)*3);
+                    }
 
                     .field-name-form {
                         display: flex;
@@ -64,22 +92,53 @@ main.main {
 
                         order: 0;
 
-                        &:has(:focus-within)~div.col-1 {
+                        div:has([id$="-name"].ql-container) {
+                            max-height: calc(clamp(1rem, 0.75rem + 0.5vw, 1.5vw)*1);
+                        }
 
-                            @media (max-width: 576px) {
-                                transform: translateY(-25%);
+                        &:has(:focus-within) {
+                            &~div.col-1 {
+
+                                @media (max-width: 576px) {
+                                    // transform: translateY(-25%) translateX(7%);
+                                    transform: translateX(7%);
+                                }
+
+                                @media (min-width: 576px) {
+                                    // transform: translateY(-20%) translateX(6%);
+                                    transform: translateX(6%);
+                                }
+
+
                             }
 
-                            @media (min-width: 576px) {
-                                transform: translateY(-20%);
+                            div.ql-container {
+                                font-size: clamp(1rem, 0.75rem + 0.5vw, 1.5vw);
+                                font-weight: 500;
+                            }
+
+                            div.ql-toolbar {
+                                display: block;
+                                transition: display 1s;
+                                margin-bottom: clamp(0.5rem, 0.25rem + 0.5dvw, 3rem);
                             }
                         }
+
+                        div.ql-toolbar {
+                            display: none;
+                        }
+
+                        // button:focus,
+                        // .ql-editor:focus {
+                        //     background-color: red !important;
+                        // }
 
                     }
 
                     div:has(input[type="checkbox"]) {
                         display: grid;
-                        place-content: center;
+                        align-content: center;
+                        justify-self: end;
 
                         @media (max-width: 576px) {
                             order: 1;
@@ -87,6 +146,7 @@ main.main {
 
                         @media (min-width: 576px) {
                             order: 2;
+                            transform: translateX(7%);
                         }
 
                         .form-check.form-switch {}
@@ -100,6 +160,25 @@ main.main {
 
                         @media (min-width: 576px) {
                             order: 3;
+                        }
+
+                        &:has(:focus-within) {
+
+                            div.ql-container {
+                                font-size: clamp(1rem, 0.75rem + 0.5vw, 1.5vw);
+                                font-weight: 500;
+                            }
+
+                            div.ql-toolbar {
+                                display: block;
+                                transition: display 1s;
+                            }
+                        }
+
+                        div.ql-toolbar {
+
+                            display: none;
+
                         }
                     }
 
@@ -147,27 +226,18 @@ main.main {
 
                 }
 
-                &:focus {
-                    font-size: clamp(1rem, 0.75rem + 0.5vw, 1.5vw);
-                    font-weight: 500;
-                }
 
-                // &:focus-within,
-                // &:focus-visible,
-                // &:focus {
-
-                // }
             }
 
             div.ql-container {
 
-                &:has(:focus-within):has(.ql-editor[contenteditable="true"])+div.ql-toolbar {
-                    display: block;
-                }
+                // &:has(:focus-within):has(.ql-editor[contenteditable="true"])+div.ql-toolbar {
+                //     display: block;
+                // }
 
                 &:has(.ql-editor[contenteditable="true"])+div.ql-toolbar {
                     background-color: transparent;
-                    display: none;
+                    // display: none;
 
                     button {
                         color: light-dark(#757575, #757575) !important;
