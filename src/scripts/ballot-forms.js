@@ -10,16 +10,103 @@ document.getElementById("toggleButton").addEventListener("click", function() {
     }, 1000);
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to limit checkbox selection based on max_votes
+    function limitCheckboxSelection() {
+        // Select all candidate checkboxes for voting
+        var candidateCheckboxes = document.querySelectorAll('input[type="checkbox"][name^="position["][value]');
+        // Select all abstain checkboxes
+        var abstainCheckboxes = document.querySelectorAll('.abstain-checkbox');
 
-function removeErrorAndBorder(inputElement, errorElement) {
-    inputElement.addEventListener('input', function() {
-        if (inputElement.value.trim() && errorElement) {
-            inputElement.classList.remove('border', 'border-danger');
-            errorElement.parentNode.removeChild(errorElement);
+        candidateCheckboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var positionId = this.name.match(/\[(.*?)\]/)[1]; // Extract position_id from checkbox name
+                var maxVotes = parseInt(this.getAttribute('data-max-votes')); // Get max_votes for the position
+                var checkedCandidateCheckboxes = document.querySelectorAll('input[type="checkbox"][name="position[' + positionId + '][]"]:checked'); // Checked candidate checkboxes for this position
+                var abstainCheckbox = document.querySelector('#abstain_' + positionId); // Abstain checkbox for this position
+
+                // If a candidate checkbox is checked, uncheck the abstain checkbox
+                if (abstainCheckbox && this.checked) {
+                    abstainCheckbox.checked = false;
+                }
+
+                // Check if the number of checked checkboxes exceeds max_votes
+                if (checkedCandidateCheckboxes.length > maxVotes) {
+                    this.checked = false; // Uncheck the current checkbox
+                }
+            });
+        });
+
+        abstainCheckboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('click', function() {
+                var positionId = this.getAttribute('data-position-id'); // Extract position_id from data attribute
+                var candidateCheckboxes = document.querySelectorAll('input[type="checkbox"][name="position[' + positionId + '][]"][value]'); // Candidate checkboxes for this position
+
+                // Uncheck all candidate checkboxes if abstain is checked
+                if (this.checked) {
+                    candidateCheckboxes.forEach(function(candidateCheckbox) {
+                        candidateCheckbox.checked = false;
+                    });
+                }
+            });
+        });
+    }
+
+    // Execute the function to limit checkbox selection once the document is loaded
+    limitCheckboxSelection();
+});
+
+// Add event listeners to checkboxes and "ABSTAIN" radio button to update error messages
+var reminders = document.querySelectorAll('.reminder');
+reminders.forEach(function(reminder) {
+    var checkboxes = reminder.querySelectorAll('input[type="checkbox"]');
+    var abstainRadio = reminder.querySelector('input[type="radio"].abstain-checkbox');
+    
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            updateErrorState(reminder);
+        });
+    });
+
+    if (abstainRadio) {
+        abstainRadio.addEventListener('change', function() {
+            updateErrorState(reminder);
+        });
+    }
+});
+
+function updateErrorState(reminder) {
+    var checkboxes = reminder.querySelectorAll('input[type="checkbox"]');
+    var abstainRadio = reminder.querySelector('input[type="radio"].abstain-checkbox');
+    var isChecked = false;
+
+    checkboxes.forEach(function(cb) {
+        if (cb.checked) {
+            isChecked = true;
         }
     });
+
+    if (isChecked || (abstainRadio && abstainRadio.checked)) {
+        var reminderError = reminder.querySelector('.text-danger');
+        if (reminderError) {
+            reminder.removeChild(reminderError);
+        }
+        reminder.classList.remove('border', 'border-danger');
+    } else {
+        var reminderError = reminder.querySelector('.text-danger');
+        if (!reminderError) {
+            var errorText = document.createElement('div');
+            errorText.classList.add('text-danger', 'mt-4', 'ps-lg-4', 'ps-sm-2', 'ps-2', 'ms-2', 'ms-lg-4', 'ms-sm-2', 'me-4');
+            errorText.innerHTML = "<span><i>This field is required. Please select one (1) candidate or click ABSTAIN.</i></span>";
+            reminder.insertBefore(errorText, reminder.firstChild);
+        }
+        reminder.classList.add('border', 'border-danger');
+    }
 }
+
+// Function to validate form
 function validateForm(event) {
+    event.preventDefault();
     var voteForm = document.getElementById('voteForm');
     var reminders = voteForm.querySelectorAll('.reminder');
     var isValid = true;
@@ -27,108 +114,63 @@ function validateForm(event) {
     var selectedCandidateHTML = '';
     var pairCounter = 0;
 
-    // Check if the voter name and student number fields exist
-    var voterNameInput = document.getElementById('voter_name');
-    var studentNumInput = document.getElementById('student_num');
-
-    // Regular expressions
+    // Regular expressions for validation
     var studentNumRegex = /^\d{4}-\d{5}-[A-Z]{2}-\d$/;
     var voterNameRegex = /^[A-Za-z.,\-\s]+$/;
 
-    if (voterNameInput !== null) {
+    // Validate voter name input
+    var voterNameInput = document.getElementById('voter_name');
+    if (voterNameInput) {
         var voterNameError = document.getElementById('voterNameError');
-        removeErrorAndBorder(voterNameInput, voterNameError);
+        removeErrorAndBorder(voterNameInput);
 
         if (!voterNameInput.value.trim()) {
-            if (!voterNameError) {
-                var errorText = document.createElement('div');
-                errorText.id = 'voterNameError';
-                errorText.classList.add('text-danger', 'mt-2', 'ps-2');
-                errorText.innerHTML = "<i>This field is required.</i>";
-                voterNameInput.parentNode.appendChild(errorText);
-            }
-            voterNameInput.classList.add('border', 'border-danger');
+            displayInputError(voterNameInput, 'voterNameError', 'This field is required.');
             isValid = false;
             scrollToReminder = document.querySelector('.reminder-student');
         } else if (!voterNameRegex.test(voterNameInput.value.trim())) {
-            if (!voterNameError) {
-                var errorText = document.createElement('div');
-                errorText.id = 'voterNameError';
-                errorText.classList.add('text-danger', 'mt-2', 'ps-2');
-                errorText.innerHTML = "<i>Name does not exist.</i>";
-                voterNameInput.parentNode.appendChild(errorText);
-            }
-            voterNameInput.classList.add('border', 'border-danger');
+            displayInputError(voterNameInput, 'voterNameError', 'Name is invalid.');
             isValid = false;
             scrollToReminder = document.querySelector('.reminder-student');
-        } else {
-            if (voterNameError) {
-                voterNameInput.parentNode.removeChild(voterNameError);
-            }
-            voterNameInput.classList.remove('border', 'border-danger');
         }
     }
 
-    if (studentNumInput !== null) {
+    // Validate student number input
+    var studentNumInput = document.getElementById('student_num');
+    if (studentNumInput) {
         var studentNumError = document.getElementById('studentNumError');
-        removeErrorAndBorder(studentNumInput, studentNumError);
+        removeErrorAndBorder(studentNumInput);
 
         if (!studentNumInput.value.trim()) {
-            if (!studentNumError) {
-                var errorText = document.createElement('div');
-                errorText.id = 'studentNumError';
-                errorText.classList.add('text-danger', 'mt-2', 'ps-2');
-                errorText.innerHTML = "<i>This field is required.</i>";
-                studentNumInput.parentNode.appendChild(errorText);
-            }
-            studentNumInput.classList.add('border', 'border-danger');
+            displayInputError(studentNumInput, 'studentNumError', 'This field is required.');
             isValid = false;
             if (!scrollToReminder) {
                 scrollToReminder = document.querySelector('.reminder-student');
             }
         } else if (!studentNumRegex.test(studentNumInput.value.trim())) {
-            if (!studentNumError) {
-                var errorText = document.createElement('div');
-                errorText.id = 'studentNumError';
-                errorText.classList.add('text-danger', 'mt-2', 'ps-2');
-                errorText.innerHTML = "<i>Student number does not exist.</i>";
-                studentNumInput.parentNode.appendChild(errorText);
-            }
-            studentNumInput.classList.add('border', 'border-danger');
+            displayInputError(studentNumInput, 'studentNumError', 'Student number is invalid.');
             isValid = false;
             if (!scrollToReminder) {
                 scrollToReminder = document.querySelector('.reminder-student');
             }
-        } else {
-            if (studentNumError) {
-                studentNumInput.parentNode.removeChild(studentNumError);
-            }
-            studentNumInput.classList.remove('border', 'border-danger');
         }
     }
 
+    // Validate each position
     reminders.forEach(function(reminder) {
-        var radioButtons = reminder.querySelectorAll('input[type="radio"]');
-        var radioButtonChecked = false;
+        updateErrorState(reminder);
 
-        radioButtons.forEach(function(radioButton) {
-            if (radioButton.checked) {
-                radioButtonChecked = true;
+        var checkboxes = reminder.querySelectorAll('input[type="checkbox"]');
+        var abstainRadio = reminder.querySelector('input[type="radio"].abstain-checkbox');
+        var isChecked = false;
+
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                isChecked = true;
                 var positionTitle = reminder.getAttribute('data-position-title');
-                var candidateName = 'ABSTAINED';
-
-                if (radioButton.value !== '') {
-                    candidateName = radioButton.parentNode.querySelector('div.ps-4 > div.font-weight2').textContent.trim();
-                }
-
-                var candidateHTML = candidateName ? '<div>' + candidateName + '</div>' : '';
-                var imageSrc;
-
-                if (candidateName === 'ABSTAINED') {
-                    imageSrc = 'images/candidate-profile/placeholder.png';
-                } else {
-                    imageSrc = reminder.querySelector('img').getAttribute('src');
-                }
+                var candidateName = checkbox.parentNode.querySelector('div.ps-4 > div.font-weight2').textContent.trim();
+                var candidateHTML = '<div>' + candidateName + '</div>';
+                var imageSrc = checkbox.getAttribute('data-img-src');
 
                 if (pairCounter % 2 === 0) {
                     selectedCandidateHTML += '<div class="row ms-4">';
@@ -143,59 +185,94 @@ function validateForm(event) {
                 if (pairCounter % 2 === 0) {
                     selectedCandidateHTML += '</div>';
                 }
-            }
+            } 
         });
 
-        var reminderError = reminder.querySelector('.text-danger');
+        // Handle ABSTAIN option
+        if (abstainRadio && abstainRadio.checked) {
+            isChecked = true;
+            var positionTitle = reminder.getAttribute('data-position-title');
+            var candidateName = 'ABSTAINED';
+            var candidateHTML = '<div>' + candidateName + '</div>';
+            var imageSrc = 'images/candidate-profile/placeholder.png';
 
-        if (!radioButtonChecked) {
-            if (!reminderError) {        
-                var requiredText = document.createElement('div');
-                requiredText.classList.add('text-danger', 'mt-4', 'ps-4', 'ms-4', 'me-4');
-                requiredText.innerHTML = "<span><i>This field is required. Please select one (1) candidate or click ABSTAIN.</i></span>";
-
-                reminder.insertBefore(requiredText, reminder.firstChild);
+            if (pairCounter % 2 === 0) {
+                selectedCandidateHTML += '<div class="row ms-4">';
             }
 
-            reminder.classList.add('border', 'border-danger');
+            selectedCandidateHTML += '<div class="col-lg-6 col-md-12 col-sm-12 pb-lg-3 pb-3"><img src="' + imageSrc + '" width="80px" height="80px" style="display: inline-block; vertical-align: middle;border-radius: 10px; border: 2px solid #ccc;">' +
+                '<div class="ps-4" style="display: inline-block; vertical-align: middle; "><b><div class="main-color">' + candidateHTML + '</div></b><div style="font-size:12px"><b>' +
+                positionTitle.toUpperCase() + '</b></div></div>' + '</div>';
+
+            pairCounter++;
+
+            if (pairCounter % 2 === 0) {
+                selectedCandidateHTML += '</div>';
+            }
+        }
+
+        // Handle no selection (neither checkboxes nor abstain radio)
+        if (!isChecked) {
             isValid = false;
             if (!scrollToReminder) {
                 scrollToReminder = reminder;
             }
-        } else {
-            if (reminderError) {
-                reminder.removeChild(reminderError);
-            }
-            reminder.classList.remove('border', 'border-danger');
         }
     });
 
+    // Handle form submission
     if (!isValid) {
-        event.preventDefault();
         if (scrollToReminder) {
             scrollToReminder.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     } else {
-        event.preventDefault();
         $('#confirmationModal').modal('show');
         document.getElementById('selectedCandidate').innerHTML = selectedCandidateHTML;
     }
 }
 
+// Helper function to display input errors
+function displayInputError(inputElement, errorId, errorMessage) {
+    inputElement.classList.add('border', 'border-danger');
+    if (!document.getElementById(errorId)) {
+        var errorText = document.createElement('div');
+        errorText.id = errorId;
+        errorText.classList.add('text-danger', 'mt-2', 'ps-2');
+        errorText.innerHTML = "<i>" + errorMessage + "</i>";
+        inputElement.parentNode.appendChild(errorText);
+    }
+}
+
+// Function to remove error message and border when input is corrected
+function removeErrorAndBorder(inputElement) {
+    inputElement.classList.remove('border', 'border-danger');
+    var errorElement = inputElement.nextElementSibling;
+    if (errorElement && errorElement.classList.contains('text-danger')) {
+        errorElement.remove();
+    }
+}
+
+// Add event listeners to input fields to remove error messages when corrected
+document.addEventListener('DOMContentLoaded', function() {
+    var voterNameInput = document.getElementById('voter_name');
+    var studentNumInput = document.getElementById('student_num');
+
+    if (voterNameInput) {
+        voterNameInput.addEventListener('input', function() {
+            removeErrorAndBorder(voterNameInput);
+        });
+    }
+
+    if (studentNumInput) {
+        studentNumInput.addEventListener('input', function() {
+            removeErrorAndBorder(studentNumInput);
+        });
+    }
+});
+
+// Add submit event listener to the form
 document.getElementById('voteForm').addEventListener('submit', validateForm);
 
-// Dynamically remove the error message if a radio button is once selected
-var radioButtons = document.querySelectorAll('input[type="radio"]');
-radioButtons.forEach(function(radioButton) {
-    radioButton.addEventListener('change', function() {
-        var reminder = this.closest('.reminder');
-        var reminderError = reminder.querySelector('.text-danger');
-        if (reminderError) {
-            reminder.removeChild(reminderError);
-            reminder.classList.remove('border', 'border-danger');
-        }
-    });
-});
 
 // Handle the confirmation of the vote
 document.getElementById('submitModalButton').addEventListener('click', function() {
