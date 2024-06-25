@@ -50,7 +50,7 @@ include_once 'modals.php';
                         <div class="field-item ">
                             <input class="me-auto form-name default" value="Section" readonly disabled>
                             <div class=" form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="checkbox-section" checked>
+                                <input class="form-check-input" type="checkbox" role="switch" id="checkbox-section">
                                 <label class="form-check-label" for="checkbox-section"></label>
                             </div>
                         </div>
@@ -63,12 +63,12 @@ include_once 'modals.php';
                             <input class="me-auto form-name default" value="Candidate Form" readonly disabled>
                             <!-- <div class="me-auto form-name default">Candidate Form</div> -->
                             <div class=" form-check form-switch d-none">
-                                <input class="form-check-input" type="checkbox" role="switch" id="checkbox-candidates" checked>
+                                <input class="form-check-input" type="checkbox" role="switch" id="checkbox-candidates">
                                 <label class="form-check-label" for="checkbox-candidates"></label>
                             </div>
                         </div>
                     </div>
-                    <div class="list-group-item " id="" data-id="b-field-4">
+                    <!-- <div class="list-group-item " id="" data-id="b-field-4">
                         <div class="handle">
                             <span class="fas fa-grip-lines"></span>
                         </div>
@@ -100,7 +100,7 @@ include_once 'modals.php';
 
                                 <div class=" col-1">
                                     <div class=" form-check form-switch  ">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="checkbox-candidates" checked>
+                                        <input class="form-check-input" type="checkbox" role="switch" id="checkbox-candidates">
                                         <label class="form-check-label" for="checkbox-candidates"></label>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@ include_once 'modals.php';
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="list-group-item add-item">
                     <div class="field-item ">

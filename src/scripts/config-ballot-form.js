@@ -29,6 +29,7 @@ ConfigPage.removeEventListeners = function () {
     }
 };
 
+ConfigJS(ConfigPage);
 ConfigPage.removeEventListeners();
 ConfigPage = null;
 ConfigPage = {};
@@ -130,6 +131,56 @@ ConfigPage.fetchSchedule = function (requestData) {
 
 ConfigPage.fetchSchedule({ csrf: ConfigPage.CSRF_TOKEN });
 
+ConfigPage.fetchBallotConfig = function (requestData) {
+    let url = `src/includes/classes/config-ballot-form-controller.php`;
+    const queryParams = new URLSearchParams(requestData);
+    url = `${url}?${queryParams.toString()}`;
+
+    fetch(url)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            // process shedule data
+            console.log(data);
+
+            const errorCodes = extractErrorCodes(data);
+            console.log(errorCodes);
+
+            const ballotConfigData = removeErrorCodes(data);
+            console.log(ballotConfigData);
+
+            ConfigPage.initBallotConfig(ballotConfigData);
+
+        })
+        .catch(function (error) {
+            console.error('GET request error:', error);
+        });
+};
+
+
+function extractErrorCodes(data) {
+    if ("error_codes" in data) {
+        const errorCodes = data.error_codes;
+        return errorCodes;
+    }
+    return {};
+}
+
+function removeErrorCodes(data) {
+    const cleanData = Object.assign({}, data);
+    delete cleanData.error_codes;
+    return cleanData;
+}
+
+ConfigPage.lastSequence = 0;
+ConfigPage.initialOrder = [];
+
+ConfigPage.fetchBallotConfig({ csrf: ConfigPage.CSRF_TOKEN });
+
 ConfigPage.initBallotFormData;
 ConfigPage.ballotFormData;
 
@@ -144,14 +195,12 @@ ConfigPage.setInitialOrder = function (order) {
     });
 }
 
-// const initialOrder = ['b-field-4', 'b-field-1', 'b-field-2', 'b-field-3'];
-// ConfigPage.setInitialOrder(initialOrder);
 
 ConfigPage.sortableObj = new Sortable(ConfigPage.sortableForms, {
     handle: '.handle',
     filter: 'add-item',
     group: 'nested',
-    multiDrag: true, // Enable the plugin
+    multiDrag: true,
     selectedClass: "sortable-selected", // Class name for selected item
     avoidImplicitDeselect: false,
     fallbackTolerance: 3, // So that we can select items on mobile
@@ -167,11 +216,92 @@ ConfigPage.sortableObj = new Sortable(ConfigPage.sortableForms, {
     // },
 });
 
+ConfigPage.initBallotConfig = function (data) {
+    // Convert the data object to an array of its values
+    const items = Object.values(data);
+
+    console.log(items);
+    let prevGroupId = 0;
+    items.forEach(function (item) {
+        let currentGroupId = parseInt(item.group_id);
+        console.log(ConfigPage.lastSequence);
+        console.log(currentGroupId);
+
+        ConfigPage.lastSequence++;
+
+
+        if (currentGroupId !== prevGroupId) {
+            ConfigPage.initialOrder.push(`b-field-${item.group_id}`);
+        }
+        console.log(ConfigPage.lastSequence);
+
+
+        if (item.attributes && typeof item.attributes === 'string') {
+            try {
+                item.attributes = JSON.parse(item.attributes);
+            } catch (e) {
+                item.attributes = {};
+            }
+        } else if (typeof item.attributes !== 'object') {
+            item.attributes = {};
+        }
+
+        if (item.attributes.default) {
+            ConfigPage.initDefaultFields(item);
+        } else {
+
+        }
+
+        prevGroupId = currentGroupId;
+
+    });
+
+    console.log(ConfigPage.initialOrder);
+    ConfigPage.setInitialOrder(ConfigPage.initialOrder);
+
+    ConfigPage.addBtn = document.querySelector('.list-group-item.add-item button');
+    ConfigPage.addEventListenerAndStore(ConfigPage.addBtn, 'click', function () {
+        ConfigPage.customField.createField(ConfigPage.lastSequence);
+    });
+
+};
+
+ConfigPage.initDefaultFields = function (data) {
+    console.log(data);
+    let formName = ConfigPage.sortableForms.querySelector(`.form-name.default[value="${data.field_name}"]`);
+    if (formName) {
+        let toggleSwitch = formName.nextElementSibling.querySelector('.form-check.form-switch input[type="checkbox"]');
+        try {
+            toggleSwitch.checked = !!data.attributes.active;
+        } catch (error) {
+
+        }
+
+        const fieldItem = formName.closest('.field-item');
+        try {
+            fieldItem.id = data.field_id;
+        } catch (error) {
+
+        }
+
+        const parent = formName.closest('.list-group-item');
+
+        try {
+            parent.setAttribute('data-id', `b-field-${data.group_id}`);
+        } catch (error) {
+
+        }
+
+
+    }
+}
+
+
 ConfigPage.inputHandler = function () {
 
 }
 
-ConfigPage.defaultFormHandler = function () {
+ConfigPage.defaultFieldInputHandler = function () {
 
 }
 
@@ -255,6 +385,8 @@ ConfigPage.customField = class {
         feather.replace();
 
         this.createPluginObjects(fieldId);
+
+        ConfigPage.lastSequence++;
     }
 
     static createFieldHeader(fieldId) {
@@ -401,22 +533,14 @@ ConfigPage.customField = class {
         return fieldAction;
     }
 
-
 }
 
-let tempSelct = document.getElementById('b-field-4-type');
+// let tempSelct = document.getElementById('b-field-4-type');
 
-ConfigPage.customField.setTypeOptions(tempSelct);
+// ConfigPage.customField.setTypeOptions(tempSelct);
 
-ConfigPage.customField.createPluginObjects(4);
+// ConfigPage.customField.createPluginObjects(4);
 
-let addBtn = document.querySelector('.list-group-item.add-item button');
-
-console.log(addBtn);
-
-addBtn.addEventListener('click', function () {
-    ConfigPage.customField.createField(5);
-});
 
 
 

@@ -8,36 +8,40 @@ require_once FileUtils::normalizeFilePath('../classes/db-connector.php');
 class BallotFormModel
 {
     private static $connection;
+    private static $default_form_names = ['Student Name', 'Section', 'Candidate Form'];
+    protected static $query_data;
     protected static $query_message;
     protected static $status;
 
     public static function getData()
     {
         if (!self::$connection = DatabaseConnection::connect()) {
-            throw new Exception("Failed to connect to the database.");
+            throw new Exception("Failed to connect to the data source.");
         }
 
         $fields = [];
 
-        $sql = "SELECT * FROM ballot_config";
+        $sql = "SELECT * FROM ballot_config ORDER BY seq ASC";
 
         $stmt = self::$connection->prepare($sql);
 
         if ($stmt) {
             $stmt->execute();
 
-            $field_id = $seq = $field_name = $field_type = $description = '';
+            $field_id = $group_id = $seq = $field_name = $field_type = $description =  $attributes = '';
 
-            $stmt->bind_result($field_id, $seq, $field_name, $field_type, $description);
+            $stmt->bind_result($field_id, $group_id, $seq, $field_name, $field_type, $description, $attributes);
 
             while ($stmt->fetch()) {
                 $field = [
                     // 'schedule_id' => $election_id,
                     'field_id' => $field_id,
-                    'seq' => $seq,
+                    'group_id' => $group_id,
+                    'sequence' => $seq,
                     'field_name' => $field_name,
                     'field_type' => $field_type,
                     'description' => $description,
+                    'attributes' => $attributes,
                 ];
 
                 $fields[] = $field;
@@ -45,52 +49,109 @@ class BallotFormModel
 
             $stmt->close();
         } else {
-            self::$query_message = "Error preparing statement: " . self::$connection->error;
+            self::$query_message = "Failed to perform requested action: " . self::$connection->error;
         }
 
         return $fields;
     }
 
-    protected static function saveData($data)
+    protected static function saveData()
     {
         try {
 
+
             if (!self::$connection = DatabaseConnection::connect()) {
-                throw new Exception("Failed to connect to the database.");
+                throw new Exception("Failed to connect to the data source.");
             }
 
-            $sql = "SELECT COUNT(*) FROM election_schedule";
-            $stmt = self::$connection->prepare($sql);
-
-            if (!$stmt) {
-                throw new Exception("Error preparing statement.");
-            }
-
-            $row_count = null;
-            $stmt->execute();
-            $stmt->bind_result($row_count);
-            $stmt->fetch();
-            $stmt->close();
+            self::$connection->autocommit(FALSE);
 
             self::$connection->begin_transaction();
             $result = '';
-            if ($row_count > 0) {
-                $result = self::updateData($data);
-            } else {
-                $result = self::setData($data);
+
+            foreach (self::$query_data as $data) {
+
+
+                if (self::checkIsDefault($data)) {
+                    if (self::checkDefaultFieldExist($data)) {
+                    }
+                } else {
+                    $result = self::setData(self::$query_data);
+                }
             }
 
             self::$connection->commit();
 
-            // self::$connection->close();
             return $result;
         } catch (Exception $e) {
-
+            // self::$connection->rollback();
             self::$query_message = $e->getMessage();
-            // self::$connection->close();
             return $result;
         }
     }
+
+
+
+    /**
+     * Checks if the 'attributes' key in query_data has a 'default' key with a boolean value of True.
+     *
+     * @param array $query_data The data array containing potentially nested attributes.
+     * @return bool True if the 'attributes' key has a 'default' key with a boolean value of True, False otherwise.
+     *              False is also returned if the value cannot be converted to a boolean.
+     */
+    private static function checkIsDefault($data): bool
+    {
+
+        if (!array_key_exists('attributes', $data)) {
+            return false;
+        }
+
+        $attributes = $data['attributes'];
+
+        if (!array_key_exists('default', $attributes)) {
+            return false;
+        }
+
+        if (!in_array($data, self::$default_form_names, true)) {
+            return false;
+        }
+
+
+        try {
+            return (bool) $attributes['default'];
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    private static function checkDefaultFieldExist($data): bool
+    {
+
+        $field_name = $data['field_name'];
+        $sql = "SELECT COUNT(*) FROM ballot_config WHERE field_name = ? ";
+        $stmt = self::$connection->prepare($sql);
+
+        if (!$stmt) {
+            throw new Exception("Failed to perform requested action: " . self::$connection->error);
+        }
+
+        $stmt->bind_param("s", $field_name);
+
+        $row_count = null;
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to perform requested action: " . $stmt->error);
+        }
+        $stmt->bind_result($row_count);
+        $stmt->fetch();
+        $stmt->close();
+
+        if ($row_count > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
 
 
 
@@ -98,31 +159,33 @@ class BallotFormModel
     {
         try {
 
-            $election_schedules = [];
+            $result = [];
 
-            $sql = "INSERT INTO election_schedule (start, close) VALUES (?, ?)";
+            $sql = "INSERT INTO ballot_config (seq, field_name, field_type, description, attrib) VALUES (?, ?, ?, ?, ?)";
 
             $stmt = self::$connection->prepare($sql);
 
             if (!$stmt) {
-                throw new Exception("Error preparing statement: " . self::$connection->error);
+                throw new Exception("Failed to perform requested action: " . self::$connection->error);
             }
 
-            $stmt->bind_param("ss", $data['electionStart'], $data['electionEnd']);
+            $stmt->bind_param("ss", self::$query_data['electionStart'], self::$query_data['electionEnd']);
 
-            $stmt->execute();
+            if (!$stmt->execute()) {
+                throw new Exception("Failed to add requested action: " . $stmt->error);
+            }
 
             $stmt->close();
 
-            return $data;
+            return self::$query_data;
         } catch (Exception $e) {
             self::$query_message = 'set ' . $e->getMessage();
-            return $data;
+            return self::$query_data;
         }
     }
 
 
-    private static function updateData($data)
+    private static function updateData()
     {
         try {
 
@@ -131,20 +194,20 @@ class BallotFormModel
             $stmt = self::$connection->prepare($sql);
 
             if (!$stmt) {
-                throw new Exception("Error preparing statement: " . self::$connection->error);
+                throw new Exception("Failed to perform requested action: " . self::$connection->error);
             }
 
-            $stmt->bind_param("ss", $data['electionStart'], $data['electionEnd']);
+            $stmt->bind_param("ss", self::$query_data['electionStart'], self::$query_data['electionEnd']);
 
             $stmt->execute();
 
             $stmt->close();
 
-            return $data;
+            return self::$query_data;
         } catch (Exception $e) {
 
             self::$query_message = 'update ' . $e->getMessage();
-            return $data;
+            return self::$query_data;
         }
     }
 }

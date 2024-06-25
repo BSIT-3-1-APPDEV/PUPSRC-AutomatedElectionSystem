@@ -41,7 +41,10 @@ class BallotFormController extends BallotFormModel
     public function submit()
     {
         if ($this->validate()) {
-            $data = self::saveData($this->data);
+
+            self::$query_data = $this->data;
+
+            $data = self::saveData();
 
             if (empty(self::$query_message)) {
                 $response = [
