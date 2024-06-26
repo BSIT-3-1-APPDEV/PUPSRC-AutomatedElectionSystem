@@ -1,0 +1,120 @@
+footer {
+    margin-top: 10px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .custom-shape-divider-top-1713266907 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    z-index: -2;
+  }
+  
+  .custom-shape-divider-top-1713266907 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 172px;
+  }
+  
+  .custom-shape-divider-top-1713266907 .shape-fill {
+    fill: #e7e7e7;
+  }
+
+  .footer-body {
+    background-color: #e7e7e7;
+    padding-left: 0%;
+  }
+
+  .footer-left {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0%;
+  }
+  
+
+  .footer-middle{
+    padding-left: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0%;
+  }
+  
+  .footer-right {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0%;
+    padding: 0%;
+  }
+  
+  .vertical-line {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    height: 40%; /* Adjust the height of the vertical line as needed */
+    width: 3px; /* Adjust the width of the vertical line as needed */
+    background-color: white !important; /* Color of the vertical line */
+  }
+
+  .ivote-logo#footer {
+    width: 200px;
+  }
+
+  .credits-footer {
+    color: #c82d26;
+    padding-top: 3%;
+    font-weight: bold;
+  }
+
+  .ivote-email {
+    font-weight: bold;
+    color: #111111;
+  }
+
+  .footer-about-us{
+    color: #464646;
+    font-weight: 600;
+  }
+
+  .connect-with-us-footer {
+    width: 20px;
+    margin: 2%;
+  }
+
+  #credits-two{
+    display: none;
+  }
+
+.connect-with-us-footer:hover {
+    transform: scale(1.1); 
+  }
+
+  @media (max-width: 768px) {
+    .footer {
+      position: relative;
+      text-align: center; 
+    }
+
+    #credits-two{
+      display: block;
+    }
+  
+    #credits{
+      display: none;
+    }
+  }
+  
