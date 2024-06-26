@@ -50,7 +50,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
-
+    <link rel="preload" href="images/resc/ivote-icon.png" as="image">
     <link rel="stylesheet" href="styles/loader.css" />
     <link rel="stylesheet" href="styles/core.css" />
     <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />

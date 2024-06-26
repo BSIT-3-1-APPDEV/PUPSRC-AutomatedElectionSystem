@@ -28,7 +28,12 @@ $(document).ready(function () {
 
   const preventSpaces = (event) => {
     let input = event.target;
+    let maxLength = input.id === "Password" ? 20 : 255;
     let value = $(input).val();
+    if (value.length > maxLength) {
+      value = value.substring(0, maxLength);
+      $(input).val(value);
+    }
     value = value.replace(/\s/g, "");
     $(input).val(value);
   };

@@ -1,0 +1,36 @@
+{
+    "faqs": [
+        {
+            "question": "Who can use the iVOTE Automated Election System?",
+            "answer": "iVOTE is available to all students enrolled in participating academic student organizations within Polytechnic University of the Philippines – Santa Rosa Campus."
+        },
+        {
+            "question": "How do I cast my vote using iVOTE?",
+            "answer": "Select your academic student organization on the landing page, log in using your credentials, follow the on-screen instructions to cast your vote, and confirm and review your selections before submitting your vote."
+        },
+        {
+            "question": "Is my vote confidential?",
+            "answer": "Yes, iVOTE ensures the confidentiality and anonymity of your vote."
+        },
+        {
+            "question": "What if I encounter technical issues while using the iVOTE Automated Election System?",
+            "answer": "If you experience any technical difficulties, please contact our support team at ivotepupsrc@gmail.com. We are here to assist you."
+        },
+        {
+            "question": "Can I change my vote after it has been submitted?",
+            "answer": "No, once your vote has been submitted and confirmed, it cannot be changed. Please review your selections carefully before submitting your vote."
+        },
+        {
+            "question": "Why can’t I log in to my iVOTE account?",
+            "answer": "If you are unable to log in to the system, it may be due to one of the following reasons: (1) Incorrect Credentials: Ensure you are entering the correct email and password. (2) Account Inactivity: Your account might be inactive. (3) Enrollment Status: Verify that you are currently enrolled in a participating program and eligible to use the system. (4) Account Verification: If you recently registered, your account may still be under verification. Please wait for the confirmation email. (5) Multiple Failed Login Attempts: Your account might be temporarily locked due to multiple failed login attempts. Please wait a while and try again."
+        },
+        {
+            "question": "Where can I see the election results?",
+            "answer": "Election results will be posted on the respective Facebook pages of the academic student organizations. Please follow your academic student organization's official Facebook page for updates and announcements regarding the election results."
+        },
+        {
+            "question": "What should I do if I want to transfer my account to another academic student organization?",
+            "answer": "You can transfer your account by logging in and clicking the “Transfer Org” option in your account. Proceed with caution as this process is applicable only if you have an account from your previous academic student organization and you have officially shifted to a new academic student organization for the current election year."
+        }
+    ] 
+}

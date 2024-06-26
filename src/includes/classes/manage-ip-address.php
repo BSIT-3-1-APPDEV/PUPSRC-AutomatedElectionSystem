@@ -19,7 +19,7 @@ class IpAddress {
     }
 
     public function storeIpAddress($ip_address, $try_time) {
-        $sql = "INSERT INTO login_logs(ip_address, login_time) VALUES(?, ?)";
+        $sql = "INSERT INTO attempt_logs(ip_address, attempt_time) VALUES(?, ?)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("si", $ip_address, $try_time);
         $stmt->execute();
@@ -41,7 +41,7 @@ class IpAddress {
     }
 
     public function deleteIpAddress($ip_address) {
-        $sql = "DELETE FROM login_logs WHERE ip_address = ?";
+        $sql = "DELETE FROM attempt_logs WHERE ip_address = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param('s', $ip_address);
         $stmt->execute();
@@ -49,7 +49,7 @@ class IpAddress {
     }
 
     public function countIpAddressAttempt($ip_address, $time) {
-        $sql = "SELECT COUNT(*) AS total_count FROM login_logs WHERE login_time > ? AND ip_address = ?";
+        $sql = "SELECT COUNT(*) AS total_count FROM attempt_logs WHERE attempt_time > ? AND ip_address = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("is", $time, $ip_address);
         $stmt->execute();

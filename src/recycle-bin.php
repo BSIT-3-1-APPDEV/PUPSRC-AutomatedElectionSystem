@@ -163,7 +163,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 
                                 <th class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
-                                    <i data-feather="calendar" class="feather-xs im-cust"></i>Date Verified
+                                    <i data-feather="calendar" class="feather-xs im-cust"></i>Remaining Days
                                 </th>
                             </tr>
                         </thead>
@@ -247,7 +247,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
         <!-- Bootstrap Modal Structure -->
         <div class="modal fade" id="voterDetailsModal" tabindex="-1" aria-labelledby="voterDetailsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" style="max-width: 1000px;">
+            <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1000px;">
                 <div class="modal-content px-5 py-4">
                     <div class="modal-header">
 
@@ -274,7 +274,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             </div>
         </div>
         <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-body justify-content-center d-flex flex-column align-items-center py-4">
@@ -299,7 +299,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
         <!-- Modal for warning message -->
         <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-3">
                     <div class="modal-header p-1">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -317,7 +317,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         </div>
         <!-- Restore Confirmation Modal -->
         <div class="modal fade" id="restoreConfirmationModal" tabindex="-1" aria-labelledby="restoreConfirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -341,7 +341,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         </div>
 
         <div class="modal fade" id="deleteSuccessModal" tabindex="-1" aria-labelledby="deleteSuccessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-3">
                     <div class="modal-header p-1">
 
@@ -357,7 +357,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             </div>
         </div>
         <div class="modal fade" id="restoreSuccessModal" tabindex="-1" aria-labelledby="restoreSuccessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-3">
                     <div class="modal-header p-1">
 

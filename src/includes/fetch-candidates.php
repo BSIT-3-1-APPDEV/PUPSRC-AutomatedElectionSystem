@@ -14,12 +14,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['position'])) {
     // Get the selected position from the AJAX request
     $selectedPosition = $_POST['position'];
 
-    // Prepare and execute a query to fetch candidates for the selected position
-    $candidatesQuery = "SELECT * FROM candidate WHERE position_id IN (SELECT position_id FROM position WHERE title = ?)";
-    $stmt = $conn->prepare($candidatesQuery);
-    $stmt->bind_param('s', $selectedPosition);
-    $stmt->execute();
-    $result = $stmt->get_result();
+// Get the current year
+$currentYear = date("Y");
+
+// Prepare and execute a query to fetch candidates for the selected position
+$candidatesQuery = "SELECT c.*
+                   FROM candidate c
+                   INNER JOIN position p ON c.position_id = p.position_id
+                   WHERE p.position_id IN (SELECT position_id FROM position WHERE title = ?)
+                     AND c.election_year = ?";
+
+$stmt = $conn->prepare($candidatesQuery);
+
+// Bind the parameters: 's' for the string type of $selectedPosition and 'i' for the integer type of $currentYear
+$stmt->bind_param('si', $selectedPosition, $currentYear);
+
+// Execute the statement
+$stmt->execute();
+
+// Get the result
+$result = $stmt->get_result();
 
     $candidatesData = []; // Initialize an empty array to store candidate data
 
