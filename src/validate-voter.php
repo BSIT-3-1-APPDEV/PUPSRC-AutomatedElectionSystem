@@ -61,17 +61,17 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 			<div class="main">
 				<!-- Breadcrumbs -->
-				<div class="container navigation">
+				<div class="container navigation breadcrumbs-cont">
 					<div class="row justify-content-center mb-5 ml-10">
 						<div class="col-md-11">
 							<div class="breadcrumbs d-flex">
 								<button type="button" class=" btn-white d-flex align-items-center spacing-8 fs-8">
-									<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
+									<i data-feather="users" class="white im-cust feather-2xl"></i>  <span class="hide-text">MANAGE USERS</span>
 								</button>
 								<button type="button" class="btn-back spacing-8 fs-8"
-									onclick="redirectToPage('manage-voters.php')">VOTERS' ACCOUNTS</button>
+									onclick="redirectToPage('manage-voters.php')">VOTERS<span class="hide-text">' ACCOUNTS</span></button>
 								<button type="button" class="btn btn-current rounded-pill spacing-8 fs-8">VALIDATE
-									ACCOUNT</button>
+									<span class="hide-text">ACCOUNT</span></button>
 							</div>
 						</div>
 					</div>
