@@ -11,7 +11,7 @@
       </a>
       <ul class="dropdown-menu dropdown-menu-end px-2 py-3" style="font-size: 12px; font-weight:500;" aria-labelledby="navbarDropdown">
         <li><a class="dropdown-item" href="#"><span class="main-color pe-3"><i data-feather="settings"></i></span>Settings</a></li>
-        <li><a class="dropdown-item" href="#"><span class="main-color pe-3"><i data-feather="help-circle"></i></span>FAQs</a></li>
+        <li><a class="dropdown-item" href="voter-faqs.php"><span class="main-color pe-3"><i data-feather="help-circle"></i></span>FAQs</a></li>
         <li><a class="dropdown-item" href="includes/voter-logout.php"><span class="main-color pe-3"><i data-feather="log-out"></i></span>Log Out</a></li>
       </ul>
     </div>
