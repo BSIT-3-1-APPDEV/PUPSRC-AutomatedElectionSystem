@@ -12,6 +12,10 @@
   font-weight: bold !important;
   font-size: 17px !important;
 }
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
 .sub-head2 h5 {
   font-weight: bold !important;
   font-size: 20px !important;
@@ -295,6 +299,10 @@ a {
   align-items: center;
   justify-content: center;
   position: relative;
+}
+.custom-margin{
+  margin-top: 23px !important;
+  margin-right: 10px !important;
 }
 
 .custom-close-btn::before {

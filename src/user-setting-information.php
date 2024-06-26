@@ -190,26 +190,22 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
         </div>
       </div>
 
-
       <!-- Success Modal -->
       <div class="modal" id="approvalModal" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-body">
               <div class="d-flex justify-content-end">
-                <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray custom-margin" onclick="redirectToPage('user-setting-information.php?voter_id=<?php echo htmlspecialchars($row["voter_id"]); ?>')"></i>
-                </i>
+                <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray custom-margin" onclick="closeModalAndRedirect()"></i>
               </div>
               <div class="text-center">
                 <div class="col-md-12">
                   <img src="images/resc/check-animation.gif" class="check-perc" alt="iVote Logo">
                 </div>
-
                 <div class="row">
                   <div class="col-md-12 pb-3">
                     <p class="fw-bold fs-3 success-color spacing-4">Email Verification Sent</p>
-                    <p class="fw-medium spacing-5">We sent a message to your current email.<br> Please follow the instructions to change <br> your email address.
-                    </p>
+                    <p class="fw-medium spacing-5">We sent a message to your current email.<br> Please follow the instructions to change <br> your email address.</p>
                   </div>
                 </div>
               </div>
@@ -264,6 +260,38 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
           var modal = bootstrap.Modal.getInstance(myModalEl); // Returns a Bootstrap modal instance
           modal.hide();
         });
+
+        function closeModalAndRedirect() {
+          var modal = document.getElementById('approvalModal');
+          modal.style.display = 'none';
+          // Replace with the actual URL you want to redirect to
+          window.location.href = 'user-setting-information.php?voter_id=<?php echo htmlspecialchars($row["voter_id"]); ?>';
+        }
+        document.addEventListener('DOMContentLoaded', (event) => {
+    const passwordInput = document.getElementById('change-password');
+    const toggleButton = document.getElementById('password-toggle-1');
+
+    // Show the toggle button when the password input is focused
+    passwordInput.addEventListener('focus', () => {
+      toggleButton.style.display = 'block';
+    });
+
+    // Prevent the toggle button from hiding if it is clicked
+    toggleButton.addEventListener('mousedown', (event) => {
+      event.preventDefault();
+    });
+
+    // Toggle the password visibility
+    toggleButton.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleButton.innerHTML = '<i class="fas fa-eye"></i>';
+      } else {
+        passwordInput.type = 'password';
+        toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
+      }
+    });
+  });
       </script>
     </main>
     <div class="footer">
@@ -277,6 +305,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="scripts/loader.js"></script>
+    <script src="scripts/reset-password.js"></script>
   </body>
 
   </html>
