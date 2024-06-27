@@ -261,68 +261,7 @@
     padding: 5px !important;
   }
 
-  .modal-content{
-    border-radius: 20px;
-}
-
-.modal-header {
-    text-align: center; /* Center the content */
-}
-
-.modal-header i {
-    font-size: 7rem; /* Make the icon bigger */
-    display: block; /* Ensure the icon is on its own line */
-    margin: auto;
-}
-
-.modal-body {
-    text-align: center;
-}
-
-.modal-body h2 {
-    color: #333;
-    font-size: 10px;
-    margin-bottom: 5px;
-}
-
-.modal-body p {
-    font-size: 18px;
-    color: #555;
-    margin-bottom: 5px;
-
-}
-
-.modal-footer {
-    justify-content: center;
-    border-top: none;
-
-}
-
-.cancel {
-    background-color: lightgray;
-    color: #B2BEB5;
-    font-weight: bold;
-    padding: 5px 18px;
-}
-
-.discard-button {
-    background-color: #FFA500;
-    color: #fff;
-    padding: 5px 28px;
-    font-weight: 600;
-}
-
-/* Button Styles */
-.close {
-    font-size: 1.4rem;
-    color: #aaa;
-    opacity: 1;
-}
-
-.close:hover {
-    color: #000;
-    opacity: 1;
-}
+  
   
 
   
