@@ -1,7 +1,36 @@
 @import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap";
 
-/* --- MEDIAS --- */
 
+@media (min-width: 913px) {
+  .hide-text-before {
+    display: none !important;
+  }
+}
+
+@media (max-width: 912px) {
+  .w-35 {
+    width: 100% !important;
+  }
+
+  .hide-text-before {
+    display: block;
+  }
+
+  .footer-left {
+    margin-bottom: 1rem !important;
+  }
+  .footer-right {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .hide-text {
+    display: none;
+  }
+}
+
+
+/* --- MEDIAS --- */
 @media (max-width: 1200px) {
   .sidebar {
     position: fixed;
@@ -37,21 +66,21 @@
     scrollbar-width: none;
   }
 
-  .sidebar.open~.navbar {
+  .sidebar.open ~ .navbar {
     left: 260px !important;
     width: calc(100% - 260px) !important;
     height: 70px;
   }
 
-  .sidebar.open~.navbar .container-fluid>*:not(.header-left) {
+  .sidebar.open ~ .navbar .container-fluid > *:not(.header-left) {
     display: none;
   }
 
-  .sidebar.open~.main {
+  .sidebar.open ~ .main {
     bottom: 0 !important;
   }
 
-  .sidebar.open~.footer {
+  .sidebar.open ~ .footer {
     position: relative;
     z-index: 10;
   }
@@ -72,8 +101,8 @@
     display: none;
   }
 
-  .sidebar.open~.main::before,
-  .sidebar.open~.footer::before {
+  .sidebar.open ~ .main::before,
+  .sidebar.open ~ .footer::before {
     display: block;
   }
 
@@ -144,7 +173,7 @@ body {
   overflow: auto;
 }
 
-body>* {
+body > * {
   position: relative;
   z-index: 10;
 }
@@ -268,7 +297,7 @@ body>* {
   margin-right: 12px;
 }
 
-.show-submenu~.submenu {
+.show-submenu ~ .submenu {
   display: block;
 }
 
@@ -310,14 +339,14 @@ body>* {
   transform: translateX(-260px);
 }
 
-.sidebar.close~.navbar,
-.sidebar.close~.main,
-.sidebar.close~.footer {
+.sidebar.close ~ .navbar,
+.sidebar.close ~ .main,
+.sidebar.close ~ .footer {
   left: 0;
   width: 100%;
 }
 
-.sidebar.close~.footer {
+.sidebar.close ~ .footer {
   left: 0;
   width: 100%;
 }

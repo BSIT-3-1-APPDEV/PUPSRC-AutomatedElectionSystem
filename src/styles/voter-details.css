@@ -1,4 +1,9 @@
 @media (max-width: 768px) {
+
+  .main {
+    padding: 2.2rem 1.1rem 2rem 1.1rem!important;
+  }
+
   .information p {
     margin: 1rem !important;
   }
@@ -24,9 +29,16 @@
   .fa-expand {
     padding-left: 5rem !important;
   }
+
   .acc-status {
-    margin: 1.8rem !important;
+    margin: 1.8rem 0rem !important;
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
   }
+
+
   .status-acc .p {
     margin: 0 !important;
   }
