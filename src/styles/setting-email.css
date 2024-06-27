@@ -1,0 +1,704 @@
+.container-email{
+    background-color: #FFFFFF !important;
+    margin-top: 200px !important;
+    margin-bottom: 100px !important;
+    margin-left: 50px !important;
+    margin-right: 50px !important;
+    padding-left: 20px !important; 
+    padding-right: 20px !important;
+    border-radius: 10px;
+}
+.button-check {
+    border-radius: 5px !important;
+    border: none;
+    }
+.custom-link {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit the color from the parent element */
+    font-family: inherit; /* Inherit font family */
+    font-size: inherit; /* Inherit font size */
+    /* You can add more custom styles as needed */
+}
+
+.custom-link:hover, .custom-link:focus {
+    color: inherit; /* Change color on hover/focus */
+    text-decoration: underline; /* Add underline on hover/focus */
+}
+body {
+    font-family: "Montserrat", sans-serif;
+    background-color: #f8f8f8;
+    /* height: 100%; */
+    height: 100vh;
+  }
+  
+  footer {
+    padding-top: 5%;
+  }
+  
+  a {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .copyright {
+    letter-spacing: 10px;
+  }
+  
+  .login-AES,
+  #login-account {
+    font-weight: bold;
+    padding-bottom: 100px;
+  }
+  
+  #login-form {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 5%;
+    width: 50%;
+  }
+  
+  .login-sign-in-button {
+    color: white !important;
+  }
+  
+  .login-sign-in-button:hover {
+    font-weight: bold;
+  }
+  
+  .login-body {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0%;
+    padding: 0%;
+    height: 100%;
+    min-height: 100vh;
+  }
+  
+  .login-right-section {
+    margin: 0%;
+    padding: 0%;
+    color: black;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    min-height: 100vh;
+  }
+  
+  .login-left-section {
+    position: relative;
+    margin: 0%;
+    padding: 0%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .login-logo {
+    width: 25%;
+  }
+  
+  .login-form {
+    background-color: #f0f0f0;
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 500px;
+  }
+  
+  .login-account {
+    font-weight: bold;
+    margin: 0%;
+    padding: 0%;
+  }
+  
+  .form-control {
+    background-color: #fff;
+    border: #101010;
+  }
+  
+  .login-wave-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+  }
+  
+  .login-wave-footer svg {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .login-wave-footer .shape-fill {
+    fill: #ffffff;
+  }
+  
+  /* ELITE  Login*/
+  #ELITE-body {
+    background-image: linear-gradient(to bottom, #232323, #101010);
+  }
+  
+  .ELITE-login-button, #ELITE-login-button {
+    background-color: #ff7900 !important;
+    border: none !important;
+  }
+  
+  .ELITE-login-button:hover, #ELITE-login-button:hover {
+    background-color: black !important;
+  }
+  
+  #eliteSignUP {
+    color: #ff7900;
+  }
+  
+  #ELITE-wave .shape-fill {
+    fill: #ff7900;
+  }
+  
+  /* End ELITE Login */
+  
+  /* JPIA Login */
+  #JPIA-body {
+    background-image: linear-gradient(to bottom, #ff8fbe, #eb317f);
+  }
+  
+  #JPIA-wave .shape-fill {
+    fill: #f0bef7;
+  }
+  
+  .JPIA-login-button, #JPIA-login-button {
+    background-color: #f0488f !important;
+    border: none !important;
+  }
+  
+  .JPIA-login-button:hover, #JPIA-login-button:hover {
+    background-color: #b51557 !important;
+  }
+  
+  #jpiaSignUP {
+    color: #f0488f;
+  }
+  
+  /* End JPIA Login */
+  
+  /* SCO Login */
+  #SCO-body {
+    background-image: linear-gradient(to bottom, #03045e, #070833);
+  }
+  
+  #SCO-wave .shape-fill {
+    fill: #fbed13;
+  }
+  
+  .SCO-login-button,#SCO-login-button {
+    background-color: #254a9b !important;
+    color: white !important;
+    border: none !important;
+  }
+  
+  .SCO-login-button:hover, #SCO-login-button:hover {
+    background-color: #0c3181 !important;
+    font-weight: bold;
+  }
+  
+  #scoSignUP {
+    color: #4769b2;
+  }
+  
+  /* End SCO Login */
+  
+  /* GIVE Login */
+  #GIVE-body {
+    background-image: linear-gradient(to bottom, #005b8e, #133040);
+  }
+  
+  /* #GIVE-wave .shape-fill {
+    fill: #FFFFFF;
+  } */
+  
+  .GIVE-login-button, #GIVE-login-button{
+    background-color: #0d3c55 !important;  
+    border: none !important;
+  }
+  
+  .GIVE-login-button:hover, #GIVE-login-button:hover {
+    background-color: #092839 !important;
+  }
+  
+  #giveSignUP {
+    color: #0d3c55;
+  }
+  
+  /* End GIVE Login */
+  
+  /* ACAP Login */
+  #ACAP-body {
+    background-image: linear-gradient(to bottom, #9c6ec6, #3e0480);
+  }
+  
+  #ACAP-wave .shape-fill {
+    fill: #85acdf;
+  }
+  
+  .ACAP-login-button, #ACAP-login-button {
+    background-color: #592293 !important;
+    border: none !important;
+  }
+  
+  .ACAP-login-button:hover, #ACAP-login-button:hover {
+    background-color: #38145e !important;
+  }
+  
+  #acapSignUP {
+    color: #592293;
+  }
+  
+  /* End ACAP Login */
+  
+  /* AECES Login */
+  #AECES-body {
+    background-image: linear-gradient(to bottom, #c36600, #ee1c24);
+  }
+  
+  /* #AECES-wave .shape-fill {
+    fill: #fff;
+  } */
+  
+  .AECES-login-button, #AECES-login-button {
+    background-color: #e42e1c !important;
+    border: none !important;
+  }
+  
+  .AECES-login-button:hover, #AECES-login-button:hover {
+    background-color: #a21c0f !important;
+  }
+  
+  #aecesSignUP {
+    color: #e42e1c;
+  }
+  
+  /* End AECES Login */
+  
+  /* JEHRA Login */
+  #JEHRA-body {
+    background-image: linear-gradient(to bottom, #a60000, #800000);
+  }
+  
+  /* #JEHRA-wave .shape-fill {
+    fill: #fff;
+  } */
+  
+  .JEHRA-login-button, #JEHRA-login-button {
+    background-color: #800000 !important;
+    border: none !important;
+  }
+  
+  .JEHRA-login-button:hover, #JEHRA-login-button:hover {
+    background-color: #490000 !important;
+  }
+  
+  #jehraSignUP {
+    color: #800000;
+  }
+  
+  /* End JEHRA Login */
+  
+  /* JMAP Login */
+  #JMAP-body {
+    background-image: linear-gradient(to bottom, #f9f000, #c36600);
+  }
+  
+  /* #JMAP-wave .shape-fill {
+    fill: #fff;
+  } */
+  
+  .JMAP-login-button, #JMAP-login-button {
+    background-color: #efb400 !important;
+    border: none !important;
+  }
+  
+  .JMAP-login-button:hover, #JMAP-login-button:hover {
+    background-color: #fd8607 !important;
+  }
+  
+  #jmapSignUP {
+    color: #fdbe00;
+  }
+  
+  /* End JMAP Login */
+  
+  /* PIIE Login */
+  #PIIE-body {
+    background-image: linear-gradient(to bottom, #045f42, #003b25);
+  }
+  
+  #PIIE-wave .shape-fill {
+    fill: #ffd22f;
+  }
+  
+  .PIIE-login-button, #PIIE-login-button {
+    background-color: #026644 !important;
+    border: none !important;
+  }
+  
+  .PIIE-login-button:hover, #PIIE-login-button:hover {
+    background-color: #003b25 !important;
+  }
+  
+  #piieSignUP {
+    color: #026644;
+  }
+  
+  /* End PIIE Login */
+  
+  /* Password Toggle in different browsers*/
+  ::-ms-reveal {
+    display: none !important;
+  }
+  
+  /* Icon for the alert message */
+  .bi {
+    width: 1em;
+    height: 1em;
+  }
+  
+  .custom-svg-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  
+  .input-group {
+    position: relative;
+  }
+  
+  .input-group::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 23%;
+    border-right: 2px solid #ccc;
+    height: 50%;
+    z-index: 1000;
+  }
+  
+  .input-group#reset-password::after {
+  display: none;
+  }
+  
+  #password-toggle {
+    background-color: #fff;
+    width: 75px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  
+  .reset-pass{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Forgot Password Modal */
+  .modal-content {
+    color: black;
+    padding: 5%;
+    background-color: #003b25;
+  }
+  
+  #email.form-control {
+    background-color: #dadada !important;
+  }
+  .modal-content {
+    background-color: #f0f0f0;
+  }
+  
+  #forgot-password {
+    font-size: 13px;
+    color: gray;
+  }
+  
+  #forgot-password:hover {
+    color: rgb(59, 59, 59);
+    font-weight: 600;
+  }
+  
+  .sign-up {
+    font-weight: 600;
+  }
+  
+  .email-confirmation{
+    display: none;
+    font-size: 13px;
+    color: #1A73E8;
+    text-align: start;
+  }
+  
+  .cancel-button{
+    background-color: #CDCDCD  !important;
+    font-weight: bold;
+    color: #515050;
+  }
+  
+  .cancel-button:hover{
+    background-color: #9c9c9c  !important;
+    font-weight: bold;
+    color: #292929;
+  }
+  
+  /* Alert Messages */
+  .custom-alert {
+    width: 100%;
+    max-width: 400px;
+    font-size: 12px;
+    padding: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 48px;
+    background-color: rgba(238, 28, 35, 0.03); /* Background color with 80% opacity */
+  }
+  
+  .btn-close {
+   padding: 0%;
+   margin: 0%;
+   height: 10%;
+  }
+  
+  /* Reset password page */
+  .reset-password-body {
+    background-color: #f5f5f5;
+    color: black;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .reset-password-form {
+    margin-top: 100px;
+    background-color: #fff;
+    width: 1000px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reset-password-title{
+    font-weight: bold;
+  }
+  
+  .reset-password-subtitle{
+    font-weight: 500;
+  }
+  .reset-password-subtitlee{
+    font-weight: 500;
+    margin-left: 20px;
+    font-size: 10px;
+  }
+  .reset-password-password {
+    background-color: transparent;
+    border-radius: 100px;
+    border: 2px solid #999999;
+    border-right: none;
+    padding: 2%;
+  }
+  
+  #reset-password-toggle-1, #reset-password-toggle-2 {
+    background-color: #fff;
+    width: 75px;
+    padding-right: 3%;
+    color: #999999;
+    border: 2px solid #999999;
+    border-left: none;
+  }
+  
+  .new-password {
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    left: 8%;
+    padding-left: 1%;
+    padding-right: 1%;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .forgot-password-icon{
+    width: 40%; 
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    top: -130px; /* Adjust this value to overlap the top line as desired */
+    z-index: 1;
+  }
+  
+  .img-container {
+    text-align: center;
+    margin-bottom: -110px; /* Adjust this value to bring the image closer to the form */
+  }
+  
+  .password-requirements {
+    display: none; /* Hide the element and its space */
+    justify-content: center;
+    text-align: left; /* Keeps text left-aligned within the centered container */
+    margin-top: 5px; /* Adjust the top margin as needed */
+  }
+  
+  .password-requirements.show {
+    display: flex; /* Show the element when needed */
+  }
+  
+  .password-requirements-list {
+    list-style-type: none; /* Removes default bullet points */
+    padding-left: 0; /* Removes default left padding */
+    margin-top: 10px; /* Adjust as needed */
+  }
+  
+  .requirement {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  
+  .requirement-circle {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #000; /* Default color */
+    outline: 1px solid transparent; /* Transparent outline */
+    border-color: white;
+    outline-color: gray; /* Outline color when requirement is met */
+  }
+  
+  .requirement.met .requirement-circle {
+    background-color: green;
+  }
+  
+  .requirement.unmet .requirement-circle {
+    background-color: red;
+  }
+  
+  .reset-pass-title {
+    font-size: 12px;
+    font-weight: bold;
+    position: relative;
+    left: -50px;
+  }
+  
+  .check-perc{
+    width: 50%;
+  }
+  
+  .modal-content#success-modal{
+    background-color: white;
+    border-radius: 35px;
+  }
+  
+  .fa-circle-xmark {
+    color: lightgray; 
+    transition: color 0.3s ease;
+  }
+  .fa-circle-xmark:hover {
+    color: black;
+  }
+  
+  .reset-sign-in-button {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  
+  .reset-sign-in-button:hover {
+    font-weight: bold;
+  }
+  
+  
+  /* Media query for small screens */
+  @media (max-width: 768px) {
+    .login-body {
+      padding-top: 15%;
+    }
+  
+    #index-AES {
+      font-size: 27px;
+    }
+  
+    .login-AES {
+      padding-bottom: 0%;
+    }
+  
+    .login-form {
+      width: 100%;
+      border-radius: 40px;
+    }
+  
+    .login-right-section {
+      background-color: transparent;
+      min-height: 0vh;
+    }
+  
+    .login-left-section {
+      min-height: 0vh;
+    }
+  
+    .login-wave-footer {
+      position: fixed;
+      /* Fixed position */
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      transform: rotate(180deg);
+      z-index: -1;
+    }
+  
+    .about-us-icon {
+      /* width: 100%; */
+      width: 400px;
+    }
+  
+    .footer {
+      position: relative;
+      text-align: center; 
+    }
+  
+    .modal-content {
+      width: 74%;
+      max-width: none;
+      margin: auto;
+    }
+  
+    .reset-password-form {
+      width: 450px;
+    }
+  
+    .index-button{
+      margin-top: 3%;
+      padding: 3%;
+    }
+  
+    .forgot-password-icon{
+      width: 70%; 
+    }
+  
+    .img-container {
+      text-align: center;
+      margin-bottom: -110px;
+    }
+  }
