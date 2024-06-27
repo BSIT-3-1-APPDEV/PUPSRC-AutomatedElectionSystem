@@ -15,7 +15,7 @@
 		$allowedRoles = array('head_admin', 'admin');
 		if (in_array($_SESSION['role'], $allowedRoles)) {
 			include FileUtils::normalizeFilePath('submission_handlers/manage-candidates.php');
-			?>
+	?>
 
 			<!DOCTYPE html>
 			<html lang="en">
@@ -49,10 +49,10 @@
 			<body>
 
 
-			<?php 
-			include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
-			include FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
-			?>
+				<?php
+				include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+				include FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
+				?>
 
 				<div class="main">
 
@@ -64,10 +64,10 @@
 										<i data-feather="users" class="white im-cust feather-2xl"></i> CANDIDATES
 									</button>
 									<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">MANAGE CANDIDATES</button>
-									<div class = "align-items-end ms-auto me-4 mx-a">
+									<div class="align-items-end ms-auto me-4 mx-a">
 										<a href="add-candidate.php">
-											<button type="button" class="button-add rounded-2 fs-7" >
-												<i class = "bi bi-plus-circle me-3"></i>Add New Candidate
+											<button type="button" class="button-add rounded-2 fs-7">
+												<i class="bi bi-plus-circle me-3"></i>Add New Candidate
 											</button>
 										</a>
 									</div>
@@ -80,8 +80,8 @@
 					<div class="container">
 						<div class="row justify-content-center">
 							<!-- CANDIDATES TABLE -->
-							<div class="row justify-content-center">
-								<div class="col-md-10 card-box  mt-md-10">
+							<div class="row justify-content-center mx-auto">
+								<div class="col-md-10 card-box mt-md-10">
 									<div class="container-fluid">
 										<div class="card-box">
 											<div class="row">
@@ -92,25 +92,23 @@
 															<div class="row">
 																<!-- Table Header -->
 																<div class="col-sm-6">
-																	<p class="fs-3 main-color fw-bold ls-10 spacing-6">Manage Candidates</p>
+																	<p class="fs-3 main-color fw-bold ls-10 spacing-6 mx-auto">Manage Candidates</p>
 																</div>
 																<div class="col-sm-6">
-																	<div class="row">			
+																	<div class="row">
 																		<div class="col-md-12 text-end flex-end">
 																			<!-- Delete -->
-																			<div class="d-inline-block">
-																				<button class="delete-btn fs-7 spacing-3 fw-medium"
-																					type="button" id="deleteBtn"
-																					data-bs-toggle="dropdown" aria-haspopup="true"
-																					aria-expanded="false">
+																			<div class="d-inline-block mx-auto">
+																				<button class="delete-btn fs-7 spacing-3 fw-medium" type="button" id="deleteBtn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 																					<i class="fa-solid fa-trash-can fa-sm"></i>
 																					Delete
 																				</button>
-																			</div>		
-																			<span
-																					class="light-gray-accent fw-bold ps-3">|</span>				
+																			</div>
+																			
+																			<span class="light-gray-accent fw-bold ps-3 mx-auto">|</span>
+
 																			<!-- Filters -->
-																			<div class="d-inline-block ps-3">
+																			
 																				<form class="d-inline-block" method="get">
 																					<div class="dropdown sort-by">
 																						<button class="sortby-tbn fs-7 spacing-6 fw-medium" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -124,32 +122,23 @@
 																								<li class="dropdown-item ps-3 fs-7 fw-medium">
 																									<label>
 																										<input type="checkbox" name="filter[]" value="<?php echo $position['title']; ?>" <?php if (isset($_GET['filter']) && in_array($position['title'], $_GET['filter'])) echo 'checked'; ?> onchange="this.form.submit()">
-                            																			<?php echo ucfirst($position['title']); ?>
+																										<?php echo ucfirst($position['title']); ?>
 																									</label>
 																								</li>
 																							<?php } ?>
 																						</div>
 																					</div>
 																				</form>
-																			</div>
 
 																			<!-- Sort By -->
-																			<div class="d-inline-block ps-3">
+																			<div class="d-inline-block ps-3 mx-auto">
 																				<form class="d-inline-block">
 																					<div class="dropdown sort-by">
-																						<button
-																							class="sortby-tbn fs-7 spacing-6 fw-medium"
-																							type="button" id="dropdownMenuButton"
-																							data-bs-toggle="dropdown"
-																							aria-haspopup="true"
-																							aria-expanded="false">
-																							<i
-																								class="fa-solid fa-arrow-down-wide-short fa-sm"></i>
+																						<button class="sortby-tbn fs-7 spacing-6 fw-medium" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																							<i class="fa-solid fa-arrow-down-wide-short fa-sm"></i>
 																							Sort by
 																						</button>
-																						<div class="dropdown-menu dropdown-menu-end"
-																							aria-labelledby="dropdownMenuButton"
-																							style="padding: 0.5rem">
+																						<div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="padding: 0.5rem">
 																							<!-- Dropdown items -->
 																							<li class="dropdown-item ps-3 fs-7 fw-medium">
 																								<a href="?sort=acc_created&order=desc">Newest to Oldest</a>
@@ -169,9 +158,8 @@
 																			</div>
 
 																			<!-- Search -->
-																			<div class="ps-3">
-																				<i data-feather="search" class="feather-xs im-cust-2" style="color: black"></i>
-																				<input class="search-input fs-7 spacing-6 fw-medium" type="text" name="search" placeholder=" Search..." id="searchInput" style="width: 100px" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+																			<div class="search-container ps-3 mx-auto">
+																				<input class="search-input fs-7 spacing-6 fw-medium" type="text" name="search" placeholder="    Search" id="searchInput" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>" onkeyup="searchFunction()">
 																			</div>
 																		</div>
 																	</div>
@@ -179,31 +167,27 @@
 															</div>
 															<?php if ($verified_tbl->num_rows > 0) { ?>
 																<!-- Table Contents -->
-																<table class= "table table-hover" id="voterTable">
+																<table class="table table-hover" id="voterTable">
 																	<thead class="tl-header">
 																		<tr>
 																			<th class="col-md-1 text-center fs-7 fw-bold spacing-5 checkbox-th">
-																				<?php if (isset($row) && is_array($row) && array_key_exists("candidate_id", $row)): ?>
+																				<?php if (isset($row) && is_array($row) && array_key_exists("candidate_id", $row)) : ?>
 																					<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["candidate_id"]; ?>" class="voterCheckbox" style="display: none;">
 																				<?php endif; ?>
 																			</th>
 																			<th class="col-md-3 tl-left text-center fs-7 fw-bold spacing-5">
-																				<i data-feather="user"
-																					class="feather-xs im-cust"></i>Full Name
+																				<i data-feather="user" class="feather-xs im-cust"></i>Full Name
 																			</th>
 
 																			<th class="col-md-3 text-center fs-7 fw-bold spacing-5">
-																				<i data-feather="star"
-																					class="feather-xs im-cust"></i>Candidacy Position
+																				<i data-feather="star" class="feather-xs im-cust"></i>Candidacy Position
 																			</th>
-																			<th
-																				class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
-																				<i data-feather="calendar"
-																					class="feather-xs im-cust"></i>Date Created
+																			<th class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
+																				<i data-feather="calendar" class="feather-xs im-cust"></i>Date Created
 																			</th>
 																		</tr>
 																	</thead>
-																		<tbody>
+																	<tbody>
 																		<?php while ($row = $verified_tbl->fetch_assoc()) { ?>
 																			<tr>
 																				<td class="col-md-1 text-center checkbox-td">
@@ -258,37 +242,34 @@
 																	</div>
 																</div>
 
-
 																<!-- If verified table is empty, show empty state -->
 															<?php } else { ?>
 
 																<div class="table-title">
-																	<table class= "table table-striped table-hover" id="voterTable">
+																	<table class="table table-hover" id="voterTable">
 																		<thead class="tl-header">
 																			<tr>
-																				<th
-																					class="col-md-3 tl-left text-center fs-7 fw-bold spacing-5">
-																					<i data-feather="user"
-																						class="feather-xs im-cust"></i>Full Name
+																				<th class="col-md-1 text-center fs-7 fw-bold spacing-5 checkbox-th">
+																					<?php if (isset($row) && is_array($row) && array_key_exists("candidate_id", $row)) : ?>
+																						<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["candidate_id"]; ?>" class="voterCheckbox" style="display: none;">
+																					<?php endif; ?>
 																				</th>
-
+																				<th class="col-md-3 tl-left text-center fs-7 fw-bold spacing-5">
+																					<i data-feather="user" class="feather-xs im-cust"></i>Full Name
+																				</th>
 																				<th class="col-md-3 text-center fs-7 fw-bold spacing-5">
-																					<i data-feather="star"
-																						class="feather-xs im-cust"></i>Candidacy Position
+																					<i data-feather="star" class="feather-xs im-cust"></i>Candidacy Position
 																				</th>
-																				<th
-																					class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
-																					<i data-feather="calendar"
-																						class="feather-xs im-cust"></i>Date Created
+																				<th class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">
+																					<i data-feather="calendar" class="feather-xs im-cust"></i>Date Created
 																				</th>
 																			</tr>
 																		</thead>
-																		<tbody>
+																		<tbody class = "fs-7">
 																			<tr>
 																				<td colspan="3" class="no-border">
 																					<div class="col-md-12 no-registration text-center">
-																						<img src="images/resc/folder-empty.png"
-																							class="illus">
+																						<img src="images/resc/folder-empty.png" class="illus">
 																						<p class="fw-bold spacing-6 black">No records
 																							found</p>
 																						<p class="spacing-3 pt-1 black fw-medium">Adjust
@@ -299,7 +280,7 @@
 																		</tbody>
 																	</table>
 																<?php } ?>
-															</div>
+																</div>
 														</div>
 													</div>
 												</div>
@@ -313,6 +294,108 @@
 				</div>
 				</div>
 
+				<!-- Delete Confirmation Modal -->
+				<div class="modal-overlay"></div>
+				<!-- delete Modal -->
+				<div class="modal" id="rejectModal" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-body">
+								<div class="row p-4">
+									<div class="col-md-12 pb-3">
+										<div class="text-center">
+											<div class="col-md-12 p-3">
+												<img src="images/resc/warning.png" alt="iVote Logo">
+											</div>
+
+											<div class="row">
+												<div class="col-md-12 pb-3 confirm-delete">
+													<p class="fw-bold fs-3 danger spacing-4">Confirm Delete?</p>
+													<p class="pt-2 fw-medium spacing-5">The account(s) will be deleted and moved to Recycle Bin.
+														Are you sure you want to delete?
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 pt-3 text-center">
+										<div class="d-inline-block">
+											<button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6" onClick="closeModal()" aria-label="Close">Cancel</button>
+										</div>
+										<div class="d-inline-block">
+											<form class="d-inline-block">
+												<button class="btn btn-danger px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6" type="submit" id="confirm-delete" value="delete">Delete</button>
+											</form>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Rejected Successfully Modal -->
+				<div class="modal" id="deleteDone" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-body">
+								<div class="d-flex justify-content-end">
+									<i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" onclick="redirectToPage('manage-committee.php')">
+									</i>
+								</div>
+								<div class="text-center p-4">
+									<div class="row">
+										<div class="col-md-12">
+											<p class="fw-bold fs-3 successs spacing-4">Deleted Successsfully</p>
+											<p class="fw-medium spacing-5">The deleted account have been moved to the Recycle Bin.
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<script>
+					document.getElementById('deleteSelectedBtn').addEventListener('click', function() {
+						var selected = [];
+						document.querySelectorAll('.voterCheckbox:checked').forEach(function(checkbox) {
+							selected.push(checkbox.value);
+						});
+						if (selected.length > 0) {
+							$('#deleteConfirmationModal').modal('show');
+						}
+					});
+
+					document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+						// Perform the delete action
+						$('#deleteConfirmationModal').modal('hide');
+					});
+
+					function searchFunction() {
+						var input, filter, table, tr, td, i, j, txtValue;
+						input = document.getElementById("searchInput");
+						filter = input.value.toLowerCase();
+						table = document.getElementById("voterTable");
+						tr = table.getElementsByTagName("tr");
+						for (i = 1; i < tr.length; i++) {
+							tr[i].style.display = "none";
+							td = tr[i].getElementsByTagName("td");
+							for (j = 0; j < td.length; j++) {
+								if (td[j]) {
+									txtValue = td[j].textContent || td[j].innerText;
+									if (txtValue.toLowerCase().indexOf(filter) > -1) {
+										tr[i].style.display = "";
+										break;
+									}
+								}
+							}
+						}
+					}
+				</script>
+
 				<?php include_once __DIR__ . '/includes/components/footer.php'; ?>
 				<script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 				<script src="scripts/script.js"></script>
@@ -324,7 +407,7 @@
 
 			</html>
 
-			<?php
+	<?php
 		} else {
 			header("Location: landing-page.php");
 		}
@@ -332,5 +415,3 @@
 		header("Location: landing-page.php");
 	}
 	?>
-
-	
