@@ -167,3 +167,22 @@
     background-color: #dc3545;
     border-color: #dc3545;
   }
+
+  .search-container {
+    position: relative;
+    display: inline-block;
+}
+
+.search-input {
+    width: 125px; /* Adjust width as needed */
+}
+
+.search-input::placeholder {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>') no-repeat 10px center;
+    background-size: 10px; /* Adjust the size of the icon */
+    text-indent: 10px; /* Move the text to the right to make space for the icon */
+}
+
+.search-input:not(:placeholder-shown) {
+    background: none; /* Remove background when user starts typing */
+} 

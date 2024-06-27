@@ -1,6 +1,3 @@
-// Peter Wilrexe's Vanilla JS to Carlito's jQuery
-// ANG POGI MO TALAGA DOMINIC
-
 $(document).ready(function () {
   const fields = {
     email: { touched: false },
@@ -16,14 +13,6 @@ $(document).ready(function () {
     value = value.replace(/\s/g, "");
     $(input).val(value);
   }
-
-  function closeModal() {
-    $("#onlyPDFAllowedModal").modal("hide");
-  }
-
-  $("#onlyPDFClose").click(function () {
-    closeModal();
-  });
 
   // Check for valid email and if one already exists in the voter table
   function validateEmail(input, showErrorMessages = false) {
@@ -180,10 +169,43 @@ $(document).ready(function () {
     }
   }
 
-  // Get the modal id to know which modal to show
+  // Functions on modal toggle
   function showModal(modalId) {
     $("#" + modalId).modal("show");
   }
+
+  function closeModal(modalId) {
+    $("#" + modalId).modal("hide");
+  }
+
+  // PDF
+  $("#onlyPDFClose").click(function () {
+    closeModal("onlyPDFAllowedModal");
+  });
+
+  // Terms and Conditions Modal
+  $("#termsConditionsLink").click(function (event) {
+    console.log("Clicked");
+    event.preventDefault();
+    showModal("termsConditionsModal");
+  });
+
+  $("#closeTermsConditions").click(function () {
+    closeModal("termsConditionsModal");
+  });
+
+
+
+
+  // Privacy Policy Modal
+  $("#privacyTermsLink").click(function (event) {
+    event.preventDefault();
+    showModal("privacyPolicyModal");
+  });
+
+  $("#closePrivacyPolicy").click(function () {
+    closeModal("privacyPolicyModal");
+  });
 
   // All input fields validation
   function checkFormValidity() {
