@@ -2,7 +2,7 @@
 
 /* --- MEDIAS --- */
 
-@media (max-width: 769px) {
+@media (max-width: 767px) {
 
   .main-reg-container {
     margin-top: 2rem !important;
@@ -18,7 +18,7 @@
   .check-terms-privacy {
     align-items: center !important;
   }
-  
+
   .policy-terms-conditions {
     padding-left: 0.6rem !important;
   }
