@@ -151,15 +151,7 @@ $connection->close();
                         <?php endif; ?>
 
                         <div class="col-md-12 mt-0 mb-3">
-                            <input type="email" class="form-control shadow-sm" id="Email" name="email" placeholder="Email Address" required 
-                            value="
-                                <?php 
-                                if (isset($_SESSION['email'])) {
-                                    echo htmlspecialchars($_SESSION['email']);
-                                }
-                                unset($_SESSION['email']);
-                                ?>" 
-                            autocomplete="email">
+                            <input type="email" class="form-control shadow-sm" id="Email" name="email" placeholder="Email Address" required autocomplete="email">
                             
                             <!-- <div class="ps-1 fw-medium valid-feedback text-start" id="email-login-valid">
                                 Looks right!
@@ -171,8 +163,8 @@ $connection->close();
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
-                                <input type="password" class="form-control shadow-sm" name="password" placeholder="Password" id="Password" autocomplete="current-password" required>
-                                <button class="btn shadow-sm border border-0" type="button" id="password-toggle">Show</button>
+                                <input type="password" class="form-control shadow-sm border border-end-0" name="password" placeholder="Password" id="Password" autocomplete="current-password" required>
+                                <button class="btn shadow-sm border border-start-0" type="button" id="password-toggle">Show</button>
                             </div>
                             <!-- Displaying these validation messages messes up the UI -->
                             <!-- <div class="ps-1 fw-medium valid-feedback text-start">
@@ -216,7 +208,7 @@ $connection->close();
                         <div class="row">
                             <div class="col-md-12 pb-3">
                                 <p class="fw-bold fs-3 spacing-4 limit" >Max Limit Reached</p>
-                                <p class="fw-medium max-text">Sorry, you've reached the maximum number of attempts. For security reasons, please wait for <strong>30 minutes</strong> before trying again.</p>
+                                <p class="fw-medium max-text">Sorry, you've reached the maximum number of attempts. For security reasons, please wait for <strong id="blockTime">30 minutes</strong> before trying again.</p>
                             </div>
                         </div>
                     </div>
