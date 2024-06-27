@@ -18,7 +18,11 @@ const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}(?!\.c0m$)
 function validateEmail() {
     const emailValue = emailInputField.value.trim();
 
-    if (!emailValue.match(emailPattern)) {
+    if (emailValue.includes(' ')) {
+        emailErrorField.textContent = "Email address cannot contain spaces.";
+        emailErrorField.style.color = "red";
+        emailInputField.style.borderColor = "red";
+    } else if (!emailValue.match(emailPattern)) {
         emailErrorField.textContent = "Please enter a valid email address.";
         emailErrorField.style.color = "red";
         emailInputField.style.borderColor = "red";
@@ -176,4 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
         createdModal.hide();
       }
     });
-  });
+});
+
+
