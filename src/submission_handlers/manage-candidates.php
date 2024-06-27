@@ -53,15 +53,15 @@ if (!empty($filter)) {
         echo "Error preparing statement: " . $conn->error;
     }
 } else {
-    // No filters, coult all records in candidate table
+    // No filters, count all records in candidate table
     $countQuery = "SELECT COUNT(*) as total FROM candidate";
     $countStmt = $conn->prepare($countQuery);
-    if($countStmt){
+    if ($countStmt) {
         $countStmt->execute();
         $result = $countStmt->get_result();
         $total_records = $result->fetch_assoc()['total'];
         $countStmt->close();
-    }else{
+    } else {
         echo "Error preparing statement: " . $conn->error;
     }
 }
@@ -92,18 +92,62 @@ $stmt->execute();
 $verified_tbl = $stmt->get_result();
 
 // Generate the pagination links
-for ($i = 1; $i <= $total_pages; $i++) {
-    // Generate the filter parameters for the link
-    $filterParams = '';
-    if (!empty($filter)) {
-        foreach ($filter as $f) {
-            $filterParams .= '&filter[]=' . urlencode($f);
+function createPagination($totalPages, $currentPage, $sort, $order, $filter)
+{
+    $pagination = '';
+
+    // Always show the first page
+    $pagination .= createPageLink(1, $currentPage, $sort, $order, $filter);
+
+    if ($totalPages > 1) {
+        // Show ellipsis if current page is greater than 4
+        if ($currentPage > 4) {
+            $pagination .= '<span>...</span>';
+        }
+
+        // Define the range of page numbers to display
+        $start = max(2, $currentPage - 2);
+        $end = min($totalPages - 1, $currentPage + 2);
+
+        // Adjust the range if we are close to the start or end
+        if ($currentPage <= 4) {
+            $end = min(5, $totalPages - 1);
+        } elseif ($currentPage >= $totalPages - 3) {
+            $start = max($totalPages - 4, 2);
+        }
+
+        // Generate the page links within the defined range
+        for ($i = $start; $i <= $end; $i++) {
+            $pagination .= createPageLink($i, $currentPage, $sort, $order, $filter);
+        }
+
+        // Show ellipsis if current page is less than totalPages - 3
+        if ($currentPage < $totalPages - 3) {
+            $pagination .= '<span>...</span>';
+        }
+
+        // Always show the last page
+        if ($totalPages > 1) {
+            $pagination .= createPageLink($totalPages, $currentPage, $sort, $order, $filter);
         }
     }
 
-    // Generate the sorting parameters for the link
-    $sortParams = '&sort=' . urlencode($sort) . '&order=' . urlencode($order);
+    return $pagination;
 }
+
+function createPageLink($page, $currentPage, $sort, $order, $filter)
+{
+    $page_url = "manage-candidate.php?page=$page&sort=$sort&order=$order";
+    if (!empty($filter)) {
+        $page_url .= '&filter[]=' . implode('&filter[]=', array_map('urlencode', $filter));
+    }
+
+    $activeClass = $page == $currentPage ? ' class="active"' : '';
+    return "<a href=\"$page_url\"$activeClass>$page</a> ";
+}
+
+// Generate the pagination links
+$pagination_links = createPagination($total_pages, $current_page, $sort, $order, $filter);
 
 $stmt->close();
 $conn->close();
