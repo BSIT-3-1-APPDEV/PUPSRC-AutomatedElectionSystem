@@ -96,28 +96,8 @@
 						</div>
 
 						<i class="fas fa-chevron-right" id="submenuIcon"></i>
-
-						<script>
-							document.addEventListener("DOMContentLoaded", function () {
-								var submenuToggle = document.getElementById("submenuToggle");
-								var submenuIcon = document.getElementById("submenuIcon");
-
-								submenuToggle.addEventListener("click", function () {
-									if (submenuIcon.classList.contains("fa-chevron-right")) {
-										submenuIcon.classList.remove("fa-chevron-right");
-										submenuIcon.classList.add("fa-chevron-down");
-									} else {
-										submenuIcon.classList.remove("fa-chevron-down");
-										submenuIcon.classList.add("fa-chevron-right");
-									}
-									submenuIcon.style.transition = "transform 0.5s ease";
-								});
-							});
-						</script>
-
 					</div>
 					<ul class="menu-items submenu collapse" id="manageAccounts">
-
 						<li class="item">
 							<a href="manage-voters.php" class="<?php echo
 									# ---- VOTERS PAGES
@@ -127,7 +107,6 @@
 								? 'active-sub fw-bold' : ''; ?>">
 								Voters' Accounts</a>
 						</li>
-
 						<li class="item">
 							<a href="manage-committee.php"
 								class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Admin
@@ -211,3 +190,4 @@
 		color: var(--bs-white);
 	}
 </style>
+<script src="scripts/submenu-head-admin.js"></script>
