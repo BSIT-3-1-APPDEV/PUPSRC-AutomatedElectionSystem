@@ -21,13 +21,13 @@
 }
 
 .btn-lvl-white-add {
-  color: var(--main-color) !important;
-  border-radius: 50px !important;
-  padding: 10px 5px !important;
-  font-weight: bold !important;
-  z-index: 1 !important;
-  font-size: xx-small;
-  background-color: #fff !important;
+  background-color: white;
+  color: var(--main-color)!important;
+  border-radius: 50px;
+  padding: 5px 50px;
+  font-weight: 800;
+  z-index: 1;
+  cursor: default;
 }
 
 
@@ -196,4 +196,14 @@
 .filter-checkbox:checked + .filter-custom-checkbox {
   background-color: var(--main-color); 
   border-color: var(--main-color);  
+}
+
+.committee-add {
+  background-color: white !important;
+  color: var(--main-color)!important;
+  border-radius: 50px;
+  padding: 5px 50px;
+  font-weight: 800;
+  z-index: 1;
+  cursor: default;
 }

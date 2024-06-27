@@ -57,7 +57,7 @@ if (isset($_SESSION['voter_id'])) {
 
 		<div class="main">
 
-			<div class="container mb-5 pl-5">
+			<!-- <div class="container mb-5 pl-5">
 				<div class="row justify-content-center">
 					<div class="col-md-11">
 						<div class="breadcrumbs d-flex justify-content-between">
@@ -71,9 +71,30 @@ if (isset($_SESSION['voter_id'])) {
 
 							<div class="ml-auto">
 								<a href="admin-creation.php">
-									<button type="button" class="btn btn-lvl-white-add align-items-center spacing-8 fs-8">
+									<button type="button" class="btn btn-lvl-white-add fs-8">
 										<i data-feather="plus-circle" class="white im-cust rounded-pill feather-2xl"></i>
 										Add Committee Member
+									</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="container mb-5 ps-5">
+				<div class="row justify-content-center">
+					<div class="col-md-11">
+						<div class="breadcrumbs d-flex">
+							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
+								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
+							</button>
+							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">COMMITTEE
+								MEMBERS</button>
+							<div class="align-items-end ms-auto me-4 mx-auto">
+								<a href="admin-creation.php">
+									<button type="button" class="committee-add rounded-4 fs-7">
+										<i class="bi bi-plus-circle me-3"></i>Add Committee Member
 									</button>
 								</a>
 							</div>
@@ -137,23 +158,27 @@ if (isset($_SESSION['voter_id'])) {
 																					<li
 																						class="dropdown-item ps-3 fs-7 fw-medium">
 																						<label>
-																							<input type="checkbox" class="filter-checkbox"
+																							<input type="checkbox"
+																								class="filter-checkbox"
 																								name="filter[]"
 																								value="admin"
-																								id="filterAdmin"> 
-																								<span class="filter-custom-checkbox"></span>
-																								Admin
+																								id="filterAdmin">
+																							<span
+																								class="filter-custom-checkbox"></span>
+																							Admin
 																						</label>
 																					</li>
 																					<li
 																						class="dropdown-item ps-3 fs-7 fw-medium">
 																						<label>
-																							<input type="checkbox" class="filter-checkbox"
+																							<input type="checkbox"
+																								class="filter-checkbox"
 																								name="filter[]"
 																								value="head_admin"
-																								id="filterHeadAdmin"> 
-																								<span class="filter-custom-checkbox"></span>
-																								Head Admin
+																								id="filterHeadAdmin">
+																							<span
+																								class="filter-custom-checkbox"></span>
+																							Head Admin
 																						</label>
 																					</li>
 																				</div>
@@ -397,10 +422,11 @@ if (isset($_SESSION['voter_id'])) {
 							</div>
 
 							<div class="col-md-12 pt-1 d-flex justify-content-center">
-                                <button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6" aria-label="Close">
-                                <a href="recycle-bin.php" style="color: white">Go To Recycle
-                                Bin</a></button>
-                            </div>
+								<button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
+									aria-label="Close">
+									<a href="recycle-bin.php" style="color: white">Go To Recycle
+										Bin</a></button>
+							</div>
 						</div>
 					</div>
 				</div>
