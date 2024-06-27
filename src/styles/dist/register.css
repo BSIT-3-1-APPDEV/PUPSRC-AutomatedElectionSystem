@@ -1,9 +1,75 @@
 @import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap";
+
+/* --- MEDIAS --- */
+
+@media (max-width: 769px) {
+
+  .main-reg-container {
+    margin-top: 2rem !important;
+  }
+  .register-container {
+    padding: 0 10px;
+  }
+  .register-container .col-12 {
+    justify-content: center !important;
+    display: block !important;
+  }
+
+  .check-terms-privacy {
+    align-items: center !important;
+  }
+  
+  .policy-terms-conditions {
+    padding-left: 0.6rem !important;
+  }
+
+  .header-register {
+    padding-left: 0 !important;
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack flex items vertically */
+    align-items: center; /* Center flex items horizontally */
+  }
+
+  .header-register p {
+    display: inline; /* Display <p> elements inline */
+    margin: 0 !important; /* Remove default margins */
+  }
+  .register-img-container {
+    display: none;
+  }
+  .d-flex.justify-content-end {
+    justify-content: center !important; /* Override justify-content-end with center */
+  }
+  /* .login-wave-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    z-index: -1;
+  } */
+
+  .about-us-icon {
+    width: 400px;
+  }
+}
+/* --- END OF MEDIAS --- */
+
 body {
   font-family: "Montserrat", sans-serif;
-  background-color: #fff;
+  background-color: #f8f8f8;
   /* height: 100%; */
   height: 100vh;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+.policy-link {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .ivote-logo {
@@ -28,10 +94,10 @@ a {
 }
 
 /* Header*/
-.navbar {
-  background-color: #f9f9f9;
+
+#mainNav {
   min-height: 55px;
-  border-bottom: 1.3px solid #ccc;
+  background-color: rgb(255, 255, 255, 0.95);
 }
 
 .navbar .nav-link {
@@ -49,7 +115,7 @@ a {
 }
 /* End of Header */
 
-/* Landing Footer */
+/* Landing Footer
 button {
   outline: none;
   border: none;
@@ -78,7 +144,7 @@ footer {
   position: relative;
   display: block;
   width: calc(100% + 1.3px);
-  height: 172px; /* Adjust this height as needed */
+  height: 172px; 
 }
 
 .custom-shape-divider-top-1713266907 .shape-fill {
@@ -111,7 +177,7 @@ footer {
 .connect-with-us {
   width: 25px;
   margin: 2%;
-}
+} */
 
 /* About Us */
 .about-us {
@@ -133,40 +199,6 @@ footer {
 .about-us-icon {
   width: 80%;
   /* width: 600px; */
-}
-
-@media (max-width: 700px) {
-  .header-register {
-    padding-left: 0 !important;
-    display: flex; /* Make it a flex container */
-    flex-direction: column; /* Stack flex items vertically */
-    align-items: center; /* Center flex items horizontally */
-  }
-
-  .header-register p {
-    display: inline; /* Display <p> elements inline */
-    margin: 0 !important; /* Remove default margins */
-  }
-  .register-img-container {
-    display: none;
-  }
-  .d-flex.justify-content-end {
-    justify-content: center !important; /* Override justify-content-end with center */
-  }
-  .login-wave-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-    transform: rotate(180deg);
-    z-index: -1;
-  }
-
-  .about-us-icon {
-    width: 400px;
-  }
 }
 
 .register-img {
@@ -206,7 +238,7 @@ p {
   border-color: red !important;
 }
 #sign-up:disabled {
-  background-color: #CCCCCC;
+  background-color: #cccccc;
   border: none !important;
 }
 
@@ -222,4 +254,10 @@ p {
 .close-mark:hover {
   cursor: pointer !important;
   color: var(--bs-gray-200) !important;
+}
+
+#privacyPolicyModal .modal-body,
+#termsConditionsModal .modal-body {
+  overflow-y: auto !important;
+  height: 70vh;
 }
