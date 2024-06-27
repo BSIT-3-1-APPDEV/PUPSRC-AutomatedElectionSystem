@@ -33,15 +33,13 @@ ConfigPage.removeEventListeners = function () {
     }
 };
 
+ConfigJS(ConfigPage);
 ConfigPage.removeEventListeners();
 
 ConfigPage = null;
 ConfigPage = {};
 
 ConfigPage = {
-    configJs: function () {
-        ConfigJS();
-    },
 
     touchStartHandler: function (callback) {
         return (event) => {
@@ -1153,8 +1151,6 @@ ConfigPage.CandidatePosition = class CandidatePosition {
         }
     }
 }
-
-ConfigPage.configJs();
 
 /**
  * A Map that stores event listeners associated with elements.

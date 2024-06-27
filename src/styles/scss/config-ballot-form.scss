@@ -49,7 +49,15 @@ main.main {
                     &::after {
                         content: "Required";
                         position: absolute;
-                        transform: translateX(-65%) translateY(10%);
+
+
+                        @media (max-width: 576px) {
+                            transform: translateX(-80%) translateY(10%);
+                        }
+
+                        @media (min-width: 576px) {
+                            transform: translateX(-65%) translateY(10%);
+                        }
                     }
                 }
 
@@ -97,20 +105,6 @@ main.main {
                         }
 
                         &:has(:focus-within) {
-                            &~div.col-1 {
-
-                                @media (max-width: 576px) {
-                                    // transform: translateY(-25%) translateX(7%);
-                                    transform: translateX(7%);
-                                }
-
-                                @media (min-width: 576px) {
-                                    // transform: translateY(-20%) translateX(6%);
-                                    transform: translateX(6%);
-                                }
-
-
-                            }
 
                             div.ql-container {
                                 font-size: clamp(1rem, 0.75rem + 0.5vw, 1.5vw);
@@ -135,10 +129,12 @@ main.main {
 
                     }
 
-                    div:has(input[type="checkbox"]) {
-                        display: grid;
+                    div:has(.form-check.form-switch) {
+                        display: flex;
                         align-content: center;
                         justify-self: end;
+
+                        flex-grow: 1;
 
                         @media (max-width: 576px) {
                             order: 1;
@@ -146,10 +142,15 @@ main.main {
 
                         @media (min-width: 576px) {
                             order: 2;
-                            transform: translateX(7%);
                         }
 
-                        .form-check.form-switch {}
+                        .form-check.form-switch {
+                            display: grid;
+                            width: 100%;
+                            justify-content: end;
+                            align-content: center;
+                            // transform: translateX(14%);
+                        }
 
                     }
 

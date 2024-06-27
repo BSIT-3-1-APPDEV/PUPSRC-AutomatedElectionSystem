@@ -452,7 +452,7 @@ ConfigPage.customField = class {
 
     static createRequiredToggle() {
         let toggleContainer = document.createElement('div');
-        toggleContainer.className = 'col-1';
+        toggleContainer.className = '';
 
         let toggleParent = document.createElement('div');
         toggleParent.className = 'form-check form-switch';
