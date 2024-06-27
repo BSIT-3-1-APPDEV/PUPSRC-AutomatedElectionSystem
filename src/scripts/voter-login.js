@@ -62,7 +62,9 @@ $(document).ready(function () {
   // Function to reset forgot password form
   const resetForgotPasswordForm = () => {
     $("#email-error").text("");
-    $("#email").removeClass("is-invalid is-valid was-validated");
+    $("#email").removeClass(
+      "is-invalid is-valid was-validated border border-danger border-success"
+    );
     $("#email-valid").text("");
     $("#" + ORG_NAME).prop("disabled", true);
     $("#forgot-password-form")[0].reset();
@@ -81,6 +83,12 @@ $(document).ready(function () {
   const sendButton = $("#" + ORG_NAME);
   sendButton.prop("disabled", true);
 
+  $("#Password").on("change", function () {
+    $("#Password, #password-toggle").addClass(
+      "is-valid was-validated border border-success"
+    );
+  });
+
   const validateEmail = (
     email,
     emailErrorElement,
@@ -91,10 +99,12 @@ $(document).ready(function () {
     const isValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(
       emailValue
     );
-    const user = user_data[emailValue]; // Assuming user_data is available
+    const user = user_data[emailValue];
 
     if (!isValid) {
-      email.removeClass("is-valid was-validated").addClass("is-invalid");
+      email
+        .removeClass("is-valid was-validated")
+        .addClass("is-invalid border border-danger");
       emailErrorElement.text("Please provide a valid email.");
       emailValidElement.text("");
     } else if (!isLogin && !user) {
@@ -106,9 +116,11 @@ $(document).ready(function () {
       emailErrorElement.text("This account was rejected.");
       emailValidElement.text("");
     } else {
-      email.removeClass("is-invalid").addClass("is-valid was-validated");
+      email
+        .removeClass("is-invalid border border-danger")
+        .addClass("is-valid was-validated border border-success");
       emailErrorElement.text("");
-      emailValidElement.text("Looks right!");
+      // emailValidElement.text("Looks right!");
     }
 
     if (!isLogin) {
@@ -130,6 +142,7 @@ $(document).ready(function () {
   });
 
   if (maxLoginAttempts) {
+    // $("#blockTime").text(`${blockTime} minutes`);
     $("#maxLimitReachedModal").modal("show");
   }
 
@@ -140,7 +153,7 @@ $(document).ready(function () {
 
     if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
       emailError.text("Please provide a valid email address.");
-      $("#email").addClass("is-invalid");
+      $("#email").addClass("is-invalid border border-danger");
       return;
     }
 
