@@ -1,0 +1,20 @@
+{
+    "faqs": [
+        {
+            "question": "How long is this site available?",
+            "answer": "None"
+        },
+        {
+            "question": "Can I register with my personal email?",
+            "answer": "Yes, you can. If you do not have the school’s respective webmail yet, personal email is still acceptable."
+        },
+        {
+            "question": "Do I need to register again for SCO?",
+            "answer": "None"
+        },
+        {
+            "question": "Why can't I log in to my iVOTE account?",
+            "answer": "None"
+        }
+    ] 
+}
