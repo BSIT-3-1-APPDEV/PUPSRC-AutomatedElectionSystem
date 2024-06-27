@@ -87,7 +87,8 @@
 							basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
 							basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
 							basename($_SERVER['PHP_SELF']) == 'voter-details.php' ||
-							basename($_SERVER['PHP_SELF']) == 'admin-creation.php')
+							basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ||
+							basename($_SERVER['PHP_SELF']) == 'account-details.php')
 						? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" data-bs-parent="false">
 
 						<div class="submenu-content">
@@ -108,8 +109,9 @@
 								Voters' Accounts</a>
 						</li>
 						<li class="item">
-							<a href="manage-committee.php"
-								class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ? 'active-sub fw-bold' : ''; ?>">Admin
+							<a href="manage-committee.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
+								basename($_SERVER['PHP_SELF']) == 'account-details.php')
+								? 'active-sub fw-bold' : ''; ?>">Admin
 								Accounts</a>
 						</li>
 						<li class="item">
@@ -129,6 +131,7 @@
 					</a>
 				<?php endif; ?>
 			</li>
+
 
 
 			<li class="item">
