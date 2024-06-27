@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!preg_match($emailPattern, $email)) {
             $emailError = 'Invalid email format.';
         } else {
-            // Check if email already exists
+            // Check if email already exists in the current database
             $stmt = $conn->prepare("SELECT COUNT(*) FROM voter WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -33,6 +33,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($count > 0) {
                 $emailError = 'Email already exists in the database.';
+            }  else {
+                // Check if email exists in SCO database
+                try {
+                    $sco_conn = DatabaseConnection::connect();
+            
+                    // Switch to the SCO database
+                    $sco_conn->select_db('db_sco');
+                    $sco_stmt = $sco_conn->prepare("SELECT COUNT(*) FROM voter WHERE email = ?");
+                    $sco_stmt->bind_param("s", $email);
+                    $sco_stmt->execute();
+                    $sco_stmt->bind_result($sco_count);
+                    $sco_stmt->fetch();
+                    $sco_stmt->close();
+                    $sco_conn->close();
+        
+                    if ($sco_count > 0) {
+                        $emailError = 'Email already exists in the SCO database.';
+                    }
+                } catch (Exception $e) {
+                    // Handle connection error
+                    error_log("Error connecting to SCO database: " . $e->getMessage());
+                    $emailError = 'Unable to verify email uniqueness across all databases.';
+                }
             }
         }
 
