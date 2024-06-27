@@ -104,9 +104,16 @@
   width: 100%;
   padding: 10px;
   border: 1px solid whitesmoke;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: whitesmoke;
   color: grey;
+  outline:none;
+}
+
+input[type=text]:focus {
+  border: 2px solid #4769B2;
+  box-shadow: 0 0 3pt 1pt #D3D3D3;
+  outline-width: 0px;
 }
 
 input[type="submit"],
@@ -191,3 +198,26 @@ input::placeholder {
     border: 1px solid red !important;
 }
 
+.close-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 25px;
+    right: 25px; 
+}
+
+.close-button svg {
+    stroke: currentColor;
+    
+}
+
+.close-button:hover svg {
+    stroke: var(--main-color);
+}
+
+
+.blue-border {
+        border-color: blue !important;
+    }
