@@ -11,9 +11,7 @@ SessionManager::checkUserRoleAndRedirect();
 
 $csrf_token = CsrfToken::generateCSRFToken();
 
-$_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
-
-// Retrieves database configuration based on the organization name
+// Set a new org value connecting to a diff db
 $organization = 'sco';
 $config = DatabaseConfig::getOrganizationDBConfig($organization);
 
@@ -23,7 +21,6 @@ $connection = new mysqli($config['host'], $config['username'], $config['password
 $sql = "SELECT email FROM voter";
 $result = $connection->query($sql);
 
-// Array to hold all emails
 $emails = array();
 
 if ($result->num_rows > 0) {
@@ -69,9 +66,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
 
 <body>
 
-    <?php
-    include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
-    ?>
+    <?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html'); ?>
 
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
         <div class="container">
@@ -231,10 +226,10 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                                                 class="mb-sm-0 me-sm-2 me-md-2">
                                             <label class="form-check-label fs-7 mb-0 policy-terms-conditions">
                                                 I agree with the
-                                                <a id="termsConditionsLink" class="underline text-primary">Terms &
+                                                <a role="button" id="termsConditionsLink" class="underline text-primary">Terms &
                                                     Conditions</a>
                                                 and
-                                                <a id="privacyTermsLink" class="underline text-primary"> Privacy
+                                                <a role="button" id="privacyTermsLink" class="underline text-primary"> Privacy
                                                     Policy</a>
                                             </label>
                                         </div>
@@ -341,24 +336,8 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                             <div class="col-md-12 pt-4">
                                 <p class="fw-bold fs-3 danger spacing-4 px-2 text-start">Terms <span
                                         class="main-blue">and Conditions</span></p>
-                                <p class="fw-medium spacing-5 pt-2 px-2 pb-4 text-start fs-7">Lorem ipsum dolor sit
-                                    amet,
-                                    consectetur adipiscing elit. Nullam augue nisl, pharetra a vehicula eu, congue ut
-                                    mauris. Sed nisl nisi, mollis at pretium sit amet, suscipit id lectus. Sed gravida,
-                                    enim vel eleifend dignissim, orci neque malesuada quam, in ultricies sapien ipsum
-                                    vel eros. Praesent lacinia rhoncus sapien id gravida. Etiam eget ullamcorper erat.
-                                    Pellentesque aliquam, neque sed mattis vulputate, est lorem dapibus nisi, ac
-                                    porttitor eros purus eu eros. Vestibulum maximus leo sit amet risus tempor sodales.
-                                    Duis vestibulum vitae odio at eleifend. Sed ut tortor sit amet nulla imperdiet
-                                    accumsan eget vitae lectus. Aenean hendrerit non quam ut condimentum. Integer congue
-                                    vitae erat sit amet porta. Mauris dapibus, eros ut faucibus convallis, nunc ligula
-                                    rutrum quam, vel congue dolor magna nec neque. Quisque convallis sodales lacus id
-                                    varius. Maecenas tortor lorem, maximus non porttitor at, bibendum a sapien. Morbi
-                                    cursus elementum augue, vel euismod ligula aliquam ut. Proin euismod dolor commodo
-                                    auctor pulvinar. In cursus lectus vitae viverra malesuada. Fusce id tincidunt
-                                    mauris. Sed elementum felis vitae nisl gravida, ac feugiat orci venenatis. Vivamus
-                                    commodo iaculis tortor, a facilisis nunc vestibulum quis. Donec rhoncus, enim sed
-                                    porta tincidunt, ipsum nibh porta quam, at luctus eros ex at erat.
+                                <p class="fw-medium spacing-5 pt-2 px-2 pb-4 text-start fs-7">
+                                    <!-- JSON content will be loaded here -->
                                 </p>
 
                                 <button
@@ -384,24 +363,8 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                             <div class="col-md-12 pt-4">
                                 <p class="fw-bold fs-3 danger spacing-4 px-2 text-start">Privacy <span
                                         class="main-blue">Policy</span></p>
-                                <p class="fw-medium spacing-5 pt-2 px-2 pb-4 text-start fs-7">Lorem ipsum dolor sit
-                                    amet,
-                                    consectetur adipiscing elit. Nullam augue nisl, pharetra a vehicula eu, congue ut
-                                    mauris. Sed nisl nisi, mollis at pretium sit amet, suscipit id lectus. Sed gravida,
-                                    enim vel eleifend dignissim, orci neque malesuada quam, in ultricies sapien ipsum
-                                    vel eros. Praesent lacinia rhoncus sapien id gravida. Etiam eget ullamcorper erat.
-                                    Pellentesque aliquam, neque sed mattis vulputate, est lorem dapibus nisi, ac
-                                    porttitor eros purus eu eros. Vestibulum maximus leo sit amet risus tempor sodales.
-                                    Duis vestibulum vitae odio at eleifend. Sed ut tortor sit amet nulla imperdiet
-                                    accumsan eget vitae lectus. Aenean hendrerit non quam ut condimentum. Integer congue
-                                    vitae erat sit amet porta. Mauris dapibus, eros ut faucibus convallis, nunc ligula
-                                    rutrum quam, vel congue dolor magna nec neque. Quisque convallis sodales lacus id
-                                    varius. Maecenas tortor lorem, maximus non porttitor at, bibendum a sapien. Morbi
-                                    cursus elementum augue, vel euismod ligula aliquam ut. Proin euismod dolor commodo
-                                    auctor pulvinar. In cursus lectus vitae viverra malesuada. Fusce id tincidunt
-                                    mauris. Sed elementum felis vitae nisl gravida, ac feugiat orci venenatis. Vivamus
-                                    commodo iaculis tortor, a facilisis nunc vestibulum quis. Donec rhoncus, enim sed
-                                    porta tincidunt, ipsum nibh porta quam, at luctus eros ex at erat.
+                                <p class="fw-medium spacing-5 pt-2 px-2 pb-4 text-start fs-7">
+                                    <!-- JSON content will be loaded here -->
                                 </p>
 
                                 <button
