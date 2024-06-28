@@ -30,7 +30,7 @@ $voter_id = $_SESSION['voter_id'];
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Settings</title>
+  <title>Transfer Organization</title>
   <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
   
   <!-- Montserrat Font -->
@@ -81,7 +81,7 @@ $voter_id = $_SESSION['voter_id'];
                   </div>
                   <div>
                     <div class="mb-0" style="font-size: 18px; font-weight:600">
-                      <a href="#" class="custom-link"> Information </a>
+                      <a href="../src/user-setting-information.php" class="custom-link"> Information </a>
                   </div>
                     <div class="mb-0 des">See your account information like your email address and certificate of registration.</div>
                   </div>
@@ -92,7 +92,7 @@ $voter_id = $_SESSION['voter_id'];
                   </div>
                   <div>
                     <div class="mb-0" style="font-size: 18px; font-weight:600">
-                    <a href="#" class="custom-link"> Change Password </a>
+                    <a href="../src/user-setting-password.php" class="custom-link"> Change Password </a>
                     </div>
                     <div class="mb-0 des">Ensure your account's security by updating your password whenever you need.</div>
                   </div>
@@ -101,7 +101,7 @@ $voter_id = $_SESSION['voter_id'];
                   <i class="fas fa-exchange-alt me-4" style="font-size: 1.1rem;"></i>
                   <div>
                     <div class="mb-0" style="font-size: 18px;">
-                      <b><a href="../src/transfer-org.php" class="custom-link">Transfer Org</a></b>
+                      <b><a href="../src/user-setting-transfer.php" class="custom-link">Transfer Org</a></b>
                     </div>
                     <div class="mb-0 des">Move your account to a different organization upon transfer.</div>
                   </div>

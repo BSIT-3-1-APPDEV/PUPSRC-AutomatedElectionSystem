@@ -1,7 +1,7 @@
 <?php
 include_once str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/file-utils.php');
 include_once FileUtils::normalizeFilePath(__DIR__ . '/../default-time-zone.php');
-require_once FileUtils::normalizeFilePath(__DIR__ . '/db-connector.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/db-config.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/../session-handler.php');
 require_once FileUtils::normalizeFilePath(__DIR__ . '/../error-reporting.php');
 
@@ -13,9 +13,16 @@ require_once FileUtils::normalizeFilePath(__DIR__ . '/../error-reporting.php');
 
 class IpAddress {
     private $connection;
+    private $organization;
 
     public function __construct() {
-        $this->connection = DatabaseConnection::connect();
+        $this->organization = 'sco';
+        $this->initializeDatabaseConnection();
+    }
+
+    private function initializeDatabaseConnection() {
+        $config = DatabaseConfig::getOrganizationDBConfig($this->organization);
+        $this->connection = new mysqli($config['host'], $config['username'], $config['password'], $config['database']);
     }
 
     public function storeIpAddress($ip_address, $try_time) {

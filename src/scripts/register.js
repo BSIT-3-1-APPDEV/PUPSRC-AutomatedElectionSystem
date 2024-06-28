@@ -1,7 +1,17 @@
-// Peter Wilrexe's Vanilla JS to Carlito's jQuery
-// ANG POGI MO TALAGA DOMINIC
-
 $(document).ready(function () {
+  let termsAndPolicyData = null;
+  let dataLoaded = false;
+
+  function loadTermsAndPrivacyPolicy() {
+    $.getJSON("includes/misc/terms-and-privacy.json", function (data) {
+      termsAndPolicyData = data;
+      dataLoaded = true;
+    });
+  }
+
+  // Fetches the JSON on page load
+  loadTermsAndPrivacyPolicy();
+
   const fields = {
     email: { touched: false },
     org: { touched: false },
@@ -16,14 +26,6 @@ $(document).ready(function () {
     value = value.replace(/\s/g, "");
     $(input).val(value);
   }
-
-  function closeModal() {
-    $("#onlyPDFAllowedModal").modal("hide");
-  }
-
-  $("#onlyPDFClose").click(function () {
-    closeModal();
-  });
 
   // Check for valid email and if one already exists in the voter table
   function validateEmail(input, showErrorMessages = false) {
@@ -53,11 +55,9 @@ $(document).ready(function () {
     }
   }
 
-  // Basic email format validation
+  // Email format validation
   function validateEmailFormat(email) {
-    const allowedDomains = ["@gmail.com", "@iskolarngbayan.pup.edu.ph"];
-    const domainMatch = allowedDomains.some((domain) => email.endsWith(domain));
-    return domainMatch && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
   }
 
   function validateOrg(select, showErrorMessages = false) {
@@ -161,6 +161,11 @@ $(document).ready(function () {
     return true;
   }
 
+  // Check if terms and conditions checkbox ticked?
+  function validateTermsCheckbox() {
+    return $("#privacyTerms").is(":checked");
+  }
+
   // Display error message below an input field
   function showError(input, errorElement, message) {
     if (!errorElement.length) {
@@ -180,12 +185,57 @@ $(document).ready(function () {
     }
   }
 
-  // Get the modal id to know which modal to show
+  // Functions on modal toggle
   function showModal(modalId) {
     $("#" + modalId).modal("show");
   }
 
-  // All input fields validation
+  function closeModal(modalId) {
+    $("#" + modalId).modal("hide");
+  }
+
+  // Content loading for Terms and Privacy Policy
+  function showContentModal(content, modalId) {
+    $(modalId).find(".modal-body .text-start.fs-7").html(content);
+    $(modalId).modal("show");
+  }
+
+  // PDF
+  $("#onlyPDFClose").click(function () {
+    closeModal("onlyPDFAllowedModal");
+  });
+
+  // Terms and Conditions Modal
+  $("#termsConditionsLink").click(function (event) {
+    event.preventDefault();
+    if (dataLoaded) {
+      showContentModal(
+        termsAndPolicyData.termsAndConditions[0].content,
+        "#termsConditionsModal"
+      );
+    }
+  });
+
+  $("#closeTermsConditions").click(function () {
+    closeModal("termsConditionsModal");
+  });
+
+  // Privacy Policy Modal
+  $("#privacyTermsLink").click(function (event) {
+    event.preventDefault();
+    if (dataLoaded) {
+      showContentModal(
+        termsAndPolicyData.privacyPolicy[0].content,
+        "#privacyPolicyModal"
+      );
+    }
+  });
+
+  $("#closePrivacyPolicy").click(function () {
+    closeModal("privacyPolicyModal");
+  });
+
+  // MAIN FORM VALIDATOR
   function checkFormValidity() {
     const emailValid = validateEmail($("#email"), false);
     const orgValid = validateOrg($("#org"), false);
@@ -196,6 +246,7 @@ $(document).ready(function () {
       false
     );
     const corValid = validateCOR(false);
+    const termsChecked = validateTermsCheckbox();
 
     const submitButton = $("#sign-up");
 
@@ -204,7 +255,8 @@ $(document).ready(function () {
       orgValid &&
       passwordValid &&
       retypePassValid &&
-      corValid
+      corValid &&
+      termsChecked
     ) {
       submitButton.removeAttr("disabled");
     } else {
@@ -249,12 +301,23 @@ $(document).ready(function () {
     checkFormValidity();
   });
 
-  $("form").on("submit", function (event) {
-    checkFormValidity(true);
-    if ($(this).find(".error-border").length) {
-      event.preventDefault();
-    }
+  $("#privacyTerms").on("input", function () {
+    checkFormValidity();
   });
+
+  // $("form").on("submit", function (event) {
+  //   $("#sign-up").attr("disabled", true);
+  //   $("#sign-up").html(
+  //     `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>`
+  //   );
+
+  //   checkFormValidity(true);
+  //   if ($(this).find(".error-border").length) {
+  //     event.preventDefault();
+  //     $("#sign-up").html("Sign Up");
+  //     $("#sign-up").removeAttr("disabled");
+  //   }
+  // });
 
   // Show success modal if registration is successful
   if (registrationSuccess) {

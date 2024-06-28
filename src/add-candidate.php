@@ -1,22 +1,23 @@
-<?php
+    <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+    include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 
-include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
+    include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
+    require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
+    require_once FileUtils::normalizeFilePath('includes/classes/csrf-token.php');
+    require_once FileUtils::normalizeFilePath('includes/session-handler.php');
+    require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
+    require_once FileUtils::normalizeFilePath('includes/org-sections.php');
 
-include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
-require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
-require_once FileUtils::normalizeFilePath('includes/session-handler.php');
-require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
+    $csrf_token = CsrfToken::generateCSRFToken();
 
-if (isset($_SESSION['voter_id'])) {
+    if (isset($_SESSION['voter_id'])) {
 
-    include FileUtils::normalizeFilePath('includes/session-exchange.php');
-    $allowedRoles = array('head_admin', 'admin');
-    if (in_array($_SESSION['role'], $allowedRoles)) {
-        $conn = DatabaseConnection::connect();
-        ?>
+        include FileUtils::normalizeFilePath('includes/session-exchange.php');
+        $allowedRoles = array('head_admin', 'admin');
+        if (in_array($_SESSION['role'], $allowedRoles)) {
+            $conn = DatabaseConnection::connect();
+    ?>
             <!DOCTYPE html>
             <html lang="en">
 
@@ -46,13 +47,13 @@ if (isset($_SESSION['voter_id'])) {
 
             <body>
 
-            <?php 
-			include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
-			include FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php'); 
-			?>
+                <?php
+                include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+                include FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
+                ?>
 
                 <div class="main">
-                    <div class="container mb-5 pl-5">
+                    <div class="container mb-5 ps-5">
                         <div class="row justify-content-center">
                             <div class="col-md-11">
                                 <div class="breadcrumbs d-flex">
@@ -61,9 +62,9 @@ if (isset($_SESSION['voter_id'])) {
                                     </button>
                                     <button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">ADD
                                         CANDIDATE</button>
-                                    <div class = "align-items-end ms-auto me-4 mx-auto">
+                                    <div class="align-items-end ms-auto me-4 mx-auto">
                                         <button type="button" class="button-add rounded-2 fs-7" onclick="duplicateForm()">
-                                            <i class = "bi bi-plus-circle me-3"></i>Add Another Candidate
+                                            <i class="bi bi-plus-circle me-3"></i>Add Another Candidate
                                         </button>
                                     </div>
                                 </div>
@@ -71,67 +72,63 @@ if (isset($_SESSION['voter_id'])) {
                         </div>
                     </div>
 
-                <form action="../src/submission_handlers/insert-candidates.php" method="post" id="candidate-form" enctype="multipart/form-data">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-md-10 card-box mt-md-10" id = "carl">
-                                <div class="container-fluid">
-                                    <div class="card-box">
-                                        <div class="row">
-                                            <div class="col-md-10">
-                                                <h3 class="form-title">Add Candidate</h3>
+                    <form action="../src/submission_handlers/insert-candidates.php" method="post" id="candidate-form" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-md-10 card-box mt-md-10" id="form-container">
+                                    <div class="container">
+                                        <div class="card-box">
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <p class="form-title fs-4">Add Candidate</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
+                                            <br>
+                                            <div class="row">
                                                 <div class="row">
                                                     <div class="col-md-3 col-sm-3 mx-auto">
                                                         <div class="form-group local-forms">
-                                                            <label for="last_name" class="login-danger">Last Name <span
-                                                                    class="required"> * </span> </label>
-                                                            <input type="text" id="last_name" name="last_name"
-                                                                placeholder="E.g. Carpena" required pattern="^[a-z ,.'-]+$/i"
-                                                                maxlength="20">
+                                                            <label for="last_name" class="login-dange fs-7">Last Name <span class="required"> * </span> </label>
+                                                            <input type="text" id="last_name" name="last_name[]" placeholder="E.g. Carpena" required pattern="^[a-z ,.'-]+$/i" maxlength="20">
                                                             <span class="error-message" id="last_name_error"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 col-sm-3 mx-auto">
                                                         <div class="form-group local-forms">
-                                                            <label for="first_name" class="login-danger">First Name<span
-                                                                    class="required"> * </span> </label>
-                                                            <input type="text" id="first_name" name="first_name"
-                                                                placeholder="E.g. Trizia Mae" required pattern="^[a-z ,.'-]+$/i"
-                                                                maxlength="50">
+                                                            <label for="first_name" class="login-danger fs-7">First Name<span class="required"> * </span> </label>
+                                                            <input type="text" id="first_name" name="first_name[]" placeholder="E.g. Trizia Mae" required pattern="^[a-z ,.'-]+$/i" maxlength="50">
                                                             <span class="error-message" id="first_name_error"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 col-sm-3 mx-auto">
                                                         <div class="form-group local-forms">
-                                                            <label for="middle_name" class="login-danger">Middle Name</label>
-                                                            <input type="text" id="middle_name" name="middle_name"
-                                                                placeholder="E.g. Santiago" maxlength="20">
+                                                            <label for="middle_name" class="login-danger fs-7">Middle Name</label>
+                                                            <input type="text" id="middle_name" name="middle_name[]" placeholder="E.g. Santiago" maxlength="20">
                                                             <span class="error-message" id="middle_name_error"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2 col-sm-3 mx-auto">
                                                         <div class="form-group local-forms">
-                                                            <label for="suffix" class="login-danger">Suffix</label>
-                                                                <select id="suffix" name="suffix" required style="opacity: 0.5">
-                                                                    <option value="suffix" class="disabled-option" disabled selected>E.g. II</option>
-                                                                    <option value="II">II</option>
-                                                                    <option value="III">III</option>
-                                                                    <option value="IV">IV</option>
-                                                                    <option value="V">V</option>
-                                                                </select>
+                                                            <label for="suffix" class="login-danger fs-7">Suffix</label>
+                                                            <select id="suffix" name="suffix[]" required style="opacity: 0.5">
+                                                                <option value="suffix" class="disabled-option" disabled selected>E.g. Jr</option>
+                                                                <option value="">No suffix</option>
+                                                                <option value="Jr">Jr</option>
+                                                                <option value="Sr">Sr</option>
+                                                                <option value="II">II</option>
+                                                                <option value="III">III</option>
+                                                                <option value="IV">IV</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="row pt-4">
                                                     <div class="col-md-4 col-sm-4 mx-auto">
                                                         <div class="form-group local-forms">
-                                                            <label for="position" class="login-danger">Position<span class="required"> *</span></label>
-                                                            <select id="position" name="position_id" required style="opacity: 0.5">
+                                                            <label for="position" class="login-danger fs-7">Position<span class="required"> *</span></label>
+                                                            <select id="position" name="position_id[]" required style="opacity: 0.5">
                                                                 <option value="position" class="disabled-option" disabled selected>Select Position</option>
                                                                 <?php
                                                                 $positionQuery = "SELECT position_id, title FROM position";
@@ -146,49 +143,107 @@ if (isset($_SESSION['voter_id'])) {
                                                             </select>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-4 col-sm-3 mx-auto">
                                                         <div class="form-group local-forms">
-                                                            <label for="section" class="login-danger">Block Section<span class="required"> *
-                                                                </span> </label>
-                                                                <select id="section" name="section" required style="opacity: 0.5">
-                                                                <option value="section" class="disabled-option" disabled selected>Select Block Section</option>
-                                                                    <?php
-                                                                    $year_levels = array('1', '2', '3', '4', '5');
-                                                                    $sections = array('1', '2', '3', '4');
-                                                                    foreach ($year_levels as $year_level) {
-                                                                        foreach ($sections as $section) {
-                                                                            echo '<option value="' . $year_level . '-' . $section . '">' . $year_level . '-' . $section . '</option>';
+                                                            <label for="section" class="login-danger fs-7">Block Section<span class="required"> *</span></label>
+                                                            <select id="section" name="section[]" onmousedown="if(this.options.length>3){this.size=3;}" onchange='this.size=0;' onblur="this.size=0;" required style="opacity: 0.5">
+                                                                <option value="" class="disabled-option" disabled selected hide>Select Block Section</option>
+                                                                <?php
+                                                                // Define the program based on org_name
+                                                                $program = '';
+                                                                switch ($org_name) {
+                                                                    case 'acap':
+                                                                        $program = 'BSP';
+                                                                        break;
+                                                                    case 'aeces':
+                                                                        $program = 'BSECE';
+                                                                        break;
+                                                                    case 'elite':
+                                                                        $program = 'BSIT';
+                                                                        break;
+                                                                    case 'give':
+                                                                        // GIVE has multiple programs
+                                                                        $programs = ['BSED-FL', 'BSED-ENG', 'BSED-MT', 'BSED-HE'];
+                                                                        break;
+                                                                    case 'jehra':
+                                                                        $program = 'BSBA-HRM';
+                                                                        break;
+                                                                    case 'jmap':
+                                                                        $program = 'BSBA-MM';
+                                                                        break;
+                                                                    case 'jpia':
+                                                                        // JPIA has multiple programs
+                                                                        $programs = ['BSA', 'BSMA'];
+                                                                        break;
+                                                                    case 'piie':
+                                                                        $program = 'BSIE';
+                                                                        break;
+                                                                    case 'sco':
+                                                                        // No need to set program, it will be handled separately
+                                                                        break;
+                                                                    default:
+                                                                        // Handle unknown org_name, if needed
+                                                                        break;
+                                                                }
+
+                                                                if ($org_name === 'sco') {
+                                                                    // Handle the special case for SCO
+                                                                    foreach ($org_sections as $program => $years) {
+                                                                        foreach ($years as $year_level => $sections) {
+                                                                            foreach ($sections as $section) {
+                                                                                echo '<option value="' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($program) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
+                                                                            }
                                                                         }
                                                                     }
-                                                                    ?>
+                                                                } else {
+                                                                    if (isset($programs)) {
+                                                                        // Handle org_names with multiple programs
+                                                                        foreach ($programs as $prog) {
+                                                                            foreach ($org_sections[$prog] as $year_level => $sections) {
+                                                                                foreach ($sections as $section) {
+                                                                                    echo '<option value="' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($prog) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        // Handle org_names with a single program
+                                                                        foreach ($org_sections[$program] as $year_level => $sections) {
+                                                                            foreach ($sections as $section) {
+                                                                                echo '<option value="' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($program) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                                ?>
                                                             </select>
                                                         </div>
                                                     </div>
+
+
                                                     <div class="col-md-4 col-sm-3 mx-auto">
                                                         <div class="form-group local-forms">
-                                                            <label for="photo" class="login-danger">Photo<span class="required"> * </span> </label>
+                                                            <label for="photo" class="login-danger fs-7">Photo<span class="required"> * </span> </label>
                                                             <div class="input-group">
-                                                                <input type="file" id="photo" name="photo" class="photo" accept=".jpg, .png, .jpeg" required onchange="displayFileName(this)" style="opacity: 0.5">  
+                                                                <input type="file" id="photo" name="photo[]" class="photo" accept=".jpg, .png, .jpeg" required onchange="validatephoto(this)" style="opacity: 0.5">
                                                             </div>
                                                         </div>
-                                                    </div>  
+                                                    </div>
                                                 </div>
                                                 <div class="d-flex flex-md-row flex-column justify-content-end align-items-center">
-                                                    <button type="reset" class="reset-button">Reset Form</button>
+                                                    <button type="reset" class="reset-button" onclick="resetForm(this.closest('container-form'))">Reset Form</button>
                                                 </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class = "d-flex justify-content-center mb-5 pl-5">
-                        <button type="submit" value="Submit" class="button-create mb-2 mb-md-2">Submit</button>
-                    </div>
-                </form>
-            </div>
-        
-
+                        <div class="d-flex justify-content-center mb-5 pl-5">
+                            <button type="submit" value="Submit" class="button-create mb-2 mb-md-2">Submit</button>
+                        </div>
+                    </form>
+                </div>
                 <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
                 <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
                 <script src="scripts/script.js"></script>
@@ -198,7 +253,7 @@ if (isset($_SESSION['voter_id'])) {
 
                 <!-- Created Modal -->
                 <div class="modal" id="createdModal" tabindex="-1" role="dialog" <?php if (isset($_SESSION['account_created']) && $_SESSION['account_created'])
-                    echo 'data-show="true"'; ?>>
+                                                                                        echo 'data-show="true"'; ?>>
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
@@ -216,16 +271,113 @@ if (isset($_SESSION['voter_id'])) {
                         </div>
                     </div>
                 </div>
-            </body>
 
+                <!-- Only Image Files Are Allowed Modal -->
+                <div class="modal fade" id="onlyImageAllowedModal" data-bs-keyboard="false" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="d-flex justify-content-end">
+                                    <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" id="onlyImageClose">
+                                    </i>
+                                </div>
+                                <div class="text-center">
+                                    <div class="col-md-12">
+                                        <img src="images/resc/warning.png" alt="Warning Icon">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 pb-3 pt-4">
+                                            <p class="fw-bold fs-3 danger spacing-4 px-2">Only Image files are allowed</p>
+                                            <p class="fw-medium spacing-5 pt-2 px-5 ">Please also ensure the image is no larger than
+                                                25 mb.
+                                                Let's try that again!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Created Maximum Modal -->
+                <div class="modal fade" id="errorModal" data-bs-keyboard="false" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center">
+                                    <div class="modal-header">
+                                        <div class="col-md-12 pt-5">
+                                            <img src="images/resc/yellow-warning.png" alt="Warning Icon">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 pb-3 pt-4">
+                                            <p class="fw-bold fs-3 text-warning spacing-4">Maximum limit reached.</p>
+                                            <p class="fw-medium spacing-5">You can only add up to 5 candidates at a time.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </body>
 
             </html>
 
-            
+            <script>
+                function closeModal() {
+                    const modal = bootstrap.Modal.getInstance(document.getElementById("onlyImageAllowedModal"));
+                    modal.hide();
+                }
 
-             <script>
-                
-                $(document).ready(function () {
+                document.getElementById("onlyImageClose").addEventListener("click", function() {
+                    closeModal();
+                });
+
+                function showModal(modalId) {
+                    const modal = new bootstrap.Modal(document.getElementById(modalId));
+                    modal.show();
+                }
+
+                function validatephoto(input) {
+                    const file = input.files[0];
+                    if (!file) return;
+
+                    const fileName = file.name;
+                    const fileExtension = fileName.split(".").pop().toLowerCase();
+
+                    // Check if file is a valid image extension
+                    if (!["png", "jpg", "jpeg"].includes(fileExtension)) {
+                        input.value = "";
+                        showModal("onlyImageAllowedModal");
+                        return;
+                    }
+
+                    // Check if file size exceeds 25MB
+                    const fileSizeInMB = file.size / (1024 * 1024);
+                    if (fileSizeInMB > 25) {
+                        input.value = "";
+                        showModal("onlyImageAllowedModal");
+                        return;
+                    }
+
+                    // Display file name if valid
+                    displayFileName(input);
+                }
+
+                function displayFileName(input) {
+                    const fileName = input.files[0].name;
+                    // Display file name logic here
+                }
+
+
+                $(document).ready(function() {
                     var createdModal = new bootstrap.Modal(document.getElementById('createdModal'), {});
 
                     <?php if (isset($_SESSION['account_created']) && $_SESSION['account_created']) { ?>
@@ -233,7 +385,7 @@ if (isset($_SESSION['voter_id'])) {
                         createdModal.show();
 
                         // Reload the page after a short delay
-                        setTimeout(function () {
+                        setTimeout(function() {
                             location.reload();
                         }, 3000); // 3 seconds
 
@@ -248,18 +400,23 @@ if (isset($_SESSION['voter_id'])) {
                 function duplicateForm() {
                     if (formCount < 5) {
                         formCount++;
-                        const formContainer = document.getElementById('carl');
+                        const formContainer = document.getElementById('form-container');
                         const clonedForm = formContainer.cloneNode(true);
 
                         // Reset form inputs
-                        clonedForm.querySelectorAll('input, select').forEach(input => {
+                        clonedForm.querySelectorAll('input').forEach(input => {
                             input.value = '';
                         });
 
                         // Add close button inside the cloned form container
                         const closeButton = document.createElement('button');
-                        closeButton.innerHTML = 'Close';
-                        closeButton.className = 'btn btn-secondary d-flex justify-content-center close-button';
+                        closeButton.innerHTML = `
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="calc(1rem + 0.5vw)" height="calc(1rem + 0.5vw)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
+                                                        <circle cx="12" cy="12" r="10"></circle>
+                                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                                    </svg>`;
+                        closeButton.className = 'close-button';
                         closeButton.addEventListener('click', function() {
                             formContainer.parentElement.removeChild(clonedForm);
                             formContainer.parentElement.removeChild(hrWrapper);
@@ -268,7 +425,10 @@ if (isset($_SESSION['voter_id'])) {
                                 // Remove the last horizontal line if no forms are left
                                 formContainers.pop().remove();
                             }
-                        }); 
+                        });
+                        // Append the close button to the cloned form container
+                        clonedForm.style.position = 'relative';
+                        clonedForm.appendChild(closeButton);
 
                         // Create a div for the close button and position it
                         const closeButtonWrapper = document.createElement('div');
@@ -281,7 +441,7 @@ if (isset($_SESSION['voter_id'])) {
                             const originalId = input.id;
                             const originalName = input.name;
                             const newId = originalId.replace(/\d+/g, '') + formCount;
-                            const newName = originalName.replace(/\d+/g, '') + formCount;
+                            const newName = originalName;
                             input.id = newId;
                             input.name = newName;
                             input.required = true; // Make sure inputs are required
@@ -289,6 +449,7 @@ if (isset($_SESSION['voter_id'])) {
                             // Add event listeners to the new inputs and selects
                             if (input.type === 'text') {
                                 input.addEventListener('input', validateInput);
+                                input.addEventListener('input', toggleSubmitButton);
                             } else if (input.tagName === 'SELECT') {
                                 input.addEventListener('change', toggleSubmitButton);
                             }
@@ -310,11 +471,24 @@ if (isset($_SESSION['voter_id'])) {
 
                         formContainer.parentElement.appendChild(clonedForm);
                         formContainers.push(clonedForm);
+
+                        // Scroll to the newly cloned form
+                        clonedForm.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
                     } else {
-                        alert('Maximum limit. You can only add up to 5 candidates at a time')
+
+                        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'), {});
+                        errorModal.show();
+
+                        setTimeout(function() {
+                            errorModal.hide();
+                        }, 2000); // 2 seconds
+
                     }
                     if (formCount === 1) {
-                        // Remove all additional form containers
+                        // Remove all additional form containers    
                         const additionalForms = document.querySelectorAll('.candidate-form:not(:first-child)');
                         additionalForms.forEach(form => form.remove());
 
@@ -324,9 +498,12 @@ if (isset($_SESSION['voter_id'])) {
                     }
                 }
 
-            </script>   
+                $("#warningClose").click(function() {
+                    closeModal();
+                });
+            </script>
 
-            <?php
+    <?php
         } else {
             // User is not authorized to access this page
             header("Location: landing-page.php");
