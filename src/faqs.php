@@ -70,9 +70,9 @@ SessionManager::checkUserRoleAndRedirect();
   <section class="faqs-section">
     <!-- FAQs Question and Answer -->
     <div class="container">
-      <div class="row mt-3 mb-5">
+      <div class="row mt-4 mb-5">
         <div class="col-lg-5 faqs">
-            <img src="images/resc/faqs.png" alt="FAQs Image" class="faqs-img mt-4">
+            <img src="images/resc/faqs.png" alt="FAQs Image" class="faqs-img mt-5">
         </div>
         <div class="col-lg-7 faqs-body">
           <div class="faqs-title"><span class="hello-text">Frequently Asked</span> Questions</div>

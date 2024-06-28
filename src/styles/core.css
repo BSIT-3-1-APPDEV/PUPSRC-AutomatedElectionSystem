@@ -64,10 +64,17 @@ a {
   color: #ea423c !important;
 }
 
+.main-red-bg {
+  background-color: #ea423c !important;
+}
+
 .main-blue {
   color: var(--main-blue) !important;
 }
 
+.main-blue-bg {
+  background-color: var(--main-blue) !important;
+}
 .main-blue-200 {
   color: #4769b1;
 }

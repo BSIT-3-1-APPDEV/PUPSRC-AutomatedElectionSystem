@@ -5,9 +5,13 @@ require_once FileUtils::normalizeFilePath('classes/registration-class.php');
 require_once FileUtils::normalizeFilePath('classes/csrf-token.php');
 require_once FileUtils::normalizeFilePath('error-reporting.php');
 
-CsrfToken::validateCSRFToken();
-
 if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["sign-up"])) {
+
+    if(!CsrfToken::validateCSRFToken()) {
+        $_SESSION['error_message'] = 'Something went wrong. Please reload the page.';
+        header("Location: ../register.php");
+        exit();
+    }
 
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
