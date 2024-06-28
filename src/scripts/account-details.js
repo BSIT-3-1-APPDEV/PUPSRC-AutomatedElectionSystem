@@ -38,7 +38,7 @@ $(document).ready(function () {
     var voter_id = $("#voter_id").val();
 
     $.ajax({
-      url: "submission_handlers/move-to-recycle-bin.php",
+      url: "submission_handlers/move-to-trashbin.php",
       type: "POST",
       data: { voter_id: voter_id },
       success: function (response) {
