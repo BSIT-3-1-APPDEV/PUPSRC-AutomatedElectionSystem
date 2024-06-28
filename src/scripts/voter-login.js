@@ -4,7 +4,8 @@ $(document).ready(function () {
     let password = $("#Password").val().trim();
     let isValid = true;
 
-    if (email === "") {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailPattern.test(email) || email === "") {
       isValid = false;
       $("#email-login-error").text("Please provide a valid email.");
       $("#Email").addClass("is-invalid border border-danger");
@@ -21,10 +22,12 @@ $(document).ready(function () {
       $("#password-toggle").addClass("is-invalid border border-danger");
     } else {
       $("#password-login-error").text("");
-      $("#Password").removeClass("is-invalid border border-danger");
-      $("#Password").addClass("is-valid border border-success");
-      $("#password-toggle").removeClass("is-invalid border border-danger");
-      $("#password-toggle").addClass("is-valid border border-success");
+      $("#Password, #password-toggle").removeClass(
+        "is-invalid border border-danger"
+      );
+      $("#Password, #password-toggle").addClass(
+        "is-valid border border-success"
+      );
     }
 
     if (!isValid) {
@@ -95,11 +98,23 @@ $(document).ready(function () {
   const sendButton = $("#" + ORG_NAME);
   sendButton.prop("disabled", true);
 
-  $("#Password").on("change", function () {
-    $("#Password, #password-toggle").addClass(
-      "is-valid was-validated border border-success"
-    );
+  $("#Password").on("change", function (event) {
+    let password = $(this).val();
+    if (password === "") {
+      event.preventDefault();
+      $("#password-login-error").text("Please provide a valid password.");
+      $("#Password").addClass("is-invalid border border-danger");
+      $("#password-toggle").addClass("is-invalid border border-danger");
+    } else {
+      $("#password-login-error").text("");
+      $("#Password").removeClass("is-invalid border border-danger");
+      $("#password-toggle").removeClass("is-invalid border border-danger");
+      $("#Password, #password-toggle").addClass(
+        "is-valid border border-success"
+      );
+    }
   });
+  
 
   const validateEmail = (
     email,

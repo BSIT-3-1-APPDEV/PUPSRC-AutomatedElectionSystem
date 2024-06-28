@@ -200,7 +200,7 @@ class Login extends IpAddress {
         if ($remaining_attempt <= 0) {
             $this->isLoginAttemptMax();        
         } 
-        $this->redirectWithMessage($this->error_message, 'User with this email does not exist.<br/>' . $remaining_attempt . ' remaining attempts.');
+        $this->redirectWithMessage($this->error_message, 'Email and password do not match.<br/>' . $remaining_attempt . ' remaining attempts.');
     }
 
     // Counts user failed login attempts
