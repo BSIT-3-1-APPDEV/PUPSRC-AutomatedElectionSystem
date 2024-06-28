@@ -114,48 +114,6 @@ function validateForm(event) {
     var selectedCandidateHTML = '';
     var pairCounter = 0;
 
-    // Regular expressions for validation
-    var studentNumRegex = /^\d{4}-\d{5}-[A-Z]{2}-\d$/;
-    var voterNameRegex = /^[A-Za-z.,\-\s]+$/;
-
-    // Validate voter name input
-    var voterNameInput = document.getElementById('voter_name');
-    if (voterNameInput) {
-        var voterNameError = document.getElementById('voterNameError');
-        removeErrorAndBorder(voterNameInput);
-
-        if (!voterNameInput.value.trim()) {
-            displayInputError(voterNameInput, 'voterNameError', 'This field is required.');
-            isValid = false;
-            scrollToReminder = document.querySelector('.reminder-student');
-        } else if (!voterNameRegex.test(voterNameInput.value.trim())) {
-            displayInputError(voterNameInput, 'voterNameError', 'Name is invalid.');
-            isValid = false;
-            scrollToReminder = document.querySelector('.reminder-student');
-        }
-    }
-
-    // Validate student number input
-    var studentNumInput = document.getElementById('student_num');
-    if (studentNumInput) {
-        var studentNumError = document.getElementById('studentNumError');
-        removeErrorAndBorder(studentNumInput);
-
-        if (!studentNumInput.value.trim()) {
-            displayInputError(studentNumInput, 'studentNumError', 'This field is required.');
-            isValid = false;
-            if (!scrollToReminder) {
-                scrollToReminder = document.querySelector('.reminder-student');
-            }
-        } else if (!studentNumRegex.test(studentNumInput.value.trim())) {
-            displayInputError(studentNumInput, 'studentNumError', 'Student number is invalid.');
-            isValid = false;
-            if (!scrollToReminder) {
-                scrollToReminder = document.querySelector('.reminder-student');
-            }
-        }
-    }
-
     // Validate each position
     reminders.forEach(function(reminder) {
         updateErrorState(reminder);
@@ -252,23 +210,6 @@ function removeErrorAndBorder(inputElement) {
     }
 }
 
-// Add event listeners to input fields to remove error messages when corrected
-document.addEventListener('DOMContentLoaded', function() {
-    var voterNameInput = document.getElementById('voter_name');
-    var studentNumInput = document.getElementById('student_num');
-
-    if (voterNameInput) {
-        voterNameInput.addEventListener('input', function() {
-            removeErrorAndBorder(voterNameInput);
-        });
-    }
-
-    if (studentNumInput) {
-        studentNumInput.addEventListener('input', function() {
-            removeErrorAndBorder(studentNumInput);
-        });
-    }
-});
 
 // Add submit event listener to the form
 document.getElementById('voteForm').addEventListener('submit', validateForm);

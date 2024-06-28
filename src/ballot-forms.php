@@ -53,13 +53,15 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
   <!-- Bootstrap 5 code -->
   <link type="text/css" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../src/styles/ballot-forms.css">
+  <link rel="stylesheet" href="styles/ballot-forms.css">
   <link rel="stylesheet" href="styles/loader.css" />
-  <link rel="stylesheet" href="<?php echo '../src/styles/orgs/' . $org_acronym . '.css'; ?>">
+  <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_acronym . '.css'; ?>">
   <!-- Icons -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   
   <style>.hover-color a:hover {color: var(--<?php echo "main-color"; ?>); } 
   input[type="radio"]:checked::before {background-color: var(--main-color);}
@@ -249,201 +251,158 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
      <!--------------------- Voting Section ------------------------->
 
   <div class="col-lg-9 col-12">
- <!-------------------------- Student Details ----------------------->
-    <form id="voteForm" method="post" action="includes/insert-vote.php">
-  
-    <?php //if ($voter_name == 'Enabled' && $student_num =='Enabled') { ?>
-    <div class ="reminder-student">
-        <div class="main-color ps-4 pt-4 spacing">
-          <b>STUDENT INFORMATION</b>
-        </div>
-        <div class="row mx-4">
-          <div class="col-lg-6 col-sm-12">
-            <div class=" main-color pt-4">
-              Full Name
-            </div>
-            <div class="pt-2"></div>
-            <div class="pb-lg-5 pb-2">
-              <input type="text" name="voter_name" id="voter_name" class="form-control" placeholder="Dela Cruz, Juan" maxlength="80">
-            </div>
+    <form id="voteForm" method="post">
+      <?php if ($result_positions->num_rows == 0 || $result_candidates->num_rows == 0): ?>
+          <div class="reminder">
+              <div class="main-color py-4 px-4">
+                  <b>No entered positions and candidates</b>
+              </div>
           </div>
-          <div class="col-lg-6 col-sm-12">
-            <div class=" main-color pt-lg-4">
-              Student Number
-            </div>
-            <div class="pt-2"></div>
-            <div class="pb-5">
-             <input type="text" name="student_num" id="student_num" class="form-control" placeholder="2000-00123-SR-0" maxlength="15">
-            </div>
+      <?php else: ?>
+          <?php $modal_counter = 0; ?>
+          <?php while ($row = $result_positions->fetch_assoc()): ?>
+              <?php
+              $modal_id = 'duties-modal-' . $modal_counter;
+              $modal_counter++;
+              ?>
+              <?php
+              // Fetch candidates matching the position_id
+              $result_candidates->data_seek(0);
+              $candidate_count = 0;
+              $hasCandidates = false;
+              ?>
+              <?php while ($row_candidates = $result_candidates->fetch_assoc()): ?>
+                  <?php if ($row_candidates['position_id'] == $row['position_id']): ?>
+                      <?php
+                      $hasCandidates = true;
+                      $candidate_count++;
+                      ?>
+                    <div class="reminder mb-4" data-position-title="<?php echo htmlspecialchars($row['title']); ?>">
+                        <div class="text-position main-color pt-md-3 pt-lg-4 pt-sm-2 pt-4 ps-3 ps-lg-5 ps-sm-3 d-flex align-items-center justify-content-between">
+                          <b><?php echo strtoupper($row['title']) ?></b>
+                          <?php if ($row['max_votes'] > 1): ?>
+                          <!-- Display on large screens -->
+                              <div class="ps-3 ps-lg-5 ps-sm-3 me-5 d-none d-lg-block" style="font-size: 12px;">
+                                  <i data-feather="info" style="width: 12px; height: 12px"></i>&nbsp;
+                                  Select up to&nbsp;<b><?php echo $row['max_votes'] ?></b>&nbsp;candidates
+                              </div>
+                          <?php endif; ?>
+                      </div>
+                      <div class="hover-color ps-3 ps-lg-5 ps-sm-3 pb-4" style="font-size: 12px;">
+                          <a href="#<?php echo $modal_id ?>" data-toggle="modal">Duties and Responsibilities</a>
+                          <!-- Display below on medium and small screens -->
+                          <?php if ($row['max_votes'] > 1): ?>
+                              <div class="main-color d-block d-md-none d-lg-none pt-3">
+                                  <i data-feather="info" style="width: 12px; height: 12px"></i>&nbsp;
+                                  Select up to&nbsp;<b><?php echo $row['max_votes'] ?></b>&nbsp;candidates
+                              </div>
+                          <?php endif; ?>
+                      </div>
+                          <!-- Modal for Duties and Responsibilities -->
+                          <div class="modal fade adjust-modal" id="<?php echo $modal_id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                              <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-header main-bg-color text-white d-flex justify-content-between align-items-center">
+                                          <h4 class="modal-title mb-0"><b><?php echo strtoupper($row['title']) ?></b></h4>
+                                          <button type="button" class="btn-close me-2" data-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <div class="main-color pt-4 pb-3"><b>DUTIES AND RESPONSIBILITIES</b></div>
+                                             <div id="description-output-<?php echo $modal_id ?>"></div>
+                                           <script>
+                                                // Retrieve Delta format JSON from PHP variable
+                                                var deltaJson = <?php echo $row['description']; ?>;
+                                                // Initialize Quill editor without any DOM element (for conversion only)
+                                                var quill = new Quill(document.createElement('div'));
+                                                // Set Delta content to Quill editor
+                                                quill.setContents(deltaJson.ops);
+                                                // Get HTML content from Quill editor
+                                                var htmlContent = quill.root.innerHTML;
+                                                document.getElementById('description-output-<?php echo $modal_id ?>').innerHTML = htmlContent;
+                                         </script>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <!-- Fetch candidates matching the position_id -->
+                          <?php
+                          // Reset candidates result set pointer
+                          $result_candidates->data_seek(0);
+                          $candidate_loop_count = 0;
+                          ?>
+                          <div class="row px-2">
+                              <?php while ($row_candidates = $result_candidates->fetch_assoc()): ?>
+                                  <?php if ($row_candidates['position_id'] == $row['position_id']): ?>
+                                      <?php
+                                      $full_name = $row_candidates['last_name'] . ", " . $row_candidates['first_name'];
+                                      ?>
+                                      <div class="col-lg-6 col-md-12 col-sm-12">
+                                          <div class="px-lg-5 px-3 px-sm-3 px-md-3">
+                                              <div class="candidate-info pb-4">
+                                                  <label for="<?php echo $row_candidates['candidate_id'] ?>">
+                                                      <img src="user_data/<?php echo $org_acronym ?>/candidate_imgs/<?php echo $row_candidates['photo_url'] ?>" alt="Candidate Image" width="100px" height="100px">
+                                                  </label>
+                                                  <div>
+                                                      <input type="hidden" name="position_id[<?php echo $row['position_id'] ?>][]" value="<?php echo $row['position_id'] ?>">
+                                                      <input type="hidden" name="candidate_id[<?php echo $row_candidates['candidate_id'] ?>][][]" value="<?php echo $row_candidates['candidate_id'] ?>">
+                                                      <div style="display: flex; align-items: center;" class="ps-3">
+                                                          <input type="checkbox" id="<?php echo $row_candidates['candidate_id'] ?>" name="position[<?php echo $row['position_id'] ?>][]" value="<?php echo $row_candidates['candidate_id'] ?>" class="candidate-checkbox" 
+                                                              data-img-src="user_data/<?php echo $org_acronym ?>/candidate_imgs/<?php echo $row_candidates['photo_url'] ?>" data-max-votes="<?php echo $row['max_votes'] ?>">
+                                                          <label for="<?php echo $row_candidates['candidate_id'] ?>" style="display: flex; flex-direction: column; align-items: left; font-size: 15px">
+                                                              <div class="ps-4">
+                                                                  <div class="font-weight2" style="font-size:15px"><?php echo $full_name ?></div>
+                                                                  <div class="font-weight3 undisplay main-color" style="font-size:12px"><?php echo $row_candidates['program'] ?> <?php echo $row_candidates['year_level'] ?>-<?php echo $row_candidates['section'] ?></div>
+                                                              </div>
+                                                          </label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <?php $candidate_loop_count++; ?>
+                                      <?php if ($candidate_loop_count % 2 == 0): ?>
+                          </div><!-- Close current row -->
+                          <div class="row px-2"><!-- Start new row -->
+                                      <?php endif; ?>
+                                  <?php endif; ?>
+                              <?php endwhile; ?>
+                          </div><!-- Close row -->
+                          <div class="row justify-content-center">
+                              <div class="col-lg-12 col-md-12 col-sm-12">
+                                  <hr>
+                              </div>
+                          </div>
+                          <div class="row justify-content-center">
+                              <div class="col-lg-12 col-md-12 col-sm-12 text-center pt-2 pb-4">
+                              <div class="text-muted">
+                                  <input type="radio" class="abstain-checkbox" id="abstain_<?php echo $row['position_id'] ?>" name="position[<?php echo $row['position_id'] ?>][]" data-position-id="<?php echo $row['position_id'] ?>" value="" style="vertical-align: middle;">
+                                  <label for="abstain_<?php echo $row['position_id'] ?>" style="vertical-align: middle; font-size:15px"><b>&nbsp;&nbsp;ABSTAIN</b></label><br>
+                              </div>
+                              </div>
+                          </div>
+                      </div><!-- Close reminder -->
+                  <?php endif; ?>
+              <?php endwhile; ?>
+          <?php endwhile; ?>
+      <?php endif; ?>
+      <!-- Voter ID Input -->
+      <input type="hidden" name="voter_id" value="<?php echo $voter_id ?>">
+      <!-- CSRF Token hidden field -->
+      <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+      <!-- Submit and Reset Buttons -->
+      <?php if ($result_positions->num_rows > 0 && $result_candidates->num_rows > 0): ?>
+          <div class="text-center pb-4 mt-3">
+              <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
+                  <button type="submit" class="button-submit main-bg-color mb-2 mb-sm-0 mr-sm-2 order-sm-2" id="submitVoteBtn" onclick="validateForm()">
+                      Submit Vote
+                  </button>
+                  <button type="button" class="button-reset order-sm-1" onclick="resetForm()">
+                      <u>Reset Form</u>
+                  </button>
+              </div>
           </div>
-        </div>
-      </div> <div class="pb-4"></div>
-      <?php // } ?>
-
-<?php if ($result_positions->num_rows == 0 || $result_candidates->num_rows == 0): ?>
-    <div class="reminder">
-        <div class="main-color py-4 px-4">
-            <b>No entered positions and candidates</b>
-        </div>
-    </div>
-<?php else: ?>
-    <?php $modal_counter = 0; ?>
-    <?php while ($row = $result_positions->fetch_assoc()): ?>
-        <?php
-        $modal_id = 'duties-modal-' . $modal_counter;
-        $modal_counter++;
-        ?>
-        <?php
-        // Fetch candidates matching the position_id
-        $result_candidates->data_seek(0);
-        $candidate_count = 0;
-        $hasCandidates = false;
-        ?>
-        <?php while ($row_candidates = $result_candidates->fetch_assoc()): ?>
-            <?php if ($row_candidates['position_id'] == $row['position_id']): ?>
-                <?php
-                $hasCandidates = true;
-                $candidate_count++;
-                ?>
-               <div class="reminder mb-4" data-position-title="<?php echo htmlspecialchars($row['title']); ?>">
-                  <div class="text-position main-color pt-md-3 pt-lg-4 pt-sm-2 pt-4 ps-3 ps-lg-5 ps-sm-3 d-flex align-items-center justify-content-between">
-                    <b><?php echo strtoupper($row['title']) ?></b>
-                    <?php if ($row['max_votes'] > 1): ?>
-                    <!-- Display on large screens -->
-                        <div class="ps-3 ps-lg-5 ps-sm-3 me-5 d-none d-lg-block" style="font-size: 12px;">
-                            <i data-feather="info" style="width: 12px; height: 12px"></i>&nbsp;
-                            Select up to&nbsp;<b><?php echo $row['max_votes'] ?></b>&nbsp;candidates
-                        </div>
-                    <?php endif; ?>
-                </div>
-                <div class="hover-color ps-3 ps-lg-5 ps-sm-3 pb-4" style="font-size: 12px;">
-                    <a href="#<?php echo $modal_id ?>" data-toggle="modal">Duties and Responsibilities</a>
-                    <!-- Display below on medium and small screens -->
-                    <?php if ($row['max_votes'] > 1): ?>
-                        <div class="main-color d-block d-md-none d-lg-none pt-3">
-                            <i data-feather="info" style="width: 12px; height: 12px"></i>&nbsp;
-                            Select up to&nbsp;<b><?php echo $row['max_votes'] ?></b>&nbsp;candidates
-                        </div>
-                    <?php endif; ?>
-                </div>
-                    <!-- Modal for Duties and Responsibilities -->
-                    <div class="modal fade adjust-modal" id="<?php echo $modal_id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header main-bg-color text-white d-flex justify-content-between align-items-center">
-                                    <h4 class="modal-title mb-0"><b><?php echo strtoupper($row['title']) ?></b></h4>
-                                    <button type="button" class="btn-close me-2" data-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="main-color pt-4 pb-3"><b>DUTIES AND RESPONSIBILITIES</b></div>
-                                    <?php
-                                    $description = json_decode($row['description'], true);
-
-                                    // Iterate through each operation in the JSON
-                                    foreach ($description['ops'] as $op) {
-                                        // Check for newline character
-                                        $insertText = str_replace("\n", "<br>", $op['insert']);
-                                        // Check for bold attribute
-                                        if (isset($op['attributes']['bold']) && $op['attributes']['bold'] === true) {
-                                            echo '<b>' . $insertText . '</b>';
-                                        } elseif (isset($op['attributes']['italic']) && $op['attributes']['italic'] === true) {
-                                            echo '<i>' . $insertText . '</i>';
-                                        } elseif (isset($op['attributes']['underline']) && $op['attributes']['underline'] === true) {
-                                            echo '<u>' . $insertText . '</u>';
-                                        } elseif (isset($op['attributes']['list'])) {
-                                            if ($op['attributes']['list'] === 'bullet') {
-                                                echo '<li>' . $insertText . '</li>';
-                                            } elseif ($op['attributes']['list'] === 'ordered') {
-                                                echo '<ol><li>' . $insertText . '</li></ol>';
-                                            }
-                                        } else {
-                                            echo $insertText;
-                                        }
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Fetch candidates matching the position_id -->
-                    <?php
-                    // Reset candidates result set pointer
-                    $result_candidates->data_seek(0);
-                    $candidate_loop_count = 0;
-                    ?>
-                    <div class="row px-2">
-                        <?php while ($row_candidates = $result_candidates->fetch_assoc()): ?>
-                            <?php if ($row_candidates['position_id'] == $row['position_id']): ?>
-                                <?php
-                                $full_name = $row_candidates['last_name'] . ", " . $row_candidates['first_name'];
-                                ?>
-                                <div class="col-lg-6 col-md-12 col-sm-12">
-                                    <div class="px-lg-5 px-3 px-sm-3 px-md-3">
-                                        <div class="candidate-info pb-4">
-                                            <label for="<?php echo $row_candidates['candidate_id'] ?>">
-                                                <img src="user_data/<?php echo $org_acronym ?>/candidate_imgs/<?php echo $row_candidates['photo_url'] ?>" alt="Candidate Image" width="100px" height="100px">
-                                            </label>
-                                            <div>
-                                                <input type="hidden" name="position_id[<?php echo $row['position_id'] ?>][]" value="<?php echo $row['position_id'] ?>">
-                                                <input type="hidden" name="candidate_id[<?php echo $row_candidates['candidate_id'] ?>][][]" value="<?php echo $row_candidates['candidate_id'] ?>">
-                                                <div style="display: flex; align-items: center;" class="ps-3">
-                                                    <input type="checkbox" id="<?php echo $row_candidates['candidate_id'] ?>" name="position[<?php echo $row['position_id'] ?>][]" value="<?php echo $row_candidates['candidate_id'] ?>" class="candidate-checkbox" 
-                                                        data-img-src="user_data/<?php echo $org_acronym ?>/candidate_imgs/<?php echo $row_candidates['photo_url'] ?>" data-max-votes="<?php echo $row['max_votes'] ?>">
-                                                    <label for="<?php echo $row_candidates['candidate_id'] ?>" style="display: flex; flex-direction: column; align-items: left; font-size: 15px">
-                                                        <div class="ps-4">
-                                                            <div class="font-weight2" style="font-size:15px"><?php echo $full_name ?></div>
-                                                            <div class="font-weight3 undisplay main-color" style="font-size:12px"><?php echo $row_candidates['program'] ?> <?php echo $row_candidates['year_level'] ?>-<?php echo $row_candidates['section'] ?></div>
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php $candidate_loop_count++; ?>
-                                <?php if ($candidate_loop_count % 2 == 0): ?>
-                    </div><!-- Close current row -->
-                    <div class="row px-2"><!-- Start new row -->
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        <?php endwhile; ?>
-                    </div><!-- Close row -->
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <hr>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12 col-md-12 col-sm-12 text-center pt-2 pb-4">
-                        <div class="text-muted">
-                            <input type="radio" class="abstain-checkbox" id="abstain_<?php echo $row['position_id'] ?>" name="position[<?php echo $row['position_id'] ?>][]" data-position-id="<?php echo $row['position_id'] ?>" value="" style="vertical-align: middle;">
-                            <label for="abstain_<?php echo $row['position_id'] ?>" style="vertical-align: middle; font-size:15px"><b>&nbsp;&nbsp;ABSTAIN</b></label><br>
-                        </div>
-                        </div>
-                    </div>
-                </div><!-- Close reminder -->
-            <?php endif; ?>
-        <?php endwhile; ?>
-    <?php endwhile; ?>
-<?php endif; ?>
-<!-- Voter ID Input -->
-<input type="hidden" name="voter_id" value="<?php echo $voter_id ?>">
-<!-- CSRF Token hidden field -->
-<input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-<!-- Submit and Reset Buttons -->
-<?php if ($result_positions->num_rows > 0 && $result_candidates->num_rows > 0): ?>
-    <div class="text-center pb-4 mt-3">
-        <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
-            <button type="submit" class="button-submit main-bg-color mb-2 mb-sm-0 mr-sm-2 order-sm-2" id="submitVoteBtn" onclick="validateForm()">
-                Submit Vote
-            </button>
-            <button type="button" class="button-reset order-sm-1" onclick="resetForm()">
-                <u>Reset Form</u>
-            </button>
-        </div>
-    </div>
-<?php endif; ?>
+      <?php endif; ?>
 </form>
 
 </main>
@@ -460,11 +419,10 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
   };
 </script>
 
-
-  <script src="../src/scripts/feather.js"></script>
+  <script src="scripts/feather.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src ="../src/scripts/ballot-forms.js"></script>
+  <script src ="scripts/ballot-forms.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="scripts/loader.js"></script>
 
