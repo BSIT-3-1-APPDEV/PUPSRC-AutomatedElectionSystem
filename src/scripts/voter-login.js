@@ -1,25 +1,37 @@
-(() => {
-  "use strict";
-
-  const forms = document.querySelectorAll(".needs-validation");
-
-  Array.from(forms).forEach((form) => {
-    form.addEventListener(
-      "submit",
-      (event) => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
-        form.classList.add("was-validated");
-      },
-      false
-    );
-  });
-})();
-
 $(document).ready(function () {
+  $("#loginForm").on("submit", function (event) {
+    let email = $("#Email").val().trim();
+    let password = $("#Password").val().trim();
+    let isValid = true;
+
+    if (email === "") {
+      isValid = false;
+      $("#email-login-error").text("Please provide a valid email.");
+      $("#Email").addClass("is-invalid border border-danger");
+    } else {
+      $("#email-login-error").text("");
+      $("#Email").removeClass("is-invalid border border-danger");
+      $("#Email").addClass("is-valid border border-success");
+    }
+
+    if (password === "") {
+      isValid = false;
+      $("#password-login-error").text("Please provide a valid password.");
+      $("#Password").addClass("is-invalid border border-danger");
+      $("#password-toggle").addClass("is-invalid border border-danger");
+    } else {
+      $("#password-login-error").text("");
+      $("#Password").removeClass("is-invalid border border-danger");
+      $("#Password").addClass("is-valid border border-success");
+      $("#password-toggle").removeClass("is-invalid border border-danger");
+      $("#password-toggle").addClass("is-valid border border-success");
+    }
+
+    if (!isValid) {
+      event.preventDefault();
+    }
+  });
+
   const avoidSpace = (event) => {
     if (event.key === " ") {
       event.preventDefault();
