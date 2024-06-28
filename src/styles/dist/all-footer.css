@@ -7,6 +7,10 @@ footer {
   z-index: 1000;
 }
 
+.hide-this-text {
+  color: black !important;
+}
+
 .custom-shape-divider-top-1713266907 {
   position: relative;
   top: 0;
@@ -70,7 +74,7 @@ footer {
 }
 
 .second-section {
-  padding-left: 3%;
+  padding-left: 3% !important;
 }
 
 .nested-section {
@@ -127,12 +131,12 @@ footer {
 }
 
 .second-section {
-  margin-top: 3%;
+  margin-top: 3% !important;
 }
 
 .third-section {
-  margin-top: 3%;
-  padding: 0%;
+  margin-top: 3% !important;
+  padding: 0% !important;
 }
 
 .orgs {
@@ -150,14 +154,90 @@ footer {
   padding-right: 20%;
 }
 
-@media (max-width: 768px) {
-  .footer {
-    position: relative;
-    text-align: center;
+
+.hello-text {
+  color: #4870c4;
+}
+
+/* --- MEDIAS --- */
+@media (max-width: 1280px) {
+
+  .pangalawa {
+    margin: 0 1rem;
+  }
+  .hide-this-text {
+    display: none;
+  }
+}
+
+@media (max-width: 912px) {
+  .ivote-logo {
+    width: 25% !important;
+  }
+  
+  .first-section p {
+    padding: 0rem 10rem !important;
   }
 
+  #credits-two {
+    display: none;
+    margin-top: 2%;
+    padding-bottom: 2%;
+  }  
+}
+
+@media (max-width: 540px) {
+  .ivote-logo {
+    width: 35% !important;
+  }
+  
+  .first-section p {
+    padding: 0rem 2rem !important;
+  }
+
+  #credits-two {
+    display: none;
+    margin-top: 5%;
+    padding-bottom: 2%;
+  }  
+}
+
+@media (max-width: 1024px) {
+  .third-section .email-add {
+    font-size: .85rem !important;
+  }
+}
+
+@media (max-width: 912px) {
+
+  .third-section .email-add {
+    font-size: 1rem !important;
+  }
+
+  .footer .row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer .footer-left,
+  .footer .second-section,
+  .footer .third-section {
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .footer .second-section .orgs {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .first-section p {
+    padding: 0rem 1rem;
+  }
   .second-section {
-    padding-left: 0%;
+    padding-left: 0% !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
   }
 
   .ivote-logo {
@@ -215,3 +295,4 @@ footer {
     padding-top: 5%;
   }
 }
+/* --- END OF MEDIAS --- */

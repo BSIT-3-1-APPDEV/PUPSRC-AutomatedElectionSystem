@@ -72,9 +72,6 @@ body {
   cursor: pointer;
 }
 
-.ivote-logo {
-  width: 250px;
-}
 
 #ivote-logo-landing-header {
   width: 80px;
@@ -215,7 +212,7 @@ footer {
   padding-left: 42%;
 }
 
-p {
+.main-reg-container p {
   margin-bottom: 0 !important;
 }
 

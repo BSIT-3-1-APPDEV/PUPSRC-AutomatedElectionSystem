@@ -24,6 +24,7 @@ if (isset($_SESSION['error_message'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/dist/landing.css">
+  <link rel="stylesheet" href="styles/dist/all-footer.css">
   <link rel="stylesheet" href="styles/loader.css" />
   <link rel="preload" href="images/resc/ivote-icon.png" as="image">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
@@ -81,8 +82,8 @@ if (isset($_SESSION['error_message'])) {
         </div>
     <?php endif; ?>
       <div class="row">
-        <div class="col text-center text-white">
-          <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" alt="iVote Logo">
+        <div class="col text-center text-white justify-content-center">
+          <img src="images/resc/iVOTE4.png" class="img-fluid ivote-main-logo" alt="iVote Logo">
           <h5 id="index-PUPSRC" class="text-truncate mt-3">Polytechnic University of the Philippines -
             Santa Rosa Campus</h5>
           <h1 class="" id="index-AES">AUTOMATED ELECTION SYSTEM</h1>

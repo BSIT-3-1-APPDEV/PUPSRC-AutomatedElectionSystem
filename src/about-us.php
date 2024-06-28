@@ -19,6 +19,7 @@ SessionManager::checkUserRoleAndRedirect();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/dist/landing.css">
   <link rel="stylesheet" href="styles/loader.css">
+  <link rel="stylesheet" href="styles/dist/all-footer.css">
   <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
   <title>iVote</title>
   <title>iVote</title>
@@ -61,7 +62,7 @@ SessionManager::checkUserRoleAndRedirect();
     <div class="container">
       <div class="row">
         <div class="col text-center text-white">
-          <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" alt="iVote Logo">
+          <img src="images/resc/iVOTE4.png" class="img-fluid ivote-main-logo" alt="iVote Logo">
           <h5 id="index-PUPSRC" class="text-truncate stroked-text">Polytechnic University of the Philippines -
             Santa Rosa Campus</h5>
           <h1 class="stroked-text" id="index-AES">AUTOMATED ELECTION SYSTEM</h1>

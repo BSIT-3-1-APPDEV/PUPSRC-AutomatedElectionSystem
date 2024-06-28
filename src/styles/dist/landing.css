@@ -15,8 +15,8 @@ input[type='password'] {
   margin: 0%;
 }
 
-.ivote-logo {
-  width: 250px;
+.ivote-main-logo {
+  width: 250px !important;
 }
 
 #ivote-logo-landing-header {
@@ -114,10 +114,6 @@ input[type='password'] {
   font-weight: bold;
   padding-top: 0%;
   margin: 0%;
-}
-
-.hello-text {
-  color: #4870c4;
 }
 
 .landing-organization-subtitle {
@@ -793,7 +789,7 @@ span {
 }
 
 .img-container {
-  text-align: center;
+  text-align: center !important;
   margin-bottom: -110px; /* Adjust this value to bring the image closer to the form */
 }
 

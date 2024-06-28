@@ -50,6 +50,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
     <link rel="preload" href="images/resc/ivote-icon.png" as="image">
     <link rel="stylesheet" href="styles/loader.css" />
     <link rel="stylesheet" href="styles/core.css" />
+    <link rel="stylesheet" href="styles/dist/all-footer.css">
     <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 
@@ -378,7 +379,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
         </div>
     </div>
 
-
+    <?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/all-footer.php'); ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

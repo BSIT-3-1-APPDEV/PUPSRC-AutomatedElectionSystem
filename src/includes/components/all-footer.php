@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles/dist/all-footer.css">
-</head>
 
-<body>
+
   <footer class="footer">
     <div class="custom-shape-divider-top-1713266907">
       <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -20,8 +13,8 @@
       <div class="row">
         <div class="col-md-6 footer-left first-section pt-xl-4 px-xl-5 d-flex justify-content-center flex-column d-flex">
           <div>
-          <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo" id="footer" alt="iVote Logo">
-          <p class="web">iVOTE is an Automated Election System (AES) for the student <br> organizations of the PUP Santa Rosa Campus.</p>
+          <img src="images/resc/iVOTE4.png" class="img-fluid ivote-logo pb-2" id="footer" alt="iVote Logo">
+          <p class="web">iVOTE is an Automated Election System (AES) for the student organizations of the PUP Santa Rosa Campus.</p>
           <p class="mobile">iVOTE is an Automated Election System (AES) for the student organizations of the PUP Santa Rosa Campus.</p>
           <p class="credits-footer" id="credits"><span class="hello-text">© 2024 BSIT 3-1.</span> All Rights Reserved</p>
           <div class="vertical-line"></div>
@@ -50,7 +43,7 @@
         <div class="col-lg-3 col-md-3 col-sm-6 third-section">
           <div class="third">
           <p class="credits-footer mb-2 contact">Contact Us</p>
-          <p class="mb-2 contact">Email us at <a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
+          <p class="mb-2 contact email-add"><span class="hide-this-text">Email us at</span><a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
           <p class="mb-0 contact"><a href="faqs.php" class="footer-about-us"> FAQs | </a><a href="our-story.php" class="footer-about-us">Our Story</a></p></a></p>
           </div>
           <div class="mt-0 text-center contact">
@@ -59,12 +52,10 @@
             <a href="https://www.instagram.com/ivotepupsrc/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADoElEQVR4nO2aS08UQRCA56BeJD7ueDAqmngxCh6MaKJ4Bk046HbvevIPKHicbPXwiifEg2gA/4MRo8simHgjcadqUeSMJ18RCHoRTM3OLASZ2Xm5DQmVVEII3V1f16NrujGMXdkV/ZIB+6QAvC8VTQigjxJoWSpaS0WBlnlOAVQQirp5rdQBpIXNErCYmtGh4fCdUHQhMcCd4Zm9EvCRBFytO4SqwvDaQ5fNN3tiQdzqw8NC4aQ2APUPUJFtiuOJ+oeSqqlvO83yvtAgTjjpN3ptKxVAD6Mktr6cUDVDbDUHeC6MN7ZjSK1t8kohEIJrt1YDFb3ImHYjqwAaD/rbmzB7whfEPey0gWRMu9Gz5baiI8EhRl0BIFTYMSCKXgeBfEoeHvhNKBqRlt3utDQPSvtZ3famQwKNSqDvW44FGmcABwLwZY215oJCazE2BNCKUGhlzPkDgYloGEZn/8xBCdjDY2JvGOCi7wLxJ6WFjSVR5PGaVPiUd81pLKsNIT6RCtuq61nYzGPjrmukCcKGeLEte0tNAmi6dvjRlFd13Aq1oBcEaMXzRFbZl/xi3y+XMnm71YHJU4tQ+EsbCOeE54koEBthhFk+7q7drwWEjeCkdXIiRDgFzDPJc+TM94eibkZKIDSyntjxIDzN5O2r7vpj9Q8ty26vjHGqUyIQqWjYyTMLr9cfpLfU5I6ZSwrCpTlOr2ekAdJplhtcjywl9wgu8VydZrlhp4P8dDxizh/Y2aGl8IO20BKAHTym0nYkBAF67KwPdKP+HgEadUOrLblHylfcTXmm90BUNBUbBLDoHYhC0Y/6e6RiRE8FpHRUKvySqEUBHIg6PjUQp9GzsNlJ1LzdyoaFHgv4VaryRR6btcrntTaNclMbz7sb6nYSsJhVdGz9kxY/x1nbSBOkCpOnFm8e7p247eCyWjlncEkCznJ18hLb80RcCBkEkuRTl0NDAPVx0ho1pNLp4oAA/P1fPnVFCpcPbis+xg1grgdPcQfAyj/z77jERq1OMvrlg97rIBnNI6/8QRR16zZQhvY83vUF4QsB7QaqaL2er/D7oHYjVU31v2X0JGeVzwiFf7aBsWtbKdsW6lnB9cqQboOlnwINGmGFHx63Y4gJoOlIT28s/PC4zR59JsIctr6e4Tc7nU9xgvMVaDD28/RGycLsaaHwuYZQKmQs+6yRtjjnDFAXlz/nXzhSuXjwFJe4yeQTWyi6F/i0tiu7YtRN/gIfvSaMXEnrtwAAAABJRU5ErkJggg==" class="connect-with-us-footer"></a>
           </div>
         </div>
+        <p class="text-center" id="credits-two">© 2024 BSIT 3-1. All Rights Reserved</p>
       </div>
-      <p class="credits-footer" id="credits-two">© 2024 BSIT 3-1.<span class="hello-text"> All Rights Reserved</span></p>
     </div>
 
   </footer>
-</body>
 
-</html>
 
