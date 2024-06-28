@@ -2,14 +2,18 @@ RewriteEngine On
 
 # Redirect to src directory (excluding tests and vendor)
 RewriteCond %{REQUEST_URI} !^/(src|tests|vendor)/
+RewriteCond %{REQUEST_URI} !^/src/
 RewriteRule ^(.*)$ /src/$1 [L]
 
 # Set landing-page.php as the default index file
 DirectoryIndex landing-page.php
 
 # Remove .php on every file
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC,L]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
 RewriteRule ^ %1 [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*?)/?$ $1.php [NC,L]
+
+# Set PHP timezone
+php_value date.timezone 'Asia/Manila'
