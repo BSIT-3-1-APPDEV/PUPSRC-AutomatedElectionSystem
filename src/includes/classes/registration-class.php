@@ -48,14 +48,14 @@ class Registration {
             $this->insertIntoScoDB();
             $this->commitTransaction();
             $_SESSION['registration_success'] = true;
-            header("Location: " . $_SESSION['referringPage']);
+            header("Location: ../register.php");
             exit();
         }
         catch (Exception $e) {
             $this->rollbackTransaction();
             $error_message = "Error: " . $e->getMessage();
             $_SESSION['error_message'] = $error_message;
-            header("Location: " . $_SESSION['referringPage']);
+            header("Location: ../register.php");
             exit();
         }
     }

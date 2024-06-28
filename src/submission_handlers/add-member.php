@@ -20,10 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Email validation
         $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}(?!\.c0m$)(?!@test)$/';
-        if (!preg_match($emailPattern, $email)) {
+        if (strpos($email, ' ') !== false || !preg_match($emailPattern, $email)) {
             $emailError = 'Invalid email format.';
         } else {
-            // Check if email already exists
+            // Check if email already exists in the current database
             $stmt = $conn->prepare("SELECT COUNT(*) FROM voter WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -32,7 +32,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->close();
 
             if ($count > 0) {
-                $emailError = 'Email already exists in the database.';
+                $_SESSION['email_exists_error'] = 'This email address is already registered in our system.';
+                header("Location: admin-creation.php");
+                exit;
+            } else {
+                // Check if email exists in SCO database
+                try {
+                    $sco_conn = DatabaseConnection::connect();
+
+                    // Switch to the SCO database
+                    $sco_conn->select_db('db_sco');
+                    $sco_stmt = $sco_conn->prepare("SELECT COUNT(*) FROM voter WHERE email = ?");
+                    $sco_stmt->bind_param("s", $email);
+                    $sco_stmt->execute();
+                    $sco_stmt->bind_result($sco_count);
+                    $sco_stmt->fetch();
+                    $sco_stmt->close();
+                    $sco_conn->close();
+
+                    if ($sco_count > 0) {
+                        $_SESSION['email_exists_error'] = 'This email address is already registered in SCO.';
+                        header("Location: admin-creation.php");
+                        exit;
+                    }
+                } catch (Exception $e) {
+                    // Handle connection error
+                    error_log("Error connecting to SCO database: " . $e->getMessage());
+                    $emailError = 'Unable to verify email uniqueness across all databases.';
+                }
             }
         }
 
@@ -41,12 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO voter (last_name, first_name, middle_name, suffix, email, password, role, account_status)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, 'Active')";
+                    VALUES (?, ?, ?, ?, ?, ?, ?, 'verified')";
 
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sssssss", $lastName, $firstName, $middleName, $suffix, $email, $hashedPassword, $role);
 
             if ($stmt->execute()) {
+                $stmt->close();
+
                 // Set session variable to indicate account creation
                 $_SESSION['account_created'] = true;
 
@@ -58,10 +87,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: admin-creation.php");
                 exit;
             } else {
-                $emailError = 'SQL error: ' . $stmt->error;
-            }
+                // Set session variable for email error
+                $_SESSION['email_error'] = $emailError;
 
-            $stmt->close();
+                // Redirect to admin-creation.php
+                header("Location: admin-creation.php");
+                exit;
+            }
         }
     }
 }
