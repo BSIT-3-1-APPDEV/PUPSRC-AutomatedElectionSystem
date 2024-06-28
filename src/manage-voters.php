@@ -468,7 +468,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 									<div class="col-md-12 pt-1 d-flex justify-content-center">
 										<button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-											onClick="redirectToPage('recycle-bin.php')" aria-label="Close">Go To Recycle
+											onClick="redirectToPage('recycle-bin')" aria-label="Close">Go To Recycle
 											Bin</button>
 									</div>
 								</div>
