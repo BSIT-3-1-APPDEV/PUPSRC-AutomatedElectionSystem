@@ -13,10 +13,15 @@ if(isset($_SESSION['voter_id']) || $_SESSION['organization'] == NULL) {
     exit();
 }
 
-CsrfToken::validateCSRFToken();
-
 // Check the login form submission
 if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["sign-in"])) {
+
+    if(!CsrfToken::validateCSRFToken()) {
+        $_SESSION['error_message'] = 'Something went wrong. Please reload the page.';
+        header("Location: ../voter-login.php");
+        exit();
+    }
+
     $email = $_POST['email'];
     $password = $_POST['password'];
 
