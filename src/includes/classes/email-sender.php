@@ -58,7 +58,7 @@ class EmailSender
 
     public function sendPasswordResetEmail($recipientEmail, $token, $orgName) {
         $subject = 'iVOTE Password Reset Request';
-        $resetPasswordLink = $this->app_url . "reset-password.php?token=" . urlencode($token) . "&orgName=" . urlencode($orgName);
+        $resetPasswordLink = $this->app_url . "reset-password?token=" . urlencode($token) . "&orgName=" . urlencode($orgName);
         
         $mailBody = <<<EOT
         <!DOCTYPE html>
