@@ -4,7 +4,7 @@
       <img src="../src/images/resc/ivote-logo.png" alt="Logo" width="50px">
     </div>
     <div class="dropdown ms-auto">
-      <a class="nav-link dropdown-toggle d-flex align-items-center main-color pe-0 pe-lg-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <a class="nav-link d-flex align-items-center main-color pe-0 pe-lg-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <span class="d-none d-lg-block" style="font-size: 14px;"><b>Hello,&nbsp;<?php echo $org_personality ?></b></span>
         <i class="fas fa-user-circle main-color ps-3" style="font-size: 25px;"></i>
         <i id="dropdown-chevron" class="fas fa-chevron-down ps-1"></i>

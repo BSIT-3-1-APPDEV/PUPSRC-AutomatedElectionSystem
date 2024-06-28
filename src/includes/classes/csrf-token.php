@@ -20,17 +20,12 @@ class CsrfToken {
 
 
     public static function validateCsrfToken() {
-        if (!self::isCsrfTokenSet()) {
-            self::displayErrorMessage();
-        }
-        if (self::isCsrfTokenExpired()) {
-            self::displayErrorMessage();
-        }
-        if (!self::isCsrfTokenMatch()) {
-            self::displayErrorMessage();
+        if (!self::isCsrfTokenSet() || self::isCsrfTokenExpired() || !self::isCsrfTokenMatch()) {
+            return false;
         }
         // Token is valid
         self::unsetCsrfToken();
+        return true;
     }
 
 
@@ -52,12 +47,5 @@ class CsrfToken {
     private static function unsetCsrfToken() {
         unset($_SESSION['csrf_token']);
         unset($_SESSION['csrf_expiry']);
-    }
-
-
-    private static function displayErrorMessage() {
-        $_SESSION['error_message'] = 'Something went wrong. Please reload the page.';
-        header("Location: " . $_SESSION['referringPage']);
-        exit();
     }
 }
