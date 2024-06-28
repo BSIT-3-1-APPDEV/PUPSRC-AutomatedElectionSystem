@@ -1,0 +1,298 @@
+footer {
+  margin-top: 10px;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.hide-this-text {
+  color: black !important;
+}
+
+.custom-shape-divider-top-1713266907 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  z-index: -2;
+}
+
+.custom-shape-divider-top-1713266907 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 172px;
+}
+
+.custom-shape-divider-top-1713266907 .shape-fill {
+  fill: #e7e7e7;
+}
+
+.footer-body {
+  background-color: #e7e7e7;
+  padding-bottom: 1%;
+}
+
+.footer-left {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0%;
+}
+
+.footer-middle {
+  padding-left: 3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0%;
+}
+
+.footer-right {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0%;
+  padding: 0%;
+}
+
+.vertical-line {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  height: 40%; /* Adjust the height of the vertical line as needed */
+  width: 3px; /* Adjust the width of the vertical line as needed */
+  background-color: white !important; /* Color of the vertical line */
+}
+
+.second-section {
+  padding-left: 3% !important;
+}
+
+.nested-section {
+  background-color: #dee2e6; /* Example background color */
+  padding: 10px; /* Adjust padding as needed */
+  margin-bottom: 10px; /* Add spacing between nested sections */
+}
+
+.ivote-logo {
+  width: 50%;
+  padding-left: 20%;
+}
+
+.credits-footer {
+  color: #ea423c;
+  font-weight: bold;
+}
+
+.ivote-email {
+  font-weight: 600;
+  color: #111111;
+}
+
+.footer-about-us {
+  color: #464646;
+  font-weight: 700;
+}
+
+.connect-with-us-footer {
+  width: 20px;
+  margin: 2%;
+}
+
+#credits-two {
+  display: none;
+  margin-top: 5%;
+  padding-bottom: 5%;
+}
+
+#credits {
+  padding-left: 20%;
+}
+
+.connect-with-us-footer:hover {
+  transform: scale(1.1);
+}
+
+.mobile {
+  display: none;
+}
+
+.web {
+  padding-left: 20%;
+}
+
+.second-section {
+  margin-top: 3% !important;
+}
+
+.third-section {
+  margin-top: 3% !important;
+  padding: 0% !important;
+}
+
+.orgs {
+  font-weight: 400;
+}
+
+.third {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.contact{
+  padding-right: 20%;
+}
+
+
+.hello-text {
+  color: #4870c4;
+}
+
+/* --- MEDIAS --- */
+@media (max-width: 1280px) {
+
+  .pangalawa {
+    margin: 0 1rem;
+  }
+  .hide-this-text {
+    display: none;
+  }
+}
+
+@media (max-width: 912px) {
+  .ivote-logo {
+    width: 25% !important;
+  }
+  
+  .first-section p {
+    padding: 0rem 10rem !important;
+  }
+
+  #credits-two {
+    display: none;
+    margin-top: 2%;
+    padding-bottom: 2%;
+  }  
+}
+
+@media (max-width: 540px) {
+  .ivote-logo {
+    width: 35% !important;
+  }
+  
+  .first-section p {
+    padding: 0rem 2rem !important;
+  }
+
+  #credits-two {
+    display: none;
+    margin-top: 5%;
+    padding-bottom: 2%;
+  }  
+}
+
+@media (max-width: 1024px) {
+  .third-section .email-add {
+    font-size: .85rem !important;
+  }
+}
+
+@media (max-width: 912px) {
+
+  .third-section .email-add {
+    font-size: 1rem !important;
+  }
+
+  .footer .row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer .footer-left,
+  .footer .second-section,
+  .footer .third-section {
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .footer .second-section .orgs {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .first-section p {
+    padding: 0rem 1rem;
+  }
+  .second-section {
+    padding-left: 0% !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .ivote-logo {
+    padding-left: 0%;
+    width: 35%;
+  }
+
+  .credits-footer {
+    padding-left: 0%;
+  }
+
+  #credits-two {
+    display: block;
+  }
+
+  #credits {
+    display: none;
+  }
+
+  .web {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .una,
+  .pangalawa,
+  .pangatlo {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-middle {
+    padding-left: 0%;
+  }
+
+  .vertical-line {
+    display: none;
+  }
+
+  .contact{
+    padding-right: 0%;
+  }
+
+  .orgs {
+    display: flex;
+    justify-content: center;
+  }
+
+  .third-section {
+    padding-top: 5%;
+  }
+}
+/* --- END OF MEDIAS --- */

@@ -5,8 +5,6 @@
 </div>
 
 [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![Pull requests][pull-requests-shield]][pull-requests-url]
 [![GitHub Release][release-shield]][release-url]
