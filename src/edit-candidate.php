@@ -6,6 +6,7 @@ include_once FileUtils::normalizeFilePath('includes/error-reporting.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
+require_once FileUtils::normalizeFilePath('includes/org-sections.php');
 
 
 if (isset($_SESSION['voter_id'])) {
@@ -19,7 +20,7 @@ if (isset($_SESSION['voter_id'])) {
         if (isset($_GET['candidate_id'])) {
             $candidate_id = $_GET['candidate_id'];
 
-            $stmt = $conn->prepare("SELECT c.candidate_id, c.last_name, c.first_name, c.middle_name, c.suffix, c.party_list, c.position_id, p.title as position, c.photo_url, c.section, c.year_level, c.`candidate_creation` 
+            $stmt = $conn->prepare("SELECT c.candidate_id, c.last_name, c.first_name, c.middle_name, c.suffix, c.party_list, c.position_id, p.title as position, c.photo_url, c.program, c.section, c.year_level, c.`candidate_creation` 
                                     FROM candidate c
                                     JOIN position p ON c.position_id = p.position_id 
                                     WHERE c.candidate_id = ?");
@@ -39,7 +40,7 @@ if (isset($_SESSION['voter_id'])) {
             $positions[] = $row;
         }
         $positions_stmt->close();
-        ?>
+?>
         <!DOCTYPE html>
         <html lang="en">
 
@@ -66,6 +67,73 @@ if (isset($_SESSION['voter_id'])) {
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="scripts/loader.js" defer></script>
 
+            <style>
+                .modal-content {
+                    border-radius: 20px;
+                }
+
+                .modal-header {
+                    text-align: center;
+                    /* Center the content */
+                }
+
+                .modal-header i {
+                    font-size: 7rem;
+                    /* Make the icon bigger */
+                    display: block;
+                    /* Ensure the icon is on its own line */
+                    margin: auto;
+                }
+
+                .modal-body {
+                    text-align: center;
+                }
+
+                .modal-body h2 {
+                    color: #333;
+                    font-size: 10px;
+                    margin-bottom: 5px;
+                }
+
+                .modal-body p {
+                    font-size: 18px;
+                    color: #555;
+                    margin-bottom: 5px;
+
+                }
+
+                .modal-footer {
+                    justify-content: center;
+                    border-top: none;
+
+                }
+
+                .cancel {
+                    background-color: lightgray;
+                    color: #B2BEB5;
+                    font-weight: bold;
+                    padding: 5px 18px;
+                }
+
+                .discard-button {
+                    background-color: #FFA500;
+                    color: #fff;
+                    padding: 5px 28px;
+                    font-weight: 600;
+                }
+
+                /* Button Styles */
+                .close {
+                    font-size: 1.4rem;
+                    color: #aaa;
+                    opacity: 1;
+                }
+
+                .close:hover {
+                    color: #000;
+                    opacity: 1;
+                }
+            </style>
 
         </head>
 
@@ -77,15 +145,14 @@ if (isset($_SESSION['voter_id'])) {
             ?>
 
             <div class="main">
-                <div class="container mb-5 ml-10">
+                <div class="container mb-5 ps-5">
                     <div class="row justify-content-center">
                         <div class="col-md-11">
                             <div class="breadcrumbs d-flex">
                                 <button type="button" class="btn-white d-flex align-items-center spacing-8 fs-8">
                                     <i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
                                 </button>
-                                <button type="button" class="btn-back spacing-8 fs-8"
-                                    onclick="window.location.href='manage-candidate.php'">MANAGE CANDIDATES</button>
+                                <button type="button" class="btn-back spacing-8 fs-8" onclick="window.location.href='manage-candidate.php'">MANAGE CANDIDATES</button>
                                 <button type="button" class="btn btn-current rounded-pill spacing-8 fs-8">EDIT CANDIDATE
                                     INFORMATION</button>
                             </div>
@@ -98,10 +165,8 @@ if (isset($_SESSION['voter_id'])) {
                         <div class="col-md-10 card-box mt-md-10">
                             <div class="container-fluid">
                                 <div class="card-box">
-                                    <form action="../src/submission_handlers/update-candidate.php" method="post"
-                                        enctype="multipart/form-data">
-                                        <input type="hidden" name="candidate_id"
-                                            value="<?php echo htmlspecialchars($candidate['candidate_id']); ?>">
+                                    <form action="../src/submission_handlers/update-candidate.php" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="candidate_id" value="<?php echo htmlspecialchars($candidate['candidate_id']); ?>">
                                         <div class="row">
                                             <div class="col-md-10">
                                                 <h3 class="form-title fs-3">Candidate Details</h3>
@@ -115,46 +180,34 @@ if (isset($_SESSION['voter_id'])) {
                                                         // Debugging: Print the constructed file path
                                                         $imagePath = 'user_data/' . $org_name . '/candidate_imgs/' . $candidate['photo_url'];
                                                         ?>
-                                                        <img src="<?php echo htmlspecialchars($imagePath); ?>"
-                                                            alt="Candidate Photo" class="candidate-image">
+                                                        <img src="<?php echo htmlspecialchars($imagePath); ?>" alt="Candidate Photo" class="candidate-image">
                                                         <div class="overlay">
                                                             <i class="fas fa-camera fa-2x"></i>
                                                         </div>
                                                     </label>
-                                                    <input id="file-input" type="file" name="photo" class="form-control"
-                                                        style="display: none;" accept=".jpg, .jpeg, .png">
+                                                    <input id="file-input" type="file" name="photo" class="form-control" style="display: none;" accept=".jpg, .jpeg, .png">
                                                 </div>
                                             </div>
                                             <div class="col-md-9 mt-4">
                                                 <div class="row">
                                                     <div class="col-md-3 mx-auto">
                                                         <div class="form-group local-group">
-                                                            <label for="last_name" class="login-danger">Last Name <span
-                                                                    class="required"> * </span></label>
-                                                            <input type="text" id="last_name" name="last_name"
-                                                                value="<?php echo htmlspecialchars($candidate['last_name']); ?>"
-                                                                class="form-control" placeholder="Carpena" required
-                                                                pattern="^[a-zA-Z]+$" maxlength="20">
+                                                            <label for="last_name" class="login-danger">Last Name <span class="required"> * </span></label>
+                                                            <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($candidate['last_name']); ?>" class="form-control" placeholder="Carpena" required pattern="^[a-zA-Z]+$" maxlength="20">
                                                             <span class="error-message" id="last_name_error"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 mx-auto">
                                                         <div class="form-group">
-                                                            <label for="first_name" class="login-danger">First Name <span
-                                                                    class="required"> * </span></label>
-                                                            <input type="text" id="first_name" name="first_name"
-                                                                value="<?php echo htmlspecialchars($candidate['first_name']); ?>"
-                                                                class="form-control" placeholder="E.g. Trizia Mae" required
-                                                                pattern="^[a-zA-Z]+$" maxlength="50">
+                                                            <label for="first_name" class="login-danger">First Name <span class="required"> * </span></label>
+                                                            <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($candidate['first_name']); ?>" class="form-control" placeholder="E.g. Trizia Mae" required pattern="^[a-zA-Z]+$" maxlength="50">
                                                             <span class="error-message" id="first_name_error"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 mx-auto">
                                                         <div class="form-group">
                                                             <label for="middle_name" class="login-danger">Middle Name</label>
-                                                            <input type="text" id="middle_name" name="middle_name"
-                                                                value="<?php echo htmlspecialchars($candidate['middle_name']); ?>"
-                                                                class="form-control" placeholder="E.g. Santiago" maxlength="20">
+                                                            <input type="text" id="middle_name" name="middle_name" value="<?php echo htmlspecialchars($candidate['middle_name']); ?>" class="form-control" placeholder="E.g. Santiago" maxlength="20">
                                                             <span class="error-message" id="middle_name_error"></span>
                                                         </div>
                                                     </div>
@@ -165,15 +218,15 @@ if (isset($_SESSION['voter_id'])) {
                                                                 <option value="" class="disabled-option" disabled selected>E.g.
                                                                     II</option>
                                                                 <option value="" <?php if ($candidate['suffix'] == '')
-                                                                    echo 'selected'; ?>>No Suffix</option>
+                                                                                        echo 'selected'; ?>>No Suffix</option>
                                                                 <option value="II" <?php if ($candidate['suffix'] == 'II')
-                                                                    echo 'selected'; ?>>II</option>
+                                                                                        echo 'selected'; ?>>II</option>
                                                                 <option value="III" <?php if ($candidate['suffix'] == 'III')
-                                                                    echo 'selected'; ?>>III</option>
+                                                                                        echo 'selected'; ?>>III</option>
                                                                 <option value="IV" <?php if ($candidate['suffix'] == 'IV')
-                                                                    echo 'selected'; ?>>IV</option>
+                                                                                        echo 'selected'; ?>>IV</option>
                                                                 <option value="V" <?php if ($candidate['suffix'] == 'V')
-                                                                    echo 'selected'; ?>>V</option>
+                                                                                        echo 'selected'; ?>>V</option>
                                                             </select>
                                                             <span class="error-message" id="suffix_error"></span>
                                                         </div>
@@ -182,14 +235,13 @@ if (isset($_SESSION['voter_id'])) {
                                                 <div class="row">
                                                     <div class="col-md-6 mx-auto">
                                                         <div class="form-group local-forms">
-                                                            <label for="position" class="login-danger">Position <span
-                                                                    class="required"> * </span></label>
+                                                            <label for="position" class="login-danger">Position <span class="required"> * </span></label>
                                                             <select id="position" name="position_id" required>
                                                                 <option value="" class="disabled-option" disabled selected>
                                                                     Select Position</option>
-                                                                <?php foreach ($positions as $position): ?>
+                                                                <?php foreach ($positions as $position) : ?>
                                                                     <option value="<?php echo $position['position_id']; ?>" <?php if ($candidate['position_id'] == $position['position_id'])
-                                                                           echo 'selected'; ?>>
+                                                                                                                                echo 'selected'; ?>>
                                                                         <?php echo htmlspecialchars($position['title']); ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
@@ -197,21 +249,86 @@ if (isset($_SESSION['voter_id'])) {
                                                             <span class="error-message" id="position_error"></span>
                                                         </div>
                                                     </div>
+                                                    <?php
+                                                    // Define the program based on org_name
+                                                    $program = '';
+                                                    $programs = null; // Ensure programs is defined
+
+                                                    switch ($org_name) {
+                                                        case 'acap':
+                                                            $program = 'BSP';
+                                                            break;
+                                                        case 'aeces':
+                                                            $program = 'BSECE';
+                                                            break;
+                                                        case 'elite':
+                                                            $program = 'BSIT';
+                                                            break;
+                                                        case 'give':
+                                                            // GIVE has multiple programs
+                                                            $programs = ['BSED-FL', 'BSED-ENG', 'BSED-MT', 'BSED-HE'];
+                                                            break;
+                                                        case 'jehra':
+                                                            $program = 'BSBA-HRM';
+                                                            break;
+                                                        case 'jmap':
+                                                            $program = 'BSBA-MM';
+                                                            break;
+                                                        case 'jpia':
+                                                            // JPIA has multiple programs
+                                                            $programs = ['BSA', 'BSMA'];
+                                                            break;
+                                                        case 'piie':
+                                                            $program = 'BSIE';
+                                                            break;
+                                                        case 'sco':
+                                                            // No need to set program, it will be handled separately
+                                                            break;
+                                                        default:
+                                                            // Handle unknown org_name, if needed
+                                                            break;
+                                                    }
+                                                    ?>
                                                     <div class="col-md-6 mx-auto">
                                                         <div class="form-group local-forms">
-                                                            <label for="section" onclass="login-danger">Block Section <span
-                                                                    class="required"> * </span></label>
-                                                            <select id="section" name="section" required>
-                                                                <option value="" class="disabled-option" disabled selected>
-                                                                    Select Block Section</option>
+                                                            <label for="section" class="login-danger fs-7">Block Section<span class="required"> *</span></label>
+                                                            <select id="section" name="section" onmousedown="if(this.options.length>3){this.size=3;}" onchange='this.size=0;' onblur="this.size=0;" required style="opacity: 0.5">
+                                                                <option value="" class="disabled-option" disabled selected hide>Select Block Section</option>
                                                                 <?php
-                                                                $year_levels = array('1', '2', '3', '4', '5');
-                                                                $sections = array('1', '2', '3', '4');
-                                                                foreach ($year_levels as $year_level) {
-                                                                    foreach ($sections as $section) {
-                                                                        $value = $year_level . '-' . $section;
-                                                                        $selected = ($candidate['year_level'] == $year_level && $candidate['section'] == $section) ? 'selected' : '';
-                                                                        echo "<option value=\"$value\" $selected>$value</option>";
+                                                                if ($org_name === 'sco') {
+                                                                    // Handle the special case for SCO
+                                                                    foreach ($org_sections as $program => $years) {
+                                                                        foreach ($years as $year_level => $sections) {
+                                                                            foreach ($sections as $section) {
+                                                                                $value = htmlspecialchars($year_level) . '-' . htmlspecialchars($section);
+                                                                                $selected = ($candidate['year_level'] == $year_level && $candidate['section'] == $section) ? 'selected' : '';
+                                                                                echo "<option value=\"$value\" $selected>" . htmlspecialchars($program) . " $value</option>";
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    if (isset($programs)) {
+                                                                        // Handle org_names with multiple programs
+                                                                        foreach ($programs as $prog) {
+                                                                            foreach ($org_sections[$prog] as $year_level => $sections) {
+                                                                                foreach ($sections as $section) {
+                                                                                    $value = htmlspecialchars($year_level) . '-' . htmlspecialchars($section);
+                                                                                    $selected = ($candidate['program'] == $prog && $candidate['year_level'] == $year_level && $candidate['section'] == $section) ? 'selected' : '';
+                                                                                    echo "<option value=\"$value\" $selected>" . htmlspecialchars($prog) . " $value</option>";
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        // Handle org_names with a single program
+                                                                        if (!empty($program)) {
+                                                                            foreach ($org_sections[$program] as $year_level => $sections) {
+                                                                                foreach ($sections as $section) {
+                                                                                    $value = htmlspecialchars($year_level) . '-' . htmlspecialchars($section);
+                                                                                    $selected = ($candidate['program'] == $program && $candidate['year_level'] == $year_level && $candidate['section'] == $section) ? 'selected' : '';
+                                                                                    echo "<option value=\"$value\" $selected>" . htmlspecialchars($program) . " $value</option>";
+                                                                                }
+                                                                            }
+                                                                        }
                                                                     }
                                                                 }
                                                                 ?>
@@ -219,11 +336,13 @@ if (isset($_SESSION['voter_id'])) {
                                                             <span class="error-message" id="section_error"></span>
                                                         </div>
                                                     </div>
+
+
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-end mx-auto">
                                                 <button type="cancel" class="cancel-button">Cancel</button>
-                                                <button type="submit" class="save-button">Save Changes</button>
+                                                <button type="submit" class="save-button" id="button">Save Changes</button>
                                             </div>
                                         </div>
                                     </form>
@@ -237,9 +356,9 @@ if (isset($_SESSION['voter_id'])) {
                 </div>
             </div>
 
-            
+            <!-- JavaScript for image change functionality -->
             <script>
-                document.getElementById('file-input').addEventListener('change', function (event) {
+                document.getElementById('file-input').addEventListener('change', function(event) {
                     const file = event.target.files[0];
                     if (file) {
                         const fileType = file.type;
@@ -249,7 +368,7 @@ if (isset($_SESSION['voter_id'])) {
                             event.target.value = ''; // Clear the input
                         } else {
                             const reader = new FileReader();
-                            reader.onload = function (e) {
+                            reader.onload = function(e) {
                                 document.querySelector('.candidate-image').src = e.target.result;
                             }
                             reader.readAsDataURL(file);
@@ -257,25 +376,25 @@ if (isset($_SESSION['voter_id'])) {
                     }
                 });
 
-                $(document).ready(function () {
+                $(document).ready(function() {
                     feather.replace();
 
                     // Detect changes in form fields
                     var isDirty = false;
                     var targetUrl = '';
 
-                    $('#candidateForm input, #candidateForm select').on('change', function () {
+                    $('#candidateForm input, #candidateForm select').on('change', function() {
                         isDirty = true;
                         $('.submit-btn').prop('disabled', false);
                     });
 
                     // Handle form submission
-                    $('#candidateForm').on('submit', function () {
+                    $('#candidateForm').on('submit', function() {
                         isDirty = false;
                     });
 
                     // Handle cancel button click
-                    $('.cancel-button').on('click', function (e) {
+                    $('.cancel-button').on('click', function(e) {
                         if (isDirty) {
                             e.preventDefault();
                             $('#warningModal').modal('show');
@@ -285,13 +404,13 @@ if (isset($_SESSION['voter_id'])) {
                     });
 
                     // Handle leave button click in the modal
-                    $('#leaveButton').on('click', function () {
+                    $('#leaveButton').on('click', function() {
                         isDirty = false;
                         window.removeEventListener('beforeunload', showWarningModal);
                         window.location.href = targetUrl;
                     });
 
-                    $('.modal .cancel').on('click', function () {
+                    $('.modal .cancel').on('click', function() {
                         $('#warningModal').modal('hide');
                     });
 
@@ -305,7 +424,7 @@ if (isset($_SESSION['voter_id'])) {
 
                     window.addEventListener('beforeunload', showWarningModal);
 
-                    $(document).on('click', 'a', function (e) {
+                    $(document).on('click', 'a', function(e) {
                         if (isDirty) {
                             e.preventDefault();
                             targetUrl = $(this).attr('href');
@@ -323,11 +442,10 @@ if (isset($_SESSION['voter_id'])) {
             <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
             <script src="scripts/script.js"></script>
             <script src="scripts/feather.js"></script>
-            <script src="scripts/candidate-form-validation.js"></script>
+            <script src="scripts/edit-candidate-form-validation.js"></script>
 
             <!-- Warning Modal -->
-            <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
@@ -355,7 +473,7 @@ if (isset($_SESSION['voter_id'])) {
 
         </html>
 
-        <?php
+<?php
     } else {
         header("Location: landing-page.php");
     }
