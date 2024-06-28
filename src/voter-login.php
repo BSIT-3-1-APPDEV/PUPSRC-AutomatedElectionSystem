@@ -151,12 +151,9 @@ $connection->close();
                         <div class="col-md-12 mt-0 mb-3">
                             <input type="email" class="form-control shadow-sm" id="Email" name="email" placeholder="Email Address" required autocomplete="email">
                             
-                            <!-- <div class="ps-1 fw-medium valid-feedback text-start" id="email-login-valid">
-                                Looks right!
+                            <div class="fw-medium text-start invalid-feedback" id="email-login-error">
+                                <!-- Display error messages here  -->
                             </div>
-                            <div class="ps-1 fw-medium text-start invalid-feedback" id="email-login-error">
-                                Please provide a valid email.
-                            </div> -->
                         </div>  
 
                         <div class="col-md-12 mb-2">
@@ -164,13 +161,10 @@ $connection->close();
                                 <input type="password" class="form-control shadow-sm border border-end-0" name="password" placeholder="Password" id="Password" autocomplete="current-password" required>
                                 <button class="btn shadow-sm border border-start-0" type="button" id="password-toggle">Show</button>
                             </div>
-                            <!-- Displaying these validation messages messes up the UI -->
-                            <!-- <div class="ps-1 fw-medium valid-feedback text-start">
-                                Looks right!
-                            </div>
-                            <div class="ps-1 fw-medium text-start invalid-feedback" id="password-login-error">
-                                Please provide a valid password.
-                            </div>  -->
+                            
+                            <div class="mt-1 fw-medium text-start text-danger" id="password-login-error" style="font-size: .875em;">
+                                <!-- Display error messages here -->
+                            </div>  
                         </div>
 
                         <div role="button" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</div>
@@ -230,7 +224,7 @@ $connection->close();
                                 <!-- <p for="email" class="form-label text-start ps-1">We will send a password reset link to your registered email address.</p> -->
                                 <p>Email Address</p>
                             </div>
-                            <input type="email" class="form-control border border-secondary-subtle shadow-sm" id="email" name="email" placeholder="Email Address" autocomplete="email">
+                            <input type="email" class="form-control shadow-sm" id="email" name="email" placeholder="Email Address" autocomplete="email">
                             <div class="valid-feedback text-start fw-medium" id="email-valid">
                             </div>
                             <div class="invalid-feedback text-start fw-medium" id="email-error">
