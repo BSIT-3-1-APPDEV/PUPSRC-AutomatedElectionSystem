@@ -43,7 +43,7 @@
         <div class="col-lg-3 col-md-3 col-sm-6 third-section">
           <div class="third">
           <p class="credits-footer mb-2 contact">Contact Us</p>
-          <p class="mb-2 contact email-add"><span class="hide-this-text">Email us at</span><a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
+          <p class="mb-2 contact email-add"><span class="hide-this-text">Email us at </span><a href="mailto:ivote-pupsrc@gmail.com" class="ivote-email">ivote-pupsrc@gmail.com</a></p>
           <p class="mb-0 contact"><a href="faqs.php" class="footer-about-us"> FAQs | </a><a href="our-story.php" class="footer-about-us">Our Story</a></p></a></p>
           </div>
           <div class="mt-0 text-center contact">
