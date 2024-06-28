@@ -86,7 +86,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                     </div>
                     <div>
                       <div class="mb-0" style="font-size: 18px; font-weight:600">
-                        <a href="../src/user-setting-information.php" class="custom-link"> Information </a>
+                        <a href="../src/user-setting-information" class="custom-link"> Information </a>
                       </div>
                       <div class="mb-0 des">See your account information like your email address and certificate of registration.</div>
                     </div>
@@ -97,7 +97,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                     </div>
                     <div>
                       <div class="mb-0" style="font-size: 18px; font-weight:600">
-                        <a href="../src/user-setting-password.php" class="custom-link"> Change Password </a>
+                        <a href="../src/user-setting-password" class="custom-link"> Change Password </a>
                       </div>
                       <div class="mb-0 des">Ensure your account's security by updating your password whenever you need.</div>
                     </div>
@@ -106,7 +106,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                     <i class="fas fa-exchange-alt me-4" style="font-size: 1.1rem;"></i>
                     <div>
                       <div class="mb-0" style="font-size: 18px;">
-                        <b><a href="../src/user-setting-transfer.php" class="custom-link">Transfer Org</a></b>
+                        <b><a href="../src/user-setting-transfer" class="custom-link">Transfer Org</a></b>
                       </div>
                       <div class="mb-0 des">Move your account to a different organization upon transfer.</div>
                     </div>
@@ -265,7 +265,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
           var modal = document.getElementById('approvalModal');
           modal.style.display = 'none';
           // Replace with the actual URL you want to redirect to
-          window.location.href = 'user-setting-information.php?voter_id=<?php echo htmlspecialchars($row["voter_id"]); ?>';
+          window.location.href = 'user-setting-information?voter_id=<?php echo htmlspecialchars($row["voter_id"]); ?>';
         }
         document.addEventListener('DOMContentLoaded', (event) => {
     const passwordInput = document.getElementById('change-password');
@@ -312,6 +312,6 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 
 <?php
 } else {
-  header("Location: landing-page.php");
+  header("Location: landing-page");
 }
 ?>

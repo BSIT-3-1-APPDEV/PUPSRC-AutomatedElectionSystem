@@ -138,7 +138,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                                 <p class="fw-medium spacing-5">Your email address has been updated.
                                 </p>
                                 <button class="button-check main-bg-color text-white py-2 px-4" id="Home">
-                                  <a class="custom-link" href="../src/setting-email-update.php"><b>Back to Home</b></a>
+                                  <a class="custom-link" href="../src/setting-email-update"><b>Back to Home</b></a>
                                 </button>
                             </div>
                         </div>
@@ -195,6 +195,6 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
 
 <?php
 } else {
-  header("Location: landing-page.php");
+  header("Location: landing-page");
 }
 ?>

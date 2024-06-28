@@ -76,7 +76,7 @@ function loadPage(
                     }" ${isChecked}>
                   </td>
                   <td class="col-md-5 text-center text-truncate">
-                    <a href="validate-voter.php?voter_id=${voter.voter_id}">${
+                    <a href="validate-voter?voter_id=${voter.voter_id}">${
               voter.email
             }</a>
                   </td>
@@ -108,7 +108,7 @@ function loadPage(
                     }" ${isChecked}>
                   </td>
                   <td class="col-md-3 text-center text-truncate">
-                    <a href="voter-details.php?voter_id=${voter.voter_id}">${
+                    <a href="voter-details?voter_id=${voter.voter_id}">${
               voter.email
             }</a>
                   </td>

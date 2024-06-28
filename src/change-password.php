@@ -165,7 +165,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         </div>
                         <p class="fw-bold fs-4 change-password-title spacing-4 mt-2" id="password-updated">Password Updated</p>
                         <p class="change-password-sub mb-4">Your password has been successfully updated! Please log in again.</p>
-                        <a href="voter-login.php" class="btn btn-primary px-5 success-change-pass-button fw-semibold" id="success-change-pass-button">Go to Log In</a>
+                        <a href="voter-login" class="btn btn-primary px-5 success-change-pass-button fw-semibold" id="success-change-pass-button">Go to Log In</a>
                         <p class="timer mt-2 mb-0 pb-0">Redirecting to login in <strong>10</strong> seconds...</p>
                     </div>
                 </div>
@@ -185,6 +185,6 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 <?php
 } else {
-    header("Location: landing-page.php");
+    header("Location: landing-page");
 }
 ?>

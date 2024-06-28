@@ -152,7 +152,7 @@ if (isset($_SESSION['voter_id'])) {
                                 <button type="button" class="btn-white d-flex align-items-center spacing-8 fs-8">
                                     <i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
                                 </button>
-                                <button type="button" class="btn-back spacing-8 fs-8" onclick="window.location.href='manage-candidate.php'">MANAGE CANDIDATES</button>
+                                <button type="button" class="btn-back spacing-8 fs-8" onclick="window.location.href='manage-candidate'">MANAGE CANDIDATES</button>
                                 <button type="button" class="btn btn-current rounded-pill spacing-8 fs-8">EDIT CANDIDATE
                                     INFORMATION</button>
                             </div>
@@ -399,7 +399,7 @@ if (isset($_SESSION['voter_id'])) {
                             e.preventDefault();
                             $('#warningModal').modal('show');
                         } else {
-                            window.location.href = 'manage-candidate.php';
+                            window.location.href = 'manage-candidate';
                         }
                     });
 
@@ -475,9 +475,9 @@ if (isset($_SESSION['voter_id'])) {
 
 <?php
     } else {
-        header("Location: landing-page.php");
+        header("Location: landing-page");
     }
 } else {
-    header("Location: landing-page.php");
+    header("Location: landing-page");
 }
 ?>

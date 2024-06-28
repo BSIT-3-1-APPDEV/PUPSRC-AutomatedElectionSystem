@@ -11,7 +11,7 @@ if (isset($_SESSION['voter_id'])) {
 
     $allowedRoles = array('head_admin');
     if (!in_array($_SESSION['role'], $allowedRoles)) {
-        header("Location: landing-page.php");
+        header("Location: landing-page");
         exit();
     }
 
@@ -281,6 +281,6 @@ if (isset($_SESSION['voter_id'])) {
 
     <?php
 } else {
-    header("Location: landing-page.php");
+    header("Location: landing-page");
 }
 ?>

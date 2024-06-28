@@ -55,6 +55,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 else {
     $_SESSION['error_message'] = 'Something went wrong. Please try again.';
-    header("Location: " . $_SERVER['HTTP_REFERER']);
+    header("Location: ../edit-profile");
     exit();
 }

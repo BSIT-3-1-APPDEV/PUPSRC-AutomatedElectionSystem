@@ -257,6 +257,6 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 <?php
 } else {
-    header("Location: landing-page.php");
+    header("Location: landing-page");
 }
 ?>

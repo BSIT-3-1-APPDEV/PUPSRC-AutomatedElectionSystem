@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $formHandler->processForm($_POST, $_FILES);
 } else {
     // If the form is not submitted via POST method, redirect the user to the form page
-    header("Location: ../transfer-org.php?page=2 ");
+    header("Location: ../transfer-org?page=2 ");
     exit();
 }
 ?>

@@ -5,7 +5,7 @@ require_once FileUtils::normalizeFilePath('session-handler.php');
 	$org_name = $_SESSION['organization'] ?? '';
 	// Redirect to landing page if organization is not set or null
 	if(!$org_name) {
-		header("Location: landing-page.php");
+		header("Location: landing-page");
 		exit();
 	}
 	include FileUtils::normalizeFilePath('organization-list.php');

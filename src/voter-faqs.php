@@ -84,6 +84,6 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
 </html>
 <?php
 } else {
-    header("Location: voter-login.php");
+    header("Location: voter-login");
 }
 ?>

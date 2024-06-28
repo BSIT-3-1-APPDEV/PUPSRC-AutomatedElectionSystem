@@ -391,6 +391,6 @@ if (isset($_SESSION['voter_id'])) {
 
 <?php
 } else {
-    header("Location: landing-page.php");
+    header("Location: landing-page");
 }
 ?>

@@ -18,13 +18,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if($error) {
         $_SESSION['error_message'] = $error;
-        header("Location: ../reset-password.php?token=" . urlencode($token) . "&orgName=" . urlencode($org_name));;
+        header("Location: ../reset-password?token=" . urlencode($token) . "&orgName=" . urlencode($org_name));;
         exit();
     }
 
     if ($password !== $password_confirmation) {
         $_SESSION['error_message'] = 'Your passwords do not match.';
-        header("Location: ../reset-password.php?token=" . urlencode($token) . "&orgName=" . urlencode($org_name));
+        header("Location: ../reset-password?token=" . urlencode($token) . "&orgName=" . urlencode($org_name));
         exit();
     }
 
@@ -39,7 +39,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!$row) {
         $_SESSION['error_message'] = 'Your password reset link was not found.';
-        header("Location: ../voter-login.php");
+        header("Location: ../voter-login");
         exit();
     }
 
@@ -48,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($expiry_time <= $current_time) {
         $_SESSION['error_message'] = 'Your password reset link has expired.';
-        header("Location: ../voter-login.php");
+        header("Location: ../voter-login");
         exit();
     }
 
@@ -66,7 +66,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     else {
         $_SESSION['error_message'] = "Failed to reset your password. Please try again.";
-        header("Location: ../reset-password.php?token=" . urlencode($token) . "&orgName=" . urlencode($org_name));
+        header("Location: ../reset-password?token=" . urlencode($token) . "&orgName=" . urlencode($org_name));
     }
     exit();    
 }

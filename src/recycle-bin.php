@@ -69,13 +69,13 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         </div>
 
                         <div class="col-33 card">
-                            <a href="recycle-bin-admin.php" class="recycle-navigations">
+                            <a href="recycle-bin-admin" class="recycle-navigations">
                                 <div class="recycle-navigation text-center p-2">Admin Accounts</div>
                             </a>
 
                         </div>
                         <div class="col-33 card">
-                            <a href="recycle-bin-candidate.php" class="recycle-navigations">
+                            <a href="recycle-bin-candidate" class="recycle-navigations">
                                 <div class="recycle-navigation text-center p-2">Candidates</div>
                             </a>
                         </div>
@@ -367,7 +367,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         <img src="images/resc/check-animation.gif" class="img-icons img-fluid">
                         <p class=" fs-5 text-center green mb-3">Restored Successfully!</p>
                         <p class="fs-7 text-center fw-medium m-0">Accounts have been restored! You can now</p>
-                        <p class="fs-7 text-center fw-medium">Access them in the <a href="manage-voters.php" class="underlined-link">Voters</a></ul> table.</p>
+                        <p class="fs-7 text-center fw-medium">Access them in the <a href="manage-voters" class="underlined-link">Voters</a></ul> table.</p>
                     </div>
 
                 </div>
@@ -456,6 +456,6 @@ console.error('An error occurred while restoring selected items');
 
 <?php
 } else {
-    header("Location: landing-page.php");
+    header("Location: landing-page");
 }
 ?>

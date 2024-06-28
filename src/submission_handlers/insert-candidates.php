@@ -65,17 +65,17 @@ if (isset($_SESSION['voter_id'])) {
 
             if (empty($errors)) {
                 $_SESSION['account_created'] = true;
-                header("Location: ../add-candidate.php");
+                header("Location: ../add-candidate");
             } else {
                 $_SESSION['errors'] = $errors;
-                header("Location: ../landing-page.php");
+                header("Location: ../landing-page");
             }
         }
     } else {
         $_SESSION['db_error'] = "Failed to connect to the database.";
-        header("Location: ../landing-page.php");
+        header("Location: ../landing-page");
     }
 } else {
-    header("Location: ../landing-page.php");
+    header("Location: ../landing-page");
 }
 ?>

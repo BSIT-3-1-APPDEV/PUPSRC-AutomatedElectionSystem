@@ -13,7 +13,7 @@ if (isset($_SESSION['voter_id'])) {
     // Check if the user's role is either 'admin' or 'head_admin'
     $allowedRoles = array('admin', 'head_admin');
     if (!in_array($_SESSION['role'], $allowedRoles)) {
-        header("Location: landing-page.php");
+        header("Location: landing-page");
         exit();
     }
     include FileUtils::normalizeFilePath('submission_handlers/manage-details.php');
@@ -64,7 +64,7 @@ if (isset($_SESSION['voter_id'])) {
                                 <i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
                             </button>
                             <button type="button" class="btn-back spacing-8 fs-8"
-                                onclick="window.location.href='manage-committee.php'">COMMITTEE MEMBERS</button>
+                                onclick="window.location.href='manage-committee'">COMMITTEE MEMBERS</button>
                             <button type="button" class="btn btn-current rounded-pill spacing-8 fs-8">ACCOUNT
                                 DETAILS</button>
                         </div>
@@ -258,7 +258,7 @@ if (isset($_SESSION['voter_id'])) {
                     <div class="modal-body pb-5">
                         <div class="d-flex justify-content-end">
                             <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" id="closeIcon"
-                                onclick="redirectToPage('manage-committee.php')">
+                                onclick="redirectToPage('manage-committee')">
                             </i>
                         </div>
                         <div class="text-center">
@@ -278,7 +278,7 @@ if (isset($_SESSION['voter_id'])) {
                             <div class="col-md-12 pt-1 d-flex justify-content-center">
                                 <button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
                                     aria-label="Close">
-                                    <a href="recycle-bin.php" style="color: white">Go To Recycle
+                                    <a href="recycle-bin" style="color: white">Go To Recycle
                                         Bin
                                     </a>
                                 </button>
@@ -304,6 +304,6 @@ if (isset($_SESSION['voter_id'])) {
 
     <?php
 } else {
-    header("Location: landing-page.php");
+    header("Location: landing-page");
 }
 ?>

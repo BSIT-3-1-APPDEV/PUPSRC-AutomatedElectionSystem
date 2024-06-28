@@ -193,9 +193,9 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
 </html>
 <?php
   } else {
-    header("Location: ballot-forms.php");
+    header("Location: ballot-forms");
  }
 } else {
-  header("Location: landing-page.php");
+  header("Location: landing-page");
 }
 ?>

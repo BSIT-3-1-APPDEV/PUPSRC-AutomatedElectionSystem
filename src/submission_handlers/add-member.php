@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($count > 0) {
                 $_SESSION['email_exists_error'] = 'This email address is already registered in our system.';
-                header("Location: admin-creation.php");
+                header("Location: admin-creation");
                 exit;
             } else {
                 // Check if email exists in SCO database
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     if ($sco_count > 0) {
                         $_SESSION['email_exists_error'] = 'This email address is already registered in SCO.';
-                        header("Location: admin-creation.php");
+                        header("Location: admin-creation");
                         exit;
                     }
                 } catch (Exception $e) {
@@ -84,14 +84,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $emailSender->sendPasswordEmail($email, $password);
 
                 // Redirect to admin-creation.php
-                header("Location: admin-creation.php");
+                header("Location: admin-creation");
                 exit;
             } else {
                 // Set session variable for email error
                 $_SESSION['email_error'] = $emailError;
 
                 // Redirect to admin-creation.php
-                header("Location: admin-creation.php");
+                header("Location: admin-creation");
                 exit;
             }
         }

@@ -79,13 +79,13 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item fw-medium">
-                        <a class="nav-link" href="landing-page.php">Home</a>
+                        <a class="nav-link" href="landing-page">Home</a>
                     </li>
                     <li class="nav-item fw-medium">
-                        <a class="nav-link" href="about-us.php">About Us</a>
+                        <a class="nav-link" href="about-us">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="register.php">Register</a>
+                        <a class="nav-link active" href="register">Register</a>
                     </li>
                 </ul>
             </div>
@@ -250,7 +250,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                                     </div>
                                     <p class="pt-2 fs-7 spacing-8 main-blue-200 text-center">Already have an account? Go
                                         to
-                                        <a href="landing-page.php" class="fw-bold main-blue underline">iVOTE</a>
+                                        <a href="landing-page" class="fw-bold main-blue underline">iVOTE</a>
                                     </p>
                                 </div>
                             </div>
@@ -274,7 +274,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                 <div class="modal-body">
                     <div class="d-flex justify-content-end">
                         <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-                            onclick="location.href = 'landing-page.php';">
+                            onclick="location.href = 'landing-page';">
                         </i>
                     </div>
                     <div class="text-center">

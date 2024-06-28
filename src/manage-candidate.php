@@ -65,7 +65,7 @@
 									</button>
 									<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">MANAGE CANDIDATES</button>
 									<div class="align-items-end ms-auto me-4 mx-a">
-										<a href="add-candidate.php">
+										<a href="add-candidate">
 											<button type="button" class="button-add rounded-2 fs-7">
 												<i class="bi bi-plus-circle me-3"></i>Add New Candidate
 											</button>
@@ -194,7 +194,7 @@
 																					<input type="checkbox" name="selectedVoters[]" value="<?php echo $row["candidate_id"]; ?>" class="voterCheckbox" style="display: none;">
 																				</td>
 																				<td class="col-md-3 text-center">
-																					<a href="candidate-details.php?candidate_id=<?php echo $row["candidate_id"]; ?>"><?php echo $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] . ' ' . $row["suffix"]; ?></a>
+																					<a href="candidate-details?candidate_id=<?php echo $row["candidate_id"]; ?>"><?php echo $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] . ' ' . $row["suffix"]; ?></a>
 																				</td>
 																				<td class="col-md-3 text-center">
 																					<?php echo $row["position"]; ?>
@@ -341,7 +341,7 @@
 						<div class="modal-content">
 							<div class="modal-body">
 								<div class="d-flex justify-content-end">
-									<i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" onclick="redirectToPage('manage-committee.php')">
+									<i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" onclick="redirectToPage('manage-committee')">
 									</i>
 								</div>
 								<div class="text-center p-4">
@@ -409,9 +409,9 @@
 
 	<?php
 		} else {
-			header("Location: landing-page.php");
+			header("Location: landing-page");
 		}
 	} else {
-		header("Location: landing-page.php");
+		header("Location: landing-page");
 	}
 	?>

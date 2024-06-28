@@ -19,13 +19,13 @@
 	<div class="menu-content">
 		<ul class="menu-items ms-xl-1">
 			<li class="item">
-				<a href="admindashboard.php"
+				<a href="admindashboard"
 					class="<?php echo basename($_SERVER['PHP_SELF']) == 'admindashboard.php' ? 'active' : ''; ?>"><i
 						data-feather="home" class="white mb-xl-1"></i><span style="padding-left: 1rem">Home</span></a>
 			</li>
 
 			<li class="item">
-				<a href="result-generation.php"
+				<a href="result-generation"
 					class="<?php echo basename($_SERVER['PHP_SELF']) == 'result-generation.php' ? 'active' : ''; ?>"><i
 						data-feather="bar-chart-2" class="white mb-xl-1"></i><span
 						style="padding-left: 0.7rem;">Election Reports</span></a>
@@ -67,12 +67,12 @@
 				</div>
 				<ul class="menu-items submenu collapse" id="manageCandidates">
 					<li class="item">
-						<a href="add-candidate.php"
+						<a href="add-candidate"
 							class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Add
 							Candidate</a>
 					</li>
 					<li class="item">
-						<a href="manage-candidate.php"
+						<a href="manage-candidate"
 							class="<?php echo basename($_SERVER['PHP_SELF']) == 'manage-candidate.php' ? 'active-sub fw-bold' : ''; ?>">Manage
 							Candidates</a>
 					</li>
@@ -100,7 +100,7 @@
 					</div>
 					<ul class="menu-items submenu collapse" id="manageAccounts">
 						<li class="item">
-							<a href="manage-voters.php" class="<?php echo
+							<a href="manage-voters" class="<?php echo
 									# ---- VOTERS PAGES
 								(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
 									basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
@@ -109,20 +109,20 @@
 								Voters' Accounts</a>
 						</li>
 						<li class="item">
-							<a href="manage-committee.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
+							<a href="manage-committee" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
 								basename($_SERVER['PHP_SELF']) == 'account-details.php')
 								? 'active-sub fw-bold' : ''; ?>">Admin
 								Accounts</a>
 						</li>
 						<li class="item">
-							<a href="admin-creation.php"
+							<a href="admin-creation"
 								class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">
 								Add Admin
 							</a>
 						</li>
 					</ul>
 				<?php elseif ($_SESSION['role'] === 'admin'): ?>
-					<a href="manage-voters.php"
+					<a href="manage-voters"
 						class="submenu-item <?php echo basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ? 'active' : ''; ?>">
 						<div class="submenu-content">
 							<i data-feather="users" class="white mb-xl-1"></i>
@@ -135,7 +135,7 @@
 
 
 			<li class="item">
-				<a href="configuration.php" class="<?=
+				<a href="configuration" class="<?=
 
 						# ---- CONFIGURATION PAGES
 					(basename($_SERVER['PHP_SELF']) == 'configuration.php' ||
@@ -173,9 +173,9 @@
 						class="fas fa-chevron-down main-color fs-6"></i>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end main-color p-3" aria-labelledby="dropdownMenuButton">
-					<li class="px-xl-2 py-xl-1"><a class="dropdown-item" href="profile.php"><i data-feather="user"
+					<li class="px-xl-2 py-xl-1"><a class="dropdown-item" href="profile"><i data-feather="user"
 								class="fs-12 main-color mb-xl-1"></i><span style="padding-left: .8rem">Profile</a></li>
-					<li class="px-xl-2"><a class="dropdown-item" href="recycle-bin.php"><i data-feather="trash-2"
+					<li class="px-xl-2"><a class="dropdown-item" href="recycle-bin"><i data-feather="trash-2"
 								class="fs-11 main-color mb-xl-1"></i><span style="padding-left: .8rem">Recycle Bin</a>
 					</li>
 					<li class="px-xl-2 py-xl-1"><a class="dropdown-item" href="includes/voter-logout.php"><i

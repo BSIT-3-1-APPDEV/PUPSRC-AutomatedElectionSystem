@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if both rating and feedback are blank
         if (empty($rating) && empty($feedback)) {
-            header("Location: ../../src/end-point.php");
+            header("Location: ../../src/end-point");
             exit();
         }
 
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute the statement
         if ($stmt->execute()) {
-            header("Location: ../../src/end-point.php");
+            header("Location: ../../src/end-point");
             exit(); 
         } else {
             echo "Error: " . $stmt->error;

@@ -88,7 +88,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 									<div class="col-sm-6">
 										<div class="row">
 											<div class="col-md-12 text-end flex-end hehe">
-												<a href="edit-profile.php" type="button" class="btn main-color edit-button">Edit Profile</a>
+												<a href="edit-profile" type="button" class="btn main-color edit-button">Edit Profile</a>
 											</div>
 										</div>
 									</div>
@@ -143,6 +143,6 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 <?php
 } else {
-	header("Location: landing-page.php");
+	header("Location: landing-page");
 }
 ?>

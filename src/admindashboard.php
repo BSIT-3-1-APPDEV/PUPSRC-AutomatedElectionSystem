@@ -265,7 +265,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             <div class="row justify-content-start d-flex m-0 p-0">
     <div class="col-lg-4 ml-5 py-3 ps-0 pe-1 ">
         <div class="col-lg-11">
-            <a href="result-generation.php" class="card admin-card admin-link px-5 pt-4 pb-5">
+            <a href="result-generation" class="card admin-card admin-link px-5 pt-4 pb-5">
                 <div class="card-body d-flex align-items-center justify-content-center p-2">
                     <div class="icon-container">
                         <img src="images/resc/Dashboard/Reports/<?php echo $org_name . '-reports.png'; ?>" alt="Reports Image" class="navigate-images">
@@ -283,7 +283,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
     <div class="col-lg-4 ml-5 py-3 ps-0 pe-1 d-lg-flex d-md-block justify-content-center ">
         <div class="col-lg-11">
-            <a href="manage-voters.php" class="card admin-card admin-link px-5 pt-4 pb-5">
+            <a href="manage-voters" class="card admin-card admin-link px-5 pt-4 pb-5">
                 <div class="card-body d-flex align-items-center justify-content-center p-2">
                     <div class="icon-container">
                         <img src="images/resc/Dashboard/Manage Acc/<?php echo $org_name . '-manage-accs.png'; ?>" alt="Reports Image" class="navigate-images">
@@ -301,7 +301,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
     <div class="col-lg-4 ml-5 py-3 ps-0 pe-0 d-lg-flex d-md-block justify-content-end ">
         <div class="col-lg-11">
-            <a href="configuration.php" class="card admin-card admin-link px-5 pt-4 pb-5">
+            <a href="configuration" class="card admin-card admin-link px-5 pt-4 pb-5">
                 <div class="card-body d-flex align-items-center justify-content-center p-2">
                     <div class="icon-container">
                         <img src="images/resc/Dashboard/Configuration/<?php echo $org_name . '-config.png'; ?>" alt="Reports Image" class="navigate-images">
@@ -422,6 +422,6 @@ var myChartCircle = new Chart('chartProgress', {
 </html>
 <?php
 } else {
-  header("Location: landing-page.php");
+  header("Location: landing-page");
 }
 ?>

@@ -18,7 +18,7 @@ class SessionManager {
                 self::handleAdminOrHeadAdmin($account_status);
             }
             else {
-                header("Location: landing-page.php");
+                header("Location: landing-page");
                 exit();
             }
         }
@@ -26,21 +26,21 @@ class SessionManager {
 
     private static function handleStudentVoter($account_status, $voter_status, $vote_status) {
         if($account_status != 'verified') {
-            header("Location: landing-page.php");
+            header("Location: landing-page");
             exit();
         }
         if($voter_status == 'pending' || $voter_status == 'active') {
             if($vote_status == NULL) {
-                header("Location: ballot-forms.php");
+                header("Location: ballot-forms");
                 exit();
             }
             else {
-                header("Location: end-point.php");
+                header("Location: end-point");
                 exit();
             }
         }
         else {
-            header("Location: landing-page.php");
+            header("Location: landing-page");
             exit();
         }
     }
@@ -48,11 +48,11 @@ class SessionManager {
     // This method doesn't check yet whether admin/head account is disabled
     private static function handleAdminOrHeadAdmin($account_status) {
         if($account_status == 'verified') {
-            header("Location: admindashboard.php");
+            header("Location: admindashboard");
             exit();
         }
         else {
-            header("Location: landing-page.php");
+            header("Location: landing-page");
             exit();
         }
     }

@@ -53,11 +53,11 @@ if (isset($_SESSION['voter_id'])) {
         $stmt->execute();
         $stmt->close();
 
-        header("Location: ../candidate-details.php?candidate_id=$candidate_id");
+        header("Location: ../candidate-details?candidate_id=$candidate_id");
     } else {
-        header("Location: ../landing-page.php");
+        header("Location: ../landing-page");
     }
 } else {
-    header("Location: ../landing-page.php");
+    header("Location: ../landing-page");
 }
 ?>

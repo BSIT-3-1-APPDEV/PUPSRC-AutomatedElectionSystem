@@ -91,10 +91,10 @@ $(() => {
           "You have unsaved changes. Are you sure you want to abandon them?"
         )
       ) {
-        window.location.href = "profile.php";
+        window.location.href = "profile";
       }
     } else {
-      window.location.href = "profile.php";
+      window.location.href = "profile";
     }
   });
 

@@ -88,73 +88,78 @@ $(document).ready(function() {
         $('#confirmPassModal').modal('show');
     });
 
-    $('#realSubmitBtn').on('click', function(event) {
-        event.preventDefault();
+    $("#realSubmitBtn").on("click", function (event) {
+      event.preventDefault();
 
-        // Perform password verification first
-        var formData = new FormData($('#confirmPasswordForm')[0]);
+      // Perform password verification first
+      var formData = new FormData($("#confirmPasswordForm")[0]);
 
-        $.ajax({
-            type: 'POST',
-            url: 'includes/verify-password.php',
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    // Proceed with organization change
-                    var formDataOrg = new FormData($('#changeOrgForm')[0]);
+      $.ajax({
+        type: "POST",
+        url: "includes/verify-password.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (response) {
+          if (response.success) {
+            // Proceed with organization change
+            var formDataOrg = new FormData($("#changeOrgForm")[0]);
 
-                    $.ajax({
-                        type: 'POST',
-                        url: 'includes/change-org.php',
-                        data: formDataOrg,
-                        processData: false,
-                        contentType: false,
-                        success: function(response) {
-                            $('#confirmPassModal').modal('hide');
-                            $('#transferSuccessModal').modal('show');
-                            setTimeout(function() {
-                                window.location.href = 'includes/voter-logout.php';
-                            }, 5000); // Redirect after 5 seconds
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Change organization AJAX Error:', xhr.responseText); // Log organization change error
-                        }
-                    });
-                } else if (response.maxLimit) {
-                    // Maximum attempts exceeded
-                    $('#confirmPassModal').modal('hide');
-                    $('#maximumAttemptsModal').modal('show');
-                } else {
-                    // Password verification failed
-                    var attemptsLeft = response.message.split('Attempts left: ')[1];
-                    $('#errorMessage').text(response.message).show();
-                    $('#password').addClass('error-border');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Verify Password AJAX Error:', xhr.responseText); // Log verify password error
-                // Handle verify password error
-            }
-        });
+            $.ajax({
+              type: "POST",
+              url: "includes/change-org.php",
+              data: formDataOrg,
+              processData: false,
+              contentType: false,
+              success: function (response) {
+                $("#confirmPassModal").modal("hide");
+                $("#transferSuccessModal").modal("show");
+                setTimeout(function () {
+                  window.location.href = "includes/voter-logout";
+                }, 5000); // Redirect after 5 seconds
+              },
+              error: function (xhr, status, error) {
+                console.error(
+                  "Change organization AJAX Error:",
+                  xhr.responseText
+                ); // Log organization change error
+              },
+            });
+          } else if (response.maxLimit) {
+            // Maximum attempts exceeded
+            $("#confirmPassModal").modal("hide");
+            $("#maximumAttemptsModal").modal("show");
+          } else {
+            // Password verification failed
+            var attemptsLeft = response.message.split("Attempts left: ")[1];
+            $("#errorMessage").text(response.message).show();
+            $("#password").addClass("error-border");
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Verify Password AJAX Error:", xhr.responseText); // Log verify password error
+          // Handle verify password error
+        },
+      });
     });
 
     // Ajax request to destroy the session of a user
-  $("#closeMaximumAttemptsModal").on("click", function () {
-    $.ajax({
-      url: "includes/voter-logout.php",
-      type: "POST",
-      success: function () {
-        window.location.href = "landing-page.php";
-      },
-      error: function () {
-        console.error("Error:", error);
-        $("#error-message").text("An error occurred. Please try again later.");
-      },
+    $("#closeMaximumAttemptsModal").on("click", function () {
+      $.ajax({
+        url: "includes/voter-logout.php",
+        type: "POST",
+        success: function () {
+          window.location.href = "landing-page";
+        },
+        error: function () {
+          console.error("Error:", error);
+          $("#error-message").text(
+            "An error occurred. Please try again later."
+          );
+        },
+      });
     });
-  });
 
 
     // Optional: Handle input error removal

@@ -22,9 +22,9 @@ if (!$is_page_accessible) {
     $page = basename($_SERVER['PHP_SELF']);
 
     if ($page === 'configuration.php') {
-        header("Location: landing-page.php");
+        header("Location: landing-page");
     } else {
-        header("Location: ../landing-page.php");
+        header("Location: ../landing-page");
     }
     exit();
 }

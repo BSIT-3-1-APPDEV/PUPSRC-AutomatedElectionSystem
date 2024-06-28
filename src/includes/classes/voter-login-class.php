@@ -117,12 +117,12 @@ class Login extends IpAddress {
             $close = new DateTime($row['close']);	
             if($today >= $start && $today <= $close) {	
                 $_SESSION['electionOpen'] = true;	
-                header("Location: ../ballot-forms.php");	
+                header("Location: ../ballot-forms");	
                 exit();	
             }	
             else {	
                 $_SESSION['electionOpen'] = false;	
-                header("Location: ../voting-closed.php");	
+                header("Location: ../voting-closed");	
                 exit();	
             }	
         }	
@@ -152,14 +152,14 @@ class Login extends IpAddress {
 
         switch ($vote_status) {
             case NULL:
-                header("Location: ../ballot-forms.php");
+                header("Location: ../ballot-forms");
                 break;
             case 'voted':
             case 'abstained':
-                header("Location: ../end-point.php");
+                header("Location: ../end-point");
                 break;
             default:
-                header("Location: ../landing-page.php");
+                header("Location: ../landing-page");
                 break;
         }
         exit();
@@ -172,7 +172,7 @@ class Login extends IpAddress {
         if ($row['account_status'] === 'verified') {
             $this->regenerateSessionId();
             $_SESSION['voter_id'] = $row['voter_id'];
-            header("Location: ../admindashboard.php");
+            header("Location: ../admindashboard");
         } else {
             $this->redirectWithMessage($this->info_message, 'This account has been disabled.');
         }
@@ -217,13 +217,13 @@ class Login extends IpAddress {
     // Handles different types of messages
     private function redirectWithMessage($type, $message) {
         $_SESSION[$type] = $message;
-        header("Location: ../voter-login.php");
+        header("Location: ../voter-login");
         exit();
     }
     
     private function isLoginAttemptMax() {
         $_SESSION['maxLimit'] = true;
-        header("Location: ../voter-login.php");
+        header("Location: ../voter-login");
         exit();
     }
 }

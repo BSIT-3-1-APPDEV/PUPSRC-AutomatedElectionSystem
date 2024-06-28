@@ -86,12 +86,22 @@ function loadPage(tableId, paginationId, ajaxUrl, page, searchTerm = "", sortBy 
 
           const row = `
             <tr>
-              <td class="col-md-1 text-center checkbox-delete-admin ${deleteAdminState ? "" : "d-none"}">
-                <input type="checkbox" class="adminCheckbox" data-id="${voter.voter_id}" ${isChecked}>
+              <td class="col-md-1 text-center checkbox-delete-admin ${
+                deleteAdminState ? "" : "d-none"
+              }">
+                <input type="checkbox" class="adminCheckbox" data-id="${
+                  voter.voter_id
+                }" ${isChecked}>
               </td>
-              <td class="col-md-4 text-center text-truncate"><a href="account-details.php?voter_id=${voter.voter_id}">${voter.first_name} ${voter.middle_name} ${voter.last_name} ${voter.suffix}</a></td>
+              <td class="col-md-4 text-center text-truncate"><a href="account-details?voter_id=${
+                voter.voter_id
+              }">${voter.first_name} ${voter.middle_name} ${voter.last_name} ${
+            voter.suffix
+          }</a></td>
               <td class="col-md-3 text-center">
-                <span class="role-background ${voter.role.toLowerCase()} ${voter.role === 'head_admin' ? 'head-admin' : ''}">${formatRoleString(voter.role)}</span>
+                <span class="role-background ${voter.role.toLowerCase()} ${
+            voter.role === "head_admin" ? "head-admin" : ""
+          }">${formatRoleString(voter.role)}</span>
               </td>
               <td class="col-md-3 text-center">
                 <span>${formattedDate}</span>

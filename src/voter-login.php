@@ -85,7 +85,7 @@ $connection->close();
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
-            <a href="landing-page.php"><img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo"></a>
+            <a href="landing-page"><img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo"></a>
         </div>
     </nav>
 
@@ -179,7 +179,7 @@ $connection->close();
                             <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
                             <button class="btn login-sign-in-button <?php echo strtoupper($org_name); ?>-login-button" id="loginSubmitBtn" name="sign-in" type="submit">Sign In</button>
                         </div>
-                        <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
+                        <p>Don't have an account? <a href="register" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
                     </form>
                 </div>
             </div>

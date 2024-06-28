@@ -69,7 +69,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 									<i data-feather="users" class="white im-cust feather-2xl"></i>  <span class="hide-text">MANAGE USERS</span>
 								</button>
 								<button type="button" class="btn-back spacing-8 fs-8"
-									onclick="redirectToPage('manage-voters.php')">VOTERS<span class="hide-text">' ACCOUNTS</span></button>
+									onclick="redirectToPage('manage-voters')">VOTERS<span class="hide-text">' ACCOUNTS</span></button>
 								<button type="button" class="btn btn-current rounded-pill spacing-8 fs-8">VALIDATE
 									<span class="hide-text">ACCOUNT</span></button>
 							</div>
@@ -241,7 +241,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 						<div class="modal-body">
 							<div class="d-flex justify-content-end">
 								<i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-									onclick="redirectToPage('voter-details.php?voter_id=<?php echo htmlspecialchars($row["voter_id"]); ?>')">
+									onclick="redirectToPage('voter-details?voter_id=<?php echo htmlspecialchars($row["voter_id"]); ?>')">
 								</i>
 							</div>
 							<div class="text-center">
@@ -316,7 +316,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 						<div class="modal-body">
 							<div class="d-flex justify-content-end">
 								<i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-									onclick="redirectToPage('manage-voters.php')">
+									onclick="redirectToPage('manage-voters')">
 								</i>
 							</div>
 							<div class="text-center p-4">
@@ -371,9 +371,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 		<?php
 
 	} else {
-		header("Location: manage-voters.php");
+		header("Location: manage-voters");
 	}
 } else {
-	header("Location: landing-page.php");
+	header("Location: landing-page");
 }
 ?>

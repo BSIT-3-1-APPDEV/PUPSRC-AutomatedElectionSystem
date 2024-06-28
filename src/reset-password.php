@@ -28,7 +28,7 @@ $row = $result->fetch_assoc();
 
 if (!$row) {
     $_SESSION['error_message'] = 'Reset link was not found.';
-    header("Location: voter-login.php");
+    header("Location: voter-login");
     exit();
 }
 
@@ -37,7 +37,7 @@ $current_time = time();
 
 if ($expiry_time <= $current_time) {
     $_SESSION['error_message'] = 'Reset link has expired.';
-    header("Location: voter-login.php");
+    header("Location: voter-login");
     exit();
 }
 
@@ -81,7 +81,7 @@ if (isset($_SESSION['error_message'])) {
 
     <nav class="navbar navbar-expand-lg fixed-top" id="login-navbar">
         <div class="container-fluid d-flex justify-content-center align-items-center">
-            <a href="landing-page.php"><img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo"></a>
+            <a href="landing-page"><img src="images/resc/iVOTE-Landing2.png" id="ivote-logo-landing-header" alt="ivote-logo"></a>
         </div>
     </nav>
 
@@ -175,7 +175,7 @@ if (isset($_SESSION['error_message'])) {
                                 </p>
                                 <!-- Button to redirect to login here -->
                                 <!-- Sample only -->
-                                <a href="voter-login.php" class="btn reset-sign-in-button mt-3" id="SCO-login-button">Go to Login</a>
+                                <a href="voter-login" class="btn reset-sign-in-button mt-3" id="SCO-login-button">Go to Login</a>
 
                             </div>
                         </div>

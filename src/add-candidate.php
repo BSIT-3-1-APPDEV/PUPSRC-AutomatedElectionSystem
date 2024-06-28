@@ -506,9 +506,9 @@
     <?php
         } else {
             // User is not authorized to access this page
-            header("Location: landing-page.php");
+            header("Location: landing-page");
         }
     } else {
-        header("Location: landing-page.php");
+        header("Location: landing-page");
     }
     ?>

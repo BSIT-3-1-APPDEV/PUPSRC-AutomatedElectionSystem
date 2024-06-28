@@ -14,12 +14,12 @@ if ($referer && strpos($referer, $_SERVER['HTTP_HOST']) !== false) {
         unset($_SESSION['return_to']);
         header("Location: $return_to");
     } else {
-        header("Location: ../landing-page.php");
+        header("Location: ../landing-page");
     }
     exit;
 } 
 else {   
-    header("Location: ../landing-page.php");
+    header("Location: ../landing-page");
     exit;
 }
 ?>

@@ -75,7 +75,7 @@ if (isset($_SESSION['voter_id'])) {
                                 <button type="button" class=" btn-white d-flex align-items-center spacing-8 fs-8">
                                     <i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
                                 </button>
-                                <button type="button" class="btn-back spacing-8 fs-8" onclick="window.location.href='manage-candidate.php'">MANAGE CANDIDATES</button>
+                                <button type="button" class="btn-back spacing-8 fs-8" onclick="window.location.href='manage-candidate'">MANAGE CANDIDATES</button>
                                 <button type="button" class="btn btn-current rounded-pill spacing-8 fs-8">CANDIDATE
                                     INFORMATION</button>
                             </div>
@@ -105,7 +105,7 @@ if (isset($_SESSION['voter_id'])) {
                                                     <p class="fw-bold fs-6 pt-sm-2">
                                                         <?php echo strtoupper($candidate['last_name'] . ',' . ' ' . $candidate['first_name'] . ' ' . $candidate['middle_name'] . ' ' . $candidate['suffix']); ?>
                                                     </p>
-                                                    <a href="edit-candidate.php?candidate_id=<?php echo htmlspecialchars($candidate['candidate_id']); ?>" class="button-create rounded-3 btn-sm">Edit Information</a>
+                                                    <a href="edit-candidate?candidate_id=<?php echo htmlspecialchars($candidate['candidate_id']); ?>" class="button-create rounded-3 btn-sm">Edit Information</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -158,9 +158,9 @@ if (isset($_SESSION['voter_id'])) {
 
 <?php
     } else {
-        header("Location: landing-page.php");
+        header("Location: landing-page");
     }
 } else {
-    header("Location: landing-page.php");
+    header("Location: landing-page");
 }
 ?>

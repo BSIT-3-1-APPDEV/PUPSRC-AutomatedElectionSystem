@@ -45,7 +45,7 @@ $(document).ready(function () {
         url: "includes/voter-logout.php",
         type: "POST",
         success: function () {
-          window.location.href = "landing-page.php";
+          window.location.href = "landing-page";
         },
         error: function () {
           console.error("Error:", error);
@@ -63,7 +63,7 @@ $(document).ready(function () {
       url: "includes/voter-logout.php",
       type: "POST",
       success: function () {
-        window.location.href = "landing-page.php";
+        window.location.href = "landing-page";
       },
       error: function () {
         console.error("Error:", error);
@@ -89,7 +89,7 @@ $(document).ready(function () {
             resetModal();
             $("#maxLimitReachedModal").modal("show");
           } else if (response.success) {
-            window.location.href = "change-password.php";
+            window.location.href = "change-password";
             resetModal();
           } else {
             $("#error-message").text(response.message);

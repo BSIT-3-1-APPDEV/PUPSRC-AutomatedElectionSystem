@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     } 
 } else {
-    header("Location: ../../src/ballot-forms.php");
+    header("Location: ../../src/ballot-forms");
     exit();
 }
 ?>

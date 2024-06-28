@@ -9,7 +9,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["sign-up"])) {
 
     if(!CsrfToken::validateCSRFToken()) {
         $_SESSION['error_message'] = 'Something went wrong. Please reload the page.';
-        header("Location: ../register.php");
+        header("Location: ../register");
         exit();
     }
 

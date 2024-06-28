@@ -202,7 +202,7 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
         <img src="../src/images/resc/check-animation.gif" width="300px">
         <h4 class="pb-4"><b>Vote Submitted!</b></h4>
         <button class="button-check main-bg-color text-white py-2 px-4" id="giveFeedbackbtn">
-          <a class="custom-link" href="../src/feedback-suggestions.php"><b>Give Feedback</b></a>
+          <a class="custom-link" href="../src/feedback-suggestions"><b>Give Feedback</b></a>
         </button>
       </div>
     </div>
@@ -461,9 +461,9 @@ if (!empty($row_candidates['photo_url'])) {
 </html>
 <?php
   } else {
-    header("Location: end-point.php");
+    header("Location: end-point");
   }
 } else {
-  header("Location: landing-page.php");
+  header("Location: landing-page");
 }
 ?>

@@ -43,7 +43,7 @@ class LoginController extends Login {
     // Redirect to login page and display error message
     private function redirectToLoginPage($errorMessage) {
         $_SESSION['error_message'] = $errorMessage;
-        header("Location: ../voter-login.php");
+        header("Location: ../voter-login");
         exit();
     }
     
