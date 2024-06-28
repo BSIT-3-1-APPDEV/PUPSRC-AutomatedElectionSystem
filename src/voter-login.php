@@ -12,8 +12,6 @@ SessionManager::checkUserRoleAndRedirect();
 
 $csrf_token = CsrfToken::generateCSRFToken();
 
-$_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
-
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
     unset($_SESSION['error_message']);
@@ -113,7 +111,7 @@ $connection->close();
             <div class="col-md-6 login-right-section">
 
                 <div>
-                    <form action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
+                    <form id="loginForm" action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
                                  
                         <!-- CSRF Token hidden field -->
                         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
@@ -170,7 +168,7 @@ $connection->close();
                             <!-- <div class="ps-1 fw-medium valid-feedback text-start">
                                 Looks right!
                             </div>
-                            <div class="ps-1 fw-medium text-start invalid-feedback">
+                            <div class="ps-1 fw-medium text-start invalid-feedback" id="password-login-error">
                                 Please provide a valid password.
                             </div>  -->
                         </div>

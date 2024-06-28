@@ -1,25 +1,40 @@
-(() => {
-  "use strict";
-
-  const forms = document.querySelectorAll(".needs-validation");
-
-  Array.from(forms).forEach((form) => {
-    form.addEventListener(
-      "submit",
-      (event) => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
-        form.classList.add("was-validated");
-      },
-      false
-    );
-  });
-})();
-
 $(document).ready(function () {
+  $("#loginForm").on("submit", function (event) {
+    let email = $("#Email").val().trim();
+    let password = $("#Password").val().trim();
+    let isValid = true;
+
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailPattern.test(email) || email === "") {
+      isValid = false;
+      $("#email-login-error").text("Please provide a valid email.");
+      $("#Email").addClass("is-invalid border border-danger");
+    } else {
+      $("#email-login-error").text("");
+      $("#Email").removeClass("is-invalid border border-danger");
+      $("#Email").addClass("is-valid border border-success");
+    }
+
+    if (password === "") {
+      isValid = false;
+      $("#password-login-error").text("Please provide a valid password.");
+      $("#Password").addClass("is-invalid border border-danger");
+      $("#password-toggle").addClass("is-invalid border border-danger");
+    } else {
+      $("#password-login-error").text("");
+      $("#Password, #password-toggle").removeClass(
+        "is-invalid border border-danger"
+      );
+      $("#Password, #password-toggle").addClass(
+        "is-valid border border-success"
+      );
+    }
+
+    if (!isValid) {
+      event.preventDefault();
+    }
+  });
+
   const avoidSpace = (event) => {
     if (event.key === " ") {
       event.preventDefault();
@@ -83,11 +98,23 @@ $(document).ready(function () {
   const sendButton = $("#" + ORG_NAME);
   sendButton.prop("disabled", true);
 
-  $("#Password").on("change", function () {
-    $("#Password, #password-toggle").addClass(
-      "is-valid was-validated border border-success"
-    );
+  $("#Password").on("change", function (event) {
+    let password = $(this).val();
+    if (password === "") {
+      event.preventDefault();
+      $("#password-login-error").text("Please provide a valid password.");
+      $("#Password").addClass("is-invalid border border-danger");
+      $("#password-toggle").addClass("is-invalid border border-danger");
+    } else {
+      $("#password-login-error").text("");
+      $("#Password").removeClass("is-invalid border border-danger");
+      $("#password-toggle").removeClass("is-invalid border border-danger");
+      $("#Password, #password-toggle").addClass(
+        "is-valid border border-success"
+      );
+    }
   });
+  
 
   const validateEmail = (
     email,
