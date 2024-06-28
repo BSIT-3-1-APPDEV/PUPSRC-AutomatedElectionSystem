@@ -21,13 +21,13 @@
 }
 
 .btn-lvl-white-add {
-  color: var(--main-color) !important;
-  border-radius: 50px !important;
-  padding: 10px 5px !important;
-  font-weight: bold !important;
-  z-index: 1 !important;
-  font-size: xx-small;
-  background-color: #fff !important;
+  background-color: white;
+  color: var(--main-color)!important;
+  border-radius: 50px;
+  padding: 5px 50px;
+  font-weight: 800;
+  z-index: 1;
+  cursor: default;
 }
 
 
@@ -129,48 +129,81 @@
 }
 
 
-/* DELETE CSS */
-/* Adjust the width of the checkbox column */
-.row-checkbox {
-  width: 20px; /* Set an appropriate width */
+.confirm-delete p {
+  margin-bottom: 0 !important;
 }
 
-/* Prevent other columns from resizing */
-.col-md-3 {
-  flex: 1; /* Maintain equal flex distribution for other columns */
+.funcs a {
+    color: var(--main-black) !important;
+}
+.funcs p:hover, i:hover {
+    cursor: pointer;
+    color: var(--bs-gray-500) !important;
 }
 
-.checkbox-th {
-  padding: 0.25rem 0.5rem; /* Adjust the top/bottom and left/right padding as needed */
+.btn-cancel {
+  color: #000 !important;
+  background-color: #CDCDCD;
 }
 
-.checkbox-td {
-  padding: 0.25rem 0.5rem; /* Adjust the top/bottom and left/right padding as needed */
+.btn-cancel:hover {
+  color: #00000064 !important;
+  background-color: #CDCDCD;
 }
 
-.delete-button {
-  padding: 8px 16px;
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.light-gray {
+  color: var(--bs-gray-250);
 }
 
-/* Modal Overlay */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(77, 77, 77, 0.212); /* Semi-transparent black */
-  z-index: 1040; /* Adjust this value based on your modal's z-index */
+/* Hide only the filter checkboxes */
+.filter-checkbox {
   display: none;
 }
 
-/* Custom styles for red checkboxes */
-.form-check-input:checked {
-  background-color: #dc3545;
-  border-color: #dc3545;
+/* Style for the filter custom checkbox */
+.filter-custom-checkbox {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  margin-right: 5px;
+  vertical-align: middle;
+  position: relative;
+}
+
+/* Style the checkmark for filter checkbox */
+.filter-custom-checkbox::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 2px;
+  width: 3px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Show checkmark when filter checkbox is checked */
+.filter-checkbox:checked + .filter-custom-checkbox::after {
+  display: block;
+}
+
+/* Change background color when filter checkbox is checked */
+.filter-checkbox:checked + .filter-custom-checkbox {
+  background-color: var(--main-color); 
+  border-color: var(--main-color);  
+}
+
+.committee-add {
+  background-color: white !important;
+  color: var(--main-color)!important;
+  border-radius: 50px;
+  padding: 5px 50px;
+  font-weight: 800;
+  z-index: 1;
+  cursor: default;
 }
