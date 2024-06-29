@@ -620,20 +620,31 @@ button {
   /* width: 600px; */
 }
 
-.input-group {
+/* .input-group {
+  display: flex;
+  align-items: center;
+} */
+/* 
+.input-group .btn {
   position: relative;
+  border-left: none;
+} */
+
+.input-group .form-control {
+  border-right: none;
 }
 
-.input-group::after {
+.input-group .btn::before {
   content: '';
   position: absolute;
   top: 50%;
+  left: -2px; /* Adjust this value if needed to perfectly align the border */
   transform: translateY(-50%);
-  right: 23%;
-  border-right: 2px solid #ccc;
+  border-left: 2px solid #ccc;
   height: 50%;
-  z-index: 1000;
+  z-index: 1;
 }
+
 
 .input-group#reset-password::after {
 display: none;
@@ -871,6 +882,10 @@ span {
 }
 
 
+.sign-in-modal {
+  text-decoration: underline;
+}
+
 /* Media query for small screens */
 @media (max-width: 768px) {
   .login-body {
@@ -952,6 +967,7 @@ span {
   #credits{
     display: none;
   }
+  
 }
 
 .loading-gif {
