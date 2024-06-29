@@ -63,18 +63,32 @@ $connection->close();
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- I run into problems in the input field when i switched to this local bootstrap -->
+    <!-- <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" /> -->
 
     <!-- Online Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Akronim&family=Anton&family=Aoboshi+One&family=Audiowide&family=Black+Han+Sans&family=Braah+One&family=Bungee+Outline&family=Hammersmith+One&family=Krona+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
 
+    <!-- Custom Stylesheets -->
     <link rel="stylesheet" href="styles/dist/landing.css">
+    <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
+
+    <!-- Preloader Stylesheet and Image -->
     <link rel="stylesheet" href="styles/loader.css" />
     <link rel="preload" href="images/resc/ivote-icon.png" as="image">
-    <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
+
+    <!-- Favicon -->
     <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
     <title>Login</title>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="scripts/voter-login.js" defer></script>
+    <script src="scripts/loader.js" defer></script>
 </head>
 
 <body class="login-body" id="<?php echo strtoupper($org_name); ?>-body">
@@ -94,9 +108,9 @@ $connection->close();
         <div class="row">
             <div class="col-md-6 login-left-section">
                 <div class="organization-names">
-                    <img src="images/logos/<?php echo $org_name; ?>.png" class="img-fluid login-logo" alt="<?php echo strtoupper($org_name) . ' '; ?>Logo">
-                    <p><?php echo strtoupper($org_full_name); ?></p>
-                    <h1 class="login-AES">AUTOMATED ELECTION SYSTEM</h1>
+                    <img src="images/logos/<?php echo $org_name; ?>.png" class="login-logo pb-3" alt="<?php echo strtoupper($org_name) . ' '; ?>Logo">
+                    <div class="org-full-name px-5"><?php echo strtoupper($org_full_name); ?></div>
+                    <div class="login-AES px-4">AUTOMATED ELECTION SYSTEM</div>
 
                     <div class="login-wave-footer" id="<?php echo strtoupper($org_name); ?>-wave">
                         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -117,7 +131,7 @@ $connection->close();
                         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                         
                         <h1 class="login-account">Account Log In</h1>
-                        <p>Sign in to your account</p>
+                        <p class="subtitle">Sign in to your account</p>
 
                         <div class="d-flex align-items-center justify-content-center mb-0 pb-0">
                             <!-- Displays error message -->
@@ -149,7 +163,7 @@ $connection->close();
                         <?php endif; ?>
 
                         <div class="col-md-12 mt-0 mb-3">
-                            <input type="email" class="form-control shadow-sm" id="Email" name="email" placeholder="Email Address" required autocomplete="email">
+                            <input type="email" class="form-control shadow-sm email" id="Email" name="email" placeholder="Email Address" required autocomplete="email">
                             
                             <div class="fw-medium text-start invalid-feedback" id="email-login-error">
                                 <!-- Display error messages here  -->
@@ -158,11 +172,11 @@ $connection->close();
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
-                                <input type="password" class="form-control shadow-sm border border-end-0" name="password" placeholder="Password" id="Password" autocomplete="current-password" required>
-                                <button class="btn shadow-sm border border-start-0" type="button" id="password-toggle">Show</button>
+                                <input type="password" class="form-control shadow-sm border border-end-0 password" name="password" placeholder="Password" id="Password" autocomplete="current-password" required>
+                                <button class="btn shadow-sm border border-start-0 show-toggle" type="button" id="password-toggle">Show</button>
                             </div>
                             
-                            <div class="mt-1 fw-medium text-start text-danger" id="password-login-error" style="font-size: .875em;">
+                            <div class="mt-1 fw-medium text-start text-danger" id="password-login-error">
                                 <!-- Display error messages here -->
                             </div>  
                         </div>
@@ -173,7 +187,7 @@ $connection->close();
                             <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
                             <button class="btn login-sign-in-button <?php echo strtoupper($org_name); ?>-login-button" id="loginSubmitBtn" name="sign-in" type="submit">Sign In</button>
                         </div>
-                        <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
+                        <p class="sign-up-redirect">Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
                     </form>
                 </div>
             </div>
@@ -213,18 +227,18 @@ $connection->close();
     <div class="modal fade" id="forgot-password-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="m justify-content-center">
-                    <h1 class="modal-title fs-5 fw-bold mb-2" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
+                <div class="justify-content-center">
+                    <h1 class="modal-title fw-bold mb-2 forgot-password-title" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
                     </h1><!-- <hr> -->
                 </div>
                 <div class="modal-body">
                     <form class="needs-validation" id="forgot-password-form" name="forgot-password-form" novalidate enctype="multipart/form-data">
                         <div class="col-12 col-md-12">
-                            <div class="d-flex align-items-start mb-0 pb-0">
+                            <div class="d-flex align-items-start mb-0 pb-0 forgot-pass-email-title">
                                 <!-- <p for="email" class="form-label text-start ps-1">We will send a password reset link to your registered email address.</p> -->
                                 <p>Email Address</p>
                             </div>
-                            <input type="email" class="form-control shadow-sm" id="email" name="email" placeholder="Email Address" autocomplete="email">
+                            <input type="email" class="form-control shadow-sm email" id="email" name="email" placeholder="Email Address" autocomplete="email">
                             <div class="valid-feedback text-start fw-medium" id="email-valid">
                             </div>
                             <div class="invalid-feedback text-start fw-medium" id="email-error">
@@ -237,13 +251,13 @@ $connection->close();
                             </script>
 
                         </div>
-                        <div class="col-md-12 ">
-                            <div class="row reset-pass">
-                                <div class="col-4">
-                                    <button type="button" id="cancelReset" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
+                        <div class="col-md-12 mt-4">
+                            <div class="row">
+                                <div class="col-5">
+                                    <button type="button" id="cancelReset" class="btn cancel-button w-100" data-bs-dismiss="modal">Cancel</button>
                                 </div>
-                                <div class="col-4">
-                                    <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send</button>
+                                <div class="col-7">
+                                    <button class="btn send-link-button w-100" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send Link</button>
                                     <script>
                                         const ORG_NAME = "<?php echo strtoupper($org_name) . '-login-button'; ?>";
                                     </script>
@@ -303,11 +317,6 @@ $connection->close();
             </div>
         </div>
     </div>
-
-    <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="scripts/voter-login.js"></script>
-    <script src="scripts/loader.js"></script>
 
 </body>
 
