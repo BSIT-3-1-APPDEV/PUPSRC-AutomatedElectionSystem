@@ -634,19 +634,23 @@ button {
   position: relative;
 }
 
-.input-group::after {
+.input-group .btn::before {
   content: '';
   position: absolute;
   top: 50%;
+  left: -2px;
   transform: translateY(-50%);
-  right: 23%;
-  border-right: 2px solid #ccc;
+  border-left: 2px solid #ccc;
   height: 50%;
-  z-index: 1000;
+  z-index: 1;
 }
 
 .input-group#reset-password::after {
 display: none;
+}
+
+.input-group .form-control {
+  border-right: none;
 }
 
 #password-toggle {

@@ -11,3 +11,10 @@ function updateText() {
 
 window.addEventListener("load", updateText);
 window.addEventListener("resize", updateText);
+
+$(document).ready(function () {
+  if (warningMessage) {
+    $("#warningMessage").text(warningMessage);
+    $("#susActivityModal").modal("show");
+  }
+});
