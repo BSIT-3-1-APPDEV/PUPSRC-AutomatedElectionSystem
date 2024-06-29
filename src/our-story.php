@@ -187,7 +187,7 @@ SessionManager::checkUserRoleAndRedirect();
 
             <div class="container-fluid testimony">
               <div class="row">
-                <div class="col-4 col-sm-4 col-md-4 col-lg-4 taena">
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 quotePic">
                   <div id="carouselPic" class="image-container slide" data-bs-ride="carousel" data-bs-wrap="true">
                     <div class="carousel-inner">
                       <div class="carousel-item active" id="pm">
@@ -205,9 +205,9 @@ SessionManager::checkUserRoleAndRedirect();
                     </div>
                   </div>
                 </div>
-                <div class="col-8 col-sm-8 col-md-8 col-lg-8 hayop mb-0" id="hayop">
+                <div class="col-8 col-sm-8 col-md-8 col-lg-8 quoteBox mb-0" id="quoteBox">
                   <div class="row">
-                    <div class="col-2 col-sm-2 col-md-2 col-lg-2 bobo mb-3">
+                    <div class="col-2 col-sm-2 col-md-2 col-lg-2 quoteText mb-3">
                       <span class="quote-mark">“</span>
                     </div>
                     <div class="col-10 col-sm-10 col-md-10 col-lg-10">
@@ -330,24 +330,24 @@ SessionManager::checkUserRoleAndRedirect();
       let activeItem = event.relatedTarget;
 
       // Remove any previously set background colors with a transition effect
-      let hayop = document.getElementById('hayop');
-      hayop.style.transition = 'background-color 0.5s ease-in-out';
-      hayop.style.backgroundColor = '';
+      let quoteBox = document.getElementById('quoteBox');
+      quoteBox.style.transition = 'background-color 0.5s ease-in-out';
+      quoteBox.style.backgroundColor = '';
 
       // Set background color based on active item's id after a short delay
       setTimeout(() => {
         switch (activeItem.id) {
           case 'pm':
-            hayop.style.backgroundColor = '#D9E0F0';
+            quoteBox.style.backgroundColor = '#D9E0F0';
             break;
           case 'development':
-            hayop.style.backgroundColor = '#ff87ab';
+            quoteBox.style.backgroundColor = '#ff87ab';
             break;
           case 'qa':
-            hayop.style.backgroundColor = '#EECFCE';
+            quoteBox.style.backgroundColor = '#EECFCE';
             break;
           case 'ba':
-            hayop.style.backgroundColor = '#c1ff9b';
+            quoteBox.style.backgroundColor = '#c1ff9b';
             break;
           default:
             break;
