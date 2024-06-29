@@ -16,7 +16,7 @@ input[type='password'] {
 }
 
 .ivote-main-logo {
-  width: 250px !important;
+  width: 250px;
 }
 
 #ivote-logo-landing-header {
@@ -28,9 +28,11 @@ input[type='password'] {
   text-shadow: 
     -2px -1px 0 white, 2px -1px 0 white, -2px 1px 0 white, 2px 1px 0 white,
     -1px 0 0 white, 1px 0 0 white, 0 -1px 0 white, 0 1px 0 white,
-    2px 2px 4px rgba(255, 255, 255, 0.5); /* Adjust text shadow for the specific element */
+    2px 2px 4px rgba(255, 255, 255, 0.5);
   padding-top: 10px;
-  font-weight: 800;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24.38px;
 }
 
 #index-AES {
@@ -38,9 +40,11 @@ input[type='password'] {
   text-shadow: 
     -2px -1px 0 white, 2px -1px 0 white, -2px 1px 0 white, 2px 1px 0 white,
     -1px 0 0 white, 1px 0 0 white, 0 -1px 0 white, 0 1px 0 white,
-    2px 2px 4px rgba(0, 0, 0, 0.5); /* Adjust text shadow for the specific element */
+    2px 2px 4px rgba(0, 0, 0, 0.5);
   padding-bottom: 2%;
-  font-weight: 800;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 48.76px;
 }
 
 .index-button {
@@ -48,8 +52,8 @@ input[type='password'] {
   font-weight: bold;
   padding-left: 3%;
   padding-right: 3%;
-  padding-top: 1%;
-  padding-bottom: 1%;
+  padding-top: 14px;
+  padding-bottom: 14px;
   color: #fff;
   outline: none;
   border: none;
@@ -213,10 +217,15 @@ a {
   letter-spacing: 10px;
 }
 
-.login-AES,
+.login-AES {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 43.88px;
+  text-align: center;
+}
+
 #login-account {
   font-weight: bold;
-  padding-bottom: 100px;
 }
 
 #login-form {
@@ -260,7 +269,6 @@ a {
 
 .login-left-section {
   position: relative;
-  margin: 0%;
   padding: 0%;
   color: white;
   display: flex;
@@ -270,13 +278,15 @@ a {
 }
 
 .login-logo {
+  margin-top: -110px;
   width: 25%;
+  height: 100%;
 }
 
 .login-form {
   background-color: #f0f0f0;
   padding: 40px;
-  border-radius: 10px;
+  border-radius: 40px;
   max-width: 500px;
 }
 
@@ -784,20 +794,20 @@ span {
   display: block;
   margin: 0 auto;
   position: relative;
-  top: -130px; /* Adjust this value to overlap the top line as desired */
+  top: -130px;
   z-index: 1;
 }
 
 .img-container {
-  text-align: center !important;
-  margin-bottom: -110px; /* Adjust this value to bring the image closer to the form */
+  /* text-align: center !important; */
+  margin-bottom: -110px;
 }
 
 .password-requirements {
-  display: none; /* Hide the element and its space */
+  display: none;
   justify-content: center;
-  text-align: left; /* Keeps text left-aligned within the centered container */
-  margin-top: 5px; /* Adjust the top margin as needed */
+  text-align: left;
+  margin-top: 5px;
 }
 
 .password-requirements.show {
@@ -870,24 +880,166 @@ span {
   font-weight: bold;
 }
 
+#password-login-error {
+  font-size: .875em;
+}
 
-/* Media query for small screens */
+.forgot-password-title {
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 30.48px;
+  letter-spacing: 0.03em;
+  text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .login-right-section {
+    background-color: transparent;
+    min-height: 0vh;
+  }
+
+  .org-full-name {
+    font-size: 13px;
+    font-weight: 400;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+
+  .login-form {
+    width: 380px;
+    border-radius: 20px;
+    opacity: 0px;
+    margin-right: 40px;
+    margin-left:40px;
+  }
+
+  .login-account {
+    font-size: 30px;
+    font-weight: 700;
+    padding-bottom: 3px;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 12.19px;
+    text-align: center;
+  }
+
+  .email, .password {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14.63px;
+    text-align: left;
+    height: 33.4px;
+    border-radius: 7px;
+  }
+
+  .login-AES {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 19.5px;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.send-link-button{
+  color: #FFF !important;
+}
+
 @media (max-width: 768px) {
   .login-body {
     padding-top: 15%;
   }
+
+  .org-full-name {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12.19px;
+    text-align: center;
+  }
+
+  .login-logo {
+    margin-top: 10px;
+    width: 74.67px;
+    height: 100%;
+  }
+
+  .login-account {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24.38px;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12.19px;
+    text-align: center;
+  }
+
+  .login-form {
+    width: 330px;
+    border-radius: 20px;
+    opacity: 0px;
+    padding: 30px;
+  }
+
+  .email, .password {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14.63px;
+    text-align: left;
+    height: 33.4px;
+    border-radius: 7px;
+  }
+
+  #password-toggle {
+    width: 55px;
+    font-size: 11px;
+    font-weight: 500;
+    /* line-height: 15.85px;
+    letter-spacing: 0.05em; */
+    text-align: left;
+  }
+
+  #password-login-error, #email-login-error {
+    font-size: .674em;
+  }
+
+  #forgot-password {
+    padding-top: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 13.41px;
+    text-align: center;
+  }
+
+  .login-sign-in-button {
+    margin-top: -20px;
+    font-size: 12px;
+  }
+
+  .sign-up-redirect {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 14.63px;
+    text-align: center;    
+  }  
 
   #index-AES {
     font-size: 27px;
   }
 
   .login-AES {
-    padding-bottom: 0%;
-  }
-
-  .login-form {
-    width: 100%;
-    border-radius: 40px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19.5px;
+    text-align: center;
   }
 
   .login-right-section {
@@ -931,17 +1083,13 @@ span {
     width: 450px;
   }
 
-  .index-button{
-    margin-top: 3%;
-    padding: 3%;
-  }
 
   .forgot-password-icon{
     width: 70%; 
   }
 
   .img-container {
-    text-align: center;
+    /* text-align: center; */
     margin-bottom: -110px;
   }
 
@@ -951,6 +1099,99 @@ span {
 
   #credits{
     display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .ivote-main-logo {
+    width: 160px;
+  }
+
+  .landing-organization-title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24.38px;
+    text-align: center;
+  }
+  
+  .landing-organization-subtitle {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 15.85px;
+    text-align: center;    
+  }
+
+  .first-section{
+    margin-top: -100px;
+  }
+
+  #index-PUPSRC {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 18.29px;
+  }
+  
+  #index-AES {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 18.29px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .index-button {
+    width: 152px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .login-logo {
+    margin-top: 10px;
+    width: 74.67px;
+    height: 100%;
+  }
+
+  .login-form {
+    width: 295px;
+    border-radius: 20px;
+    opacity: 0px;
+  }
+
+  .forgot-password-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17.07px;
+    text-align: center;
+  }
+
+  .forgot-pass-email-title {
+    font-size: 12px;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .send-link-button, .cancel-button {
+    font-size: 10px;
+    text-align: center;
+    height: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .cancel-button {
+    background-color: #CDCDCD;
+    color: #515050; 
+  }
+
+  #email-error {
+    font-size: .674em;
   }
 }
 
