@@ -1,0 +1,353 @@
+/* Our Story */
+.carousel {
+  height: 600px;
+  width: 600px;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  /* border-radius: 50px; */
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-item {
+  height: 100%;
+}
+
+.carousel-item img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.our-story-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.our-story-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 7%
+}
+
+/* Flexbox to equalize heights */
+.team-image {
+    display: flex;
+    overflow: hidden;
+    height: 18%;
+  }
+  
+.kaliwa {
+    width: 40%;
+}
+  
+.kanan {
+    width: 60%;
+  }
+  
+  .team-image .kaliwa img,
+  .team-image .kanan img {
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
+    border-radius: 50px;
+  }
+  
+  .department-box {
+    background-color: #D9E0F0;
+    border-radius: 70px;
+    padding: 5%;
+    text-align: start;
+  }
+
+  
+
+.department-icon {
+  text-align: end;
+}
+
+.department-name {
+  font-weight: 600;
+  color: black !important;
+}
+
+.department-definition {
+  font-weight: 500;
+  color: black !important;
+}
+
+.ivote-our-story {
+  width: 7%;
+}
+
+.our-story-subtitle {
+  font-weight: 500;
+}
+
+.quote-image {
+    width: 35%;
+    transform: translate(12%, 0%); 
+    z-index: 1;
+  }
+  
+  .department-quote {
+    border: solid 10px;
+    border-color: #9BB2E2;
+    border-radius: 50%;
+    height: 100px;
+  }
+  
+  .quote-text {
+    width: 65%;
+    /* padding-left: 5%; */
+  }
+
+  .hi{
+    transform: translate(-12%, 0%);
+    background-color:#9BB2E2;
+    padding: 5%;
+    z-index: 0; 
+    border-radius: 70px;
+  }
+.quote-mark {
+    font-weight: 600;
+    font-size: 60px;
+    color: #ffffff;
+    
+}
+  .quote{
+    color: white;
+    text-align: start;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+.quote-name{
+    color: white;
+    text-align: start;
+    font-size: 13px;
+    font-weight: 600;
+    padding-left: 5%;
+}
+  .testimony {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .author{
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .hayop{
+    background-color: #9BB2E2;
+    border-radius: 50px;
+    text-align: start;
+    padding: 3% 2% 0% 5%;
+    transform: translate(-12%, 0%);
+    z-index: 0;
+
+  }
+
+ .taena{
+  transform: translate(0%, 0%);
+  z-index: 1;
+ }
+
+ .bobo{
+  padding: 0%;
+  margin: 0%;
+  text-align: end;
+ }
+
+ .carousel-image {
+  height: 100%; /* Ensure images fill the height of the carousel container */
+  object-fit: cover; /* Maintain aspect ratio and cover the carousel item */
+  
+}
+
+.image-container {
+  height: 100px; /* Adjust this value as needed for your layout */
+  overflow: hidden; /* Hide any overflow from carousel items exceeding container height */
+}
+
+.image-container#carouselPic {
+  height: 175px;
+width: 175px;
+
+}
+
+#carouselMain, #carouselBigPic, #carouselSmallPic{
+  border-radius: 50px;
+}
+
+
+
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center; /* Center the indicators */
+}
+
+.carousel-indicators button {
+  width: 15px !important;
+  height: 15px !important;
+  border-radius: 50%;
+  margin: 0 7% !important; /* Adjust the space between indicators */
+}
+
+.carousel-indicators .active {
+  background-color: #fff; /* Change the color for active state */
+  color: #5d83d3;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 10%;
+  height: 10%;
+  font-size: 2rem;
+  color: #5d83d3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50%;
+  opacity: 1;
+  position: absolute; /* Use absolute positioning */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust position to be centered */
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: #5d83d3;
+  color: white;
+}
+
+.carousel-control-prev {
+  left: 5%; /* Adjust position from the left */
+}
+
+.carousel-control-next {
+  right: 5%; /* Adjust position from the right */
+}
+
+.carousel-control-prev i,
+.carousel-control-next i {
+  display: inline-block;
+  line-height: 1;
+}
+
+.carousel-shadow {
+  position: relative; /* Ensure the container is positioned relatively */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-shadow::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 40%; /* Adjust height as needed for the gradient effect */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  ); /* Gradient effect */
+  border-radius: 0 0 50px 50px; /* Match the border-radius of the carousel */
+}
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+
+  .carousel {
+    height: 450px;
+    width: 450px;
+  }
+  .team-image {
+    flex-direction: row; /* Keep the row layout for small screens */
+    margin-top: 0%;
+    height: 25%;
+  }
+
+  .team-image .kaliwa {
+    width: 40%; /* Set width for kaliwa */
+  }
+
+  .team-image .kanan {
+    width: 60%; /* Set width for kanan */
+  }
+
+  .department-box {
+    background-color: rgba(93, 131, 211, 0.2); /* Use RGBA color with opacity */
+    border-radius: 100px;
+    padding: 0%;
+  }
+
+  .ivote-our-story {
+    width: 10%;
+  }
+
+  .our-story-right {
+    padding: 10%;
+  }
+
+  .department-name {
+font-size: 20px;
+  }
+}
+
+/* .our-story-right {
+    text-align: center;
+    padding: 5%;
+  }
+  
+  .team-image {
+    display: flex;
+    align-items: stretch;
+  }
+  
+  .team-image .col {
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    padding: 0;
+  }
+  
+
+  .team-image img {
+    width: 100%;
+    height: 40%;
+    object-fit: cover;
+    border-radius: 50px;
+  }
+  
+  
+  @media (max-width: 768px) {
+
+    .carousel{
+        height: 400px;
+        width: 400px;
+        overflow: hidden;
+      }
+
+    .team-image {
+      flex-direction: row;
+    }
+  
+    .team-image .col {
+      width: 50%;
+      padding: 0;
+      display: flex;
+    }
+  } */
