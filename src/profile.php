@@ -9,12 +9,21 @@ $_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
 
 if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
+	switch($_SESSION['role']) {
+		case 'admin':
+			$role = 'Admin';
+			break;
+		case 'head_admin':
+			$role = 'Head Admin';
+			break;
+	}
+
 	include FileUtils::normalizeFilePath('includes/session-exchange.php');
 											
 	$connection = DatabaseConnection::connect();
 	$voter_id = $_SESSION['voter_id'];
 
-	$sql = "SELECT last_name, first_name, middle_name, suffix, email, role FROM voter WHERE voter_id = ?";
+	$sql = "SELECT last_name, first_name, middle_name, suffix, email FROM voter WHERE voter_id = ?";
 	$stmt = $connection->prepare($sql);
 	$stmt->bind_param("i", $voter_id);
 	$stmt->execute();
@@ -26,7 +35,6 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 		$middle_name = $row['middle_name'] ?? '';
 		$suffix = $row['suffix'] ?? '';
 		$email = $row['email'];
-		$role = $row['role'];
 	}
 
 	$full_name = $last_name . ' ' . $suffix . ', ' . $first_name . ' ' . $middle_name;
