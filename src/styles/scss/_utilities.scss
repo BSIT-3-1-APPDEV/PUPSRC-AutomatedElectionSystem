@@ -46,12 +46,19 @@ body {
     }
 }
 
-input {
+input,
+textarea {
     background-color: light-dark(var(--white), #ccc);
 }
 
+textarea {
+    resize: none;
+}
+
 input:focus-visible,
-input:focus-visible::placeholder {
+input:focus-visible::placeholder,
+textarea:focus-visible,
+textarea:focus-visible::placeholder {
     font-size: clamp(1rem, 0.75rem + 0.5vw, 1.5vw);
 }
 

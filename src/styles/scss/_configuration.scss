@@ -53,7 +53,11 @@ body {
 
     .btn {
         letter-spacing: 0.1rem;
-        border: none;
+
+        // &:not([class*="btn-outline-"]) {
+        //     border: none;
+        // }
+
 
         &.btn-sm {
             padding: clamp(0.4rem, 0.25rem + 0.1vw, 0.5rem) clamp(2rem, 0.75rem + 0.5vw, 3rem);
@@ -79,6 +83,35 @@ body {
 
                 &:hover {
                     filter: brightness(120%);
+                    background-color: var(--main-color);
+                    border: clamp(1px, 1px + 0.01vw, 5px) solid light-dark(var(--main-color), var(--main-color));
+
+                    svg {
+                        stroke-width: clamp(2px, 1.5px + 0.05dvw, 4px);
+                    }
+
+                }
+
+                &:active {}
+
+                &:focus-visible {
+                    box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--main-color) 25%, transparent);
+                }
+            }
+
+            &.btn-outline-primary {
+                color: var(--main-color);
+                border: clamp(1px, 1px + 0.01vw, 5px) solid light-dark(var(--main-color), var(--main-color));
+                // outline: clamp(1px, 1px + 0.01vw, 5px) solid light-dark(var(--main-color), var(--main-color));
+
+                &:disabled {
+                    opacity: 0.7;
+                    filter: brightness(120%);
+                }
+
+                &:hover {
+                    color: var(--white);
+                    background-color: var(--main-color);
 
                     svg {
                         stroke-width: clamp(2px, 1.5px + 0.05dvw, 4px);
@@ -95,7 +128,7 @@ body {
 
             &.btn-secondary:not(:disabled) {
                 color: #515050;
-                background-color: transparent;
+                background-color: #cdcdcd;
                 border: none;
 
                 &:hover {}
@@ -137,6 +170,13 @@ body {
     .modal-native {
         border-radius: 10px;
 
+        &:has(.modal-fullscreen-sm-down) {
+
+            @media only screen and (max-width: 576px) {
+                border-radius: 0;
+            }
+        }
+
         .modal-dialog {
             .modal-header {
                 &.editor {
@@ -164,6 +204,18 @@ body {
                             line {
                                 stroke-width: clamp(2px, 1px + 0.25dvw, 5px);
                             }
+                        }
+
+                        &:hover {
+
+                            svg circle,
+                            svg line {
+                                stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
+                                color: var(--white);
+                            }
+
+                            background-color: transparent;
+                            filter: brightness(130%);
                         }
                     }
                 }
@@ -236,6 +288,9 @@ body {
 
 
             .modal-action {
+                display: flex;
+                justify-content: end;
+                flex-wrap: wrap;
                 border: none;
 
                 button {
@@ -245,9 +300,9 @@ body {
                 padding: 0;
                 margin-bottom: clamp(0.75px, 0.75rem + 0.5dvw, 36px);
 
-                *:not(:last-child) {
-                    margin-right: clamp(0.75px, 0.75rem + 0.5vw, 3rem);
-                }
+
+                gap: clamp(0.75px, 0.75rem + 0.5vw, 3rem);
+
             }
 
             .modal-footer {
