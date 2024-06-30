@@ -65,7 +65,7 @@ class CandidatePositionController extends CandidatePosition
             foreach ($item as $key => $value) {
 
                 if (is_string($value)) {
-                    $sanitizedItem[$key] = htmlspecialchars($value);
+                    $sanitizedItem[$key] = htmlspecialchars($value, ENT_NOQUOTES);
                 } elseif (is_array($value)) {
                     // quick fix for sanitation
                     $sanitizedItem[$key] = $this->sanitizeArray($value);
@@ -113,7 +113,7 @@ class CandidatePositionController extends CandidatePosition
                     // If it's an array, sanitize each element recursively
                     $sanitizedArray[] = $this->sanitizeArray($element);
                 } elseif (is_string($element)) {
-                    $sanitizedArray[] = htmlspecialchars($element);
+                    $sanitizedArray[] = htmlspecialchars($element, ENT_NOQUOTES);
                 } else {
                     // If not a string or array, keep the value as is
                     $sanitizedArray[] = $element;
