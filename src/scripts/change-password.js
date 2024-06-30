@@ -131,10 +131,10 @@ $(document).ready(function () {
   $(window).on("beforeunload", function () {
     if ($("#successChangePasswordModal").is(":visible")) {
       $.ajax({
-        url: "includes/redirect-login.php",
+        url: "includes/voter-logout.php",
         type: "POST",
         success: function () {
-          window.location.href = "voter-login.php";
+          window.location.href = "landing-page.php";
         },
         error: function () {
           console.error("Error:", error);

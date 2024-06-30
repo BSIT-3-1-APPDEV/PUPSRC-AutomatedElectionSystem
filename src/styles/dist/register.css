@@ -55,6 +55,57 @@
     width: 400px;
   }
 }
+
+#dangerTitle, #successTitle {
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 30.48px;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+#dangerSubtitle, #successSubtitle {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 18.29px;
+  letter-spacing: 0.05em;
+  padding: 0px 44px 0px;
+  text-align: center;
+}
+
+.close-mark {
+  margin: 2.5rem 1rem 0rem 0rem;
+}
+
+.close-mark:hover {
+  cursor: pointer !important;
+  color: var(--bs-gray-200) !important;
+}
+
+/* --- For mobile--- */
+@media (max-width: 425px) {
+  #dangerTitle, #successTitle {
+    font-size: 15px;
+    font-weight: 700;
+  }
+  
+  #dangerSubtitle, #successSubtitle {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    margin: -20px -30px 0px;
+  }
+
+  .warning-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .close-mark {
+    margin: 1.5rem -0.5rem 0rem 0rem;
+  }  
+}
+
 /* --- END OF MEDIAS --- */
 
 body {
@@ -71,7 +122,6 @@ body {
   text-decoration: underline;
   cursor: pointer;
 }
-
 
 #ivote-logo-landing-header {
   width: 80px;
@@ -240,17 +290,9 @@ footer {
 }
 
 .check-perc {
-  height: 70% !important;
-  width: 50% !important;
-}
-
-.close-mark {
-  margin: 2.5rem 1rem 0rem 0rem !important;
-}
-
-.close-mark:hover {
-  cursor: pointer !important;
-  color: var(--bs-gray-200) !important;
+  height: 70;
+  width: 60%;
+  margin: -25px 0px -20px
 }
 
 #privacyPolicyModal .modal-body,
