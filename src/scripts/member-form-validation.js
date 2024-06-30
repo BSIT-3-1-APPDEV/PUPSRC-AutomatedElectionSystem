@@ -17,19 +17,28 @@ const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}(?!\.c0m$)
 // Email validation function
 function validateEmail() {
     const emailValue = emailInputField.value.trim();
+    const emailExistsError = document.getElementById("email_exists_error");
 
-    if (emailValue.includes(' ')) {
-        emailErrorField.textContent = "Email address cannot contain spaces.";
-        emailErrorField.style.color = "red";
-        emailInputField.style.borderColor = "red";
-    } else if (!emailValue.match(emailPattern)) {
-        emailErrorField.textContent = "Please enter a valid email address.";
-        emailErrorField.style.color = "red";
-        emailInputField.style.borderColor = "red";
+    if (emailValue !== "") {
+        if (emailValue.includes(' ')) {
+            emailErrorField.textContent = "Email address cannot contain spaces.";
+            emailErrorField.style.color = "red";
+            emailInputField.style.borderColor = "red";
+        } else if (!emailValue.match(emailPattern)) {
+            emailErrorField.textContent = "Please enter a valid email address.";
+            emailErrorField.style.color = "red";
+            emailInputField.style.borderColor = "red";
+        } else {
+            emailErrorField.textContent = "";
+            emailInputField.style.borderColor = "";
+        }
     } else {
         emailErrorField.textContent = "";
         emailInputField.style.borderColor = "";
     }
+
+    // Clear the email exists error when the user starts typing
+    emailExistsError.textContent = "";
 }
 
 // Add event listener for email input
@@ -51,7 +60,7 @@ function validateFirstName() {
     const firstNameError = document.getElementById("first_name_error");
     const namePattern = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
 
-    if (!namePattern.test(firstNameInput.value)) {
+    if (firstNameInput.value.trim() !== "" && !namePattern.test(firstNameInput.value)) {
         firstNameError.textContent = "Please enter a valid name.";
         firstNameError.style.color = "red";
         firstNameInput.style.borderColor = "red";
@@ -68,7 +77,7 @@ function validateMiddleName() {
     const middleNameError = document.getElementById("middle_name_error");
     const namePattern = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
 
-    if (middleNameInput.value.length > 0 && !namePattern.test(middleNameInput.value)) {
+    if (middleNameInput.value.trim() !== "" && !namePattern.test(middleNameInput.value)) {
         middleNameError.textContent = "Please enter a valid name.";
         middleNameError.style.color = "red";
         middleNameInput.style.borderColor = "red";
@@ -84,7 +93,7 @@ function validateSuffix() {
     const suffixInput = document.getElementById('suffix');
     const suffixError = document.getElementById('suffix_error');
 
-    if (suffixInput.value.length > 0 && (!suffixInput.value.match(/^[a-zA-Z]+$/) || suffixInput.value.length > 3)) {
+    if (suffixInput.value.trim() !== "" && (!suffixInput.value.match(/^[a-zA-Z]+$/) || suffixInput.value.length > 3)) {
         suffixError.textContent = 'Please enter a valid suffix.';
         suffixError.style.color = 'red';
         suffixInput.style.borderColor = 'red';
@@ -101,7 +110,7 @@ function validateLastName() {
     const lastNameError = document.getElementById("last_name_error");
     const namePattern = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
 
-    if (!namePattern.test(lastNameInput.value)) {
+    if (lastNameInput.value.trim() !== "" && !namePattern.test(lastNameInput.value)) {
         lastNameError.textContent = "Please enter a valid name.";
         lastNameError.style.color = "red";
         lastNameInput.style.borderColor = "red";
@@ -113,21 +122,26 @@ function validateLastName() {
 lastNameInput.addEventListener("input", validateLastName);
 
 // Role validation
+let roleInteracted = false;
 function validateRole() {
-  const roleSelect = document.getElementById("role");
-  const roleError = document.getElementById("role_error");
+    const roleSelect = document.getElementById("role");
+    const roleError = document.getElementById("role_error");
 
-  if (roleError) { // Check if roleError is not null
-      if (roleSelect.value === "") {
-          roleError.textContent = "Please select a role.";
-          roleError.style.color = "red";
-          roleSelect.style.borderColor = "red";
-      } else {
-          roleError.textContent = "";
-          roleSelect.style.borderColor = "";
-      }
-  }
+    if (roleError && roleInteracted) {
+        if (roleSelect.value === "") {
+            roleError.textContent = "Please select a role.";
+            roleError.style.color = "red";
+            roleSelect.style.borderColor = "red";
+        } else {
+            roleError.textContent = "";
+            roleSelect.style.borderColor = "";
+        }
+    }
 }
+roleSelect.addEventListener("change", function() {
+    roleInteracted = true;
+    validateRole();
+});
 roleSelect.addEventListener("change", validateRole);
 
 //---------CREATE BUTTON DISABLE/ABLE--------------//
@@ -139,15 +153,31 @@ const submitButton = document.querySelector('.button-create');
 submitButton.disabled = true;
 submitButton.classList.add('button-disabled');
 
-// Add event listeners to input fields
-firstNameInput.addEventListener('input', toggleSubmitButton);
-lastNameInput.addEventListener('input', toggleSubmitButton);
-emailInputField.addEventListener('input', toggleSubmitButton);
-roleSelect.addEventListener('change', toggleSubmitButton);
+// Function to validate all fields
+function validateAllFields() {
+    validateFirstName();
+    validateLastName();
+    validateEmail();
+    validateRole();
+    validateMiddleName();
+    validateSuffix();
+}
+
+// Function to check if all required fields are valid
+function areAllFieldsValid() {
+    const firstNameValid = document.getElementById("first_name_error").textContent === "";
+    const lastNameValid = document.getElementById("last_name_error").textContent === "";
+    const emailValid = document.getElementById("email_error").textContent === "";
+    const roleValid = document.getElementById("role_error").textContent === "";
+    const middleNameValid = document.getElementById("middle_name_error").textContent === "";
+    const suffixValid = document.getElementById("suffix_error").textContent === "";
+
+    return firstNameValid && lastNameValid && emailValid && roleValid && middleNameValid && suffixValid;
+}
 
 // Function to toggle submit button state
 function toggleSubmitButton() {
-    const isFormValid =
+    const isFormValid = 
         firstNameInput.value.trim().length > 0 &&
         lastNameInput.value.trim().length > 0 &&
         emailInputField.value.trim().length > 0 &&
@@ -162,6 +192,17 @@ function toggleSubmitButton() {
     }
 }
 
+// Add event listeners to input fields
+firstNameInput.addEventListener('input', toggleSubmitButton);
+middleNameInput.addEventListener('input', toggleSubmitButton);
+lastNameInput.addEventListener('input', toggleSubmitButton);
+emailInputField.addEventListener('input', toggleSubmitButton);
+roleSelect.addEventListener('change', toggleSubmitButton);
+suffixInput.addEventListener('input', toggleSubmitButton);
+
+// Initial call to set button state
+toggleSubmitButton();
+
 // Add CSS class for disabled button state
 const styleElem = document.head.appendChild(document.createElement("style"));
 styleElem.innerHTML = `
@@ -171,14 +212,14 @@ styleElem.innerHTML = `
     }
 `;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var createdModal = new bootstrap.Modal(document.getElementById('createdModal'));
     var modalContent = document.querySelector('#createdModal .modal-content');
-  
-    modalContent.addEventListener('click', function(event) {
-      if (event.target.classList.contains('close-mark')) {
-        createdModal.hide();
-      }
+
+    modalContent.addEventListener('click', function (event) {
+        if (event.target.classList.contains('close-mark')) {
+            createdModal.hide();
+        }
     });
 });
 
