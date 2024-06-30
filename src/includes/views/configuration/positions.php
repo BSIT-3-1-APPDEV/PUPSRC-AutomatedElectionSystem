@@ -75,7 +75,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header ">
-                    <h5 class="modal-title">Delete <span class="position-name"></span></h5>
+                    <h5 class="modal-title"><span class="position-name"></span></h5>
                     <button type="button" class="modal-close" aria-label="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
                             <circle cx="12" cy="12" r="10"></circle>
