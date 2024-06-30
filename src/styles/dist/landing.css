@@ -70,11 +70,12 @@ input[type='password'] {
 
 .index-wave-footer {
   position: absolute;
-  bottom: -1px;
+  bottom: 0;
   left: 0;
   width: 100%;
   overflow: hidden;
   line-height: 0;
+  margin-bottom: -1px;
 }
 
 .index-wave-footer svg {
