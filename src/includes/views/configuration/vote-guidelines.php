@@ -53,8 +53,6 @@ include_once 'modals.php';
             <div class="tools">
                 <label for="deleteButton" id="delete-label" data-bs-toggle="tooltip" data-bs-title="No items selected." data-bs-placement="right">
                     <button type="button" id="delete" class="btn btn-primary del me-2 me-md-3" data-selected="" disabled>
-                        <span class="icon trash ">
-                        </span>
                         <span class="">Delete</span>
                     </button>
                 </label>
@@ -80,11 +78,11 @@ include_once 'modals.php';
 
 <section class="modals-container">
     <?php
-    // $deleteAction = <<<HTML
-    //             <button type="button" class="btn btn-secondary secondary" data-bs-dismiss="modal">Cancel</button>
-    //             <button type="button" id="" class="btn btn-secondary primary">Delete</button>
-    // HTML;
-    // Modals::getDeleteModal(true, 'Schedule set successfully', 'The date and time for this election year have been successfully set.', $deleteAction);
+    $deleteAction = <<<HTML
+                <button type="button" class="btn btn-secondary secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="" class="btn btn-secondary primary" value="true" disabled>Delete</button>
+    HTML;
+    Modals::getDeleteModal($deleteAction);
     ?>
 
     <!-- <script>

@@ -59,10 +59,10 @@ class Modals
     }
 
     static function getDeleteModal(
+        $button = '',
         $hasCloseButton = false,
         $subtitle = 'Confirm Delete?',
         $message = "<p>A heads up: this action cannot be undone!</p><p>Type 'Confirm Delete' to proceed</p>",
-        $button = ''
     ) {
         echo <<<HTML
                     <div class="modal fade show danger-modal" id="delete-modal" tabindex="-1" role="dialog">

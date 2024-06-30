@@ -53,6 +53,7 @@ body {
 
     .btn {
         letter-spacing: 0.1rem;
+        @extend %general-responsive-base-font-size;
 
         // &:not([class*="btn-outline-"]) {
         //     border: none;
@@ -262,6 +263,7 @@ body {
                 padding: clamp(1rem, 0.5rem + 0.8dvw, 2vw) clamp(1rem, 0.5rem + 0.8dvw, 2vw);
 
                 .modal-title {
+                    font-size: clamp(1.1rem, 0.75rem + 0.15vw + 0.38vh, 2rem) !important;
                     letter-spacing: 0.20rem;
                     font-weight: 800;
                     flex-grow: 1;
@@ -274,7 +276,7 @@ body {
 
             :not(:has(.modal-header)) .modal-body,
             :has(.modal-header.editor) .modal-body {
-                padding: clamp(24px, 1.75rem + 0.5dvw, 48px);
+                padding: clamp(0.75rem, 0.5rem + 0.5dvw + 1dvh, 48px) clamp(1rem, 0.25rem + 2dvw + 0.1dvh, 48px);
             }
 
             :has(.modal-header) .prompt-content {

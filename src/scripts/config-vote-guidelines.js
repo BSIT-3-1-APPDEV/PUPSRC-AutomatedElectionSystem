@@ -1,4 +1,5 @@
 import { initializeConfigurationJS as ConfigJS } from './configuration.js';
+import InputValidator from './input-validator.js';
 
 
 /**
@@ -99,7 +100,7 @@ ConfigPage = {
     },
 
     handleTableRowClick: function (event) {
-        console.log('clicked')
+
         const INPUT_FOCUSED = event.currentTarget.querySelectorAll('input:focus-visible');
         if (INPUT_FOCUSED.length > 0) {
             return;
@@ -113,13 +114,10 @@ ConfigPage = {
     },
 
     handleTableRowDblClick: function (event) {
-        console.log('dbl click event ');
-        console.log(event);
         // const INPUT_FOCUSED = event.currentTarget.querySelectorAll('input:focus-visible');
 
         try {
             const dataContainer = event.currentTarget.querySelector('div.vote-rule-text');
-            console.log(dataContainer);
 
             let data = {
                 sequence: dataContainer.getAttribute('data-seq'),
@@ -127,15 +125,34 @@ ConfigPage = {
                 description: dataContainer.textContent
             }
 
-            console.log(data);
-
             ConfigPage.EditorModal.show(data, false);
 
         } catch (error) {
 
         }
 
-    }
+    },
+
+    customValidation: {
+        clear_invalid: false,
+        trailing: {
+            '-+': '-',    // Replace consecutive dashes with a single dash
+            '\\.+': '.',  // Replace consecutive periods with a single period
+            ' +': ' '     // Replace consecutive spaces with a single space
+        },
+        attributes: {
+            required: true,
+            max_length: 1000,
+        },
+        customMsg: {
+            required: true,
+            max_length: 'Vote rule length limit reached.',
+        },
+        errorFeedback: {
+            required: 'ERR_BLANK_RULE',
+            max_length: 'ERR_MAX_RULE_LENGTH',
+        }
+    },
 
 }
 
@@ -212,7 +229,7 @@ Object.defineProperty(ConfigPage, 'CSRF_TOKEN', {
     configurable: false
 });
 
-
+ConfigPage.vote_rule_validate = new InputValidator(ConfigPage.customValidation);
 
 try {
     ConfigPage.fetchSchedule({ csrf: ConfigPage.CSRF_TOKEN });
@@ -224,17 +241,21 @@ try {
 
 ConfigPage.processData = function (data) {
     const TABLE_DATA = [];
-
+    // console.log('data')
+    // console.log(data)
     for (const key in data) {
         const item = data[key];
+        // console.log('process for loop key')
+        // console.log(key)
+        // console.log('process for loop item')
+        // console.log(item)
 
-        // Check if the current item is an object
         if (typeof item === 'object' && !Array.isArray(item)) {
-            // Create a new table item with properties extracted from the nested object
+
             const tableItem = {
                 0: item.sequence,
                 1: {
-                    data_id: item.guideline_id || null, // Set default value for missing data_id
+                    data_id: item.guideline_id || null,
                     sequence: item.sequence,
                     description: item.description,
                 },
@@ -244,17 +265,15 @@ ConfigPage.processData = function (data) {
     }
 
 
+
+
     return TABLE_DATA;
 }
 
 ConfigPage.postData = function (post_data, method) {
     let url = 'src/includes/classes/config-vote-guideline-controller.php';
     post_data.push({ csrf_token: `${ConfigPage.CSRF_TOKEN}` });
-    console.log(post_data);
     let json_data = JSON.stringify(post_data);
-
-    console.log(method, post_data, ' stringtified ', JSON.stringify(post_data));
-
     return fetch(url, {
         method: method,
         body: json_data,
@@ -271,8 +290,11 @@ ConfigPage.postData = function (post_data, method) {
             }
             return response.json();
         })
-        .then(function (data) {
-            console.log('POST request successful:', data);
+        .then(function (response) {
+            console.log('POST request successful:', response.data);
+            let data = [];
+            data = response.data;
+            console.log(data)
             return { data, success: true };
         })
         .catch(function (error) {
@@ -387,7 +409,8 @@ ConfigPage.TableHandler = class {
 
             if (ConfigPage.DELETE_BUTTON && ConfigPage.DELETE_LABEL) {
                 this.handleDeleteLabel(false, SELECTED_COUNT);
-                ConfigPage.addEventListenerAndStore(ConfigPage.DELETE_BUTTON, 'click', ConfigPage.handleDeleteBtn);
+                ConfigPage.delEventListener(ConfigPage.DELETE_BUTTON, 'click');
+                ConfigPage.addEventListenerAndStore(ConfigPage.DELETE_BUTTON, 'click', this.handleDeleteBtn.bind(this));
             }
             ConfigPage.DELETE_BUTTON.disabled = false;
         } else {
@@ -404,33 +427,53 @@ ConfigPage.TableHandler = class {
     static initReorderListener() {
 
         ConfigPage.table.on('row-reorder', function (e, diff, edit) {
-            let data = {
-                'update_sequence': []
-            };
+            let data = [];
             // let result = 'Reorder started on row: ' +  + '<br>';
             for (var i = 0, ien = diff.length; i < ien; i++) {
-                let rowData = ConfigPage.table.row(diff[i].node).data();
-                let data_id = rowData[1].data_id;
-                if (!data_id) { continue }
-                let new_sequence = diff[i].newData;
 
+                let row = $(diff[i].node).find('td .vote-rule-text');
+                let sequence = diff[i].newData;
+                let guideline_id = row.attr('id');
+                let description = row.text();
+                let extractedNumber;
+                if (typeof guideline_id === 'string' && guideline_id.startsWith('rule-')) {
+                    extractedNumber = parseInt(guideline_id.substring(5), 10);
+                }
 
-                console.log('diff ' + JSON.stringify($(diff[i].node)));
+                const NEW_DATA_SEQ = {
+                    guideline_id: extractedNumber,
+                    sequence: sequence,
+                    description: description,
+                };
 
+                data.push(NEW_DATA_SEQ);
             }
 
-            console.log('data sequence' + JSON.stringify(data));
+            ConfigPage.postData(data, 'PATCH')
+                .then(function (result) {
+                    const { data, success, error } = result;
+                    if (success) {
+                        try {
+                            const { data, success, error } = result;
 
-            // ConfigPage.postData(data)
-            //     .then(function (result) {
-            //         const { data, success, error } = result;
+                            if (success) {
+                                console.log(data)
+                                // let processedData = ConfigPage.processData(data);
+                                // console.log(processedData)
+                                // this.updateData(processedData);
+                            } else if (error.data) {
+                                // error.data.forEach(item => {
 
-            //         if (success) {
-            //             // ConfigPage.updatePostion(data);
-            //         } else {
-            //             console.error('POST request failed:', error);
-            //         }
-            //     })
+
+                                // });
+                            }
+                        } catch (e) {
+                            console.error('POST request failed:', e);
+                        }
+                    } else {
+                        console.error('POST request failed:', error);
+                    }
+                })
 
         });
 
@@ -469,63 +512,112 @@ ConfigPage.TableHandler = class {
         tooltip.update();
     }
 
-    static handleDeleteBtn() {
-        ConfigPage.DELETE_BUTTON.disabled = true;
-        const selectedData = document.querySelectorAll(`table tbody tr.selected`);
+    static extractData(selected) {
 
-        let deleteData = {
-            'delete_data': []
-        };
+        let data = [];
+        selected.forEach((row) => {
+            const dataContainer = row.querySelector('div.vote-rule-text');
 
-        const DATA = ConfigPage.extractData(selectedData, false);
+            const guidelineId = dataContainer.id;
+            let extractedNumber;
 
-        for (const ITEM of DATA) {
-            deleteData.delete_position.push(ITEM);
-        }
+            if (typeof guidelineId === 'string' && guidelineId.startsWith('rule-')) {
+                extractedNumber = parseInt(guidelineId.substring(5), 10);
+            }
 
+            let item = {
+                sequence: dataContainer.getAttribute('data-seq'),
+                guideline_id: extractedNumber,
+                description: dataContainer.textContent
+            }
+            data.push(item);
+        });
 
-        ConfigPage.postData(deleteData)
-            .then(function (result) {
-                try {
-                    const { data, success, error } = result;
-                    if (success) {
-                        ConfigPage.deletePosition(data);
-                    } else if (error.data) {
-                        error.data.forEach(item => {
-
-
-                        });
-                    }
-                }
-                catch (e) {
-                    console.error('POST request failed:', e);
-                }
-            })
+        return data;
     }
 
-    static deleteEntry(DATA) {
+    static async handleDeleteBtn() {
+        ConfigPage.DELETE_BUTTON.disabled = true;
 
-        if (DATA && DATA.data && Array.isArray(DATA.data)) {
+        if (await
+            ConfigPage.showConfirmModal(ConfigPage.ConfirmDeleteModal, ConfigPage.ConfirmModalInstance, 'confirmDeleteInput', 'Confirm Delete', true)
+            == 'true') {
+            const selectedData = document.querySelectorAll(`table tbody tr.selected`);
+            const deleteData = this.extractData(selectedData);
 
-            DATA.data.forEach(item => {
-                const { data_id, input_id } = item;
+            ConfigPage.postData(deleteData, 'DELETE')
+                .then(function (result) {
+                    try {
+                        const { data, success, error } = result;
 
-                let INPUT_ELEMENT = document.getElementById(input_id);
-                let DATA_ROW = INPUT_ELEMENT.closest(`tr`);
+                        if (success) {
+                            console.log(data)
+                            let processedData = ConfigPage.processData(data);
+                            console.log(processedData)
+                            this.deleteEntry(processedData);
+                        } else if (error.data) {
+                            // error.data.forEach(item => {
+
+
+                            // });
+                        }
+                    }
+                    catch (e) {
+                        console.error('POST request failed:', e);
+                    }
+                }.bind(this))
+        }
+
+    }
+
+    // static deleteEntry(DATA) {
+
+    //     if (DATA && DATA.data && Array.isArray(DATA.data)) {
+
+    //         DATA.data.forEach(item => {
+    //             const { data_id, input_id } = item;
+
+    //             let INPUT_ELEMENT = document.getElementById(input_id);
+    //             let DATA_ROW = INPUT_ELEMENT.closest(`tr`);
+    //             if (DATA_ROW) {
+    //                 ConfigPage.table.row(DATA_ROW).remove().draw();
+    //                 const SELECTED_COUNT = this.countSelectedRows();
+    //                 this.updateToolbarButton(SELECTED_COUNT);
+    //                 // this.deselectAll();
+
+    //             } else {
+
+    //                 console.error(`Input element with ID not found.`);
+    //             }
+    //         });
+    //     } else {
+    //         // console.error('Invalid or missing DATA structure.');
+    //     }
+    // }
+
+    static deleteEntry(DATA, isdraw = false) {
+
+        try {
+            for (const item of DATA) {
+
+
+                let rowId = document.getElementById(`rule-${item[1].data_id}`);
+
+                let DATA_ROW = rowId.closest(`tr`);
+
                 if (DATA_ROW) {
-                    ConfigPage.table.row(DATA_ROW).remove().draw();
-                    const SELECTED_COUNT = this.countSelectedRows();
-                    this.updateToolbarButton(SELECTED_COUNT);
-                    // this.deselectAll();
-
+                    ConfigPage.table.row(DATA_ROW).remove().draw(isdraw);
                 } else {
 
                     console.error(`Input element with ID not found.`);
                 }
-            });
-        } else {
-            // console.error('Invalid or missing DATA structure.');
+
+            }
+        } catch (error) {
+            console.log(error);
         }
+
+
     }
 
     static deselectAll() {
@@ -538,39 +630,44 @@ ConfigPage.TableHandler = class {
     }
 
 
-    static insertData(DATA, draw = false) {
+    static insertData(DATA, isdraw = false) {
 
-        if (DATA && DATA.data && Array.isArray(DATA.data)) {
-            DATA.data.forEach(item => {
+        try {
+            for (const item of DATA) {
 
-                let { sequence, data_id, input_id, description } = item;
-                if (!draw) {
-                    let rowData = {
-                        0: sequence,
-                        1: {
-                            data_id: data_id,
-                            sequence: sequence,
-                            description: description,
-                        }
-                    }
+                ConfigPage.table.row.add(item).draw(isdraw);
 
-                    ConfigPage.table.row.add(rowData).draw(false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
 
+
+    }
+
+    static updateData(DATA, isdraw = false) {
+
+        try {
+            for (const item of DATA) {
+
+                let rowId = document.getElementById(`rule-${item[1].data_id}`);
+
+                let DATA_ROW = rowId.closest(`tr`);
+
+                if (DATA_ROW) {
+
+                    // ConfigPage.table.row(DATA_ROW).data(rowData).draw(false);
+                    ConfigPage.table.row(DATA_ROW).data(item).draw(isdraw);
                 } else {
 
-
-                    // let INPUT_ELEMENT = document.getElementById(input_id);
-                    // if (INPUT_ELEMENT) {
-                    //     INPUT_ELEMENT.name = data_id;
-                    // } else {
-
-                    //     console.error(`Input element with ID not found.`);
-                    // }
+                    console.error(`Input element with ID not found.`);
                 }
-            });
-        } else {
-            // console.error('Invalid or missing DATA structure.');
+
+            }
+        } catch (error) {
+            console.log(error);
         }
+
 
     }
 
@@ -586,20 +683,6 @@ try {
 } catch (error) {
     console.warn(error);
 }
-
-{/* <tr class=\"\">
-<td>" . $i + 2 . "</td>
-<td>
- Voting Rule " . $i + 1 . "
-</td>
-</tr> */}
-
-// 0: sequence,
-// 1: {
-//     data_id: data_id,
-//     sequence: sequence,
-//     description: description,
-// }
 
 ConfigPage.table = new DataTable('#config-table', {
     rowReorder: true,
@@ -666,6 +749,65 @@ ConfigPage.table = new DataTable('#config-table', {
     }
 });
 
+ConfigPage.ConfirmDeleteModal = document.getElementById('delete-modal');
+ConfigPage.ConfirmModalInstance = { instance: null };
+
+ConfigPage.showConfirmModal = async function (modal, instanceRef, inputId = null, inputVal = null, isDisabled = false) {
+    // https://stackoverflow.com/questions/65454144/javascript-await-bootstrap-modal-close-by-user
+    instanceRef.instance = new bootstrap.Modal(modal);
+    instanceRef.instance.show();
+
+    if (isDisabled) {
+        ConfigPage.handleConfirmInput(modal, inputId, inputVal);
+    }
+
+    modal.removeEventListener('hidden.bs.modal', ConfigPage.handleConfirmModalDispose)
+    modal.addEventListener('hidden.bs.modal', ConfigPage.handleConfirmModalDispose)
+
+    return new Promise(resolve => {
+
+        $(modal).find('.prompt-action button').off('click');
+        $(modal).find('.prompt-action button').on('click', (event) => {
+            const buttonValue = event.currentTarget.value;
+
+
+            if (isDisabled) {
+                let inputElement = modal.querySelector(`#${inputId}`);
+                inputElement.classList.remove('is-invalid');
+                inputElement.value = '';
+                $(modal).find('.prompt-action .btn-secondary.primary').prop('disabled', true)
+                    .val('false')
+            }
+
+            instanceRef.instance.hide();
+            resolve(buttonValue);
+        });
+    });
+}
+
+ConfigPage.handleConfirmModalDispose = function () {
+    ConfigPage.ConfirmModalInstance.instance.dispose();
+}
+
+ConfigPage.handleConfirmInput = function (modal, inputId, inputVal) {
+    let inputElement = modal.querySelector(`#${inputId}`);
+
+    ConfigPage.delEventListener(inputElement, 'blur');
+    ConfigPage.addEventListenerAndStore(inputElement, 'blur', function () {
+        if (inputElement.value == inputVal) {
+            $(modal).find('.prompt-action .btn-secondary.primary').prop('disabled', false)
+                .val('true');
+            inputElement.classList.remove('is-invalid');
+        }
+        else {
+            $(modal).find('.prompt-action .btn-secondary.primary').prop('disabled', true)
+                .val('false');
+            inputElement.classList.add('is-invalid')
+        }
+
+    })
+
+}
 
 ConfigPage.FindLastSequence = function (table_id = 'config-table') {
     try {
@@ -679,7 +821,7 @@ ConfigPage.FindLastSequence = function (table_id = 'config-table') {
 
 
         if (!LAST_ROW) {
-            return 1;
+            return 0;
             // throw new Error(`No last row found in table '${table_id}'.`);
         } else {
             console.log('last row ' + LAST_ROW.outerHTML);
@@ -688,7 +830,7 @@ ConfigPage.FindLastSequence = function (table_id = 'config-table') {
         const LAST_SEQUENCE_SPAN = LAST_ROW.querySelector('.dt-type-numeric > span.d-none:first-child');
 
         if (!LAST_SEQUENCE_SPAN) {
-            return 1;
+            return 0;
             // throw new Error(`No sequence span found in last row of table '${table_id}'.`);
         }
 
@@ -715,6 +857,29 @@ ConfigPage.itemSequence;
 ConfigPage.itemId;
 ConfigPage.description;
 
+ConfigPage.validateTextEditor = function (event) {
+    const inputElement = event.target;
+
+
+    clearTimeout(ConfigPage.typingTimeout);
+    ConfigPage.typingTimeout = setTimeout(() => {
+        try {
+            if (ConfigPage.vote_rule_validate.validate(inputElement)) {
+                inputElement.classList.remove('is-invalid');
+                // if (adjacentElement && adjacentElement.classList.contains('input-alert')) {
+                //     adjacentElement.innerHTML = "&nbsp;";
+                // }
+            } else {
+
+                inputElement.classList.add('is-invalid');
+
+            }
+        } catch (error) {
+            console.error('Validation error:', error);
+        }
+    }, 300);
+}
+
 ConfigPage.EditorModal = class {
     static modalElement = document.querySelector('.modal:has(.modal-header.editor)');
     static data;
@@ -732,12 +897,10 @@ ConfigPage.EditorModal = class {
             this.mode = 'add';
         }
 
-        console.log(isAdd)
-        console.log(this.modalElement)
         this.#updateContent(data);
 
         if (this.modalElement) {
-            console.log('showing')
+
             this.modalInstance = new bootstrap.Modal(this.modalElement);
             this.modalInstance.show();
 
@@ -747,11 +910,11 @@ ConfigPage.EditorModal = class {
             this.modalElement.removeEventListener('hidden.bs.modal', event => {
                 this.modalInstance.dispose();
                 ConfigPage.TableHandler.deselectAll();
-            })
+            }).bind(this)
             this.modalElement.addEventListener('hidden.bs.modal', event => {
                 this.modalInstance.dispose();
                 ConfigPage.TableHandler.deselectAll();
-            })
+            }).bind(this)
         }
     }
 
@@ -785,6 +948,11 @@ ConfigPage.EditorModal = class {
         let closeBtn = this.modalElement.querySelector('button.modal-close');
         ConfigPage.delEventListener(closeBtn, 'click');
         ConfigPage.addEventListenerAndStore(closeBtn, 'click', this.close.bind(this));
+
+        let textarea = this.modalElement.querySelector('textarea');
+        ConfigPage.delEventListener(textarea, 'input');
+        ConfigPage.addEventListenerAndStore(textarea, 'input', ConfigPage.validateTextEditor);
+
     }
 
     static #setEditField() {
@@ -795,6 +963,8 @@ ConfigPage.EditorModal = class {
         prompTitle.textContent = this.data.sequence;
 
         let descriptionTextArea = document.createElement('textarea');
+        descriptionTextArea.classList.add('form-control');
+        descriptionTextArea.required = true;
         const trimmedDescription = this.data.description.trim();
         descriptionTextArea.value = trimmedDescription;
         if (this.mode === 'view') {
@@ -806,7 +976,7 @@ ConfigPage.EditorModal = class {
         const guidelineId = this.data.guideline_id;
 
         if (typeof guidelineId === 'string' && guidelineId.startsWith('rule-')) {
-            const extractedNumber = parseInt(guidelineId.substring(5), 10); // Remove "rule-" (length 5)
+            const extractedNumber = parseInt(guidelineId.substring(5), 10);
             ConfigPage.itemId = extractedNumber;
         }
 
@@ -834,8 +1004,6 @@ ConfigPage.EditorModal = class {
             editBtn.classList.add('btn', 'btn-sm', 'btn-outline-primary');
             editBtn.textContent = 'Edit';
         }
-
-
 
         const primaryButton = document.createElement('button');
         primaryButton.id = 'modal-action-primary';
@@ -902,7 +1070,7 @@ ConfigPage.EditorModal = class {
         if (this.data) {
             let primaryButton = this.modalElement.querySelector('.modal-body #modal-action-primary');
             primaryButton.disabled = true;
-            this.#handleSubmit().bind(this);
+            this.#handleSubmit();
         }
     }
 
@@ -926,17 +1094,42 @@ ConfigPage.EditorModal = class {
             }
 
             ConfigPage.postData(data, method).then(function (result) {
-                console.log(result);
+
                 try {
-                    const { data, success, error } = result;
+                    let { data, success, error } = result;
                     if (success) {
-                        this.close();
+                        data = [data];
+
+                        let processedData = ConfigPage.processData(data);
+                        if (this.isAdd) {
+
+                            ConfigPage.TableHandler.insertData(processedData);
+                        } else {
+                            ConfigPage.TableHandler.updateData(processedData);
+                        }
+
+
+
+
+                        ConfigPage.EditorModal.close();
                     }
                 }
                 catch (e) {
                     console.error('', e);
                 }
-            });
+            }.bind(this));
+        }
+    }
+
+    static toggleSaveBtn() {
+        let textarea = this.modalElement.querySelector('.modal-body textarea');
+        let hasInvalidTextarea = textarea?.classList.matches('.is-invalid') && textarea?.classList.matches('.form-control');
+        let saveBtn = this.modalElement.getElementById('modal-action-primary');
+
+        if (hasInvalidTextarea) {
+            saveBtn.disabled = true;
+        } else {
+            saveBtn.disabled = false;
         }
     }
 

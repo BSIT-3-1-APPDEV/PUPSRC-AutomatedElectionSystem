@@ -62,36 +62,35 @@ class VoteGuidelineModel
             self::$connection->autocommit(FALSE);
 
             self::$connection->begin_transaction();
-            $result = '';
-
+            $results = [];
             foreach (self::$query_data as $item) {
+                // print_r($item);
 
                 if (self::$mode === 'update') {
-                    $result = self::updateData($item);
+                    $results = self::updateData($item);
                 } else if (self::$mode === 'update_sequence') {
-                    // $result = self::updateData($item);
+                    $results[] = self::updateSequence($item);
                 } else if (self::$mode === 'delete') {
-                    // $result = self::setData($item);
+                    // $results[] = $item;
+                    $results[] = self::deleteData($item);
                 } else {
-                    $result = self::setData($item);
+                    $results = self::setData($item);
                 }
             }
 
             self::$connection->commit();
 
-            return $result;
+            return $results;
         } catch (Exception $e) {
             // self::$connection->rollback();
             self::$query_message = $e->getMessage();
-            return $result;
+            return $results;
         }
     }
 
     private static function setData($item)
     {
         try {
-
-            $result = [];
 
             $sql = "INSERT INTO vote_guidelines (seq, description) VALUES (?, ?)";
 
@@ -107,9 +106,17 @@ class VoteGuidelineModel
                 throw new Exception("Failed to add requested action: " . $stmt->error);
             }
 
+            $inserted_id = mysqli_insert_id(self::$connection);
+
+            $inserted_item = [
+                'guideline_id' => $inserted_id,
+                'sequence' => $item['sequence'],
+                'description' => $item['description'],
+            ];
+
             $stmt->close();
 
-            return $item;
+            return $inserted_item;
         } catch (Exception $e) {
             self::$query_message = 'set ' . $e->getMessage();
             return $item;
@@ -147,7 +154,7 @@ class VoteGuidelineModel
     {
         try {
 
-            $sql = "UPDATE vote_guidelines SET seq = ?,  WHERE = ?";
+            $sql = "UPDATE vote_guidelines SET seq = ?  WHERE guideline_id = ?";
 
             $stmt = self::$connection->prepare($sql);
 
@@ -174,12 +181,12 @@ class VoteGuidelineModel
     {
         try {
 
-            $sql = "UPDATE vote_guidelines WHERE = ?";
+            $sql = "DELETE FROM vote_guidelines WHERE guideline_id = ?";
 
             $stmt = self::$connection->prepare($sql);
 
             if (!$stmt) {
-                throw new Exception("Failed to perform requested action: " . self::$connection->error);
+                throw new Exception(self::$connection->error);
             }
 
             $stmt->bind_param("i", $item['guideline_id']);
@@ -191,7 +198,7 @@ class VoteGuidelineModel
             return $item;
         } catch (Exception $e) {
 
-            self::$query_message = 'update ' . $e->getMessage();
+            self::$query_message = 'Failed to delete selected resource: ' . $e->getMessage();
             return $item;
         }
     }

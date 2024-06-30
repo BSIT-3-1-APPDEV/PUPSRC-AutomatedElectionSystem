@@ -30,6 +30,7 @@ class VoteGuidelineController extends VoteGuidelineModel
     public function __construct()
     {
         $this->data = $this->decodeData();
+        // echo json_encode($this->data);
     }
 
     public function decodeData()

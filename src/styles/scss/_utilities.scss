@@ -51,8 +51,13 @@ textarea {
     background-color: light-dark(var(--white), #ccc);
 }
 
-textarea {
+textarea,
+.ql-editor {
     resize: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 input:focus-visible,
@@ -369,7 +374,9 @@ section .toast-container-unstacked {
     button.dropdown-toggle {
         background-color: #f8f8f8;
         padding-top: 0.938rem;
+        padding-top: clamp(0.45rem, 0.20rem + 0.3dvw + 1dvh, 1.5rem);
         padding-bottom: 1rem;
+        padding-bottom: clamp(0.5rem, 0.25rem + 0.35dvw + 1dvh, 1.6rem);
         @extend %general-responsive-base-font-size;
 
         .filter-option {

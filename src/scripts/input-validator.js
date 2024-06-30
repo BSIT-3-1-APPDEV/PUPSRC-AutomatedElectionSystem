@@ -191,7 +191,9 @@ export default class InputValidator {
 
     enforceAttributes(input_obj) {
 
-        input_obj.type = this.#validations.attributes.type;
+        if (this.#validations.attributes.type) {
+            input_obj.type = this.#validations.attributes.type;
+        }
 
         this.setMaxLength(input_obj, this.#validations.attributes);
 
