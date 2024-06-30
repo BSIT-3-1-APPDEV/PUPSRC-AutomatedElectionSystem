@@ -234,6 +234,51 @@ body dialog.modal-native {
             background-color: var(--white);
         }
     }
+
+    .modal-body:has(.affected.candidate-list) {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(1rem, 0.5rem + 0.75vw + 1.5vh, 3rem);
+        max-height: 500px;
+        padding: clamp(24px, 1.75rem + .5dvw, 48px);
+
+        h5 {
+            text-align: center;
+        }
+
+        .affected.candidate-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(0.5rem, 0.25rem + 0.75vw + 1.5vh, 3rem) 0;
+            overflow-y: auto;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            div:has(.photo) {
+                display: grid;
+                place-content: center;
+            }
+
+            div.photo {
+                justify-self: center;
+                border-radius: 50%;
+                border: calc(1px + 0.1dvw) solid var(--main-color);
+                max-width: clamp(2.375rem, 1.25rem + 3dvw + 4dvh, 5rem);
+                max-height: clamp(2.375rem, 1.25rem + 3dvw + 4dvh, 5rem);
+                overflow: clip;
+                aspect-ratio: 1/1;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    aspect-ratio: 1/1;
+                }
+            }
+        }
+    }
 }
 
 .dt-rowReorder-float {

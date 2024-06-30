@@ -1339,18 +1339,34 @@ ConfigPage.NativeModal = class {
         }
         const candidateCount = data.affected_candidates.length;
         promptMessage.innerHTML =
-            `Do you want to remove these candidate${candidateCount > 1 ? 's' : ''} and votes associated with ${data.value}? `;
+            `You are about to remove the candidate${candidateCount > 1 ? 's' : ''} and votes associated with the position of <b>${data.value}</b>. `;
 
         candidatesList.innerHTML = '';
         data.affected_candidates.forEach(candidate => {
-            let fullName = `${candidate.last_name}, ${candidate.first_name}`;
+            let fullName = `${candidate.last_name},<br> ${candidate.first_name}`;
             if (candidate.middle_name) {
                 fullName += ` ${candidate.middle_name}`;
             }
-            let newDiv = document.createElement("div");
-            newDiv.innerHTML = fullName;
-            candidatesList.appendChild(newDiv);
+            let parentDiv = document.createElement("div");
+            parentDiv.classList.add('col-3');
+
+            let fullNameDiv = document.createElement("div");
+            fullNameDiv.innerHTML = fullName;
+
+            let photoDiv = document.createElement("div");
+            photoDiv.classList.add('photo');
+
+            let image = document.createElement("img");
+            image.src = `src/${candidate.photo_url}`;
+            image.alt = `${fullName} photo`;
+            photoDiv.appendChild(image);
+
+            parentDiv.appendChild(photoDiv);
+            parentDiv.appendChild(fullNameDiv);
+
+            candidatesList.appendChild(parentDiv);
         });
+
 
         let modalActionDiv = this.#initBtn();
         candidatesList.insertAdjacentElement('afterend', modalActionDiv);
