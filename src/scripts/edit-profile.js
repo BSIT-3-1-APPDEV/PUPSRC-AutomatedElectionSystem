@@ -13,7 +13,7 @@ $(() => {
         }
 
         form.classList.add("was-validated");
-        toggleSaveButton(); // Check save button status on submit
+        toggleSaveButton();
       },
       false
     );
@@ -183,7 +183,7 @@ $(() => {
     // Truncate field value if it exceeds max length
     if (fieldValue.length > maxLength) {
       fieldValue = fieldValue.slice(0, maxLength);
-      $input.val(fieldValue); // Update the input field with truncated value
+      $input.val(fieldValue);
     }
 
     if (fieldName !== "middleName" && fieldName !== "suffix") {
@@ -199,12 +199,12 @@ $(() => {
 
     if (isValid) {
       $input.removeClass("is-invalid").addClass("is-valid");
-      $input.siblings(".valid-feedback").text("Looks good!");
+      // $input.siblings(".valid-feedback").text("Looks good!");
       $input.siblings(".invalid-feedback").text("");
     } else {
       $input.removeClass("is-valid").addClass("is-invalid");
       $input.siblings(".invalid-feedback").text(errorMessage);
-      $input.siblings(".valid-feedback").text("");
+      // $input.siblings(".valid-feedback").text("");
     }
   };
 
@@ -224,7 +224,7 @@ $(() => {
     if (email === "") {
       isValid = false;
       errorMessage = "This field is required.";
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+    } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
       // Regex for email without whitespace
       isValid = false;
       errorMessage = "Please enter a valid email address.";
@@ -232,12 +232,12 @@ $(() => {
 
     if (isValid) {
       $input.removeClass("is-invalid").addClass("is-valid");
-      $input.siblings(".valid-feedback").text("Looks good!");
+      // $input.siblings(".valid-feedback").text("Looks good!");
       $input.siblings(".invalid-feedback").text("");
     } else {
       $input.removeClass("is-valid").addClass("is-invalid");
       $input.siblings(".invalid-feedback").text(errorMessage);
-      $input.siblings(".valid-feedback").text("");
+      // $input.siblings(".valid-feedback").text("");
     }
   };
 
