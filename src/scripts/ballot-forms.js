@@ -152,7 +152,7 @@ function validateForm(event) {
             var positionTitle = reminder.getAttribute('data-position-title');
             var candidateName = 'ABSTAINED';
             var candidateHTML = '<div>' + candidateName + '</div>';
-            var imageSrc = 'images/candidate-profile/placeholder.png';
+            var imageSrc = 'images/resc/Abstained.png';
 
             if (pairCounter % 2 === 0) {
                 selectedCandidateHTML += '<div class="row ms-4">';
