@@ -78,9 +78,9 @@ input[type='password'] {
   line-height: 0;
   margin-bottom: -1px;
 
-  @media only screen and (hover: none) {
+   /* @media only screen and (hover: none) {
     margin-bottom: calc(-5vh + -6vw);
-  }
+  }  */
 }
 
 .index-wave-footer svg {
