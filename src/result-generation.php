@@ -292,6 +292,14 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                                                         textX = Math.round((width - ctx.measureText(text).width) / 2),
                                                                         textY = height / 1.75;
                                                                     ctx.fillText(text, textX, textY);
+                                                                    // Adding 'Completed' text
+                                                                    var completedFontSize = (height / 300).toFixed(2); // Smaller font size
+                                                                    ctx.font = "bold " + completedFontSize + "em Montserrat";
+                                                                    var completedText = "Completed",
+                                                                        completedTextX = Math.round((width - ctx.measureText(completedText).width) / 2),
+                                                                        completedTextY = textY - 30; // Position above the percentage text
+                                                                    ctx.fillText(completedText, completedTextX, completedTextY);
+                                                                    ctx.save();
                                                                 }
                                                             }
                                                         ]
