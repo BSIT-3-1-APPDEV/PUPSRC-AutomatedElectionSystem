@@ -860,11 +860,12 @@ span {
 
 .check-perc{
   width: 50%;
+  margin: -25px 0px -20px
 }
 
 .modal-content#success-modal{
   background-color: white;
-  border-radius: 35px;
+  border-radius: 10px;
 }
 
 .fa-circle-xmark {
@@ -1106,9 +1107,90 @@ span {
   }
 }
 
+.warning-title {
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 30.48px;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.warning-subtitle {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 18.29px;
+  letter-spacing: 0.05em;
+  padding: 0% 10% 0% 10% ;
+  text-align: center;
+}
+
+.modal-content#max-modal{
+  background-color: white;
+  border-radius: 10px;
+}
+
+.warning-icon{
+  width: 25%;
+}
+
+.sending-title {
+  font-size: 25px;
+}
+
+.loading-gif {
+  height: 70%;
+  width: 40%;
+}
+
+.success-title {
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 30.48px;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.success-subtitle {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 18.29px;
+  letter-spacing: 0.05em;
+  padding: 0px 44px 0px;
+  text-align: center;
+}
+
 @media (max-width: 576px) {
   .ivote-main-logo {
     width: 160px;
+  }
+
+  .modal-content, .modal-content#max-modal{
+    width: 300px;
+  }
+
+  .close-mark {
+    margin: -0.4rem -1rem 0rem 0rem;
+  }
+  
+  .warning-icon {
+    margin-top: -1rem;
+  }
+  
+  .loading-gif {
+    height: 80px;
+    width: 80px;
+  }
+
+  .warning-title, .sending-title, .success-title {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .warning-subtitle, .sending-subtitle, .success-subtitle {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    margin: -10px -30px 0px;
   }
 
   .landing-organization-title {
@@ -1197,27 +1279,4 @@ span {
   #email-error {
     font-size: .674em;
   }
-}
-
-.loading-gif {
-  height: 70% !important;
-  width: 40% !important;
-}
-
-.modal-content#max-modal{
-  background-color: white;
-  border-radius: 35px;
-}
-
-.warning-icon{
-  width: 25%;
-}
-
-.limit{
-  color: #EE1C24;
-}
-
-.max-text{
-  font-size: 14px;
-  padding: 0% 10% 0% 10% ;
 }
