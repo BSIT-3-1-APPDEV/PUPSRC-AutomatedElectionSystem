@@ -80,8 +80,8 @@ $voter_id = $_SESSION['voter_id'];
                   <i data-feather="user" class="white" style="width: 20px; height: 20px;"></i>
                   </div>
                   <div>
-                    <div class="mb-0" style="font-size: 18px; font-weight:600">
-                      <a href="../src/user-setting-information.php" class="custom-link"> Information </a>
+                    <div class="side-nav mb-0">
+                      <a href="user-setting-information.php" class="custom-link"> Information </a>
                   </div>
                     <div class="mb-0 des">See your account information like your email address and certificate of registration.</div>
                   </div>
@@ -91,8 +91,8 @@ $voter_id = $_SESSION['voter_id'];
                   <i data-feather="lock" class="white" style="width: 20px; height: 20px;"></i>
                   </div>
                   <div>
-                    <div class="mb-0" style="font-size: 18px; font-weight:600">
-                    <a href="../src/user-setting-password.php" class="custom-link"> Change Password </a>
+                    <div class="side-nav mb-0">
+                    <a href="user-setting-password.php" class="custom-link"> Change Password </a>
                     </div>
                     <div class="mb-0 des">Ensure your account's security by updating your password whenever you need.</div>
                   </div>
@@ -100,8 +100,8 @@ $voter_id = $_SESSION['voter_id'];
                 <div class="main-color d-flex align-items-center pb-4">
                   <i class="fas fa-exchange-alt me-4" style="font-size: 1.1rem;"></i>
                   <div>
-                    <div class="mb-0" style="font-size: 18px;">
-                      <b><a href="../src/user-setting-transfer.php" class="custom-link">Transfer Org</a></b>
+                    <div class="side-nav mb-0">
+                      <a href="user-setting-transfer.php" class="custom-link">Transfer Org</a>
                     </div>
                     <div class="mb-0 des">Move your account to a different organization upon transfer.</div>
                   </div>
@@ -132,7 +132,7 @@ $voter_id = $_SESSION['voter_id'];
                   </ul>
                   <div class="des">Please proceed with caution when transferring your account. Follow these steps carefully, and when you’re ready, click the “Proceed” button to continue with the transfer organization process.</div>
                   <div class="d-flex justify-content-end">
-                    <div class="main-color pt-2"><a href="transfer-org.php?page=2" class="custom-link"> <b>Proceed</b> &nbsp;
+                    <div class="main-color pt-2"><a href="user-setting-transfer.php?page=2" class="custom-link"> <b>Proceed</b> &nbsp;
                     <i data-feather="arrow-right-circle" class="white"></i></a></div>
                   </div>
                 </div>
