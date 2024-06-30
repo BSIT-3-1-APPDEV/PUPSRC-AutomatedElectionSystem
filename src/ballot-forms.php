@@ -30,6 +30,11 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
   $stmt_candidates->execute();
   $result_candidates = $stmt_candidates->get_result();
 
+ // Query for voting guidelines
+  $stmt_guidelines = $connection->prepare("SELECT * FROM vote_guidelines");
+  $stmt_guidelines->execute();
+  $result_guidelines = $stmt_guidelines->get_result();
+
   $voter_id = $_SESSION['voter_id']; // Get voter id to update the vote status
   $vote_status = $_SESSION['vote_status']; // Get voter id to update the vote status
   
@@ -104,6 +109,19 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
   </div>
 </div>
 
+<?php
+$guidelines_html = '';
+$total_guidelines = $result_guidelines->num_rows;
+$current_guideline = 0;
+
+while ($row = $result_guidelines->fetch_assoc()) {
+    $current_guideline++;
+    $guidelines_html .= '<div class="ps-4 pe-4 pb-2">' . htmlspecialchars($row['description']) . '</div>';
+    if ($current_guideline < $total_guidelines) {
+        $guidelines_html .= '<hr>';
+    }
+}
+?>
 
     
 <!-- Modal -->
@@ -114,30 +132,8 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
                 <div class="title-2 main-bg-color">
                     Voting Guidelines
                 </div>
-                <div class="pt-4"></div>
-                <div class="ps-4 pe-4 pb-2">
-                    Select your preferred candidate(s) for each position.
-                </div>
-                <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    Do not leave an empty selection.
-                </div>
-                <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    Vote buying and intimidation are prohibited.
-                </div>
-                <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    Displaying your ballot or discussing your vote to another person's votes is prohibited.
-                </div>
-                <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    Only registered voters are permitted to vote.
-                </div>
-                <hr>
-                <div class="ps-4 pe-4 pb-2">
-                    After selecting candidate(s) each position, click the <span class="main-color"><b>Submit Vote</b></span> button to successfully cast your vote.
-                </div>
+                  <div class="pt-4"></div>
+                  <?php echo $guidelines_html; ?>
                 <br>
             </div>
         </div>
@@ -208,45 +204,24 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
   </div>
 </div>
 
-    <div class="row">
-        <div class="col-lg-3 col-0 pb-sm-4 pb-1 d-none d-md-block">
-            <div class="reminder">
-                <div class="title-2 main-bg-color">
-                    Voting Guidelines
-                </div>
-                <div>
-                    <div class="font-weight1" style="font-size: 15px;">
-                        <div class="pt-4"></div>
-                        <div class="ps-4 pe-4 pb-2">
-                            Select your preferred candidate(s) for each position.
-                        </div>
-                        <hr>
-                        <div class="ps-4 pe-4 pb-2">
-                            Do not leave an empty selection.
-                        </div>
-                        <hr>
-                        <div class="ps-4 pe-4 pb-2">
-                            Vote buying and intimidation are prohibited.
-                        </div>
-                        <hr>
-                        <div class="ps-4 pe-4 pb-2">
-                            Displaying your ballot or discussing your vote to another person's votes is prohibited.
-                        </div>
-                        <hr>
-                        <div class="ps-4 pe-4 pb-2">
-                            Only registered voters are permitted to vote.
-                        </div>
-                        <hr>
-                        <div class="ps-4 pe-4 pb-2">
-                            After selecting candidate(s) each position, click the 
-                            <span class="main-color"><b>Submit Vote</b></span> 
-                            button to successfully cast your vote.
-                        </div>
-                        <br>
-                    </div>
+
+
+<div class="row">
+    <div class="col-lg-3 col-0 pb-sm-4 pb-1 d-none d-md-block">
+        <div class="reminder">
+            <div class="title-2 main-bg-color">
+                Voting Guidelines
+            </div>
+            <div>
+                <div class="font-weight1" style="font-size: 15px;">
+                    <div class="pt-4"></div>
+                    <?php echo $guidelines_html; ?>
+                    <br>
                 </div>
             </div>
         </div>
+    </div>
+
     
      <!--------------------- Voting Section ------------------------->
 
