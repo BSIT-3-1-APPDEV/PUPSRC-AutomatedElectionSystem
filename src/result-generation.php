@@ -36,14 +36,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     // Fetch organization name
     $organization = isset($_SESSION['organization']) ? $_SESSION['organization'] : '';
 
-      
-// Check if generate-json.php has been successfully executed
-if (!isset($_SESSION['generate_json_completed']) || !$_SESSION['generate_json_completed']) {
-    // Redirect to generate-json.php if it hasn't been executed yet
-    header("Location: ../src/includes/generate-json.php");
-    exit();
-}
- 
+
 
 ?>
     <!DOCTYPE html>
@@ -287,27 +280,18 @@ if (!isset($_SESSION['generate_json_completed']) || !$_SESSION['generate_json_co
                                                             },
                                                             {
                                                                 beforeDraw: (chart) => {
-                                                                    var width = chart.width,
-                                                                        height = chart.height,
-                                                                        ctx = chart.ctx;
-                                                                    ctx.restore();
-                                                                    var fontSize = (height / 150).toFixed(2);
-                                                                    ctx.font = "bold " + fontSize + "em Montserrat, sans-serif"; // Bold and Montserrat
-                                                                    ctx.fillStyle = "black";
-                                                                    ctx.textBaseline = "middle";
-                                                                    var text = chart.data.datasets[0].data[0] + "%",
-                                                                        textX = Math.round((width - ctx.measureText(text).width) / 2),
-                                                                        textY = height / 1.75;
-                                                                    ctx.fillText(text, textX, textY);
-
-                                                                    // Adding 'Completed' text
-                                                                    var completedFontSize = (height / 300).toFixed(2); // Smaller font size
-                                                                    ctx.font = "bold " + completedFontSize + "em Montserrat";
-                                                                    var completedText = "Completed",
-                                                                        completedTextX = Math.round((width - ctx.measureText(completedText).width) / 2),
-                                                                        completedTextY = textY - 30; // Position above the percentage text
-                                                                    ctx.fillText(completedText, completedTextX, completedTextY);
-                                                                    ctx.save();
+                                                                 var width = chart.width,
+                                                                    height = chart.height,
+                                                                    ctx = chart.ctx;
+                                                                ctx.restore();
+                                                                var fontSize = (height / 150).toFixed(2);
+                                                                ctx.font = "bold " + fontSize + "em Montserrat, sans-serif"; // Bold and Montserrat
+                                                                ctx.fillStyle = "black";
+                                                                ctx.textBaseline = "middle";
+                                                                var text = parseFloat(chart.data.datasets[0].data[0]).toFixed(3) + "%", // Rounds off to 3 decimal places
+                                                                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                                                                    textY = height / 1.75;
+                                                                ctx.fillText(text, textX, textY);
                                                                 }
                                                             }
                                                         ]
