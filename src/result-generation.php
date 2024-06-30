@@ -3,49 +3,42 @@ include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php');
-require_once FileUtils::normalizeFilePath('includes/classes/admin-dashboard-queries.php');
+require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
+require_once FileUtils::normalizeFilePath('includes/classes/feedback-manager.php');
 
-// Create an instance of DatabaseConnection
-$dbConnection = new DatabaseConnection();
-
-// Create an instance of Application
-$app = new Application($dbConnection);
 
 if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
     // ------ SESSION EXCHANGE
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
 
-    $voterCounts = $app->getVoterCounts();
-    $totalVotersCount = $voterCounts['totalVotersCount'];
-    $votedVotersCount = $voterCounts['votedVotersCount'];
-    $abstainedVotersCount = $voterCounts['abstainedVotersCount'];
-    $candidateCount = $app->getCandidateCount();
-    $totalPercentage = number_format($voterCounts['totalPercentage'], 2);
-    $votedPercentage = number_format($voterCounts['votedPercentage'], 2);
-
     // ------ END OF SESSION EXCHANGE
     $connection = DatabaseConnection::connect();
     // Assume $connection is your database connection
     $voter_id = $_SESSION['voter_id'];
 
+    // Replace with the actual path
+
+    // Instantiate the FeedbackManager
+    $feedbackManager = new FeedbackManager($connection);
+
+    // Get sorting and pagination parameters
+    $sort = isset($_GET['sort']) ? $_GET['sort'] : 'timestamp';
+    $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
+    $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $records_per_page = 5;
+    $offset = ($current_page - 1) * $records_per_page;
+
+    // Fetch feedback data
+    $feedback_tbl = $feedbackManager->getFeedbackData($sort, $order, $offset, $records_per_page);
+    $total_records = $feedbackManager->getTotalRecords();
+    $total_pages = ceil($total_records / $records_per_page);
+
     if (isset($_SESSION['organization'])) {
         // Retrieve the organization name
         $organization = $_SESSION['organization'];
-
-        // Fetch election years
-        $yearsQuery = "SELECT DISTINCT election_year FROM candidate ORDER BY election_year DESC";
-        $result_years = $connection->query($yearsQuery);
-
-        // Fetch positions
-        $positionsQuery = "SELECT position_id, title FROM position ORDER BY sequence";
-        $result_positions = $connection->query($positionsQuery);
-
-        if ($result_years && $result_years->num_rows > 0) {
-            $selected_year = isset($_GET['election_year']) ? $_GET['election_year'] : null;
-        }
     }
-    ?>
+?>
 
     <!DOCTYPE html>
     <html lang="en">
@@ -68,14 +61,15 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         <link rel="stylesheet" href="styles/style.css" />
         <link rel="stylesheet" href="styles/core.css" />
         <link rel="stylesheet" href="styles/result.css" />
+        <link rel="stylesheet" href="styles/tables.css" />
         <link rel="stylesheet" href="styles/loader.css" />
         <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-        <link rel="stylesheet" href="styles/tables.css" />
 
         <!--JS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
         <style>
             <?php
@@ -86,9 +80,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             echo ".card-candidate { border: 2px solid var(--$organization);}";
             echo ".hover-color:hover { color: var(--$organization);}";
 
-            ?>
-
-            .btn-with-margin {
+            ?>.btn-with-margin {
                 margin-top: 38px;
                 width: 180px;
                 height: 33px;
@@ -103,52 +95,48 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
     <body>
 
-        <?php 
+        <?php
         include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
         include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
         ?>
 
         <div class="main">
-          <div class="container">
-            <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-11 col-md-10 col-lg-11 mx-auto">
                         <div class="col-11 col-md-10 col-lg-11 mx-auto">
-                            <div class="col-11 col-md-10 col-lg-11 mx-auto">
-                                <div class="card-report main-bg-color mb-5">
-                                    <div class="card-body main-bg-color d-flex justify-content-between">
-                                        <div>
-                                            <h5 class="card-title"><i data-feather="bar-chart-2" class="white mb-xl-1"></i> Election Reports</h5>
-                                                <p class="card-text" id="selectedYear">
-                                                    <?php
-                                                        if ($result_years && $result_years->num_rows > 0) {
-                                                                $selected_year = isset($_GET['election_year']) ? $_GET['election_year'] : null;
-                                                                while ($row = $result_years->fetch_assoc()) {
-                                                                    if ($selected_year == $row['election_year']) {
-                                                                        echo "Current Academic Year: <strong>" . $row['election_year'] . "</strong>";
-                                                                        break;
-                                                                    }
-                                                                }
-                                                                if (!$selected_year || $row['election_year'] != $selected_year) {
-                                                                    echo "Select <strong> ELECTION YEAR</strong> to show";
-                                                                }
-                                                            } else {
-                                                                echo "<strong> ELECTION YEAR</strong>";
-                                                            }
-                                                    ?>
-                                                </p>
-                                        </div>
-                                        <?php
-                                            $result_years->data_seek(0);
-                                            if ($result_years && $result_years->num_rows > 0) {
+                            <div class="card-report main-bg-color mb-5">
+                                <div class="card-body main-bg-color d-flex justify-content-between">
+                                    <div>
+                                        <h5 class="card-title"><i data-feather="bar-chart-2" class="white mb-xl-1"></i> Election Reports</h5>
+                                        <p class="card-text" id="selectedYear">
+                                            <?php
+                                            $jsonFilePath = 'includes/data/voters-turnout.json';
+                                            $jsonData = json_decode(file_get_contents($jsonFilePath), true);
+                                            if ($jsonData && isset($jsonData['candidate'])) {
+                                                $election_years = array_unique(array_column($jsonData['candidate'], 'election_year'));
+                                                rsort($election_years);
                                                 $selected_year = isset($_GET['election_year']) ? $_GET['election_year'] : null;
-                                                $selected_year_title = "Election Year";
-                                                    while ($row = $result_years->fetch_assoc()) {
-                                                        if ($selected_year == $row['election_year']) {
-                                                            $selected_year_title = $row['election_year'];
-                                                            break;
-                                                        }
-                                                    }
-                                                ?>
-                                        <button class="report-generator-btn main-bg-color" onclick="downloadPDF()" type="button" aria-expanded="false">
+                                                if ($selected_year && in_array($selected_year, $election_years)) {
+                                                    echo "Current Academic Year: <strong>" . htmlspecialchars($selected_year) . "</strong>";
+                                                } else {
+                                                    echo "Select <strong> ELECTION YEAR</strong> to show";
+                                                }
+                                            } else {
+                                                echo "<strong> ELECTION YEAR</strong>";
+                                            }
+                                            ?>
+                                        </p>
+                                    </div>
+                                    <?php
+                                    if ($jsonData && isset($jsonData['candidate'])) {
+                                        $selected_year = isset($_GET['election_year']) ? $_GET['election_year'] : null;
+                                        $selected_year_title = "Election Year";
+                                        if ($selected_year && in_array($selected_year, $election_years)) {
+                                            $selected_year_title = htmlspecialchars($selected_year);
+                                        }
+                                    ?>
+                                        <button class="report-generator-btn main-bg-color" onclick="downloadAllPDF()" type="button" aria-expanded="false">
                                             <i data-feather="download" class="white im-cust feather-1xs"></i> Download
                                         </button>
                                         <div class="dropdown">
@@ -159,535 +147,487 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <?php
-                                                    $result_years->data_seek(0);
-                                                            while ($row = $result_years->fetch_assoc()) {
+                                                foreach ($election_years as $year) {
                                                 ?>
-                                                <li><a class="dropdown-item" href="#" onclick="selectYear('<?php echo $row['election_year']; ?>')"><?php echo $row['election_year']; ?></a></li>
+                                                    <li><a class="dropdown-item" href="#" onclick="selectYear('<?php echo $year; ?>')"><?php echo $year; ?></a></li>
                                                 <?php
                                                 }
                                                 ?>
                                             </ul>
                                         </div>
+                                    <?php
+                                    } else {
+                                        echo '<span class="empty-text">No election years available</span>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="card card-header main-color">
+                                <p><strong>ELECTION RESULTS</strong></p>
+                            </div>
+                        </div>
+
+                        <div id="election-results"></div>
+
+
+
+                        <div class="dropdown2">
+                            <button class="btn-convert dropdown-button"><i data-feather="download" class="main-color im-cust small-icon"></i> Download results as...</button>
+                            <div class="dropdown-content2">
+                                <a href="#" onclick="downloadPDF()">PDF (.pdf)</a>
+                                <a href="#" onclick="downloadExcel()">Excel (.xsl)</a>
+                            </div>
+                        </div>
+
+                        <button class="btn-previous"><i class="fas fa-chevron-left" id="btn-previous"></i> Previous</button>
+                        <button class="btn-next">Next <i class="fas fa-chevron-right" id="btn-next"></i></button>
+
+                        <br>
+                        <br>
+
+                        <div class="col-11 col-md-10 col-lg-11 mx-auto">
+                            <div class="card-graph mb-5">
+                                <canvas id="myChart"></canvas>
+                                <div class="form-group">
+                                    <select id="positionSelect" class="form-control2 main-bg-color text-truncate">
+                                        <!-- Dynamically populate this with PHP -->
                                         <?php
-                                        } else {
-                                                echo '<span class="empty-text">No election years available</span>';
+                                        if (!empty($jsonData['position'])) {
+                                            foreach ($jsonData['position'] as $position) {
+                                                echo "<option value='" . htmlspecialchars($position['position_id']) . "'>" . htmlspecialchars($position['title']) . "</option>";
                                             }
+                                        } else {
+                                            echo '<option value="" disabled>No positions available</option>';
+                                        }
                                         ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            const jsonData = <?php echo json_encode($jsonData); ?>;
+                        </script>
+
+                        <div class="col-11 col-md-10 col-lg-11 mx-auto">
+                            <div class="card card-header">
+                                <p class="main-color"><strong>VOTERS TURNOUT</strong></p>
+                            </div>
+                        </div>
+
+                        <?php
+                        // Specify the path to your JSON file
+                        $json_file = __DIR__ . '/includes/data/voters-turnout.json';
+
+                        // Check if the JSON file exists
+                        if (file_exists($json_file)) {
+                            // Read the JSON file
+                            $json_data = file_get_contents($json_file);
+
+                            // Decode JSON data into an associative array
+                            $data = json_decode($json_data, true);
+
+                            // Extract relevant data
+                            $candidateCount = $data['candidate_count'];
+                            $totalVotersCount = $data['voter_counts']['totalVotersCount'];
+                            $votedVotersCount = $data['voter_counts']['votedVotersCount'];
+                            $abstainedVotersCount = $data['voter_counts']['abstainedVotersCount'];
+                            $totalPercentage = $data['voter_counts']['totalPercentage'];
+                            $votedPercentage = $data['voter_counts']['votedPercentage'];
+                        } else {
+                            // Handle the case where the JSON file doesn't exist or can't be read
+                            echo "Error: JSON file not found or readable.";
+                            exit;
+                        }
+                        ?>
+                        <div class="col-11 col-md-10 col-lg-11 mx-auto">
+                            <div class="row m-0 p-0 justify-content-between">
+                                <div class="col-md-7 m-0 ps-0 pe-md-4 pe-md-0 pe-sm-0 pe-0 ">
+                                    <div class="card2 p-4 " style="border-radius: 20px; height: 250px;">
+                                        <div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-12 col-lg-6 pe-lg-0 pe-xl-5">
+                                                    <canvas id="chartProgress" width="200" height="200"></canvas>
+                                                </div>
+                                                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                                <script>
+                                                    // Create a doughnut chart
+                                                    var myChartCircle = new Chart('chartProgress', {
+                                                        type: 'doughnut',
+                                                        data: {
+                                                            datasets: [{
+                                                                data: [<?php echo $totalPercentage; ?>, <?php echo $votedPercentage; ?>], // Static dummy data
+                                                                backgroundColor: ['#4CAF50', '#E5E5E5'], // Static colors
+                                                                borderWidth: 0
+                                                            }]
+                                                        },
+                                                        options: {
+                                                            maintainAspectRatio: false,
+                                                            cutout: 75,
+                                                            cutoutPercentage: 75, // Adjust the size of the circle
+                                                            rotation: Math.PI / 2,
+                                                            legend: {
+                                                                display: false
+                                                            },
+                                                            tooltips: {
+                                                                enabled: false
+                                                            }
+                                                        },
+                                                        plugins: [{
+                                                                beforeInit: (chart) => {
+                                                                    const dataset = chart.data.datasets[0];
+                                                                    dataset.data = [dataset.data[0], 100 - dataset.data[0]]; // Calculate remaining percentage
+                                                                }
+                                                            },
+                                                            {
+                                                                beforeDraw: (chart) => {
+                                                                    var width = chart.width,
+                                                                        height = chart.height,
+                                                                        ctx = chart.ctx;
+                                                                    ctx.restore();
+                                                                    var fontSize = (height / 150).toFixed(2);
+                                                                    ctx.font = "bold " + fontSize + "em Montserrat, sans-serif"; // Bold and Montserrat
+                                                                    ctx.fillStyle = "black";
+                                                                    ctx.textBaseline = "middle";
+                                                                    var text = chart.data.datasets[0].data[0] + "%",
+                                                                        textX = Math.round((width - ctx.measureText(text).width) / 2),
+                                                                        textY = height / 1.75;
+                                                                    ctx.fillText(text, textX, textY);
+
+                                                                    // Adding 'Completed' text
+                                                                    var completedFontSize = (height / 300).toFixed(2); // Smaller font size
+                                                                    ctx.font = "bold " + completedFontSize + "em Montserrat";
+                                                                    var completedText = "Completed",
+                                                                        completedTextX = Math.round((width - ctx.measureText(completedText).width) / 2),
+                                                                        completedTextY = textY - 30; // Position above the percentage text
+                                                                    ctx.fillText(completedText, completedTextX, completedTextY);
+                                                                    ctx.save();
+                                                                }
+                                                            }
+                                                        ]
+                                                    });
+                                                </script>
+
+                                                <div class="col-md-12 col-lg-6 justify-content-center align-self-center border-left pb-4">
+                                                    <div class="col-md-12 metrics-header justify-content-center align-items-center d-flex d-sm-flex d-md-block mt-3">
+                                                        <small class="text-center ps-4 fw-700">Total count of voters</small>
+                                                    </div>
+                                                    <div class="col-md-12 metrics-content justify-content-center align-items-center main-color d-flex d-sm-flex d-md-block mb-3">
+                                                        <span class="text-center ps-4 fw-700 fs-20"><?php echo  $votedVotersCount; ?> out of <?php echo $totalVotersCount; ?></span>
+                                                    </div>
+
+                                                    <div class="col-md-12 metrics-header justify-content-center align-items-center d-flex d-sm-flex d-md-block">
+                                                        <small class="text-center ps-4 fw-700">Abstained</small>
+                                                    </div>
+                                                    <div class="col-md-12 metrics-content justify-content-center align-items-center main-color d-flex d-sm-flex d-md-block">
+                                                        <span class="text-center ps-4 fw-700"><?php echo $abstainedVotersCount; ?> students</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="card card-header main-color"><p><strong>ELECTION RESULTS</strong></p></div>
-                            </div>
 
-                            <div id="election-results"></div>
-
-                            <script>
-                                    function selectYear(year) {
-                                        const xhttp = new XMLHttpRequest();
-                                        xhttp.onreadystatechange = function() {
-                                            if (this.readyState === 4 && this.status === 200) {
-                                                document.getElementById("election-results").innerHTML = this.responseText;
-                                                document.getElementById("selectedYear").innerHTML = "Current Academic Year: <strong>" + year + "</strong>";
-                                                // Update the global selected year
-                                                window.selectedYear = year;
-                                                // Update the dropdown button text
-                                                document.getElementById("dropdownButtonText").innerHTML = "A.Y. " + year + ' <i data-feather="chevron-down" class="white im-cust feather-1xs"></i>';
-                                                // Reinitialize feather icons
-                                                feather.replace();
-                                                // Trigger position select change to update the chart with the new year
-                                                document.getElementById('positionSelect').dispatchEvent(new Event('change'));
-                                            }
-                                        };
-                                        xhttp.open("GET", "includes/fetch-election-data.php?election_year=" + year, true);
-                                        xhttp.send();
-                                    }
-
-                                    // Initialize global selected year
-                                    window.selectedYear = '<?php echo $selected_year; ?>';
-                            </script>
-
-
-                            <div class="dropdown2">
-                                <button class="btn-convert dropdown-button"><i data-feather="download" class="main-color im-cust small-icon"></i> Download results as...</button>
-                                    <div class="dropdown-content2">
-                                        <a href="#" onclick="downloadPDF()">PDF (.pdf)</a>
-                                        <a href="#option2">Excel (.xsl)</a>
+                                <div class="col-md-5 col-lg-5 px-0 d-flex flex-column">
+                                    <!-- Voters Account Card -->
+                                    <div class="card p-1 mt-1 mt-md-0 " style="border-radius: 20px;">
+                                        <div class="card-body3 d-flex align-items-center justify-content-between p-3" style="padding-left: 30px;">
+                                            <div class="row w-100">
+                                                <div class="col-9">
+                                                    <div class="col-12">
+                                                        <span class="secondary-metrics-header main-color">Total count of</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <span class="secondary-metrics-content">VOTER ACCOUNTS</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="col-12">
+                                                        <div class="circle main-bg-color">
+                                                            <span class="secondary-metrics-number"><?php echo $totalVotersCount; ?></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <br>
+
+                                    <!--Candidate Card-->
+                                    <div class="card p-1 mt-1 mt-md-0" style="border-radius: 20px;">
+                                        <div class="cabody3 d-flex align-items-center justify-content-between p-3" style="padding-left: 30px;">
+                                            <div class="row w-100">
+                                                <div class="col-9">
+                                                    <div class="col-12">
+                                                        <span class="secondary-metrics-header main-color">Total count of</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <span class="secondary-metrics-content">CANDIDATES</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="col-12">
+                                                        <div class="circle main-bg-color">
+                                                            <span class="secondary-metrics-number"><?php echo $candidateCount; ?></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                                <button class="btn-previous"><i class="fas fa-chevron-left" id="submenuIcon"></i> Previous</button>
-                                <button class="btn-next">   Next   <i class="fas fa-chevron-right" id="submenuIcon"></i></button>
-                                <br>
-                                <br>
-                                <div class="col-11 col-md-10 col-lg-11 mx-auto">
-                                    <div class="card-graph mb-5">
-                                        <canvas id="myChart"></canvas>
-                                            <div class="form-group">
-                                                <select id="positionSelect" class="form-control2 main-bg-color text-truncate">
-                                                    <?php
-                                                        if ($result_positions && $result_positions->num_rows > 0) {
-                                                                while ($row = $result_positions->fetch_assoc()) {
-                                                                    echo "<option value='" . htmlspecialchars($row['position_id']) . "'>" . htmlspecialchars($row['title']) . "</option>";
-                                                                }
-                                                            } else {
-                                                                echo '<option value="" disabled>No positions available</option>';
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <div class="col-11 col-md-10 col-lg-11 mx-auto">
+                            <div class="card card-header">
+                                <p class="main-color"><strong>FEEDBACK AND SUGGESTIONS</strong></p>
+                            </div>
+                            <div class="card-feedback mb-5">
+                                <div class="col-sm-6">
+                                    <p class="feedback-text fs-3 main-color fw-bold ls-10 spacing-6">Feedback Ratings</p>
+                                </div>
+                                <div class="d-flex flex-column justify-content-between">
+                                    <div class="row">
+                                        <div class="emoji">
+                                            <ul class="feedback pb-4">
+                                                <li class="angry" data-value="Very Unsatisfied">
+                                                    <span class="emoji-class"></span>
+                                                </li>
+                                                <li class="sad" data-value="Unsatisfied">
+                                                    <span class="emoji-class"></span>
+                                                </li>
+                                                <li class="ok" data-value="Neutral">
+                                                    <span class="emoji-class"></span>
+                                                </li>
+                                                <li class="good" data-value="Satisfied">
+                                                    <span class="emoji-class"></span>
+                                                </li>
+                                                <li class="happy" data-value="Very Satisfied">
+                                                    <span class="emoji-class"></span>
+                                                </li>
+                                            </ul>
+                                            <div class="pb-2"></div>
+                                            <div class="horizontal-align">
+                                                <?php
+                                                // Read the JSON file
+                                                $jsonData = file_get_contents('includes/data/voters-turnout.json');
+
+                                                // Decode the JSON data into an associative array
+                                                $data = json_decode($jsonData, true);
+
+                                                // Assign the rating percentages to a variable
+                                                $ratings_percentage = $data['rating_percentage'];
+
+                                                // Determine the highest percentage rating
+                                                $highest_percentage = max($ratings_percentage);
+                                                $highest_rating = array_search($highest_percentage, $ratings_percentage);
+
+                                                // Display ratings percentages and add conditional classes
+                                                $emojis = [
+                                                    'Very Unsatisfied' => 'angry',
+                                                    'Unsatisfied' => 'sad',
+                                                    'Neutral' => 'ok',
+                                                    'Satisfied' => 'good',
+                                                    'Very Satisfied' => 'happy'
+                                                ];
+                                                ?>
+                                                <script>
+                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                        // Fetch the rating percentages from PHP to JavaScript
+                                                        const ratingsPercentage = <?php echo json_encode($ratings_percentage); ?>;
+                                                        const emojis = document.querySelectorAll('.emoji .emoji-class');
+
+                                                        // Find the highest percentage rating
+                                                        let highestPercentage = 0;
+                                                        let highestRating = '';
+                                                        Object.keys(ratingsPercentage).forEach(function(rating) {
+                                                            if (ratingsPercentage[rating] > highestPercentage) {
+                                                                highestPercentage = ratingsPercentage[rating];
+                                                                highestRating = rating;
                                                             }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                    </div>
+                                                        });
 
+                                                        // Apply classes based on ratings
+                                                        emojis.forEach(function(emoji) {
+                                                            const emojiRating = emoji.parentNode.dataset.value;
+                                                            if (emojiRating === highestRating) {
+                                                                emoji.classList.add('highlighted');
+                                                            } else {
+                                                                emoji.classList.add('lowlight');
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
 
-                                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                                    <script>
-                                    var ctx = document.getElementById('myChart').getContext('2d');
-                                    var myChart = new Chart(ctx, {
-                                        type: 'bar',
-                                        data: {
-                                            labels: [], // Initially empty
-                                            datasets: [{
-                                                label: '# of Votes',
-                                                data: [], // Initially empty
-                                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                                borderWidth: 1,
-                                                barThickness: 40
-                                            }]
-                                        },
-                                        options: {
-                                            plugins: {
-                                                legend: {
-                                                    display: false
-                                                }
-                                            },
-                                            scales: {
-                                                y: {
-                                                    beginAtZero: true,
-                                                },
-                                                x: {
-                                                    grid: {
-                                                        display: false
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
-
-                                    function updateChart(labels, data) {
-                                        myChart.data.labels = labels;
-                                        myChart.data.datasets[0].data = data;
-                                        myChart.update();
-                                    }
-
-                                    document.getElementById('positionSelect').addEventListener('change', function () {
-                                        var selectedPosition = this.value;
-                                        var electionYear = window.selectedYear;
-
-                                        fetch(`includes/result-candidates.php?position_id=${selectedPosition}&election_year=${electionYear}`)
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                console.log(data);
-                                                var labels = data.candidates.map(candidate => candidate.name);
-                                                var votes = data.candidates.map(candidate => candidate.vote_count);
-                                                updateChart(labels, votes);
-                                            })
-                                            .catch(error => console.error('Error fetching data:', error));
-                                    });
-                                    </script>
-
-
-                                    <div class="card card-header">
-                                        <p class="main-color"><strong>VOTERS TURNOUT</strong></p>
-                                    </div>
-
-                                    <div class="row m-0 p-0 justify-content-between">
-                                        <div class="col-md-7 m-0 ps-0 pe-md-4 pe-md-0 pe-sm-0 pe-0 ">
-                                            <div class="card2 p-4 " style="border-radius: 20px; height: 275px;">
-                                                    <div>
-                                                        <div class="row justify-content-center">
-                                                            <div class="col-md-12 col-lg-6 pe-lg-0 pe-xl-5">
-                                                                <canvas id="chartProgress" width="200" height="200"></canvas>
-                                                            </div>
-                                                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                                                            <script>// Create a doughnut chart
-                                                            var myChartCircle = new Chart('chartProgress', {
-                                                                type: 'doughnut',
-                                                                data: {
-                                                                    datasets: [{
-                                                                        data: [<?php echo $totalPercentage; ?>, <?php echo $votedPercentage; ?>], // Static dummy data
-                                                                        backgroundColor: ['#4CAF50', '#E5E5E5'], // Static colors
-                                                                        borderWidth: 0
-                                                                    }]
-                                                                },
-                                                                options: {
-                                                                    maintainAspectRatio: false,
-                                                                    cutout: 75,
-                                                                    cutoutPercentage: 75, // Adjust the size of the circle
-                                                                    rotation: Math.PI / 2,
-                                                                    legend: {
-                                                                        display: false
-                                                                    },
-                                                                    tooltips: {
-                                                                        enabled: false
-                                                                    }
-                                                                },
-                                                                plugins: [{
-                                                                    beforeInit: (chart) => {
-                                                                        const dataset = chart.data.datasets[0];
-                                                                        dataset.data = [dataset.data[0], 100 - dataset.data[0]]; // Calculate remaining percentage
-                                                                    }
-                                                                },
-                                                                {
-                                                                    beforeDraw: (chart) => {
-                                                                        var width = chart.width,
-                                                                            height = chart.height,
-                                                                            ctx = chart.ctx;
-                                                                        ctx.restore();
-                                                                        var fontSize = (height / 150).toFixed(2);
-                                                                        ctx.font = "bold " + fontSize + "em Montserrat, sans-serif"; // Bold and Montserrat
-                                                                        ctx.fillStyle = "black";
-                                                                        ctx.textBaseline = "middle";
-                                                                        var text = chart.data.datasets[0].data[0] + "%",
-                                                                            textX = Math.round((width - ctx.measureText(text).width) / 2),
-                                                                            textY = height / 1.75;
-                                                                        ctx.fillText(text, textX, textY);
-
-                                                                        // Adding 'Completed' text
-                                                                        var completedFontSize = (height / 300).toFixed(2); // Smaller font size
-                                                                        ctx.font = "bold " + completedFontSize + "em Montserrat";
-                                                                        var completedText = "Completed",
-                                                                            completedTextX = Math.round((width - ctx.measureText(completedText).width) / 2),
-                                                                            completedTextY = textY - 30; // Position above the percentage text
-                                                                        ctx.fillText(completedText, completedTextX, completedTextY);
-                                                                        ctx.save();
-                                                                    }
-                                                                }]
-                                                            });
-
-                                                            </script>
-
-                                                            <div class="col-md-12 col-lg-6 justify-content-center align-self-center border-left pb-4">
-                                                                <div class="col-md-12 metrics-header justify-content-center align-items-center d-flex d-sm-flex d-md-block mt-3">
-                                                                    <small class="text-center ps-4 fw-700">Total count of voters</small>
-                                                                </div>
-                                                                <div class="col-md-12 metrics-content justify-content-center align-items-center main-color d-flex d-sm-flex d-md-block mb-3">
-                                                                    <span class="text-center ps-4 fw-700 fs-20"><?php echo $votedVotersCount; ?> out of <?php echo $totalVotersCount; ?></span>
-                                                                </div>
-
-                                                                <div class="col-md-12 metrics-header justify-content-center align-items-center d-flex d-sm-flex d-md-block">
-                                                                    <small class="text-center ps-4 fw-700">Abstained</small>
-                                                                </div>
-                                                                <div class="col-md-12 metrics-content justify-content-center align-items-center main-color d-flex d-sm-flex d-md-block">
-                                                                    <span class="text-center ps-4 fw-700"><?php echo $abstainedVotersCount; ?> students</span>
-                                                                </div>
-                                                            </div>
+                                                <?php foreach ($emojis as $rating => $emoji_class) {
+                                                    $percentage = $ratings_percentage[$rating] ?? 0; // Default to 0% if rating percentage is not set
+                                                ?>
+                                                    <div class="rating-item <?php if ($rating == $highest_rating) echo 'highest-rating'; ?>">
+                                                        <div>
+                                                            <h1 class="<?php if ($rating == $highest_rating) echo 'main-color'; ?>"><?php echo $percentage; ?>%</h1>
+                                                            <h2 class="<?php if ($rating == $highest_rating) echo 'main-color'; ?>"><?php echo $rating; ?></h2>
                                                         </div>
+                                                        <span class="emoji <?php echo $emoji_class; ?>-emoji emoji-class" data-value="<?php echo $rating; ?>"></span>
                                                     </div>
-                                                </div>
-                                            </div>
 
-                                            <div class="col-md-5 col-lg-5 px-0 d-flex flex-column">
-                                                <!-- Voters Account Card -->
-                                                <div class="card p-1 mt-1 mt-md-0 " style="border-radius: 20px;">
-                                                    <div class="card-body3 d-flex align-items-center justify-content-between p-3" style="padding-left: 30px;">
-                                                        <div class="row w-100">
-                                                            <div class="col-9">
-                                                                <div class="col-12">
-                                                                    <span class="secondary-metrics-header main-color">Total count of</span>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <span class="secondary-metrics-content">VOTER ACCOUNTS</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-3" >
-                                                                <div class="col-12">
-                                                                    <div class="circle main-bg-color">
-                                                                        <span class="secondary-metrics-number"><?php echo $totalVotersCount; ?></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <br>
-
-                                                <!-- Candidate Card -->
-                                                <div class="card p-1 mt-1 mt-md-0" style="border-radius: 20px;">
-                                                    <div class="card-body3 d-flex align-items-center justify-content-between p-3" style="padding-left: 30px;">
-                                                        <div class="row w-100">
-                                                            <div class="col-9">
-                                                                <div class="col-12">
-                                                                    <span class="secondary-metrics-header main-color">Total count of</span>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <span class="secondary-metrics-content">CANDIDATES</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-3">
-                                                                <div class="col-12">
-                                                                    <div class="circle main-bg-color">
-                                                                        <span class="secondary-metrics-number"><?php echo $candidateCount; ?></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <?php } ?>
                                             </div>
                                         </div>
-                                        <br>
-                                        <br>
-                                        <br>
-                                        <br>
-                                        <br>
-
-                                        <div class="card card-header">
-                                        <p class="main-color"><strong>FEEDBACK AND SUGGESTIONS</strong></p>
-                                        </div>
-                                        <div class="card-feedback mb-5">
-                                            <div class="col-sm-6">
-                                                <p class="feedback-text fs-3 main-color fw-bold ls-10 spacing-6">Feedback Ratings</p>
-                                            </div>
-                                            <div class=" d-flex flex-column justify-content-between">
-                                            <div class="row">
-                                            <div class="emoji">
-                                                            <ul class="feedback pb-4">
-                                                                <li class="angry" data-value="Very Unsatisfied" title="Very Unsatisfied">
-                                                                    <div>
-                                                                        <svg class="eye left">
-                                                                            <use xlink:href="#eye">
-                                                                        </svg>
-                                                                            <svg class="eye right">
-                                                                                <use xlink:href="#eye">
-                                                                            </svg>
-                                                                        <svg class="mouth">
-                                                                            <use xlink:href="#mouth">
-                                                                        </svg>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="sad" data-value="Unsatisfied" title="Unsatisfied">
-                                                                    <div>
-                                                                        <svg class="eye left">
-                                                                            <use xlink:href="#eye">
-                                                                        </svg>
-                                                                            <svg class="eye right">
-                                                                                <use xlink:href="#eye">
-                                                                            </svg>
-                                                                        <svg class="mouth">
-                                                                            <use xlink:href="#mouth">
-                                                                        </svg>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="ok" data-value="Neutral" title="Neutral">
-                                                                    <div></div>
-                                                                </li>
-                                                                <li class="good" data-value="Satisfied" title="Satisfied">
-                                                                    <div>
-                                                                        <svg class="eye left">
-                                                                            <use xlink:href="#eye">
-                                                                        </svg>
-                                                                            <svg class="eye right">
-                                                                                <use xlink:href="#eye">
-                                                                            </svg>
-                                                                        <svg class="mouth">
-                                                                            <use xlink:href="#mouth">
-                                                                        </svg>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="happy" data-value="Very Satisfied" title="Very Satisfied">
-                                                                    <div>
-                                                                        <svg class="eye left">
-                                                                            <use xlink:href="#eye">
-                                                                        </svg>
-                                                                        <svg class="eye right">
-                                                                            <use xlink:href="#eye">
-                                                                        </svg>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-
-                                                            <div class="pb-2"></div>
-
-                                                            <input type="hidden" id="rating" name="rating" value="">
-
-                                                                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                                                                    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7 4" id="eye">
-                                                                        <path d="M1,1 C1.83333333,2.16666667 2.66666667,2.75 3.5,2.75 C4.33333333,2.75 5.16666667,2.16666667 6,1"></path>
-                                                                    </symbol>
-                                                                    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 7" id="mouth">
-                                                                        <path d="M1,5.5 C3.66666667,2.5 6.33333333,1 9,1 C11.6666667,1 14.3333333,2.5 17,5.5"></path>
-                                                                    </symbol>
-                                                                </svg>
-                                                                <div class="horizontal-align">
-                                                                <div>
-                                                                    <h1>50 %</h1>
-                                                                    <h2>Very Unsatisfied</h2>
-                                                                </div>
-                                                                <div>
-                                                                    <h1>40 %</h1>
-                                                                    <h2>Unsatisfied</h2>
-                                                                </div>
-                                                                <div>
-                                                                    <h1>20 %</h1>
-                                                                    <h2>Neutral</h2>
-                                                                </div>
-                                                                <div>
-                                                                    <h1>50 %</h1>
-                                                                    <h2>Satisfied</h2>
-                                                                </div>
-                                                                <div>
-                                                                    <h1>50 %</h1>
-                                                                    <h2>Very Satisfied</h2>
-                                                                </div>
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                        <div class="card-graph mb-5">
-
-                                        </div>
                                     </div>
+                                </div>
                             </div>
+                            <!--Feedback Table-->
+                            <div class="row justify-content-center">
+                                <div class="container-fluid">
+                                    <div class="card-box">
+                                        <div class="row">
+                                            <div class="content">
+                                                <div class="table-wrapper">
+                                                    <div class="table-title">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <p class="fs-3 main-color fw-bold ls-10 spacing-6 text-comment" style="padding-left: 30px;">Feedback Comments</p>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 text-end flex-end">
+                                                                        <div class="d-inline-block ps-3">
+                                                                            <form class="d-inline-block">
+                                                                                <div class="dropdown sort-by">
+                                                                                    <button class="sortby-tbn fs-7 spacing-6 fw-medium" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                        <i class="fa-solid fa-arrow-down-wide-short fa-sm"></i>
+                                                                                        Sort by
+                                                                                    </button>
+                                                                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="padding: 0.5rem">
+                                                                                        <li class="dropdown-item ps-3 fs-7 fw-medium">
+                                                                                            <a href="?sort=timestamp&order=desc">Newest to Oldest</a>
+                                                                                        </li>
+                                                                                        <li class="dropdown-item ps-3 fs-7 fw-medium">
+                                                                                            <a href="?sort=timestamp&order=asc">Oldest to Newest</a>
+                                                                                        </li>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <?php if ($feedback_tbl->num_rows > 0) { ?>
+                                                        <table class="table table-hover">
+                                                            <thead class="tl-header">
+                                                                <tr>
+                                                                    <th class="col-md-7 text-center fs-7 fw-bold spacing-5"><i data-feather="mail" class="feather-xs im-cust"></i>Feedback</th>
+                                                                    <th class="col-md-2 text-center fs-7 fw-bold spacing-5"> <i data-feather="calendar" class="feather-xs im-cust"></i>Date Submitted</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php while ($row = $feedback_tbl->fetch_assoc()) { ?>
+                                                                    <tr class="table-row">
+                                                                        <td class="col-md-7 text-center truncated-text">
+                                                                            <?php echo $row["feedback"]; ?>
+                                                                            <p class="view-more" data-bs-toggle="modal" data-bs-target="#successEmailModal<?php echo $row['id']; ?>" data-feedback='<?php echo htmlspecialchars(json_encode($row)); ?>'>View More</p>
+                                                                        </td>
+                                                                        <td class="col-md-2 text-center"><?php echo date("F j, Y", strtotime($row["timestamp"])); ?></td>
+                                                                    </tr>
+                                                                <?php } ?>
+                                                            </tbody>
+                                                        </table>
+                                                        <div class="clearfix col-xs-12">
+                                                            <div class="d-flex justify-content-end align-items-center">
+                                                                <ul class="pagination">
+                                                                    <?php if ($current_page > 1) { ?>
+                                                                        <li class="page-item"><a href="?page=<?php echo $current_page - 1 . '&sort=' . urlencode($sort) . '&order=' . urlencode($order); ?>" class="page-link"><i class="fas fa-chevron-left" id="btn-previous"></i> </a></li>
+                                                                    <?php } ?>
+                                                                    <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                                                                        <li class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
+                                                                            <a href="?page=<?php echo $i . '&sort=' . urlencode($sort) . '&order=' . urlencode($order); ?>" class="page-link"><?php echo $i; ?></a>
+                                                                        </li>
+                                                                    <?php } ?>
+                                                                    <?php if ($current_page < $total_pages) { ?>
+                                                                        <li class="page-item"><a href="?page=<?php echo $current_page + 1 . '&sort=' . urlencode($sort) . '&order=' . urlencode($order); ?>" class="page-link"><i class="fas fa-chevron-right" id="btn-next"></i></a></li>
+                                                                    <?php } ?>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    <?php } else { ?>
+                                                        <div class="table-title">
+                                                            <table class="table table-hover">
+                                                                <thead class="tl-header">
+                                                                    <tr>
+                                                                        <th class="col-md-3 tl-left text-center fs-7 fw-bold spacing-5">ID</th>
+                                                                        <th class="col-md-3 text-center fs-7 fw-bold spacing-5">Rating</th>
+                                                                        <th class="col-md-3 text-center fs-7 fw-bold spacing-5">Feedback</th>
+                                                                        <th class="col-md-3 tl-right text-center fs-7 fw-bold spacing-5">Date Submitted</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td colspan="4" class="no-border">
+                                                                            <div class="col-md-12 no-registration text-center">
+                                                                                <img src="images/resc/folder-empty.png" class="illus">
+                                                                                <p class="fw-bold spacing-6 black">No records found</p>
+                                                                                <p class="spacing-3 pt-1 black fw-medium">Adjust filter or try a different search term</p>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-                    <script>
-                            function selectPosition(title, positionId) {
-                                document.getElementById("selectedPosition").innerHTML = title;
-                                window.location.href = "?position_id=" + positionId;
-                            }
-
-                            //for dropdown download
-                            window.onclick = function(event) {
-                            if (!event.target.matches('.dropdown-button2')) {
-                                var dropdowns = document.getElementsByClassName("dropdown-content2");
-                                for (var i = 0; i < dropdowns.length; i++) {
-                                var openDropdown = dropdowns[i];
-                                if (openDropdown.style.display === "block") {
-                                    openDropdown.style.display = "none";
-                                }
-                                }
-                            }
-                            }
-
-                            // Attach event listeners to rating and feedback inputs to update button text
-                            ratingInput.addEventListener('input', updateButtonText);
-                            feedbackInput.addEventListener('input', updateButtonText);
-
-
-                            // Selecting emoji, no initial selected emoji
-                            document.querySelectorAll('.feedback li').forEach(entry => entry.addEventListener('click', e => {
-                            if (entry.classList.contains('active')) {
-                                entry.classList.remove('active');
-                            } else {
-                                document.querySelector('.feedback li.active')?.classList.remove('active');
-                                entry.classList.add('active');
-                            }
-                            e.preventDefault();
-                            }));
-
-                            // Add value of the rating, corresponding with the emoji selected
-                            document.addEventListener("DOMContentLoaded", function() {
-                            var feedbackOptions = document.querySelectorAll(".feedback li");
-
-                            feedbackOptions.forEach(function(option) {
-                                option.addEventListener("click", function() {
-                                    var value = this.getAttribute("data-value");
-                                    document.getElementById("rating").value = value;
-                                });
-                            });
-                            });
-
-                    </script>
-
-
+        </div>
+        </div>
+        <!-- Feedback Modal -->
+        <div class="modal fade" id="successEmailModal" tabindex="-1" role="dialog" aria-labelledby="successEmailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pb-3">
+                                <p class="fw-bold fs-3 main-color modal-text spacing-4">Comment</p>
+                                <p id="modal-feedback" class="fw-medium spacing-5 comment"></p>
+                                <p id="modal-date" class="fw-medium spacing-5 main-color text-end time-date"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const candidates = document.querySelectorAll('.card-candidate');
-                    const btnPrevious = document.querySelector('.btn-previous');
-                    const btnNext = document.querySelector('.btn-next');
-                    const candidatesPerPage = 5;
-                    let currentPage = 0;
+        <!-- JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-                    function showPage(pageNumber) {
-                        for (let i = 0; i < candidates.length; i++) {
-                            if (i >= pageNumber * candidatesPerPage && i < (pageNumber + 1) * candidatesPerPage) {
-                                candidates[i].style.display = 'block';
-                            } else {
-                                candidates[i].style.display = 'none';
-                            }
-                        }
-                    }
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+        <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="scripts/script.js"></script>
+        <script src="scripts/result-generation.js"></script>
+        <script src="scripts/feather.js"></script>
+        <script src="scripts/loader.js"></script>
 
-                    showPage(currentPage);
-
-                    btnPrevious.addEventListener('click', function() {
-                        if (currentPage > 0) {
-                            currentPage--;
-                            showPage(currentPage);
-                        }
-                    });
-
-                    btnNext.addEventListener('click', function() {
-                        const totalPages = Math.ceil(candidates.length / candidatesPerPage);
-                        if (currentPage < totalPages - 1) {
-                            currentPage++;
-                            showPage(currentPage);
-                        }
-                    });
-                });
-            </script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-            <script>
-                function downloadPDF() {
-                    fetch('result-pdf.php?election_year=<?php echo $election_year; ?>')
-                    .then(response => response.text())
-                    .then(phpString => {
-                    const options = {
-                        margin: 10,
-                        filename: 'generated_pdf.pdf',
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2 },
-                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-                    };
-
-                    html2pdf().from(phpString).set(options).save();
-                    })
-                    .catch(error => {
-                    console.error('Error fetching PHP content:', error);
-                    });
-                }
-
-                function alldownloadPDF() {
-                    fetch('allresult-pdf.php?election_year=<?php echo $election_year; ?>')
-                    .then(response => response.text())
-                    .then(phpString => {
-                    const options = {
-                        margin: 10,
-                        filename: 'generated_pdf.pdf',
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2 },
-                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-                    };
-
-                    html2pdf().from(phpString).set(options).save();
-                    })
-                    .catch(error => {
-                    console.error('Error fetching PHP content:', error);
-                    });
-                }
-            </script>
-
-            <?php include_once __DIR__ . '/includes/components/footer.php';?>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-            <script src="scripts/script.js"></script>
-            <script src="scripts/feather.js"></script>
-            <script src="scripts/loader.js"></script>
     </html>
 
 <?php
