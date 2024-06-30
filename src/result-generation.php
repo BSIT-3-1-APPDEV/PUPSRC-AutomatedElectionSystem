@@ -1,4 +1,5 @@
 <?php
+// Include necessary files
 include_once str_replace('/', DIRECTORY_SEPARATOR, 'includes/classes/file-utils.php');
 require_once FileUtils::normalizeFilePath('includes/classes/db-connector.php');
 require_once FileUtils::normalizeFilePath('includes/session-handler.php');
@@ -6,20 +7,18 @@ require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php'
 require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/feedback-manager.php');
 
-
+// Check session and role
 if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
-
-    // ------ SESSION EXCHANGE
+    // Include session exchange
     include FileUtils::normalizeFilePath('includes/session-exchange.php');
 
-    // ------ END OF SESSION EXCHANGE
+    // Establish database connection
     $connection = DatabaseConnection::connect();
-    // Assume $connection is your database connection
-    $voter_id = $_SESSION['voter_id'];
+    if ($connection->connect_error) {
+        die("Connection failed: " . $connection->connect_error);
+    }
 
-    // Replace with the actual path
-
-    // Instantiate the FeedbackManager
+    // Instantiate FeedbackManager
     $feedbackManager = new FeedbackManager($connection);
 
     // Get sorting and pagination parameters
@@ -34,12 +33,19 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     $total_records = $feedbackManager->getTotalRecords();
     $total_pages = ceil($total_records / $records_per_page);
 
-    if (isset($_SESSION['organization'])) {
-        // Retrieve the organization name
-        $organization = $_SESSION['organization'];
-    }
-?>
+    // Fetch organization name
+    $organization = isset($_SESSION['organization']) ? $_SESSION['organization'] : '';
 
+      
+// Check if generate-json.php has been successfully executed
+if (!isset($_SESSION['generate_json_completed']) || !$_SESSION['generate_json_completed']) {
+    // Redirect to generate-json.php if it hasn't been executed yet
+    header("Location: ../src/includes/generate-json.php");
+    exit();
+}
+ 
+
+?>
     <!DOCTYPE html>
     <html lang="en">
 
