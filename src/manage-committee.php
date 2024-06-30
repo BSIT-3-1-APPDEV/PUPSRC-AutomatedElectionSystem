@@ -380,7 +380,7 @@ if (isset($_SESSION['voter_id'])) {
 							<div class="col-md-12 pt-1 text-center">
 								<div class="d-inline-block">
 									<button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-										onClick="closeModal('rejectModal')" aria-label="Close">Cancel</button>
+										data-bs-dismiss="modal" aria-label="Close">Cancel</button>
 								</div>
 								<div class="d-inline-block">
 									<form class="d-inline-block">
