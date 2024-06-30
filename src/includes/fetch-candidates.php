@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['position'])) {
 
 // Get the current year
 $currentYear = date("Y");
+$nextYear = date("Y", strtotime("+1 year"));
+$electionYear = $currentYear . '-' . $nextYear;
 
 // Prepare and execute a query to fetch candidates for the selected position
 $candidatesQuery = "SELECT c.*
@@ -27,7 +29,7 @@ $candidatesQuery = "SELECT c.*
 $stmt = $conn->prepare($candidatesQuery);
 
 // Bind the parameters: 's' for the string type of $selectedPosition and 'i' for the integer type of $currentYear
-$stmt->bind_param('si', $selectedPosition, $currentYear);
+$stmt->bind_param('si', $selectedPosition, $electionYear);
 
 // Execute the statement
 $stmt->execute();

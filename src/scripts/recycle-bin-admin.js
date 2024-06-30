@@ -42,7 +42,15 @@ $('.email-link').on('click', function(event) {
 
 
                 $('#modal-name').text(name);
-                $('#modal-role').text(response.role);
+                var formattedRole;
+                if (response.role == 'head_admin') {
+                    formattedRole = 'Head Admin';
+                } else if (response.role == 'admin') {
+                    formattedRole = 'Admin';
+                } else {
+                    formattedRole = response.role; // Handle other roles if needed
+                }
+                $('#modal-role').text(formattedRole);
                 
                 $('#modal-acc-created').text(response.acc_created);
                 $('#voterDetailsModal').modal('show');

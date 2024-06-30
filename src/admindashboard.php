@@ -31,7 +31,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     $candidateCount = $app->getCandidateCount();
     $voter_id = $_SESSION['voter_id'];
     $first_name = $app->getFirstName($voter_id);
-
+    $electionPeriodStatus = $app->checkElectionPeriod();
 
   
 ?>
@@ -79,6 +79,8 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         // Assuming $org_name is a string or a valid data type for JSON encoding
         const orgName = <?php echo json_encode($org_name); ?>;
         console.log(orgName); // Log the actual variable
+        const inElectionPeriod = <?php echo json_encode($electionPeriodStatus['inElectionPeriod']); ?>;
+        console.log(inElectionPeriod);
     </script>
 </head>
 
@@ -140,15 +142,25 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
          
          
                 
-                <div class="card">
-                <div class="icon-container pt-2 pe-2 text-end">
-                    <a id="fullscreen-button">
-                                <i data-feather="maximize" class="main-color"></i>
-                            </a>
-</div>
-    <div class="chart-container pb-3 px-5">
-        <canvas id="myChart"></canvas>
-    </div>
+            <?php if ($electionPeriodStatus['inElectionPeriod']) { ?>
+                        <div class="card">
+                            <div class="icon-container pt-2 pe-2 text-end">
+                                <a id="fullscreen-button">
+                                    <i data-feather="maximize" class="main-color"></i>
+                                </a>
+                            </div>
+                            <div class="chart-container pb-3 px-5">
+                                <canvas id="myChart"></canvas>
+                            </div>
+                  
+                    <?php } else { ?>
+                        <div class="card">
+                            <div class="card-body text-center py-5">
+                                <img src="images/resc/Dashboard/admin-empty-state.jpeg" style="height:200px; width:auto;">
+                                <h5 class="fs-6 gray">Election period has not started</h5>
+                            </div>
+                    
+                    <?php } ?>
     
 </div>
 <div class="row">
