@@ -5,6 +5,7 @@ footer {
   left: 0;
   width: 100%;
   z-index: 1000;
+  overflow-x: none !important;
 }
 
 .hide-this-text {
@@ -199,7 +200,7 @@ footer {
     display: none;
     margin-top: 5%;
     padding-bottom: 2%;
-  }  
+  }
 }
 
 @media (max-width: 1024px) {
@@ -223,7 +224,6 @@ footer {
   .footer .second-section,
   .footer .third-section {
     width: 100%;
-    padding: 10px 0;
     text-align: center;
   }
   .footer .second-section .orgs {
