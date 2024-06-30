@@ -58,7 +58,7 @@
                             <div class="col-md-11">
                                 <div class="breadcrumbs d-flex flex-wrap justify-content-center justify-content-md-start">
                                     <button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
-                                        <i data-feather="users" class="white im-cust feather-2xl"></i> <span class = "hide-text">CANDIDATES</span>
+                                        <i data-feather="users" class="white im-cust feather-2xl"></i> <span class="hide-text">CANDIDATES</span>
                                     </button>
                                     <button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">ADD
                                         CANDIDATE</button>
@@ -74,7 +74,12 @@
 
                     <form action="../src/submission_handlers/insert-candidates.php" method="post" id="candidate-form" enctype="multipart/form-data">
                         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-                        <input type="hidden" name="election_year" value = "2023-2024">
+                        <?php
+                        $currentYear = date("Y");
+                        $nextYear = $currentYear + 1;
+                        $year = $currentYear . '-' . $nextYear;
+                        ?>
+                        <input type="hidden" name="election_year[]" value="<?php echo htmlspecialchars($year); ?>">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-md-10 card-box mt-md-10" id="form-container">
@@ -148,7 +153,8 @@
                                                     <div class="col-md-4 col-sm-3 mx-auto">
                                                         <div class="form-group local-forms">
                                                             <label for="section" class="login-danger fs-7">Block Section<span class="required"> *</span></label>
-                                                            <select id="section" name="section[]" onmousedown="if(this.options.length>3){this.size=3;}" onchange='this.size=0;' onblur="this.size=0;" required style="opacity: 0.5">
+                                                            <select id="section" name="section[]" required style="opacity: 0.5">
+                                                                <!-- onmousedown="if(this.options.length>3){this.size=3;}" onchange='this.size=0;' onblur="this.size=0;" -->
                                                                 <option value="" class="disabled-option" disabled selected hide>Select Block Section</option>
                                                                 <?php
                                                                 // Define the program based on org_name
