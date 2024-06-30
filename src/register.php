@@ -194,7 +194,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                                                 class="asterisk fw-medium">*</span></label>
                                         <input type="password" class="form-control pt-2 bg-white text-black"
                                             name="password" id="password" placeholder="Password"
-                                            autocomplete="new-password" required>
+                                            required>
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                                                 class="asterisk fw-medium">*</span></label>
                                         <input type="password" class="form-control pt-2 bg-white text-black"
                                             id="retype-pass" name="retype-pass" placeholder="Re-type password"
-                                            autocomplete="current-password" required>
+                                        required>
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +273,7 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="d-flex justify-content-end">
+                    <div class="d-sm-flex text-end justify-content-end">
                         <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
                             onclick="location.href = 'landing-page';">
                         </i>
@@ -284,9 +284,9 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12 pb-3">
-                                <p class="fw-bold fs-3 success-color spacing-4">Successfully Registered!</p>
-                                <p class="fw-medium spacing-5">We'll notify you via email once your account has been
+                            <div class="col-md-12">
+                                <p class="fw-bold success-color spacing-4" id="successTitle">Successfully Registered!</p>
+                                <p class="fw-medium spacing-5 pt-2" id="successSubtitle">We'll notify you via email once your account has been
                                     verified.
                                 </p>
                             </div>
@@ -302,21 +302,19 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="d-flex justify-content-end">
+                    <div class="d-sm-flex text-end justify-content-end">
                         <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" id="onlyPDFClose">
                         </i>
                     </div>
                     <div class="text-center">
                         <div class="col-md-12">
-                            <img src="images/resc/warning.png" alt="Warning Icon">
+                            <img src="images/resc/warning.png" class="warning-icon" alt="Warning Icon">
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 pb-3 pt-4">
-                                <p class="fw-bold fs-3 danger spacing-4 px-2">Only PDF files are allowed</p>
-                                <p class="fw-medium spacing-5 pt-2 px-5 ">Please also ensure the file is no larger than
-                                    25 mb.
-                                    Let's try that again!
+                                <p class="fw-bold danger spacing-4" id="dangerTitle">Only PDF files are allowed</p>
+                                <p class="fw-medium spacing-5 pt-2" id="dangerSubtitle">Please also ensure the file is no larger than 25 mb. Let's try that again!
                                 </p>
                             </div>
                         </div>

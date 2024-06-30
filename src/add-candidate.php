@@ -192,17 +192,17 @@
                                                                     foreach ($org_sections as $program => $years) {
                                                                         foreach ($years as $year_level => $sections) {
                                                                             foreach ($sections as $section) {
-                                                                                echo '<option value="' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($program) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
+                                                                                echo '<option value="' . htmlspecialchars($program) . '-' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($program) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
                                                                             }
                                                                         }
                                                                     }
                                                                 } else {
                                                                     if (isset($programs)) {
                                                                         // Handle org_names with multiple programs
-                                                                        foreach ($programs as $prog) {
-                                                                            foreach ($org_sections[$prog] as $year_level => $sections) {
+                                                                        foreach ($programs as $program) {
+                                                                            foreach ($org_sections[$program] as $year_level => $sections) {
                                                                                 foreach ($sections as $section) {
-                                                                                    echo '<option value="' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($prog) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
+                                                                                    echo '<option value="' . htmlspecialchars($program) . '-' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($program) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
                                                                                 }
                                                                             }
                                                                         }
@@ -210,7 +210,7 @@
                                                                         // Handle org_names with a single program
                                                                         foreach ($org_sections[$program] as $year_level => $sections) {
                                                                             foreach ($sections as $section) {
-                                                                                echo '<option value="' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($program) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
+                                                                                echo '<option value="' . htmlspecialchars($program) . '-' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($program) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
                                                                             }
                                                                         }
                                                                     }
@@ -219,6 +219,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
+
 
 
                                                     <div class="col-md-4 col-sm-3 mx-auto">

@@ -14,7 +14,7 @@ class DatabaseConnection {
 
             // Return an error message if organization not set
             if(!$org_name) {
-                $_SESSION['error_message'] = "We can't connect you to your organization.";
+                $_SESSION['warning_message'] = "We can't connect you to your organization.";
                 return;
             }
 

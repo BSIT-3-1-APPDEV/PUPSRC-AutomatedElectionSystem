@@ -5,15 +5,15 @@ require_once FileUtils::normalizeFilePath('includes/classes/session-manager.php'
 include_once FileUtils::normalizeFilePath('includes/organization-list.php');
 
 SessionManager::checkUserRoleAndRedirect();
+session_destroy();
 
+$warning_message = '';
 if (isset($_SESSION['warning_message'])) {
     $warning_message = $_SESSION['warning_message'];
     unset($_SESSION['warning_message']);
 }
 
 $warning_message_json = json_encode($warning_message);
- 
-session_destroy();
 
 ?>
 
@@ -93,19 +93,19 @@ session_destroy();
         <!-- Warning Modal -->
         <div class="modal fade" id="susActivityModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content" id="success-modal">
+            <div class="modal-content">
               <div class="modal-body">
                 <div class="d-flex justify-content-end">
-                  <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray" role="button" data-bs-dismiss="modal"></i>
+                  <i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray mt-2" role="button" data-bs-dismiss="modal"></i>
                 </div>
                 <div class="text-center">
                   <div class="col-md-12">
-                    <img src="images/resc/yellow-warning.png" class="warning-icon" alt="iVote Logo">
+                    <img src="images/resc/yellow-warning.png" class="mt-3 warning-icon" alt="iVote Logo">
                   </div>
                   <div class="row">
-                    <div class="col-md-12 pb-3">
-                      <p class="fw-bold fs-3 text-warning spacing-4 mt-4">Oops!</p>
-                      <p class="fw-medium spacing-5" id="warningMessage"><!-- Warning message loads here --></p>
+                    <div class="col-md-12">
+                      <p class="fw-bold fs-3 text-warning spacing-4 mt-4 warning-title">Oops!</p>
+                      <p class="fw-medium spacing-5 warning-subtitle" id="warningMessage">HAHAHAHAHAHA<!-- Warning message loads here --></p>
                     </div>
                   </div>
                 </div>

@@ -23,9 +23,10 @@ if (isset($_SESSION['voter_id'])) {
                 $party_list = htmlspecialchars(trim($_POST['party_list'][$index]));
                 $position_id = intval($_POST['position_id'][$index]);
                 $election_year = htmlspecialchars(trim($_POST['election_year'][$index]));
-                
-                // Ensure to correctly split and validate the sections
-                list($program, $year_level, $section) = explode('-', htmlspecialchars(trim($_POST['section'][$index])));
+                $section_year_program = explode('-', $_POST['section'][$index]);
+                $program = htmlspecialchars(trim($section_year_program[0]));
+                $year_level = $section_year_program[1];
+                $section = $section_year_program[2];
 
                 $photo_url = '';
 

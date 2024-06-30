@@ -66,7 +66,7 @@ include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/topnav
         <div class="col-lg-6 col-sm-12">
             <div class="reminder px-5 py-4">
                 <div class="header main-color text-center py-2">
-                    <b>Your ballot is securely cast!</b>
+                    Your ballot is securely cast!
                 </div>
                 <div class="header-sub text-center pb-2">
                     Stay tuned for the upcoming announcement of the newly appointed committee members on 
