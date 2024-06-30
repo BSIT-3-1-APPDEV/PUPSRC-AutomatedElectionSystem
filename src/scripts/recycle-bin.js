@@ -28,7 +28,7 @@ data: { voter_id: voterId },
 dataType: 'json',
 success: function(response) {
 if (response.cor) {
-var formattedCorLink = 'user_data/<?php echo $org_name; ?>/cor/' + response.cor;
+    var formattedCorLink = `user_data/${orgName}/cor/` + response.cor;
 $('#modal-voter-id').text(voterId);
 $('#pdfViewer').attr('src', formattedCorLink); // Set src attribute of pdfViewer
 $('#modal-download-link').attr('href', formattedCorLink); // Set href attribute of modal-download-link

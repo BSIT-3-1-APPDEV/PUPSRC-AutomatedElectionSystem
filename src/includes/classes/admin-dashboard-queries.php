@@ -130,5 +130,37 @@ class Application {
 
         return $yearLevelCounts;
     }
+    public function getMostRecentElectionSchedule() {
+        $connection = $this->db->connect();
+
+        // Fetch the most recent election schedule based on the start_date
+        $recentElectionScheduleQuery = "SELECT * FROM election_schedule ORDER BY start DESC LIMIT 1";
+        $result = $connection->query($recentElectionScheduleQuery);
+        $mostRecentElectionSchedule = $result->num_rows > 0 ? $result->fetch_assoc() : null;
+
+        return $mostRecentElectionSchedule;
+    }
+
+    public function checkElectionPeriod() {
+        $mostRecentElectionSchedule = $this->getMostRecentElectionSchedule();
+
+        if ($mostRecentElectionSchedule) {
+            $currentDate = new DateTime();
+            $startDate = new DateTime($mostRecentElectionSchedule['start']);
+            $endDate = new DateTime($mostRecentElectionSchedule['end']);
+
+            if ($currentDate >= $startDate && $currentDate <= $endDate) {
+                return [
+                    'inElectionPeriod' => true,
+                    'schedule' => $mostRecentElectionSchedule
+                ];
+            }
+        }
+
+        return [
+            'inElectionPeriod' => false,
+            'message' => 'Election period has not started'
+        ];
+    }
 }
 ?>
