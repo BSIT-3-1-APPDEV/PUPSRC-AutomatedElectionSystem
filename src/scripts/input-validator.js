@@ -163,25 +163,28 @@ export default class InputValidator {
         }
 
         if (this.#validations.trailing && Object.keys(this.#validations.trailing).length > 0) {
-            if (this.#isClearInvalidBool && this.#validations.clear_invalid) {
 
-                Object.keys(this.#validations.trailing).forEach(pattern => {
-                    let replacementValue = this.#validations.trailing[pattern];
-                    try {
-                        const regex = new RegExp(pattern, 'g');
-                        trimmed_value = trimmed_value.replace(regex, replacementValue);
 
-                        if (original_value !== trimmed_value) {
-                            input_element.value = trimmed_value;
+            Object.keys(this.#validations.trailing).forEach(pattern => {
+                let replacementValue = this.#validations.trailing[pattern];
+                try {
+                    const regex = new RegExp(pattern, 'g');
+                    trimmed_value = trimmed_value.replace(regex, replacementValue);
 
-                            return false;
-                        }
-                    } catch (error) {
-                        console.error(`Invalid regex pattern '${pattern}' specified:`, error);
 
-                    }
-                });
+                } catch (error) {
+                    console.error(`Invalid regex pattern '${pattern}' specified:`, error);
+
+                }
+            });
+
+            if (original_value !== trimmed_value) {
+                if (this.#isClearInvalidBool && this.#validations.clear_invalid) {
+                    input_element.value = trimmed_value;
+                }
+                return false;
             }
+
 
         }
 

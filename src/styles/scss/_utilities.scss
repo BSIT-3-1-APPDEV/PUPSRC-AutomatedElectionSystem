@@ -37,6 +37,12 @@
     font-size: clamp(0.8rem, 0.5rem + 0.5vw, 1vw);
 }
 
+html:has(.main) {
+    textarea:disabled {
+        background-color: light-dark(transparent, transparent);
+    }
+}
+
 body {
 
     @extend %general-responsive-base-font-size;
@@ -63,9 +69,12 @@ textarea,
 input:focus-visible,
 input:focus-visible::placeholder,
 textarea:focus-visible,
-textarea:focus-visible::placeholder {
+textarea:focus-visible::placeholder,
+input:disabled,
+textarea:disabled {
     font-size: clamp(1rem, 0.75rem + 0.5vw, 1.5vw);
 }
+
 
 
 

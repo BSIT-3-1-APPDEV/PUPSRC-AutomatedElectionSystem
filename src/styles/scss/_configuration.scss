@@ -44,8 +44,9 @@ body {
 
     .form-control {
 
-        input:valid,
-        input:invalid {
+        &:valid,
+        &:invalid,
+        &.is-invalid {
             background-image: none;
         }
 
@@ -54,6 +55,10 @@ body {
     .btn {
         letter-spacing: 0.1rem;
         @extend %general-responsive-base-font-size;
+
+        &:disabled {
+            border: none;
+        }
 
         // &:not([class*="btn-outline-"]) {
         //     border: none;
@@ -65,6 +70,7 @@ body {
         }
 
         &:not(nav.navbar .btn, nav.sidebar .btn) {
+            padding: calc(0.1rem + 0.15vw + 0.2vh) calc(0.5rem + 0.4vw + 0.3vh);
             font-weight: 700;
 
             box-shadow: var(--bs-box-shadow-sm);
@@ -455,12 +461,15 @@ main.main {
     height: max-content;
     background-color: light-dark(#f5f5f5, #333);
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 768px) and (max-width: 1199px) {
         // quick fix to put footer to bottom
 
-        min-height: 100dvh;
+        min-height: 115dvh;
     }
 
+    @media only screen and (min-width: 1200px) {
+        min-height: calc(95dvh + 7dvw) !important;
+    }
 
     @media only screen and (min-height: 601px) and (hover: none) {
         min-height: 58.5dvh;
@@ -519,4 +528,12 @@ dt-container:first-child {
 
 section.modals-container {
     z-index: 1200;
+}
+
+.card-box+div.toolbar {
+
+    button {
+        font-weight: 700;
+        border-radius: calc(0.25rem + 0.1vw);
+    }
 }

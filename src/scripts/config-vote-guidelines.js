@@ -142,7 +142,8 @@ ConfigPage = {
         },
         attributes: {
             required: true,
-            max_length: 1000,
+            // pattern: /[a-zA-Z .\-]{1,50}/,
+            max_length: 500,
         },
         customMsg: {
             required: true,
@@ -1034,6 +1035,11 @@ ConfigPage.EditorModal = class {
     }
 
     static #toggleEditState() {
+
+        if (this.mode !== 'add') {
+            let editBtn = this.modalElement.querySelector('#modal-action-edit');
+            editBtn.classList.add('d-none');
+        }
 
         let descriptionTextArea = this.modalElement.querySelector('.modal-body textarea');
         descriptionTextArea.readOnly = false;
