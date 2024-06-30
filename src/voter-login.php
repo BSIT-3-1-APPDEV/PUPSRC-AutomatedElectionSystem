@@ -213,8 +213,8 @@ $connection->close();
                         </div>
                         <div class="row">
                             <div class="col-md-12 pb-3">
-                                <p class="fw-bold fs-3 spacing-4 limit" >Max Limit Reached</p>
-                                <p class="fw-medium max-text">Sorry, you've reached the maximum number of attempts. For security reasons, please wait for <strong id="blockTime">30 minutes</strong> before trying again.</p>
+                                <p class="fw-bold spacing-4 text-danger warning-title">Max Limit Reached</p>
+                                <p class="fw-medium warning-subtitle">Sorry, you've reached the maximum number of attempts. For security reasons, please wait for <strong id="blockTime">30 minutes</strong> before trying again.</p>
                             </div>
                         </div>
                     </div>
@@ -275,15 +275,15 @@ $connection->close();
     <div class="modal" id="emailSending" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-body pb-5">
+                <div class="modal-body">
                     <div class="text-center">
-                        <div class="col-md-12 pt-5">
+                        <div class="col-md-12">
                             <img src="images/resc/loader.gif" class="loading-gif" alt="iVote Logo">
                         </div>
                         <div class="row">
                             <div class="col-md-12 pt-4">
-                                <p class="fw-bold fs-4 spacing-4">Sending email...</p>
-                                <p class="fw-medium spacing-5 fs-7">Please wait for a moment</span>.
+                                <p class="fw-bold spacing-4 sending-title">Sending email...</p>
+                                <p class="fw-medium spacing-5 fs-7 sending-subtitle">Please wait for a moment</span>.
                                 </p>
                             </div>
                         </div>
@@ -307,8 +307,8 @@ $connection->close();
                         </div>
                         <div class="row">
                             <div class="col-md-12 pb-3">
-                                <p class="fw-bold fs-3 text-success spacing-4">Success!</p>
-                                <p class="fw-medium spacing-5">An email containing the password reset link has been sent. Kindly check your email.
+                                <p class="fw-bold text-success spacing-4 success-title">Success!</p>
+                                <p class="fw-medium spacing-5 success-subtitle">An email containing the password reset link has been sent. Kindly check your email.
                                 </p>
                             </div>
                         </div>
