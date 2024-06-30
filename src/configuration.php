@@ -8,6 +8,8 @@ require_once FileUtils::normalizeFilePath('includes/session-handler.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-router.php');
 require_once FileUtils::normalizeFilePath('includes/classes/page-secondary-nav.php');
 require_once FileUtils::normalizeFilePath('includes/classes/date-time-utils.php');
+include_once FileUtils::normalizeFilePath('includes/classes/config-controller.php');
+
 
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
@@ -219,7 +221,6 @@ $phpDateTimeNow = new DateTimeUtils();
     <?php
     global $configuration_pages;
     $configuration_pages = [
-        'ballot-form',
         'vote-schedule',
         'vote-guidelines',
         'positions'
@@ -227,7 +228,6 @@ $phpDateTimeNow = new DateTimeUtils();
 
     global $link_name;
     $link_name = [
-        'Ballot Form',
         'Schedule',
         'Voting Guidelines',
         'Candidate Positions'

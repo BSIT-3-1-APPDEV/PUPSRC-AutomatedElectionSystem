@@ -1,6 +1,6 @@
 <?php
-include_once str_replace('/', DIRECTORY_SEPARATOR,  '../classes/file-utils.php');
-require_once FileUtils::normalizeFilePath('../error-reporting.php');
+include_once __DIR__ . str_replace('/', DIRECTORY_SEPARATOR,  '/../../classes/file-utils.php');
+require_once __DIR__ . FileUtils::normalizeFilePath('/../../error-reporting.php');
 
 trait EndpointResponse
 {

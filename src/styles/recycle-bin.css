@@ -76,19 +76,64 @@ padding: 10px !important;
     padding: 0;
   }
 }
-@media screen and (max-width: 350px) {
+
+.recently-deleted{
+  letter-spacing: 2px;
+   margin-bottom:0px;
+    margin-left:10px;
+}
+@media screen and (max-width: 380px) {
+  .recently-deleted{
+    letter-spacing: 2px;
+     margin-bottom:0px;
+      margin-left:10px;
+      font-size: 18px;
+      text-wrap: nowrap;
+  }
+  .recently-deleted-text{
+
+     margin-bottom:0px;
+      margin-left:10px;
+      font-size: 12px;
+  
+  }
   /* Define styles for screens below 650px width */
   .table thead th, .table tbody td {
-font-size: 10px !important;
+font-size: 12px !important;
 letter-spacing: normal !important;
-padding: 1px !important;
+padding: 10px !important;
+
   
   }
   .card-wrapper {
     position: relative;
 }
+.delete-btn{
+  font-size: 10px !important;
+}
+#deleteSelectedbtn{
+  font-size: 10px !important;
+  text-wrap: nowrap;
+}
+#restoreSelectedbtn{
+  font-size: 10px !important;
+  text-wrap: nowrap;
+}
+.cancelDelete{
+  font-size: 10px !important;
+  text-wrap: nowrap;
+}
+.recycle-navigation{
+  font-size: 10px !important;
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center  !important;
+}
+.recycle-navigation-active{
+  font-size: 10px !important;
 
-
+  justify-content: center;
+}
 
   .table-wrapper{
     padding: 0;
@@ -141,6 +186,12 @@ padding: 1px !important;
 }
 #modal-status-updated{
   color:#ee1c24;
+}
+#modal-email {
+  overflow: hidden; /* Hide any content that overflows the box */
+  text-overflow: ellipsis; /* Display an ellipsis (...) to indicate truncated text */
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+  max-width: 100%; /* Ensure the text does not exceed the container width */
 }
 .card{
   border:none !important;
