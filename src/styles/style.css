@@ -1,6 +1,59 @@
 @import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap";
 
 
+/* --- MEDIAS --- */
+
+/* Modals mobile version */
+
+@media (max-width: 425px) {
+
+  /* Needed adjustments: font sizes, margins */
+  .modal-body .danger {
+    font-size: 1rem !important;
+  }
+
+  .modal-body .fw-medium {
+    font-size: 0.75 !important;
+  }
+
+  .modal-body button {
+    font-size: .9rem !important;
+  }
+
+  .modal-body img {
+    margin-right: -2rem;
+  }
+
+
+  /* -- ALL REJECT/CLOSE-MARK MODALS -- */
+
+  /* To get rid of the extra padding */
+  #rejectModal .modal-body,
+  #onlyImageAllowedModal .modal-body {
+    padding: 0 !important;
+  }
+
+  /* To properly align the close mark */
+  #rejectModal .close-mark,
+  #createdModal .close-mark {
+    margin: 0rem -0.5rem 0rem 0rem !important
+  }
+
+  /* To center the vector further */
+  #deleteConfirmationModal .modal-body img {
+    margin-right: .2rem !important;
+  }
+
+
+  /* -- ALL SUCCESS MODALS -- */
+  /* To center the vector */
+  #trashbinMoveDone button,
+  #changeSuccessModal button{
+    margin-right: -2rem;
+  }
+
+}
+
 @media (min-width: 913px) {
   .hide-text-before {
     display: none !important;
@@ -457,7 +510,7 @@ body > * {
 }
 
 .close-mark {
-  margin: 2.5rem 1rem 0rem 0rem !important;
+  margin: 2.5rem 1rem 0rem 0rem;
 }
 
 .disabled-arrow {
