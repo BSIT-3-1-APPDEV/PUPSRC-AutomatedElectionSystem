@@ -56,20 +56,16 @@ if (isset($_SESSION['voter_id'])) {
 		?>
 
 		<div class="main">
-			<div class="container mb-5 ps-5 breadcrumbs-cont">
+			<div class="container mb-2 ps-5 breadcrumbs-cont">
 				<div class="row justify-content-center">
 					<div class="col-md-11">
 						<div class="breadcrumbs d-flex flex-wrap align-items-center">
-							<div class="main-buttons d-flex me-2 mb-2 mb-sm-0">
-								<button type="button"
-									class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8 me-2">
-									<i data-feather="users" class="white im-cust feather-2xl"></i>
-									<span class="hide-text">MANAGE USERS</span>
-								</button>
-								<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">
-									COMMITTEE MEMBERS
-								</button>
-							</div>
+						<div class="breadcrumbs d-flex">
+							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
+								<i data-feather="users" class="white im-cust feather-2xl"></i> <span class="hide-text">MANAGE USERS</span>
+							</button>
+							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">COMMITTEE MEMBERS</button>
+						</div>
 							<div class="add-committee-button ms-sm-auto">
 								<a href="admin-creation.php">
 									<button type="button" class="committee-add rounded-2 fs-7">
@@ -83,12 +79,11 @@ if (isset($_SESSION['voter_id'])) {
 				</div>
 			</div>
 
-			<br>
 			<div class="container">
-				<div class="row justify-content-center verified-container">
+				<div class="row justify-content-center">
 					<!-- COMMITTEE TABLE -->
 					<div class="row justify-content-center">
-						<div class="col-md-10 card-box  mt-md-5">
+						<div class="col-md-10 card-box mt-md-5">
 							<div class="container-fluid">
 								<div class="card-box">
 									<div class="row">
@@ -98,7 +93,7 @@ if (isset($_SESSION['voter_id'])) {
 													<div class="row">
 														<!-- Table Header -->
 														<div class="col-sm-6">
-															<p class="committee-members-title fs-3 main-color fw-bold ls-10 spacing-6">Committee
+															<p class="fs-3 main-color fw-bold ls-10 spacing-6">Committee
 																Members</p>
 														</div>
 														<div class="col-sm-6">
@@ -118,7 +113,7 @@ if (isset($_SESSION['voter_id'])) {
 																			class="light-gray-accent fw-bold ps-3">|</span>
 																	</div>
 																	<!-- Filters -->
-																	<div class="d-inline-block ps-3">
+																	<div class="d-inline-block ps-2">
 																		<form id="filterForm" class="d-inline-block">
 																			<div class="dropdown sort-by">
 																				<button
@@ -166,7 +161,7 @@ if (isset($_SESSION['voter_id'])) {
 																	</div>
 
 																	<!-- Sort By -->
-																	<div class="d-inline-block ps-3">
+																	<div class="d-inline-block ps-1">
 																		<form class="d-inline-block">
 																			<div class="dropdown sort-by">
 																				<button
