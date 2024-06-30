@@ -8,7 +8,7 @@
  */
 ?>
 
-<nav class="sidebar">
+<nav class="sidebar open">
 	<div class="d-flex align-items-center">
 		<img src="images/logos/<?php echo $org_name ?>.png" alt="" class="org-logo">
 	</div>

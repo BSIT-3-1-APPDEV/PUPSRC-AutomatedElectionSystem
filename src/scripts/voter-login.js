@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  // Client-side validation for empty and invalid email and password
   $("#loginForm").on("submit", function (event) {
     let email = $("#Email").val().trim();
     let password = $("#Password").val().trim();
@@ -114,7 +115,6 @@ $(document).ready(function () {
       );
     }
   });
-  
 
   const validateEmail = (
     email,
@@ -147,7 +147,6 @@ $(document).ready(function () {
         .removeClass("is-invalid border border-danger")
         .addClass("is-valid was-validated border border-success");
       emailErrorElement.text("");
-      // emailValidElement.text("Looks right!");
     }
 
     if (!isLogin) {

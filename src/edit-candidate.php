@@ -300,9 +300,9 @@ if (isset($_SESSION['voter_id'])) {
                                                                     foreach ($org_sections as $program => $years) {
                                                                         foreach ($years as $year_level => $sections) {
                                                                             foreach ($sections as $section) {
-                                                                                $value = htmlspecialchars($year_level) . '-' . htmlspecialchars($section);
-                                                                                $selected = ($candidate['year_level'] == $year_level && $candidate['section'] == $section) ? 'selected' : '';
-                                                                                echo "<option value=\"$value\" $selected>" . htmlspecialchars($program) . " $value</option>";
+                                                                                $value = htmlspecialchars($program) . '-' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section);
+                                                                                $selected = ($candidate['program'] == $program && $candidate['year_level'] == $year_level && $candidate['section'] == $section) ? 'selected' : '';
+                                                                                echo "<option value=\"$value\" $selected>" . htmlspecialchars($program) . " " . htmlspecialchars($year_level) . "-" . htmlspecialchars($section) . "</option>";
                                                                             }
                                                                         }
                                                                     }
@@ -312,9 +312,9 @@ if (isset($_SESSION['voter_id'])) {
                                                                         foreach ($programs as $prog) {
                                                                             foreach ($org_sections[$prog] as $year_level => $sections) {
                                                                                 foreach ($sections as $section) {
-                                                                                    $value = htmlspecialchars($year_level) . '-' . htmlspecialchars($section);
+                                                                                    $value = htmlspecialchars($prog) . '-' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section);
                                                                                     $selected = ($candidate['program'] == $prog && $candidate['year_level'] == $year_level && $candidate['section'] == $section) ? 'selected' : '';
-                                                                                    echo "<option value=\"$value\" $selected>" . htmlspecialchars($prog) . " $value</option>";
+                                                                                    echo "<option value=\"$value\" $selected>" . htmlspecialchars($prog) . " " . htmlspecialchars($year_level) . "-" . htmlspecialchars($section) . "</option>";
                                                                                 }
                                                                             }
                                                                         }
@@ -323,9 +323,9 @@ if (isset($_SESSION['voter_id'])) {
                                                                         if (!empty($program)) {
                                                                             foreach ($org_sections[$program] as $year_level => $sections) {
                                                                                 foreach ($sections as $section) {
-                                                                                    $value = htmlspecialchars($year_level) . '-' . htmlspecialchars($section);
+                                                                                    $value = htmlspecialchars($program) . '-' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section);
                                                                                     $selected = ($candidate['program'] == $program && $candidate['year_level'] == $year_level && $candidate['section'] == $section) ? 'selected' : '';
-                                                                                    echo "<option value=\"$value\" $selected>" . htmlspecialchars($program) . " $value</option>";
+                                                                                    echo "<option value=\"$value\" $selected>" . htmlspecialchars($program) . " " . htmlspecialchars($year_level) . "-" . htmlspecialchars($section) . "</option>";
                                                                                 }
                                                                             }
                                                                         }
@@ -336,6 +336,7 @@ if (isset($_SESSION['voter_id'])) {
                                                             <span class="error-message" id="section_error"></span>
                                                         </div>
                                                     </div>
+
 
 
                                                 </div>
