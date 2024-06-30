@@ -33,15 +33,13 @@ ConfigPage.removeEventListeners = function () {
     }
 };
 
+ConfigJS(ConfigPage);
 ConfigPage.removeEventListeners();
 
 ConfigPage = null;
 ConfigPage = {};
 
 ConfigPage = {
-    configJs: function () {
-        ConfigJS();
-    },
 
     touchStartHandler: function (callback) {
         return (event) => {
@@ -1154,8 +1152,6 @@ ConfigPage.CandidatePosition = class CandidatePosition {
     }
 }
 
-ConfigPage.configJs();
-
 /**
  * A Map that stores event listeners associated with elements.
  * This used to avoid duplicate event listeners.
@@ -1302,7 +1298,7 @@ ConfigPage.edit_position_modal = ConfigPage.CandidatePosition.createModal(Config
     'modal fade',
     'modal-dialog modal-lg modal-dialog-centered modal-fullscreen-sm-down',
     {
-        header: { className: '', innerHTML: '<h5 class="modal-title">Edit a Candidate Position</h5> <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><i data-feather="x-circle" width="calc(1rem + 0.5vw)" height="calc(1rem + 0.5vw)"></i></button>' },
+        header: { className: 'editor', innerHTML: '<h5 class="modal-title">Edit a Candidate Position</h5> <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><i data-feather="x-circle" width="calc(1rem + 0.5vw)" height="calc(1rem + 0.5vw)"></i></button>' },
         body: { className: '', innerHTML: ConfigPage.EditPositionModal.createTemplate() },
     });
 

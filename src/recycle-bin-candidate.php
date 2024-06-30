@@ -34,28 +34,32 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_name . '.css'; ?>" id="org-style">
         <link rel="stylesheet" href="styles/style.css" />
         <link rel="stylesheet" href="styles/core.css" />
+        <link rel="stylesheet" href="styles/loader.css" />
         <link rel="stylesheet" href="styles/tables.css" />
         <link rel="stylesheet" href="styles/recycle-bin.css" />
         <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="scripts/loader.js" defer></script>
 
     </head>
 
     <body>
 
-        <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+        <?php include_once __DIR__ . '/includes/components/sidebar.php'; 
+        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+        ?>
 
         <div class="main">
             <div class="row justify-content-center">
                 <div class="col-md-10 card-box">
                     <div class="container-fluid">
-                        <div class="card-box p-4">
+                        <div class="card-box p-0 py-3 p-sm-4">
                             <div class="d-flex align-items-center">
                                 <i data-feather="trash-2" class="feather-xs im-cust-2" style="font-size: 30px; margin-right: 15px; color:red;"></i>
-                                <h3 style="letter-spacing: 2px; margin-bottom:0px; margin-left:10px;"><b>Recently Deleted</b></h3>
+                                <h3  class="recently-deleted"><b>Recently Deleted</b></h3>
                             </div>
-                            <span style="display: block; margin-top: 10px;">
+                            <span style="display: block; margin-top: 10px;" class="recently-deleted-text">
                                 Recently deleted items will be permanently deleted after the days shown. After that, you won’t be able to restore them.
                             </span>
                         </div>
@@ -65,19 +69,19 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             <div class="row justify-content-center mt-5">
                 <div class="col-md-10">
                     <div class="row justify-content-between mb-1">
-                        <div class="col-33 card justify-content-center">
+                    <div class="col-33 card justify-content-center d-flex align-items-center">
                             <a href="recycle-bin.php" class="recycle-navigations">
                                 <div class="recycle-navigation text-center p-2">Voters' Accounts</div>
                             </a>
                         </div>
 
-                        <div class="col-33 card justify-content-center">
+                        <div class="col-33 card justify-content-center d-flex align-items-center">
                             <a href="recycle-bin-admin.php" class="recycle-navigations">
                                 <div class="recycle-navigation text-center p-2">Admin Accounts</div>
                             </a>
 
                         </div>
-                        <div class="col-33 card justify-content-center">
+                        <div class="col-33 card justify-content-center d-flex align-items-center">
                             <a href="recycle-bin-candidate.php" class="recycle-navigations">
                                 <div class="recycle-navigation-active text-center p-2">Candidates</div>
                             </a>
@@ -94,36 +98,36 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             </div>
             <!-- VERIFIED TABLE -->
             <div class="row justify-content-center">
-                <div class="col-md-10 card-box mt-md-5 p-5">
+            <div class="col-md-10 card-box mt-md-5 p-0 py-4 px-4 p-sm-5">
                     <div class="container-fluid">
                         <div class="card-box">
                             <div class="row">
                                 <div class="content">
                                     <?php if ($verified_tbl->num_rows > 0) { ?>
-                                        <div class="table-title">
+                                        <div class="table-title p-3">
                                             <div class="row">
                                                 <!-- Table Header -->
                                                 <div class="col-sm-6">
-                                                    <p class="fs-3 main-color fw-bold ls-10 spacing-6">Candidate Details</p>
+                                                    <p class="fs-3 main-color fw-bold ls-10 spacing-6 recently-deleted ms-0 ps-0">Candidate Details</p>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="row d-flex justify-content-end align-items-center">
                                                         <!-- Delete -->
-                                                        <div class="col-4 col-sm-3 p-0">
-                                                            <button class="delete-btn border-right pe-3 fs-7 spacing-6 fw-medium" type="button" id="deleteBtn">
+                                                        <div class="col-4 col-sm-3 p-0 border-right justify-content-center align-items-center d-flex" style="height: 20px;">
+                                                            <button class="delete-btn pe-2 fs-7 spacing-6 fw-medium" type="button" id="deleteBtn">
                                                                 <i class="fa-solid fa-trash-can fa-sm"></i> Delete
                                                             </button>
                                                         </div>
                                                         <!-- Restore -->
-                                                        <div class="col-4 col-sm-3 p-0">
-                                                            <button class="restore-btn fs-7 spacing-6 fw-medium" type="button" id="restoreBtn">
+                                                        <div class="col-4 col-sm-3 p-0 justify-content-center align-items-center d-flex"  style="height: 20px;">
+                                                            <button class="restore-btn fs-7 spacing-6 fw-medium ms-2" type="button" id="restoreBtn">
                                                                 <i class="fa-solid fa-clock-rotate-left fa-sm"></i> Restore
                                                             </button>
                                                         </div>
                                                         <!-- Sort By -->
-                                                        <div class="col-4 col-sm-3 p-0">
+                                                        <div class="col-4 col-sm-3 p-0 justify-content-center align-items-center d-flex"  style="height: 20px;">
                                                             <div class="dropdown sort-by">
-                                                                <button class="sortby-tbn fs-7 spacing-6 fw-medium" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <button class="sortby-tbn fs-7 spacing-6 fw-medium ms-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                     <i class="fa-solid fa-arrow-down-wide-short fa-sm"></i> Sort by
                                                                 </button>
                                                                 <div class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="dropdownMenuButton">
@@ -203,13 +207,13 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         </div>
 
                         <div class="row">
-                            <div class="col-6 justify-content-start d-flex">
+                            <div class="col-12 col-sm-6 justify-content-start d-flex my-2">
                                 <button class="btn btn-danger btn-sm px-3 me-2" id="deleteSelectedbtn"> Delete Selected</button>
                                 <button class="btn btn-secondary btn-sm cancelDelete px-3" id="cancelDelete"> Cancel</button>
                                 <button class="btn btn-info btn-sm px-3 me-2" id="restoreSelectedbtn"> Restore Selected</button>
                                 <button class="btn btn-secondary btn-sm cancelDelete px-3" id="cancelRestore"> Cancel</button>
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-sm-6">
                                 <!-- Pagination Links -->
                                 <div class="pagination-container">
                                     <a href="#" id="previous-page" class="page-link pt-1"><i class="fas fa-chevron-left"></i></a>
