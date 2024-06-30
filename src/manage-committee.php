@@ -383,7 +383,7 @@ if (isset($_SESSION['voter_id'])) {
 					<div class="modal-body pb-5">
 						<div class="d-flex justify-content-end">
 							<i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-								onclick="closeModal('trashbinMoveDone')">
+								data-bs-dismiss="modal">
 							</i>
 						</div>
 						<div class="text-center">
