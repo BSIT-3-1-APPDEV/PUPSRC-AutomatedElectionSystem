@@ -352,7 +352,7 @@ $(document).ready(function () {
     // Set text in modal elements
     $("#modal-feedback").text(feedbackData.feedback);
     $("#modal-date").text(formattedTime + " | " + formattedDate);
-    $("#modal-date").addClass("text-center"); // Center align the text
+    $("#modal-date").addClass("text-end"); // Center align the text
     $("#successEmailModal").modal("show");
   });
 });
