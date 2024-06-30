@@ -24,11 +24,11 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         if (isset($_SESSION['organization']) && isset($_GET['position_id']) && isset($_GET['election_year'])) {
             // Retrieve the organization name
             $organization = $_SESSION['organization'];
-            
+
             $position_id = $_GET['position_id'];
             $election_year = $_GET['election_year'];
 
-            // Prepare and execute query
+            // Prepare and execute query to get candidate votes
             $query = $connection->prepare("SELECT c.first_name, c.last_name, COUNT(v.vote_id) as vote_count
                                            FROM candidate c
                                            JOIN vote v ON c.candidate_id = v.candidate_id
@@ -47,6 +47,31 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         'vote_count' => $row['vote_count']
                     ];
                 }
+
+                // Prepare and execute query to get abstain votes
+                $abstainQuery = $connection->prepare("SELECT COUNT(vote_id) as abstain_count
+                                                      FROM vote
+                                                      WHERE position_id = ? AND candidate_id IS NULL");
+                if ($abstainQuery) {
+                    $abstainQuery->bind_param("i", $position_id);
+                    $abstainQuery->execute();
+                    $abstainResult = $abstainQuery->get_result();
+
+                    // Fetch abstain vote count
+                    $abstainRow = $abstainResult->fetch_assoc();
+                    $abstainCount = $abstainRow['abstain_count'];
+
+                    // Add abstain votes to the candidates array
+                    $candidates[] = [
+                        'name' => 'Abstained',
+                        'vote_count' => $abstainCount
+                    ];
+                } else {
+                    // Handle query execution error
+                    echo json_encode(['error' => 'Query execution error']);
+                    exit;
+                }
+
                 echo json_encode(['candidates' => $candidates]);
             } else {
                 // Handle query preparation error
@@ -63,4 +88,3 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 } else {
     echo json_encode(['error' => 'Unauthorized access']);
 }
-?>

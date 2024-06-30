@@ -44,8 +44,9 @@ body {
 
     .form-control {
 
-        input:valid,
-        input:invalid {
+        &:valid,
+        &:invalid,
+        &.is-invalid {
             background-image: none;
         }
 
@@ -53,13 +54,23 @@ body {
 
     .btn {
         letter-spacing: 0.1rem;
-        border: none;
+        @extend %general-responsive-base-font-size;
+
+        &:disabled {
+            border: none;
+        }
+
+        // &:not([class*="btn-outline-"]) {
+        //     border: none;
+        // }
+
 
         &.btn-sm {
             padding: clamp(0.4rem, 0.25rem + 0.1vw, 0.5rem) clamp(2rem, 0.75rem + 0.5vw, 3rem);
         }
 
-        &:not(nav.navbar .btn):not(nav.sidebar .btn) {
+        &:not(nav.navbar .btn, nav.sidebar .btn) {
+            padding: calc(0.1rem + 0.15vw + 0.2vh) calc(0.5rem + 0.4vw + 0.3vh);
             font-weight: 700;
 
             box-shadow: var(--bs-box-shadow-sm);
@@ -79,6 +90,35 @@ body {
 
                 &:hover {
                     filter: brightness(120%);
+                    background-color: var(--main-color);
+                    border: clamp(1px, 1px + 0.01vw, 5px) solid light-dark(var(--main-color), var(--main-color));
+
+                    svg {
+                        stroke-width: clamp(2px, 1.5px + 0.05dvw, 4px);
+                    }
+
+                }
+
+                &:active {}
+
+                &:focus-visible {
+                    box-shadow: var(--box-shadow-size) color-mix(in srgb, var(--main-color) 25%, transparent);
+                }
+            }
+
+            &.btn-outline-primary {
+                color: var(--main-color);
+                border: clamp(1px, 1px + 0.01vw, 5px) solid light-dark(var(--main-color), var(--main-color));
+                // outline: clamp(1px, 1px + 0.01vw, 5px) solid light-dark(var(--main-color), var(--main-color));
+
+                &:disabled {
+                    opacity: 0.7;
+                    filter: brightness(120%);
+                }
+
+                &:hover {
+                    color: var(--white);
+                    background-color: var(--main-color);
 
                     svg {
                         stroke-width: clamp(2px, 1.5px + 0.05dvw, 4px);
@@ -95,7 +135,7 @@ body {
 
             &.btn-secondary:not(:disabled) {
                 color: #515050;
-                background-color: transparent;
+                background-color: #cdcdcd;
                 border: none;
 
                 &:hover {}
@@ -137,25 +177,61 @@ body {
     .modal-native {
         border-radius: 10px;
 
+        &:has(.modal-fullscreen-sm-down) {
+
+            @media only screen and (max-width: 576px) {
+                border-radius: 0;
+            }
+        }
+
         .modal-dialog {
             .modal-header {
-                text-transform: uppercase;
-                color: var(--white);
-                background-color: var(--main-color);
-                padding: clamp(1rem, 0.5rem + 0.8dvw, 2vw) clamp(1rem, 0.5rem + 0.8dvw, 2vw);
+                &.editor {
+                    text-transform: uppercase;
+                    color: var(--white);
+                    background-color: var(--main-color);
 
-                .modal-title {
-                    letter-spacing: 0.20rem;
-                    font-weight: 800;
-                    flex-grow: 1;
-                    text-align: center;
+                    button.modal-close {
+                        border: none;
+                        border-radius: 50%;
+                        color: var(--main-color);
+                        background-color: var(--white);
+
+                        svg {
+                            height: calc(1rem + 0.5vw);
+                            width: calc(1rem + 0.5vw);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            circle {
+                                color: transparent;
+                            }
+
+                            line {
+                                stroke-width: clamp(2px, 1px + 0.25dvw, 5px);
+                            }
+                        }
+
+                        &:hover {
+
+                            svg circle,
+                            svg line {
+                                stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
+                                color: var(--white);
+                            }
+
+                            background-color: transparent;
+                            filter: brightness(130%);
+                        }
+                    }
                 }
 
                 button.modal-close {
                     border: none;
                     border-radius: 50%;
-                    color: var(--main-color);
-                    background-color: var(--white);
+                    color: var(--white);
+                    background-color: #ccc;
 
                     svg {
                         height: calc(1rem + 0.5vw);
@@ -172,15 +248,57 @@ body {
                             stroke-width: clamp(2px, 1px + 0.25dvw, 5px);
                         }
                     }
+
+                    &:hover {
+
+                        svg circle,
+                        svg line {
+                            stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
+                            color: var(--main-black);
+                        }
+
+                        background-color: transparent;
+                        filter: brightness(130%);
+                    }
+
+                    &:focus-visible {
+                        outline: none;
+                    }
                 }
 
+                padding: clamp(1rem, 0.5rem + 0.8dvw, 2vw) clamp(1rem, 0.5rem + 0.8dvw, 2vw);
+
+                .modal-title {
+                    font-size: clamp(1.1rem, 0.75rem + 0.15vw + 0.38vh, 2rem) !important;
+                    letter-spacing: 0.20rem;
+                    font-weight: 800;
+                    flex-grow: 1;
+                    text-align: center;
+                }
+
+
+
             }
+
+            :not(:has(.modal-header)) .modal-body,
+            :has(.modal-header.editor) .modal-body {
+                padding: clamp(0.75rem, 0.5rem + 0.5dvw + 1dvh, 48px) clamp(1rem, 0.25rem + 2dvw + 0.1dvh, 48px);
+            }
+
+            :has(.modal-header) .prompt-content {
+                padding-top: 0 !important;
+            }
+
 
             .modal-body {
-                padding: clamp(24px, 1.75rem + 0.5dvw, 48px);
+                padding: 0 clamp(24px, 1.75rem + 0.5dvw, 48px) clamp(24px, 1.75rem + 0.5dvw, 48px);
             }
 
+
             .modal-action {
+                display: flex;
+                justify-content: end;
+                flex-wrap: wrap;
                 border: none;
 
                 button {
@@ -190,9 +308,9 @@ body {
                 padding: 0;
                 margin-bottom: clamp(0.75px, 0.75rem + 0.5dvw, 36px);
 
-                *:not(:last-child) {
-                    margin-right: clamp(0.75px, 0.75rem + 0.5vw, 3rem);
-                }
+
+                gap: clamp(0.75px, 0.75rem + 0.5vw, 3rem);
+
             }
 
             .modal-footer {
@@ -208,6 +326,49 @@ body {
 
 
         }
+
+
+        &.danger-modal {
+
+            input {
+                background-color: light-dark(#EDEDED, #EDEDED);
+                color: light-dark(#B6B6B6, #B6B6B6);
+
+                &:focus-visible {
+                    border: clamp(1px, 1px + 0.1vw, 5px) solid light-dark(var(--main-color), var(--main-color));
+
+                    &.is-invalid {
+                        border: clamp(1px, 1px + 0.1vw, 5px) solid light-dark(var(--danger), var(--danger));
+                    }
+                }
+
+                &+.form-feedback {
+                    visibility: hidden;
+                    color: var(--danger);
+                }
+
+                &.form-control.is-invalid+.form-feedback {
+                    visibility: visible;
+                }
+            }
+
+            .prompt-action {
+                width: 100%;
+                place-content: center;
+                gap: calc(0.063rem + 0.6dvw + 1.3dvh);
+
+                &>* {
+                    flex: 1;
+                }
+
+                button.btn.btn-secondary.primary {
+                    color: var(--white);
+                }
+            }
+
+
+        }
+
     }
 
     .modal-native {
@@ -276,10 +437,10 @@ ul {
     & li.nav-item {
 
         & a.secondary-nav {
-            color: var(--black);
+            color: var(--main-black);
 
             &:hover {
-                color: var(--black);
+                color: var(--main-black);
             }
 
             font-size: calc(0.75rem + 0.4vw);
@@ -300,12 +461,15 @@ main.main {
     height: max-content;
     background-color: light-dark(#f5f5f5, #333);
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 768px) and (max-width: 1199px) {
         // quick fix to put footer to bottom
 
-        min-height: 100dvh;
+        min-height: 115dvh;
     }
 
+    @media only screen and (min-width: 1200px) {
+        min-height: calc(95dvh + 7dvw) !important;
+    }
 
     @media only screen and (min-height: 601px) and (hover: none) {
         min-height: 58.5dvh;
@@ -364,4 +528,12 @@ dt-container:first-child {
 
 section.modals-container {
     z-index: 1200;
+}
+
+.card-box+div.toolbar {
+
+    button {
+        font-weight: 700;
+        border-radius: calc(0.25rem + 0.1vw);
+    }
 }

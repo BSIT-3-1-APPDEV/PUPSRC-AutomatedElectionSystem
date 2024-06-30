@@ -33,15 +33,13 @@ ConfigPage.removeEventListeners = function () {
     }
 };
 
+ConfigJS(ConfigPage);
 ConfigPage.removeEventListeners();
 
 ConfigPage = null;
 ConfigPage = {};
 
 ConfigPage = {
-    configJs: function () {
-        ConfigJS();
-    },
 
     touchStartHandler: function (callback) {
         return (event) => {
@@ -1154,8 +1152,6 @@ ConfigPage.CandidatePosition = class CandidatePosition {
     }
 }
 
-ConfigPage.configJs();
-
 /**
  * A Map that stores event listeners associated with elements.
  * This used to avoid duplicate event listeners.
@@ -1302,7 +1298,7 @@ ConfigPage.edit_position_modal = ConfigPage.CandidatePosition.createModal(Config
     'modal fade',
     'modal-dialog modal-lg modal-dialog-centered modal-fullscreen-sm-down',
     {
-        header: { className: '', innerHTML: '<h5 class="modal-title">Edit a Candidate Position</h5> <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><i data-feather="x-circle" width="calc(1rem + 0.5vw)" height="calc(1rem + 0.5vw)"></i></button>' },
+        header: { className: 'editor', innerHTML: '<h5 class="modal-title">Edit a Candidate Position</h5> <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><i data-feather="x-circle" width="calc(1rem + 0.5vw)" height="calc(1rem + 0.5vw)"></i></button>' },
         body: { className: '', innerHTML: ConfigPage.EditPositionModal.createTemplate() },
     });
 
@@ -1343,18 +1339,35 @@ ConfigPage.NativeModal = class {
         }
         const candidateCount = data.affected_candidates.length;
         promptMessage.innerHTML =
-            `Do you want to remove these candidate${candidateCount > 1 ? 's' : ''} and votes associated with ${data.value}? This action cannot be undone.`;
+            `You are about to remove the candidate${candidateCount > 1 ? 's' : ''} and votes associated with the position of <b>${data.value}</b>. `;
 
         candidatesList.innerHTML = '';
         data.affected_candidates.forEach(candidate => {
-            let fullName = `${candidate.last_name}, ${candidate.first_name}`;
+            let fullName = `${candidate.last_name},<br> ${candidate.first_name}`;
             if (candidate.middle_name) {
                 fullName += ` ${candidate.middle_name}`;
             }
-            let newDiv = document.createElement("div");
-            newDiv.innerHTML = fullName;
-            candidatesList.appendChild(newDiv);
+            let parentDiv = document.createElement("div");
+            parentDiv.classList.add('col-3');
+
+            let fullNameDiv = document.createElement("div");
+            fullNameDiv.classList.add('name');
+            fullNameDiv.innerHTML = fullName;
+
+            let photoDiv = document.createElement("div");
+            photoDiv.classList.add('photo');
+
+            let image = document.createElement("img");
+            image.src = `src/${candidate.photo_url}`;
+            image.alt = `${fullName} photo`;
+            photoDiv.appendChild(image);
+
+            parentDiv.appendChild(photoDiv);
+            parentDiv.appendChild(fullNameDiv);
+
+            candidatesList.appendChild(parentDiv);
         });
+
 
         let modalActionDiv = this.#initBtn();
         candidatesList.insertAdjacentElement('afterend', modalActionDiv);
@@ -1403,12 +1416,6 @@ ConfigPage.NativeModal = class {
 
         label.appendChild(primaryButton);
 
-        // Create the secondary buttons
-        const goToButton = document.createElement('button');
-        goToButton.type = 'button';
-        goToButton.classList.add('btn', 'btn-sm', 'btn-secondary');
-        goToButton.textContent = 'Go to';
-
         const cancelButton = document.createElement('button');
         cancelButton.type = 'button';
         cancelButton.classList.add('btn', 'btn-sm', 'btn-secondary', 'cancel-btn');
@@ -1416,7 +1423,6 @@ ConfigPage.NativeModal = class {
 
         // Append everything to the main div
         modalActionDiv.appendChild(label);
-        modalActionDiv.appendChild(goToButton);
         modalActionDiv.appendChild(cancelButton);
 
         return modalActionDiv;

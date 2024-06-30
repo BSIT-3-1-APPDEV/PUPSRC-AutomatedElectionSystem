@@ -1,8 +1,12 @@
 <?php
 include_once 'file-utils.php';
-require_once FileUtils::normalizeFilePath('../error-reporting.php');
-require_once FileUtils::normalizeFilePath('../session-handler.php');
-require_once FileUtils::normalizeFilePath('../model/configuration/endpoint-response.php');
+
+require_once __DIR__ . FileUtils::normalizeFilePath('/../error-reporting.php');
+require_once __DIR__ . FileUtils::normalizeFilePath('/../session-handler.php');
+require_once __DIR__ . FileUtils::normalizeFilePath('/../model/configuration/endpoint-response.php');
+
+
+define('DEFAULT_CSRF_EXPIRY', 30);
 
 /**
  * Trait ConfigGuard
@@ -12,6 +16,20 @@ require_once FileUtils::normalizeFilePath('../model/configuration/endpoint-respo
  */
 trait ConfigGuard
 {
+
+    public static function generateCSRFToken($expiryTime)
+    {
+        $defaultExpiry = time() + (DEFAULT_CSRF_EXPIRY * 60);
+
+        if (isset($expiryTime) && $expiryTime <= time()) {
+            $expiryTime = $defaultExpiry;
+        }
+
+        $_SESSION['csrf'] = [
+            'token' => bin2hex(random_bytes(32)),
+            'expiry' => $expiryTime
+        ];
+    }
     /**
      * Validates the origin of the request and checks if the user has the necessary 
      * permissions to access the page. If the request is an API call, it also validates 

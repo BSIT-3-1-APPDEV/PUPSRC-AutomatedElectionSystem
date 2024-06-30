@@ -37,7 +37,7 @@ main {
 
     .btn {
         &:not(nav.navbar .btn):not(nav.sidebar .btn) {
-            padding: calc(0.5rem + 0.15vw + 0.2vh) calc(0.5rem + 0.4vw + 0.3vh);
+
 
             &:active {
                 box-shadow: none !important;
@@ -127,6 +127,33 @@ body dialog.modal-native {
                     font-size: calc(0.75rem + 0.6575vw);
                 }
             }
+
+            &.editor {
+                button.modal-close {
+                    color: var(--main-color);
+                    background-color: var(--white);
+
+                    svg circle {
+                        color: transparent;
+                    }
+
+                    &:hover {
+
+                        svg circle,
+                        svg line {
+                            stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
+                            color: var(--white)
+                        }
+
+                        background-color: var(--main-color);
+                        filter: brightness(130%);
+                    }
+
+                    &:focus-visible {
+                        outline: none;
+                    }
+                }
+            }
         }
 
         label[for="positionInput"] {
@@ -171,31 +198,6 @@ body dialog.modal-native {
 
         }
 
-        button.modal-close {
-            color: var(--main-color);
-            background-color: var(--white);
-
-            svg circle {
-                color: transparent;
-            }
-
-            &:hover {
-
-                svg circle,
-                svg line {
-                    stroke-width: clamp(1px, 1px + 0.1dvw, 3px);
-                    color: var(--white)
-                }
-
-                background-color: var(--main-color);
-                filter: brightness(130%);
-            }
-
-            &:focus-visible {
-                outline: none;
-            }
-        }
-
         .ql-container {
             @extend %general-responsive-base-font-size;
         }
@@ -230,6 +232,67 @@ body dialog.modal-native {
         &:focus {
             // color: var(--main-black);
             background-color: var(--white);
+        }
+    }
+
+    .modal-body:has(.affected.candidate-list) {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(1rem, 0.5rem + 0.75vw + 1.5vh, 3rem);
+        max-height: 500px;
+        padding: clamp(24px, 1.75rem + .5dvw, 48px);
+
+        h5 {
+            text-align: center;
+        }
+
+        .affected.candidate-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(0.5rem, 0.25rem + 0.75vw + 1.5vh, 3rem) 0;
+
+
+            @media only screen and (max-width: 576px) {
+                gap: clamp(0.5rem, 0.25rem + 0.75vw + 1.5vh, 3rem);
+            }
+
+
+
+
+            overflow-y: auto;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            div:has(.photo) {
+                display: grid;
+                place-content: center;
+            }
+
+            div.photo {
+                justify-self: center;
+                border-radius: 50%;
+                border: calc(1px + 0.1dvw) solid var(--main-color);
+                max-width: clamp(2.375rem, 1rem + 4dvw + 0.5dvh, 5rem);
+                max-height: clamp(2.375rem, 1rem + 4dvw + 0.5dvh, 5rem);
+                overflow: clip;
+                aspect-ratio: 1/1;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    aspect-ratio: 1/1;
+                }
+            }
+
+            .name {
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
         }
     }
 }
@@ -276,8 +339,6 @@ div.dt-container {
 
 
     button {
-        font-weight: 700;
-        border-radius: 15px;
         position: relative;
 
         &[data-selected]:not([data-selected=""])::before {
@@ -322,7 +383,7 @@ button.add-new {
     &:hover {
         background-color: rgb(236, 236, 236, 1);
         font-weight: bolder;
-        color: var(--black);
+        color: var(--main-black);
         cursor: crosshair;
     }
 
@@ -330,102 +391,3 @@ button.add-new {
     //     box-shadow: var(--box-shadow-size), color-mix(in srgb, var(--dark-gray) 25%, transparent);
     // }
 }
-
-// sass doesnt support scope selector of css yet
-// @scope (main.main) {
-.dropdown.bootstrap-select {
-
-    button.dropdown-toggle {
-        background-color: #f8f8f8;
-        padding-top: 0.938rem;
-        padding-bottom: 1rem;
-        @extend %general-responsive-base-font-size;
-
-        .filter-option {
-            color: #b6b6b6;
-            font-weight: 500;
-        }
-
-        &:focus {
-            outline: clamp(1px, 0.5px + 0.1vw, 5px) solid var(--main-color) !important;
-        }
-
-        &::after {
-            content: none;
-        }
-
-        &::before {
-            color: #b6b6b6;
-            content: "\f078";
-            font-family: FontAwesome;
-            display: inline-block;
-            position: absolute;
-            right: 5%;
-            transform-origin: center;
-            transition: transform 0.3s ease;
-        }
-
-        &.show::before {
-            filter: brightness(50%);
-            transform: rotateX(180deg);
-            transition: transform 0.3s ease;
-        }
-
-    }
-
-    .dropdown-menu[data-popper-placement] {
-        top: -20% !important;
-        border-width: 0;
-        filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25));
-        padding: clamp(1rem, 0.25rem + 0.5vw, 3rem) clamp(1.25rem, 0.5rem + 0.5vw, 3.5rem);
-
-        ul.dropdown-menu li {
-            @extend %general-responsive-base-font-size;
-            text-align: center;
-            letter-spacing: 0.1rem;
-
-            span.text {
-                font-weight: 500;
-            }
-
-            %hide-default-blank-option {
-                display: none;
-
-                &:hover {
-                    background-color: transparent;
-                    pointer-events: none;
-                }
-            }
-
-            &.disabled {
-                @extend %hide-default-blank-option;
-            }
-
-            a.dropdown-item span.text:empty {
-                @extend %hide-default-blank-option;
-            }
-
-            a.dropdown-item:has(span.text:empty) {
-                @extend %hide-default-blank-option;
-            }
-
-            &:has(&.disabled, a.dropdown-item span.text:empty) {
-                @extend %hide-default-blank-option;
-            }
-
-            &.selected.active {
-                border-radius: 8px;
-                filter: drop-shadow(0 0 7mm var(--main-color));
-
-                a {
-
-                    &.selected.active span.text {
-                        font-weight: bold;
-                    }
-                }
-            }
-        }
-    }
-}
-
-// }
