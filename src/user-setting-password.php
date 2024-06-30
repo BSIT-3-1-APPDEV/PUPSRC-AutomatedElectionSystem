@@ -140,7 +140,7 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                                             <div id="password-mismatch-error" class="text-danger" style="display: none;">Incorrect password. Please try again.</div>
                                         </div>
                                         <div class="col-md-12 reset-pass">
-                                            <button class="login-sign-in-button main-bg-color mt-5 mb-4" type="button" name="new-password-submit" onclick="window.location.href='setting-password-reset.php';">Confirm</button>
+                                            <button class="login-sign-in-button main-bg-color mt-5 mb-4" type="button" name="new-password-submit" id="new-password-submit" onclick="window.location.href='setting-password-reset.php';" disabled>Confirm</button>
                                         </div>
                                         <br>
                                         <br>
@@ -153,6 +153,18 @@ if (isset($_SESSION['voter_id']) && (isset($_SESSION['role'])) && ($_SESSION['ro
                 </div>
             </div>
             <script>
+                // JavaScript to enable/disable submit button based on password input
+                document.getElementById('password_confirmation').addEventListener('input', function() {
+                    var passwordInput = this.value.trim();
+                    var submitButton = document.getElementById('new-password-submit');
+
+                    if (passwordInput.length > 0) {
+                        submitButton.removeAttribute('disabled');
+                    } else {
+                        submitButton.setAttribute('disabled', 'disabled');
+                    }
+                });
+
                 document.addEventListener('DOMContentLoaded', (event) => {
                     const passwordInput = document.getElementById('changepassword_confirmation');
                     const toggleButton = document.getElementById('reset-password-toggle-2');
