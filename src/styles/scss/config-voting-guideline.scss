@@ -54,7 +54,7 @@ main {
 
     .btn {
         &:not(nav.navbar .btn):not(nav.sidebar .btn) {
-            padding: calc(0.5rem + 0.15vw + 0.2vh) calc(0.5rem + 0.4vw + 0.3vh);
+
 
             &:active {
                 box-shadow: none !important;
@@ -134,7 +134,8 @@ main {
     }
 }
 
-body div.modal {
+body div.modal,
+body dialog.modal-native {
 
     .modal-dialog {
         .modal-header {
@@ -145,38 +146,22 @@ body div.modal {
             }
         }
 
-        label[for="positionInput"] {
-            color: var(--main-color);
-            font-weight: 800;
-        }
-
-        #positionInput {
-            outline: none;
-            border-top: 0;
-            border-right: 0;
-            border-left: 0;
-            border-radius: 0;
-            border-bottom: clamp(1px, 1px + 0.01dvw, 5px) solid var(--main-color);
-            padding-left: 0;
-            padding-right: 0;
-
-            &.form-control {
-
-                &:active,
-                &:focus {
-                    box-shadow: none;
-                    border-bottom: clamp(2px, 1.5px + 0.01dvw, 5px) solid var(--main-color);
-                }
+        &:has(.editor) {
+            .modal-body {
+                display: flex;
+                flex-direction: column;
+                gap: clamp(1rem, 0.5rem + 0.75vw + 1.5vh, 3rem);
             }
         }
 
+
         button.btn.btn-secondary {
             box-shadow: none !important;
-            background-color: var(--bs-modal-bg) !important;
+            // background-color: var(--bs-modal-bg) !important;
 
             &:active,
             &:hover {
-                filter: grayscale(100%);
+                filter: brightness(120%);
                 box-shadow: var(--bs-box-shadow-sm) !important;
             }
 
@@ -204,27 +189,12 @@ body div.modal {
             }
         }
 
-        @media only screen and (max-height: 600px) {
-            .ql-container {
-                // height: 100px;
-                height: clamp(6rem, 3rem + 9dvh, 50dvh);
-            }
-
-            .ql-editor {
-                height: clamp(4.5rem, 1.5rem + 8.5dvh, 49.5dvh);
-            }
+        textarea {
+            min-width: 100%;
+            min-height: 50dvh;
         }
 
-        @media only screen and (min-height: 601px) {
-            .ql-container {
-                // height: 100px;
-                height: clamp(6.25rem, 3rem + 35dvh, 50dvh);
-            }
-
-            .ql-editor {
-                height: clamp(4.75rem, 1.5rem + 34dvh, 49.5dvh);
-            }
-        }
+        .modal-action {}
 
     }
 
@@ -285,8 +255,6 @@ div.dt-container {
 
 
     button {
-        font-weight: 700;
-        border-radius: 15px;
         position: relative;
 
         &[data-selected]:not([data-selected=""])::before {
@@ -331,7 +299,7 @@ button.add-new {
     &:hover {
         background-color: rgb(236, 236, 236, 1);
         font-weight: bolder;
-        color: var(--black);
+        color: var(--main-black);
         cursor: crosshair;
     }
 
