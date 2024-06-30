@@ -190,7 +190,7 @@ function generatePagination(
   if (totalPages == 0) {
     $(`#${paginationId}`).empty(); // Clear the pagination
     return; // Exit the function
-}
+  }
 
   const pagination = $(`#${paginationId}`);
   pagination.empty();
@@ -208,7 +208,16 @@ function generatePagination(
   pagination.append(prevItem);
 
   // Page numbers
-  for (let i = 1; i <= totalPages; i++) {
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(totalPages, currentPage + 2);
+
+  if (currentPage <= 3) {
+    endPage = Math.min(totalPages, 5);
+  } else if (currentPage > totalPages - 3) {
+    startPage = Math.max(1, totalPages - 4);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
     const activeClass = i === currentPage ? "active" : "";
     const pageItem = `
               <li class="page-item ${activeClass}">
@@ -241,6 +250,7 @@ function generatePagination(
       recheckCheckboxes(tableId);
     });
 }
+
 // -- FUNCTION: To generate the pagination
 
 
