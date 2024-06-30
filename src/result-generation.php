@@ -269,7 +269,18 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                                                 display: false
                                                             },
                                                             tooltips: {
-                                                                enabled: false
+                                                                enabled: true,
+                                                                callbacks: {
+                                                                    label: function(tooltipItem, data) {
+                                                                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                                                                        var total = dataset.data.reduce(function(previousValue, currentValue) {
+                                                                            return previousValue + currentValue;
+                                                                        });
+                                                                        var currentValue = dataset.data[tooltipItem.index];
+                                                                        var percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                                                                        return percentage + "%";
+                                                                    }
+                                                                }
                                                             }
                                                         },
                                                         plugins: [{
@@ -280,7 +291,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                                             },
                                                             {
                                                                 beforeDraw: (chart) => {
-                                                                var width = chart.width,
+                                                                    var width = chart.width,
                                                                         height = chart.height,
                                                                         ctx = chart.ctx;
                                                                     ctx.restore();
@@ -288,10 +299,11 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                                                     ctx.font = "bold " + fontSize + "em Montserrat, sans-serif"; // Bold and Montserrat
                                                                     ctx.fillStyle = "black";
                                                                     ctx.textBaseline = "middle";
-                                                                    var text = parseFloat(chart.data.datasets[0].data[0]).toFixed(3) + "%", // Rounds off to 3 decimal places
+                                                                    var text = chart.data.datasets[0].data[0] + "%",
                                                                         textX = Math.round((width - ctx.measureText(text).width) / 2),
                                                                         textY = height / 1.75;
                                                                     ctx.fillText(text, textX, textY);
+
                                                                     // Adding 'Completed' text
                                                                     var completedFontSize = (height / 300).toFixed(2); // Smaller font size
                                                                     ctx.font = "bold " + completedFontSize + "em Montserrat";
