@@ -56,45 +56,25 @@ if (isset($_SESSION['voter_id'])) {
 		?>
 
 		<div class="main">
-
-			<!-- <div class="container mb-5 pl-5">
+			<div class="container mb-5 ps-5 breadcrumbs-cont">
 				<div class="row justify-content-center">
 					<div class="col-md-11">
-						<div class="breadcrumbs d-flex justify-content-between">
-							<div class="d-flex">
-								<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
-									<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
+						<div class="breadcrumbs d-flex flex-wrap align-items-center">
+							<div class="main-buttons d-flex me-2 mb-2 mb-sm-0">
+								<button type="button"
+									class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8 me-2">
+									<i data-feather="users" class="white im-cust feather-2xl"></i>
+									<span class="hide-text">MANAGE USERS</span>
 								</button>
-								<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">COMMITTEE
-									MEMBERS</button>
+								<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">
+									COMMITTEE MEMBERS
+								</button>
 							</div>
-
-							<div class="ml-auto">
+							<div class="add-committee-button ms-sm-auto">
 								<a href="admin-creation.php">
-									<button type="button" class="btn btn-lvl-white-add fs-8">
-										<i data-feather="plus-circle" class="white im-cust rounded-pill feather-2xl"></i>
-										Add Committee Member
-									</button>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
-
-			<div class="container mb-5 ps-5">
-				<div class="row justify-content-center">
-					<div class="col-md-11">
-						<div class="breadcrumbs d-flex">
-							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
-								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
-							</button>
-							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">COMMITTEE
-								MEMBERS</button>
-							<div class="align-items-end ms-auto me-4 mx-auto">
-								<a href="admin-creation.php">
-									<button type="button" class="committee-add rounded-4 fs-7">
-										<i class="bi bi-plus-circle me-3"></i>Add Committee Member
+									<button type="button" class="committee-add rounded-2 fs-7">
+										<i class="bi bi-plus-circle me-1 me-sm-3"></i>
+										<span class="button-text">Add Committee Member</span>
 									</button>
 								</a>
 							</div>
@@ -105,26 +85,25 @@ if (isset($_SESSION['voter_id'])) {
 
 			<br>
 			<div class="container">
-				<div class="row justify-content-center">
+				<div class="row justify-content-center verified-container">
 					<!-- COMMITTEE TABLE -->
 					<div class="row justify-content-center">
-						<div class="col-md-10 card-box  mt-md-10">
+						<div class="col-md-10 card-box  mt-md-5">
 							<div class="container-fluid">
 								<div class="card-box">
 									<div class="row">
 										<div class="content">
 											<div class="table-wrapper">
-
 												<div class="table-title">
 													<div class="row">
 														<!-- Table Header -->
 														<div class="col-sm-6">
-															<p class="fs-3 main-color fw-bold ls-10 spacing-6">Committee
+															<p class="committee-members-title fs-3 main-color fw-bold ls-10 spacing-6">Committee
 																Members</p>
 														</div>
 														<div class="col-sm-6">
 															<div class="row">
-																<div class="col-md-12 text-end flex-end">
+																<div class="col-md-12 filters-sort">
 																	<!-- Delete -->
 																	<div class="d-inline-block">
 																		<button
@@ -238,7 +217,7 @@ if (isset($_SESSION['voter_id'])) {
 																	</div>
 
 																	<!-- Search -->
-																	<div class="ps-3">
+																	<div class="search-container">
 																		<i data-feather="search"
 																			class="feather-xs im-cust-2"
 																			style="color: black"></i>
