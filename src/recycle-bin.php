@@ -51,7 +51,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 
             <div class="row justify-content-center">
-                <div class="col-md-10 card-box mt-md-5">
+                <div class="col-md-10 card-box">
                     <div class="container-fluid">
                         <div class="card-box p-0 py-3 p-sm-4">
                             <div class="d-flex align-items-center">
@@ -115,19 +115,19 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                                 <div class="col-sm-6">
                                                     <div class="row d-flex justify-content-end align-items-center">
                                                         <!-- Delete -->
-                                                        <div class="col-4 col-sm-3 p-0">
-                                                            <button class="delete-btn border-right pe-2 fs-7 spacing-6 fw-medium" type="button" id="deleteBtn">
+                                                        <div class="col-4 col-sm-3 p-0 border-right justify-content-center align-items-center d-flex" style="height: 20px;">
+                                                            <button class="delete-btn  pe-2 fs-7 spacing-6 fw-medium" type="button" id="deleteBtn">
                                                                 <i class="fa-solid fa-trash-can fa-sm"></i> Delete
                                                             </button>
                                                         </div>
                                                         <!-- Restore -->
-                                                        <div class="col-4 col-sm-3 p-0">
+                                                        <div class="col-4 col-sm-3 p-0 justify-content-center align-items-center d-flex"  style="height: 20px;">
                                                             <button class="restore-btn fs-7 spacing-6 fw-medium ms-2" type="button" id="restoreBtn">
                                                                 <i class="fa-solid fa-clock-rotate-left fa-sm"></i> Restore
                                                             </button>
                                                         </div>
                                                         <!-- Sort By -->
-                                                        <div class="col-4 col-sm-3 p-0">
+                                                        <div class="col-4 col-sm-3 p-0 justify-content-center align-items-center d-flex"  style="height: 20px;">
                                                             <div class="dropdown sort-by ">
                                                                 <button class="sortby-tbn fs-7 spacing-6 fw-medium ms-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                     <i class="fa-solid fa-arrow-down-wide-short fa-sm"></i> Sort by
@@ -141,7 +141,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                                             </div>
                                                         </div>
                                                         <!-- Search -->
-                                                        <div class="col-12 col-sm-3 p-0">
+                                                        <div class="col-12 col-sm-3 p-0"  style="height: 20px;">
                                                             <div class="search-container" style="position: relative; display: inline-block; width: 100%;">
                                                                 <i data-feather="search" class="feather-xs im-cust-2 search-icon"></i>
                                                                 <input class="search-input fs-7 spacing-6 fw-medium" type="text" placeholder="Search" id="searchInput" style="width: 100%; padding-left: 1.5rem;">
