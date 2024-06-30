@@ -1339,7 +1339,7 @@ ConfigPage.NativeModal = class {
         }
         const candidateCount = data.affected_candidates.length;
         promptMessage.innerHTML =
-            `Do you want to remove these candidate${candidateCount > 1 ? 's' : ''} and votes associated with ${data.value}? This action cannot be undone.`;
+            `Do you want to remove these candidate${candidateCount > 1 ? 's' : ''} and votes associated with ${data.value}? `;
 
         candidatesList.innerHTML = '';
         data.affected_candidates.forEach(candidate => {
@@ -1399,12 +1399,6 @@ ConfigPage.NativeModal = class {
 
         label.appendChild(primaryButton);
 
-        // Create the secondary buttons
-        const goToButton = document.createElement('button');
-        goToButton.type = 'button';
-        goToButton.classList.add('btn', 'btn-sm', 'btn-secondary');
-        goToButton.textContent = 'Go to';
-
         const cancelButton = document.createElement('button');
         cancelButton.type = 'button';
         cancelButton.classList.add('btn', 'btn-sm', 'btn-secondary', 'cancel-btn');
@@ -1412,7 +1406,6 @@ ConfigPage.NativeModal = class {
 
         // Append everything to the main div
         modalActionDiv.appendChild(label);
-        modalActionDiv.appendChild(goToButton);
         modalActionDiv.appendChild(cancelButton);
 
         return modalActionDiv;
