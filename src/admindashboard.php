@@ -157,7 +157,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                         <div class="card">
                             <div class="card-body text-center py-5">
                                 <img src="images/resc/Dashboard/admin-empty-state.jpeg" style="height:200px; width:auto;">
-                                <h5 class="fs-6 gray">Election period has not started yet</h5>
+                                <h5 class="fs-6 gray">Election period has not yet started</h5>
                             </div>
                     
                     <?php } ?>
