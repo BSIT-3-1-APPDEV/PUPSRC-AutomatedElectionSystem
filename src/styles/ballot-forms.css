@@ -67,14 +67,25 @@ text-decoration: none;
     font-size: 12px;
   }
   .text-muted {
-    font-size: 14px;
+    font-size: 1px;
   }
+
+  input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px; /* Adjust the width as needed */
+    height: 18px; /* Adjust the height as needed */
+    border: 2px solid black;
+    border-radius: 50%; /* Make it circular */
+    position: relative; /* Ensure proper positioning of the ::before pseudo-element */
+    }
 
   input[type="radio"]::before {
     content: "";
     display: inline-block;
-    width: 20px; /* Adjust the width of the outer circle */
-    height: 20px; /* Adjust the height of the outer circle */
+    width: 18px; /* Adjust the width of the outer circle */
+    height: 18px; /* Adjust the height of the outer circle */
     border-radius: 50%; /* Make it circular */
     position: absolute; /* Position the ::before pseudo-element relative to the radio button */
     top: 50%; /* Center vertically */
@@ -84,11 +95,12 @@ text-decoration: none;
   
   /* Styling when radio button is checked */
   input[type="radio"]:checked::before {
-  width: 12px; /* Adjust the width of the inner circle when checked */
+  width: 12x; /* Adjust the width of the inner circle when checked */
   height: 12px; /* Adjust the height of the inner circle when checked */
   top: 50%; /* Center vertically */
   left: 50%; /* Center horizontally */
   }
+
 }
 
 @media (max-width: 576px) {
@@ -105,9 +117,40 @@ text-decoration: none;
   .candidate-info img {
     margin-bottom: 10px;
   }
+
+  input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 24px; /* Adjust the width as needed */
+    height: 24px; /* Adjust the height as needed */
+    border: 2px solid black;
+    border-radius: 50%; /* Make it circular */
+    position: relative; /* Ensure proper positioning of the ::before pseudo-element */
+    }
+
+  input[type="radio"]::before {
+    content: "";
+    display: inline-block;
+    width: 24px; /* Adjust the width of the outer circle */
+    height: 24px; /* Adjust the height of the outer circle */
+    border-radius: 50%; /* Make it circular */
+    position: absolute; /* Position the ::before pseudo-element relative to the radio button */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Move it back by half its size */
+  }
+  
+  /* Styling when radio button is checked */
+  input[type="radio"]:checked::before {
+  width: 16px; /* Adjust the width of the inner circle when checked */
+  height: 16px; /* Adjust the height of the inner circle when checked */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  }
 }
 
-.modal-content {
+.modal-content .round {
   border-radius: 20px !important; /* Adjust the value as needed */
 }
 
@@ -320,13 +363,11 @@ background-color: #cce5ff;
 padding-left: 6% ;
 }
 
-
 .spacing {
 letter-spacing: 2px;
 }
 
 .text-position {
-  padding-top: 3.5%;
   padding-left: 6%;
 }
 
@@ -357,14 +398,14 @@ background-color: none;
 
 /* Hide the default radio button */
 input[type="radio"] {
-appearance: none;
--webkit-appearance: none;
--moz-appearance: none;
-width: 24px; /* Adjust the width as needed */
-height: 24px; /* Adjust the height as needed */
-border: 2px solid black;
-border-radius: 50%; /* Make it circular */
-position: relative; /* Ensure proper positioning of the ::before pseudo-element */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 24px; /* Adjust the width as needed */
+  height: 24px; /* Adjust the height as needed */
+  border: 2px solid black;
+  border-radius: 50%; /* Make it circular */
+  position: relative; /* Ensure proper positioning of the ::before pseudo-element */
 }
 
 input[type="radio"]::before {
@@ -379,14 +420,81 @@ input[type="radio"]::before {
   transform: translate(-50%, -50%); /* Move it back by half its size */
 }
 
+/* Styling when radio button is checked */
+input[type="radio"]:checked::before {
+  width: 16px; /* Adjust the width of the inner circle when checked */
+  height: 16px; /* Adjust the height of the inner circle when checked */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Move it back by half its size */
+}
+
+/* Hide the default radio button */
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 24px; /* Adjust the width as needed */
+  height: 24px; /* Adjust the height as needed */
+  border: 2px solid black;
+  border-radius: 50%; /* Make it circular */
+  position: relative; /* Ensure proper positioning of the ::before pseudo-element */
+}
+
+input[type="radio"]::before {
+  content: "";
+  display: inline-block;
+  width: 24px; /* Adjust the width of the outer circle */
+  height: 24px; /* Adjust the height of the outer circle */
+  border-radius: 50%; /* Make it circular */
+  position: absolute; /* Position the ::before pseudo-element relative to the radio button */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Move it back by half its size */
+}
 
 /* Styling when radio button is checked */
 input[type="radio"]:checked::before {
-width: 16px; /* Adjust the width of the inner circle when checked */
-height: 16px; /* Adjust the height of the inner circle when checked */
-top: 50%; /* Center vertically */
-left: 50%; /* Center horizontally */
+  width: 16px; /* Adjust the width of the inner circle when checked */
+  height: 16px; /* Adjust the height of the inner circle when checked */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Move it back by half its size */
 }
+
+/* Hide the default radio button */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 24px; /* Adjust the width as needed */
+  height: 24px; /* Adjust the height as needed */
+  border: 2px solid black;
+  border-radius: 50%; /* Make it circular */
+  position: relative; /* Ensure proper positioning of the ::before pseudo-element */
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  display: inline-block;
+  width: 24px; /* Adjust the width of the outer circle */
+  height: 24px; /* Adjust the height of the outer circle */
+  border-radius: 50%; /* Make it circular */
+  position: absolute; /* Position the ::before pseudo-element relative to the radio button */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Move it back by half its size */
+}
+
+/* Styling when checkbox button is checked */
+input[type="checkbox"]:checked::before {
+  width: 16px; /* Adjust the width of the inner circle when checked */
+  height: 16px; /* Adjust the height of the inner circle when checked */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Move it back by half its size */
+}
+
 
 /* --- Footer --- */
 .footer {
