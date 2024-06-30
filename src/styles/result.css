@@ -95,9 +95,9 @@
   }
 
   @media (max-width: 480px) {
-    margin-top: -5px;
+    margin-top: -1px;
     margin-bottom: 12px;
-    font-size: 10px;
+    font-size: 7px;
     font-weight:bolder;
     margin-right: 35px;
   }
@@ -115,13 +115,14 @@
   }
 
   @media (max-width: 480px) {
-    margin-top: -10px;
+    margin-top: -25px !important;
     margin-bottom: 12px;
-    margin-left: 75px !important;
-    font-size: 10px !important;
-    font-weight:bolder;
+    margin-left: 40px !important;
+    font-size: 7px !important;
+    font-weight: bolder;
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
   }
-
 }
 
 .card-candidate h5, .card-runnerup h5{
@@ -137,7 +138,7 @@
   }
 
   @media (max-width: 480px) {
-    font-size: 8px;
+    font-size: 5px;
     margin-top: -10px;
     margin-right: 40px;
   }
@@ -153,10 +154,11 @@
     font-size: 20px;
   }
   @media (max-width: 480px) {
-    font-size: 14px;
-    margin-top: 10px;
-    white-space: nowrap;
-    
+    font-size: 10px;
+    margin-top: 15px;
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+    white-space: nowrap !important;
   }
 }
 .card-runnerup{
@@ -182,11 +184,12 @@
   padding-top: 20px !important;
   background-color: white !important;
   @media (max-width: 480px) {
-    height: 400px !important;
+    height: 420px !important;
     margin-bottom: 20px !important;
     background-color: white !important;
     }
 }
+
 .card-body3 {
   height: 115px !important; 
   border-radius: 10px !important;
@@ -230,8 +233,8 @@
     margin-left: -200px;
   }
   @media (max-width: 480px) {
-    font-size: 10px;
-    width: 115px !important;
+    font-size: 6px;
+    width: 80px !important;
     height: 22px !important;
     margin-top: 67px !important;
     margin-right: 170px !important; 
@@ -264,6 +267,11 @@
 .no-avail-candidate{
   color: black;
   font-weight: 500;
+  text-align: center;
+  @media (max-width: 480px) {
+    font-size: 20px !important;
+    margin-top: 25px !important;
+  }
 }
 body {
   display: flex;
@@ -333,7 +341,7 @@ footer {
   @media (max-width: 480px) {
       height: 75px !important;
       padding-top: 27px !important;    
-      font-size: 15px;
+      font-size: 13px;
       white-space: nowrap;
   }
 }
@@ -347,7 +355,7 @@ footer {
   font-size: 17px !important;
   font-weight: bold !important;
   margin-top: -35px !important;
-  margin-left: 350px !important;
+  margin-left: 300px !important;
 }
 .btn-previous, .btn-next{
   background-color: white;
@@ -380,7 +388,10 @@ footer {
   width: 110px;
   margin-left: 62%;
   @media (max-width: 1920px) {
-    margin-left: 630px !important;
+    margin-left: 550px !important;
+  }
+  @media (max-width: 1280px) {
+    margin-left: 450px !important;
   }
   @media (max-width: 480px) {
     width: 47px; 
@@ -388,7 +399,7 @@ footer {
     font-size: 0;
     display: inline-block;
     padding: 10px 15px;
-    margin-left:40px !important; 
+    margin-left: 20px !important; 
 }  
 
 }
@@ -418,7 +429,8 @@ footer {
   margin-bottom: -5px;
   margin-right: 10px;
   height: 45px;
-  width: 150px;
+  width: 100px;
+  font-size: 5px;
   margin-left: 10%;
 }
 }
@@ -469,7 +481,7 @@ footer {
 background-color: white;
 box-sizing: border-box;
 border-radius: 15px;
-height: 750px;
+height: 660px;
 width: 100%;
 margin-top: 70px;
 @media (max-width: 1280px) {
@@ -486,8 +498,7 @@ margin-top: 70px;
 }
 @media (max-width: 480px) {
   #myChart {
-      height: 70%;
-      width: 30%;
+    padding: 10px 10px 10px 10px; 
   }
 }
 
@@ -661,12 +672,13 @@ padding-left: 20px;
   letter-spacing: 0.5px;
 }
 .secondary-metrics-content{
-  font-size: 20px;
+  font-size: 17px;
   font-weight: bold;
   letter-spacing: 2.5px;
   white-space: nowrap;
   @media (max-width: 480px) {
-    font-size: 16px ;
+    letter-spacing: 0.5px;
+    font-size: 13px ;
   }
 }
 .navigate-images{
@@ -689,525 +701,150 @@ padding-left: 20px;
   width: 100%;
   margin-top: 70px;
   @media (max-width: 480px) {
-      height: 250px;
+      height: 180px;
   }
 }
 
-.emoji-size {
-  font-size: calc(2.25rem + 2.25vw); /* Increased the font size calculation by 50% */
-}
-
-.feedback {
-  --normal: #ECEAF3;
-  --normal-shadow: #D9D8E3;
-  --normal-mouth: #9795A4;
-  --normal-eye: #595861;
-  --active: #F8DA69;
-  --active-shadow: #F4B555;
-  --active-mouth: #F05136;
-  --active-eye: #313036;
-  --active-tear: #76b5e7;
-  --active-shadow-angry: #e94f1d;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  li {
-      position: relative;
-      border-radius: 50%;
-      background: var(--sb, var(--normal));
-      box-shadow: inset 4.5px -4.5px 6px var(--sh, var(--normal-shadow)); /* Increased the shadow dimensions by 50% */
-      transition: background .4s, box-shadow .4s, transform .3s;
-      -webkit-tap-highlight-color: transparent;
-      &:not(:last-child) {
-          margin-right: 140px; /* Increased the margin-right by 50% */
-          @media (max-width: 1280px) {
-              margin-right: 80px !important;
-          }
-          @media (max-width: 480px) {
-              margin-right: 20px !important;
-          }
-      }
-      div {
-          width: 60px; /* Increased the width by 50% */
-          height: 60px; /* Increased the height by 50% */
-          position: relative;
-          transform: perspective(360px) translateZ(6px); /* Adjusted the perspective */
-          svg,
-          &:before,
-          &:after {
-              display: block;
-              position: absolute;
-              left: var(--l, 13.5px); /* Adjusted the left position */
-              top: var(--t, 19.5px); /* Adjusted the top position */
-              width: var(--w, 12px); /* Increased the width by 50% */
-              height: var(--h, 3px); /* Increased the height by 50% */
-              transform: rotate(var(--r, 0deg)) scale(var(--sc, 1)) translateZ(0);
-          }
-          svg {
-              fill: none;
-              stroke: var(--s);
-              stroke-width: 3px; /* Increased the stroke-width by 50% */
-              stroke-linecap: round;
-              stroke-linejoin: round;
-              transition: stroke .4s;
-              &.eye {
-                  --s: var(--e, var(--normal-eye));
-                  --t: 25.5px; /* Adjusted the top position */
-                  --w: 10.5px; /* Increased the width by 50% */
-                  --h: 6px; /* Increased the height by 50% */
-                  &.right {
-                      --l: 34.5px; /* Adjusted the left position */
-                      @media (max-width: 480px) {
-                        --l: 20.8px;
-                    }
-                  }
-              }
-              &.mouth {
-                  --s: var(--m, var(--normal-mouth));
-                  --l: 16.5px; /* Adjusted the left position */
-                  --t: 34.5px; /* Adjusted the top position */
-                  --w: 27px; /* Increased the width by 50% */
-                  --h: 10.5px; /* Increased the height by 50% */
-              }
-          }
-          &:before,
-          &:after {
-              content: '';
-              z-index: var(--zi, 1);
-              border-radius: var(--br, 1.5px); /* Increased the border-radius by 50% */
-              background: var(--b, var(--e, var(--normal-eye)));
-              transition: background .4s;
-          }
-      }
-      &.angry {
-        --step-1-rx: -24deg;
-        --step-1-ry: 20deg;
-        --step-2-rx: -24deg;
-        --step-2-ry: -20deg;
-        div {
-            &:before {
-                --r: 20deg;
-            }
-            &:after {
-                --l: 34.5px; /* Adjusted the left position */
-                --r: -20deg;
-            }
-            svg {
-                &.eye {
-                    stroke-dasharray: 5.825; /* Adjusted the dash array */
-                    stroke-dashoffset: 11.225; /* Adjusted the dash offset */
-                }
-            }
-        }
-        &.active {
-            animation: angry 1s linear;
-            div {
-                &:before {
-                    --middle-y: -3px; /* Adjusted the middle-y */
-                    --middle-r: 22deg;
-                    animation: toggle .8s linear forwards;
-                }
-                &:after {
-                    --middle-y: 1.5px; /* Adjusted the middle-y */
-                    --middle-r: -18deg;
-                    animation: toggle .8s linear forwards;
-                }
-            }
-        }
-    }
-    
-    @media screen and (max-width: 480px) {
-        &.angry {
-            --step-1-rx: -12deg; /* Adjusted for smaller screen */
-            --step-1-ry: 10deg; /* Adjusted for smaller screen */
-            --step-2-rx: -12deg; /* Adjusted for smaller screen */
-            --step-2-ry: -10deg; /* Adjusted for smaller screen */
-            div {
-                &:after {
-                    --l: 18.25px; /* Adjusted for smaller screen */
-                }
-            }
-        }
-    }
-    
-      &.sad {
-          --step-1-rx: 20deg;
-          --step-1-ry: -12deg;
-          --step-2-rx: -18deg;
-          --step-2-ry: 14deg;
-          div {
-              &:before,
-              &:after {
-                  --b: var(--active-tear);
-                  --sc: 0;
-                  --w: 7.5px; /* Increased the width by 50% */
-                  --h: 7.5px; /* Increased the height by 50% */
-                  --t: 22.5px; /* Adjusted the top position */
-                  --br: 50%;
-              }
-              &:after {
-                  --l: 37.5px; /* Adjusted the left position */
-              }
-              svg {
-                  &.eye {
-                      --t: 24px; /* Adjusted the top position */
-                  }
-                  &.mouth {
-                      --t: 36px; /* Adjusted the top position */
-                      stroke-dasharray: 14.25; /* Adjusted the dash array */
-                      stroke-dashoffset: -59; /* Adjusted the dash offset to create a sad mouth */
-                      transform: rotate(0deg); /* Ensures the mouth stays in the default orientation */
-                      transform-origin: center; /* Ensures rotation happens around the center */
-                  }
-              }
-          }
-          &.active {
-              div {
-                  &:before,
-                  &:after {
-                      animation: tear .6s linear forwards;
-                  }
-              }
-          }
-      }
-    
-      &.ok {
-        --step-1-rx: 4deg;
-        --step-1-ry: -22deg;
-        --step-1-rz: 6deg;
-        --step-2-rx: 4deg;
-        --step-2-ry: 22deg;
-        --step-2-rz: -6deg;
-        div {
-          &:before {
-            --l: 18px;
-            --t: 25.5px;
-            --h: 6px;
-            --w: 6px;
-            --br: 50%;
-            box-shadow: 18px 0 0 var(--e, var(--normal-eye));
-          }
-          &:after {
-            --l: 19.5px;
-            --t: 43px;
-            --w: 21px;
-            --h: 3px;
-            --br: 1.5px;
-            --b: var(--m, var(--normal-mouth));
-          }
-        }
-        &.active {
-          div {
-            &:before {
-              --middle-s-y: .35;
-              animation: toggle .2s linear forwards;
-            }
-            &:after {
-              --middle-s-x: .5;
-              animation: toggle .7s linear forwards;
-            }
-          }
-        }
-        @media screen and (max-width: 480px) {
-          --step-1-rx: 2deg; /* Adjusted for smaller screen */
-          --step-1-ry: -11deg; /* Adjusted for smaller screen */
-          --step-1-rz: 3deg; /* Adjusted for smaller screen */
-          --step-2-rx: 2deg; /* Adjusted for smaller screen */
-          --step-2-ry: 11deg; /* Adjusted for smaller screen */
-          --step-2-rz: -3deg; /* Adjusted for smaller screen */
-          div {
-            &:before {
-              --l: 5px; /* Adjusted for smaller screen */
-              --t: 9px; /* Adjusted for smaller screen */
-              --h: 5px; /* Adjusted for smaller screen */
-              --w: 3px; /* Adjusted for smaller screen */
-            }
-            &:after {
-              --l: 8.5px; /* Adjusted for smaller screen */
-              --t: 20px; /* Adjusted for smaller screen */
-              --w: 15px; /* Adjusted for smaller screen */
-              --h: 2.25px; /* Adjusted for smaller screen */
-            }
-          }
-        }
-      }
-      &.good {
-        --step-1-rx: -14deg;
-        --step-1-rz: 10deg;
-        --step-2-rx: 10deg;
-        --step-2-rz: -8deg;
-        div {
-            &:before {
-                --b: var(--m, var(--normal-mouth));
-                --w: 7.5px; /* Increased the width by 50% */
-                --h: 7.5px; /* Increased the height by 50% */
-                --br: 50%;
-                --t: 33px; /* Adjusted the top position */
-                --zi: 0;
-                opacity: .5;
-                box-shadow: 24px 0 0 var(--b); /* Adjusted the box-shadow */
-                filter: blur(3px); /* Adjusted the blur */
-            }
-            &:after {
-                --sc: 0;
-            }
-            svg {
-                &.eye {
-                    --t: 22.5px; /* Adjusted the top position */
-                    --sc: -1;
-                    stroke-dasharray: 5.825; /* Adjusted the dash array */
-                    stroke-dashoffset: 12.225; /* Adjusted the dash offset */
-                }
-                &.mouth {
-                    --t: 36px; /* Adjusted the top position */
-                    --sc: -1;
-                    stroke-dasharray: 19.95; /* Adjusted the dash array */
-                    stroke-dashoffset: 39.625; /* Adjusted the dash offset */
-                }
-            }
-        }
-        &.active {
-            div {
-                svg {
-                    &.mouth {
-                        --middle-y: 1.5px; /* Adjusted the middle-y */
-                        --middle-s: -1;
-                        animation: toggle .8s linear forwards;
-                    }
-                }
-            }
-        }
-    }
-    
-    @media screen and (max-width: 480px) {
-        &.good {
-            div {
-                &:before {
-                    --w: 6.25px; /* Increase width by 50% for smaller screens */
-                    --h: 6.25px; /* Increase height by 50% for smaller screens */
-                    --t: 15px; /* Adjust top position for smaller screens */
-                    box-shadow: 18px 0 0 var(--b); /* Adjust box-shadow for smaller screens */
-                }
-                svg {
-                    &.eye {
-                        --t: 18.75px; /* Adjust top position for smaller screens */
-                    }
-                    &.mouth {
-                        --t: 30px; /* Adjust top position for smaller screens */
-                    }
-                }
-            }
-        }
-    }
-    &.happy {
-      div {
-          --step-1-rx: 18deg;
-          --step-1-ry: 24deg;
-          --step-2-rx: 18deg;
-          --step-2-ry: -24deg;
-          &:before {
-              --sc: 0;
-          }
-          &:after {
-              --b: var(--m, var(--normal-mouth));
-              --l: 16.5px; /* Adjusted the left position */
-              --t: 34.5px; /* Adjusted the top position */
-              --w: 27px; /* Increased the width by 50% */
-              --h: 12px; /* Increased the height by 50% */
-              --br: 0 0 12px 12px; /* Increased the border-radius by 50% */
-          }
-          svg {
-              &.eye {
-                  --t: 21px; /* Adjusted the top position */
-                  --sc: -1;
-              }
-          }
-      }
-      &.active {
-          div {
-              &:after {
-                  --middle-s-x: .95;
-                  --middle-s-y: .75;
-                  animation: toggle .8s linear forwards;
-              }
-          }
-      }
-  }
-  
-  @media screen and (max-width: 480px) {
-      &.happy {
-          div {
-              --step-1-rx: 9deg; /* Adjusted for smaller screen */
-              --step-1-ry: 12deg; /* Adjusted for smaller screen */
-              --step-2-rx: 9deg; /* Adjusted for smaller screen */
-              --step-2-ry: -12deg; /* Adjusted for smaller screen */
-              &:after {
-                  --l: 7.75px; /* Adjusted for smaller screen */
-                  --t: 17.5px; /* Adjusted for smaller screen */
-                  --w: 14.25px; /* Adjusted for smaller screen */
-                  --h: 9px; /* Adjusted for smaller screen */
-                  --br: 0 0 6px 6px; /* Adjusted for smaller screen */
-              }
-              svg {
-                  &.eye {
-                      --t: 17.75px; /* Adjusted for smaller screen */
-                  }
-              }
-          }
-          &.active {
-              div {
-                  &:after {
-                      --middle-s-x: .7; /* Adjusted for smaller screen */
-                      --middle-s-y: .55; /* Adjusted for smaller screen */
-                  }
-              }
-          }
-      }
-  }
-  
-  &:not(.active) {
-      cursor: pointer;
-      &:active {
-          transform: scale(.925);
-      }
-  }
-  
-  &.active {
-      --sb: var(--active);
-      --sh: var(--active-shadow);
-      --m: var(--active-mouth);
-      --e: var(--active-eye);
-      div {
-          animation: shake .8s linear forwards;
-      }
-  }
-  
-  }
-}
-
-@keyframes shake {
-  30% {
-      transform: perspective(360px) rotateX(var(--step-1-rx, 0deg)) rotateY(var(--step-1-ry, 0deg)) rotateZ(var(--step-1-rz, 0deg)) translateZ(15px); /* Adjusted the translateZ */
-  }
-  60% {
-      transform: perspective(360px) rotateX(var(--step-2-rx, 0deg)) rotateY(var(--step-2-ry, 0deg)) rotateZ(var(--step-2-rz, 0deg)) translateZ(15px); /* Adjusted the translateZ */
-  }
-  100% {
-      transform: perspective(360px) translateZ(6px); /* Adjusted the translateZ */
-  }
-}
-
-@keyframes tear {
-  0% {
-      opacity: 0;
-      transform: translateY(-3px) scale(0) translateZ(0); /* Adjusted the translateY */
-  }
-  50% {
-      transform: translateY(18px) scale(.6, 1.2) translateZ(0); /* Adjusted the translateY */
-  }
-  20%,
-  80% {
-      opacity: 1;
-  }
-  100% {
-      opacity: 0;
-      transform: translateY(36px) translateX(6px) rotateZ(-30deg) scale(.7, 1.1) translateZ(0); /* Adjusted the translateY and translateX */
-  }
-}
-
-@keyframes toggle {
-  50% {
-      transform: translateY(var(--middle-y, 0)) scale(var(--middle-s-x, var(--middle-s, 1)), var(--middle-s-y, var(--middle-s, 1))) rotate(var(--middle-r, 0deg));
-  }
-}
-
-@keyframes angry {
-  40% {
-      background: var(--active);
-  }
-  45% {
-      box-shadow: inset 4.5px -4.5px 6px var(--active-shadow), inset 0 12px 15px var(--active-shadow-angry); /* Adjusted the box-shadow */
-  }
-}
-
-html {
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-}
-
-* {
-  box-sizing: inherit;
-  &:before,
-  &:after {
-      box-sizing: inherit;
-  }
-}
-
+/* Emoji rating styles */
 .emoji {
-  padding-top: 3rem; /* Increased the padding-top by 50% */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  .dribbble {
-      position: fixed;
-      display: block;
-      right: 20px;
-      bottom: 20px;
-      img {
-          display: block;
-          height: 42px; 
-      }
+  position: relative;
+  width: 50px; /* Adjust dimensions as needed */
+  height: 50px; /* Adjust dimensions as needed */
+  display: inline-block;
+  background-size: cover;
+  margin: 0 20px; /* Adjusted spacing between emojis */
+}
+
+.highlighted {
+  color: #FFD700; /* Bright Yellow */
+  filter: none;
+}
+
+.lowlight {
+  color: #808080; /* Grayscale */
+  filter: grayscale(100%);
+}
+
+.emoji::before,
+.emoji::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 50%; /* Ensure round highlight */
+}
+
+.emoji::before {
+  background-color: rgba(255, 215, 0, 0.3); /* Gold highlight color */
+  opacity: 0; /* Initially invisible */
+}
+
+.emoji.highlighted::before {
+  opacity: 1; /* Show the highlight when emoji is highlighted */
+}
+
+.emoji.lowlight {
+  filter: grayscale(100%); /* Gray out low-rated emojis */
+}
+
+/* Emoji list styles */
+.emoji ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.emoji li {
+  display: inline-block;
+  font-size: 70px; /* Adjust the size as needed */
+  margin: 0 40px;
+}
+.highest-rating h1, .highest-rating h2 {
+  font-size: 25px;
+}
+@media (max-width: 1280px) {
+  .emoji li {
+      margin: 0 30px;
   }
+}
+@media (max-width: 480px) {
+  .emoji li {
+      margin: 0 10px;
+  }
+}
+.emoji li span {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Emoji Unicode characters */
+.emoji .angry span::before {
+  content: "😠"; /* Unicode character for angry emoji */
+}
+
+.emoji .sad span::before {
+  content: "🙁"; /* Unicode character for sad emoji */
+}
+
+.emoji .ok span::before {
+  content: "😐"; /* Unicode character for neutral emoji */
+}
+
+.emoji .good span::before {
+  content: "😊"; /* Unicode character for good emoji */
+}
+
+.emoji .happy span::before {
+  content: "😃"; /* Unicode character for happy emoji */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .emoji li {
+      font-size: 1.5em; /* Adjust for smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .emoji li {
+      font-size: 1em; /* Further adjust for smaller screens */
+  }
+}
+@media (max-width: 480px) {
+  .fs-3 {
+    padding-left: 0px !important;
+  }
+}
+.view-more{
+  color: #1A73E8;
+  cursor: pointer;
   @media (max-width: 480px) {
-    padding-top: 1rem;
+    font-size: 10px !important;
     }
 }
-
-@media (max-width: 480px) {
-  .emoji-size {
-      font-size: 1rem !important; /* Example: Set a smaller size */
-  }
-  
-  .feedback li div {
-      width: 30px !important; /* Decrease the width */
-      height: 30px !important; /* Decrease the height */
+.text-comment{
+  font-size: 27px;
+  margin-left: 15px;
+  @media (max-width: 480px) {
+      font-size: 15px !important;
+      margin-left: -5px;
   }
 
-  .feedback li div svg,
-  .feedback li div:before,
-  .feedback li div:after {
-      left: var(--l, 6.75px) !important; /* Adjusted the left position */
-      top: var(--t, 9.75px) !important; /* Adjusted the top position */
-      width: var(--w, 6px) !important; /* Decrease the width */
-      height: var(--h, 1.5px) !important; /* Decrease the height */
-  }
-
-  .feedback li div svg {
-      stroke-width: 1.5px !important; /* Decrease the stroke-width */
-  }
-
-  .feedback li div svg.eye {
-      --t: 12.75px !important; /* Adjusted the top position */
-      --w: 5.25px !important; /* Decrease the width */
-      --h: 3px !important; /* Decrease the height */
-  }
-
-  .feedback li div svg.mouth {
-      --l: 8.25px !important; /* Adjusted the left position */
-      --t: 17.25px !important; /* Adjusted the top position */
-      --w: 13.5px !important; /* Decrease the width */
-      --h: 5.25px !important; /* Decrease the height */
-  }
 }
+
 .feedback-text{
   padding-left: 60px;
   padding-top: 30px;
   @media (max-width: 480px) {
     padding-left: 20px !important;
     padding-top: 20px !important;
-    font-size: 5px !important;
+    font-size: 1px !important;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
     }
 }
 .horizontal-align {
@@ -1216,26 +853,29 @@ html {
   align-items: center;
 }
 .horizontal-align h1 {
-  margin: 0 67px;
+  margin: 0 27px !important;
   font-size: 25px !important;
   @media (max-width: 1280px) {
     margin: 0 -10px;
   }
   @media (max-width: 480px) {
     margin: 0 5px;
-    font-size: 15px !important;
+    font-size: 10px !important;
   }    
 }
 .horizontal-align h2 {
-  margin: 0 50px;
+  margin: 0 20px;
   font-size: 15px !important;
   @media (max-width: 1280px) {
     margin: 0 30.5px;
   } 
   @media (max-width: 480px) {
-    margin: 0 5px;
-    font-size: 8px !important;
+    font-size: 5px !important;
   }    
+}
+.rating-item{
+  margin-left: -40px;
+  margin-top: -40px;
 }
 .form-control2, .form-control2:hover{
   margin-top: 38px ;
@@ -1243,26 +883,62 @@ html {
   height: 33px ;
   padding-left: 10px ;
   padding-right: -20px ;
-  margin-left: 950px ;
+  margin-left: 870px ;
   border-radius: 25px ;
   font-size: 15px;
   color: white;
   border-style: none;
+  @media (max-width: 1920px) {
+    margin-left: 670px !important;
+  }
   @media (max-width: 1280px) {
-    margin-left: 680px !important;
+    margin-left: 600px !important;
   }
   @media (max-width: 1920px) {
     margin-left: 800px ;
     }
   @media (max-width: 480px) {
-  margin-left: 135px !important;
-  margin-top: 200px ;
-  width: 150px ;
-  height: 30px ;
-  margin-left: 950px ;
+  margin-left: 130px !important;
+  margin-top: -140px;
+  width: 100px ;
+  height: 20px ;
+  font-size: 10px;
   } 
   }
-  
+  .comment {
+    white-space: pre-wrap; /* Preserve white spaces and allow wrapping */
+    word-wrap: break-word; /* Break long words */
+    max-width: 100%; /* Ensure the comment doesn't exceed the container width */
+    line-height: 1.5; /* Adjust line height as needed for better readability */
+    color: black;
+    font-size: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: justify; /* Justify the text */
+}
+.time-date{
+  font-size: 10px;
+  padding-right: 30px;
+}
+  .modal-text{
+    padding-left: 30px;
+  }
+  .btn-close {
+    position: relative;
+    font-size: 10px;
+    background-color: #b5b4b4 !important;
+    color: white !important; /* Button text color */
+    font-weight: bold;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-top: 20px !important;
+}
+
+.btn-close i {
+    color: white !important; /* Icon color */
+}
   #positionSelect option {
   border: none;
   outline: none;
@@ -1276,4 +952,41 @@ html {
 }
 #positionSelect:focus {
   outline: none;
+}
+.truncated-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+.table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse !important;
+  border: none !important;
+}
+
+.table th,
+.table td {
+  border: none !important;
+  padding: 8px; /* Adjust padding as needed */
+}
+
+.table-hover tbody tr:hover {
+  background-color: #F1F1F1 !important;
+}
+
+.table-row {
+  border-bottom: 2px solid #F1F1F1 !important;
+}
+
+@media (max-width: 768px) {
+  .table {
+    overflow-x: auto;
+    display: block;
+  }
+  .table th,
+  .table td {
+    white-space: nowrap;
+  }
 }
