@@ -356,10 +356,6 @@
 }
 
 @media (max-width: 575px) {
-  .breadcrumbs {
-      justify-content: center;
-  }
-
   .add-committee-button {
       width: 100%;
       margin-top: 0.5rem;
@@ -388,13 +384,6 @@
     font-size: 11px;
   }
   
-}
-
-.committee-members-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
 }
 
 /* --- END OF MEDIAS --- */
