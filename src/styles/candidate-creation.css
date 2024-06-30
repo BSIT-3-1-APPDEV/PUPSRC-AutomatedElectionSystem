@@ -221,3 +221,21 @@ input::placeholder {
 .blue-border {
         border-color: blue !important;
     }
+
+
+    @media (max-width: 320px) {
+        .breadcrumbs .align-items-start {
+            margin-top: 1rem; /* Adjust margin-top to move the button below */
+        }
+    }
+
+    @media (max-width: 320px) {
+
+    .breadcrumbs-cont .col-md-11 {
+    padding-left: 0 !important;
+  }
+
+    .hide-text {
+    display: none;
+  }
+}

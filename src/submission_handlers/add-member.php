@@ -38,10 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 // Check if email exists in SCO database
                 try {
-                    $sco_conn = DatabaseConnection::connect();
-
-                    // Switch to the SCO database
-                    $sco_conn->select_db('db_sco');
+                    $sco = 'sco';
+                    $config = DatabaseConfig::getOrganizationDBConfig($sco);
+                    $sco_conn = new mysqli($config['host'], $config['username'], $config['password'], $config['database']);
+                    
+                    if ($sco_conn->connect_error) {
+                        throw new Exception("Connection failed: " . $sco_conn->connect_error);
+                    }
+                    
                     $sco_stmt = $sco_conn->prepare("SELECT COUNT(*) FROM voter WHERE email = ?");
                     $sco_stmt->bind_param("s", $email);
                     $sco_stmt->execute();
@@ -49,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $sco_stmt->fetch();
                     $sco_stmt->close();
                     $sco_conn->close();
-
+                    
                     if ($sco_count > 0) {
                         $_SESSION['email_exists_error'] = 'This email address is already registered in SCO.';
                         header("Location: admin-creation.php");
@@ -59,6 +63,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Handle connection error
                     error_log("Error connecting to SCO database: " . $e->getMessage());
                     $emailError = 'Unable to verify email uniqueness across all databases.';
+                    $_SESSION['email_error'] = $emailError;
+                    header("Location: admin-creation.php");
+                    exit;
                 }
             }
         }
