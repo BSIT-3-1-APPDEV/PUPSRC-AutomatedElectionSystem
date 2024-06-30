@@ -52,7 +52,7 @@
             <div class="tools">
                 <label for="deleteButton" id="delete-label" data-bs-toggle="tooltip" data-bs-title="No items selected." data-bs-placement="right">
                     <button type="button" id="delete" class="btn btn-primary del me-2 me-md-3" data-selected="" disabled>
-                        <span class="d-none d-sm-inline">Delete</span>
+                        <span class="">Delete</span>
                     </button>
                 </label>
                 <button type="button" class="btn btn-primary del me-2 me-md-3 d-none" data-selected="">
