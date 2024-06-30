@@ -188,7 +188,7 @@ class Login extends IpAddress {
             $this->isLoginAttemptMax();        
         } 
         else {
-            $this->redirectWithMessage($this->error_message, 'Email and password do not match.<br/>' . $remaining_attempt . ' remaining attempts.');
+            $this->redirectWithMessage($this->error_message, 'Email and password do not match.<br/><strong>' . $remaining_attempt . ' remaining attempts.</strong>');
         }
     }
 
@@ -200,7 +200,7 @@ class Login extends IpAddress {
         if ($remaining_attempt <= 0) {
             $this->isLoginAttemptMax();        
         } 
-        $this->redirectWithMessage($this->error_message, 'Email and password do not match.<br/>' . $remaining_attempt . ' remaining attempts.');
+        $this->redirectWithMessage($this->error_message, 'Email and password do not match.<br/><strong>' . $remaining_attempt . ' remaining attempts.</strong>');
     }
 
     // Counts user failed login attempts
