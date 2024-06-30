@@ -16,11 +16,25 @@
         sidebar.classList.add("open");
       }
     }
+  
+    // Check window width and adjust sidebar class
+    function checkWindowSize() {
+      if (window.innerWidth <= 1024) {
+        if (sidebar.classList.contains("open")) {
+          sidebar.classList.remove("open");
+          sidebar.classList.add("close");
+        }
+      }
+    }
 
+    checkWindowSize();
+    window.addEventListener("resize", checkWindowSize);
     sidebarClose.addEventListener("click", toggleSidebar);
+    
   } else {
     console.error("Sidebar or sidebar close button not found.");
   }
+  
 
 
 menuItems.forEach(function (item) {

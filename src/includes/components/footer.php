@@ -12,7 +12,7 @@
 						<div class="row">
 							<!-- Second row content -->
 							<div class="col-md-12">
-								<p class="fs-10 fw-medium pt-xl-3">iVOTE is an Automated Election System (AES) for the
+								<p class="fs-10 fw-medium pt-xl-3 hide-text">iVOTE is an Automated Election System (AES) for the
 									student
 									organizations of the PUP Santa Rosa Campus.</p>
 							</div>
@@ -20,7 +20,7 @@
 						<div class="row">
 							<!-- Third row content -->
 							<div class="col-md-12">
-								<p class="fs-12 fw-medium spacing-6 ">
+								<p class="fs-12 fw-medium spacing-6 hide-text">
 									<span class="fw-bold main-red">© 2024 iVote.</span>
 									<span class="fw-medium main-blue"> All Rights Reserved</span>
 								</p>
@@ -48,7 +48,7 @@
 								</p>
 							</div>
 						</div>
-						<div class="row justify-content-between w-35">
+						<div class="row justify-content-between w-35 icons">
 							<!-- Third row content -->
 							<div class="col-md-12 d-flex justify-content-between pt-xl-1">
 								<a href="<?php echo ($twitter) ?>">
@@ -62,7 +62,21 @@
 								</a>
 							</div>
 						</div>
+			
+						<div class="vertical-line"></div>
+
+						<!-- Toggle of copyright block for responsiveness -->	
+						<div class="pt-4 row hide-text-before">
+							<!-- Third row content -->
+							<div class="col-md-12">
+								<p class="fs-12 fw-medium spacing-6">
+									<span class="fw-semibold main-red">© 2024 <span class="fw-semibold main-blue">iVOTE.</span></span>
+									<!-- <span class="fw-medium main-blue">Terms and Privacy</span> -->
+								</p>
+							</div>
+						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>

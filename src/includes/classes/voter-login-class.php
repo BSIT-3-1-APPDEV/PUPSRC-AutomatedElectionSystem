@@ -13,33 +13,27 @@ class Login extends IpAddress {
     private $connection;
     private $ip_address;
     private $ip_manager;
+    private $error_message;
+    private $info_message;
 
     // Creates connection to the database and gets user ip address
     public function __construct() {
         $this->connection = DatabaseConnection::connect();
         $this->ip_address = IpAddress::getIpAddress();
         $this->ip_manager = new IpAddress();
+        $this->error_message = 'error_message';
+        $this->info_message = 'info_message';
     }
 
     // Authenticates the user submitted email
     protected function getUser($email, $password) {
-
-        // If db connection is not established, terminate execution
-        if(!$this->connection) {
-            $this->redirectWithError('A problem has occured. Try reloading the page.');
-        }
-
         if($this->isBlocked()) {
             $this->isLoginAttemptMax();
         }
 
-        // Verify user in the voter table
-        $stmt = $this->connection->prepare("SELECT 
-                                                voter_id, email, password, role, account_status, voter_status, vote_status 
-                                            FROM 
-                                                voter 
-                                            WHERE 
-                                                BINARY email = ?");
+        // Verifies user in the voter table
+        $sql = "SELECT voter_id, email, password, role, account_status, voter_status, vote_status FROM voter WHERE BINARY email = ?";
+        $stmt = $this->connection->prepare($sql);
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -84,7 +78,7 @@ class Login extends IpAddress {
                 $this->handleAdminOrHead($row);
                 break;
             default:
-                $this->redirectWithError('Role not found in session.');
+                $this->redirectWithMessage($this->error_message, 'Role not found in session.');
                 break;
         }
     }
@@ -95,16 +89,16 @@ class Login extends IpAddress {
 
         switch ($row['account_status']) {
             case 'for_verification':
-                $this->redirectWithMessage('info_message', 'This account is under verification.');
+                $this->redirectWithMessage($this->info_message, 'This account is under verification.');
                 break;
             case 'invalid':
-                $this->redirectWithError('This account was rejected.');
+                $this->redirectWithMessage($this->info_message, 'This account was rejected.');
                 break;
             case 'verified':
                 $this->handleVerifiedStudentVoter($row);
                 break;
             default:
-                $this->redirectWithError('Something went wrong.');
+                $this->redirectWithMessage($this->error_message, 'Something went wrong.');
                 break;
         }
     }
@@ -133,7 +127,7 @@ class Login extends IpAddress {
             }	
         }	
         else {	
-            $this->redirectWithError('Something went wrong.');	
+            $this->redirectWithMessage('Something went wrong.');	
         }	
         $stmt->close();	
     }
@@ -144,7 +138,7 @@ class Login extends IpAddress {
         $_SESSION['vote_status'] = $row['vote_status'];
 
         if ($row['voter_status'] === 'inactive') {
-            $this->redirectWithMessage('info_message', 'This account is inactive.');
+            $this->redirectWithMessage($this->info_message, 'This account is inactive.');
         } else {
             $_SESSION['voter_id'] = $row['voter_id'];
             $this->redirectBasedOnVoteStatus($row['vote_status']);
@@ -180,7 +174,7 @@ class Login extends IpAddress {
             $_SESSION['voter_id'] = $row['voter_id'];
             header("Location: ../admindashboard.php");
         } else {
-            $this->redirectWithError('This account has been disabled.');
+            $this->redirectWithMessage($this->info_message, 'This account has been disabled.');
         }
         exit();
     }
@@ -194,13 +188,19 @@ class Login extends IpAddress {
             $this->isLoginAttemptMax();        
         } 
         else {
-            $this->setUserEmail($row['email'], 'Email and password do not match<br/>' . $remaining_attempt . ' remaining attempts.');
+            $this->redirectWithMessage($this->error_message, 'Email and password do not match.<br/><strong>' . $remaining_attempt . ' remaining attempts.</strong>');
         }
     }
 
     // If email does not exist, redirects/remains on the login page
     private function handleUserNotFound() {
-        $this->redirectWithError('User with this email does not exist.');
+        $this->ip_manager->storeIpAddress($this->ip_address, time());
+        $remaining_attempt = self::LOGIN_ATTEMPT_COUNT - $this->getFailedAttemptsCount();
+        
+        if ($remaining_attempt <= 0) {
+            $this->isLoginAttemptMax();        
+        } 
+        $this->redirectWithMessage($this->error_message, 'Email and password do not match.<br/><strong>' . $remaining_attempt . ' remaining attempts.</strong>');
     }
 
     // Counts user failed login attempts
@@ -214,23 +214,9 @@ class Login extends IpAddress {
         session_regenerate_id(true);
     }
 
-    // Sets the error messages to be displayed
-    private function redirectWithError($message) {
-        $_SESSION['error_message'] = $message;
-        header("Location: ../voter-login.php");
-        exit();
-    }
-
     // Handles different types of messages
     private function redirectWithMessage($type, $message) {
         $_SESSION[$type] = $message;
-        header("Location: ../voter-login.php");
-        exit();
-    }
-
-    private function setUserEmail($email, $message) {
-        $_SESSION['email'] = $email;
-        $_SESSION['error_message']  = $message;
         header("Location: ../voter-login.php");
         exit();
     }

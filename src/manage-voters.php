@@ -8,7 +8,6 @@ require_once FileUtils::normalizeFilePath('includes/classes/query-handler.php');
 if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
 
 
-
 	include FileUtils::normalizeFilePath('includes/session-exchange.php');
 	include FileUtils::normalizeFilePath('submission_handlers/manage-acc.php');
 	?>
@@ -50,12 +49,12 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 		<div class="main">
 
-			<div class="container mb-5 pl-5">
+			<div class="container mb-5 pl-5 breadcrumbs-cont">
 				<div class="row justify-content-center">
 					<div class="col-md-11">
 						<div class="breadcrumbs d-flex">
 							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
-								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
+								<i data-feather="users" class="white im-cust feather-2xl"></i> <span class="hide-text">MANAGE USERS</span>
 							</button>
 							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">VOTERS'
 								ACCOUNTS</button>
@@ -81,14 +80,16 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 												<div class="table-title">
 													<div class="row pending-accs-table">
 														<!-- HEADER -->
-														<div class="col-sm-6">
+														<div class="col-sm-6  header-text">
 															<p class="fs-3 main-color fw-bold ls-10 spacing-6">Pending
 																Registrations</p>
 														</div>
 
+														
+
 														<div class="col-sm-6">
 															<div class="row">
-																<div class="col-md-12 text-end flex-end">
+																<div class="col-md-12 filters-sort">
 																	<!-- Delete -->
 																	<div class="d-inline-block">
 																		<button
@@ -113,7 +114,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																					aria-haspopup="true" aria-expanded="false">
 																					<i
 																						class="fa-solid fa-arrow-down-wide-short fa-sm"></i>
-																					Sort by
+																						Sort by
 																				</button>
 																				<div class="dropdown-menu dropdown-menu-end"
 																					aria-labelledby="dropdownMenuButtonPending"
@@ -133,12 +134,12 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																	</div>
 
 																	<!-- Search -->
-																	<div class="ps-3">
+																	<div class="search-container">
 																		<i data-feather="search" class="feather-xs im-cust-2"
 																			style="color: black"></i>
 																		<input class="search-input fs-7 spacing-6 fw-medium"
 																			type="text" placeholder=" Search..."
-																			id="searchPending" style="width: 100px">
+																			id="searchPending">
 																	</div>
 																</div>
 															</div>
@@ -176,11 +177,13 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 															<!-- For Verification pagination will be generated here -->
 														</ul>
 
-														<div class="d-flex justify-content-start pt-2">
+														<div class="d-flex justify-content-start pt-2 buttons-toggle-delete">
 															<button id="deleteSelectedPending"
 																class="btn btn-danger px-sm-4 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 final-delete-btn-pending d-none rounded-3"
-																disabled>Delete
-																Selected</button>
+																disabled>
+																<span class="delete-text">Delete Selected</span>
+																<span class="delete-xs">Delete</span>
+															</button>
 
 															<button
 																class="btn btn-light btn-cancel px-sm-4 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 rounded-3 cancel-pending d-none">Cancel</button>
@@ -220,7 +223,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 					</div>
 
 					<!-- VERIFIED TABLE -->
-					<div class="row justify-content-center">
+					<div class="row justify-content-center verified-container">
 						<div class="col-md-10 card-box  mt-md-5">
 							<div class="container-fluid">
 								<div class="card-box">
@@ -239,7 +242,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																<div class="row">
 
 
-																	<div class="col-md-12 text-end flex-end">
+																	<div class="col-md-12 filters-sort">
 																		<!-- Delete -->
 																		<div class="d-inline-block">
 																			<button
@@ -291,13 +294,13 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 																		</div>
 
 																		<!-- Search -->
-																		<div class="ps-3">
+																		<div class="search-container">
 																			<i data-feather="search"
 																				class="feather-xs im-cust-2"
 																				style="color: black"></i>
 																			<input class="search-input fs-7 spacing-6 fw-medium"
 																				type="text" placeholder=" Search..."
-																				id="searchVerified" style="width: 100px">
+																				id="searchVerified">
 																		</div>
 																	</div>
 
@@ -348,8 +351,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 															<div class="d-flex justify-content-start pt-2">
 																<button id="deleteSelectedVerified"
 																	class="btn btn-danger px-sm-4 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 final-delete-btn-verified d-none rounded-3"
-																	type="button" disabled>Delete
-																	Selected</button>
+																	type="button" disabled>
+																	<span class="delete-text">Delete Selected</span>
+																	<span class="delete-xs">Delete</span></button>
 																<button
 																	class="btn btn-light btn-cancel px-sm-4 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6 rounded-3 cancel-verified d-none">Cancel</button>
 															</div>
@@ -464,7 +468,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
 									<div class="col-md-12 pt-1 d-flex justify-content-center">
 										<button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-											onClick="redirectToPage('trashbin.php')" aria-label="Close">Go To Recycle
+											onClick="redirectToPage('recycle-bin.php')" aria-label="Close">Go To Recycle
 											Bin</button>
 									</div>
 								</div>

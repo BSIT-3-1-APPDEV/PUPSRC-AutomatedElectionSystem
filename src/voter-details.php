@@ -61,16 +61,16 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
             <div class="main">
                 <!-- Breadcrumbs -->
-                <div class="container navigation">
+                <div class="container navigation  breadcrumbs-cont">
                     <div class="row justify-content-center mb-5 ml-10">
                         <div class="col-md-11">
                             <div class="breadcrumbs d-flex">
                                 <button type="button" class=" btn-white d-flex align-items-center spacing-8 fs-8">
-                                    <i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
+                                    <i data-feather="users" class="white im-cust feather-2xl"></i> <span class="hide-text">MANAGE USERS</span>
                                 </button>
                                 <button type="button" class="btn-back spacing-8 fs-8"
-                                    onclick="redirectToPage('manage-voters.php')">VOTERS' ACCOUNTS</button>
-                                <button type="button" class="btn btn-current rounded-pill spacing-8 fs-8">VOTER PROFILE</button>
+                                    onclick="redirectToPage('manage-voters.php')">VOTERS<span class="hide-text">' ACCOUNTS</span></button>
+                                <button type="button" class="btn btn-current rounded-pill spacing-8 fs-8"><span class="hide-text">VOTER</span> PROFILE</button>
                             </div>
                         </div>
                     </div>
@@ -189,8 +189,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                                     <div class="row pt-sm-4">
                                                         <div class="col-12 acc-status">
                                                             <!-- Status -->
-                                                            <p class="fw-bold fs-6 main-color spacing-4">Account Status</p>
                                                             <div class="row pt-sm-4 status-acc">
+                                                            <p class="fw-bold fs-6 main-color spacing-4">Account Status</p>
+                                                            
                                                                 <div class="col-sm-5 col-12">
 
                                                                     <?php
@@ -322,7 +323,7 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
 
                                 <div class="col-md-12 pt-1 d-flex justify-content-center">
                                     <button class="btn btn-success px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-                                        onClick="redirectToPage('trashbin.php')" aria-label="Close">Go To Recycle Bin</button>
+                                        onClick="redirectToPage('recycle-bin.php')" aria-label="Close">Go To Recycle Bin</button>
                                 </div>
                             </div>
                         </div>

@@ -1,30 +1,64 @@
-(() => {
-  "use strict";
-
-  const forms = document.querySelectorAll(".needs-validation");
-
-  Array.from(forms).forEach((form) => {
-    form.addEventListener(
-      "submit",
-      (event) => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
-        form.classList.add("was-validated");
-      },
-      false
-    );
-  });
-})();
-
 $(document).ready(function () {
+  // Client-side validation for empty and invalid email and password
+  $("#loginForm").on("submit", function (event) {
+    let email = $("#Email").val().trim();
+    let password = $("#Password").val().trim();
+    let isValid = true;
+
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailPattern.test(email) || email === "") {
+      isValid = false;
+      $("#email-login-error").text("Please provide a valid email.");
+      $("#Email").addClass("is-invalid border border-danger");
+    } else {
+      $("#email-login-error").text("");
+      $("#Email").removeClass("is-invalid border border-danger");
+      $("#Email").addClass("is-valid border border-success");
+    }
+
+    if (password === "") {
+      isValid = false;
+      $("#password-login-error").text("Please provide a valid password.");
+      $("#Password").addClass("is-invalid border border-danger");
+      $("#password-toggle").addClass("is-invalid border border-danger");
+    } else {
+      $("#password-login-error").text("");
+      $("#Password, #password-toggle").removeClass(
+        "is-invalid border border-danger"
+      );
+      $("#Password, #password-toggle").addClass(
+        "is-valid border border-success"
+      );
+    }
+
+    if (!isValid) {
+      event.preventDefault();
+    }
+  });
+
   const avoidSpace = (event) => {
     if (event.key === " ") {
       event.preventDefault();
     }
   };
+
+  // Clears displayed messages from server-side
+  $("#loginSubmitBtn").on("click", function () {
+    const serverSideErrorMessage = document.querySelector(
+      "#serverSideErrorMessage"
+    );
+    const serverSideInfoMessage = document.querySelector(
+      "#serverSideInfoMessage"
+    );
+
+    if (serverSideErrorMessage) {
+      serverSideErrorMessage.remove();
+    }
+
+    if (serverSideInfoMessage) {
+      serverSideInfoMessage.remove();
+    }
+  });
 
   const preventSpaces = (event) => {
     let input = event.target;
@@ -44,7 +78,9 @@ $(document).ready(function () {
   // Function to reset forgot password form
   const resetForgotPasswordForm = () => {
     $("#email-error").text("");
-    $("#email").removeClass("is-invalid is-valid was-validated");
+    $("#email").removeClass(
+      "is-invalid is-valid was-validated border border-danger border-success"
+    );
     $("#email-valid").text("");
     $("#" + ORG_NAME).prop("disabled", true);
     $("#forgot-password-form")[0].reset();
@@ -63,6 +99,23 @@ $(document).ready(function () {
   const sendButton = $("#" + ORG_NAME);
   sendButton.prop("disabled", true);
 
+  $("#Password").on("change", function (event) {
+    let password = $(this).val();
+    if (password === "") {
+      event.preventDefault();
+      $("#password-login-error").text("Please provide a valid password.");
+      $("#Password").addClass("is-invalid border border-danger");
+      $("#password-toggle").addClass("is-invalid border border-danger");
+    } else {
+      $("#password-login-error").text("");
+      $("#Password").removeClass("is-invalid border border-danger");
+      $("#password-toggle").removeClass("is-invalid border border-danger");
+      $("#Password, #password-toggle").addClass(
+        "is-valid border border-success"
+      );
+    }
+  });
+
   const validateEmail = (
     email,
     emailErrorElement,
@@ -73,10 +126,12 @@ $(document).ready(function () {
     const isValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(
       emailValue
     );
-    const user = user_data[emailValue]; // Assuming user_data is available
+    const user = user_data[emailValue];
 
     if (!isValid) {
-      email.removeClass("is-valid was-validated").addClass("is-invalid");
+      email
+        .removeClass("is-valid was-validated")
+        .addClass("is-invalid border border-danger");
       emailErrorElement.text("Please provide a valid email.");
       emailValidElement.text("");
     } else if (!isLogin && !user) {
@@ -88,9 +143,10 @@ $(document).ready(function () {
       emailErrorElement.text("This account was rejected.");
       emailValidElement.text("");
     } else {
-      email.removeClass("is-invalid").addClass("is-valid was-validated");
+      email
+        .removeClass("is-invalid border border-danger")
+        .addClass("is-valid was-validated border border-success");
       emailErrorElement.text("");
-      emailValidElement.text("Looks right!");
     }
 
     if (!isLogin) {
@@ -112,6 +168,7 @@ $(document).ready(function () {
   });
 
   if (maxLoginAttempts) {
+    // $("#blockTime").text(`${blockTime} minutes`);
     $("#maxLimitReachedModal").modal("show");
   }
 
@@ -122,7 +179,7 @@ $(document).ready(function () {
 
     if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
       emailError.text("Please provide a valid email address.");
-      $("#email").addClass("is-invalid");
+      $("#email").addClass("is-invalid border border-danger");
       return;
     }
 

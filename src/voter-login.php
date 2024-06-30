@@ -12,8 +12,6 @@ SessionManager::checkUserRoleAndRedirect();
 
 $csrf_token = CsrfToken::generateCSRFToken();
 
-$_SESSION['referringPage'] = $_SERVER['PHP_SELF'];
-
 if (isset($_SESSION['error_message'])) {
     $error_message = $_SESSION['error_message'];
     unset($_SESSION['error_message']);
@@ -65,18 +63,32 @@ $connection->close();
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- I run into problems in the input field when i switched to this local bootstrap -->
+    <!-- <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" /> -->
 
     <!-- Online Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Akronim&family=Anton&family=Aoboshi+One&family=Audiowide&family=Black+Han+Sans&family=Braah+One&family=Bungee+Outline&family=Hammersmith+One&family=Krona+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
 
+    <!-- Custom Stylesheets -->
     <link rel="stylesheet" href="styles/dist/landing.css">
+    <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
+
+    <!-- Preloader Stylesheet and Image -->
     <link rel="stylesheet" href="styles/loader.css" />
     <link rel="preload" href="images/resc/ivote-icon.png" as="image">
-    <link rel="stylesheet" href="styles/orgs/<?php echo $org_name; ?>.css">
+
+    <!-- Favicon -->
     <link rel="icon" href="images/resc/ivote-favicon.png" type="image/x-icon">
     <title>Login</title>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="scripts/voter-login.js" defer></script>
+    <script src="scripts/loader.js" defer></script>
 </head>
 
 <body class="login-body" id="<?php echo strtoupper($org_name); ?>-body">
@@ -96,9 +108,9 @@ $connection->close();
         <div class="row">
             <div class="col-md-6 login-left-section">
                 <div class="organization-names">
-                    <img src="images/logos/<?php echo $org_name; ?>.png" class="img-fluid login-logo" alt="<?php echo strtoupper($org_name) . ' '; ?>Logo">
-                    <p><?php echo strtoupper($org_full_name); ?></p>
-                    <h1 class="login-AES">AUTOMATED ELECTION SYSTEM</h1>
+                    <img src="images/logos/<?php echo $org_name; ?>.png" class="login-logo pb-3" alt="<?php echo strtoupper($org_name) . ' '; ?>Logo">
+                    <div class="org-full-name px-5"><?php echo strtoupper($org_full_name); ?></div>
+                    <div class="login-AES px-4">AUTOMATED ELECTION SYSTEM</div>
 
                     <div class="login-wave-footer" id="<?php echo strtoupper($org_name); ?>-wave">
                         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -113,89 +125,59 @@ $connection->close();
             <div class="col-md-6 login-right-section">
 
                 <div>
-                    <form action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
+                    <form id="loginForm" action="includes/voter-login-inc.php" method="post" class="login-form needs-validation" novalidate>
                                  
                         <!-- CSRF Token hidden field -->
                         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                         
                         <h1 class="login-account">Account Log In</h1>
-                        <p>Sign in to your account</p>
+                        <p class="subtitle">Sign in to your account</p>
 
-                        <div class="d-flex align-items-center justify-content-center mb-0 pb-0">
-                            <!-- Displays error message -->
-                            <?php if (isset($error_message)) : ?>
-                                <div class="fw-medium border border-danger text-danger alert alert-danger alert-dismissible fade show  custom-alert" role="alert">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 16">
-                                        <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
-                                        <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
-                                    </svg>
-                                    <div class="d-flex align-items-center">
-                                        <span class="pe-1"><?php echo $error_message; ?></span>
-                                        <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
+                        <!-- Displays error message -->
+                        <?php if (isset($error_message)) : ?>
+                            <div id="serverSideErrorMessage" class="fw-medium border border-danger text-danger alert alert-danger alert-dismissible fade show  custom-alert" role="alert">
+                                <div class="d-flex align-items-center">
+                                    <span class="pe-3"><?php echo $error_message; ?></span>
+                                    <button type="button" class="btn-sm btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
-                            <?php endif; ?>
-                        </div>
+                            </div>
+                        <?php endif; ?>
 
                         <?php if (isset($info_message)) : ?>
-                            <div class="fw-medium border border-primary bg-transparent text-primary alert alert-primary alert-dismissible fade show d-flex align-items-center" role="alert">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle flex-shrink-0 me-2" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-                                </svg>
-                                <div>
-                                    <span class="pe-1"><?php echo $info_message; ?></span>
-                                    <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+                            <div id="serverSideInfoMessage" class="fw-medium border border-primary bg-transparent text-primary alert alert-primary alert-dismissible fade show custom-info" role="alert">
+                                <div class="d-flex align-items-center">
+                                    <span class="pe-3"><?php echo $info_message; ?></span>
+                                    <button type="button" class="btn-sm btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
                         <?php endif; ?>
 
                         <div class="col-md-12 mt-0 mb-3">
-                            <input type="email" class="form-control shadow-sm" id="Email" name="email" placeholder="Email Address" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" 
-                            value="
-                                <?php 
-                                if (isset($_SESSION['email'])) {
-                                    echo htmlspecialchars($_SESSION['email']);
-                                }
-                                unset($_SESSION['email']);
-                                ?>" 
-                            autocomplete="email">
+                            <input type="email" class="form-control shadow-sm email" id="Email" name="email" placeholder="Email Address" required autocomplete="email">
                             
-                            <div class="ps-1 fw-medium valid-feedback text-start" id="email-login-valid">
-                                <!-- Display default valid message -->
-                                Looks right!
-                            </div>
-                            <div class="ps-1 fw-medium text-start invalid-feedback" id="email-login-error">
-                                <!-- Display error messages here -->
-
-                                <!-- Display default error message -->
-                                Please provide a valid email.
+                            <div class="fw-medium text-start invalid-feedback" id="email-login-error">
+                                <!-- Display error messages here  -->
                             </div>
                         </div>  
 
                         <div class="col-md-12 mb-2">
                             <div class="input-group">
-                                <input type="password" class="form-control shadow-sm" name="password" placeholder="Password" id="Password" autocomplete="current-password" required>
-                                <button class="btn shadow-sm border border-0" type="button" id="password-toggle">Show</button>
-                                
-                                <!-- Displaying these validation messages messes up the UI
-
-                                <div class="ps-1 fw-medium valid-feedback text-start">
-                                    Looks right!
-                                </div>
-                                <div class="ps-1 fw-medium text-start invalid-feedback">
-                                    Please provide a valid password.
-                                </div> --> 
+                                <input type="password" class="form-control shadow-sm border border-end-0 password" name="password" placeholder="Password" id="Password" autocomplete="current-password" required>
+                                <button class="btn shadow-sm border border-start-0 show-toggle" type="button" id="password-toggle">Show</button>
                             </div>
+                            
+                            <div class="mt-1 fw-medium text-start text-danger" id="password-login-error">
+                                <!-- Display error messages here -->
+                            </div>  
                         </div>
 
                         <div role="button" class="text-align-start" data-bs-toggle="modal" data-bs-target="#forgot-password-modal" id="forgot-password">Forgot Password</div>
 
                         <div class="d-grid gap-2 mt-5 mb-4">
                             <!-- <button class="btn btn-primary" name="sign_in" type="submit">Sign In</button> -->
-                            <button class="btn login-sign-in-button btn-primary <?php echo strtoupper($org_name); ?>-login-button" name="sign-in" type="submit">Sign In</button>
+                            <button class="btn login-sign-in-button <?php echo strtoupper($org_name); ?>-login-button" id="loginSubmitBtn" name="sign-in" type="submit">Sign In</button>
                         </div>
-                        <p>Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
+                        <p class="sign-up-redirect">Don't have an account? <a href="register.php" id="<?php echo strtolower($org_name); ?>SignUP" class="sign-up">Sign Up</a></p>
                     </form>
                 </div>
             </div>
@@ -221,8 +203,8 @@ $connection->close();
                         </div>
                         <div class="row">
                             <div class="col-md-12 pb-3">
-                                <p class="fw-bold fs-3 spacing-4 limit" >Max Limit Reached</p>
-                                <p class="fw-medium max-text">Sorry, you've reached the maximum number of attempts. For security reasons, please wait for <strong>30 minutes</strong> before trying again.</p>
+                                <p class="fw-bold spacing-4 text-danger warning-title">Max Limit Reached</p>
+                                <p class="fw-medium warning-subtitle">Sorry, you've reached the maximum number of attempts. For security reasons, please wait for <strong id="blockTime">30 minutes</strong> before trying again.</p>
                             </div>
                         </div>
                     </div>
@@ -235,18 +217,18 @@ $connection->close();
     <div class="modal fade" id="forgot-password-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="m justify-content-center">
-                    <h1 class="modal-title fs-5 fw-bold mb-2" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
+                <div class="justify-content-center">
+                    <h1 class="modal-title fw-bold mb-2 forgot-password-title" id="<?php echo strtolower($org_name); ?>SignUP">Forgot Password
                     </h1><!-- <hr> -->
                 </div>
                 <div class="modal-body">
                     <form class="needs-validation" id="forgot-password-form" name="forgot-password-form" novalidate enctype="multipart/form-data">
                         <div class="col-12 col-md-12">
-                            <div class="d-flex align-items-start mb-0 pb-0">
+                            <div class="d-flex align-items-start mb-0 pb-0 forgot-pass-email-title">
                                 <!-- <p for="email" class="form-label text-start ps-1">We will send a password reset link to your registered email address.</p> -->
                                 <p>Email Address</p>
                             </div>
-                            <input type="email" class="form-control border border-secondary-subtle shadow-sm" id="email" name="email" placeholder="Email Address" autocomplete="email">
+                            <input type="email" class="form-control shadow-sm email" id="email" name="email" placeholder="Email Address" autocomplete="email">
                             <div class="valid-feedback text-start fw-medium" id="email-valid">
                             </div>
                             <div class="invalid-feedback text-start fw-medium" id="email-error">
@@ -259,13 +241,13 @@ $connection->close();
                             </script>
 
                         </div>
-                        <div class="col-md-12 ">
-                            <div class="row reset-pass">
-                                <div class="col-4">
-                                    <button type="button" id="cancelReset" class="btn cancel-button w-100 mt-4" data-bs-dismiss="modal">Cancel</button>
+                        <div class="col-md-12 mt-4">
+                            <div class="row">
+                                <div class="col-5">
+                                    <button type="button" id="cancelReset" class="btn cancel-button w-100" data-bs-dismiss="modal">Cancel</button>
                                 </div>
-                                <div class="col-4">
-                                    <button class="btn login-sign-in-button w-100 mt-4" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send</button>
+                                <div class="col-7">
+                                    <button class="btn send-link-button w-100" id="<?php echo strtoupper($org_name); ?>-login-button" type="submit" name="send-email-btn">Send Link</button>
                                     <script>
                                         const ORG_NAME = "<?php echo strtoupper($org_name) . '-login-button'; ?>";
                                     </script>
@@ -283,15 +265,15 @@ $connection->close();
     <div class="modal" id="emailSending" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-body pb-5">
+                <div class="modal-body">
                     <div class="text-center">
-                        <div class="col-md-12 pt-5">
+                        <div class="col-md-12">
                             <img src="images/resc/loader.gif" class="loading-gif" alt="iVote Logo">
                         </div>
                         <div class="row">
                             <div class="col-md-12 pt-4">
-                                <p class="fw-bold fs-4 spacing-4">Sending email...</p>
-                                <p class="fw-medium spacing-5 fs-7">Please wait for a moment</span>.
+                                <p class="fw-bold spacing-4 sending-title">Sending email...</p>
+                                <p class="fw-medium spacing-5 fs-7 sending-subtitle">Please wait for a moment</span>.
                                 </p>
                             </div>
                         </div>
@@ -315,8 +297,8 @@ $connection->close();
                         </div>
                         <div class="row">
                             <div class="col-md-12 pb-3">
-                                <p class="fw-bold fs-3 text-success spacing-4">Success!</p>
-                                <p class="fw-medium spacing-5">An email containing the password reset link has been sent. Kindly check your email.
+                                <p class="fw-bold text-success spacing-4 success-title">Success!</p>
+                                <p class="fw-medium spacing-5 success-subtitle">An email containing the password reset link has been sent. Kindly check your email.
                                 </p>
                             </div>
                         </div>
@@ -325,11 +307,6 @@ $connection->close();
             </div>
         </div>
     </div>
-
-    <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="scripts/voter-login.js"></script>
-    <script src="scripts/loader.js"></script>
 
 </body>
 
