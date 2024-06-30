@@ -860,20 +860,18 @@ ConfigPage.description;
 
 ConfigPage.validateTextEditor = function (event) {
     const inputElement = event.target;
-
+    const primaryBtn = document.getElementById('modal-action-primary');
 
     clearTimeout(ConfigPage.typingTimeout);
     ConfigPage.typingTimeout = setTimeout(() => {
         try {
             if (ConfigPage.vote_rule_validate.validate(inputElement)) {
                 inputElement.classList.remove('is-invalid');
-                // if (adjacentElement && adjacentElement.classList.contains('input-alert')) {
-                //     adjacentElement.innerHTML = "&nbsp;";
-                // }
+                primaryBtn.disabled = false;
             } else {
 
                 inputElement.classList.add('is-invalid');
-
+                primaryBtn.disabled = true;
             }
         } catch (error) {
             console.error('Validation error:', error);
