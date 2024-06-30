@@ -280,18 +280,18 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                                             },
                                                             {
                                                                 beforeDraw: (chart) => {
-                                                                 var width = chart.width,
-                                                                    height = chart.height,
-                                                                    ctx = chart.ctx;
-                                                                ctx.restore();
-                                                                var fontSize = (height / 150).toFixed(2);
-                                                                ctx.font = "bold " + fontSize + "em Montserrat, sans-serif"; // Bold and Montserrat
-                                                                ctx.fillStyle = "black";
-                                                                ctx.textBaseline = "middle";
-                                                                var text = parseFloat(chart.data.datasets[0].data[0]).toFixed(3) + "%", // Rounds off to 3 decimal places
-                                                                    textX = Math.round((width - ctx.measureText(text).width) / 2),
-                                                                    textY = height / 1.75;
-                                                                ctx.fillText(text, textX, textY);
+                                                                var width = chart.width,
+                                                                        height = chart.height,
+                                                                        ctx = chart.ctx;
+                                                                    ctx.restore();
+                                                                    var fontSize = (height / 150).toFixed(2);
+                                                                    ctx.font = "bold " + fontSize + "em Montserrat, sans-serif"; // Bold and Montserrat
+                                                                    ctx.fillStyle = "black";
+                                                                    ctx.textBaseline = "middle";
+                                                                    var text = parseFloat(chart.data.datasets[0].data[0]).toFixed(3) + "%", // Rounds off to 3 decimal places
+                                                                        textX = Math.round((width - ctx.measureText(text).width) / 2),
+                                                                        textY = height / 1.75;
+                                                                    ctx.fillText(text, textX, textY);
                                                                 }
                                                             }
                                                         ]
