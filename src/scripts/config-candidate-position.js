@@ -1351,6 +1351,7 @@ ConfigPage.NativeModal = class {
             parentDiv.classList.add('col-3');
 
             let fullNameDiv = document.createElement("div");
+            fullNameDiv.classList.add('name');
             fullNameDiv.innerHTML = fullName;
 
             let photoDiv = document.createElement("div");
