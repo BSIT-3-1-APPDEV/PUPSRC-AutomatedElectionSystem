@@ -30,22 +30,27 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
         <!-- Styles -->
         <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_name . '.css'; ?>" id="org-style">
         <link rel="stylesheet" href="styles/style.css" />
+        <link rel="stylesheet" href="styles/loader.css" />
         <link rel="stylesheet" href="styles/core.css" />
         <link rel="stylesheet" href="styles/tables.css" />
         <link rel="stylesheet" href="styles/recycle-bin.css" />
         <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="scripts/loader.js" defer></script>
 
     </head>
 
     <body>
 
-        <?php include_once __DIR__ . '/includes/components/sidebar.php'; ?>
+        <?php include_once __DIR__ . '/includes/components/sidebar.php';
+         include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+          ?>
+        
 
         <div class="main">
         <div class="row justify-content-center">
-                <div class="col-md-10 card-box mt-md-5">
+                <div class="col-md-10 card-box ">
                     <div class="container-fluid">
                         <div class="card-box p-0 py-3 p-sm-4">
                             <div class="d-flex align-items-center">
