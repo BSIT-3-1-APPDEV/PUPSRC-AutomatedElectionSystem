@@ -25,7 +25,7 @@
 			</li>
 
 			<li class="item">
-				<a href="result-generation.php"
+				<a href="includes/generate-json.php"
 					class="<?php echo basename($_SERVER['PHP_SELF']) == 'result-generation.php' ? 'active' : ''; ?>"><i
 						data-feather="bar-chart-2" class="white mb-xl-1"></i><span
 						style="padding-left: 0.7rem;">Election Reports</span></a>
