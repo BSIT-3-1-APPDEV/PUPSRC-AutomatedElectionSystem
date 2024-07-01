@@ -115,10 +115,12 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
             <div class="live-results-container">
          
                 
-                        <div class="col-sm-12  justify-content-between d-flex mb-2">
+            <div class="row">
+                        <div class="col-12 col-sm-6 d-flex">
                     <h4 class="main-color main-text ms-2">LIVE RESULTS</h4>
-               
-                    <select id="positions" class="px-2  positions-dropdown main-bg-color<?php if (empty($positions)) echo ' no-positions'; ?>">
+                    </div>
+               <div class="col-12 col-sm-6 justify-content-start justify-content-sm-end d-flex mb-3 my-sm-0">
+                    <select id="positions" class="px-1  positions-dropdown main-bg-color<?php if (empty($positions)) echo ' no-positions'; ?>">
     <?php
     // Check if there are positions available
     if (empty($positions)) {
@@ -131,6 +133,9 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
     }
     ?>
 </select>
+
+                  
+</div>
 
                   
                   

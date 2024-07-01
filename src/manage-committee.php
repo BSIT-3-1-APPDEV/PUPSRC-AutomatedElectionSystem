@@ -56,45 +56,21 @@ if (isset($_SESSION['voter_id'])) {
 		?>
 
 		<div class="main">
-
-			<!-- <div class="container mb-5 pl-5">
+			<div class="container mb-2 ps-5 breadcrumbs-cont">
 				<div class="row justify-content-center">
 					<div class="col-md-11">
-						<div class="breadcrumbs d-flex justify-content-between">
-							<div class="d-flex">
-								<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
-									<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
-								</button>
-								<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">COMMITTEE
-									MEMBERS</button>
-							</div>
-
-							<div class="ml-auto">
-								<a href="admin-creation.php">
-									<button type="button" class="btn btn-lvl-white-add fs-8">
-										<i data-feather="plus-circle" class="white im-cust rounded-pill feather-2xl"></i>
-										Add Committee Member
-									</button>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
-
-			<div class="container mb-5 ps-5">
-				<div class="row justify-content-center">
-					<div class="col-md-11">
+						<div class="breadcrumbs d-flex flex-wrap align-items-center">
 						<div class="breadcrumbs d-flex">
 							<button type="button" class="btn btn-lvl-white d-flex align-items-center spacing-8 fs-8">
-								<i data-feather="users" class="white im-cust feather-2xl"></i> MANAGE USERS
+								<i data-feather="users" class="white im-cust feather-2xl"></i> <span class="hide-text">MANAGE USERS</span>
 							</button>
-							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">COMMITTEE
-								MEMBERS</button>
-							<div class="align-items-end ms-auto me-4 mx-auto">
+							<button type="button" class="btn btn-lvl-current rounded-pill spacing-8 fs-8">COMMITTEE MEMBERS</button>
+						</div>
+							<div class="add-committee-button ms-sm-auto">
 								<a href="admin-creation.php">
-									<button type="button" class="committee-add rounded-4 fs-7">
-										<i class="bi bi-plus-circle me-3"></i>Add Committee Member
+									<button type="button" class="committee-add rounded-2 fs-7">
+										<i class="bi bi-plus-circle me-1 me-sm-3"></i>
+										<span class="button-text">Add Committee Member</span>
 									</button>
 								</a>
 							</div>
@@ -103,18 +79,16 @@ if (isset($_SESSION['voter_id'])) {
 				</div>
 			</div>
 
-			<br>
 			<div class="container">
 				<div class="row justify-content-center">
 					<!-- COMMITTEE TABLE -->
 					<div class="row justify-content-center">
-						<div class="col-md-10 card-box  mt-md-10">
+						<div class="col-md-10 card-box mt-md-5">
 							<div class="container-fluid">
 								<div class="card-box">
 									<div class="row">
 										<div class="content">
 											<div class="table-wrapper">
-
 												<div class="table-title">
 													<div class="row">
 														<!-- Table Header -->
@@ -124,7 +98,7 @@ if (isset($_SESSION['voter_id'])) {
 														</div>
 														<div class="col-sm-6">
 															<div class="row">
-																<div class="col-md-12 text-end flex-end">
+																<div class="col-md-12 filters-sort">
 																	<!-- Delete -->
 																	<div class="d-inline-block">
 																		<button
@@ -139,7 +113,7 @@ if (isset($_SESSION['voter_id'])) {
 																			class="light-gray-accent fw-bold ps-3">|</span>
 																	</div>
 																	<!-- Filters -->
-																	<div class="d-inline-block ps-3">
+																	<div class="d-inline-block ps-2">
 																		<form id="filterForm" class="d-inline-block">
 																			<div class="dropdown sort-by">
 																				<button
@@ -187,7 +161,7 @@ if (isset($_SESSION['voter_id'])) {
 																	</div>
 
 																	<!-- Sort By -->
-																	<div class="d-inline-block ps-3">
+																	<div class="d-inline-block ps-1">
 																		<form class="d-inline-block">
 																			<div class="dropdown sort-by">
 																				<button
@@ -238,7 +212,7 @@ if (isset($_SESSION['voter_id'])) {
 																	</div>
 
 																	<!-- Search -->
-																	<div class="ps-3">
+																	<div class="search-container">
 																		<i data-feather="search"
 																			class="feather-xs im-cust-2"
 																			style="color: black"></i>
@@ -380,7 +354,7 @@ if (isset($_SESSION['voter_id'])) {
 							<div class="col-md-12 pt-1 text-center">
 								<div class="d-inline-block">
 									<button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-										onClick="closeModal('rejectModal')" aria-label="Close">Cancel</button>
+										data-bs-dismiss="modal" aria-label="Close">Cancel</button>
 								</div>
 								<div class="d-inline-block">
 									<form class="d-inline-block">
@@ -404,7 +378,7 @@ if (isset($_SESSION['voter_id'])) {
 					<div class="modal-body pb-5">
 						<div class="d-flex justify-content-end">
 							<i class="fa fa-solid fa-circle-xmark fa-xl close-mark light-gray"
-								onclick="closeModal('trashbinMoveDone')">
+								data-bs-dismiss="modal">
 							</i>
 						</div>
 						<div class="text-center">

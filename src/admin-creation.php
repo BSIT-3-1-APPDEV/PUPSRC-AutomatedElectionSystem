@@ -131,6 +131,7 @@ if (isset($_SESSION['voter_id'])) {
                                                     <input type="email" id="email" name="email"
                                                         placeholder="E.g. TriziaCarpena@gmail.com" required>
                                                     <span class="error-message" id="email_error"></span>
+                                                    <span class="error-message" id="email_exists_error"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-5 col-sm-6">
@@ -192,65 +193,16 @@ if (isset($_SESSION['voter_id'])) {
             </div>
         </div>
 
-        <div class="modal" id="emailExistsModal" data-bs-keyboard="false" data-bs-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-
-                        <div class="row p-4">
-                            <div class="col-md-12 pb-3">
-                                <div class="text-center">
-                                    <div class="col-md-12 p-3">
-                                        <img src="images/resc/warning.png" alt="iVote Logo">
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 pb-3 confirm-delete">
-                                            <p class="fw-bold fs-3 danger spacing-4">Email already exists</p>
-                                            <p class="pt-2 fs-7 fw-medium spacing-5" id="emailExistsMessage"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 pt-1 text-center">
-                                <div class="d-inline-block">
-                                    <button class="btn btn-light px-sm-5 py-sm-1-5 btn-sm fw-bold fs-6 spacing-6"
-                                        data-bs-dismiss="modal" aria-label="Close" id="emailExistsCloseBtn">Close</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
         <script>
             $(document).ready(function () {
-                var emailExistsModal = new bootstrap.Modal(document.getElementById('emailExistsModal'), {});
-
                 <?php if (isset($_SESSION['email_exists_error'])) { ?>
                     // Set the error message
-                    $('#emailExistsMessage').text("<?php echo $_SESSION['email_exists_error']; ?>");
-
-                    // Show the email exists modal
-                    emailExistsModal.show();
+                    $('#email_exists_error').text("<?php echo $_SESSION['email_exists_error']; ?>").css('color', 'red');
+                    $('#email').css('border-color', 'red');
 
                     // Clear the session variable
                     <?php unset($_SESSION['email_exists_error']); ?>
                 <?php } ?>
-
-                // Add event listener for the close button
-                $('#emailExistsCloseBtn').on('click', function () {
-                    emailExistsModal.hide();
-                    location.reload();
-                });
-
-                // Add event listener for when the modal is hidden
-                $('#emailExistsModal').on('hidden.bs.modal', function () {
-                    location.reload();
-                });
             });
         </script>
     </body>

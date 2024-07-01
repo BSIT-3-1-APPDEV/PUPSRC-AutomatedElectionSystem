@@ -12,6 +12,7 @@ main.main {
             // filter: brightness(96%);
             border-radius: 0;
             border: calc(0.75px + 0.06dvw) solid rgba(217, 217, 217, 1);
+            border-left: none;
         }
 
         .field-item {
@@ -23,10 +24,304 @@ main.main {
             padding: 0 clamp(1.5rem, 0.75rem + 2.5vw, 4rem);
             border: calc(0.5px + 0.06dvw) solid rgba(217, 217, 217, 1);
 
+            .form-name {
+
+                &.default,
+                &.default:read-only:disabled {
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                    cursor: not-allowed;
+                    pointer-events: none;
+                }
+
+
+
+            }
+
+
+            &:has(.field-item-header) {
+                padding: clamp(1.5rem, 1rem + 2.75vw, 4rem) clamp(1.5rem, 0.75rem + 2.5vw, 4rem);
+                min-width: 100%;
+                max-width: 100%;
+
+                .form-check-label {
+                    &::after {
+                        content: "Required";
+                        position: absolute;
+
+
+                        @media (max-width: 576px) {
+                            transform: translateX(-80%) translateY(10%);
+                        }
+
+                        @media (min-width: 576px) {
+                            transform: translateX(-65%) translateY(10%);
+                        }
+                    }
+                }
+
+                .field-item-header {
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 30px;
+                    /* Need to be responsive  */
+                    /* Upon adjust will affect  transform of field-name-form &:has(:focus-within) ~div.col-1*/
+
+                    &:has(.field-name-form:focus-within) {
+
+
+                        @media (max-width: 576px) {
+                            gap: 60px 30px;
+                            /* Need to be responsive  */
+                            /* Upon adjust will affect  transform of field-name-form &:has(:focus-within) ~div.col-1*/
+                        }
+
+                        @media (min-width: 576px) {
+                            gap: 50px 30px;
+                            /* Need to be responsive  */
+                            /* Upon adjust will affect  transform of field-name-form &:has(:focus-within) ~div.col-1*/
+                        }
+
+                        .field-desc-form {
+                            margin-bottom: -60px;
+                        }
+
+                    }
+
+                    .ql-container {
+                        min-height: calc(clamp(1rem, 0.75rem + 0.5vw, 1.5vw)*3);
+                    }
+
+                    .field-name-form {
+                        display: flex;
+                        flex-direction: column;
+
+                        order: 0;
+
+                        div:has([id$="-name"].ql-container) {
+                            max-height: calc(clamp(1rem, 0.75rem + 0.5vw, 1.5vw)*1);
+                        }
+
+                        &:has(:focus-within) {
+
+                            div.ql-container {
+                                font-size: clamp(1rem, 0.75rem + 0.5vw, 1.5vw);
+                                font-weight: 500;
+                            }
+
+                            div.ql-toolbar {
+                                display: block;
+                                transition: display 1s;
+                                margin-bottom: clamp(0.5rem, 0.25rem + 0.5dvw, 3rem);
+                            }
+                        }
+
+                        div.ql-toolbar {
+                            display: none;
+                        }
+
+                        // button:focus,
+                        // .ql-editor:focus {
+                        //     background-color: red !important;
+                        // }
+
+                    }
+
+                    div:has(.form-check.form-switch) {
+                        display: flex;
+                        align-content: center;
+                        justify-self: end;
+
+                        flex-grow: 1;
+
+                        @media (max-width: 576px) {
+                            order: 1;
+                        }
+
+                        @media (min-width: 576px) {
+                            order: 2;
+                        }
+
+                        .form-check.form-switch {
+                            display: grid;
+                            width: 100%;
+                            justify-content: end;
+                            align-content: center;
+                            // transform: translateX(14%);
+                        }
+
+                    }
+
+                    .field-desc-form {
+                        @media (max-width: 576px) {
+                            order: 2;
+                        }
+
+                        @media (min-width: 576px) {
+                            order: 3;
+                        }
+
+                        &:has(:focus-within) {
+
+                            div.ql-container {
+                                font-size: clamp(1rem, 0.75rem + 0.5vw, 1.5vw);
+                                font-weight: 500;
+                            }
+
+                            div.ql-toolbar {
+                                display: block;
+                                transition: display 1s;
+                            }
+                        }
+
+                        div.ql-toolbar {
+
+                            display: none;
+
+                        }
+                    }
+
+                    select,
+                    .dropdown.bootstrap-select {
+
+
+                        @media (max-width: 576px) {
+                            order: 3;
+                        }
+
+                        @media (min-width: 576px) {
+                            order: 1;
+                        }
+                    }
+
+                    div[class*="ql"][class*="-"] {
+                        background-color: light-dark(var(--white), var(--white));
+                        border: none;
+                    }
+                }
+            }
+
+            &:not(:has(.default)) {
+                flex-direction: column;
+            }
 
             &:not(.add-item):has(:focus-within) {
-                background-color: color-mix(in srgb, var(--main-color) 5%, transparent);
+                background-color: color-mix(in srgb, var(--main-color) 2%, transparent);
+            }
 
+            div.ql-container:has(.ql-editor[contenteditable="true"]):not(button.dropdown-toggle),
+            button.dropdown-toggle {
+                border: calc(1px + 0.06dvw) solid rgba(217, 217, 217, 1);
+                border-radius: 7px;
+            }
+
+            div.ql-container:has(.ql-editor[contenteditable="true"]):not(button.dropdown-toggle) .ql-editor[contenteditable="true"] {
+                border: none;
+                background-color: transparent;
+
+                &::before {
+                    @extend %general-responsive-base-font-size;
+                    font-style: normal;
+
+                }
+
+
+            }
+
+            div.ql-container {
+
+                // &:has(:focus-within):has(.ql-editor[contenteditable="true"])+div.ql-toolbar {
+                //     display: block;
+                // }
+
+                &:has(.ql-editor[contenteditable="true"])+div.ql-toolbar {
+                    background-color: transparent;
+                    // display: none;
+
+                    button {
+                        color: light-dark(#757575, #757575) !important;
+                        display: flex;
+                        place-items: center;
+                        border-radius: 3px;
+
+                        &:hover {
+                            border: calc(1px + 0.06dvw) solid light-dark(rgba(217, 217, 217, 1), rgba(217, 217, 217, 1));
+                            padding: 0;
+
+                            &.ql-link {
+                                svg {
+                                    transform: translateX(5%);
+                                }
+                            }
+                        }
+
+                        &.ql-clean {
+                            // transform: rotate(10deg);
+
+                            &::before {
+                                // content: "|";
+                                // position: absolute;
+                                // transform: rotate(130deg) translateY(-15%);
+                                // text-shadow: light-dark(var(--white), var(--white)) 1px 0 10px;
+
+                                // content: "";
+                                // position: absolute;
+                                // width: 1.85%;
+                                // height: 1px;
+                                // background: black;
+                                // transform: rotate(45deg) translateY(1050%) translateX(15%);
+                                // outline: 2px solid light-dark(var(--white), var(--white));
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+            .field-action {
+                display: flex;
+                justify-content: end;
+                width: 100%;
+                margin-top: clamp(0.5rem, 0.25rem + 0.5dvw, 1rem);
+
+
+                .btn-group {
+                    border: calc(1px + 0.06dvw) solid light-dark(rgba(217, 217, 217, 1), rgba(217, 217, 217, 1));
+
+                    button {
+                        background-color: light-dark(var(--white), var(--white));
+                        color: light-dark(rgba(217, 217, 217, 1), rgba(217, 217, 217, 1));
+
+                        &:not(:last-child)::after {
+                            position: absolute;
+                            color: light-dark(rgba(217, 217, 217, 1), rgba(217, 217, 217, 1));
+                            font-weight: 400;
+                            content: "|";
+                            right: -5px;
+                            z-index: 4;
+
+                        }
+
+
+                    }
+
+                    &:hover {
+                        button {
+
+                            &:hover {
+                                color: light-dark(var(--main-black), var(--main-black));
+                            }
+
+
+                            &:not(:last-child)::after {
+                                color: light-dark(var(--main-black), var(--main-black));
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -60,6 +355,12 @@ main.main {
                 color: var(--main-color);
                 font-weight: bolder;
                 border: none;
+
+                .default,
+                .default:read-only:disabled,
+                .filter-option {
+                    font-weight: inherit;
+                }
             }
 
             .handle {
@@ -67,12 +368,29 @@ main.main {
             }
         }
 
+        &:has(:focus-within) {
+            border-left: calc(2px + 0.2dvw) solid var(--main-color);
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
     }
 
 
     @extend %custom-toggle-checkbox;
 
+}
 
 
+
+
+
+
+.dropdown.bootstrap-select {
+
+    button.dropdown-toggle {
+        background-color: light-dark(var(--white), var(--white));
+
+    }
 
 }

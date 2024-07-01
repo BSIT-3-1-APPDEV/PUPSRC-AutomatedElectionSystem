@@ -331,8 +331,8 @@ ConfigPage.postData = function (post_data) {
 };
 
 ConfigPage.handleResponseStatus = function (statusCode, data) {
-    // if (statusCode >= 400) {
-    if (statusCode == 401) {
+    if (statusCode >= 400) {
+        // if (statusCode == 401) {
         ConfigPage.createToast(ConfigPage.errorDictionary[data.message] || data.message, 'danger');
     }
 }

@@ -94,17 +94,17 @@ SessionManager::checkUserRoleAndRedirect();
               <button type="button" data-bs-target="#carouselMain" data-bs-slide-to="3" aria-label="Slide 4"></button>
             </div>
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="images/our-story/PM Department/PM main pic.jpg" class="d-block w-100 " alt="PM Department">
+              <div class="carousel-item active" id="pm">
+                <img src="images/our-story/PM Department/PM main pic.jpg" class="d-block w-100 carousel-image" alt="PM Department">
               </div>
-              <div class="carousel-item">
-                <img src="images/our-story/DEV Department/DEV main pic.jpg" class="d-block w-100 " alt="DEV Department">
+              <div class="carousel-item" id="dev">
+                <img src="images/our-story/DEV Department/DEV main pic.jpg" class="d-block w-100 carousel-image" alt="DEV Department">
               </div>
-              <div class="carousel-item">
-                <img src="images/our-story/QA Department/QA main pic.jpg" class="d-block w-100 " alt="QA Department">
+              <div class="carousel-item" id="qa">
+                <img src="images/our-story/QA Department/QA main pic.jpg" class="d-block w-100 carousel-image" alt="QA Department">
               </div>
-              <div class="carousel-item">
-                <img src="images/our-story/BA Department/BA main pic.jpg" class="d-block w-100 " alt="BA Department">
+              <div class="carousel-item" id="ba">
+                <img src="images/our-story/BA Department/BA main pic.jpg" class="d-block w-100 carousel-image" alt="BA Department">
               </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselMain" data-bs-slide="prev">
@@ -118,10 +118,16 @@ SessionManager::checkUserRoleAndRedirect();
           </div>
         </div>
         <div class="col-md-6 our-story-right">
+          <!-- <div id="carouselIndicatorsCopy">
+            <button type="button" data-bs-target="#carouselMain" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselMain" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselMain" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselMain" data-bs-slide-to="3" aria-label="Slide 4"></button>
+          </div> -->
           <div class="container-fluid">
             <div class="row">
-              <div class="col-4 col-sm-4 col-md-4 col-lg-4 image-container">
-                <div id="carouselSmallPic" class="image-container slide" data-bs-ride="carousel" data-bs-wrap="true">
+              <div class="col-4 col-sm-4 col-md-4 col-lg-4 ">
+                <div id="carouselSmallPic" class="image-container-small slide" data-bs-ride="carousel" data-bs-wrap="true">
                   <div class="carousel-inner">
                     <div class="carousel-item active">
                       <img src="images/our-story/PM Department/PM small pic.jpg" class="d-block w-100 carousel-image" alt="PM Department">
@@ -139,7 +145,7 @@ SessionManager::checkUserRoleAndRedirect();
                 </div>
               </div>
               <div class="col-8 col-sm-8 col-md-8 col-lg-8 ">
-                <div id="carouselBigPic" class="image-container slide" data-bs-ride="carousel" data-bs-wrap="true">
+                <div id="carouselBigPic" class="image-container-big slide" data-bs-ride="carousel" data-bs-wrap="true">
                   <div class="carousel-inner">
                     <div class="carousel-item active">
                       <img src="images/our-story/PM Department/PM big pic.jpg" class="d-block w-100 carousel-image" alt="PM Department">
@@ -157,26 +163,25 @@ SessionManager::checkUserRoleAndRedirect();
                 </div>
               </div>
             </div>
-          </div>
-          <div class="team-department mt-3">
-            <div class="department-box mb-3" id="departmentBox">
-              <div id="carouselDepartment" class="image-container slide" data-bs-ride="carousel" data-bs-wrap="true">
+
+            <div class="department-box mt-3" id="departmentBox">
+              <div id="carouselDepartment" class="slide" data-bs-ride="carousel" data-bs-wrap="true">
                 <div class="carousel-inner">
                   <div class="carousel-item active" id="pm">
                     <h4 class="department-name">Project Manager Team</h4>
-                    <p class="department-definition mb-0 mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus urna et nulla mattis pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquet turpis congue, malesuada metus non, condimentum mi. Proin leo nulla, tincidunt vel est sit amet, pharetra dictum arcu.</p>
+                    <p class="department-definition">A project team is a group of individuals brought together to work on a specific project or initiative. The team will include roles needed for project planning, development, and implementation. The team members collaborate to achieve a set of predetermined goals as stated in the project scope. This could be the launch of a product or service, or delivering a new design or feature for a client.
                   </div>
-                  <div class="carousel-item" id="development">
+                  <div class="carousel-item" id="dev">
                     <h4 class="department-name">Development Team</h4>
-                    <p class="department-definition mb-0 mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus urna et nulla mattis pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquet turpis congue, malesuada metus non, condimentum mi. Proin leo nulla, tincidunt vel est sit amet, pharetra dictum arcu.</p>
+                    <p class="department-definition">A development team is a group of people who work together to develop a piece of software, product, or service from initial ideation to completion. While many people use the term as short-hand to refer to a software development team (which develops software), a project development team can actually be any team focused on developing a particular project, whether it be constructing a building or manufacturing a new toy. </p>
                   </div>
                   <div class="carousel-item" id="qa">
                     <h4 class="department-name">Quality Assurance Team</h4>
-                    <p class="department-definition mb-0 mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus urna et nulla mattis pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquet turpis congue, malesuada metus non, condimentum mi. Proin leo nulla, tincidunt vel est sit amet, pharetra dictum arcu.</p>
+                    <p class="department-definition">A quality assurance team is responsible for maintaining product development standards. QA teams make sure that the product, service, or functions customers get either meet or exceed their expectations. This, in return, enhances your brand reputation and increases customer loyalty.</p>
                   </div>
                   <div class="carousel-item" id="ba">
-                    <h4 class="department-name">Business Analysts Team</h4>
-                    <p class="department-definition mb-0 mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus urna et nulla mattis pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquet turpis congue, malesuada metus non, condimentum mi. Proin leo nulla, tincidunt vel est sit amet, pharetra dictum arcu.</p>
+                    <h4 class="department-name">Business Analyst Team</h4>
+                    <p class="department-definition">A Business Analyst is a professional who acts as a liaison between business stakeholders and technical teams. They possess a unique blend of business acumen, communication skills, and analytical expertise. BAs play a pivotal role in identifying, documenting, and analyzing business requirements to ensure successful project delivery. They collaborate with stakeholders at all levels of an organization, from executives to end-users, to gather and interpret requirements accurately. </p>
                   </div>
                 </div>
               </div>
@@ -185,63 +190,63 @@ SessionManager::checkUserRoleAndRedirect();
               </div>
             </div>
 
-            <div class="container-fluid testimony">
+            <div class="container-fluid mt-3">
               <div class="row">
-                <div class="col-4 col-sm-4 col-md-4 col-lg-4 quotePic">
-                  <div id="carouselPic" class="image-container slide" data-bs-ride="carousel" data-bs-wrap="true">
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3">
+                  <div id="carouselAuthor" class="image-container-author slide" data-bs-ride="carousel" data-bs-wrap="true">
                     <div class="carousel-inner">
                       <div class="carousel-item active" id="pm">
-                        <img src="images/our-story/DEV Department/DEV.jpg" class="img-fluid department-quote" alt="iVote Logo">
+                        <img src="images/our-story/PM Department/PM.jpg" class="d-block w-100 carousel-image-author" alt="PM Department">
                       </div>
-                      <div class="carousel-item" id="development">
-                        <img src="images/our-story/DEV Department/DEV.jpg" class="img-fluid department-quote" alt="iVote Logo">
+                      <div class="carousel-item" id="dev">
+                        <img src="images/our-story/DEV Department/DEV.jpg" class="d-block w-100 carousel-image-author" alt="DEV Department">
                       </div>
-                      <div class="carousel-item" id="qa">
-                        <img src="images/our-story/BA Department/BA.png" class="img-fluid department-quote" alt="iVote Logo">
+                      <div class="carousel-item" id="qs">
+                        <img src="images/our-story/QA Department/QA.jpg" class="d-block w-100 carousel-image-author" alt="QA Department">
                       </div>
                       <div class="carousel-item" id="ba">
-                        <img src="images/our-story/BA Department/BA.png" class="img-fluid department-quote" alt="iVote Logo">
+                        <img src="images/our-story/BA Department/BA.jpg" class="d-block w-100 carousel-image-author" alt="BA Department">
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-8 col-sm-8 col-md-8 col-lg-8 quoteBox mb-0" id="quoteBox">
+                <div class="col-9 col-sm-9 col-md-9 col-lg-9 authorQuoteBox">
                   <div class="row">
-                    <div class="col-2 col-sm-2 col-md-2 col-lg-2 quoteText mb-3">
-                      <span class="quote-mark">“</span>
+                    <div class="col-2 quotationMark">
+                      “
                     </div>
-                    <div class="col-10 col-sm-10 col-md-10 col-lg-10">
-                      <div id="carouselQuoteText" class="image-container" data-bs-ride="carousel" data-bs-wrap="true">
+                    <div class="col-10">
+                      <div id="carouselAuthorQuote" class="image-container-author-quote slide" data-bs-ride="carousel" data-bs-wrap="true">
                         <div class="carousel-inner">
                           <div class="carousel-item active" id="pm">
-                            <p class="quote">Beyond grateful for the team's collaborative effort in transforming data into actionable insights, which enable us to get things done and achieve our goals.</p>
+                            <p class="authorQuote">To pursue greatness is to experience hardship, but it's through those challenges that we discover our true potential.</p>
                           </div>
-                          <div class="carousel-item" id="development">
-                            <p class="quote">What an amazing experience it is, to be surrounded by an environment composed of great-minded individuals, crafting a solution for enhancing the campus’ election system.</p>
+                          <div class="carousel-item" id="dev">
+                            <p class="authorQuote">What an amazing experience it is, to be surrounded by an environment composed of great-minded individuals, crafting a solution for enhancing the campus’ election system.</p>
                           </div>
                           <div class="carousel-item" id="qa">
-                            <p class="quote">Beyond grateful for the team's collaborative effort in transforming data into actionable insights, which enable us to get things done and achieve our goals.</p>
+                            <p class="authorQuote">Challenging limitations, enhancing standards, and producing outstanding outcomes that influence the future.</p>
                           </div>
                           <div class="carousel-item" id="ba">
-                            <p class="quote">Beyond grateful for the team's collaborative effort in transforming data into actionable insights, which enable us to get things done and achieve our goals.</p>
+                            <p class="authorQuote">Beyond grateful for the team's collaborative effort in transforming data into actionable insights, which enable us to get things done and achieve our goals.</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div id="carouselQuoteName" class="" data-bs-ride="carousel" data-bs-wrap="true">
+                  <div id="carouselAuthorName" class="image-container-author-name slide" data-bs-ride="carousel" data-bs-wrap="true">
                     <div class="carousel-inner">
-                      <div class="carousel-item active" id="pm">
-                        <p class="quote-name">Name, Project Manager</p>
+                      <div class="carousel-item active">
+                        <p class="authorName">Apolo Trasmonte, Project Manager</p>
                       </div>
-                      <div class="carousel-item" id="development">
-                        <p class="quote-name">Marie Jeremie Legrama, Developer</p>
+                      <div class="carousel-item">
+                        <p class="authorName">Marie Jeremie Legrama, Developer</p>
                       </div>
-                      <div class="carousel-item" id="qa">
-                        <p class="quote-name">Name, Quality Assurance</p>
+                      <div class="carousel-item">
+                        <p class="authorName">Mathew Cervantes, Quality Assurance</p>
                       </div>
-                      <div class="carousel-item" id="ba">
-                        <p class="quote-name">Abegail Vicuña, Business Analyst</p>
+                      <div class="carousel-item">
+                        <p class="authorName">Abegail Vicuña, Business Analyst</p>
                       </div>
                     </div>
                   </div>
@@ -249,6 +254,7 @@ SessionManager::checkUserRoleAndRedirect();
               </div>
             </div>
           </div>
+
         </div>
 
 
@@ -284,138 +290,224 @@ SessionManager::checkUserRoleAndRedirect();
 
   <!-- for the department -->
   <script>
-    // Get the carousel instance
-    let carousel = document.getElementById('carouselDepartment');
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get the carousel element
+      let carousel = document.getElementById('carouselDepartment');
 
-    // Listen for slide.bs.carousel event
-    carousel.addEventListener('slide.bs.carousel', function(event) {
-      // Get the current active item
-      let activeItem = event.relatedTarget;
+      // Listen for the slide.bs.carousel event
+      carousel.addEventListener('slide.bs.carousel', function(event) {
+        // Get the active item
+        let activeItem = event.relatedTarget;
 
-      // Remove any previously set background colors with a transition effect
-      let departmentBox = document.getElementById('departmentBox');
-      departmentBox.style.transition = 'background-color 0.5s ease-in-out';
-      departmentBox.style.backgroundColor = '';
+        // Get the departmentBox element
+        let departmentBox = document.getElementById('departmentBox');
 
-      // Set background color based on active item's id after a short delay
-      setTimeout(() => {
-        switch (activeItem.id) {
-          case 'pm':
-            departmentBox.style.backgroundColor = '#D9E0F0';
-            break;
-          case 'development':
-            departmentBox.style.backgroundColor = '#ff87ab';
-            break;
-          case 'qa':
-            departmentBox.style.backgroundColor = '#EECFCE';
-            break;
-          case 'ba':
-            departmentBox.style.backgroundColor = '#c1ff9b';
-            break;
-          default:
-            break;
-        }
-      }, 100); // Adjust delay as needed for smoother transition
-    });
-  </script>
+        // Remove any existing transition effect
+        departmentBox.style.transition = 'background-color 0.5s ease-in-out';
+        departmentBox.style.backgroundColor = ''; // Clear any previous color
 
-  <!-- for the background color of the testimony -->
-  <script>
-    // Get the carousel instance
-    let carouselQuoteText = document.getElementById('carouselQuoteText');
-
-    // Listen for slide.bs.carousel event
-    carouselQuoteText.addEventListener('slide.bs.carousel', function(event) {
-      // Get the current active item
-      let activeItem = event.relatedTarget;
-
-      // Remove any previously set background colors with a transition effect
-      let quoteBox = document.getElementById('quoteBox');
-      quoteBox.style.transition = 'background-color 0.5s ease-in-out';
-      quoteBox.style.backgroundColor = '';
-
-      // Set background color based on active item's id after a short delay
-      setTimeout(() => {
-        switch (activeItem.id) {
-          case 'pm':
-            quoteBox.style.backgroundColor = '#D9E0F0';
-            break;
-          case 'development':
-            quoteBox.style.backgroundColor = '#ff87ab';
-            break;
-          case 'qa':
-            quoteBox.style.backgroundColor = '#EECFCE';
-            break;
-          case 'ba':
-            quoteBox.style.backgroundColor = '#c1ff9b';
-            break;
-          default:
-            break;
-        }
-      }, 100); // Adjust delay as needed for smoother transition
-    });
-  </script>
-
-  <!-- for the quote pic -->
-  <script>
-    // Get the carousel instance
-    let carouselPic = document.getElementById('carouselPic');
-
-    // Listen for slide.bs.carousel event
-    carouselPic.addEventListener('slide.bs.carousel', function(event) {
-      // Get the current active item
-      let activeItem = event.relatedTarget;
-
-      // Remove any previously set border colors with a transition effect
-      let departmentQuote = carouselPic.querySelectorAll('.department-quote');
-      departmentQuote.forEach(item => {
-        item.style.transition = 'border-color 0.5s ease-in-out';
-        item.style.borderColor = ''; // Reset border color
+        // Set background color based on active item's ID after a short delay
+        setTimeout(() => {
+          switch (activeItem.id) {
+            case 'pm':
+              departmentBox.style.backgroundColor = '#D9E0F0';
+              break;
+            case 'dev':
+              departmentBox.style.backgroundColor = '#ff87ab';
+              break;
+            case 'qa':
+              departmentBox.style.backgroundColor = '#EECFCE';
+              break;
+            case 'ba':
+              departmentBox.style.backgroundColor = '#c1ff9b';
+              break;
+            default:
+              departmentBox.style.backgroundColor = ''; // Default or clear previous color
+              break;
+          }
+        }, 100); // Adjust delay as needed
       });
-
-      // Set border color based on active item's id after a short delay
-      setTimeout(() => {
-        switch (activeItem.id) {
-          case 'pm':
-            departmentQuote[0].style.borderColor = '#D9E0F0'; // Index 0 for first item
-            break;
-          case 'development':
-            departmentQuote[1].style.borderColor = '#ff87ab'; // Index 1 for second item
-            break;
-          case 'qa':
-            departmentQuote[2].style.borderColor = '#EECFCE'; // Index 2 for third item
-            break;
-          case 'ba':
-            departmentQuote[3].style.borderColor = '#c1ff9b'; // Index 3 for fourth item
-            break;
-          default:
-            break;
-        }
-      }, 100); // Adjust delay as needed for smoother transition
     });
   </script>
 
-
-
+  <!-- for the border color of the author -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      let mainCarousel = document.getElementById('carouselMain');
-      let carousels = ['carouselSmallPic', 'carouselBigPic', 'carouselDepartment', 'carouselPic', 'carouselQuoteText', 'carouselQuoteName'];
+      // Get the carousel element
+      let carousel = document.getElementById('carouselAuthor');
 
-      mainCarousel.addEventListener('slide.bs.carousel', function(event) {
-        let index = event.to;
+      // Listen for the slide.bs.carousel event
+      carousel.addEventListener('slide.bs.carousel', function(event) {
+        // Get the active item
+        let activeItem = event.relatedTarget;
 
-        carousels.forEach(function(id) {
-          let carousel = document.getElementById(id);
-          let bsCarousel = bootstrap.Carousel.getInstance(carousel);
-          bsCarousel.to(index);
+        // Remove any existing transition effect
+        let carouselImages = document.querySelectorAll('.carousel-image-author');
+        carouselImages.forEach(img => {
+          img.style.transition = 'border-color 0.5s ease-in-out';
+          img.style.borderColor = ''; // Clear any previous border color
         });
+
+        // Set border color based on active item's ID after a short delay
+        setTimeout(() => {
+          switch (activeItem.id) {
+            case 'pm':
+              carousel.querySelector('#pm .carousel-image-author').style.borderColor = '#D9E0F0';
+              break;
+            case 'dev':
+              carousel.querySelector('#dev .carousel-image-author').style.borderColor = '#ff87ab';
+              break;
+            case 'qs':
+              carousel.querySelector('#qs .carousel-image-author').style.borderColor = '#EECFCE';
+              break;
+            case 'ba':
+              carousel.querySelector('#ba .carousel-image-author').style.borderColor = '#c1ff9b';
+              break;
+            default:
+              break;
+          }
+        }, 100); // Adjust delay as needed
       });
     });
   </script>
 
+  <!-- for thee arrow colors -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get the carousel element
+      let carousel = document.getElementById('carouselMain');
 
+      // Listen for the slide.bs.carousel event
+      carousel.addEventListener('slide.bs.carousel', function(event) {
+        // Get the active item
+        let activeItem = event.relatedTarget;
 
+        // Remove any existing transition effect
+        let prevControl = document.querySelector('.carousel-control-prev');
+        let nextControl = document.querySelector('.carousel-control-next');
+        prevControl.style.transition = 'color 0.5s ease-in-out';
+        nextControl.style.transition = 'color 0.5s ease-in-out';
+        prevControl.style.color = ''; // Clear any previous color
+        nextControl.style.color = ''; // Clear any previous color
+
+        // Set color based on active item's ID after a short delay
+        setTimeout(() => {
+          switch (activeItem.id) {
+            case 'pm':
+              prevControl.style.color = '#3355cc'; // Blue color for previous button
+              nextControl.style.color = '#3355cc'; // Blue color for next button
+              break;
+            case 'dev':
+              prevControl.style.color = '#ff0033'; // Red color for previous button
+              nextControl.style.color = '#ff0033'; // Red color for next button
+              break;
+            case 'qa':
+              prevControl.style.color = '#ff99cc'; // Pink color for previous button
+              nextControl.style.color = '#ff99cc'; // Pink color for next button
+              break;
+            case 'ba':
+              prevControl.style.color = '#66cc00'; // Green color for previous button
+              nextControl.style.color = '#66cc00'; // Green color for next button
+              break;
+            default:
+              break;
+          }
+        }, 100); // Adjust delay as needed for smoother transition
+      });
+    });
+  </script>
+
+  <!-- for the quote -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get the carousel element
+      let carousel = document.getElementById('carouselAuthorQuote');
+
+      // Listen for the slide.bs.carousel event
+      carousel.addEventListener('slide.bs.carousel', function(event) {
+        // Get the active item
+        let activeItem = event.relatedTarget;
+
+        // Remove any existing transition effect
+        let authorQuoteBox = document.querySelector('.authorQuoteBox');
+        authorQuoteBox.style.transition = 'background-color 0.5s ease-in-out';
+        authorQuoteBox.style.backgroundColor = ''; // Clear any previous background color
+
+        // Set background color based on active item's ID after a short delay
+        setTimeout(() => {
+          switch (activeItem.id) {
+            case 'pm':
+              authorQuoteBox.style.backgroundColor = '#D9E0F0';
+              break;
+            case 'dev':
+              authorQuoteBox.style.backgroundColor = '#ff87ab';
+              break;
+            case 'qa':
+              authorQuoteBox.style.backgroundColor = '#EECFCE';
+              break;
+            case 'ba':
+              authorQuoteBox.style.backgroundColor = '#c1ff9b';
+              break;
+            default:
+              break;
+          }
+        }, 100); // Adjust delay as needed for smoother transition
+      });
+    });
+  </script>
+
+  <!-- for the sycnronization when clicked the buttons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all carousel elements
+      let carouselMain = new bootstrap.Carousel(document.getElementById('carouselMain'));
+      let carouselSmallPic = new bootstrap.Carousel(document.getElementById('carouselSmallPic'));
+      let carouselBigPic = new bootstrap.Carousel(document.getElementById('carouselBigPic'));
+      let carouselDepartment = new bootstrap.Carousel(document.getElementById('carouselDepartment'));
+      let carouselAuthor = new bootstrap.Carousel(document.getElementById('carouselAuthor'));
+      let carouselAuthorQuote = new bootstrap.Carousel(document.getElementById('carouselAuthorQuote'));
+      let carouselAuthorName = new bootstrap.Carousel(document.getElementById('carouselAuthorName'));
+
+      // Event listener for carouselMain slide event
+      carouselMain._element.addEventListener('slide.bs.carousel', function(event) {
+        // Get the slide index of the active item in carouselMain
+        let slideIndex = event.to;
+
+        // Move other carousels to the corresponding slide index
+        carouselSmallPic.to(slideIndex);
+        carouselBigPic.to(slideIndex);
+        carouselDepartment.to(slideIndex);
+        carouselAuthor.to(slideIndex);
+        carouselAuthorQuote.to(slideIndex);
+        carouselAuthorName.to(slideIndex);
+      });
+
+      // Event listeners for carouselMain prev and next buttons
+      document.querySelector('#carouselMain .carousel-control-prev').addEventListener('click', function() {
+        let currentIndex = carouselMain._activeIndex;
+        let newIndex = currentIndex > 0 ? currentIndex - 1 : carouselMain._items.length - 1;
+
+        carouselSmallPic.to(newIndex);
+        carouselBigPic.to(newIndex);
+        carouselDepartment.to(newIndex);
+        carouselAuthor.to(newIndex);
+        carouselAuthorQuote.to(newIndex);
+        carouselAuthorName.to(newIndex);
+      });
+
+      document.querySelector('#carouselMain .carousel-control-next').addEventListener('click', function() {
+        let currentIndex = carouselMain._activeIndex;
+        let newIndex = currentIndex < carouselMain._items.length - 1 ? currentIndex + 1 : 0;
+
+        carouselSmallPic.to(newIndex);
+        carouselBigPic.to(newIndex);
+        carouselDepartment.to(newIndex);
+        carouselAuthor.to(newIndex);
+        carouselAuthorQuote.to(newIndex);
+        carouselAuthorName.to(newIndex);
+      });
+    });
+  </script>
 
   <script>
     // Wait for the document to finish loading

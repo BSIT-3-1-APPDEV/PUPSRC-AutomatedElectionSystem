@@ -1,3 +1,7 @@
+/* --- BREADCRUMBS --- */
+
+/* FOR 2 LEVELS */
+
 .btn-lvl-current {
   background-color: var(--main-color) !important;
   color: white !important;
@@ -17,19 +21,7 @@
   font-weight: bold !important;
   z-index: 2 !important;
   cursor: default !important;
-  float: right !important;
 }
-
-.btn-lvl-white-add {
-  background-color: white;
-  color: var(--main-color)!important;
-  border-radius: 50px;
-  padding: 5px 50px;
-  font-weight: 800;
-  z-index: 1;
-  cursor: default;
-}
-
 
 .btn-lvl-white {
   padding: 6px 30px !important;
@@ -39,10 +31,9 @@
   padding: 6px 50px !important;
 }
 
-.btn-lvl-white+.btn-lvl-current {
+.btn-lvl-white + .btn-lvl-current {
   margin-left: -30px !important;
 }
-
 
 /* FOR 3 LEVELS */
 .btn-back {
@@ -58,7 +49,6 @@
 .btn-back:hover {
   color: var(--bs-gray-300) !important;
 }
-
 .btn-current {
   background-color: var(--main-color) !important;
   color: white !important;
@@ -80,10 +70,6 @@
   cursor: default !important;
 }
 
-.no-border {
-  border: none !important;
-}
-
 /* Horizontal padding */
 
 .btn-white {
@@ -91,18 +77,18 @@
 }
 
 .btn-back {
-  padding: 6px 50px !important;
+  padding: 6px 50px 6px 20px !important;
 }
 
 .btn-current {
   padding: 6px 50px !important;
 }
 
-.btn-white+.btn-back {
+.btn-white + .btn-back {
   margin-left: -30px !important;
 }
 
-.btn-back+.btn-current {
+.btn-back + .btn-current {
   margin-left: -30px !important;
 }
 
@@ -201,9 +187,203 @@
 .committee-add {
   background-color: white !important;
   color: var(--main-color)!important;
-  border-radius: 50px;
+  border-radius: 10px;
   padding: 5px 50px;
   font-weight: 800;
   z-index: 1;
   cursor: default;
 }
+
+/* --- MEDIAS --- */
+
+@media (min-width: 541px) {
+  .filters-sort {
+    text-align: end;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .delete-xs {
+    display: none;
+  }
+
+  .search-container {
+    padding-left: 1rem;
+  }
+
+  .search-input {
+    width: 120px;
+  }
+}
+
+@media (max-width: 540px) {
+
+  .main {
+    padding-top: 2.2rem !important;
+  }
+  
+  /* Adjustment of contents */
+  #pendingTable {
+    overflow-x: auto;
+    width: 100%;
+    display: block;
+  }
+
+  .card-box,
+  .container .container-fluid {
+    padding: 0 !important;
+  }
+
+  .table-wrapper {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .breadcrumbs-cont .col-md-11 {
+    padding-left: 0 !important;
+  }
+  /* -- Adjustment of contents */
+
+  .hide-text {
+    display: none;
+  }
+
+  /* Empty States */
+  .no-registration {
+    margin-left: 0.6rem;
+  }
+
+  .no-registration p {
+    font-size: 0.8rem;
+  }
+  /* -- Empty States */
+}
+
+@media (max-width: 912px) {
+  .col-md-12 {
+    display: block;
+    text-align: center; /* Center all content */
+  }
+
+  .no-registration {
+    overflow: hidden !important;
+  }
+
+  #adminTable {
+    overflow-x: auto;
+    display: block;
+    width: 100%;
+  }
+
+  .verified-container {
+    margin-top: 2rem !important;
+  }
+
+  .tl-header {
+    white-space: nowrap; /* Prevent text from wrapping */
+  }
+
+  .delete-text {
+    display: none;
+  }
+
+  .delete-xs {
+    display: inline-block !important;
+  }
+
+  /* Header Filters */
+
+  .filters-sort {
+    margin-left: 1rem;
+    text-align: start;
+    display: block !important;
+    clear: both !important;
+    flex: 1 1 100%;
+  }
+
+  .search-container {
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+    text-align: start;
+    margin-bottom: 2rem;
+  }
+
+  .search-input {
+    width: 80% !important; /* Set the width to 200px */
+    box-sizing: border-box;
+    margin-left: 0.5rem;
+  }
+  /* --- Header Filters */
+
+  /* Pagination */
+
+  .clearfix {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .pagination {
+    margin-top: 1rem; /* Add some space above pagination on smaller screens */
+  }
+
+  .buttons-toggle-delete {
+    display: flex;
+    justify-content: start;
+  }
+  /* -- Pagination */
+}
+
+.breadcrumbs {
+  flex-wrap: wrap;
+}
+
+.main-buttons {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.add-committee-button {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.committee-add {
+  white-space: nowrap;
+}
+
+@media (max-width: 575px) {
+  .add-committee-button {
+      width: 100%;
+      margin-top: 0.5rem;
+      text-align: center;
+  }
+
+  .committee-add {
+      width: 100%;
+  }
+
+  .button-text {
+      font-size: 0.8rem;
+  }
+
+  .btn-lvl-white, .btn-lvl-current {
+      font-size: 0.7rem;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .button-text {
+      font-size: 0.9rem;
+  }
+
+  .committee-members-title {
+    font-size: 11px;
+  }
+  
+}
+
+/* --- END OF MEDIAS --- */
