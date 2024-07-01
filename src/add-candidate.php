@@ -74,15 +74,17 @@
 
                     <form action="../src/submission_handlers/insert-candidates.php" method="post" id="candidate-form" enctype="multipart/form-data">
                         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-                        <?php
-                        $currentYear = date("Y");
-                        $nextYear = $currentYear + 1;
-                        $year = $currentYear . '-' . $nextYear;
-                        ?>
-                        <input type="hidden" name="election_year[]" value="<?php echo htmlspecialchars($year); ?>">
+
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-md-10 card-box mt-md-10" id="form-container">
+                                    <?php
+$currentYear = date("Y");
+$nextYear = $currentYear + 1;
+$election_year = $currentYear . '-' . $nextYear;
+?>
+<input type="hidden" name="election_year" value="<?php echo htmlspecialchars($election_year); ?>">
+
                                     <div class="container">
                                         <div class="card-box">
                                             <div class="row">
@@ -445,14 +447,13 @@
 
                         clonedForm.prepend(closeButtonWrapper);
 
-                        clonedForm.querySelectorAll('input, select').forEach(input => {
+                        clonedForm.querySelectorAll('input, select, hidden').forEach(input => {
                             const originalId = input.id;
                             const originalName = input.name;
                             const newId = originalId.replace(/\d+/g, '') + formCount;
                             const newName = originalName;
                             input.id = newId;
-                            input.name = newName;
-                            input.required = true; // Make sure inputs are required
+                            input.name = newName;   
 
                             // Add event listeners to the new inputs and selects
                             if (input.type === 'text') {
