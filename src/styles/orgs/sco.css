@@ -16,7 +16,14 @@
   background-color: #4769b2 !important;
 }
 
-.item a.active {
+.item a.active,
+.submenu-item.active {
+  background-color: #4769b2;
+  color: white;
+}
+
+.item a.active:hover,
+.submenu-item.active:hover {
   background-color: #4769b2;
   color: white;
 }
