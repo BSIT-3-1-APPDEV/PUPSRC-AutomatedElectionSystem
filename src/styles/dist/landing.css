@@ -1358,25 +1358,25 @@ span {
 
 @media (max-width: 912px) {
   .index-wave-footer {
-    margin-bottom: -0px;
+    margin-bottom: -20px;
   }
 }
 
 @media (max-width: 540px) {
   .index-wave-footer {
-    margin-bottom: -0px;
+    margin-bottom: -30px;
   }
 }
 
 @media (max-width: 1024px) {
   .index-wave-footer {
-    margin-bottom: -0px;
+    margin-bottom: -40px;
   }
 }
 
 @media (max-width: 912px) {
   .index-wave-footer {
-    margin-bottom: -0px;
+    margin-bottom: -50px;
   }
 }
 /* --- END OF MEDIAS --- */
