@@ -57,6 +57,11 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
     <link rel="stylesheet" href="styles/dist/register.css">
     <title>Register</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts/register.js" defer></script>
+    <script src="scripts/loader.js" defer></script>
+
     <script>
         // Will be used for validation of existing emails 
         const emails = <?php echo json_encode($emails); ?>
@@ -378,11 +383,6 @@ $registration_success = isset($_SESSION['registration_success']) && $_SESSION['r
     </div>
 
     <?php include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/all-footer.php'); ?>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="scripts/register.js"></script>
-    <script src="scripts/loader.js"></script>
 
 </body>
 
