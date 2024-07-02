@@ -78,13 +78,17 @@ $org_sections = [
 
 if ($org_name === 'sco') {
     $all_org_sections = [];
-    foreach ($org_sections as $sections) {
+    foreach ($org_sections as $program => $sections) {
         foreach ($sections as $year_level => $year_sections) {
-            if (!isset($all_org_sections[$year_level])) {
-                $all_org_sections[$year_level] = [];
+            if (!isset($all_org_sections[$program])) {
+                $all_org_sections[$program] = [];
             }
-            $all_org_sections[$year_level] = array_merge($all_org_sections[$year_level], $year_sections);
+            if (!isset($all_org_sections[$program][$year_level])) {
+                $all_org_sections[$program][$year_level] = [];
+            }
+            $all_org_sections[$program][$year_level] = array_merge($all_org_sections[$program][$year_level], $year_sections);
         }
     }
     $org_sections = $all_org_sections;
 }
+?>

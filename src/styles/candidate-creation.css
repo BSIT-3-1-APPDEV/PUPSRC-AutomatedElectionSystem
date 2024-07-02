@@ -33,13 +33,6 @@
 }
 
 
-.no-border {
-  border: none !important;
-}
-
-/* Horizontal padding */
-
-
 .btn-current {
   padding: 6px 50px !important;
 }
@@ -106,7 +99,7 @@
   border: 1px solid whitesmoke;
   border-radius: 8px;
   background-color: whitesmoke;
-  color: grey;
+  color: rgb(5, 5, 5);
   outline:none;
 }
 
@@ -127,8 +120,7 @@ input[type="reset"] {
 
 .form-group option {
   background-color: whitesmoke;
-  color: grey;
-  opacity: 0.5;
+  color: rgb(5, 5, 5);
 }
 
 input[type="submit"]:hover,

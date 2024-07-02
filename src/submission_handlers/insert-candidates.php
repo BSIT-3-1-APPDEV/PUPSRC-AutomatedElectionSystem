@@ -16,13 +16,17 @@ if (isset($_SESSION['voter_id'])) {
                 mkdir($target_dir, 0777, true);
             }
 
+            // Compute the election year outside the loop
+            $currentYear = date("Y");
+            $nextYear = $currentYear + 1;
+            $election_year = $currentYear . '-' . $nextYear;
+
             foreach ($_POST['last_name'] as $index => $last_name) {
                 $first_name = htmlspecialchars(trim($_POST['first_name'][$index]));
                 $middle_name = htmlspecialchars(trim($_POST['middle_name'][$index]));
                 $suffix = htmlspecialchars(trim($_POST['suffix'][$index]));
                 $party_list = htmlspecialchars(trim($_POST['party_list'][$index]));
                 $position_id = intval($_POST['position_id'][$index]);
-                $election_year = htmlspecialchars(trim($_POST['election_year'][$index]));
                 $section_year_program = explode('-', $_POST['section'][$index]);
                 $program = htmlspecialchars(trim($section_year_program[0]));
                 $year_level = $section_year_program[1];

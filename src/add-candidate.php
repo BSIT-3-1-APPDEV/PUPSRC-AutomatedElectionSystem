@@ -74,15 +74,17 @@
 
                     <form action="../src/submission_handlers/insert-candidates.php" method="post" id="candidate-form" enctype="multipart/form-data">
                         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-                        <?php
-                        $currentYear = date("Y");
-                        $nextYear = $currentYear + 1;
-                        $year = $currentYear . '-' . $nextYear;
-                        ?>
-                        <input type="hidden" name="election_year[]" value="<?php echo htmlspecialchars($year); ?>">
+
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-md-10 card-box mt-md-10" id="form-container">
+                                    <?php
+                                    $currentYear = date("Y");
+                                    $nextYear = $currentYear + 1;
+                                    $election_year = $currentYear . '-' . $nextYear;
+                                    ?>
+                                    <input type="hidden" name="election_year" value="<?php echo htmlspecialchars($election_year); ?>">
+
                                     <div class="container">
                                         <div class="card-box">
                                             <div class="row">
@@ -154,11 +156,12 @@
                                                         <div class="form-group local-forms">
                                                             <label for="section" class="login-danger fs-7">Block Section<span class="required"> *</span></label>
                                                             <select id="section" name="section[]" required style="opacity: 0.5">
-                                                                <!-- onmousedown="if(this.options.length>3){this.size=3;}" onchange='this.size=0;' onblur="this.size=0;" -->
                                                                 <option value="" class="disabled-option" disabled selected hide>Select Block Section</option>
                                                                 <?php
                                                                 // Define the program based on org_name
                                                                 $program = '';
+                                                                $programs = [];
+
                                                                 switch ($org_name) {
                                                                     case 'acap':
                                                                         $program = 'BSP';
@@ -187,7 +190,7 @@
                                                                         $program = 'BSIE';
                                                                         break;
                                                                     case 'sco':
-                                                                        $all_programs = ['BSP', 'BSECE', 'BSIT', 'BSED-FL', 'BSED-ENG', 'BSED-MT', 'BSED-HE', 'BSBA-HRM', 'BSBA-MM', 'BSA', 'BSMA', 'BSIE'];
+                                                                        // SCO has special handling
                                                                         break;
                                                                     default:
                                                                         // Handle unknown org_name, if needed
@@ -196,15 +199,15 @@
 
                                                                 if ($org_name === 'sco') {
                                                                     // Handle the special case for SCO
-                                                                    foreach ($all_programs as $program) {
-                                                                        foreach ($org_sections[$program] as $year_level => $sections) {
+                                                                    foreach ($org_sections as $program => $year_levels) {
+                                                                        foreach ($year_levels as $year_level => $sections) {
                                                                             foreach ($sections as $section) {
                                                                                 echo '<option value="' . htmlspecialchars($program) . '-' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '">' . htmlspecialchars($program) . ' ' . htmlspecialchars($year_level) . '-' . htmlspecialchars($section) . '</option>';
                                                                             }
                                                                         }
                                                                     }
                                                                 } else {
-                                                                    if (isset($programs)) {
+                                                                    if (!empty($programs)) {
                                                                         // Handle org_names with multiple programs
                                                                         foreach ($programs as $program) {
                                                                             foreach ($org_sections[$program] as $year_level => $sections) {
@@ -213,7 +216,7 @@
                                                                                 }
                                                                             }
                                                                         }
-                                                                    } else {
+                                                                    } elseif (!empty($program)) {
                                                                         // Handle org_names with a single program
                                                                         foreach ($org_sections[$program] as $year_level => $sections) {
                                                                             foreach ($sections as $section) {
@@ -226,6 +229,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
+
 
 
 
@@ -445,14 +449,13 @@
 
                         clonedForm.prepend(closeButtonWrapper);
 
-                        clonedForm.querySelectorAll('input, select').forEach(input => {
+                        clonedForm.querySelectorAll('input, select, hidden').forEach(input => {
                             const originalId = input.id;
                             const originalName = input.name;
                             const newId = originalId.replace(/\d+/g, '') + formCount;
                             const newName = originalName;
                             input.id = newId;
                             input.name = newName;
-                            input.required = true; // Make sure inputs are required
 
                             // Add event listeners to the new inputs and selects
                             if (input.type === 'text') {
