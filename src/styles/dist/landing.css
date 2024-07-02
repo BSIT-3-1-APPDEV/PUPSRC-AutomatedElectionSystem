@@ -76,7 +76,7 @@ input[type='password'] {
   width: 100%;
   overflow: hidden;
   line-height: 0;
-  margin-bottom: -1px;
+  margin-bottom: -10px;
 
    /* @media only screen and (hover: none) {
     margin-bottom: calc(-5vh + -6vw);
@@ -932,6 +932,10 @@ span {
 }
 
 @media (max-width: 1000px) {
+  .index-wave-footer {
+    margin-bottom: -10px;
+  }
+
   .login-right-section {
     background-color: transparent;
     min-height: 0vh;
@@ -1323,3 +1327,56 @@ span {
     font-size: .674em;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- MEDIAS IDK IF MAAYOS BA DITO YUNG SA WAVE--- */
+@media (max-width: 1280px) {
+  .index-wave-footer {
+    margin-bottom: -10px;
+  }
+}
+
+@media (max-width: 912px) {
+  .index-wave-footer {
+    margin-bottom: -20px;
+  }
+}
+
+@media (max-width: 540px) {
+  .index-wave-footer {
+    margin-bottom: -30px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .index-wave-footer {
+    margin-bottom: -40px;
+  }
+}
+
+@media (max-width: 912px) {
+  .index-wave-footer {
+    margin-bottom: -50px;
+  }
+}
+/* --- END OF MEDIAS --- */
