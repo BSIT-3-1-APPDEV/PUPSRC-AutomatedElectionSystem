@@ -1,9 +1,10 @@
 <?php
-// Include necessary files
-include_once 'classes/file-utils.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'classes/db-connector.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'session-handler.php';
-include_once __DIR__ . DIRECTORY_SEPARATOR . 'session-exchange.php';
+
+// Include necessary files using correct paths and ensure class availability
+include_once __DIR__ . '/classes/file-utils.php';
+require_once FileUtils::normalizeFilePath(__DIR__ . '/classes/db-connector.php');
+require_once FileUtils::normalizeFilePath(__DIR__ . '/session-handler.php');
+include_once __DIR__ . '/error-reporting.php';
 
 // Establish database connection
 $conn = DatabaseConnection::connect();
@@ -11,24 +12,6 @@ $conn = DatabaseConnection::connect();
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
-// Function to fetch election schedule
-function fetchElectionSchedule($conn)
-{
-    $sql = "SELECT * FROM election_schedule WHERE schedule_id = 0"; // Assuming schedule_id 0 is your election schedule
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        return $result->fetch_assoc();
-    }
-    return null;
-}
-
-// Function to check if current time is past election close time
-function isElectionClosed($closeDateTime)
-{
-    $currentTime = new DateTime();
-    $closeTime = new DateTime($closeDateTime);
-    return $currentTime > $closeTime;
 }
 
 // Function to fetch data from a table
@@ -184,7 +167,7 @@ function countFeedbackRatings($feedback)
     return array('count' => $rating_count, 'percentage' => $rating_percentage);
 }
 
-// Function to run fetching operations and store data if election is closed
+// Function to run fetching operations and store data if needed
 function fetchAndStoreData()
 {
     // Establish database connection
@@ -195,67 +178,60 @@ function fetchAndStoreData()
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Fetch election schedule
-    $schedule = fetchElectionSchedule($conn);
+    // List of tables to fetch data from
+    $tables = ['candidate', 'attempt_logs', 'position', 'vote', 'voter'];
 
-    if ($schedule && isElectionClosed($schedule['close'])) {
-        // List of tables to fetch data from
-        $tables = ['candidate', 'attempt_logs', 'position', 'vote', 'voter'];
+    // Fetch data from each table
+    $database_data = array();
+    foreach ($tables as $table) {
+        $database_data[$table] = fetchData($conn, $table);
+    }
 
-        // Fetch data from each table
-        $database_data = array();
-        foreach ($tables as $table) {
-            $database_data[$table] = fetchData($conn, $table);
-        }
+    // Fetch candidate count
+    $database_data['candidate_count'] = fetchCandidateCount($conn);
 
-        // Fetch candidate count
-        $database_data['candidate_count'] = fetchCandidateCount($conn);
+    // Fetch voter counts and percentages
+    $database_data['voter_counts'] = fetchVoterCounts($conn);
 
-        // Fetch voter counts and percentages
-        $database_data['voter_counts'] = fetchVoterCounts($conn);
+    // Fetch abstained vote count
+    $database_data['abstained_vote_count'] = fetchAbstainedVoteCount($conn);
 
-        // Fetch abstained vote count
-        $database_data['abstained_vote_count'] = fetchAbstainedVoteCount($conn);
+    // Fetch feedback data with limit and offset
+    $start_from = 0; // Starting point for feedback fetch
+    $limit = 10; // Number of feedback entries to fetch
+    $database_data['feedback'] = fetchFeedbackWithLimit($conn, $start_from, $limit);
 
-        // Fetch feedback data with limit and offset
-        $start_from = 0; // Starting point for feedback fetch
-        $limit = 10; // Number of feedback entries to fetch
-        $database_data['feedback'] = fetchFeedbackWithLimit($conn, $start_from, $limit);
+    // Fetch all feedback data for rating calculations
+    $all_feedback_data = fetchAllFeedback($conn);
 
-        // Fetch all feedback data for rating calculations
-        $all_feedback_data = fetchAllFeedback($conn);
+    // Update vote counts in candidates data using the query
+    updateCandidateVoteCounts($conn, $database_data['vote']);
 
-        // Update vote counts in candidates data using the query
-        updateCandidateVoteCounts($conn, $database_data['candidate']);
+    // Fetch position titles
+    fetchPositionTitles($database_data['candidate'], $database_data['position']);
 
-        // Fetch position titles
-        fetchPositionTitles($database_data['candidate'], $database_data['position']);
+    // Count feedback ratings and calculate percentages
+    $rating_data = countFeedbackRatings($all_feedback_data);
+    $database_data['rating_count'] = $rating_data['count'];
+    $database_data['rating_percentage'] = $rating_data['percentage'];
 
-        // Count feedback ratings and calculate percentages
-        $rating_data = countFeedbackRatings($all_feedback_data);
-        $database_data['rating_count'] = $rating_data['count'];
-        $database_data['rating_percentage'] = $rating_data['percentage'];
+    // Convert the database data to JSON format
+    $json_data = json_encode($database_data, JSON_PRETTY_PRINT);
 
-        // Convert the database data to JSON format
-        $json_data = json_encode($database_data, JSON_PRETTY_PRINT);
+    // Specify the directory and file name
+    $directory = __DIR__ . '/../includes/data';
+    if (!is_dir($directory)) {
+        mkdir($directory, 0777, true);
+    }
+    $file = $directory . '/voters-turnout.json';
 
-        // Specify the directory and file name
-        $directory = __DIR__ . '/../includes/data';
-        if (!is_dir($directory)) {
-            mkdir($directory, 0777, true);
-        }
-        $file = $directory . '/voters-turnout.json';
-
-        // Save the JSON data to a file
-        if (file_put_contents($file, $json_data)) {
-            // Redirect to result-generation.php upon successful JSON creation
-            header("Location: ../result-generation.php");
-            exit();
-        } else {
-            echo "Error creating JSON file.";
-        }
+    // Save the JSON data to a file
+    if (file_put_contents($file, $json_data)) {
+        // Redirect to result-generation.php upon successful JSON creation
+        header("Location: ../result-generation.php");
+        exit();
     } else {
-        echo "Election is not closed yet or schedule not found.";
+        echo "Error creating JSON file.";
     }
 
     // Close connection
