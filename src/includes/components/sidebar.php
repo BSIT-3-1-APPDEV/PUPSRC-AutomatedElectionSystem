@@ -8,7 +8,8 @@
  */
 ?>
 
-<nav class="sidebar open">
+
+<nav class="sidebar">
 	<div class="d-flex align-items-center">
 		<img src="images/logos/<?php echo $org_name ?>.png" alt="" class="org-logo">
 	</div>
@@ -25,7 +26,7 @@
 			</li>
 
 			<li class="item">
-				<a href="includes/generate-json.php"
+				<a href="result-generation.php"
 					class="<?php echo basename($_SERVER['PHP_SELF']) == 'result-generation.php' ? 'active' : ''; ?>"><i
 						data-feather="bar-chart-2" class="white mb-xl-1"></i><span
 						style="padding-left: 0.7rem;">Election Reports</span></a>
@@ -79,14 +80,12 @@
 				</ul>
 			</li>
 
-			<li class="item">
+			<?php if ($org_name === 'sco'): ?>
 				<?php if ($_SESSION['role'] === 'head_admin'): ?>
+
 					<div id="submenuToggle" class="submenu-item <?php echo
 							# ---- MANAGE ACCOUNTS PAGES
-						(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
-							basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
-							basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
-							basename($_SERVER['PHP_SELF']) == 'voter-details.php' ||
+						(basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
 							basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ||
 							basename($_SERVER['PHP_SELF']) == 'account-details.php')
 						? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" data-bs-parent="false">
@@ -98,40 +97,78 @@
 
 						<i class="fas fa-chevron-right" id="submenuIcon"></i>
 					</div>
-					<ul class="menu-items submenu collapse" id="manageAccounts">
-						<li class="item">
-							<a href="manage-voters.php" class="<?php echo
-									# ---- VOTERS PAGES
-								(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
-									basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
-									basename($_SERVER['PHP_SELF']) == 'voter-details.php')
-								? 'active-sub fw-bold' : ''; ?>">
-								Voters' Accounts</a>
-						</li>
-						<li class="item">
-							<a href="manage-committee.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
-								basename($_SERVER['PHP_SELF']) == 'account-details.php')
-								? 'active-sub fw-bold' : ''; ?>">Admin
-								Accounts</a>
-						</li>
-						<li class="item">
-							<a href="admin-creation.php"
-								class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">
-								Add Admin
-							</a>
-						</li>
-					</ul>
-				<?php elseif ($_SESSION['role'] === 'admin'): ?>
-					<a href="manage-voters.php"
-						class="submenu-item <?php echo basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ? 'active' : ''; ?>">
-						<div class="submenu-content">
-							<i data-feather="users" class="white mb-xl-1"></i>
-							<span style="padding-left: 0.7rem;">Manage Voters</span>
-						</div>
-					</a>
-				<?php endif; ?>
-			</li>
 
+					<li class="item">
+						<ul class="menu-items submenu collapse" id="manageAccounts">
+							<li class="item">
+								<a href="manage-committee.php" class="<?php echo
+									(basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
+										basename($_SERVER['PHP_SELF']) == 'account-details.php')
+									? 'active-sub fw-bold' : ''; ?>">Admin Accounts</a>
+							</li>
+							<li class="item">
+								<a href="admin-creation.php" class="<?php echo
+									basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">
+									Add Admin</a>
+							</li>
+						</ul>
+					</li>
+				<?php endif; ?>
+			<?php endif; ?>
+
+			<?php if ($org_name !== 'sco'): ?>
+				<li class="item">
+					<?php if ($_SESSION['role'] == 'head_admin'): ?>
+						<div id="submenuToggle" class="submenu-item <?php echo
+								# ---- MANAGE ACCOUNTS PAGES
+							(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
+								basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
+								basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
+								basename($_SERVER['PHP_SELF']) == 'voter-details.php' ||
+								basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ||
+								basename($_SERVER['PHP_SELF']) == 'account-details.php')
+							? 'active' : ''; ?>" data-bs-toggle="collapse" href="#manageAccounts" data-bs-parent="false">
+
+							<div class="submenu-content">
+								<i data-feather="users" class="white mb-xl-1"></i>
+								<span style="padding-left: 0.7rem;">Manage Users</span>
+							</div>
+
+							<i class="fas fa-chevron-right" id="submenuIcon"></i>
+						</div>
+						<ul class="menu-items submenu collapse" id="manageAccounts">
+							<li class="item">
+								<a href="manage-voters.php" class="<?php echo
+										# ---- VOTERS PAGES
+									(basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ||
+										basename($_SERVER['PHP_SELF']) == 'validate-voter.php' ||
+										basename($_SERVER['PHP_SELF']) == 'voter-details.php')
+									? 'active-sub fw-bold' : ''; ?>">
+									Voters' Accounts</a>
+							</li>
+							<li class="item">
+								<a href="manage-committee.php" class="<?php echo
+									(basename($_SERVER['PHP_SELF']) == 'manage-committee.php' ||
+										basename($_SERVER['PHP_SELF']) == 'account-details.php')
+									? 'active-sub fw-bold' : ''; ?>">Admin Accounts</a>
+							</li>
+							<li class="item">
+								<a href="admin-creation.php" class="<?php echo
+									basename($_SERVER['PHP_SELF']) == 'admin-creation.php' ? 'active-sub fw-bold' : ''; ?>">
+									Add Admin</a>
+							</li>
+						</ul>
+					<?php elseif ($_SESSION['role'] == 'admin'): ?>
+						<a href="manage-voters.php"
+							class="submenu-item <?php echo basename($_SERVER['PHP_SELF']) == 'manage-voters.php' ? 'active' : ''; ?>">
+							<div class="submenu-content">
+								<i data-feather="users" class="white mb-xl-1"></i>
+								<span style="padding-left: 0.7rem;">Manage Voters</span>
+							</div>
+						</a>
+					<?php endif; ?>
+				</li>
+			<?php endif; ?>
 
 
 			<li class="item">
@@ -193,4 +230,3 @@
 		color: var(--bs-white);
 	}
 </style>
-<script src="scripts/submenu-head-admin.js"></script>
