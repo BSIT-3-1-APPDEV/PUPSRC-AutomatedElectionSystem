@@ -10,95 +10,23 @@ require_once FileUtils::normalizeFilePath('includes/classes/feedback-manager.php
 // Check session and role
 if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'head_admin')) {
     // Include session exchange
-    include FileUtils::normalizeFilePath('includes/session-exchange.php');
-
-    // Establish database connection
     $connection = DatabaseConnection::connect();
-    if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
-    }
-
-    // Instantiate FeedbackManager
-    $feedbackManager = new FeedbackManager($connection);
-
-    // Get sorting and pagination parameters
-    $sort = isset($_GET['sort']) ? $_GET['sort'] : 'timestamp';
-    $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
-    $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
-    $records_per_page = 5;
-    $offset = ($current_page - 1) * $records_per_page;
-
-    // Fetch feedback data
-    $feedback_tbl = $feedbackManager->getFeedbackData($sort, $order, $offset, $records_per_page);
-    $total_records = $feedbackManager->getTotalRecords();
-    $total_pages = ceil($total_records / $records_per_page);
-
     // Fetch organization name
-    $organization = isset($_SESSION['organization']) ? $_SESSION['organization'] : '';
+    $org_name = $_SESSION['organization'] ?? '';
 
+    // ------ SESSION EXCHANGE
+    include FileUtils::normalizeFilePath('includes/session-exchange.php');
+    // ------ END OF SESSION EXCHANGE
 
+    // Specify the path to the file you want to check
+    $file_to_check = 'includes/data/voters-turnout.json'; // Adjust the path accordingly
 
+    function displayElectionReports()
+    {
+        // Path to the JSON file
+        $jsonFilePath = 'includes/data/voters-turnout.json';
+        $jsonData = json_decode(file_get_contents($jsonFilePath), true);
 ?>
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
-        <title>Election Reports</title>
-
-        <!-- Icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-        <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-
-        <!-- Styles -->
-        <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_name . '.css'; ?>" id="org-style">
-        <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $organization . '.css'; ?>" id="org-style">
-        <link rel="stylesheet" href="styles/style.css" />
-        <link rel="stylesheet" href="styles/core.css" />
-        <link rel="stylesheet" href="styles/result.css" />
-        <link rel="stylesheet" href="styles/tables.css" />
-        <link rel="stylesheet" href="styles/loader.css" />
-        <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
-        <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-
-        <!--JS -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-
-        <style>
-            <?php
-
-            // Output the CSS with the organization color variable for background-color
-            echo ".main-bg-color { background-color: var(--$organization);}";
-            echo ".main-color { color: var(--$organization);}";
-            echo ".card-candidate { border: 2px solid var(--$organization);}";
-            echo ".hover-color:hover { color: var(--$organization);}";
-
-            ?>.btn-with-margin {
-                margin-top: 38px;
-                width: 180px;
-                height: 33px;
-                padding-left: 10px;
-                padding-right: -20px;
-                margin-right: 50px;
-                border-radius: 25px;
-            }
-        </style>
-
-    </head>
-
-    <body>
-
-        <?php
-        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
-        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
-        ?>
-
         <div class="main">
             <div class="container">
                 <div class="row">
@@ -492,6 +420,24 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                                 </div>
                             </div>
                             <!--Feedback Table-->
+                            <?php
+                            $connection = DatabaseConnection::connect();
+                            // Instantiate FeedbackManager
+                            $feedbackManager = new FeedbackManager($connection);
+
+                            // Get sorting and pagination parameters
+                            $sort = isset($_GET['sort']) ? $_GET['sort'] : 'timestamp';
+                            $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
+                            $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+                            $records_per_page = 5;
+                            $offset = ($current_page - 1) * $records_per_page;
+
+                            // Fetch feedback data
+                            $feedback_tbl = $feedbackManager->getFeedbackData($sort, $order, $offset, $records_per_page);
+                            $total_records = $feedbackManager->getTotalRecords();
+                            $total_pages = ceil($total_records / $records_per_page);
+
+                            ?>
                             <div class="row justify-content-center">
                                 <div class="container-fluid">
                                     <div class="card-box">
@@ -622,21 +568,150 @@ if (isset($_SESSION['voter_id']) && ($_SESSION['role'] == 'admin' || $_SESSION['
                 </div>
             </div>
         </div>
-        <!-- JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <?php
+    }
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-        <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
+
+    ?>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/x-icon" href="images/resc/ivote-favicon.png">
+        <title>Election Reports</title>
+
+        <!-- Icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_name . '.css'; ?>" id="org-style">
+        <link rel="stylesheet" href="<?php echo 'styles/orgs/' . $org_name . '.css'; ?>" id="org-style">
+        <link rel="stylesheet" href="styles/style.css" />
+        <link rel="stylesheet" href="styles/core.css" />
+        <link rel="stylesheet" href="styles/result.css" />
+        <link rel="stylesheet" href="styles/tables.css" />
+        <link rel="stylesheet" href="styles/loader.css" />
+        <link rel="stylesheet" href="../vendor/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+
+        <!--JS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="scripts/script.js"></script>
-        <script src="scripts/result-generation.js"></script>
-        <script src="scripts/feather.js"></script>
-        <script src="scripts/loader.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+        <style>
+            <?php
+
+            // Output the CSS with the organization color variable for background-color
+            echo ".main-bg-color { background-color: var(--$org_name);}";
+            echo ".main-color { color: var(--$org_name);}";
+            echo ".card-candidate { border: 2px solid var(--$org_name);}";
+            echo ".hover-color:hover { color: var(--$org_name);}";
+
+            ?>.btn-with-margin {
+                margin-top: 38px;
+                width: 180px;
+                height: 33px;
+                padding-left: 10px;
+                padding-right: -20px;
+                margin-right: 50px;
+                border-radius: 25px;
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <?php
+        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/loader.html');
+        include_once FileUtils::normalizeFilePath(__DIR__ . '/includes/components/sidebar.php');
+        ?>
+        <div id="content">
+    <?php
+    // Establish database connection to check election schedule
+    $conn = DatabaseConnection::connect();
+
+    // Fetch election close time from database
+    $sql = "SELECT `close` FROM `election_schedule` WHERE `schedule_id` = 0"; // Assuming schedule_id is known
+    $result = $conn->query($sql);
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $closeTimeStr = $row['close'];
+
+        // Validate current time against close time
+        $closeDateTime = new DateTime($closeTimeStr);
+        $currentDateTime = new DateTime();
+        
+        if ($currentDateTime > $closeDateTime) {
+            // Current time is past the election close time, run generate-json.php
+
+            // Construct the path to generate-json.php
+            $generateJsonScript = __DIR__ . '/../generate-json.php';
+
+            // Check if the script exists before including it
+            if (file_exists($file_to_check)) {
+                // If the file exists, display the election reports
+                displayElectionReports();
+                } else {
+                ?>
+                <div class="card" style="height:480px; width:auto;">
+                <div class="card-body text-center py-5">
+                    <img src="images/resc/Dashboard/admin-empty-state.jpeg" style="left:-5000px;height:100%; width:30%;">
+                    <h5 class="fs-6 gray">Results not Found</h5>
+                </div>
+            </div>
+                <?php
+            }
+        } else {
+            // Election period has not yet ended, show the empty state
+            ?>
+            <div class="card" style="height:480px; width:auto;">
+                <div class="card-body text-center py-5">
+                    <img src="images/resc/Dashboard/admin-empty-state.jpeg" style="left:-5000px;height:100%; width:30%;">
+                    <h5 class="fs-6 gray">Election period has not yet ended</h5>
+                </div>
+            </div>
+            <?php
+        }
+    } else {
+        // No election schedule found
+        ?>
+        <div class="card" style="height:480px; width:auto;">
+            <div class="card-body text-center py-5">
+                <h5 class="fs-6 gray">No election schedule found</h5>
+            </div>
+        </div>
+        <?php
+    }
+
+    // Close database connection
+    $conn->close();
+    ?>
+</div>
+
+
+                <!-- JavaScript -->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+                <?php include_once __DIR__ . '/includes/components/footer.php'; ?>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script src="../vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <script src="scripts/script.js"></script>
+                <script src="scripts/result-generation.js"></script>
+                <script src="scripts/feather.js"></script>
+                <script src="scripts/loader.js"></script>
 
     </html>
 
